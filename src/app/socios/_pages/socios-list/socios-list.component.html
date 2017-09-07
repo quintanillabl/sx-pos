@@ -1,0 +1,69 @@
+<div layout>
+  <md-card flex="70">
+
+    <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+
+        <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
+          <span class="md-title">Catálogo de socios</span>
+        </span>
+
+      <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Filtrar"
+                     (searchDebounce)="search($event)" flex>
+      </td-search-box>
+
+      <span>
+          <button md-icon-button [mdMenuTriggerFor]="toolbarMenu"><md-icon>more_vert</md-icon></button>
+          <md-menu #toolbarMenu="mdMenu">
+            <button md-menu-item>
+              <md-icon>settings</md-icon>
+              <span>Opcion 1</span>
+            </button>
+            <button md-menu-item>
+              <md-icon>settings</md-icon>
+              <span>Opcion 2</span>
+            </button>
+            <button md-menu-item>
+              <md-icon>settings</md-icon>
+              <span>Opcion 3</span>
+            </button>
+          </md-menu>
+        </span>
+
+    </div>
+
+    <md-divider></md-divider>
+    <md-card-content *tdLoading="let loading until loading$ | async color: 'accent'">
+      <md-nav-list *ngIf="socios$ | async let socios">
+        <ng-template let-socio let-last="last" ngFor [ngForOf]="socios">
+          <a md-list-item (click)="select(socio)" >
+            <md-icon md-list-avatar  color="accent">account_circle</md-icon>
+            <h3 md-line> {{socio.nombre}} </h3>
+            <span md-line>{{socio.numeroDeSocio}} Modificado: {{socio.lastUpdated | date: 'dd/MM/yyyy HH:mm'}} </span>
+            <span flex></span>
+            <span hide-xs  class="tc-deep-orange-700"> {{socio.tipo}} {{socio.documento}}</span>
+            <span hide-xs  class="text-right md-body-1 tc-grey-500 pad-right">
+              Modificado: {{socio.lastUpdated | date: 'dd/MM/yyyy HH:mm'}}
+            </span>
+            <span hide-xs flex="30">
+               {{socio.dateCreated  | amLocale:'es'| amTimeAgo:true}} de socio
+            </span>
+          </a>
+
+          <md-divider md-inset *ngIf="!last"></md-divider>
+        </ng-template>
+
+      </md-nav-list>
+    </md-card-content>
+
+  </md-card>
+  <ng-container *ngIf="socio$ | async; let socio; " >
+    <sx-socio-quick-info [socio]="socio" flex="30"></sx-socio-quick-info>
+  </ng-container>
+
+</div>
+
+<a md-fab color="accent" class="mat-fab-bottom-right" [routerLink]="['create']" *sxHasRole="'ADMIN'">
+  <md-icon>add</md-icon>
+</a>
+
+

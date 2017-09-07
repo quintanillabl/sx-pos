@@ -1,0 +1,48 @@
+<form novalidate [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div layout-gt-xs="row" layout-margin layout-align="start center" >
+    
+    <sx-sucursal-field  *ngIf="isDistribuida()" [parent]="form" flex></sx-sucursal-field>  
+    
+    <sx-producto-field #productoField required="true" formControlName="producto"  flex="50"></sx-producto-field>  
+
+    <md-input-container flex="10">
+      <input type="text" mdInput placeholder="Cantidad" formControlName="cantidad">
+      <md-error>Se la cantidad </md-error>
+    </md-input-container>  
+
+    <md-input-container flex="10">
+      <input type="text" mdInput placeholder="Precio" formControlName="precio">
+      <md-error>Se requiere un precio para el producto</md-error>
+    </md-input-container>  
+
+    <md-input-container flex>
+      <input type="text" mdInput placeholder="Comentario" formControlName="comentario">
+      <md-error>Comentario invalido </md-error>
+    </md-input-container>  
+
+    <button type="button" 
+      [disabled]="form.invalid  "
+      md-icon-button (click)="agregarPartida()">
+      <md-icon>add_shopping_cart</md-icon> 
+    </button>
+    <button type="button" mdTooltip="Limpiar campos"
+      [disabled]="form.untouched  "
+      md-icon-button (click)="reset()">
+      <md-icon>restore</md-icon> 
+    </button>
+
+  </div>
+  <div>
+    
+    <!-- <pre>
+      Producto status:      {{form.get('producto').status}}
+      Producto valid:       {{form.get('producto').valid}}
+      Producto pristine:    {{form.get('producto').pristine}}
+      Producto dirty:       {{form.get('producto').dirty}}
+      Producto touched:     {{form.get('producto').touched}}
+      Producto un touched:  {{form.get('producto').untouched}} 
+      {{form.value | json}}
+    </pre> -->
+    
+  </div>
+</form>

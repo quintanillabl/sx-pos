@@ -1,0 +1,98 @@
+<div  layout >
+  
+  <form novalidate [formGroup]="form" (ngSubmit)="onSubmit()" flex >
+    <md-card  *tdLoading="'savingCompra'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
+      <md-card-title>Alta de orden de compra</md-card-title>
+      <md-divider></md-divider>
+      
+      <td-steps (stepChange)="change($event)" [mode]="mode" >
+        
+        <td-step formGroupName="stepOne" #step1 label="Paso 1 Seleccione el proveedor y condiciones generales" 
+           [state]="stepOneState$ | async">
+          <ng-template td-step-label *ngIf="proveedor">
+            {{proveedor.nombre}}
+          </ng-template> 
+         
+          <div layout-gt-xs="row" layout-align="start center" >
+            
+            <sx-proveedor-field required="true" flex="60" formControlName="proveedor"></sx-proveedor-field>
+            
+            <div >
+              <md-checkbox formControlName="especial" mdTooltip="Las compras especiales permite modificar precio">Especial</md-checkbox>
+            </div>
+
+          </div>
+
+          <div layout-gt-xs="row" layout-align="start center" layout-padding>
+
+            <md-input-container >
+              <input mdInput [mdDatepicker]="picker1"  placeholder="Fecha"  formControlName="fecha">
+              <button mdSuffix [mdDatepickerToggle]="picker1"></button>
+            </md-input-container>
+            
+
+            <md-input-container >
+              <input mdInput [mdDatepicker]="picker2" placeholder="Entega"  formControlName="entrega">
+              <button mdSuffix [mdDatepickerToggle]="picker2"></button>
+              <md-datepicker #picker2></md-datepicker>
+            </md-input-container>
+
+            <sx-sucursal-field [parent]="form.get('stepOne')" flex></sx-sucursal-field>
+            <span flex></span>
+
+          </div>
+        </td-step>
+        
+        <td-step #step2 label="Paso 2 Agregar productos" 
+          [disabled]="(stepTowDisabled$ | async)">
+          <sx-orden-add-partida (agregar)="addPartida($event)" [sucursal]="sucursal"></sx-orden-add-partida>
+          <md-divider></md-divider>
+          <sx-orden-partidas-list [parent]="form" [partidas]="partidas.value"></sx-orden-partidas-list>
+        </td-step>
+
+        <td-step #step3 label="Paso 3" formGroupName="stepThree"
+          sublabel="Verificar totales y comentario">
+          
+          <ng-template td-step-summary>
+            Verificar los datos
+          </ng-template>
+          
+          <div>
+            <sx-comentario-field [parent]="form.get('stepThree')" maxLength="100"></sx-comentario-field>
+          </div>
+        </td-step>
+        
+      </td-steps>
+
+      <md-divider></md-divider>
+      
+      <td-message *ngIf="error" label="{{error}}"  color="warn" icon="error">
+        <button type="button" td-message-actions md-icon-button  (click)="clearError()"><md-icon>cancel</md-icon></button>
+      </td-message>
+
+      
+      <md-card-actions>
+        <button md-raised-button color="accent" type="submit" [disabled]="form.invalid">Salvar</button>
+        <button md-button class="tc-grey-600"  type="button">Cancelar</button>
+      </md-card-actions>
+    </md-card>
+  </form>
+
+  <div layout="column" flex="30">
+    <!-- <pre >
+      Valid:    {{form.valid}}
+      Invalid:  {{form.invalid}}
+      Pristine: {{form.pristine}}
+      Dirty:    {{form.dirty}}
+      Touched:  {{form.touched}}
+    </pre> -->
+    <pre flex>
+      <td-json-formatter [data]="form.value" [levelsOpen]="1">
+      </td-json-formatter>
+      {{form.value.partidas | json}}
+    </pre>
+    
+  </div>
+  
+</div>
+

@@ -1,0 +1,15 @@
+<div [formGroup]="parent">
+  
+  <div *ngIf="!partidas.length" >
+    <h3>Agregue productos a la orden de compra</h3>
+  </div>
+
+  <md-list class="pull-top">
+    <md-list-item *ngFor="let partida of partidas">
+      <h3 md-line>{{partida.producto.clave}} {{partida.producto.descripcion}}</h3>
+      <span flex></span>
+      <span flex="30" class="md-body-1 tc-blue-500">{{partida.cantidad}}</span>
+      <span flex="30" class="md-body-1 tc-blue-500">{{partida.precio}}</span>
+    </md-list-item>
+  </md-list> 
+</div>

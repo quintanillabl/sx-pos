@@ -1,0 +1,22 @@
+<ng-container>
+  <div td-sidenav-toolbar-content layout="row" layout-align="start center">
+    <button md-icon-button tdLayoutToggle>
+      <md-icon>menu</md-icon>
+    </button>
+    <!--<md-icon [routerLink]="['/']" class="md-icon-logo cursor-pointer" svgIcon="assets:siipap-rx2"></md-icon>-->
+    <md-icon class="md-icon-logo cursor-pointer" svgIcon="assets:siipap-rx2"></md-icon>
+  </div>
+
+  <div td-toolbar-content layout="row" layout-align="start center" flex>
+
+    <button md-icon-button tdLayoutNavListOpen [hideWhenOpened]="true">
+      <md-icon>arrow_back</md-icon>
+    </button>
+    <span>Análisis de facturas</span>
+    <span flex></span>
+    <sx-modulo-label></sx-modulo-label>
+    <button md-icon-button><md-icon >settings</md-icon></button>
+    <button md-icon-button><md-icon >more_vert</md-icon></button>
+  </div>
+
+</ng-container>
