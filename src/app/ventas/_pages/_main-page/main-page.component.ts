@@ -1,0 +1,23 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'sx-main-page',
+  templateUrl: './main-page.component.html',
+  styles: []
+})
+export class MainPageComponent implements OnInit {
+
+  // Esta variable se puede colocar en el store relacionado con contabilidad ui
+  navigation = [
+    {path: '', nombre: 'Inicio', descripcion: 'Inicio del sistema', icon: 'home'},
+    {path: 'pedidos', nombre: 'Pedidos', descripcion: 'Alta y mantenimiento de pedidos', icon: 'shopping_basket'},
+    {path: 'lealtad', nombre: 'Programa de lealtad', descripcion: 'Programa de lealtad', icon: 'loyalty'},
+    {path: 'clientes', nombre: 'Clientes', descripcion: 'Catálogo de clientes', icon: 'account_circle'},
+  ];
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}

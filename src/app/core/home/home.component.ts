@@ -24,8 +24,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
     // this.application$ = store.select(fromRoot.getApplication).delay(500);
     this.application$ = Observable.of(
       {
-        nombre: 'SIIPAP SX ',
-        descripcion: 'Sistema de administración SIIPAP Rx cloud service',
+        nombre: 'SIIPAPX Punto de venta ',
+        descripcion: 'Sistema de ventas y distribución para SIIPAPX',
         image: "/assets/images/pexels-photo-425047.png"
       });
    }

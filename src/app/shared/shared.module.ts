@@ -23,7 +23,6 @@ import { ModuloLabelComponent } from './modulo-label/modulo-label.component';
 import { PageToolbarComponent } from './page-toolbar/page-toolbar.component';
 import { PageFooterComponent } from './page-footer/page-footer.component';
 import { NavListPageComponent } from './nav-list-page/nav-list-page.component';
-import { NavPageComponent } from './nav-page/nav-page.component';
 import { AddressPipe } from './pipes/address.pipe';
 import { ModuleSelectorComponent } from './module-selector/module-selector.component';
 import { ComentarioFieldComponent } from './_fields/comentario-field/comentario-field.component';
@@ -36,6 +35,10 @@ import { SucursalFieldComponent } from './_fields/sucursal-field/sucursal-field.
 import { ProductoFieldComponent } from './_fields/producto-field/producto-field.component';
 import { GlobalUserNavListComponent } from './global-user-nav-list/global-user-nav-list.component';
 import { ConsultasRapidasComponent } from './_components/consultas-rapidas/consultas-rapidas.component';
+
+
+
+import * as Layout from './layout';
 
 
 const FLEX_LAYOUT_MODULES: any[] = [
@@ -91,13 +94,15 @@ const COMPONENTS: any[] = [
     PageToolbarComponent,
     PageFooterComponent,
     NavListPageComponent,
-    NavPageComponent,
     AddressPipe,
     HasRoleDirective,
     SucursalFieldComponent,
     ProductoFieldComponent,
     GlobalUserNavListComponent,
     ConsultasRapidasComponent,
+    Layout.MainLayoutComponent,
+    Layout.NavListLayoutComponent,
+    Layout.ManageListLayoutComponent,
   ],
   exports: [
     ANGULAR_MODULES,
@@ -110,13 +115,15 @@ const COMPONENTS: any[] = [
     PageToolbarComponent,
     PageFooterComponent,
     NavListPageComponent,
-    NavPageComponent,
+    Layout.MainLayoutComponent,
+    Layout.NavListLayoutComponent,
+    Layout.ManageListLayoutComponent,
     AddressPipe,
     HasRoleDirective,
     SucursalFieldComponent,
     ProductoFieldComponent,
     GlobalUserNavListComponent,
-    ConsultasRapidasComponent,
+    ConsultasRapidasComponent
   ]
 })
 export class SharedModule { }

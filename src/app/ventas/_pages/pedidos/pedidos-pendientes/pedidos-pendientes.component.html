@@ -1,0 +1,63 @@
+<md-card *tdLoading="'clientes-search'; type:'circle'; strategy:'overlay'; color:'accent'">
+  
+    <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+  
+          <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
+            <span class="md-title">Pedidos pendientes</span>
+          </span>
+  
+      <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Filtrar"
+                     (searchDebounce)="onSearch($event)" flex>
+      </td-search-box>
+  
+      <span>
+            <button md-icon-button [mdMenuTriggerFor]="toolbarMenu"><md-icon>more_vert</md-icon></button>
+            <md-menu #toolbarMenu="mdMenu">
+              <button md-menu-item>
+                <md-icon>settings</md-icon>
+                <span>Opcion 1</span>
+              </button>
+              <button md-menu-item>
+                <md-icon>settings</md-icon>
+                <span>Opcion 2</span>
+              </button>
+              <button md-menu-item>
+                <md-icon>settings</md-icon>
+                <span>Opcion 3</span>
+              </button>
+            </md-menu>
+          </span>
+  
+    </div>
+  
+    <md-divider></md-divider>
+  
+    <md-card-content >
+      <md-nav-list >
+        <ng-template let-venta let-last="last" ngFor [ngForOf]="pedidos">
+          <a md-list-item >
+            <md-icon md-list-avatar  color="accent">apps</md-icon>
+            <h3 md-line> {{venta.cliente.nombre}} </h3>
+            <span md-line>{{venta.vendedor.nombre}}</span>
+            <span flex></span>
+            <span hide-xs flex="30" class="tc-deep-orange-700"> {{venta.tipo}} {{venta.documento}}</span>
+            <span hide-xs flex="40" class="text-right md-body-1 tc-grey-500 pad-right">
+                {{venta.fecha | date: 'dd/MM/yyyy'}}
+              </span>
+            <span hide-xs flex="30">
+                 {{venta.dateCreated  | amLocale:'es'| amTimeAgo:true}}
+              </span>
+          </a>
+  
+          <md-divider md-inset *ngIf="!last"></md-divider>
+        </ng-template>
+  
+      </md-nav-list>
+  
+    </md-card-content>
+  
+  </md-card>
+  <a md-fab color="accent" class="mat-fab-bottom-right" [routerLink]="['../pedidos/create']">
+    <md-icon>add</md-icon>
+  </a>
+  
