@@ -1,24 +1,20 @@
 import { NgModule } from '@angular/core';
 
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from 'app/shared/shared.module';
 import { VentasRoutingModule } from './ventas-routing.module';
-import { 
-  MainPageComponent,
-  MainDashboardComponent,
-  PedidosComponent,
-  PedidosPendientesComponent,
-  PedidoCreateComponent,
-} from './_pages';
-
+import { MainPageComponent, MainDashboardComponent } from './_pages';
+import { PedidosModule } from "./pedidos/pedidos.module";
 
 
 @NgModule({
   imports: [
     SharedModule,
-    VentasRoutingModule
+    VentasRoutingModule,
+    PedidosModule
   ],
   declarations: [
     MainPageComponent, 
-    MainDashboardComponent, PedidosComponent, PedidosPendientesComponent, PedidoCreateComponent]
+    MainDashboardComponent,
+  ]
 })
 export class VentasModule { }

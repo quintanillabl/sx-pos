@@ -32,7 +32,7 @@
   
     <md-divider></md-divider>
   
-    <md-card-content >
+    <md-card-content class="will-load">
       <md-nav-list >
         <ng-template let-venta let-last="last" ngFor [ngForOf]="pedidos">
           <a md-list-item >
@@ -57,7 +57,6 @@
     </md-card-content>
   
   </md-card>
-  <a md-fab color="accent" class="mat-fab-bottom-right" [routerLink]="['../pedidos/create']">
-    <md-icon>add</md-icon>
-  </a>
+  
+  
   

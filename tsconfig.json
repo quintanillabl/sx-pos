@@ -3,6 +3,10 @@
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
     "baseUrl": "src",
+    "paths": {
+      "@siipapx/*":["app/*"],
+      "@shared/*": ["app/shared/*"]      
+    },
     "sourceMap": true,
     "inlineSources": true,
     "declaration": false,

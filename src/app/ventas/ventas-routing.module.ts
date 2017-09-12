@@ -1,12 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { 
-  MainPageComponent,
-  MainDashboardComponent,
-  PedidosComponent,
-  PedidoCreateComponent
-} from './_pages';
+import { MainPageComponent,MainDashboardComponent,} from './_pages';
+import { PedidosPageComponent, PedidoCreateComponent, PedidosPendientesComponent } from "./pedidos";
 
 const routes: Routes = [
   {
@@ -24,11 +20,17 @@ const routes: Routes = [
       },
       {
         path: 'pedidos',
-        component: PedidosComponent
-      },
-      {
-        path: 'pedidos/create',
-        component: PedidoCreateComponent
+        component: PedidosPageComponent,
+        children: [
+          {
+            path: '',
+            component: PedidosPendientesComponent
+          },
+          {
+            path: 'create',
+            component: PedidoCreateComponent
+          }
+        ]
       }
     ]
   }

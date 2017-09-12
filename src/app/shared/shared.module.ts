@@ -3,21 +3,11 @@ import { CommonModule, } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import { FlexLayoutModule, } from '@angular/flex-layout';
-import {
-  CovalentDataTableModule, CovalentMediaModule, CovalentLoadingModule,
-  CovalentNotificationsModule, CovalentLayoutModule, CovalentMenuModule,
-  CovalentPagingModule, CovalentSearchModule, CovalentStepsModule,
-  CovalentCommonModule, CovalentDialogsModule, CovalentMessageModule, CovalentExpansionPanelModule,
-  CovalentJsonFormatterModule,
-} from '@covalent/core';
-import {
-  MdButtonModule, MdCardModule, MdIconModule,
-  MdListModule, MdMenuModule, MdTooltipModule,
-  MdSlideToggleModule, MdInputModule, MdCheckboxModule,
-  MdToolbarModule, MdSnackBarModule, MdSidenavModule,
-  MdTabsModule, MdSelectModule, MdChipsModule, MdAutocompleteModule, MdDatepickerModule, MdNativeDateModule
-} from '@angular/material';
+
 import { NgxChartsModule, } from '@swimlane/ngx-charts';
+
+import { MaterialModule } from './_material/material.module';
+import { CovalentModule } from './_covalent/covalent.module';
 
 import { ModuloLabelComponent } from './modulo-label/modulo-label.component';
 import { PageToolbarComponent } from './page-toolbar/page-toolbar.component';
@@ -46,24 +36,10 @@ const FLEX_LAYOUT_MODULES: any[] = [
 ];
 
 const ANGULAR_MODULES: any[] = [
-  FormsModule, ReactiveFormsModule,
+  FormsModule, 
+  ReactiveFormsModule,
 ];
 
-const MATERIAL_MODULES: any[] = [
-  MdButtonModule, MdCardModule, MdIconModule,
-  MdListModule, MdMenuModule, MdTooltipModule,
-  MdSlideToggleModule, MdInputModule, MdCheckboxModule,
-  MdToolbarModule, MdSnackBarModule, MdSidenavModule,
-  MdTabsModule, MdSelectModule, MdChipsModule, MdAutocompleteModule, MdNativeDateModule, MdDatepickerModule,
-];
-
-const COVALENT_MODULES: any[] = [
-  CovalentDataTableModule, CovalentMediaModule, CovalentLoadingModule,
-  CovalentNotificationsModule, CovalentLayoutModule, CovalentMenuModule,
-  CovalentPagingModule, CovalentSearchModule, CovalentStepsModule,
-  CovalentCommonModule, CovalentDialogsModule, CovalentMessageModule,
-  CovalentExpansionPanelModule, CovalentJsonFormatterModule,
-];
 
 const OTHERS_MODULES: any[] = [
   NgxChartsModule,
@@ -83,8 +59,8 @@ const COMPONENTS: any[] = [
     CommonModule,
     RouterModule,
     ANGULAR_MODULES,
-    MATERIAL_MODULES,
-    COVALENT_MODULES,
+    MaterialModule,
+    CovalentModule,
     OTHERS_MODULES,
     FLEX_LAYOUT_MODULES,
   ],
@@ -106,8 +82,8 @@ const COMPONENTS: any[] = [
   ],
   exports: [
     ANGULAR_MODULES,
-    MATERIAL_MODULES,
-    COVALENT_MODULES,
+    MaterialModule,
+    CovalentModule,
     OTHERS_MODULES,
     FLEX_LAYOUT_MODULES,
     COMPONENTS,
