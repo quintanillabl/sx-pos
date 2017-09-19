@@ -1,0 +1,35 @@
+<form novalidate [formGroup]="form" (ngSubmit)="onSave()" class="usuario-form">
+    <md-card class="usuario-form">
+      <md-card-title> Alta de movimiento generico de inventario </md-card-title>
+      <md-divider></md-divider>
+      <md-card-content >
+        <div layout="column" >
+          
+          <md-form-field >
+              <input type="text" mdInput [value]="sucursal.nombre" placeholder="Sucursal" [disabled]="true">
+          </md-form-field>
+          <md-form-field class="fill">
+            <input type="text" mdInput placeholder="Fecha" [disabled]="true" [value]=" form.get('fecha').value | date:'short'">
+          </md-form-field>
+
+          <md-select placeholder="Tipo" formControlName="tipo" >
+            <md-option *ngFor="let tipo of ['SIS','RMC','MER','VIR','CIM']" [value]="tipo">{{ tipo }}</md-option>
+          </md-select>
+
+          <md-form-field class="fill">
+            <input type="text" mdInput placeholder="Comentario" formControlName="comentario">
+            <md-error>El comentario es invalido</md-error>
+          </md-form-field>
+
+        </div>
+      </md-card-content>
+      <md-divider></md-divider>
+    
+      <md-card-actions>
+        <button type="submit" md-button color="primary" [disabled]="form.invalid"> Salvar</button>
+        <button type="button" md-button (click)="cancel()"> Cancelar</button>
+        <button type="button" md-button (click)="reset()"> Limpar</button>
+      </md-card-actions>
+    
+    </md-card>
+    </form>

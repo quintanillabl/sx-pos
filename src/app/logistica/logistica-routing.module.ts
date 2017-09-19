@@ -16,6 +16,7 @@ const routes: Routes = [
         children: [
           { path: '', redirectTo: 'movimientos', pathMatch: 'full'},
           { path: 'movimientos', component: pages.MovimientosPageComponent},
+          { path: 'movimientos/create', component: pages.MovimientosCreateComponent},
           { path: 'compras', component: pages.ComprasPageComponent},
           { path: 'traslados', component: pages.TrasladosPageComponent},
           { path: 'existencias', component: pages.ExistenciasPageComponent}
