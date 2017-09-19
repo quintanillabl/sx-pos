@@ -7,7 +7,7 @@ import {Authenticate} from '../models/user';
 @Component({
   selector: 'sx-login-form',
   templateUrl: './login-form.component.html',
-  styles: []
+  styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent implements OnInit {
 

@@ -105,4 +105,10 @@ export class ProductoFieldComponent implements OnInit, ControlValueAccessor, OnD
     this.inputField.nativeElement.focus();
   }
 
+  onBlur() {
+    if(this.onTouch) {
+      this.onTouch();
+    }
+  }
+
 }

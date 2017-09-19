@@ -5,7 +5,7 @@ import {FormGroup} from '@angular/forms';
   selector: 'sx-comentario-field',
   template: `
     <div layout="row" [formGroup]="parent" >
-      <md-input-container flex>
+      <md-form-field flex>
         <textarea mdInput [formControlName]="controlName" placeholder="Comentario" #comentario cols="50" rows="2">
         </textarea>
         <md-hint align="end">{{comentario.value.length}} / {{maxLength}}</md-hint>
@@ -13,7 +13,7 @@ import {FormGroup} from '@angular/forms';
           Longitud del comentario excedida
         </md-error>
 
-      </md-input-container>
+      </md-form-field>
     </div>
   `,
   styles: []

@@ -14,6 +14,7 @@ const routes: Routes = [
     children: [
       { path: 'home', component: HomeComponent},
       { path: 'compras', loadChildren: './compras/compras.module#ComprasModule'},
+      { path: 'logistica', loadChildren: './logistica/logistica.module#LogisticaModule'},
       {
         path: '',
         redirectTo: '/home',
@@ -22,10 +23,6 @@ const routes: Routes = [
       // { path: '**', component: PageNotFoundComponent }
     ],
     canActivate: [AuthGuard],
-  },
-  {
-    path: 'clientes',
-    loadChildren: './clientes/clientes.module#ClientesModule'
   },
   {
     path: 'ventas',

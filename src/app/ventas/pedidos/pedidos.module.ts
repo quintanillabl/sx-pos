@@ -7,24 +7,23 @@ import {
   PedidosPageComponent,
   PedidosPendientesComponent,
   PedidoCreateComponent,
-  PedidoFormComponent, 
-  PedidoFormHeaderComponent 
-} from '.';
-
-
-
+  } from '.';
+import { PedidoFormModule } from './pedido-form/pedido-form.module';
+import { ClientesModule } from "app/clientes/clientes.module";
+import { ProductosModule } from "app/productos/productos.module";
 
 @NgModule({
   imports: [
     SharedModule,
+    ClientesModule,
+    ProductosModule,
+    PedidoFormModule,
     RouterModule.forChild([])
   ],
   declarations: [
     PedidosPageComponent, 
     PedidosPendientesComponent,
     PedidoCreateComponent,
-    PedidoFormComponent,
-    PedidoFormHeaderComponent
   ],
   providers: [ PedidosService],
   exports: [RouterModule]

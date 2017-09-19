@@ -9,7 +9,7 @@
     [name]="drawerTitle"
     email="admin@gmail.com" flex>
 
-    <md-nav-list dense>
+    <md-nav-list >
       <a md-list-item *ngFor="let item of navigation"
         [routerLink]="[item.path]"
         (click)="layout.close()">

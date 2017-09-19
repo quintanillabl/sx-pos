@@ -9,7 +9,7 @@ import {
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'clientes',
     component: MainPageComponent,
     children: [
       {

@@ -1,0 +1,31 @@
+<div layout="column" [formGroup]="parent">
+  <md-form-field class="full-width">
+    <input type="text" mdInput placeholder="Calle" formControlName="calle">
+  </md-form-field>
+  <div flex layout>
+    <md-form-field flex>
+      <input type="text" mdInput placeholder="# Exterior" formControlName="numeroExterior">
+    </md-form-field>
+    <md-form-field flex>
+      <input type="text" mdInput placeholder="# Interior" formControlName="numeroInterior">
+    </md-form-field>
+  </div>
+  <md-form-field class="full-width">
+    <input type="text" mdInput placeholder="Colonia" formControlName="colonia">
+  </md-form-field>
+  <md-form-field class="full-width">
+    <input type="text" mdInput placeholder="Delegación / Municipio" formControlName="municipio">
+  </md-form-field>
+  <div layout>
+    <md-form-field flex>
+      <input type="text" mdInput placeholder="Estado" formControlName="estado">
+    </md-form-field >
+    <md-form-field flex>
+      <input type="text" mdInput placeholder="Pais" formControlName="pais">
+    </md-form-field>
+  </div>
+  <md-form-field flex>
+    <input type="text" mdInput placeholder="Código Postal" formControlName="codigoPostal">
+  </md-form-field >
+ 
+</div>

@@ -1,34 +1,42 @@
+<td-layout-nav logo="assets:siipap-rx2"  navigationRoute="/" toolbarTitle="SX-POS">
+  
+  <button md-icon-button td-menu-button  tdLayoutToggle> 
+    <md-icon>menu</md-icon>
+  </button>
 
-<div layout="row">
-  <md-card flex>
-    <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
-    <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
-      <span class="md-title">Compras pendientes</span>
-    </span>
-      <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Filtrar" (searchDebounce)="search($event)" flex>
-      </td-search-box>
-      <span>
-      <button md-icon-button [mdMenuTriggerFor]="toolbarMenu"><md-icon>more_vert</md-icon></button>
-      <md-menu #toolbarMenu="mdMenu">
-        <button md-menu-item>
-          <md-icon>settings</md-icon>
-          <span>Configuración</span>
-        </button>
-      </md-menu>
-    </span>
-    </div>
-    <md-divider></md-divider>
-      <sx-ordenes-list [compras]="ordenes$ | async" 
-        (edit)=onEdit($event)
-        (info)=onInfo($event)>
-      </sx-ordenes-list>
-    <md-divider></md-divider>
-
-  </md-card>
-  <div flex>
-    <!-- <router-outlet></router-outlet> -->
+  <div td-toolbar-content layout="row" layout-align="start center" flex>
+    <span flex></span>
+    <span> Ordenes de compra </span>
+    <span flex></span>
+    <span> SX-POS (COMPRAS)</span>
+    <button md-icon-button><md-icon >settings</md-icon></button>
+    <sx-module-selector></sx-module-selector>
   </div>
-</div>
-<a md-fab color="accent" class="mat-fab-bottom-right fixed" [routerLink]="['create']">
+
+  <div layout-gt-sm="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']">
+    <div flex-gt-sm="50">
+      <md-card>
+        <md-card-title>Ordenes pendientes</md-card-title>
+        <md-divider></md-divider>
+        <md-card-content>
+            <sx-ordenes-list [compras]="ordenes$ | async" (info)="onSelection($event)"></sx-ordenes-list>
+        </md-card-content>
+      </md-card>
+    </div>
+
+    <div flex-gt-sm="50" *ngIf="selected">
+      <md-card class="will-load">
+        <md-card-title>Detalle de compra</md-card-title>
+        <md-divider></md-divider>
+        <md-card-content>
+          {{selected | json}}
+        </md-card-content>
+      </md-card>
+    </div>
+  </div>
+
+  <a md-fab color="accent" class="mat-fab-bottom-right" [routerLink]="['create']" style="bottom:20px; position: fixed;">
     <md-icon>add</md-icon>
-</a>
+  </a>
+
+</td-layout-nav>

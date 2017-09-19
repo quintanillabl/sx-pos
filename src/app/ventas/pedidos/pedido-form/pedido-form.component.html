@@ -1,63 +1,52 @@
-<form novalidate>
-  <md-card>
-    <sx-pedido-form-header></sx-pedido-form-header>
-    <md-card-content >
-      
-      <div layout="row">
-          
-        <md-input-container >
-          <input type="text" mdInput placeholder="Fecha" [disabled]="'true'">
-        </md-input-container>
-      
-        <md-input-container >
-          <input type="text" mdInput placeholder="Tipo" [disabled]="'true'">
-        </md-input-container>
+<form novalidate [formGroup]="form" layout="row" class="pedido-form">
+  
+  <md-card flex="70" >
+    
+    <sx-pedido-toolbar (addCliente)="onAddNewCliente()" ></sx-pedido-toolbar>
+    <md-divider></md-divider>
+    <sx-pedido-header></sx-pedido-header>
+    <md-divider></md-divider>
 
-        <md-input-container >
-          <input type="text" mdInput placeholder="Modo" [disabled]="'true'">
-        </md-input-container>
-
-        <md-input-container >
-          <input type="text" mdInput placeholder="Comprador" [disabled]="'true'">
-        </md-input-container>
-
-      </div>
-
-      <div layout="row">
-          
-        <md-input-container >
-          <input type="text" mdInput placeholder="Entrega" [disabled]="'true'">
-        </md-input-container>
-      
-        <md-input-container >
-          <input type="text" mdInput placeholder="Vale" [disabled]="'true'">
-        </md-input-container>
-
-        <md-input-container >
-          <input type="text" mdInput placeholder="Sucursal" [disabled]="'true'">
-        </md-input-container>
-
-        <md-input-container >
-          <input type="text" mdInput placeholder="Almacen" [disabled]="'true'">
-        </md-input-container>
-        <md-input-container >
-          <input type="text" mdInput placeholder="Dirección" [disabled]="'true'">
-        </md-input-container>
-      </div>
-
-      <div layout="row">
-        <md-input-container >
-          <input type="text" mdInput placeholder="Comprador" [disabled]="'true'">
-        </md-input-container>
-        <md-input-container >
-          <input type="text" mdInput placeholder="Facturista" [disabled]="'true'">
-        </md-input-container>
+    <div layout="row" layout-margin>
+      <md-select placeholder="Tipo" formControlName="tipo" flex="10">
+        <md-option *ngFor="let tipo of ['CONTADO','CREDITO','COD','ANTICIPO','DOLARES','ACTIVOS']" 
+            [value]="tipo">{{ tipo }}
+        </md-option>
+      </md-select>
+      <md-select placeholder="Modo" formControlName="modo" flex="15">
+          <md-option *ngFor="let modo of ['MOSTRADOR','TELEFONICA']" 
+            [value]="modo">{{ modo }}</md-option>
+      </md-select>
+      <div layout layout-align="center center" flex="30">
         <md-input-container flex>
-          <input type="text" mdInput placeholder="Comentario" [disabled]="'true'" >
-        </md-input-container>        
+          <input type="text" mdInput placeholder="Comprador" fomControlName="comprador">
+        </md-input-container>
+        <md-checkbox>Mismo</md-checkbox>
       </div>
-
-    </md-card-content> 
+      <md-input-container flex>
+        <input type="text" mdInput placeholder="Facturista" [disabled]="'true'">
+      </md-input-container>
+    </div>
+    <md-divider></md-divider>
+    <md-card-content >
+      <div layout="column">
+        <sx-pedido-partidas-grid flex (insert)="onInsertPartida()" ></sx-pedido-partidas-grid>
+      </div>
+    </md-card-content>
     
   </md-card>
+
+  <div flex="30">
+    <md-card >
+      <td-expansion-panel-group>
+        <sx-pedido-envio-panel [parent]="form"></sx-pedido-envio-panel>
+        <sx-pedido-comentario-panel [parent]="form" ></sx-pedido-comentario-panel>
+        <sx-pedido-cargos-panel [parent]="form"></sx-pedido-cargos-panel>
+        <sx-pedido-totales-panel [parent]="form"></sx-pedido-totales-panel>
+        
+      </td-expansion-panel-group>
+    </md-card>
+  </div>
+
 </form>
+

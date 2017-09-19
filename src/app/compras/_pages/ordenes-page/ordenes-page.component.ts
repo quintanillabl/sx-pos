@@ -12,6 +12,7 @@ import { Compra } from "app/models";
 export class OrdenesPageComponent implements OnInit {
 
   ordenes$: Observable<Compra[]>;
+  selected: Compra = undefined;
 
   constructor(
     private ordenesService: OrdenesService
@@ -23,6 +24,11 @@ export class OrdenesPageComponent implements OnInit {
 
   onEdit($event) {
     console.log('Edit: ', $event);
+  }
+
+  onSelection(compra) {
+    console.log('Seleccionando compra: ', compra);
+    this.selected = compra;
   }
 
   onInfo($event) {

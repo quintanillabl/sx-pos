@@ -9,10 +9,7 @@ import { NgxChartsModule, } from '@swimlane/ngx-charts';
 import { MaterialModule } from './_material/material.module';
 import { CovalentModule } from './_covalent/covalent.module';
 
-import { ModuloLabelComponent } from './modulo-label/modulo-label.component';
-import { PageToolbarComponent } from './page-toolbar/page-toolbar.component';
 import { PageFooterComponent } from './page-footer/page-footer.component';
-import { NavListPageComponent } from './nav-list-page/nav-list-page.component';
 import { AddressPipe } from './pipes/address.pipe';
 import { ModuleSelectorComponent } from './module-selector/module-selector.component';
 import { ComentarioFieldComponent } from './_fields/comentario-field/comentario-field.component';
@@ -26,9 +23,9 @@ import { ProductoFieldComponent } from './_fields/producto-field/producto-field.
 import { GlobalUserNavListComponent } from './global-user-nav-list/global-user-nav-list.component';
 import { ConsultasRapidasComponent } from './_components/consultas-rapidas/consultas-rapidas.component';
 
-
-
 import * as Layout from './layout';
+import { QvProductosBtnComponent } from './quick-views';
+import { DireccionFormComponent } from './_components/direccion-form/direccion-form.component';
 
 
 const FLEX_LAYOUT_MODULES: any[] = [
@@ -39,7 +36,6 @@ const ANGULAR_MODULES: any[] = [
   FormsModule, 
   ReactiveFormsModule,
 ];
-
 
 const OTHERS_MODULES: any[] = [
   NgxChartsModule,
@@ -52,6 +48,8 @@ const COMPONENTS: any[] = [
   ComentarioFieldComponent,
   TipoDeCambioComponent,
   MonedaFieldComponent,
+  DireccionFormComponent,
+  QvProductosBtnComponent,
 ]
 
 @NgModule({
@@ -66,10 +64,7 @@ const COMPONENTS: any[] = [
   ],
   declarations: [
     ...COMPONENTS,
-    ModuloLabelComponent,
-    PageToolbarComponent,
     PageFooterComponent,
-    NavListPageComponent,
     AddressPipe,
     HasRoleDirective,
     SucursalFieldComponent,
@@ -77,8 +72,10 @@ const COMPONENTS: any[] = [
     GlobalUserNavListComponent,
     ConsultasRapidasComponent,
     Layout.MainLayoutComponent,
+    Layout.NavLayoutComponent,
     Layout.NavListLayoutComponent,
     Layout.ManageListLayoutComponent,
+    DireccionFormComponent,
   ],
   exports: [
     ANGULAR_MODULES,
@@ -87,11 +84,10 @@ const COMPONENTS: any[] = [
     OTHERS_MODULES,
     FLEX_LAYOUT_MODULES,
     COMPONENTS,
-    ModuloLabelComponent,
-    PageToolbarComponent,
     PageFooterComponent,
-    NavListPageComponent,
+    // Layout components
     Layout.MainLayoutComponent,
+    Layout.NavLayoutComponent,
     Layout.NavListLayoutComponent,
     Layout.ManageListLayoutComponent,
     AddressPipe,
@@ -99,7 +95,7 @@ const COMPONENTS: any[] = [
     SucursalFieldComponent,
     ProductoFieldComponent,
     GlobalUserNavListComponent,
-    ConsultasRapidasComponent
-  ]
+    ConsultasRapidasComponent,
+  ],
 })
 export class SharedModule { }

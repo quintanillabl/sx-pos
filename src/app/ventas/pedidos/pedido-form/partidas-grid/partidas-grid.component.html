@@ -1,0 +1,12 @@
+<td-data-table
+  #dataTable
+  [data]="basicData"
+  [columns]="configWidthColumns"
+  selectable="true"
+  clickable="false"
+  sortable="false"
+  [style.height.px]="400">
+</td-data-table> 
+<button md-mini-fab class="example-fab" (click)="insert.emit()">
+  <md-icon>add</md-icon>
+</button>

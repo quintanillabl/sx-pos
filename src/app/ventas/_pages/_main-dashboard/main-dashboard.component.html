@@ -9,6 +9,7 @@
     <span> Ventas Dashboard </span>
     <span flex></span>
     <span> SX-POS (VENTAS)</span>
+    <button md-icon-button><md-icon >layers</md-icon></button>
     <button md-icon-button><md-icon >settings</md-icon></button>
     <sx-module-selector></sx-module-selector>
   </div>
@@ -73,50 +74,10 @@
             </md-card>
           </div>
         </div>
-        <md-card>
-          <md-card-title>Balanza general</md-card-title>
-          <md-card-subtitle>Movimiento reciente de cuentas</md-card-subtitle>
-          <md-divider></md-divider>
-          <md-nav-list class="will-load item-list">
-            <ng-template tdLoading="items.load">
-              <ng-template let-item let-last="last" ngFor [ngForOf]="items">
-                <a md-list-item layout-align="row" [routerLink]="['../item', item.item_id]">
-                  <md-icon md-list-avatar> {{item.icon}} </md-icon>
-                  <h3 md-line> {{item.name}} </h3>
-                  <p md-line> {{item.description | truncate:50 }} </p>
-                  <span flex></span>
-                  <span class="md-caption text-right" flex="20"> {{item.created | timeAgo }} </span>
-                </a>
-                <md-divider *ngIf="!last" md-inset></md-divider>
-              </ng-template>
-            </ng-template>
-          </md-nav-list>
-        </md-card> 
+        
       </div> 
       <div flex-gt-sm="40">
-        <md-card>
-          <md-card-title>Alertas</md-card-title>
-          <md-card-subtitle>Lo siguientes temas requieren de su atención</md-card-subtitle>
-          <md-divider></md-divider>
-          <md-list class="will-load alert-list">
-            <ng-template tdLoading="alerts.load">
-              <ng-template let-item let-last="last" ngFor [ngForOf]="alerts">
-                <md-list-item layout-align="row">
-                  <md-icon md-list-avatar class="bgc-amber-800">{{item.icon}}</md-icon>
-                  <h3 md-line> {{item.description}} </h3>
-                  <p md-line> {{item.name}} </p>
-                </md-list-item>
-                <md-divider *ngIf="!last" md-inset></md-divider>
-              </ng-template>
-            </ng-template>
-          </md-list>
-          <md-divider></md-divider>
-          <md-card-actions>
-            <a md-button color="accent" class="text-upper" [routerLink]="['/logs']">
-              <span>Ver mas</span>
-            </a>
-          </md-card-actions>
-        </md-card>
+        
         <md-card id="dashboard-favorites-card" class="push-top">
           <md-card-title>Favoritos</md-card-title>
           <md-card-subtitle>Saldos de cuentas</md-card-subtitle>
@@ -140,7 +101,33 @@
             </a>
           </md-card-actions>
         </md-card>
-      </div> -->
+
+        <md-card>
+          <md-card-title>Alertas</md-card-title>
+          <md-card-subtitle>Lo siguientes temas requieren de su atención</md-card-subtitle>
+          <md-divider></md-divider>
+          <md-list class="will-load alert-list">
+            <ng-template tdLoading="alerts.load">
+              <ng-template let-item let-last="last" ngFor [ngForOf]="alerts">
+                <md-list-item layout-align="row">
+                  <md-icon md-list-avatar class="bgc-amber-800">{{item.icon}}</md-icon>
+                  <h3 md-line> {{item.description}} </h3>
+                  <p md-line> {{item.name}} </p>
+                </md-list-item>
+                <md-divider *ngIf="!last" md-inset></md-divider>
+              </ng-template>
+            </ng-template>
+          </md-list>
+          <md-divider></md-divider>
+          <md-card-actions>
+            <a md-button color="accent" class="text-upper" [routerLink]="['/logs']">
+              <span>Ver mas</span>
+            </a>
+          </md-card-actions>
+        </md-card>
+
+        
+      </div> 
     </div>
     
   <td-layout-footer color="primary">

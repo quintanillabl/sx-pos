@@ -1,0 +1,130 @@
+
+<md-toolbar layout="row">
+  <h3 md-dialog-title>Catálogo de productos</h3>
+  <span flex></span>
+  <md-slide-toggle [formControl]="activos" mdTooltip="Solo productos activos" > Activos</md-slide-toggle>
+  <span flex></span>
+  <md-slide-toggle [formControl]="deLinea" mdTooltip="Solo productos de línea"> De Línea</md-slide-toggle>
+</md-toolbar>
+
+<div layout="column">
+  
+  <div layout>
+      <sx-prod-field flex (selection)="onSelection($event)" [activos]="activos.value" [deLinea]="deLinea.value"></sx-prod-field>
+      <button type="button" md-button color="primary">  Detalle  <md-icon>info</md-icon></button>
+  </div>
+  
+  <td-message *ngIf="producto && producto.activo===false"
+  label="Producto suspendido o descontinuado"  color="warn" icon="error"></td-message>
+</div>
+
+
+<div  class="selector-container" >
+  
+  
+  <md-dialog-content layout="row">
+    
+    <md-list  *ngIf="producto" flex="50" >
+      
+      <md-list-item>
+        <h3>Contado:</h3> 
+        <span flex></span>
+        <h3>$ {{producto.precioContado | number:'1.2-2'}} MXN</h3> 
+      </md-list-item>
+      <md-divider md-inset></md-divider>
+      <md-list-item>
+        <h3>Crédito:</h3> 
+        <span flex></span>
+        <h3>$ {{producto.precioCredito| number:'1.2-2'}} MXN</h3> 
+      </md-list-item>
+      <md-divider></md-divider>
+
+      <h3 mdSubheader>Descripción y carácterísticas</h3>
+      <md-list-item>
+        <h3 mdLine>{{producto.descripcion}} </h3>
+        <p mdLine>
+          ({{producto.clave}}) 
+        </p>
+      </md-list-item>
+      <md-divider ></md-divider>
+      <md-list-item>
+        
+        <span flex>Unidad: {{producto.unidad}} </span>
+        <span flex>{{producto.presentacion}}</span>
+        <span flex>{{producto.nacional ? 'NACIONAL': 'IMPORTADO'}}</span>
+      </md-list-item>
+
+      <md-divider></md-divider>
+      <md-list-item>
+          <span flex>{{producto.deLinea ? 'De Linea' : 'Medida especial'}}</span>
+          <span flex>{{producto.inventariable ? 'Inventariable' : 'No inventariable'}}</span>
+          <span flex>{{producto.modoVenta ==='B' ? 'Precio bruto': 'Precio neto'}}</span>
+      </md-list-item>
+      <md-divider ></md-divider>
+      <md-list-item>
+          <span flex>Kilos: {{producto.kilos}}</span>
+          <span flex>Gramos: {{producto.gramos}}</span>
+          <span flex>Calibre: {{producto.calibre}}</span>
+      </md-list-item>
+      <md-divider ></md-divider>
+      <md-list-item>
+          <span flex>Largo: {{producto.largo}}</span>
+          <span flex>Ancho: {{producto.ancho}}</span>
+          <span flex>M2XMillar: {{producto.m2XMillar}}</span>
+          <span flex>Caras: {{producto.caras}}</span>
+      </md-list-item>
+      <md-divider></md-divider>
+      
+      <md-list-item>
+        <span>Línea: </span>
+        <span flex></span>
+        <span>{{producto.linea}}</span>   
+      </md-list-item>
+      <md-divider ></md-divider>
+      
+      <md-list-item>
+          <span>Clase: </span>
+          <span flex></span>
+          <span>{{producto.clase}}</span>   
+        </md-list-item>
+        <md-divider ></md-divider>
+
+      <md-list-item>
+          <span>Marca: </span>
+          <span flex></span>
+          <span>{{producto.marca}}</span>   
+        </md-list-item>
+        <md-divider></md-divider>
+      
+      
+      
+    </md-list>
+
+    <md-list  *ngIf="producto" flex>
+      <h3 mdSubheader>Disponibilidad</h3>
+        <md-list-item>
+          <h3 mdLine>Andrade:</h3>
+          <span flex></span>
+          <h3>0.000</h3>
+        </md-list-item>
+        <md-divider md-inset></md-divider>
+        <md-list-item>
+          <h3 mdLine>Calle 4: {{0.000}}</h3>
+        </md-list-item>
+        <md-divider md-inset></md-divider>
+        <md-list-item>Tacuba: {{0.000}}</md-list-item>
+        <md-divider md-inset></md-divider>
+        
+      </md-list>
+    
+  
+  </md-dialog-content>
+
+  <md-dialog-actions>
+    <button md-button color="accent" md-button-rised >Info</button>
+  </md-dialog-actions>
+  <td-json-formatter [data]="producto" [levelsOpen]="0">
+  </td-json-formatter>
+</div>
+
+

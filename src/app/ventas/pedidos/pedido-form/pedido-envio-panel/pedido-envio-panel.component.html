@@ -1,0 +1,55 @@
+<td-expansion-panel [formGroup]="parent">
+  
+  <ng-template td-expansion-panel-label>
+    <div >
+      <md-icon class="tc-pink-700">flight_takeoff</md-icon>
+      <span > Envio</span>
+    </div>
+  </ng-template>
+  
+  <td-expansion-summary>
+    <md-list dense>
+      <md-list-item>
+        <md-icon mdListAvatar>location_on</md-icon>
+        <h3 mdLine>Local</h3>
+      </md-list-item>
+    </md-list>
+  </td-expansion-summary>
+
+  <md-list>
+    
+    <md-list-item>
+      <md-select  placeholder="Entrega" formControlName="entrega"  floatPlaceholder="never" flex>
+        <md-option *ngFor="let entrega of ['LOCAL','ENVIO','ENVIO_FORANEO','ENVIO_CARGO']" [value]="entrega">{{ entrega }}</md-option>
+      </md-select>
+    </md-list-item>
+
+    <md-list-item>
+      <md-select placeholder="Vale" formControlName="vale" floatPlaceholder="never" flex>
+        <md-option *ngFor="let vale of ['SIN_VALE','ENVIO_SUCURSAL','RECOGE_CLIENTE','EXISTENCIA_VENTA','PASA_CAMIONETA']" [value]="vale">{{ vale }}</md-option>
+      </md-select>
+    </md-list-item>
+
+    <md-list-item>
+      <md-select placeholder="Sucursal" formControlName="sucursalVale"   flex>
+        <md-option *ngFor="let sucursal of ['CALLE 4']" [value]="sucursal">{{ sucursal }}</md-option>
+      </md-select>
+    </md-list-item>
+
+    <md-list-item>
+      <md-select placeholder="Almacen" formControlName="almacen"  flex>
+        <md-option *ngFor="let sucursal of ['CALLE 4']" [value]="sucursal">{{ sucursal }}</md-option>
+      </md-select>
+    </md-list-item>
+  </md-list>
+
+  <md-selection-list dense>
+    <md-list-option>
+        Misma dirección
+    </md-list-option>
+    <md-list-option>
+      Entrega parcial
+    </md-list-option>
+  </md-selection-list>
+  
+</td-expansion-panel>

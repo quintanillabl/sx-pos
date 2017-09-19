@@ -34,9 +34,9 @@
         <md-divider></md-divider>
         <md-nav-list>
           <a  *ngFor="let modulo of modulos$ | async" [routerLink]="modulo.path" md-list-item>
-            <md-icon md-list-avatar class="bgc-amber-800">{{modulo.icon}}</md-icon>
-            <h4 md-line>{{modulo.nombre}}</h4>
-            <p md-line>{{modulo.descripcion}}</p>
+            <md-icon mdListAvatar class="bgc-amber-800">{{modulo.icon}}</md-icon>
+            <h4 mdLine >{{modulo.nombre}}</h4>
+            <p mdLine >{{modulo.descripcion}}</p>
           </a>
         </md-nav-list>
       </md-card>

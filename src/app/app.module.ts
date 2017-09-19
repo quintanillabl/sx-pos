@@ -21,6 +21,8 @@ import { schema } from './db';
 import { AuthModule } from './_auth/auth.module';
 import { AuthInterceptor } from './_auth/services/authInterceptor';
 import { GlobalErrorHandler } from './global-error-handler';
+import { ClientesModule } from './clientes/clientes.module';
+import { ProductosModule } from "app/productos/productos.module";
 
 const config: SocketIoConfig = { url: 'http://10.10.1.136:8500', options: {} };
 
@@ -33,7 +35,7 @@ const config: SocketIoConfig = { url: 'http://10.10.1.136:8500', options: {} };
     BrowserAnimationsModule,
     HttpModule,
     HttpClientModule,
-    SocketIoModule.forRoot(config),
+    
     AppRoutingModule,
     /**
      * StoreModule.forRoot is imported once in the root module, accepting a reducer
@@ -74,8 +76,10 @@ const config: SocketIoConfig = { url: 'http://10.10.1.136:8500', options: {} };
     DBModule.provideDB(schema),
 
     CoreModule,
-
     AuthModule.forRoot(),
+    ClientesModule.forRoot(),
+    ProductosModule.forRoot(),
+    SocketIoModule.forRoot(config),
 
   ],
   providers: [

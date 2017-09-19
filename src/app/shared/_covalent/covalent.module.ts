@@ -5,6 +5,7 @@ import {
   CovalentPagingModule, CovalentSearchModule, CovalentStepsModule,
   CovalentCommonModule, CovalentDialogsModule, CovalentMessageModule, CovalentExpansionPanelModule,
   CovalentJsonFormatterModule,
+  CovalentVirtualScrollModule,
 } from '@covalent/core';
 
 const COVALENT_MODULES: any[] = [
@@ -13,6 +14,7 @@ const COVALENT_MODULES: any[] = [
   CovalentPagingModule, CovalentSearchModule, CovalentStepsModule,
   CovalentCommonModule, CovalentDialogsModule, CovalentMessageModule,
   CovalentExpansionPanelModule, CovalentJsonFormatterModule,
+  CovalentVirtualScrollModule
 ];
 
 @NgModule({

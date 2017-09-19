@@ -9,6 +9,8 @@
     <span> Pedidos </span>
     <span flex></span>
     <span> SX-POS (PEDIDOS)</span>
+    
+    <sx-prod-selector-btn></sx-prod-selector-btn>
     <button md-icon-button><md-icon >settings</md-icon></button>
     <sx-module-selector></sx-module-selector>
   </div>
@@ -16,7 +18,10 @@
   <div layout-gt-sm="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']">
     
     <!-- <sx-pedidos-pendientes flex-gt-sm="60">  </sx-pedidos-pendientes> -->
-    <router-outlet></router-outlet>
+    <div flex-gt-sm>
+        <router-outlet></router-outlet>
+    </div>
+    
   </div>
 
   <a md-fab color="accent" class="mat-fab-bottom-right" [routerLink]="['create']" style="bottom:20px; position: fixed;">
