@@ -6,16 +6,16 @@
     
     <div layout layout-margin layout-align="center start">
       
-      <md-form-field flex>
+      <md-form-field flex="10">
           <input type="text" mdInput [value]="sucursal.nombre" placeholder="Sucursal" [disabled]="true">
       </md-form-field>
       
-      <md-form-field flex>
+      <md-form-field flex="10">
         <input type="text" mdInput placeholder="Fecha" [disabled]="true" [value]=" form.get('fecha').value | date:'dd/MM/yyyy'">
       </md-form-field>
       
       <md-select placeholder="Tipo" formControlName="tipo" flex>
-        <md-option *ngFor="let tipo of ['CIS','RMC','MER','VIR','CIM']" [value]="tipo">{{ tipo }}</md-option>
+        <md-option *ngFor="let tipo of tipos" [value]="tipo.clave">{{ tipo.descripcion}} ({{tipo.clave}})</md-option>
       </md-select>
       
       <sx-comentario-field [parent]="form" [rows]="1" flex="50"></sx-comentario-field>
@@ -24,7 +24,7 @@
     </div>
     
     <md-divider></md-divider>
-      <sx-movimiento-det-form (insert)="onInsert($event)"></sx-movimiento-det-form>
+      <sx-movimiento-det-form (insert)="onInsert($event)" [parent]="form"></sx-movimiento-det-form>
     <md-divider></md-divider>
       <div *ngIf="partidas.length === 0" class="text-center">
         <h4 class="tc-pink-200 text-ceneter">Seleccion los productos que desea incluir en el movimiento</h4>
@@ -42,8 +42,3 @@
 
 </form>
 
-<div>
-  <pre>
-    {{form.value | json}}
-  </pre>
-</div>

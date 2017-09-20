@@ -10,12 +10,24 @@ export const PartidasValidator = (control: AbstractControl): {[key: string]: boo
 };
 
 
+
+
 @Component({
   selector: 'sx-movimiento-form',
   templateUrl: './movimiento-form.component.html',
   styleUrls: ['./movimiento-form.component.scss']
 })
 export class MovimientoFormComponent implements OnInit {
+
+  tipos = [
+    {clave: 'CIM', descripcion: 'Corrección de inventario'},  //  (-/+)
+    {clave: 'CIS', descripcion: 'Consumo interno'}, // (-)
+    {clave: 'MER', descripcion: 'Merma '}, // (-) Absoluto
+    {clave: 'RMC', descripcion: 'Reposición de mat al cliente '}, // (-)
+    {clave: 'OIM', descripcion: 'Otros ingresos de mercancía'}, //  (+)
+    {clave: 'VIR', descripcion: 'Ingreso de viruta '}, // (+)
+    //{tipo: 'SMQ', descripcion: 'Salida de maquila solo en caso del modulo de maquila(-)'},
+  ]
 
   @Output() save = new EventEmitter<Movimiento>();
   
@@ -34,13 +46,19 @@ export class MovimientoFormComponent implements OnInit {
     this.form = this.fb.group({
       sucursal: [{value: this.sucursal, disabled: 'true' }],
       fecha: [{ value: new Date(), disabled: 'true'}],
-      tipo: ['CIS',Validators.required],
+      tipo: [null,Validators.required],
       porInventario: [false, Validators.required],
-      comentario: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      comentario: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
       partidas: this.fb.array([])
     }, {
       validator: PartidasValidator
     });
+
+    this.form.get('partidas')
+      .valueChanges
+      .subscribe( partidas =>  {
+        partidas ? this.form.get('tipo').disable(): this.form.get('tipo').enable();
+      })
   }
 
   onSave() {
