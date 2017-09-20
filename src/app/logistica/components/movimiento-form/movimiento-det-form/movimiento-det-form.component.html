@@ -1,0 +1,22 @@
+<form novalidate (ngSubmit)="onSubmit()" [formGroup]="form" class="movimientodet-form">
+  
+  <div layout class="partida-det-form">
+    
+    <sx-producto-field  flex="60" formControlName="producto" #productField></sx-producto-field>
+    
+    <md-form-field class="field" >
+      <input type="text" mdInput placeholder="Cantidad" formControlName="cantidad">
+    </md-form-field>
+    
+    <md-form-field flex="35">
+      <textarea mdInput formControlName="comentario" placeholder="Comentario" #comentario cols="50" rows="1">
+      </textarea>
+      <md-hint align="end">{{comentario.value.length}} / 100 </md-hint>
+    </md-form-field>
+
+    <button type="submit" md-button [disabled]="form.invalid"> Agregar</button>
+    <button type="button" md-button (click)="reset()"> Limpiar</button>
+    
+  </div>
+  
+</form>

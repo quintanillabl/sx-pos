@@ -6,8 +6,8 @@ import {Subscription} from 'rxjs/Subscription';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as _ from 'lodash';
 
-import { Producto } from '../../../models';
-import { environment} from '../../../../environments/environment';
+import { Producto } from 'app/models';
+import { environment} from 'environments/environment';
 
 export const PRODUCTO_LOOKUPFIELD_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,

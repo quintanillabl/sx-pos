@@ -7,3 +7,4 @@ export * from './cliente';
 export * from './sucursal';
 export * from './compra';
 export * from './moneda';
+export * from './existencia';

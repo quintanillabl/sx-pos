@@ -6,11 +6,11 @@ import {FormGroup} from '@angular/forms';
   template: `
     <div layout="row" [formGroup]="parent" >
       <md-form-field flex>
-        <textarea mdInput [formControlName]="controlName" placeholder="Comentario" #comentario cols="50" rows="2">
+        <textarea mdInput [formControlName]="controlName" placeholder="Comentario" #comentario cols="50" [rows]="rows">
         </textarea>
         <md-hint align="end">{{comentario.value.length}} / {{maxLength}}</md-hint>
         <md-error>
-          Longitud del comentario excedida
+          Longitud del comentario es incorrecta
         </md-error>
 
       </md-form-field>
@@ -25,6 +25,8 @@ export class ComentarioFieldComponent implements OnInit {
   @Input() controlName = 'comentario';
 
   @Input() maxLength = 100;
+
+  @Input() rows = 2;
 
   constructor() { }
 

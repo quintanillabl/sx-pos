@@ -1,8 +1,13 @@
 import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormGroup, AbstractControl, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
+import { FormGroup, AbstractControl, FormBuilder, Validators, ValidatorFn, FormArray, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
 import { Movimiento } from "app/logistica/models/movimiento";
+
+export const PartidasValidator = (control: AbstractControl): {[key: string]: boolean} => {
+  const partidas = (control.get('partidas') as FormArray).value;
+  return partidas.length ? null : { noPartidas: true };
+};
 
 
 @Component({
@@ -30,7 +35,11 @@ export class MovimientoFormComponent implements OnInit {
       sucursal: [{value: this.sucursal, disabled: 'true' }],
       fecha: [{ value: new Date(), disabled: 'true'}],
       tipo: ['CIS',Validators.required],
-      comentario: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]]
+      porInventario: [false, Validators.required],
+      comentario: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      partidas: this.fb.array([])
+    }, {
+      validator: PartidasValidator
     });
   }
 
@@ -59,6 +68,16 @@ export class MovimientoFormComponent implements OnInit {
   
   reset() {
     this.form.reset();
+  }
+
+  get partidas() {
+    return this.form.get('partidas') as FormArray
+  }
+
+  onInsert(partida) {
+    // console.log('Agregando partida ', partida);
+    this.partidas.push(new FormControl(partida));
+    
   }
 
 }

@@ -1,35 +1,49 @@
-<form novalidate [formGroup]="form" (ngSubmit)="onSave()" class="usuario-form">
-    <md-card class="usuario-form">
-      <md-card-title> Alta de movimiento generico de inventario </md-card-title>
-      <md-divider></md-divider>
-      <md-card-content >
-        <div layout="column" >
-          
-          <md-form-field >
-              <input type="text" mdInput [value]="sucursal.nombre" placeholder="Sucursal" [disabled]="true">
-          </md-form-field>
-          <md-form-field class="fill">
-            <input type="text" mdInput placeholder="Fecha" [disabled]="true" [value]=" form.get('fecha').value | date:'short'">
-          </md-form-field>
 
-          <md-select placeholder="Tipo" formControlName="tipo" >
-            <md-option *ngFor="let tipo of ['SIS','RMC','MER','VIR','CIM']" [value]="tipo">{{ tipo }}</md-option>
-          </md-select>
-
-          <md-form-field class="fill">
-            <input type="text" mdInput placeholder="Comentario" formControlName="comentario">
-            <md-error>El comentario es invalido</md-error>
-          </md-form-field>
-
-        </div>
-      </md-card-content>
-      <md-divider></md-divider>
+<form novalidate [formGroup]="form" (ngSubmit)="onSave()" class="usuario-form" layout="row">
+  <md-card class="usuario-form" flex="80">
+    <md-card-title> Alta de movimiento generico de inventario </md-card-title>
+    <md-divider></md-divider>
     
-      <md-card-actions>
-        <button type="submit" md-button color="primary" [disabled]="form.invalid"> Salvar</button>
-        <button type="button" md-button (click)="cancel()"> Cancelar</button>
-        <button type="button" md-button (click)="reset()"> Limpar</button>
-      </md-card-actions>
+    <div layout layout-margin layout-align="center start">
+      
+      <md-form-field flex>
+          <input type="text" mdInput [value]="sucursal.nombre" placeholder="Sucursal" [disabled]="true">
+      </md-form-field>
+      
+      <md-form-field flex>
+        <input type="text" mdInput placeholder="Fecha" [disabled]="true" [value]=" form.get('fecha').value | date:'dd/MM/yyyy'">
+      </md-form-field>
+      
+      <md-select placeholder="Tipo" formControlName="tipo" flex>
+        <md-option *ngFor="let tipo of ['CIS','RMC','MER','VIR','CIM']" [value]="tipo">{{ tipo }}</md-option>
+      </md-select>
+      
+      <sx-comentario-field [parent]="form" [rows]="1" flex="50"></sx-comentario-field>
+      <md-checkbox formControlName="porInventario">Por inventario</md-checkbox>
+
+    </div>
     
-    </md-card>
-    </form>
+    <md-divider></md-divider>
+      <sx-movimiento-det-form (insert)="onInsert($event)"></sx-movimiento-det-form>
+    <md-divider></md-divider>
+      <div *ngIf="partidas.length === 0" class="text-center">
+        <h4 class="tc-pink-200 text-ceneter">Seleccion los productos que desea incluir en el movimiento</h4>
+      </div>
+    <sx-movimiento-partidas-list [parent]="form" [partidas]="partidas.value">
+    </sx-movimiento-partidas-list>
+
+    <md-divider></md-divider>
+    <md-card-actions>
+      <button type="submit" md-button color="primary" [disabled]="form.invalid"> Salvar</button>
+      <button type="button" md-button (click)="cancel()"> Cancelar</button>
+      <button type="button" md-button (click)="reset()"> Limpar</button>
+    </md-card-actions>
+  </md-card>
+
+</form>
+
+<div>
+  <pre>
+    {{form.value | json}}
+  </pre>
+</div>

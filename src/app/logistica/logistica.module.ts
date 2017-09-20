@@ -26,6 +26,8 @@ const COMPONENTS = [
   components.MovimientosListComponent,
   components.MovimientoViewComponent,
   components.MovimientoFormComponent,
+  components.MovimientoDetFormComponent,
+  components.MovimientoPartidasListComponent,
 ]
 
 @NgModule({
