@@ -6,3 +6,5 @@ export { MovimientosPageComponent } from './movimientos-page/movimientos-page.co
 export { MovimientosCreateComponent } from './movimientos-create/movimientos-create.component';
 export { ComprasPageComponent } from './compras-page/compras-page.component';
 export { ExistenciasPageComponent } from './existencias-page/existencias-page.component';
+export { TransformacionesPageComponent } from './transformaciones-page/transformaciones-page.component';
+export { TransformacionesCreatePageComponent } from './transformaciones-create-page/transformaciones-create-page.component';

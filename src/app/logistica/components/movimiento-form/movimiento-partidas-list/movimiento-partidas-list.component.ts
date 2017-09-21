@@ -11,15 +11,25 @@ import { MovimientoDet } from "app/logistica/models/movimientoDet";
 })
 export class MovimientoPartidasListComponent implements OnInit {
   
-  
-
   @Input() parent: FormGroup
+
+  @Input() editable = true;
   
   @Input() partidas: MovimientoDet[];
+
+  @Output() delete = new EventEmitter();
   
   constructor() { }
 
   ngOnInit() {
   }
+
+  onDelete(index: number){
+    this.delete.emit(index);
+  }
+
+  
+
+  
 
 }

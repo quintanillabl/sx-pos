@@ -18,14 +18,16 @@
             <md-icon mdListAvatar>attach_money</md-icon>
             <h4 flex="80">Modificado: {{movimiento.lastUpdated | date:'short'}}</h4>
         </md-list-item>
-        <md-divider md-inset></md-divider>
+        
       </md-list>
     </md-card-content>
     <md-divider></md-divider>
     <md-card-actions>
       <a md-button color="accent" [routerLink]="['edit',movimiento.id]"
-        class="text-upper"> Detalle <md-icon>arrow_forward</md-icon>
+        class="text-upper"> Detalle <md-icon>info</md-icon>
       </a>
+      <button md-button class="text-upper" color="primary"> <md-icon>edit</md-icon> Editar </button>
+      <button md-button class="text-upper"> Imprimir <md-icon>print</md-icon></button>
     </md-card-actions>
     
   </md-card>

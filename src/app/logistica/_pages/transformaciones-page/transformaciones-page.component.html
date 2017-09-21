@@ -1,0 +1,40 @@
+<div layout-gt-sm="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']">
+    
+    <md-card flex-gt-sm="50">
+  
+      <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+        <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
+          <span class="md-title">Transformaciones de productos</span>
+        </span>
+        <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" 
+          placeholder="Buscar " (searchDebounce)="search$.next($event)" flex>
+        </td-search-box>
+  
+        <span>
+          <button md-icon-button [mdMenuTriggerFor]="toolbarMenu"><md-icon>more_vert</md-icon></button>
+          <md-menu #toolbarMenu="mdMenu">
+            <button md-menu-item>
+              <md-icon>settings</md-icon>
+              <span>Filtro avanzado</span>
+            </button>
+          </md-menu>
+        </span>
+  
+      </div>  
+  
+      <md-divider></md-divider>
+      <md-card-content class="will-load">
+        <sx-movimientos-list [movimientos]="movimientos$ | async" (selection)="onSelect($event)">
+        </sx-movimientos-list>
+      </md-card-content>
+    </md-card>
+      
+    <div flex-gt-sm="50" *ngIf=" selected !== undefined" class="will-load">
+      <sx-movimiento-view [movimiento]="selected" >
+      </sx-movimiento-view>
+    </div>
+        
+  </div>
+  <a md-fab color="accent" class="mat-fab-bottom-right" [routerLink]="['create']">
+    <md-icon>add</md-icon>
+  </a>

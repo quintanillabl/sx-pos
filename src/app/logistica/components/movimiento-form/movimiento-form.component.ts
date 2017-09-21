@@ -1,8 +1,9 @@
-import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy , OnDestroy} from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators, ValidatorFn, FormArray, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
 import { Movimiento } from "app/logistica/models/movimiento";
+import { Subscription } from "rxjs/Subscription";
 
 export const PartidasValidator = (control: AbstractControl): {[key: string]: boolean} => {
   const partidas = (control.get('partidas') as FormArray).value;
@@ -17,7 +18,8 @@ export const PartidasValidator = (control: AbstractControl): {[key: string]: boo
   templateUrl: './movimiento-form.component.html',
   styleUrls: ['./movimiento-form.component.scss']
 })
-export class MovimientoFormComponent implements OnInit {
+export class MovimientoFormComponent implements OnInit, OnDestroy {
+  
 
   tipos = [
     {clave: 'CIM', descripcion: 'Corrección de inventario'},  //  (-/+)
@@ -33,6 +35,7 @@ export class MovimientoFormComponent implements OnInit {
   
   form: FormGroup;
   nombre$: Observable<string>;
+  subscription: Subscription;
 
   constructor(
     private fb: FormBuilder
@@ -41,6 +44,7 @@ export class MovimientoFormComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
   }
+
 
   buildForm(){
     this.form = this.fb.group({
@@ -54,11 +58,16 @@ export class MovimientoFormComponent implements OnInit {
       validator: PartidasValidator
     });
 
-    this.form.get('partidas')
+    this.subscription = this.form.get('partidas')
       .valueChanges
       .subscribe( partidas =>  {
-        partidas ? this.form.get('tipo').disable(): this.form.get('tipo').enable();
-      })
+        partidas.length > 0 ? this.form.get('tipo').disable(): this.form.get('tipo').enable();
+        
+      });
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 
   onSave() {
@@ -85,7 +94,13 @@ export class MovimientoFormComponent implements OnInit {
   }
   
   reset() {
-    this.form.reset();
+    this.form.get('tipo').reset();
+    this.form.get('comentario').reset();
+    if(this.partidas.length>0){
+      this.form.patchValue({
+        partidas: this.fb.array([])
+      })
+    }
   }
 
   get partidas() {
@@ -95,7 +110,11 @@ export class MovimientoFormComponent implements OnInit {
   onInsert(partida) {
     // console.log('Agregando partida ', partida);
     this.partidas.push(new FormControl(partida));
-    
+  }
+
+  removePartida(index: number){
+    console.log('Eliminando partida: ', index);
+    this.partidas.removeAt(index);
   }
 
 }

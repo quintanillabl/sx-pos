@@ -19,7 +19,9 @@ const routes: Routes = [
           { path: 'movimientos/create', component: pages.MovimientosCreateComponent},
           { path: 'compras', component: pages.ComprasPageComponent},
           { path: 'traslados', component: pages.TrasladosPageComponent},
-          { path: 'existencias', component: pages.ExistenciasPageComponent}
+          { path: 'existencias', component: pages.ExistenciasPageComponent},
+          { path: 'transformaciones', component: pages.TransformacionesPageComponent},
+          { path: 'transformaciones/create', component: pages.TransformacionesCreatePageComponent}
         ]
       },
       

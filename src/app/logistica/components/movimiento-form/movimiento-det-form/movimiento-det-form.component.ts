@@ -1,8 +1,10 @@
 import { Component, Input, OnInit, Output, EventEmitter, ViewChild, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, AbstractControl, Validators, ValidatorFn } from '@angular/forms';
 
 import { MovimientoDet } from "@siipapx/logistica/models/movimientoDet";
 import { Subscription } from "rxjs/Subscription";
+
+
 
 
 @Component({
@@ -37,6 +39,8 @@ export class MovimientoDetFormComponent implements OnInit, OnDestroy {
       comentario: [null, Validators.maxLength(100)],
       sw2: ['SIIPAPX'], // small fix temporal
       tipoCIS: [{value: null, disabled: true}]
+    }, {
+      validator: this.getTipoValidator()
     });
 
     this.subsctiption = this.parent.get('tipo').valueChanges.subscribe( tipo => {
@@ -71,6 +75,23 @@ export class MovimientoDetFormComponent implements OnInit, OnDestroy {
   reset() {
     this.form.reset();
     this.productField.focus();
+  }
+
+  /**
+   *  Construye un ValidatorFn que verifica el tipo del padre GroupForm verificando que si se trata de  un tipo CIS
+   *  la captura del tipoCIS sea obligatoria
+   * 
+   */
+  getTipoValidator(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: boolean} => {
+      const tipoControl = this.parent.get('tipo').value;
+      if(tipoControl==='CIS') {
+        console.log('Evaluando tipo: ', tipoControl);
+        const tipoCIS = control.get('tipoCIS').value;
+        return tipoCIS !== null ? null : {noTipoCIS: true};
+      }
+      return null;
+    };
   }
 
 }
