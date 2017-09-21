@@ -32,6 +32,8 @@ export class ProductoFieldComponent implements OnInit, ControlValueAccessor, OnD
 
   @Input() activos: boolean = true;
 
+  @Input() placeholder = "Seleccione un producto";
+
   productos$: Observable<Producto[]>;
 
   onChange;

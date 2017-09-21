@@ -1,3 +1,79 @@
-<div layout>
-    <!-- <sx-transformacion-form></sx-transformacion-form> -->
+<div layout >
+  
+  <md-card flex="60">
+
+    <td-steps [formGroup]="form">
+
+      <td-step #step1 label="Datos generales y tipo de transformación" [active]="true" formGroupName="step1Form">  
+        <div layout>
+
+          <md-form-field flex="20">
+            <input type="text" mdInput [value]="sucursal.nombre" placeholder="Sucursal" [disabled]="true">
+          </md-form-field>
+            
+          <md-form-field flex="20">
+            <input type="text" mdInput placeholder="Fecha" [disabled]="true" [value]=" fecha | date:'dd/MM/yyyy'">
+          </md-form-field>
+  
+          <md-select placeholder="Tipo" formControlName="tipo" flex>
+            <md-option *ngFor="let tipo of tipos" [value]="tipo">{{ tipo}}</md-option>
+          </md-select>
+          
+          <md-checkbox flex="20" formControlName="porInventario">Por inventario</md-checkbox>
+        </div>
+        
+      </td-step>
+
+      <td-step #step2 label="Agregar partidas a la transformación">
+        <sx-transformacion-det-form (insert)="insertPartida($event)"></sx-transformacion-det-form>
+      </td-step>
+
+      <td-step #step3 label="Verificar y salvar">
+        <div layout>
+            <sx-comentario-field [parent]="step1Form" [rows]="1" flex="50"></sx-comentario-field>
+        </div>
+        <div>
+          <button type="submt" md-button color="accent"> Salvar</button>
+          <button type="button" md-button> Limpiar</button>
+          <button type="button" md-button> Cancelar</button>
+        </div>
+      </td-step>
+
+    </td-steps>
+  </md-card>
+
+  <md-card flex>
+    <md-toolbar color="accent">
+          Partidas
+    </md-toolbar>
+    <div [formGroup]="form">
+      <div *ngIf=" partidas.length === 0; else partidasPanel" class="text-center">
+        <h4 class="tc-pink-200 text-ceneter">Registre las transformaciones requeridas</h4>
+      </div>
+      <ng-template #partidasPanel>
+        <md-list formArrayName="partidas" dense>
+          <md-list-item>
+            <h5 mdLine> Transformación</h5>
+          </md-list-item>
+        
+        <td-virtual-scroll-container #virtualScroll [style.height.px]="300" [data]="partidas.value" >
+          <ng-template let-item="row" let-last="last" let-i="index" tdVirtualScrollRow>
+            <md-list-item>
+                <h5 md-line> {{item.origen.descripcion}} </h5>
+                <h5 md-line> {{item.origen.destino}} </h5>
+            </md-list-item>
+            <span flex></span>
+            <span layout-gt-xs="row">
+                <div class="text-right" flex-gt-xs> {{ item.salen | number:'1.3'}} </div>
+                <div class="text-right" flex-gt-xs> {{ item.entran | number:'1.3'}} </div>
+            </span>
+            <md-divider  md-inset></md-divider>
+          </ng-template>
+        </td-virtual-scroll-container>
+        </md-list>
+      </ng-template>
+    </div>
+  </md-card>
+  
+    
 </div>

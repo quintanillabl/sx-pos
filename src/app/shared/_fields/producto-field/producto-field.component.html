@@ -1,6 +1,6 @@
 <md-form-field  class="fill">
   <input type="text" mdInput [formControl]="searchControl" (blur)="onBlur()"
-     placeholder="Seleccione un producto" #inputField
+     [placeholder]="placeholder" #inputField
      [required]="required"
      [mdAutocomplete]="auto">
   <md-error>

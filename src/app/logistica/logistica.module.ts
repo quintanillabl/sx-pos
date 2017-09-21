@@ -31,6 +31,7 @@ const COMPONENTS = [
   components.MovimientoDetFormComponent,
   components.MovimientoPartidasListComponent,
   components.TransformacionFormComponent,
+  components.TransformacionDetFormComponent,
 ]
 
 @NgModule({
