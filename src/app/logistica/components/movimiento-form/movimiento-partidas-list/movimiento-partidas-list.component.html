@@ -31,14 +31,14 @@
               </span>
               
               <span>
-                  <button md-icon-button [md-menu-trigger-for]="menu">
+                  <button type="button" md-icon-button [md-menu-trigger-for]="menu">
                   <md-icon>more_vert</md-icon>
                   </button>
                   <md-menu x-position="before" #menu="mdMenu">
                       <a [routerLink]="['edit', item.id]" md-menu-item [disabled]="true">
                         <md-icon>edit</md-icon> Editar
                       </a>
-                      <button md-menu-item (click)="onDelete(i)" [disabled]="!editable" >
+                      <button type="button" md-menu-item (click)="onDelete(i)" [disabled]="!editable" >
                         <md-icon>delete</md-icon> Delete
                       </button>
                   </md-menu>
