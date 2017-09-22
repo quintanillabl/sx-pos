@@ -20,6 +20,7 @@ import { MomentModule } from 'angular2-moment';
 import { HasRoleDirective } from './directives/has-role.directive';
 import { SucursalFieldComponent } from './_fields/sucursal-field/sucursal-field.component';
 import { ProductoFieldComponent } from './_fields/producto-field/producto-field.component';
+import { ExistenciaFieldComponent } from './_fields/existencia-field/existencia-field.component';
 import { GlobalUserNavListComponent } from './global-user-nav-list/global-user-nav-list.component';
 import { ConsultasRapidasComponent } from './_components/consultas-rapidas/consultas-rapidas.component';
 
@@ -69,6 +70,7 @@ const COMPONENTS: any[] = [
     HasRoleDirective,
     SucursalFieldComponent,
     ProductoFieldComponent,
+    ExistenciaFieldComponent,
     GlobalUserNavListComponent,
     ConsultasRapidasComponent,
     Layout.MainLayoutComponent,
@@ -94,6 +96,7 @@ const COMPONENTS: any[] = [
     HasRoleDirective,
     SucursalFieldComponent,
     ProductoFieldComponent,
+    ExistenciaFieldComponent,
     GlobalUserNavListComponent,
     ConsultasRapidasComponent,
   ],

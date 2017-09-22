@@ -5,3 +5,5 @@ export { MovimientoDetFormComponent } from './movimiento-form/movimiento-det-for
 export { MovimientoPartidasListComponent } from './movimiento-form/movimiento-partidas-list/movimiento-partidas-list.component';
 export { TransformacionFormComponent } from './transformacion-form/transformacion-form.component';
 export { TransformacionDetFormComponent } from './transformacion-form/transformacion-det-form/transformacion-det-form.component';
+export { TransformacionPartidasListComponent } from './transformacion-form/transformacion-partidas-list/transformacion-partidas-list.component';
+export { TransformaciondetDialogComponent } from './transformacion-form/transformaciondet-dialog/transformaciondet-dialog.component';

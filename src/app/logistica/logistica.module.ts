@@ -8,7 +8,7 @@ import * as pages from './_pages';
 
 // Services
 import { MovimientosService } from "./services/movimientos/movimientos.service";
-import { TransformacionesService } from "@siipapx/logistica/services/transformaciones/transformaciones.service";
+import { TransformacionesService } from "./services/transformaciones/transformaciones.service";
 
 
 
@@ -32,6 +32,8 @@ const COMPONENTS = [
   components.MovimientoPartidasListComponent,
   components.TransformacionFormComponent,
   components.TransformacionDetFormComponent,
+  components.TransformacionPartidasListComponent,
+  components.TransformaciondetDialogComponent
 ]
 
 @NgModule({
@@ -43,6 +45,7 @@ const COMPONENTS = [
     ...PAGES,
     ...COMPONENTS
   ],
+  entryComponents: [components.TransformaciondetDialogComponent],
   providers: [MovimientosService, TransformacionesService]
 })
 export class LogisticaModule { }

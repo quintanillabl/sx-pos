@@ -1,5 +1,6 @@
-import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy, ViewContainerRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { TdDialogService } from '@covalent/core';
 
 import { MovimientoDet } from "app/logistica/models/movimientoDet";
 
@@ -19,7 +20,10 @@ export class MovimientoPartidasListComponent implements OnInit {
 
   @Output() delete = new EventEmitter();
   
-  constructor() { }
+  constructor(
+    private _dialogService: TdDialogService,
+    private _viewContainerRef: ViewContainerRef
+  ) { }
 
   ngOnInit() {
   }
@@ -28,7 +32,14 @@ export class MovimientoPartidasListComponent implements OnInit {
     this.delete.emit(index);
   }
 
-  
+  mostrarCortes(row) {
+    this._dialogService.openAlert({
+      message: `Cortes: ${row.cortes}  Instrucción: ${row.instrucion}`,
+      viewContainerRef: this._viewContainerRef, //OPTIONAL
+      title: 'Cortes', //OPTIONAL, hides if not provided
+      closeButton: 'Cerrar', //OPTIONAL, defaults to 'CLOSE'
+    });
+  }
 
   
 

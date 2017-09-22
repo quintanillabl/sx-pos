@@ -14,5 +14,5 @@ export interface Transformacion {
   dateCreated?: string,
   lastUpdated?: string,
   createUser?: string,
-  updateUser?: string
+  updateUser?: string,
 }
