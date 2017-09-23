@@ -42,6 +42,16 @@
       </md-form-field>
     </div>
 
+    <div layout formGroupName="autorizacion">
+      <md-form-field flex>
+        <input type="text" mdInput placeholder="Autorización" formControlName="clave">
+      </md-form-field>
+      <span flex="5">  </span>
+      <md-form-field flex>
+        <input type="text" mdInput placeholder="Usuario" formControlName="usuario">
+      </md-form-field>
+    </div>
+
   </md-dialog-content>
   <md-dialog-actions>
     <button md-button type="submit" [disabled]="form.invalid">Aceptar</button>

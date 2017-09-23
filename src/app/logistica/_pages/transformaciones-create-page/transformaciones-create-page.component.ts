@@ -22,11 +22,9 @@ export class TransformacionesCreatePageComponent implements OnInit {
   ngOnInit() {}
 
   onSave(transformacion: Transformacion){
-    console.log('Salvando entidad: ', transformacion);
     this.service.save(transformacion)
-      .subscribe(value => {
-        console.log('SAVE OK: ', value);
-        this.router.navigate(['/logistica/inventarios/transformaciones/']);
+      .subscribe( (trs: any) => {
+        this.router.navigate(['/logistica/inventarios/transformaciones/show', trs.id]);
       }, response => {
         console.log('Error salvando entidad: ', response);
       });

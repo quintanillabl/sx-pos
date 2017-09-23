@@ -34,6 +34,9 @@
       
     </div>
 
+    <div *ngIf=" partidas.value.length === 0" class="empty-partidas text-center">
+      <h4 class="tc-pink-200 text-ceneter">Registre productos a transormar</h4>
+    </div>
     <sx-transformacion-partidas-list [parent]="form" [partidas]="partidas.value" (delete)="removePartida($event)" #partidasList>
     </sx-transformacion-partidas-list>
 

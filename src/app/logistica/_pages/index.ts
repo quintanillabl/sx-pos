@@ -8,3 +8,5 @@ export { ComprasPageComponent } from './compras-page/compras-page.component';
 export { ExistenciasPageComponent } from './existencias-page/existencias-page.component';
 export { TransformacionesPageComponent } from './transformaciones-page/transformaciones-page.component';
 export { TransformacionesCreatePageComponent } from './transformaciones-create-page/transformaciones-create-page.component';
+export { TransformacionesEditPageComponent } from './transformaciones/transformaciones-edit-page.component';
+export { TransformacionesShowPageComponent } from './transformaciones/transformaciones-show-page.component';

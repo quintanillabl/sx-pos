@@ -2,7 +2,11 @@
     <md-list-item>
       <md-icon md-list-icon>vpn_key</md-icon>
       <span mdLine>Descripcion</span>
-      <span>Clave</span>
+      <span flex></span>
+      <span hide-xs hide-sm hide-md flex-gt-xs="60" flex-xs="40" layout-gt-xs="row">
+          <div class=" tc-grey-500" flex-gt-xs="50">Fecha </div>
+          <div class=" tc-grey-500" flex-gt-xs="50">Estado </div>
+      </span>
     </md-list-item>
     <md-divider></md-divider>
     <td-virtual-scroll-container #virtualScroll [style.height.px]="400" [data]="movimientos">
@@ -13,7 +17,8 @@
             <p md-line> {{row.comentario}} </p>
             <span flex></span>
             <span hide-xs hide-sm hide-md flex-gt-xs="60" flex-xs="40" layout-gt-xs="row">
-                <div class=" tc-grey-500" flex-gt-xs="70"> {{ row.fecha | date:'short'}} </div>
+                <div class=" tc-grey-500" flex-gt-xs="50"> {{ row.fecha | date:'dd/MM/yyyy'}} </div>
+                <div  [ngClass]="{'tc-pink-500': !row.fechaInventario }" flex-gt-xs="50"> {{ row.fechaInventario ? 'INVENTARIADO' : 'PENDIENTE'}} </div>
             </span>
             <!-- <span>
                 <button md-icon-button [md-menu-trigger-for]="menu">

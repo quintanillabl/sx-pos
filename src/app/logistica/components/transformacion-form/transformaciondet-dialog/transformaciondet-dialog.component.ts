@@ -1,8 +1,19 @@
 import { Component, Input, OnInit, OnDestroy, Inject, ChangeDetectionStrategy, OnChanges} from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, AbstractControl, Validators } from '@angular/forms';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 // import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
+export const AutorizacionValidator = (control: AbstractControl): {[key: string]: boolean} => {
+  const origen = control.get('origen').value;
+  const destino = control.get('destino').value;
+  if( origen && destino ){
+    console.log('Validando precios: ')
+    console.log(`Origen: ${origen.producto.precioContado} Destino: ${destino.producto.precioContado}`);
+    return origen.producto.precioContado < destino.producto.precioContado ? null : { precioMenor: true};
+  }
+  return null;
+};
  
 @Component({
   selector: 'sx-transformaciondet-dialog',
@@ -52,8 +63,13 @@ export class TransformaciondetDialogComponent implements OnInit, OnChanges, OnDe
       destino: [null, Validators.required],
       entrada: [null, [Validators.required, Validators.min(1)]],
       cortes: [0],
-      instruccion: ['', Validators.maxLength(100)]
+      instruccion: ['', Validators.maxLength(100)],
+      autorizacion: this.fb.group({
+        clave: [{value:'', disabled: true}],
+        usuario: [{value:'', disabled: true}],
+      })
     });
+
     this.subscription1 = this.form.get('origen').valueChanges
       .subscribe( existencia => {
         if( existencia )

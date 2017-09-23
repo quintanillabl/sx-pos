@@ -21,10 +21,11 @@ const routes: Routes = [
           { path: 'traslados', component: pages.TrasladosPageComponent},
           { path: 'existencias', component: pages.ExistenciasPageComponent},
           { path: 'transformaciones', component: pages.TransformacionesPageComponent},
-          { path: 'transformaciones/create', component: pages.TransformacionesCreatePageComponent}
+          { path: 'transformaciones/create', component: pages.TransformacionesCreatePageComponent},
+          { path: 'transformaciones/show/:id', component: pages.TransformacionesShowPageComponent},
+          { path: 'transformaciones/edit/:id', component: pages.TransformacionesEditPageComponent}
         ]
       },
-      
     ]
   }
 ];

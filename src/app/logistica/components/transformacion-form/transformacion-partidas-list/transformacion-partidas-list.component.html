@@ -1,9 +1,5 @@
 <div [formGroup]= "parent" >
   
-  <!-- <div *ngIf=" partidas.length === 0; else partidasPanel" class="empty-partidas text-center">
-      <h4 class="tc-pink-200 text-ceneter">Registre productos a transormar</h4>
-  </div> -->
-
   <ng-container #partidasPanel>
     <md-list formArrayName="partidas">
       <td-virtual-scroll-container #virtualScroll [style.height.px]="400" [data]="partidas" >

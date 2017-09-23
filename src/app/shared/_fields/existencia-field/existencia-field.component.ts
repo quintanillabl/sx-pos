@@ -33,7 +33,9 @@ export const EXISTENCIA_LOOKUPFIELD_VALUE_ACCESSOR: any = {
   <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn" >
     <md-option *ngFor="let existencia of existencias$ | async " [value]="existencia" 
       [ngClass]="{'tc-red-800': !existencia.cantidad > 0}">
-      ({{existencia.producto.clave}}) {{existencia.producto.descripcion}} <span >({{existencia.cantidad}})</span>
+      ({{existencia.producto.clave}}) {{existencia.producto.descripcion}} 
+      <span >(Exis: {{existencia.cantidad}})</span>
+      <span *ngIf="!existencia.producto.activo">(Suspendido)</span> 
     </md-option>
   </md-autocomplete>
 
@@ -50,6 +52,8 @@ export class ExistenciaFieldComponent implements OnInit, ControlValueAccessor, O
   @Input() required = true;
 
   @Input() activos: boolean = true;
+
+  @Input() conExistencia: boolean = true;
 
   @Input() placeholder = "Seleccione un producto";
 
@@ -100,7 +104,13 @@ export class ExistenciaFieldComponent implements OnInit, ControlValueAccessor, O
       .set('term', term);
     if (this.sucursal) {
       params = params.set('sucursal',this.sucursal.id)
-    }  
+    } 
+    if(this.activos) {
+      params = params.set('activos','activos')
+    } 
+    if(this.conExistencia) {
+      params = params.set('conexistencia','conexistencia')
+    } 
     return this.http.get<Existencia[]>(this.apiUrl, {params: params});
   }
 

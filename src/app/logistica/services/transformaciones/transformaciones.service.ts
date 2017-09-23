@@ -13,6 +13,12 @@ export class TransformacionesService {
 
   constructor(private http: HttpClient) { }
 
+  get(id: string): Observable<Transformacion> {
+    let url = `${this.apiUrl}/${id}`;
+    return this.http.get<Transformacion>(url)
+    .shareReplay();
+  }
+
   list(documento = null, comentario = null): Observable<Transformacion[]> {
     let params = new HttpParams();
     if (documento) {
@@ -28,6 +34,17 @@ export class TransformacionesService {
 
   update(transformacion: Transformacion) {
     return this.http.put(this.apiUrl+'/'+transformacion.id, transformacion);
+  }
+
+  delete(id: string) {
+    return this.http.delete(this.apiUrl+'/'+id);
+  }
+
+  inventariar(trs: Transformacion) {
+    const url = `${this.apiUrl}/${trs.id}`;
+    return this.http.put(url, trs, {
+      params: new HttpParams().set('inventariar','inventariar')
+    });
   }
 
 }

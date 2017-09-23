@@ -23,6 +23,8 @@ const PAGES =  [
   pages.ExistenciasPageComponent,
   pages.TransformacionesPageComponent,
   pages.TransformacionesCreatePageComponent,
+  pages.TransformacionesEditPageComponent,
+  pages.TransformacionesShowPageComponent,
 ];
 const COMPONENTS = [
   components.MovimientosListComponent,
@@ -33,7 +35,7 @@ const COMPONENTS = [
   components.TransformacionFormComponent,
   components.TransformacionDetFormComponent,
   components.TransformacionPartidasListComponent,
-  components.TransformaciondetDialogComponent
+  components.TransformaciondetDialogComponent,
 ]
 
 @NgModule({

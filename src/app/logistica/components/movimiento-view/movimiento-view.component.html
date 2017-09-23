@@ -7,6 +7,9 @@
     <md-card-content>
       <md-list>
         <md-list-item>
+            <span mdLine>Sucursal: {{movimiento.sucursal.id}}</span>
+        </md-list-item>
+        <md-list-item>
           <md-icon mdListAvatar>description</md-icon>
           <span mdLine>{{movimiento.comentario}}</span>
           <span flex></span>
@@ -23,7 +26,7 @@
     </md-card-content>
     <md-divider></md-divider>
     <md-card-actions>
-      <a md-button color="accent" [routerLink]="['edit',movimiento.id]"
+      <a md-button color="accent" [routerLink]="['show',movimiento.id]"
         class="text-upper"> Detalle <md-icon>info</md-icon>
       </a>
       <button md-button class="text-upper" color="primary"> <md-icon>edit</md-icon> Editar </button>
@@ -31,3 +34,6 @@
     </md-card-actions>
     
   </md-card>
+  <pre>  
+  {{movimiento | json}}
+</pre>

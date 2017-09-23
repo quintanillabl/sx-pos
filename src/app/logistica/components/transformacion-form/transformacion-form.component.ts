@@ -19,6 +19,7 @@ export class TransformacionFormComponent implements OnInit {
   form: FormGroup;
 
   @Output() save = new EventEmitter();
+  
   @Output() cancel = new EventEmitter();
 
   constructor(
