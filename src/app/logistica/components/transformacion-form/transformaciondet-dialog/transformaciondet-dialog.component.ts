@@ -41,15 +41,10 @@ export class TransformaciondetDialogComponent implements OnInit, OnChanges, OnDe
   }
 
   ngOnInit() {
-    console.log('Inicializando forma......');
     this.buildForm();
-    // this.form.valueChanges.subscribe( value => console.log(this.form.getRawValue()));
-    
   }
 
-  ngOnChanges(changes) {
-    console.log('Changes detected: ', changes);
-  }
+  ngOnChanges(changes) {}
 
   ngOnDestroy() {
     this.subscription1.unsubscribe();

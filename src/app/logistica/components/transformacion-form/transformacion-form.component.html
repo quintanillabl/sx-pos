@@ -14,7 +14,7 @@
       </md-form-field>
       
       <md-select placeholder="Tipo" formControlName="tipo" flex="15">
-        <md-option *ngFor="let tipo of tipos" [value]="tipo" class="tipo-field">{{ tipo}}</md-option>
+        <md-option *ngFor="let tipo of tipos" [value]="tipo.clave" class="tipo-field">{{tipo.clave}} - {{tipo.descripcion}}</md-option>
       </md-select>
       
       <sx-comentario-field flex [parent]="form" rows="1" ></sx-comentario-field>

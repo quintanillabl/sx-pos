@@ -17,7 +17,7 @@
     </div>
 
     <div layout >
-      <sx-existencia-field formControlName="destino" flex  placeholder="Destino" [sucursal]="sucursal"></sx-existencia-field>
+      <sx-existencia-field formControlName="destino" flex  placeholder="Destino" [sucursal]="sucursal"  conExistencia="false"></sx-existencia-field>
     </div>
 
     <div layout >
@@ -31,7 +31,7 @@
       </md-form-field>
     </div>
 
-    <div layout *ngIf="tipo ==='TRANSFORMACION'">
+    <div layout *ngIf="tipo ==='TRS'">
       <md-form-field hintLabel="" flex="10">
         <input type="text" mdInput placeholder="Cortes" formControlName="cortes">
         <md-error>Cantidad de cortes incorrecta</md-error>

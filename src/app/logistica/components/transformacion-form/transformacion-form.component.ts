@@ -14,7 +14,7 @@ import { TransformaciondetDialogComponent } from "./transformaciondet-dialog/tra
 })
 export class TransformacionFormComponent implements OnInit {
 
-  tipos = ['RECLASIFICACION', 'TRANSFORMACION'];
+  tipos = [{clave:'TRS', descripcion: 'Transformación'}, {clave: 'REC', descripcion: 'Reclasificación'}];
   
   form: FormGroup;
 

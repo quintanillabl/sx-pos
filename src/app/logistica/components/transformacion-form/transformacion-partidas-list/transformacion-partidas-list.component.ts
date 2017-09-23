@@ -41,7 +41,6 @@ export class TransformacionPartidasListComponent implements OnInit {
   }
 
   scrollToLast() {
-    console.log('Scroll to last....');
     this.listContainer.scrollToEnd();
   }
   scrollToStart() {
