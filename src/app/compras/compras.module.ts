@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
+import { StoreModule } from "@ngrx/store";
+import { EffectsModule } from "@ngrx/effects";
 
 import { ComprasRoutingModule } from './compras-routing.module';
 import { SharedModule } from "../shared/shared.module";
+
+//ngrx stuff 
+import { reducers } from './store/reducers';
+import { OrdenesEffects } from './store/effects/ordenes.effects';
 
 //Services
 import { OrdenesService } from "./services/ordenes.service";
@@ -19,8 +25,10 @@ import {
   MainPageComponent,
   OrdenesPageComponent,
   OrdenesCreatePageComponent,
-  RecepcionesPageComponent
+  RecepcionesPageComponent,
+  OrdenesShowComponent,
 } from './_pages';
+
 
 
 const PAGES  = [
@@ -29,6 +37,8 @@ const PAGES  = [
   OrdenesPageComponent, 
   OrdenesCreatePageComponent, 
   RecepcionesPageComponent,
+  OrdenesShowComponent,
+  
 ];
 
 const COMPONENTS  = [
@@ -41,7 +51,15 @@ const COMPONENTS  = [
 @NgModule({
   imports: [
     SharedModule,
-    ComprasRoutingModule
+    ComprasRoutingModule,
+    /**
+     * Feature store module for the state of this module
+     */
+    StoreModule.forFeature('compras', reducers),
+    /**
+     * Side Effects for the module
+     */
+    EffectsModule.forFeature([OrdenesEffects])
   ],
   declarations: [
     ...COMPONENTS,
@@ -49,6 +67,7 @@ const COMPONENTS  = [
     RecepcionesPendientesComponent,
     RecepcionesRegistradasComponent,
     DevolucionesComponent],
+  // Services
   providers: [OrdenesService]
 })
 export class ComprasModule { }

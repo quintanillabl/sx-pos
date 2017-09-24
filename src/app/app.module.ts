@@ -97,7 +97,8 @@ const config: SocketIoConfig = { url: 'http://10.10.1.136:8500', options: {} };
        * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
        * by `@ngrx/router-store` to include only the desired pieces of the snapshot.
        */
-      { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer }]
+      { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer }
+    ]
   ],
   bootstrap: [AppComponent]
 })

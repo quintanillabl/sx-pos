@@ -8,7 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth.gard';
 import { AuthEffects } from './effects/auth.effects';
-import { reducers, AuthState } from './reducers';
+import { reducers } from './reducers';
 import { LoginPageComponent } from './pages/login-page.component';
 import { LoginFormComponent } from './components/login-form.component';
 

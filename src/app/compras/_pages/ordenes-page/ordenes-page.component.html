@@ -1,42 +1,22 @@
-<td-layout-nav logo="assets:siipap-rx2"  navigationRoute="/" toolbarTitle="SX-POS">
-  
-  <button md-icon-button td-menu-button  tdLayoutToggle> 
-    <md-icon>menu</md-icon>
-  </button>
-
-  <div td-toolbar-content layout="row" layout-align="start center" flex>
-    <span flex></span>
-    <span> Ordenes de compra </span>
-    <span flex></span>
-    <span> SX-POS (COMPRAS)</span>
-    <button md-icon-button><md-icon >settings</md-icon></button>
-    <sx-module-selector></sx-module-selector>
-  </div>
-
+<sx-nav-layout [header]="'Ordenes de compra'" [modulo]="'Compras'">
   <div layout-gt-sm="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']">
-    <div flex-gt-sm="50">
-      <md-card>
-        <md-card-title>Ordenes pendientes</md-card-title>
+    <div flex-gt-sm="70" >
+      <md-card >
+        <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+          <span  class="push-left-sm" flex>
+              <span class="md-title">Ordenes de compra</span>
+          </span>
+          <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" 
+            placeholder="Folio" (searchDebounce)="search($event)" flex>
+          </td-search-box>
+        </div>
+        
         <md-divider></md-divider>
-        <md-card-content>
-            <sx-ordenes-list [compras]="ordenes$ | async" (info)="onSelection($event)"></sx-ordenes-list>
-        </md-card-content>
-      </md-card>
-    </div>
-
-    <div flex-gt-sm="50" *ngIf="selected">
-      <md-card class="will-load">
-        <md-card-title>Detalle de compra</md-card-title>
-        <md-divider></md-divider>
-        <md-card-content>
-          {{selected | json}}
+        <md-card-content *tdLoading="'overlayStarSyntax'; let loading until !(loading$ | async); color: 'accent' strategy:'overlay';" class="will-load">
+          <sx-ordenes-list [compras]="ordenes$ | async" ></sx-ordenes-list>
         </md-card-content>
       </md-card>
     </div>
   </div>
+</sx-nav-layout>
 
-  <a md-fab color="accent" class="mat-fab-bottom-right" [routerLink]="['create']" style="bottom:20px; position: fixed;">
-    <md-icon>add</md-icon>
-  </a>
-
-</td-layout-nav>

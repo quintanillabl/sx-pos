@@ -6,7 +6,7 @@ import { RecepcionesPendientesComponent } from './_components/recepciones-pendie
 import { RecepcionesRegistradasComponent } from './_components/recepciones-registradas/recepciones-registradas.component';
 import { DevolucionesComponent } from './_components/devoluciones/devoluciones.component';
 
-import { MainPageComponent, MainDashboardComponent, RecepcionesPageComponent } from './_pages';
+import { MainPageComponent, MainDashboardComponent, RecepcionesPageComponent, OrdenesShowComponent} from './_pages';
 
 const routes: Routes = [
   {
@@ -17,6 +17,7 @@ const routes: Routes = [
       { path: 'home', component: MainDashboardComponent },
       { path: 'ordenes', component: OrdenesPageComponent},
       { path: 'ordenes/create', component: OrdenesCreatePageComponent},
+      { path: 'ordenes/show/:id', component: OrdenesShowComponent},
       { 
         path: 'recepciones', 
         component: RecepcionesPageComponent,

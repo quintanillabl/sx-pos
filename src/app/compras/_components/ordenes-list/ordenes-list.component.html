@@ -1,11 +1,11 @@
 <md-list dense>
   <ng-template let-compra let-last="last" ngFor [ngForOf]="compras">
     <md-list-item>
-      <button md-mini-fab  md-list-avatar (click)="showInfo(compra)" 
+      <a md-mini-fab  md-list-avatar [routerLink]="['show', compra.id]"
         mdTooltip="Inspeccionar compra"
         class="bgc-deep-orange-A400" >
         <span>{{compra.folio}}</span>
-      </button>
+      </a>
 
       <h3 md-line>{{compra.proveedor}}</h3>
 
@@ -18,10 +18,10 @@
       <span flex></span>
       <span>Usuario: {{compra.creadoPor}}</span>
       <span flex></span>
-      <button md-icon-button (click)="editEntity(compra)" 
+      <a md-icon-button [routerLink]="['edit', compra.id]"
         mdTooltip="Editar compra">
         <md-icon md-list-icon class="tc-green-700">edit</md-icon>
-      </button>
+      </a>
       <span flex></span>
 
 
