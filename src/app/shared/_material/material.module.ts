@@ -13,7 +13,8 @@ const MATERIAL_MODULES: any[] = [
   MdListModule, MdMenuModule, MdTooltipModule,
   MdSlideToggleModule, MdInputModule, MdCheckboxModule,
   MdToolbarModule, MdSnackBarModule, MdSidenavModule,
-  MdTabsModule, MdSelectModule, MdChipsModule, MdAutocompleteModule, MdNativeDateModule, MdDatepickerModule,
+  MdTabsModule, MdSelectModule, MdChipsModule, MdAutocompleteModule,
+  MdNativeDateModule, MdDatepickerModule
 ];
  /**
   * Special module to controll Material desing modules
@@ -26,6 +27,6 @@ const MATERIAL_MODULES: any[] = [
   declarations: [],
   exports: [
     MATERIAL_MODULES,
-  ]
+  ],
 })
 export class MaterialModule { }

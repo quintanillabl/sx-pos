@@ -1,0 +1,50 @@
+<ng-template tdLoading [tdLoadingUntil]="!loading" tdLoadingStrategy="overlay">
+<h3 md-dialog-title>Selector de ventas </h3>
+
+<md-dialog-content layout="column" class="selector-form">
+  <form novalidate (ngSubmit)="buscarVenta()" [formGroup]="form">
+    <div layout>
+      <div >
+        <md-select placeholder="Tipo" formControlName="tipo" >
+          <md-option *ngFor="let tipo of ['CRE','CON','COD']" 
+              [value]="tipo">{{ tipo }}
+          </md-option>
+        </md-select>
+      </div>
+      <md-form-field >
+        <input type="text" mdInput placeholder="Documento" formControlName="documento">
+        <md-error>El documento requerido</md-error>
+      </md-form-field>
+      <md-form-field >
+        <input type="text" mdInput placeholder="Sucursal" [value]="sucursal.nombre" disabled="true">
+      </md-form-field>
+      
+      <button md-icon-button type="submit"><md-icon>search</md-icon></button>
+    </div>
+  </form>
+  
+  <div *ngIf="error">
+    {{error}}
+  </div>
+
+  <ng-container *ngIf="venta"> 
+    
+    <td-data-table
+      #dataTable
+      [data]="venta.partidas"
+      [columns]="columns"
+      [selectable]="true"
+      multiple="true"
+      [sortable]="true"
+      [(ngModel)]="selectedRows"
+      [style.height.px]="200">
+    </td-data-table>
+  </ng-container>
+  
+  
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-button type="button" [disabled]="form.invalid" (click)="doAccept()">Aceptar</button>
+  <button md-button type="button" (click)="close()" >Cancelar</button>
+</md-dialog-actions>
+</ng-template>

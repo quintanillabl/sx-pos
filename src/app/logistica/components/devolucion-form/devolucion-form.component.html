@@ -1,0 +1,44 @@
+<form novalidate [formGroup]="form" (ngSubmit)="onSubmit()">
+  <md-card class="transformacion-form">
+    <md-card-title> 
+      Alta de devolucion de venta <span *ngIf="venta">:{{venta.tipo}}: {{venta.documento}}</span>
+    </md-card-title>
+    <md-divider></md-divider>
+
+    <div  layout layout-margin>
+
+      <md-form-field flex="10">
+        <input type="text" mdInput [value]="sucursal.nombre" placeholder="Sucursal" [disabled]="true">
+      </md-form-field>
+      
+      <md-form-field flex="10">
+        <input type="text" mdInput placeholder="Fecha" [disabled]="true" [value]=" fecha | date:'dd/MM/yyyy'">
+      </md-form-field>
+      
+      <sx-comentario-field flex [parent]="form" rows="1" ></sx-comentario-field>
+    </div>
+
+    <div>
+      <button type="button" md-button (click)="insertar()" > 
+        <md-icon>shopping_cart</md-icon> Seleccionar venta
+      </button>
+      <button type="button" md-icon-button (click)="partidasList.scrollToStart()" > <md-icon>skip_previous</md-icon></button>
+      <button type="button" md-icon-button (click)="partidasList.scrollToLast()" > <md-icon>skip_next</md-icon></button>
+
+      <sx-devolucion-partidas [parent]="form" [partidas]="partidas.value"  #partidasList></sx-devolucion-partidas>
+      <div layout layout-margin>
+      </div>
+    </div>
+
+    <div *ngIf=" partidas.value.length === 0" class="empty-partidas text-center">
+      <h4 class="tc-pink-200 text-ceneter">Partidas de la venta para la devolución</h4>
+    </div>
+
+    <md-divider></md-divider>
+    <md-card-actions>
+      <button type="submit" md-button [disabled]="form.invalid"> Salvar </button>
+      <a  md-button [routerLink]="['../']"> Cancelar </a>
+    </md-card-actions>
+    
+  </md-card>
+</form>

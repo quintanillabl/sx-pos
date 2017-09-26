@@ -1,0 +1,24 @@
+<div [formGroup]="parent" layout layout-margin>
+  <div formArrayName="partidas">
+    
+    <table td-data-table>
+      <thead>
+        <tr td-data-table-column-row>
+          <th td-data-table-column>Row</th>
+          <th td-data-table-column>Producto</th>
+          <th td-data-table-column>Cantidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr td-data-table-row *ngFor="let row of partidas; index as i" [formGroupName]="i">
+          <td td-data-table-cell >{{i}}</td>
+          <td td-data-table-cell >{{row.producto.clave}}</td>
+          <td  >
+            <input type="text"  value="" formControlName="cantidad">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+</div>

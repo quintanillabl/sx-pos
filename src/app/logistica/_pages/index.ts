@@ -10,3 +10,8 @@ export { TransformacionesPageComponent } from './transformaciones-page/transform
 export { TransformacionesCreatePageComponent } from './transformaciones-create-page/transformaciones-create-page.component';
 export { TransformacionesEditPageComponent } from './transformaciones/transformaciones-edit-page.component';
 export { TransformacionesShowPageComponent } from './transformaciones/transformaciones-show-page.component';
+
+// Devoluciones de ventas
+export { DevolucionesVentaPageComponent } from './devoluciones/devoluciones-page.component';
+export { DevolucionesShowPageComponent } from './devoluciones/show/devoluciones-show-page.component';
+export { DevolucionCreatePageComponent } from './devoluciones/create/devolucion-create-page.component';

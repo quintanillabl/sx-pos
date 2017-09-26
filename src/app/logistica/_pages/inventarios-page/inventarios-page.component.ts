@@ -9,7 +9,8 @@ export class InventariosPageComponent implements OnInit {
 
   navigation: Object[] = [
     {route: 'movimientos', title: 'Movimientos', icon: 'swap_horiz'},
-    { route: 'transformaciones', title: 'Transformaciones', icon: 'transform'},
+    {route: 'transformaciones', title: 'Transformaciones', icon: 'transform'},
+    {route: 'devoluciones', title: 'Devolución ventas', icon: 'layers_clear'},
     {route: 'compras', title: 'Compras', icon: 'add_shopping_cart'},
     {route: 'traslados', title: 'Traslados', descripcion: 'Traslados de mercancía', icon:  'local_shipping'},
     {route: 'existencias', title: 'Existencias', icon: 'layers'},

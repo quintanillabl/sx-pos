@@ -1,15 +1,21 @@
 import { NgModule } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
-import { SharedModule } from "app/shared/shared.module";
+// ngrx
+import { reducers } from './store/reducers';
+import { DevolucionesEffects } from './store/effects/devoluciones.effects';
+
+import { SharedModule } from 'app/shared/shared.module';
 import { LogisticaRoutingModule } from './logistica-routing.module';
 
 import * as components  from './components';
 import * as pages from './_pages';
 
 // Services
-import { MovimientosService } from "./services/movimientos/movimientos.service";
-import { TransformacionesService } from "./services/transformaciones/transformaciones.service";
-
+import { MovimientosService } from './services/movimientos/movimientos.service';
+import { TransformacionesService } from './services/transformaciones/transformaciones.service';
+import { DevolucionesService } from './services/devoluciones/devoluciones.service';
 
 
 const PAGES =  [
@@ -25,6 +31,9 @@ const PAGES =  [
   pages.TransformacionesCreatePageComponent,
   pages.TransformacionesEditPageComponent,
   pages.TransformacionesShowPageComponent,
+  pages.DevolucionesVentaPageComponent,
+  pages.DevolucionesShowPageComponent,
+  pages.DevolucionCreatePageComponent,
 ];
 const COMPONENTS = [
   components.MovimientosListComponent,
@@ -36,18 +45,32 @@ const COMPONENTS = [
   components.TransformacionDetFormComponent,
   components.TransformacionPartidasListComponent,
   components.TransformaciondetDialogComponent,
+  components.DevolucionesGridComponent,
+  components.DevolucionDetGridComponent,
+  components.DevolucionFormComponent,
+  components.SelectorDeVentasDialogComponent,
+  components.DevolucionPartidasComponent,
+  
 ]
 
 @NgModule({
   imports: [
     SharedModule,
-    LogisticaRoutingModule
+    LogisticaRoutingModule,
+    /**
+     * Feature store module for the state of this module
+     */
+    StoreModule.forFeature('logistica', reducers),
+    /**
+     * Side Effects for the module
+     */
+    EffectsModule.forFeature([DevolucionesEffects])
   ],
   declarations: [
     ...PAGES,
     ...COMPONENTS
   ],
-  entryComponents: [components.TransformaciondetDialogComponent],
-  providers: [MovimientosService, TransformacionesService]
+  entryComponents: [components.TransformaciondetDialogComponent, components.SelectorDeVentasDialogComponent],
+  providers: [MovimientosService, TransformacionesService, DevolucionesService]
 })
 export class LogisticaModule { }

@@ -23,7 +23,12 @@ const routes: Routes = [
           { path: 'transformaciones', component: pages.TransformacionesPageComponent},
           { path: 'transformaciones/create', component: pages.TransformacionesCreatePageComponent},
           { path: 'transformaciones/show/:id', component: pages.TransformacionesShowPageComponent},
-          { path: 'transformaciones/edit/:id', component: pages.TransformacionesEditPageComponent}
+          { path: 'transformaciones/edit/:id', component: pages.TransformacionesEditPageComponent},
+          // Devoluciones de venta
+          { path: 'devoluciones', component: pages.DevolucionesVentaPageComponent},
+          { path: 'devoluciones/create', component: pages.DevolucionCreatePageComponent},
+          { path: 'devoluciones/show/:id', component: pages.DevolucionesShowPageComponent},
+          
         ]
       },
     ]

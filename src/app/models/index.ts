@@ -8,3 +8,5 @@ export * from './sucursal';
 export * from './compra';
 export * from './moneda';
 export * from './existencia';
+export * from './venta';
+export * from './ventaDet';
