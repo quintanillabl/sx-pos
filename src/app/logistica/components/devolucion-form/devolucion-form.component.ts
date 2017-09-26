@@ -5,6 +5,7 @@ import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import { Sucursal } from "app/models";
 import { DevolucionDeVenta } from "app/logistica/models/devolucionDeVenta";
 import { SelectorDeVentasDialogComponent } from "./selector-de-ventas/selector-de-ventas-dialog.component";
+import { Venta } from "app/models/venta";
 
 @Component({
   selector: 'sx-devolucion-form',
@@ -40,7 +41,7 @@ export class DevolucionFormComponent implements OnInit {
       venta: [null, Validators.required],
       partidas: this.fb.array([])
     });
-    this.form.get('venta').valueChanges.subscribe(value=> console.log('Venta: ', value));
+    this.form.get('partidas').valueChanges.subscribe(value=> console.log('Partidas: ', value));
   }
   
   onSubmit(){
@@ -64,6 +65,19 @@ export class DevolucionFormComponent implements OnInit {
     this.partidas.removeAt(index);
   }
 
+  asignarVenta(venta: Venta){
+    if(this.venta){
+      for (var index = 0; index < this.partidas.length; index++) {
+        this.partidas.removeAt(index);
+      }
+    }
+    this.form.patchValue(
+      {
+        venta: venta,
+      }
+    );
+  }
+
   insertar() {
     let dialogRef = this.dialog.open(SelectorDeVentasDialogComponent, {
       data: {sucursal:this.sucursal}
@@ -72,7 +86,7 @@ export class DevolucionFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
         console.log('Asignando venta....', result);
-        this.form.patchValue({venta: result.venta}); // Asignando la venta
+        this.asignarVenta(result.venta);
         result.partidas.forEach(element => {
           this.insertarVentaDet(element);
         });
@@ -87,7 +101,7 @@ export class DevolucionFormComponent implements OnInit {
         id: ventaDet.id,
         cantidad: ventaDet.cantidad
       },
-      cantidad: [ventaDet.cantidad, Validators.required],
+      cantidad: [ventaDet.cantidad * -1, Validators.required],
       producto: {
         id: ventaDet.producto.id,
         clave: ventaDet.producto.clave,
@@ -99,6 +113,16 @@ export class DevolucionFormComponent implements OnInit {
 
   get venta() {
     return this.form.get('venta').value;
+  }
+
+  editarPartida($event) {
+    console.log('Editando: ', $event);
+    const {row, cantidad} = $event;
+    this.partidas.controls[row].patchValue({cantidad: cantidad});
+  }
+
+  onDelete(index: number){
+    this.removePartida(index);
   }
   
 }

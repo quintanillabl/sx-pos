@@ -1,7 +1,14 @@
 <form novalidate [formGroup]="form" (ngSubmit)="onSubmit()">
   <md-card class="transformacion-form">
-    <md-card-title> 
-      Alta de devolucion de venta <span *ngIf="venta">:{{venta.tipo}}: {{venta.documento}}</span>
+    <md-card-title>
+      <div layout>
+        <span>Alta de devolucion de venta: </span>
+        <span flex></span> 
+        <span class="md-title tc-pink-700">{{venta?.tipo}} {{venta?.documento }}</span>
+        <span flex></span> 
+        <span class="md-title tc-indigo-700">{{venta?.cliente?.nombre}}</span>
+        
+      </div> 
     </md-card-title>
     <md-divider></md-divider>
 
@@ -22,10 +29,17 @@
       <button type="button" md-button (click)="insertar()" > 
         <md-icon>shopping_cart</md-icon> Seleccionar venta
       </button>
+      <button type="button" md-button  [disabled]="!venta"> 
+          <md-icon>add</md-icon> Agregar partida
+        </button>
       <button type="button" md-icon-button (click)="partidasList.scrollToStart()" > <md-icon>skip_previous</md-icon></button>
       <button type="button" md-icon-button (click)="partidasList.scrollToLast()" > <md-icon>skip_next</md-icon></button>
 
-      <sx-devolucion-partidas [parent]="form" [partidas]="partidas.value"  #partidasList></sx-devolucion-partidas>
+      <sx-devolucion-partidas [parent]="form" [partidas]="partidas.value"  
+        (edit)="editarPartida($event)"
+        (remove)="onDelete($event)"
+        #partidasList>
+      </sx-devolucion-partidas>
       <div layout layout-margin>
       </div>
     </div>

@@ -4,21 +4,54 @@
     <table td-data-table>
       <thead>
         <tr td-data-table-column-row>
-          <th td-data-table-column>Row</th>
+          <th td-data-table-column>Rng</th>
           <th td-data-table-column>Producto</th>
-          <th td-data-table-column>Cantidad</th>
+          <th td-data-table-column>Descripción</th>
+          <th td-data-table-column>Vendido</th>
+          <th td-data-table-column>Por devolver</th>
+          <th td-data-table-column>Quitar</th>
         </tr>
       </thead>
       <tbody>
         <tr td-data-table-row *ngFor="let row of partidas; index as i" [formGroupName]="i">
-          <td td-data-table-cell >{{i}}</td>
+          <td td-data-table-cell >{{i + 1}}</td>
           <td td-data-table-cell >{{row.producto.clave}}</td>
-          <td  >
-            <input type="text"  value="" formControlName="cantidad">
+          <td td-data-table-cell >{{row.producto.descripcion}}</td>
+          <td td-data-table-cell numeric="true">{{row.ventaDet.cantidad}}</td>
+          <td td-data-table-cell numeric="true" >
+            <a  md-button class="mat-accent" (click)="editar(i, row)" >{{row.cantidad}}</a>
+          </td>
+          <td td-data-table-cell numeric="false"> 
+            <md-icon color="accent" (click)="delete(i)">delete</md-icon>
           </td>
         </tr>
       </tbody>
     </table>
+    <!-- <table td-data-table>
+        <thead>
+          <tr td-data-table-column-row>
+            <th td-data-table-column>
+              <md-icon>comment</md-icon>
+              <span>Comments</span>
+            </th>
+            <th td-data-table-column
+                *ngFor="let column of columns"
+                [numeric]="column.numeric">
+              {{column.label}}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr td-data-table-row *ngFor="let row of partidas; index as i">
+            <td td-data-table-cell (click)="openPrompt(row, 'comments')">
+              <button md-button [class.mat-accent]="!row['comments']">{{row['comments'] || 'Add Comment'}}</button>
+            </td>
+            <td td-data-table-cell *ngFor="let column of columns" [numeric]="column.numeric">
+              {{column.format ? column.format(row[column.name]) : row[column.name]}}
+            </td>
+          </tr>
+        </tbody>
+      </table> -->
   </div>
   
 </div>
