@@ -13,7 +13,7 @@
       <ng-template let-row="row" let-last="last" tdVirtualScrollRow>
         <md-list-item >
             <md-icon md-list-avatar>apps</md-icon>
-            <h3 md-line> DEC {{row.sucursal.nombre}} {{row.documento}} {{ row.fecha | date:'dd/MM/yyyy'}}</h3>
+            <h3 md-line> RMD: {{row.documento}} {{ row.fecha | date:'dd/MM/yyyy'}} {{row.venta.cliente.nombre}}</h3>
             <span md-line> {{row.comentario}} </span>
             <span flex></span>
             <span hide-xs hide-sm hide-md flex-gt-xs="60" flex-xs="40" layout-gt-xs="row">

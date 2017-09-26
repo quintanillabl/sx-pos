@@ -12,3 +12,4 @@ export { DevolucionDetGridComponent } from './devoluciondet-grid/devoluciondet-g
 export { DevolucionFormComponent } from './devolucion-form/devolucion-form.component';
 export { DevolucionPartidasComponent } from './devolucion-form/partidas/devolucion-partidas.component';
 export { SelectorDeVentasDialogComponent } from './devolucion-form/selector-de-ventas/selector-de-ventas-dialog.component';
+export { RmdVentadetGridComponent } from './devolucion-form/selector-de-ventas/venta-det-list/rmdVentadet-grid.component';

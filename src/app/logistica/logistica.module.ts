@@ -50,6 +50,7 @@ const COMPONENTS = [
   components.DevolucionFormComponent,
   components.SelectorDeVentasDialogComponent,
   components.DevolucionPartidasComponent,
+  components.RmdVentadetGridComponent,
   
 ]
 
