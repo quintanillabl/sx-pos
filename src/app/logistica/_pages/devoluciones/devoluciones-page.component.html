@@ -1,6 +1,6 @@
 <div layout-gt-sm="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']">
     
-    <md-card flex-gt-sm="80">
+    <md-card flex-gt-sm>
 
       <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
         <span  class="push-left-sm" flex>
@@ -31,10 +31,7 @@
     
         
   </div>
-  <div>
-      <td-json-formatter [data]="devoluciones$ | async" [levelsOpen]="1">
-      </td-json-formatter>
-  </div>
+  
   <a md-fab color="accent" class="mat-fab-bottom-right" [routerLink]="['create']">
     <md-icon>add</md-icon>
   </a>

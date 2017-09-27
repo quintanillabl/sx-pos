@@ -11,10 +11,11 @@ import { DevolucionesService } from "app/logistica/services/devoluciones/devoluc
 @Component({
   selector: 'sx-devolucion-create-page',
   template: `
-    <div layout>
+    <div layout layout-align="center stretch">
       <sx-devolucion-form flex="80" [sucursal]="sucursal$ | async" (save)="onSave($event)"></sx-devolucion-form>
     </div>
-  `
+  `,
+  styles: ['div { height: 90vh; }']
 })
 export class DevolucionCreatePageComponent implements OnInit {
 

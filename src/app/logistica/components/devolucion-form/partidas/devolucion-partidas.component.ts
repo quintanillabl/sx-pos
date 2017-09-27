@@ -7,7 +7,8 @@ import * as _ from 'lodash';
 @Component({
   selector: 'sx-devolucion-partidas',
   templateUrl: 'devolucion-partidas.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: [' .partidas-grid-container { height: 350px;}']
 })
 export class DevolucionPartidasComponent implements OnInit {
 
@@ -18,12 +19,15 @@ export class DevolucionPartidasComponent implements OnInit {
   @Output() edit = new EventEmitter<any>();
   @Output() remove = new EventEmitter<number>();
 
+  /*
   columns: ITdDataTableColumn[] = [
     { name: 'producto.clave', label: 'Producto', tooltip: 'Clave del producto', sortable: true },
     { name: 'producto.descripcion', label: 'Descripción', width: 350 },
     { name: 'ventaDet.cantidad', label: 'Vendido', numeric: true,  width: { min: 50, max: 100 }},
+    { name: 'ventaDet.devuelto', label: 'Por devolver', numeric: true,  width: { min: 50, max: 100 }},
     { name: 'cantidad', label: 'Por devolver', numeric: true,  width: { min: 50, max: 100 }},
   ];
+  */
 
   constructor(
     private _dialogService: TdDialogService,

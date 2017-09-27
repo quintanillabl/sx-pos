@@ -4,12 +4,18 @@ import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 
 import { Sucursal } from "app/models";
 import { DevolucionDeVenta } from "app/logistica/models/devolucionDeVenta";
+import { DevolucionDeVentaDet } from 'app/logistica/models/devolucionDeVentaDet';
 import { SelectorDeVentasDialogComponent } from "./selector-de-ventas/selector-de-ventas-dialog.component";
 import { Venta } from "app/models/venta";
+import * as _ from 'lodash';
+import { Observable } from 'rxjs/Observable';
+import { VentaDet } from 'app/models/ventaDet';
+
 
 @Component({
   selector: 'sx-devolucion-form',
   templateUrl: 'devolucion-form.component.html',
+  styleUrls: ['devolucion-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DevolucionFormComponent implements OnInit {
@@ -21,6 +27,8 @@ export class DevolucionFormComponent implements OnInit {
   @Input() sucursal: Sucursal;
 
   @Output() save = new EventEmitter<DevolucionDeVenta>();
+
+  ventaDetSelected$: Observable<VentaDet[]>;
 
   constructor(
     private fb: FormBuilder,
@@ -41,9 +49,18 @@ export class DevolucionFormComponent implements OnInit {
       venta: [null, Validators.required],
       partidas: this.fb.array([])
     });
+
+    this.ventaDetSelected$ = this.form.get('partidas')
+      .valueChanges
+      .map( (value: Array<DevolucionDeVentaDet> )  => _.map(value, item => item.ventaDet) )
+    
+    this.ventaDetSelected$.subscribe(value => {
+      console.log('Value: ', value);
+    });
   }
   
   onSubmit(){
+    console.log('Salvando devolucion......');
     if(this.form.valid) {
       const entity = this.prepareEntity();
       this.save.emit(entity);
@@ -65,27 +82,21 @@ export class DevolucionFormComponent implements OnInit {
   }
 
   asignarVenta(venta: Venta){
-    if(this.venta){
-      for (var index = 0; index < this.partidas.length; index++) {
-        this.partidas.removeAt(index);
-      }
+    if(!this.venta){
+      this.form.patchValue({venta: venta});
     }
-    this.form.patchValue(
-      {
-        venta: venta,
-      }
-    );
   }
 
   insertar() {
     let dialogRef = this.dialog.open(SelectorDeVentasDialogComponent, {
-      data: {sucursal:this.sucursal}
+      data: {sucursal:this.sucursal, venta: this.venta}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
         console.log('Asignando venta....', result);
-        this.asignarVenta(result.venta);
+        if(!this.venta)
+          this.asignarVenta(result.venta);
         result.partidas.forEach(element => {
           this.insertarVentaDet(element);
         });
@@ -96,11 +107,8 @@ export class DevolucionFormComponent implements OnInit {
 
   insertarVentaDet(ventaDet) {
     const fg = this.fb.group({
-      ventaDet: {
-        id: ventaDet.id,
-        cantidad: ventaDet.cantidad
-      },
-      cantidad: [ventaDet.cantidad * -1, Validators.required],
+      ventaDet:ventaDet,
+      cantidad: [ventaDet.disponibleParaDevolucion , Validators.required],
       producto: {
         id: ventaDet.producto.id,
         clave: ventaDet.producto.clave,
@@ -113,7 +121,7 @@ export class DevolucionFormComponent implements OnInit {
   get venta() {
     return this.form.get('venta').value;
   }
-
+  
   editarPartida($event) {
     console.log('Editando: ', $event);
     const {row, cantidad} = $event;

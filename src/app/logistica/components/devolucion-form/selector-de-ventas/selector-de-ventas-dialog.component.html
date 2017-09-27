@@ -1,8 +1,15 @@
 <ng-template tdLoading [tdLoadingUntil]="!loading" tdLoadingStrategy="overlay">
-<h3 md-dialog-title>Selector de ventas </h3>
-
-<div layout="column" class="selector-form">
-  <form novalidate (ngSubmit)="buscarVenta()" [formGroup]="form">
+  
+  
+  
+  <h4 md-dialog-title>
+    <span *ngIf="!venta">Selector de ventas</span>
+    <span *ngIf="venta"> {{venta.tipo}}: {{venta.documeto}}  {{(venta.cliente.nombre)}}</span>
+  </h4>
+  
+<div layout="column" class="selector-form" >
+  
+  <form novalidate (ngSubmit)="buscarVenta()" [formGroup]="form" *ngIf="!venta">
     <div layout>
       <div >
         <md-select placeholder="Tipo" formControlName="tipo" >
@@ -18,8 +25,8 @@
       <md-form-field >
         <input type="text" mdInput placeholder="Sucursal" [value]="sucursal.nombre" disabled="true">
       </md-form-field>
+      <button md-button type="submit">Buscar</button>
       
-      <button md-icon-button type="submit"><md-icon>search</md-icon></button>
     </div>
   </form>
   
@@ -28,13 +35,13 @@
   </div>
 
   <ng-container *ngIf="venta"> 
-    <sx-rmd-ventadet-grid [data]="venta.partidas" [selectedRows]="selectedRows">
+    <sx-rmd-ventadet-grid [data]="disponibles" [selectedRows]="selectedRows">
     </sx-rmd-ventadet-grid>
   </ng-container>
   
 </div>
 <md-dialog-actions>
-  <button md-button class="accent" type="button" [disabled]="form.invalid" (click)="doAccept()">Aceptar</button>
+  <button md-button class="accent" type="button" [disabled]="!venta" (click)="doAccept()">Aceptar</button>
   <button md-button type="button" (click)="close()" >Cancelar</button>
 </md-dialog-actions>
 </ng-template>

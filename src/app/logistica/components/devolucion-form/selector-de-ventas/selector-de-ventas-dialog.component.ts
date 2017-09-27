@@ -9,7 +9,7 @@ import { Observable } from "rxjs/Observable";
 
 import { DevolucionesService } from "app/logistica/services/devoluciones/devoluciones.service";
 import { Venta } from "app/models";
-
+import * as _ from 'lodash';
 
 @Component({
   selector: 'sx-selector-de-ventas-dialog',
@@ -34,6 +34,7 @@ export class SelectorDeVentasDialogComponent implements OnInit {
     private service: DevolucionesService
   ) { 
     this.sucursal = data.sucursal;
+    this.venta = data.venta;
   }
 
   ngOnInit() {
@@ -83,6 +84,14 @@ export class SelectorDeVentasDialogComponent implements OnInit {
       this.error = response.message;
     }
     this.loading = false;
+  }
+
+  get disponibles(){
+    if(this.venta === null) return [];
+    const partidas = _.forEach(this.venta.partidas, (item) => {
+      item.disponibleParaDevolucion = Math.abs(item.cantidad) - item.devuelto;  
+    });
+    return _.filter(partidas, item => item.disponibleParaDevolucion > 0 )
   }
   
 

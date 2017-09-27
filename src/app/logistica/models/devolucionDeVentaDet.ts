@@ -5,6 +5,7 @@ export interface DevolucionDeVentaDet {
   producto: Producto;
   ventaDet: any;
   cantidad: number;
+  disponible?: number;
   costoDev: number;
   importeCosto: number;
   comentario?: string;

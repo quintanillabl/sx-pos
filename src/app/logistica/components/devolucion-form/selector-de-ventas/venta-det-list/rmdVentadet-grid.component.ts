@@ -31,9 +31,10 @@ export class RmdVentadetGridComponent implements OnInit {
   sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
   columns: ITdDataTableColumn[] = [
-    { name: 'producto.clave',  label: 'Clave', sortable: true, width: 50, numeric: false },
-    { name: 'producto.descripcion',  label: 'Descripcion', sortable: true, width: 400, numeric: false },
-    { name: 'cantidad',  label: 'Cantidad', sortable: true, width: 50, numeric: true, format: NUMBER_FORMAT },
+    { name: 'producto.clave',  label: 'Clave', sortable: true, width: 40, numeric: false },
+    { name: 'producto.descripcion',  label: 'Descripcion', sortable: true, width: 320, numeric: false },
+    { name: 'devuelto',  label: 'Devuelto', sortable: true, width: 40, numeric: true, format: NUMBER_FORMAT },
+    { name: 'disponibleParaDevolucion',  label: 'Disponible', sortable: true, width: 40, numeric: true, format: NUMBER_FORMAT },
   ];
 
   constructor(private _dataTableService: TdDataTableService) {}

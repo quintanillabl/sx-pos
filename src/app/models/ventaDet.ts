@@ -21,4 +21,6 @@ export interface VentaDet {
   importeCortes: number
   dateCreated: string
   lastUpdated: string
+  devuelto?: number
+  disponibleParaDevolucion?: number
 }
