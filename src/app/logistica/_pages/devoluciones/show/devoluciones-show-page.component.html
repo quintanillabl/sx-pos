@@ -26,12 +26,12 @@
       <sx-devoluciondet-grid [partidas]="trs.partidas"></sx-devoluciondet-grid>
       <md-divider></md-divider>
       <md-card-actions>
-        <a md-button [routerLink]="['../../']" ><md-icon>keyboard_backspace</md-icon> Regresar </a>
+        <a md-button [routerLink]="['/logistica/inventarios/devoluciones']" ><md-icon>keyboard_backspace</md-icon> Regresar </a>
         <button md-icon-button mdTooltip="Imprimir documento"><md-icon>print</md-icon></button>
         <button md-button color="accent" *ngIf="trs.fechaInventario === undefined"
           mdTooltip="Mandar al inventario" (click)="inventariar(trs)">  
         <md-icon >send</md-icon> Registrar</button>
-        <button md-button color="warn" mdTooltip="Eliminar documento" (click)="delete(trs)" >  <md-icon >delete</md-icon> Eliminar</button>
+        <button md-button color="warn" mdTooltip="Eliminar documento" (click)="onDelete(trs)" >  <md-icon >delete</md-icon> Eliminar</button>
       </md-card-actions>
 
     </ng-container>

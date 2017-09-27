@@ -29,22 +29,8 @@
 
   <ng-container *ngIf="venta"> 
     <sx-rmd-ventadet-grid [data]="venta.partidas" [selectedRows]="selectedRows">
-
     </sx-rmd-ventadet-grid>
-    
-    <!-- <td-data-table
-      #dataTable
-      [data]="venta.partidas"
-      [columns]="columns"
-      [selectable]="true"
-      multiple="true"
-      [sortable]="true"
-      [(ngModel)]="selectedRows"
-      [style.height.px]="350">
-    </td-data-table> -->
-    
   </ng-container>
-  
   
 </div>
 <md-dialog-actions>

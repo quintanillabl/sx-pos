@@ -9,6 +9,10 @@ export const SELECT = '[DevolucionDeVenta] Select';
 export const SELECT_SUCCESS = '[DevolucionDeVenta] Select succes';
 export const SELECT_ERROR = '[DevolucionDeVenta] Select error';
 
+export const DELETE = '[DevolucionDeVenta] Delete';
+export const DELETE_SUCCESS ='[DevolucionDeVenta] Delete succcess';
+export const DELETE_ERROR = '[DevolucionDeVenta] Delete error';
+
 /**
  * Every action is comprised of at least a type and an optional
  * payload. Expressing actions as classes enables powerful
@@ -27,6 +31,7 @@ export class SearchSuccessAction implements Action {
 
   constructor(public payload: DevolucionDeVenta[]) {}
 }
+
 export class SearchError implements Action {
   readonly type = SEARCH_ERROR;
 
@@ -38,16 +43,37 @@ export class SelectAction  implements Action {
   
   constructor(public payload: string) {}
 }
+
 export class SelectSuccessAction implements Action {
   readonly type = SELECT_SUCCESS;
 
   constructor(public payload: DevolucionDeVenta) {}
 }
+
 export class SelectErrorAction implements Action {
   readonly type = SELECT_ERROR;
   
   constructor(public payload: any) {}
 }
+
+export class DeleteAction implements Action {
+  readonly type = DELETE;
+  
+  constructor(public payload: string) {}
+}
+
+export class DeleteSuccessAction implements Action {
+  readonly type = DELETE_SUCCESS;
+
+  constructor() {}
+}
+
+export class DeleteErrorAction implements Action {
+  readonly type = DELETE_ERROR;
+  
+  constructor(public payload: any) {}
+}
+
 
 /**
  * Export a type alias of all actions in this action group
@@ -60,3 +86,6 @@ export type Actions =
 | SelectAction
 | SelectSuccessAction
 | SelectErrorAction
+| DeleteAction
+| DeleteSuccessAction
+| DeleteErrorAction

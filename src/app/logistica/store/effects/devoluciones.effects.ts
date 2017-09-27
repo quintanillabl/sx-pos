@@ -24,14 +24,19 @@ export class DevolucionesEffects {
     .catch(error => Observable.of(new Devoluciones.SearchError(error))) 
   );
 
-  /*
+  
   @Effect()
   navigateToDevoluciones = this.actions$.ofType<RouterNavigationAction>(ROUTER_NAVIGATION)
   .map(r => r.payload.routerState.url)
+  .delay(300)
   .filter( r => r ==='/logistica/inventarios/devoluciones' )
   // .do(route => console.log('Navegando a devoluciones: ', route))
-  .switchMap( r => Observable.of(new Devoluciones.SearchAction('')));
-  */
+  .switchMap( r => 
+    this.service.list({documento: ''})
+    .map(ordenes => new Devoluciones.SearchSuccessAction(ordenes))
+    .catch(error => Observable.of(new Devoluciones.SearchError(error))) 
+  );
+  
   
   @Effect() select$ = this.actions$.ofType<Devoluciones.SelectAction>(Devoluciones.SELECT)
   .map( action => action.payload)
@@ -50,6 +55,18 @@ export class DevolucionesEffects {
   .map(r => _.replace(r, '/logistica/inventarios/devoluciones/show/', ''))
   .do(route => console.log('Show devolucion id: ', route))
   .switchMap( id => Observable.of(new Devoluciones.SelectAction(id)));
+
+  
+  @Effect()
+  delete$ = this.actions$.ofType<Devoluciones.DeleteAction>(Devoluciones.DELETE)
+  .map(action => action.payload)
+  .do( value => console.log('Eliminando rmd', value))
+  .switchMap(id => 
+    this.service.delete(id))
+    .map(dev => new Devoluciones.DeleteSuccessAction())
+    .catch(error => Observable.of(new Devoluciones.DeleteErrorAction(error))
+  );
+  
 
 
   constructor(

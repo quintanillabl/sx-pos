@@ -41,7 +41,6 @@ export class DevolucionFormComponent implements OnInit {
       venta: [null, Validators.required],
       partidas: this.fb.array([])
     });
-    this.form.get('partidas').valueChanges.subscribe(value=> console.log('Partidas: ', value));
   }
   
   onSubmit(){

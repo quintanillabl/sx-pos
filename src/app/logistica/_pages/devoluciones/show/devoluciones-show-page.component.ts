@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import { Store } from '@ngrx/store';
+import { Router } from "@angular/router";
 
 import * as fromLogistica from 'app/logistica/store/reducers';
-
+import { DeleteAction } from 'app/logistica/store/actions/devoluciones.actions';
 import { DevolucionDeVenta } from "app/logistica/models/devolucionDeVenta";
+
 
 @Component({
   selector: 'sx-devoluciones-show-page',
@@ -17,7 +19,8 @@ export class DevolucionesShowPageComponent implements OnInit {
   loading$: Observable<boolean>;
 
   constructor(
-    private store: Store<fromLogistica.LogisticaState>
+    private store: Store<fromLogistica.LogisticaState>,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -33,8 +36,9 @@ export class DevolucionesShowPageComponent implements OnInit {
     console.log('Dispatch Mandar a inventario action....');
   }
 
-  delete(dev: DevolucionDeVenta) {
-    console.log('Dispatch action to delete entity....');
+  onDelete(rmd: DevolucionDeVenta) {
+    this.store.dispatch(new DeleteAction(rmd.id));
+    this.router.navigate(['/logistica/inventarios/devoluciones']);
   }
 
 }

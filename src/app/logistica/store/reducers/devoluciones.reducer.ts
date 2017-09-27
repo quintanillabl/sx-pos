@@ -57,6 +57,12 @@ export function reducer(state = initialState, action: devs.Actions): State {
         ...state,
         loading: false
       }
+    }
+    case devs.DELETE_SUCCESS: {
+      return {
+        ...state,
+        selected: null
+      }
     } 
     default:
       return state;

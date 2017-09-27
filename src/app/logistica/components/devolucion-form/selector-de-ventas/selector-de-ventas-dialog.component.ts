@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnDestroy, Inject, ChangeDetectionStrategy, O
 import { FormGroup, FormBuilder, AbstractControl, Validators } from '@angular/forms';
 
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
-import { TdDataTableService, TdDataTableSortingOrder, ITdDataTableSortChangeEvent, ITdDataTableColumn } from '@covalent/core';
+// import { TdDataTableService, TdDataTableSortingOrder, ITdDataTableSortChangeEvent, ITdDataTableColumn } from '@covalent/core';
 
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from "rxjs/Observable";
@@ -24,12 +24,7 @@ export class SelectorDeVentasDialogComponent implements OnInit {
   error: any;
   venta: Venta;
 
-  columns: ITdDataTableColumn[] = [
-    { name: 'producto.clave',  label: 'Clave', sortable: true, width: 50 },
-    { name: 'producto.descripcion',  label: 'Descripcion', sortable: true, width: 400 },
-    { name: 'cantidad',  label: 'Cantidad', sortable: true, width: 50 },
-  ];
-
+  
   selectedRows: any[] = [];
 
   constructor(
