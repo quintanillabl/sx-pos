@@ -53,10 +53,7 @@ export class DevolucionFormComponent implements OnInit {
     this.ventaDetSelected$ = this.form.get('partidas')
       .valueChanges
       .map( (value: Array<DevolucionDeVentaDet> )  => _.map(value, item => item.ventaDet) )
-    
-    this.ventaDetSelected$.subscribe(value => {
-      console.log('Value: ', value);
-    });
+   
   }
   
   onSubmit(){

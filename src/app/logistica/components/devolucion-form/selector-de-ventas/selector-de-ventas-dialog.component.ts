@@ -10,6 +10,7 @@ import { Observable } from "rxjs/Observable";
 import { DevolucionesService } from "app/logistica/services/devoluciones/devoluciones.service";
 import { Venta } from "app/models";
 import * as _ from 'lodash';
+import { VentaDet } from 'app/models/ventaDet';
 
 @Component({
   selector: 'sx-selector-de-ventas-dialog',
@@ -23,6 +24,8 @@ export class SelectorDeVentasDialogComponent implements OnInit {
   loading = false;
   error: any;
   venta: Venta;
+
+  @Input() partivasSelected: VentaDet[] = [];
 
   
   selectedRows: any[] = [];
