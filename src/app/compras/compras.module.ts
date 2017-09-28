@@ -28,6 +28,7 @@ import {
   RecepcionesPageComponent,
   OrdenesShowComponent,
 } from './_pages';
+import { OrdenFormComponent } from './_components/orden-form/orden-form.component';
 
 
 
@@ -66,7 +67,8 @@ const COMPONENTS  = [
     ...PAGES,
     RecepcionesPendientesComponent,
     RecepcionesRegistradasComponent,
-    DevolucionesComponent],
+    DevolucionesComponent,
+    OrdenFormComponent],
   // Services
   providers: [OrdenesService]
 })

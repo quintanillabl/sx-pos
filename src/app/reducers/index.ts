@@ -18,6 +18,7 @@ import { environment } from '../../environments/environment';
 import { RouterStateUrl } from './router.state';
 import * as fromLayout from '../core/store/layout/layout.reducer';
 import * as fromModulos from '../_modulos/reducers/modulos.reducers';
+import * as fromConfig from 'app/core/store/config/config.reducer';
 
 
 
@@ -28,6 +29,7 @@ import * as fromModulos from '../_modulos/reducers/modulos.reducers';
  */
 export interface State {
   layout: fromLayout.State;
+  config: fromConfig.State;
   routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
   modulos: fromModulos.State;
 }
@@ -39,6 +41,7 @@ export interface State {
  */
 export const reducers: ActionReducerMap<State> = {
   layout: fromLayout.reducer,
+  config: fromConfig.reducer,
   routerReducer: fromRouter.routerReducer,
   modulos: fromModulos.reducer,
 };
@@ -78,4 +81,10 @@ export const getModulos = createSelector(
 export const getCurrentModulo = createSelector(
   getModulosState,
   fromModulos.getCurrentModulo
+);
+
+export const getConfigState = createFeatureSelector<fromConfig.State>('config');
+export const getSucursal = createSelector(
+  getConfigState,
+  fromConfig.getSucursal
 );

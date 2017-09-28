@@ -100,7 +100,7 @@
 </td-layout-nav> -->
 
 <sx-nav-layout header="Ordenes de compra" modulo="Compras" >
-  <div class="page-document">
-    <router-outlet></router-outlet>
+  <div layout>
+    <sx-orden-form flex="80" [sucursal]="sucursal$ | async"></sx-orden-form>
   </div>
 </sx-nav-layout>
