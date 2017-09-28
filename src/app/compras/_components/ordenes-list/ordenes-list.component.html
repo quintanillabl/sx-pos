@@ -1,11 +1,8 @@
 <md-list dense>
   <ng-template let-compra let-last="last" ngFor [ngForOf]="compras">
     <md-list-item>
-      <a md-mini-fab  md-list-avatar [routerLink]="['show', compra.id]"
-        mdTooltip="Inspeccionar compra"
-        class="bgc-deep-orange-A400" >
-        <span>{{compra.folio}}</span>
-      </a>
+      <md-icon md-list-avatar>apps</md-icon>
+      
 
       <h3 md-line>{{compra.proveedor}}</h3>
 

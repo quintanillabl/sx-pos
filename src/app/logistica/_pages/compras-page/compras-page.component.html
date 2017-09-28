@@ -29,12 +29,9 @@
     </md-card-content>
   </md-card>
     
-  <div flex-gt-sm="50" *ngIf=" selected !== undefined" class="will-load">
-    <!-- <sx-producto-view [producto]="selected" >
-    </sx-producto-view> -->
-  </div>
+  
       
+  <a md-fab color="accent" class="mat-fab-bottom-right" [routerLink]="['../create']">
+    <md-icon>add</md-icon>
+  </a>
 </div>
-<a md-fab color="accent" class="mat-fab-bottom-right" [routerLink]="['../trslados/create']">
-  <md-icon>add</md-icon>
-</a>

@@ -8,7 +8,7 @@ import * as _ from 'lodash';
   selector: 'sx-devolucion-partidas',
   templateUrl: 'devolucion-partidas.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: [' .partidas-grid-container { height: 350px;}']
+  styles: [' .partidas-grid-container { height: 300px;}']
 })
 export class DevolucionPartidasComponent implements OnInit {
 
@@ -19,15 +19,7 @@ export class DevolucionPartidasComponent implements OnInit {
   @Output() edit = new EventEmitter<any>();
   @Output() remove = new EventEmitter<number>();
 
-  /*
-  columns: ITdDataTableColumn[] = [
-    { name: 'producto.clave', label: 'Producto', tooltip: 'Clave del producto', sortable: true },
-    { name: 'producto.descripcion', label: 'Descripción', width: 350 },
-    { name: 'ventaDet.cantidad', label: 'Vendido', numeric: true,  width: { min: 50, max: 100 }},
-    { name: 'ventaDet.devuelto', label: 'Por devolver', numeric: true,  width: { min: 50, max: 100 }},
-    { name: 'cantidad', label: 'Por devolver', numeric: true,  width: { min: 50, max: 100 }},
-  ];
-  */
+  
 
   constructor(
     private _dialogService: TdDialogService,
@@ -46,12 +38,15 @@ export class DevolucionPartidasComponent implements OnInit {
   editar(index, row) {
     //this.edit.emit(row);
     this._dialogService.openPrompt({
-      message: 'Registre la cantidad a devolver? ',
+      message: `Registre la cantidad a devolver (max: ${row.cantidad}) `,
       value: row.cantidad,
     }).afterClosed().subscribe((value: any) => {
       
       if (value !== undefined ) {
-        const cantidad = _.toSafeInteger(value);
+        let cantidad = _.toSafeInteger(value);
+        if(cantidad > row.cantidad || cantidad <= 0){
+          cantidad = row.cantidad;
+        }
         const e = { row: index, cantidad: cantidad};
         this.edit.emit(e);
       }

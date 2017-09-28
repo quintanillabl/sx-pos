@@ -9,7 +9,7 @@
           <span flex></span> 
           <span>Venta: {{trs.venta.tipo}} - {{trs.venta.documento}} ({{trs.venta.fecha | date: 'dd/MM/yyyy'}})</span>
           <span flex></span> 
-          <span> ( {{trs.sucursal.nombre}})</span>
+          
         </span>
       </md-card-title>
       <md-card-subtitle>
@@ -27,7 +27,7 @@
       <md-divider></md-divider>
       <md-card-actions>
         <a md-button [routerLink]="['/logistica/inventarios/devoluciones']" ><md-icon>keyboard_backspace</md-icon> Regresar </a>
-        <button md-icon-button mdTooltip="Imprimir documento"><md-icon>print</md-icon></button>
+        <button md-icon-button (click)="print()" mdTooltip="Imprimir documento"><md-icon>print</md-icon></button>
         <button md-button color="accent" *ngIf="trs.fechaInventario === undefined"
           mdTooltip="Mandar al inventario" (click)="inventariar(trs)">  
         <md-icon >send</md-icon> Registrar</button>

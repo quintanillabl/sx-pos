@@ -15,7 +15,7 @@ import { DevolucionesService } from "app/logistica/services/devoluciones/devoluc
       <sx-devolucion-form flex="80" [sucursal]="sucursal$ | async" (save)="onSave($event)"></sx-devolucion-form>
     </div>
   `,
-  styles: ['div { height: 90vh; }']
+  styles: ['']
 })
 export class DevolucionCreatePageComponent implements OnInit {
 

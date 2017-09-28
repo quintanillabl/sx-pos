@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import { Store } from '@ngrx/store';
 import { Router } from "@angular/router";
+import { TdDialogService } from '@covalent/core';
 
 import * as fromLogistica from 'app/logistica/store/reducers';
 import { DeleteAction } from 'app/logistica/store/actions/devoluciones.actions';
@@ -20,7 +21,9 @@ export class DevolucionesShowPageComponent implements OnInit {
 
   constructor(
     private store: Store<fromLogistica.LogisticaState>,
-    private router: Router
+    private router: Router,
+    private _dialogService: TdDialogService,
+    private _viewContainerRef: ViewContainerRef
   ) { }
 
   ngOnInit() {
@@ -33,12 +36,39 @@ export class DevolucionesShowPageComponent implements OnInit {
   }
 
   inventariar(dev: DevolucionDeVenta){
-    console.log('Dispatch Mandar a inventario action....');
+    this._dialogService.openAlert({
+      message: 'Por cuestión de mantenimiento a la base de datos por el momento esta operación no está operando.',
+      viewContainerRef: this._viewContainerRef, //OPTIONAL
+      title: 'Inventariar', //OPTIONAL, hides if not provided
+      closeButton: 'Cancelar', //OPTIONAL, defaults to 'CLOSE'
+    });
   }
 
   onDelete(rmd: DevolucionDeVenta) {
-    this.store.dispatch(new DeleteAction(rmd.id));
-    this.router.navigate(['/logistica/inventarios/devoluciones']);
+    this._dialogService.openConfirm({
+      message: 'Eliminar este documento?',
+      viewContainerRef: this._viewContainerRef, //OPTIONAL
+      title: 'Confirm', //OPTIONAL, hides if not provided
+      cancelButton: 'Cancelar', //OPTIONAL, defaults to 'CANCEL'
+      acceptButton: 'Aceptar', //OPTIONAL, defaults to 'ACCEPT'
+    }).afterClosed().subscribe((accept: boolean) => {
+      if (accept) {
+        this.store.dispatch(new DeleteAction(rmd.id));
+        this.router.navigate(['/logistica/inventarios/devoluciones']);
+      } else {
+        
+      }
+    });
+  }
+
+  print() {
+    this._dialogService.openAlert({
+      message: 'La impresión de este documento está en desarrollo',
+      viewContainerRef: this._viewContainerRef, //OPTIONAL
+      title: 'Impresíon', //OPTIONAL, hides if not provided
+      closeButton: 'Cancelar', //OPTIONAL, defaults to 'CLOSE'
+    });
+
   }
 
 }

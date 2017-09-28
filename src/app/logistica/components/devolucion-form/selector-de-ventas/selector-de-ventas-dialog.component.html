@@ -11,6 +11,10 @@
   
   <form novalidate (ngSubmit)="buscarVenta()" [formGroup]="form" *ngIf="!venta">
     <div layout>
+      <md-form-field >
+        <input type="text" mdInput placeholder="Documento" formControlName="documento">
+        <md-error>El documento requerido</md-error>
+      </md-form-field>
       <div >
         <md-select placeholder="Tipo" formControlName="tipo" >
           <md-option *ngFor="let tipo of ['CRE','CON','COD']" 
@@ -18,10 +22,7 @@
           </md-option>
         </md-select>
       </div>
-      <md-form-field >
-        <input type="text" mdInput placeholder="Documento" formControlName="documento">
-        <md-error>El documento requerido</md-error>
-      </md-form-field>
+      
       <md-form-field >
         <input type="text" mdInput placeholder="Sucursal" [value]="sucursal.nombre" disabled="true">
       </md-form-field>

@@ -17,7 +17,7 @@ const routes: Routes = [
           { path: '', redirectTo: 'movimientos', pathMatch: 'full'},
           { path: 'movimientos', component: pages.MovimientosPageComponent},
           { path: 'movimientos/create', component: pages.MovimientosCreateComponent},
-          { path: 'compras', component: pages.ComprasPageComponent},
+          
           { path: 'traslados', component: pages.TrasladosPageComponent},
           { path: 'existencias', component: pages.ExistenciasPageComponent},
           { path: 'transformaciones', component: pages.TransformacionesPageComponent},
@@ -28,7 +28,8 @@ const routes: Routes = [
           { path: 'devoluciones', component: pages.DevolucionesVentaPageComponent},
           { path: 'devoluciones/create', component: pages.DevolucionCreatePageComponent},
           { path: 'devoluciones/show/:id', component: pages.DevolucionesShowPageComponent},
-          
+          // Devoluciones de compras
+          { path: 'decs', component: pages.DecsPageComponent},
         ]
       },
     ]

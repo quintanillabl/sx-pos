@@ -5,6 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 // ngrx
 import { reducers } from './store/reducers';
 import { DevolucionesEffects } from './store/effects/devoluciones.effects';
+import { DecsEffects } from './store/effects/decs.effects';
 
 import { SharedModule } from 'app/shared/shared.module';
 import { LogisticaRoutingModule } from './logistica-routing.module';
@@ -16,6 +17,7 @@ import * as pages from './_pages';
 import { MovimientosService } from './services/movimientos/movimientos.service';
 import { TransformacionesService } from './services/transformaciones/transformaciones.service';
 import { DevolucionesService } from './services/devoluciones/devoluciones.service';
+import { DecsService } from './services/decs/decs.service';
 
 
 const PAGES =  [
@@ -34,6 +36,7 @@ const PAGES =  [
   pages.DevolucionesVentaPageComponent,
   pages.DevolucionesShowPageComponent,
   pages.DevolucionCreatePageComponent,
+  pages.DecsPageComponent,
 ];
 const COMPONENTS = [
   components.MovimientosListComponent,
@@ -65,13 +68,16 @@ const COMPONENTS = [
     /**
      * Side Effects for the module
      */
-    EffectsModule.forFeature([DevolucionesEffects])
+    EffectsModule.forFeature([DevolucionesEffects, DecsEffects])
   ],
   declarations: [
     ...PAGES,
     ...COMPONENTS
   ],
   entryComponents: [components.TransformaciondetDialogComponent, components.SelectorDeVentasDialogComponent],
-  providers: [MovimientosService, TransformacionesService, DevolucionesService]
+  providers: [MovimientosService, TransformacionesService,
+    DevolucionesService,
+    DecsService
+  ]
 })
 export class LogisticaModule { }

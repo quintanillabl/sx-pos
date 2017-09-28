@@ -125,6 +125,7 @@ export class DevolucionFormComponent implements OnInit {
   editarPartida($event) {
     console.log('Editando: ', $event);
     const {row, cantidad} = $event;
+    
     this.partidas.controls[row].patchValue({cantidad: cantidad});
   }
 

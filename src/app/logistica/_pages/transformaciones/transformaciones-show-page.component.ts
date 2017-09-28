@@ -16,7 +16,7 @@ const NUMBER_FORMAT: (v: any) => any = (v: number) => v;
     <div layout layout-align="center">
       
       <ng-container *ngIf="transformacion$ | async; let trs">
-        <md-card class="will-load" flex="80">
+        <md-card class="will-load" flex="90">
           
             <md-card-title>
               <span layout >
@@ -42,7 +42,7 @@ const NUMBER_FORMAT: (v: any) => any = (v: number) => v;
           </md-card-content>
           <md-card-actions>
             <a md-button [routerLink]="['../../']" ><md-icon>keyboard_backspace</md-icon> Regresar </a>
-            <button md-icon-button mdTooltip="Imprimir documento"><md-icon>print</md-icon></button>
+            <button md-icon-button mdTooltip="Imprimir documento" (click)="print()"><md-icon>print</md-icon></button>
             <button md-button color="accent" *ngIf="trs.fechaInventario === undefined"
               mdTooltip="Mandar al inventario" (click)="onInventariar(trs)">  
             <md-icon >send</md-icon> Registrar</button>
@@ -65,7 +65,7 @@ export class TransformacionesShowPageComponent implements OnInit {
     { name: 'cantidad', label: 'Cantidad', numeric: true, format: DECIMAL_FORMAT},
     { name: 'cortes', label: 'Cortes', numeric: true, format: NUMBER_FORMAT},
     { name: 'cortesInstruccion', label: 'Instrucción'},
-    { name: 'comentario', label: 'Comentario', width: { min: 300, max: 450 }},
+    { name: 'comentario', label: 'Comentario', width: { min: 50, max: 300 }},
   ];
 
   constructor(
@@ -102,6 +102,16 @@ export class TransformacionesShowPageComponent implements OnInit {
         
       }
     });
+  }
+
+  print() {
+    this._dialogService.openAlert({
+      message: 'La impresión de este documento está en desarrollo',
+      viewContainerRef: this._viewContainerRef, //OPTIONAL
+      title: 'Impresíon', //OPTIONAL, hides if not provided
+      closeButton: 'Cancelar', //OPTIONAL, defaults to 'CLOSE'
+    });
+
   }
 
   doDelete(trs: Transformacion) {

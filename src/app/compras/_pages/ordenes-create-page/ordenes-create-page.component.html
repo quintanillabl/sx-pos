@@ -1,4 +1,4 @@
-<td-layout-nav logo="assets:siipap-rx2"  navigationRoute="/" toolbarTitle="SX-POS">
+<!-- <td-layout-nav logo="assets:siipap-rx2"  navigationRoute="/" toolbarTitle="SX-POS">
   
   <button md-icon-button td-menu-button  tdLayoutToggle> 
     <md-icon>menu</md-icon>
@@ -97,6 +97,10 @@
   <div flex-gt-sm>
     {{form.value | json}}
   </div>
-</td-layout-nav>
+</td-layout-nav> -->
 
-
+<sx-nav-layout header="Ordenes de compra" modulo="Compras" >
+  <div class="page-document">
+    <router-outlet></router-outlet>
+  </div>
+</sx-nav-layout>

@@ -15,3 +15,6 @@ export { TransformacionesShowPageComponent } from './transformaciones/transforma
 export { DevolucionesVentaPageComponent } from './devoluciones/devoluciones-page.component';
 export { DevolucionesShowPageComponent } from './devoluciones/show/devoluciones-show-page.component';
 export { DevolucionCreatePageComponent } from './devoluciones/create/devolucion-create-page.component';
+
+// Devoluciones de compras
+export { DecsPageComponent } from './decs/decs-page.component'
