@@ -16,7 +16,7 @@ import { Sucursal } from 'app/models';
 })
 export class OrdenesCreatePageComponent implements OnInit {
 
-  private sucursal$: Observable<Sucursal>
+  sucursal$: Observable<Sucursal>
   
   constructor(
     private store: Store<fromRoot.State>,

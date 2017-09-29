@@ -1,0 +1,38 @@
+<form novalidate [formGroup]="form" (ngSubmit)="doAccept()" class="det-form">
+
+  <h4 md-dialog-title>
+    Agregando producto {{proveedor.nombre}}
+  </h4>
+  
+  <div layout>
+    <!-- <md-form-field  flex>
+      <input type="text" mdInput 
+         placeholder="Producto" #inputField [mdAutocomplete]="auto">
+      <md-error>
+        Seleccione un producto
+      </md-error>
+    </md-form-field>
+    
+    <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn" >
+      <md-option *ngFor="let producto of productos  " [value]="producto" 
+        [ngClass]="{'tc-red-800': !producto.producto.activo}">
+        ({{producto.producto.clave}}) {{producto.producto.descripcion}}
+      </md-option>
+    </md-autocomplete> -->
+    <!-- <sx-producto-field formControlName="producto" flex></sx-producto-field> -->
+    <sx-producto-prov-field 
+      [proveedor]="proveedor"
+       flex></sx-producto-prov-field>
+  </div>
+  
+  <div layout>
+    <md-form-field>
+      <input type="text" mdInput placeholder="Cantidad" formControlName="cantidad">
+    </md-form-field>
+  </div>
+
+  <md-dialog-actions>
+    <button md-button class="accent" type="button" >Aceptar</button>
+    <button md-button type="button" (click)="close()" >Cancelar</button>
+  </md-dialog-actions>
+</form>

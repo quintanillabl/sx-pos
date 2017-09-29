@@ -1,5 +1,6 @@
 import { Sucursal } from "./sucursal";
 import { Proveedor } from "./proveedor";
+import { CompraDet } from "./compraDet";
 
 export interface Compra {
   id: string
@@ -19,7 +20,7 @@ export interface Compra {
   importeNeto: number
   impuestos: number
   total: number
-  partidas: Array<any>
+  partidas: Array<CompraDet>
   tipoDeCambio: number
   modificado: string
 }
