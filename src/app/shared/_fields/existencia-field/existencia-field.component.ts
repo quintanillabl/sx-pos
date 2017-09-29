@@ -32,7 +32,7 @@ export const EXISTENCIA_LOOKUPFIELD_VALUE_ACCESSOR: any = {
 
   <md-autocomplete #auto="mdAutocomplete" [displayWith]="displayFn" >
     <md-option *ngFor="let existencia of existencias$ | async " [value]="existencia" 
-      [ngClass]="{'tc-red-800': !existencia.cantidad > 0}">
+      [ngClass]="{'tc-red-800': !(existencia.cantidad > 0)}">
       ({{existencia.producto.clave}}) {{existencia.producto.descripcion}} 
       <span >(Exis: {{existencia.cantidad}})</span>
       <span *ngIf="!existencia.producto.activo">(Suspendido)</span> 
