@@ -8,6 +8,7 @@ import { SharedModule } from "../shared/shared.module";
 //ngrx stuff 
 import { reducers } from './store/reducers';
 import { OrdenesEffects } from './store/effects/ordenes.effects';
+import { CompraFormEffects } from './store/effects/compra-form.effects';
 
 //Services
 import { OrdenesService } from "./services/ordenes.service";
@@ -54,7 +55,7 @@ const COMPONENTS  = [
     /**
      * Side Effects for the module
      */
-    EffectsModule.forFeature([OrdenesEffects])
+    EffectsModule.forFeature([OrdenesEffects, CompraFormEffects])
   ],
   declarations: [
     ...COMPONENTS,

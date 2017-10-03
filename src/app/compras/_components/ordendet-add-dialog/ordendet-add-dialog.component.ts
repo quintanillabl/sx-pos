@@ -14,9 +14,7 @@ export class OrdendetAddDialogComponent implements OnInit {
   
   proveedor: Proveedor;
 
-  productos = [];
-
-  
+  selected: Array<string>;
 
   constructor(
     public dialogRef: MdDialogRef<OrdendetAddDialogComponent>,
@@ -24,14 +22,15 @@ export class OrdendetAddDialogComponent implements OnInit {
     private fb: FormBuilder,
   ) { 
     this.proveedor = data.proveedor;
-    this.productos = data.productos;
+    this.selected = data.selected;
     
   }
 
   ngOnInit() {
     this.form = this.fb.group({
       producto: ['', Validators.required],
-      cantidad: [0, [Validators.min(1),Validators.required]]
+      solicitado: [0, [Validators.min(1),Validators.required]],
+      comentario: ['', Validators.maxLength(100)]
     })
   }
 

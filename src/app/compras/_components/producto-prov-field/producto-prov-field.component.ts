@@ -1,9 +1,10 @@
-import {Component, Input, OnInit, OnDestroy, 
+import {Component, Input, OnInit, OnDestroy, OnChanges,
   forwardRef, ChangeDetectionStrategy, ViewChild, ElementRef} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+
 import * as _ from 'lodash';
 
 import { Proveedor } from 'app/models';
@@ -20,10 +21,10 @@ export const PRODUCTO_PROV_LOOKUPFIELD_VALUE_ACCESSOR: any = {
   providers: [PRODUCTO_PROV_LOOKUPFIELD_VALUE_ACCESSOR],
   templateUrl: './producto-prov-field.component.html',
   styleUrls: ['./producto-prov-field.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  //changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductoProvFieldComponent implements OnInit, ControlValueAccessor, OnDestroy {
-
+export class ProductoProvFieldComponent implements OnInit, ControlValueAccessor, OnDestroy, OnChanges {
+  
   readonly apiUrl = environment.apiUrl + '/proveedores';
 
   searchControl = new FormControl();
@@ -36,8 +37,10 @@ export class ProductoProvFieldComponent implements OnInit, ControlValueAccessor,
 
   @Input() placeholder = "Seleccione un producto";
 
-  productos$: Observable<Array<any>>;
+  @Input() excludes: Array<string> = [];
 
+  productos$: Observable<Array<any>>;
+  
   onChange;
   onTouch;
   subscription: Subscription;
@@ -50,8 +53,16 @@ export class ProductoProvFieldComponent implements OnInit, ControlValueAccessor,
     this.productos$ = this.searchControl
       .valueChanges
       .startWith(null)
-      .switchMap( term => this.lookupProductos(term));
-
+      .switchMap( term => this.lookupProductos(term))
+      .map(prods => {
+        const filtrados = _.differenceWith(prods, this.excludes, (val1, val2) => {
+          return val1.producto.clave === val2;
+        });
+        // console.log('Filtrando con excludes', filtrados);
+        return filtrados
+      })
+      // .do( prods => console.log('ProvProds localizados: ', prods))
+      ;
     this.prepareControl();
   }
   
@@ -73,7 +84,12 @@ export class ProductoProvFieldComponent implements OnInit, ControlValueAccessor,
     this.subscription.unsubscribe();
   }
 
+  ngOnChanges(changes): void {
+    // console.log('Chanes detected: ', changes);
+  }
+
   lookupProductos(term: string): Observable<Array<any>> {
+    if(this.proveedor == null) return Observable.of([]);
     let params = new HttpParams()
       .set('term', term);
     if (this.activos === true) {

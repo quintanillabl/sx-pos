@@ -20,9 +20,10 @@
       <sx-comentario-field flex [parent]="form" rows="1" ></sx-comentario-field>
       
     </div>
+    
 
-    <div class="ocompra-partidas-list">
-      <sx-orden-partidas-list 
+    <div class="ocompra-partidas-list" layout>
+      <sx-orden-partidas-list flex
         [parent]="form" 
         [partidas]="partidas.value"
         (delete)="onDelete($event)"
@@ -45,5 +46,5 @@
 </form>
 
 <pre>
-  {{form.value | json}}
+  {{selected | json}}
 </pre>

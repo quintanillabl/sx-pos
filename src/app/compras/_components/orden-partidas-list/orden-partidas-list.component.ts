@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { TdDialogService } from '@covalent/core';
+import * as _ from 'lodash'; 
 
 import { CompraDet } from 'app/models/compraDet';
 
@@ -17,10 +19,12 @@ export class OrdenPartidasListComponent implements OnInit {
 
   @Output() delete = new EventEmitter<number>();
 
-  @Output() edit = new EventEmitter<number>();
+  @Output() edit = new EventEmitter<any>();
 
   
-  constructor() { }
+  constructor(
+    private _dialogService: TdDialogService,
+  ) { }
 
   ngOnInit() {
     
@@ -29,8 +33,28 @@ export class OrdenPartidasListComponent implements OnInit {
   onDelete(index){
     this.delete.emit(index);
   }
+
   onEdit(index) {
     this.edit.emit(index);
+  }
+
+  editar(index, row) {
+    //this.edit.emit(row);
+    this._dialogService.openPrompt({
+      message: `Registre la cantidad a solicitar `,
+      value: row.cantidad,
+    }).afterClosed().subscribe((value: any) => {
+      
+      if (value !== undefined ) {
+        let cantidad = _.toSafeInteger(value);
+        if(cantidad > row.cantidad || cantidad <= 0){
+          cantidad = row.cantidad;
+        }
+        const e = { row: index, cantidad: cantidad};
+        this.edit.emit(e);
+      }
+    });
+    
   }
 
 }

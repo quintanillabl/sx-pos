@@ -3,10 +3,16 @@ import { FormBuilder, FormGroup, FormControl, FormArray, Validators } from '@ang
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
+import * as _ from 'lodash';
 
-import { Compra, Sucursal } from 'app/models';
+import { Compra, CompraDet, Sucursal } from 'app/models';
 import { ProveedoresService } from 'app/compras/services/proveedores.service';
 import { OrdendetAddDialogComponent } from '../ordendet-add-dialog/ordendet-add-dialog.component';
+
+//ngrx
+import { Store } from '@ngrx/store';
+import * as fromCompras from 'app/compras/store/reducers';
+import { SelectProveedorAction } from 'app/compras/store/actions/ocompra-form.actions';
 
 
 @Component({
@@ -16,7 +22,6 @@ import { OrdendetAddDialogComponent } from '../ordendet-add-dialog/ordendet-add-
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrdenFormComponent implements OnInit, OnDestroy {
-  
 
   form: FormGroup;
 
@@ -26,22 +31,20 @@ export class OrdenFormComponent implements OnInit, OnDestroy {
 
   @Input() fecha = new Date();
 
-  disponibles$: Observable<any>;
-
-  productosPorProveedor = [];
-
   subscription1: Subscription;
+
+  selected: Array<string> = [];
 
   constructor(
     private fb: FormBuilder,
     private service: ProveedoresService,
     public dialog: MdDialog,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private store: Store<fromCompras.ComprasState>
   ) { }
 
   ngOnInit() {
     this.buildForm();
-    this.buildDisponibles();
   }
 
   ngOnDestroy(): void {
@@ -58,61 +61,54 @@ export class OrdenFormComponent implements OnInit, OnDestroy {
       partidas: this.fb.array([]),
       comentario: ['', Validators.maxLength(100)]
     });
-  }
 
-  buildDisponibles(){
-    this.disponibles$ = this.form.get('proveedor').valueChanges
-    .switchMap(proveedor => {
-      if(proveedor === null) return Observable.of([]);
-      return this.service.getProductos(proveedor)
-    }).catch(err => {
-      console.log('Error accesando productos del proveedor...');
-      return Observable.of(err);
-    });
-
-    this.subscription1 = this.disponibles$.subscribe(prods => {
-      console.log('Disponibles: ', prods);
-      this.productosPorProveedor = prods;
-    })
+    this.subscription1 = this.form.get('partidas')
+      .valueChanges
+      .map( value => _.map(value, 'producto.clave'))
+      .subscribe( (value: any) => {
+        this.selected = value;
+        // console.log('Selected: ', this.selected);
+      });
     
+    // this.selected$.subscribe( selected => console.log('Selected: ', selected));
   }
+  
 
   get partidas() {
     return this.form.get('partidas') as FormArray;
   }
-
-  get productosDisponibles(){
-    return this.productosPorProveedor;
-  }
-
   
   insertar() {
     let dialogRef = this.dialog.open(OrdendetAddDialogComponent, {
       data: {
         proveedor: this.proveedor,
-        productos: this.productosDisponibles
+        selected: this.selected
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        console.log('Agregando partida....', result);
-        // this.insertarCompraDet(element);
-        this.cd.markForCheck();
+        const compraDet = {
+          ...result,
+          producto: result.producto.producto
+        };
+        this.agregarCompraDet(compraDet);
+        
       }
     });
   }
 
-  agregarCompraDet(producto, cantidad) {
-
+  agregarCompraDet(det: CompraDet) {
+    this.partidas.push(new FormControl(det));
+    this.cd.markForCheck();
   }
 
   onEdit(index: number) {
-
+    
   }
 
   onDelete(index: number) {
-
+    this.partidas.removeAt(index);
   }
 
   onSubmit() {

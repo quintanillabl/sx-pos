@@ -1,7 +1,7 @@
 import { Producto } from "@siipapx/models";
 
 export interface CompraDet {
-  id: string;
+  id?: string;
   producto: Producto;
   solicitado: number;
   comentario?: string;  

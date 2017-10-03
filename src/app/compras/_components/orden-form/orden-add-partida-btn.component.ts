@@ -28,7 +28,6 @@ export class OrdenAddPartidaBtnComponent implements OnInit {
   ngOnInit() { 
     this.disabled$ = this.parent.get('proveedor')
       .valueChanges
-      .do(value => console.log('Proveedor changed: ', value))
       .startWith(null)
       .map( value => value===null)
   }

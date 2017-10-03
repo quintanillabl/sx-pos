@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 
-import { Compra } from '../../models/compra';
-import { environment} from '../../../environments/environment';
+import { Compra, Proveedor } from 'app/models';
+import { environment} from 'environments/environment';
 
 @Injectable()
 export class OrdenesService {
@@ -41,6 +41,13 @@ export class OrdenesService {
   save(compra: Compra) {
     compra.folio = 0;
     return this.http.post(this.apiUrl, compra);
+  }
+
+  buscarProductos(proveedor: Proveedor){
+    let params = new HttpParams()
+      .set('activos','activos');
+    const url = `${environment.apiUrl}/proveedores/${proveedor.id}/productos`;
+    return this.http.get<Array<any>>(url, {params: params});
   }
 
 }
