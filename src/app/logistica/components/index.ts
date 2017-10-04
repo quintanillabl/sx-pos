@@ -3,6 +3,7 @@ export { MovimientoViewComponent } from './movimiento-view/movimiento-view.compo
 export { MovimientoFormComponent } from './movimiento-form/movimiento-form.component';
 export { MovimientoDetFormComponent } from './movimiento-form/movimiento-det-form/movimiento-det-form.component';
 export { MovimientoPartidasListComponent } from './movimiento-form/movimiento-partidas-list/movimiento-partidas-list.component';
+export { MovimientoDetGridComponent } from './movimientodet-grid/movimientodet-grid.component';
 export { TransformacionFormComponent } from './transformacion-form/transformacion-form.component';
 export { TransformacionDetFormComponent } from './transformacion-form/transformacion-det-form/transformacion-det-form.component';
 export { TransformacionPartidasListComponent } from './transformacion-form/transformacion-partidas-list/transformacion-partidas-list.component';

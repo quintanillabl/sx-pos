@@ -17,6 +17,7 @@ const routes: Routes = [
           { path: '', redirectTo: 'movimientos', pathMatch: 'full'},
           { path: 'movimientos', component: pages.MovimientosPageComponent},
           { path: 'movimientos/create', component: pages.MovimientosCreateComponent},
+          { path: 'movimientos/show/:id', component: pages.MovimientosShowComponent},
           
           { path: 'traslados', component: pages.TrasladosPageComponent},
           { path: 'existencias', component: pages.ExistenciasPageComponent},

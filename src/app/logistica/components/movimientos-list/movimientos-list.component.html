@@ -14,7 +14,7 @@
         <md-list-item [ngClass]="{active: isSelected(row)}" >
             <md-icon md-list-avatar>apps</md-icon>
             <h3 md-line> {{row.tipo}} - {{row.documento}}</h3>
-            <p md-line> {{row.comentario}} </p>
+            <p md-line> {{row.comentario}} <span *ngIf="row.porInventario"> INVENTARIO </span></p>
             <span flex></span>
             <span flex="60" layout-gt-xs="row">
                 <div class=" tc-grey-500" flex-gt-xs="50"> {{ row.fecha | date:'dd/MM/yyyy'}} </div>

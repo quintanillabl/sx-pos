@@ -2,8 +2,11 @@ export { MainPageComponent } from './_main-page/main-page.component';
 export { MainDashboardComponent } from './_main-dashboard/main-dashboard.component';
 export { InventariosPageComponent } from './inventarios-page/inventarios-page.component';
 export { TrasladosPageComponent } from './traslados-page/traslados-page.component';
+// Movimientos genericos de inventario
 export { MovimientosPageComponent } from './movimientos-page/movimientos-page.component';
 export { MovimientosCreateComponent } from './movimientos-create/movimientos-create.component';
+export { MovimientosShowComponent } from './movimientos-show/movimientos-show.component';
+
 export { ComprasPageComponent } from './compras-page/compras-page.component';
 export { ExistenciasPageComponent } from './existencias-page/existencias-page.component';
 export { TransformacionesPageComponent } from './transformaciones-page/transformaciones-page.component';

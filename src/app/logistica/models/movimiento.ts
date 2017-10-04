@@ -7,6 +7,8 @@ export interface Movimiento {
   documento: number,
   fecha: string,
   tipo: string,
+  porInventario: boolean,
+  fechaInventario?: string,
   comentario?: string,
   partidas?: Array<any>,
   dateCreated?: string,

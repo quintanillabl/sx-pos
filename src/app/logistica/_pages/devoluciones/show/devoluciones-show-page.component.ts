@@ -7,6 +7,7 @@ import { TdDialogService } from '@covalent/core';
 import * as fromLogistica from 'app/logistica/store/reducers';
 import { DeleteAction } from 'app/logistica/store/actions/devoluciones.actions';
 import { DevolucionDeVenta } from "app/logistica/models/devolucionDeVenta";
+import { DevolucionesService } from 'app/logistica/services/devoluciones/devoluciones.service';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class DevolucionesShowPageComponent implements OnInit {
     private store: Store<fromLogistica.LogisticaState>,
     private router: Router,
     private _dialogService: TdDialogService,
-    private _viewContainerRef: ViewContainerRef
+    private _viewContainerRef: ViewContainerRef,
+    private service: DevolucionesService
   ) { }
 
   ngOnInit() {
@@ -33,15 +35,6 @@ export class DevolucionesShowPageComponent implements OnInit {
     this.loading$ = this.store
       .select(fromLogistica.getDevolucionesLoading);
 
-  }
-
-  inventariar(dev: DevolucionDeVenta){
-    this._dialogService.openAlert({
-      message: 'Por cuestión de mantenimiento a la base de datos por el momento esta operación no está operando.',
-      viewContainerRef: this._viewContainerRef, //OPTIONAL
-      title: 'Inventariar', //OPTIONAL, hides if not provided
-      closeButton: 'Cancelar', //OPTIONAL, defaults to 'CLOSE'
-    });
   }
 
   onDelete(rmd: DevolucionDeVenta) {
@@ -69,6 +62,37 @@ export class DevolucionesShowPageComponent implements OnInit {
       closeButton: 'Cancelar', //OPTIONAL, defaults to 'CLOSE'
     });
 
+  }
+
+  inventariar(mov){
+    if(mov.fechaInventario) {
+      return
+    } else {
+      this._dialogService.openConfirm({
+        message: `Mandar al inventario  
+        devolución de venta: ${mov.documento}?`,
+        viewContainerRef: this._viewContainerRef, 
+        title: 'Inventariar (Operación irreversible)', 
+        cancelButton: 'Cancelar', 
+        acceptButton: 'Aceptar',
+      }).afterClosed().subscribe((accept: boolean) => {
+        if (accept) {
+          this.doInventariar(mov);
+        } 
+      });
+    }
+  }
+
+  doInventariar(mov) {
+    this.service
+    .inventariar(mov)
+    .catch( error => {
+      console.log('Http error', error);
+      return Observable.of({description: "Error al generar el movimiento de inventario"});
+    }).subscribe( val => {
+      console.log('Generacion de inventario: ', val);
+      this.router.navigate(['/logistica/inventarios/devoluciones']);
+    });
   }
 
 }

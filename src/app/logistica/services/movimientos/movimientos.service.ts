@@ -32,4 +32,22 @@ export class MovimientosService {
     return this.http.put(this.apiUrl+'/'+movimiento.id, movimiento);
   }
 
+  get(id: string): Observable<Movimiento> {
+    let url = `${this.apiUrl}/${id}`;
+    return this.http.get<Movimiento>(url)
+    .shareReplay();
+  }
+
+  delete(id: string) {
+    return this.http.delete(this.apiUrl+'/'+id);
+  }
+
+  inventariar(mov: Movimiento) {
+    const url = `${this.apiUrl}/${mov.id}`;
+    return this.http.put(url, mov, {
+      params: new HttpParams().set('inventariar','inventariar')
+    });
+  }
+
+
 }

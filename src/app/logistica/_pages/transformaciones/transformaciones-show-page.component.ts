@@ -16,7 +16,7 @@ const NUMBER_FORMAT: (v: any) => any = (v: number) => v;
     <div layout layout-align="center">
       
       <ng-container *ngIf="transformacion$ | async; let trs">
-        <md-card class="will-load" flex="90">
+        <md-card class="will-load" flex>
           
             <md-card-title>
               <span layout >
@@ -28,25 +28,27 @@ const NUMBER_FORMAT: (v: any) => any = (v: number) => v;
             </md-card-title>
             <md-card-subtitle>
               <span layout >
-                <span>{{trs.comentario}}</span>
+                <span>{{trs.comentario}} </span>
+                <span *ngIf="trs.fechaInventario" class="tc-pink-600"> INVENTRIADO </span>
                 <span flex></span> 
-                <span>Usuario: {{trs.createUser}}</span>
+                <span>Creado: {{trs.updateUser}}</span>
+                <span>/ Modificado: {{trs.updateUser}}</span>
               </span>
               
             </md-card-subtitle>
           
           <md-divider></md-divider>
-          <md-card-content>
-            <td-data-table [data]="trs.partidas" [columns]="columns">
-            </td-data-table>
-          </md-card-content>
+          <td-data-table [data]="trs.partidas" [columns]="columns">
+          </td-data-table>
           <md-card-actions>
             <a md-button [routerLink]="['../../']" ><md-icon>keyboard_backspace</md-icon> Regresar </a>
             <button md-icon-button mdTooltip="Imprimir documento" (click)="print()"><md-icon>print</md-icon></button>
             <button md-button color="accent" *ngIf="trs.fechaInventario === undefined"
-              mdTooltip="Mandar al inventario" (click)="onInventariar(trs)">  
-            <md-icon >send</md-icon> Registrar</button>
-            <button md-button color="warn" mdTooltip="Eliminar documento" (click)="onDelete(trs)" >  <md-icon >delete</md-icon> Eliminar</button>
+              mdTooltip="Mandar al inventario" (click)="inventariar(trs)">  
+            <md-icon >send</md-icon> Mandar al inventario</button>
+            <button md-button color="warn" 
+              *ngIf="trs.fechaInventario == null"
+              mdTooltip="Eliminar documento" (click)="onDelete(trs)" >  <md-icon >delete</md-icon> Eliminar</button>
           </md-card-actions>
         </md-card>
       </ng-container>
@@ -61,11 +63,11 @@ export class TransformacionesShowPageComponent implements OnInit {
 
   columns: ITdDataTableColumn[] = [
     { name: 'producto.clave',  label: 'Producto', width: 50 },
-    { name: 'producto.descripcion', label: 'Descripcion', width: { min: 300, max: 450 }},
+    { name: 'producto.descripcion', label: 'Descripcion', width:300},
     { name: 'cantidad', label: 'Cantidad', numeric: true, format: DECIMAL_FORMAT},
     { name: 'cortes', label: 'Cortes', numeric: true, format: NUMBER_FORMAT},
     { name: 'cortesInstruccion', label: 'Instrucción'},
-    { name: 'comentario', label: 'Comentario', width: { min: 50, max: 300 }},
+    { name: 'comentario', label: 'Comentario', width: 350},
   ];
 
   constructor(
@@ -125,9 +127,25 @@ export class TransformacionesShowPageComponent implements OnInit {
     });
   }
 
-  onInventariar(trs: Transformacion){
-    this.doInventariar(trs);
+  inventariar(mov){
+    if(mov.fechaInventario) {
+      return
+    } else {
+      this._dialogService.openConfirm({
+        message: `Mandar a inventario  registros del 
+        documento: ${mov.tipo}-${mov.documento}?`,
+        viewContainerRef: this._viewContainerRef, 
+        title: 'Inventariar (Operación irreversible)', 
+        cancelButton: 'Cancelar', 
+        acceptButton: 'Aceptar',
+      }).afterClosed().subscribe((accept: boolean) => {
+        if (accept) {
+          this.doInventariar(mov);
+        } 
+      });
+    }
   }
+  
 
   doInventariar(trs: Transformacion) {
     this.service

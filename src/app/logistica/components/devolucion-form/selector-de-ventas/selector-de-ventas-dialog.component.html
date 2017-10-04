@@ -36,8 +36,13 @@
   </div>
 
   <ng-container *ngIf="venta"> 
+    <!--
+      <td-json-formatter [data]="venta.partidas" [levelsOpen]="1">
+        </td-json-formatter>
+      -->
     <sx-rmd-ventadet-grid [data]="disponibles" [selectedRows]="selectedRows">
     </sx-rmd-ventadet-grid>
+    
   </ng-container>
   
 </div>

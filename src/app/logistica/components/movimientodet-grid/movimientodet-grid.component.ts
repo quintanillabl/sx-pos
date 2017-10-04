@@ -6,22 +6,21 @@ const NUMBER_FORMAT: (v: any) => any = (v: number) => v;
 
 
 @Component({
-  selector: 'sx-devoluciondet-grid',
+  selector: 'sx-movimientodet-grid',
   template: `
-    
-    <td-data-table 
+    <td-data-table dense
       [data]="partidas" 
       [columns]="columns">
     </td-data-table>
   `
 })
-export class DevolucionDetGridComponent implements OnInit {
+export class MovimientoDetGridComponent implements OnInit {
 
   columns: ITdDataTableColumn[] = [
     { name: 'producto.clave',  label: 'Producto', width: 50 },
-    { name: 'producto.descripcion', label: 'Descripcion', width: { min: 300, max: 400 }},
-    { name: 'cantidad', label: 'Cantidad', numeric: true, format: DECIMAL_FORMAT},
-    { name: 'comentario', label: 'Comentario', width: { min: 200, max: 450 }},
+    { name: 'producto.descripcion', label: 'Descripcion', width: 400},
+    { name: 'cantidad', label: 'Cantidad', numeric: true, width: 10},
+    { name: 'comentario', label: 'Comentario', width: 300},
   ];
 
   @Input() partidas = [];

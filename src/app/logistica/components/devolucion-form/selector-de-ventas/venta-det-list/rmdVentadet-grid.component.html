@@ -22,7 +22,7 @@
     [style.height.px]="300">
   </td-data-table>
   <div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">
-    <h3>No hay resultados.</h3>
+    <h3>Venta sin partidas disponibles para devolución.</h3>
   </div>
   <td-paging-bar #pagingBar [pageSize]="pageSize" [total]="filteredTotal" (change)="page($event)">
     <span hide-xs>Partidas por página:</span>
