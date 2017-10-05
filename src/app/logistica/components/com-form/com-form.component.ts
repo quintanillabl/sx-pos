@@ -8,8 +8,7 @@ import { Sucursal } from "app/models";
 import { RecepcionDeCompra } from "app/logistica/models/recepcionDeCompra";
 import { RecepcionDeCompraDet } from 'app/logistica/models/recepcionDeCompraDet';
 import { SelectorDeCompraDialogComponent } from "./selector-de-compra/selector-de-compra-dialog.component";
-import { Compra } from "app/models/Compra";
-import { CompraDet } from 'app/models/compraDet';
+import { Compra, CompraDet } from "app/models";
 
 @Component({
   selector: 'sx-com-form',
