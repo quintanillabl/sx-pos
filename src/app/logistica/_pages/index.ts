@@ -19,5 +19,12 @@ export { DevolucionesVentaPageComponent } from './devoluciones/devoluciones-page
 export { DevolucionesShowPageComponent } from './devoluciones/show/devoluciones-show-page.component';
 export { DevolucionCreatePageComponent } from './devoluciones/create/devolucion-create-page.component';
 
+// Recepcion dec compras
+export { ComsPageComponent } from './coms/coms-page.component';
+export { ComsShowPageComponent } from './coms/show/coms-show-page.component';
+export { ComCreatePageComponent } from './coms/create/com-create-page.component';
+
 // Devoluciones de compras
 export { DecsPageComponent } from './decs/decs-page.component'
+export { DecShowPageComponent } from './decs/show/dec-show-page.component';
+export { DecCreatePageComponent } from './decs/create/dec-create-page.component';

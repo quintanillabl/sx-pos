@@ -11,6 +11,21 @@ import { OrdenesService } from "app/compras/services/ordenes.service";
 
 @Injectable()
 export class OrdenesEffects {
+
+  @Effect()
+  navigateToOrdenes = this.actions$.ofType<RouterNavigationAction>(ROUTER_NAVIGATION)
+  .map(r => r.payload.routerState.url)
+  .delay(300)
+  .filter( r => r ==='/compras/ordenes' )
+  .do(route => console.log('Navegando a: ', route))
+  //.map( r => new Compras.SearchAction('0'))
+  
+  .switchMap( r => 
+    this.service.buscarPendientes('0')
+    .map(ordenes => new Compras.SearchCompleteAction(ordenes))
+    .catch(error => Observable.of(new Compras.SearchError(error))) 
+  );
+  
   
   /**
    * Side effect to make an async call to the backend api server to lookup orders

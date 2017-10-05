@@ -50,4 +50,8 @@ export class OrdenesService {
     return this.http.get<Array<any>>(url, {params: params});
   }
 
+  delete(id: string) {
+    return this.http.delete(this.apiUrl+'/'+id);
+  }
+
 }

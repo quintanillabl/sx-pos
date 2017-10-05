@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 
 import { environment } from 'environments/environment';
 import { DevolucionDeCompra } from 'app/logistica/models/devolucionDeCompra';
+import { RecepcionDeCompra } from 'app/logistica/models/recepcionDeCompra';
 
 
 @Injectable()
@@ -25,8 +26,11 @@ export class DecsService {
     return this.http.get<DevolucionDeCompra>(url)
   }
 
-  list(): Observable<DevolucionDeCompra[]> {
+  list(documento?: string ): Observable<DevolucionDeCompra[]> {
     let params = new HttpParams().set('sucursal',this.sucursal.id);
+    if(documento){
+      params =  params.set('documento', documento);
+    }
     return this.http.get<DevolucionDeCompra[]>(this.apiUrl, {params: params})
   }
   
@@ -49,13 +53,13 @@ export class DecsService {
     });
   }
 
-  buscarCompra( filtro: {sucursal: string; tipo: string, documento: string, fecha?: string} ){
+  buscarCom( filtro: {sucursal: string; tipo: string, documento: string, fecha?: string} ): Observable<RecepcionDeCompra>{
     let params = new HttpParams();
     _.forIn(filtro, (value, key) =>{
       params = params.set(key,value);
     });
-    const url = `${this.apiUrl}/buscarCompra`;
-    return this.http.get<any[]>(url, {params: params})
+    const url = `${this.apiUrl}/buscarCom`;
+    return this.http.get<RecepcionDeCompra>(url, {params: params})
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, AbstractControl, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
@@ -14,6 +14,10 @@ import { Store } from '@ngrx/store';
 import * as fromCompras from 'app/compras/store/reducers';
 import { SelectProveedorAction } from 'app/compras/store/actions/ocompra-form.actions';
 
+export const PartidasValidator = (control: AbstractControl): {[key: string]: boolean} => {
+  const partidas = (control.get('partidas') as FormArray).value;
+  return partidas.length ? null : { noPartidas: true };
+};
 
 @Component({
   selector: 'sx-orden-form',
@@ -60,6 +64,8 @@ export class OrdenFormComponent implements OnInit, OnDestroy {
       especial: [false],
       partidas: this.fb.array([]),
       comentario: ['', Validators.maxLength(100)]
+    },{
+      validator: PartidasValidator
     });
 
     this.subscription1 = this.form.get('partidas')
@@ -99,6 +105,8 @@ export class OrdenFormComponent implements OnInit, OnDestroy {
   }
 
   agregarCompraDet(det: CompraDet) {
+    det.sucursal = this.sucursal;
+    det.sw2 = 'SIIPAPX';
     this.partidas.push(new FormControl(det));
     this.cd.markForCheck();
   }

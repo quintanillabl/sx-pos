@@ -1,9 +1,6 @@
 import { Action } from '@ngrx/store';
 import { DevolucionDeCompra } from "app/logistica/models/devolucionDeCompra";
 
-export const LOAD = '[Decs] Load';
-export const LOAD_SUCCESS = '[Decs] Load Success';
-
 export const SEARCH = '[Decs] Search';
 export const SEARCH_SUCCESS = '[Decs] Search Success';
 export const SEARCH_ERROR = '[Decs] Search error'
@@ -15,16 +12,6 @@ export const SELECT_ERROR = '[Decs] Select error';
 export const DELETE = '[Decs] Delete';
 export const DELETE_SUCCESS ='[Decs] Delete succcess';
 export const DELETE_ERROR = '[Decs] Delete error';
-
-export class LoadAction implements Action{
-  readonly type = LOAD;
-}
-export class LoadSuccess implements Action {
-  readonly type = LOAD_SUCCESS;
-
-  constructor(public payload: Array<DevolucionDeCompra>) {}
-}
-
 
 export class SearchAction implements Action {
   readonly type = SEARCH;
@@ -86,8 +73,6 @@ export class DeleteErrorAction implements Action {
  * so that reducers can easily compose action types
  */
 export type Actions =
-| LoadAction
-| LoadSuccess
 | SearchAction
 | SearchSuccessAction
 | SearchError

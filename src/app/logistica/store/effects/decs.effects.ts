@@ -12,28 +12,28 @@ import { DecsService } from '../../services/decs/decs.service';
 @Injectable()
 export class DecsEffects {
 
-  @Effect() load$ = this.actions$
-  .ofType<Decs.SearchAction>(Decs.LOAD)
+  @Effect() search$ = this.actions$
+  .ofType<Decs.SearchAction>(Decs.SEARCH)
   .map(action => action.payload)
   .debounceTime(300)
   .distinctUntilChanged()
   .do( value => console.log('Loading decs: ', value))
   .switchMap( filter =>
-    this.service.list()
-    .map(ordenes => new Decs.LoadSuccess(ordenes))
+    this.service.list(filter)
+    .map(ordenes => new Decs.SearchSuccessAction(ordenes))
     .catch(error => Observable.of({type: 'HTTP_ERROR', payload: error})) 
   );
 
   
   @Effect()
-  navigateToDevoluciones = this.actions$.ofType<RouterNavigationAction>(ROUTER_NAVIGATION)
+  navigateToDecs = this.actions$.ofType<RouterNavigationAction>(ROUTER_NAVIGATION)
   .map(r => r.payload.routerState.url)
   .delay(300)
   .filter( r => r ==='/logistica/inventarios/decs' )
   .do(route => console.log('Navegando a DECS: ', route))
   .switchMap( r => 
     this.service.list()
-    .map(devoluciones => new Decs.LoadSuccess(devoluciones))
+    .map(decs => new Decs.SearchSuccessAction(decs))
     .catch(error => Observable.of(new Decs.SearchError(error))) 
   );
   
@@ -43,7 +43,10 @@ export class DecsEffects {
   // .do(value => console.log('Selecting dev: ', value))
   .switchMap(id => 
     this.service.get(id))
-    .map(dev => new Decs.SelectSuccessAction(dev))
+    .map(dev => {
+      console.log('Dev localizado: ', dev);
+      return new Decs.SelectSuccessAction(dev)
+    })
     .catch(error => Observable.of(new Decs.SelectErrorAction(error))
   );
   

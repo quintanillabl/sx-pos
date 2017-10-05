@@ -57,6 +57,26 @@ export function reducer(state = initialState, action: compras.Actions): State {
         ...state,
         loading: false
       }
+    }
+    case compras.DELETE: {
+      return {
+        ...state,
+        loading: true
+      }
+    }
+
+    case compras.DELETE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        selected: null
+      }
+    }
+    case compras.DELETE_ERROR: {
+      return {
+        ...state,
+        loading: false,
+      }
     } 
     default:
       return state;

@@ -6,6 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './store/reducers';
 import { DevolucionesEffects } from './store/effects/devoluciones.effects';
 import { DecsEffects } from './store/effects/decs.effects';
+import { ComsEffects } from './store/effects/coms.effects';
 
 import { SharedModule } from 'app/shared/shared.module';
 import { LogisticaRoutingModule } from './logistica-routing.module';
@@ -18,6 +19,8 @@ import { MovimientosService } from './services/movimientos/movimientos.service';
 import { TransformacionesService } from './services/transformaciones/transformaciones.service';
 import { DevolucionesService } from './services/devoluciones/devoluciones.service';
 import { DecsService } from './services/decs/decs.service';
+import { ComsService } from './services/coms/coms.service';
+
 
 
 const PAGES =  [
@@ -37,7 +40,13 @@ const PAGES =  [
   pages.DevolucionesVentaPageComponent,
   pages.DevolucionesShowPageComponent,
   pages.DevolucionCreatePageComponent,
+  pages.ComsPageComponent,
+  pages.ComsShowPageComponent,
+  pages.ComCreatePageComponent,
+  // DECS
   pages.DecsPageComponent,
+  pages.DecCreatePageComponent,
+  pages.DecShowPageComponent,
 ];
 const COMPONENTS = [
   components.MovimientosListComponent,
@@ -56,6 +65,19 @@ const COMPONENTS = [
   components.SelectorDeVentasDialogComponent,
   components.DevolucionPartidasComponent,
   components.RmdVentadetGridComponent,
+  components.ComsGridComponent,
+  components.ComdetGridComponent,
+  components.ComFormComponent,
+  components.SelectorDeCompraDialogComponent,
+  components.ComCompradetGridComponent,
+  components.ComPartidasComponent,
+  // Decs
+  components.DecsGridComponent,
+  components.DecdetGridComponent,
+  components.DecFormComponent,
+  components.DecPartidasComponent,
+  components.DecComdetGridComponent,
+  components.SelectorDeComDialogComponent,
   
 ]
 
@@ -70,16 +92,22 @@ const COMPONENTS = [
     /**
      * Side Effects for the module
      */
-    EffectsModule.forFeature([DevolucionesEffects, DecsEffects])
+    EffectsModule.forFeature([DevolucionesEffects, ComsEffects, DecsEffects])
   ],
   declarations: [
     ...PAGES,
     ...COMPONENTS
   ],
-  entryComponents: [components.TransformaciondetDialogComponent, components.SelectorDeVentasDialogComponent],
+  entryComponents: [
+    components.TransformaciondetDialogComponent, 
+    components.SelectorDeVentasDialogComponent,
+    components.SelectorDeCompraDialogComponent,
+    components.SelectorDeComDialogComponent,
+  ],
   providers: [MovimientosService, TransformacionesService,
     DevolucionesService,
-    DecsService
+    DecsService,
+    ComsService,
   ]
 })
 export class LogisticaModule { }

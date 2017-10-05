@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 import { TdMessageComponent, TdLoadingService } from '@covalent/core';
 import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
 
 import * as fromRoot from 'app/reducers';
 import { Compra } from "app/models/compra";
 import { OrdenesService } from "app/compras/services/ordenes.service";
 import { Sucursal } from 'app/models';
+
 
 
 @Component({
@@ -21,22 +23,24 @@ export class OrdenesCreatePageComponent implements OnInit {
   constructor(
     private store: Store<fromRoot.State>,
     private ordenesService: OrdenesService,
-    private loadingService: TdLoadingService
+    private loadingService: TdLoadingService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.sucursal$ = this.store.select(fromRoot.getSucursal)
   }
   
-  onSubmit(compra: Compra) {
+  onSave(compra: Compra) {
     this.loadingService.register('savingCompra');
     this.ordenesService
     .save(compra)
     .delay(1000)
     .subscribe( 
-      val => { 
-        console.log('POST Success', val);
+      (compra: any) => { 
+        console.log('POST Success', compra);
         this.loadingService.resolve('savingCompra');
+        this.router.navigate(['/compras/ordenes/show', compra.id])
       },
       response => {
         this.handlePostError(response);

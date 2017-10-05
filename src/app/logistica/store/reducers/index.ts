@@ -1,10 +1,12 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
 import * as fromDevoluciones from './devoluciones.reducer';
+import * as fromComs from './coms.reducer';
 import * as fromDecs from './decs.reducer';
 
 export interface LogisticaState {
   devoluciones: fromDevoluciones.State
+  coms: fromComs.State
   decs: fromDecs.State
 }
 
@@ -14,7 +16,8 @@ export interface State extends fromRoot.State {
 
 export const reducers = {
   devoluciones: fromDevoluciones.reducer,
-  decs: fromDecs.reducer
+  coms: fromComs.reducer,
+  decs: fromDecs.reducer,
 };
 
 export const selectLogisticaState = createFeatureSelector<LogisticaState>('logistica');
@@ -44,23 +47,44 @@ export const getDevolucionesLoading = createSelector(
   fromDevoluciones.getLoading
 );
 
+/**** COMS state selectors */
+export const selectComsState = createSelector(
+  selectLogisticaState,
+  (state: LogisticaState) => state.coms
+);
+
+export const getComs = createSelector(
+  selectComsState,
+  fromComs.getEntities
+);
+export const getComsLoading = createSelector(
+  selectComsState,
+  fromComs.getLoading
+);
+export const getSelectedCom = createSelector(
+  selectComsState,
+  fromComs.getSelected
+);
+
 // Decs state selctors
 export const selectDecState = createSelector(
   selectLogisticaState,
   (state: LogisticaState) => state.decs
 );
 
-export const selectDecs = createSelector(
+export const getDecs = createSelector(
   selectDecState,
   fromDecs.getEntities
 );
-export const selectDecsLoading = createSelector(
+export const getDecsLoading = createSelector(
   selectDecState,
   fromDecs.getLoading
 );
-export const selectCurrentDec = createSelector(
+export const getSelectedDec = createSelector(
   selectDecState,
   fromDecs.getSelected
 );
+
+
 
 

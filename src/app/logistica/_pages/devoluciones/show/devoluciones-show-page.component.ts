@@ -57,9 +57,9 @@ export class DevolucionesShowPageComponent implements OnInit {
   print() {
     this._dialogService.openAlert({
       message: 'La impresión de este documento está en desarrollo',
-      viewContainerRef: this._viewContainerRef, //OPTIONAL
-      title: 'Impresíon', //OPTIONAL, hides if not provided
-      closeButton: 'Cancelar', //OPTIONAL, defaults to 'CLOSE'
+      viewContainerRef: this._viewContainerRef, 
+      title: 'Impresíon', 
+      closeButton: 'Cancelar',
     });
 
   }

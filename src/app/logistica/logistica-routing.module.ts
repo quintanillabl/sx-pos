@@ -29,8 +29,16 @@ const routes: Routes = [
           { path: 'devoluciones', component: pages.DevolucionesVentaPageComponent},
           { path: 'devoluciones/create', component: pages.DevolucionCreatePageComponent},
           { path: 'devoluciones/show/:id', component: pages.DevolucionesShowPageComponent},
+          
+          //Recepcion de compras
+          { path: 'coms', component: pages.ComsPageComponent },
+          { path: 'coms/show/:id', component: pages.ComsShowPageComponent },
+          { path: 'coms/create', component: pages.ComCreatePageComponent },
+          
           // Devoluciones de compras
           { path: 'decs', component: pages.DecsPageComponent},
+          { path: 'decs/show/:id', component: pages.DecShowPageComponent},
+          { path: 'decs/create', component: pages.DecCreatePageComponent},
         ]
       },
     ]
