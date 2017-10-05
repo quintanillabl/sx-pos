@@ -21,7 +21,7 @@ export class OrdenesEffects {
   //.map( r => new Compras.SearchAction('0'))
   
   .switchMap( r => 
-    this.service.buscarPendientes('0')
+    this.service.buscarPendientes()
     .map(ordenes => new Compras.SearchCompleteAction(ordenes))
     .catch(error => Observable.of(new Compras.SearchError(error))) 
   );
