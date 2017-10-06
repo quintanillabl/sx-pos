@@ -7,11 +7,12 @@ import { reducers } from './store/reducers';
 import { DevolucionesEffects } from './store/effects/devoluciones.effects';
 import { DecsEffects } from './store/effects/decs.effects';
 import { ComsEffects } from './store/effects/coms.effects';
+import { SolsEffects } from './store/effects/sols.effects';
 
 import { SharedModule } from 'app/shared/shared.module';
 import { LogisticaRoutingModule } from './logistica-routing.module';
 
-import * as components  from './components';
+import * as components from './components';
 import * as pages from './_pages';
 
 // Services
@@ -20,6 +21,8 @@ import { TransformacionesService } from './services/transformaciones/transformac
 import { DevolucionesService } from './services/devoluciones/devoluciones.service';
 import { DecsService } from './services/decs/decs.service';
 import { ComsService } from './services/coms/coms.service';
+import {SolsService} from './services/sols/sols.service';
+
 
 
 
@@ -31,8 +34,8 @@ const PAGES =  [
   pages.MovimientosCreateComponent,
   pages.MovimientosShowComponent,
   pages.ComprasPageComponent,
-  pages.TrasladosPageComponent,
   pages.ExistenciasPageComponent,
+  // Transformaciones
   pages.TransformacionesPageComponent,
   pages.TransformacionesCreatePageComponent,
   pages.TransformacionesEditPageComponent,
@@ -47,6 +50,12 @@ const PAGES =  [
   pages.DecsPageComponent,
   pages.DecCreatePageComponent,
   pages.DecShowPageComponent,
+  // Traslados
+  pages.TrasladosPageComponent,
+  pages.SolicitudesComponent,
+  pages.AtendidosPageComponent,
+  pages.SolShowPageComponent,
+  pages.SolCreatePageComponent,
 ];
 const COMPONENTS = [
   components.MovimientosListComponent,
@@ -78,7 +87,12 @@ const COMPONENTS = [
   components.DecPartidasComponent,
   components.DecComdetGridComponent,
   components.SelectorDeComDialogComponent,
-  
+  // Sols
+  components.SolsGridComponent,
+  components.SolFormComponent,
+  components.AddSoldetDialogComponent,
+  components.SolFormPartidasComponent,
+
 ]
 
 @NgModule({
@@ -92,22 +106,24 @@ const COMPONENTS = [
     /**
      * Side Effects for the module
      */
-    EffectsModule.forFeature([DevolucionesEffects, ComsEffects, DecsEffects])
+    EffectsModule.forFeature([DevolucionesEffects, ComsEffects, DecsEffects, SolsEffects])
   ],
   declarations: [
     ...PAGES,
     ...COMPONENTS
   ],
   entryComponents: [
-    components.TransformaciondetDialogComponent, 
+    components.TransformaciondetDialogComponent,
     components.SelectorDeVentasDialogComponent,
     components.SelectorDeCompraDialogComponent,
     components.SelectorDeComDialogComponent,
+    components.AddSoldetDialogComponent,
   ],
   providers: [MovimientosService, TransformacionesService,
     DevolucionesService,
     DecsService,
     ComsService,
+    SolsService,
   ]
 })
 export class LogisticaModule { }

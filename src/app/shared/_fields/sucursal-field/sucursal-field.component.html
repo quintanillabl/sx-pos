@@ -1,5 +1,5 @@
 <ng-container [formGroup]="parent">
-  <md-select placeholder="Sucursal" [formControlName]="sucursalProperty" class="sucursal-field">
+  <md-select [placeholder]="placeholder" [formControlName]="sucursalProperty" class="sucursal-field">
     <md-option *ngFor="let sucursal of sucursales" [value]="sucursal">
       {{sucursal.nombre}}
     </md-option>

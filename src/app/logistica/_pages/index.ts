@@ -1,7 +1,7 @@
 export { MainPageComponent } from './_main-page/main-page.component';
 export { MainDashboardComponent } from './_main-dashboard/main-dashboard.component';
 export { InventariosPageComponent } from './inventarios-page/inventarios-page.component';
-export { TrasladosPageComponent } from './traslados-page/traslados-page.component';
+
 // Movimientos genericos de inventario
 export { MovimientosPageComponent } from './movimientos-page/movimientos-page.component';
 export { MovimientosCreateComponent } from './movimientos-create/movimientos-create.component';
@@ -28,3 +28,9 @@ export { ComCreatePageComponent } from './coms/create/com-create-page.component'
 export { DecsPageComponent } from './decs/decs-page.component'
 export { DecShowPageComponent } from './decs/show/dec-show-page.component';
 export { DecCreatePageComponent } from './decs/create/dec-create-page.component';
+// Traslados
+export { TrasladosPageComponent } from './traslados/traslados-page.component';
+export { SolicitudesComponent } from './traslados/solicitudes-page';
+export { AtendidosPageComponent } from './traslados/atendidos-page';
+export { SolShowPageComponent } from './traslados/sols/sol-show-page/sol-show-page.component';
+export { SolCreatePageComponent } from './traslados/sols/sol-create-page/sol-create-page.component';

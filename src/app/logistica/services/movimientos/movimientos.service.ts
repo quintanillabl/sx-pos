@@ -11,19 +11,24 @@ export class MovimientosService {
 
   readonly apiUrl = environment.apiUrl + '/inventario/movimientos';
 
+  sucursal = {
+    id: '402880fc5e4ec411015e4ec64e70012e',
+    nombre: 'TACUBA'
+  }
+
   constructor(private http: HttpClient) { }
 
   list(documento = null, comentario = null): Observable<Movimiento[]> {
-    let params = new HttpParams();
+    let params = new HttpParams().set('sucursal', this.sucursal.id);
     if (documento) {
       params = params.set('documento', documento)
     } if(comentario) {
-      params = params.set('comentario', comentario)  
+      params = params.set('comentario', comentario)
     }
     return this.http.get<Movimiento[]>(this.apiUrl, {params: params})
       .shareReplay();
   }
-  
+
   save(movimiento: Movimiento) {
     return this.http.post(this.apiUrl, movimiento);
   }

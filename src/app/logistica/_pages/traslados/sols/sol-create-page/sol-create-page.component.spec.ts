@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TrasladosPageComponent } from './traslados-page.component';
+import { SolCreatePageComponent } from './sol-create-page.component';
 
-describe('TrasladosPageComponent', () => {
-  let component: TrasladosPageComponent;
-  let fixture: ComponentFixture<TrasladosPageComponent>;
+describe('SolCreatePageComponent', () => {
+  let component: SolCreatePageComponent;
+  let fixture: ComponentFixture<SolCreatePageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TrasladosPageComponent ]
+      declarations: [ SolCreatePageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TrasladosPageComponent);
+    fixture = TestBed.createComponent(SolCreatePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

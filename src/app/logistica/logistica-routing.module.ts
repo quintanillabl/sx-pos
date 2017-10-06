@@ -10,16 +10,14 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       { path: 'dashboard', component: pages.MainDashboardComponent},
-      { 
-        path: 'inventarios', 
+      {
+        path: 'inventarios',
         component: pages.InventariosPageComponent,
         children: [
           { path: '', redirectTo: 'movimientos', pathMatch: 'full'},
           { path: 'movimientos', component: pages.MovimientosPageComponent},
           { path: 'movimientos/create', component: pages.MovimientosCreateComponent},
           { path: 'movimientos/show/:id', component: pages.MovimientosShowComponent},
-          
-          { path: 'traslados', component: pages.TrasladosPageComponent},
           { path: 'existencias', component: pages.ExistenciasPageComponent},
           { path: 'transformaciones', component: pages.TransformacionesPageComponent},
           { path: 'transformaciones/create', component: pages.TransformacionesCreatePageComponent},
@@ -29,16 +27,18 @@ const routes: Routes = [
           { path: 'devoluciones', component: pages.DevolucionesVentaPageComponent},
           { path: 'devoluciones/create', component: pages.DevolucionCreatePageComponent},
           { path: 'devoluciones/show/:id', component: pages.DevolucionesShowPageComponent},
-          
-          //Recepcion de compras
+          // Recepcion de compras
           { path: 'coms', component: pages.ComsPageComponent },
           { path: 'coms/show/:id', component: pages.ComsShowPageComponent },
           { path: 'coms/create', component: pages.ComCreatePageComponent },
-          
           // Devoluciones de compras
           { path: 'decs', component: pages.DecsPageComponent},
           { path: 'decs/show/:id', component: pages.DecShowPageComponent},
           { path: 'decs/create', component: pages.DecCreatePageComponent},
+          // Traslados
+          { path: 'traslados', component: pages.TrasladosPageComponent},
+          { path: 'traslados/sol/show/:id', component: pages.SolShowPageComponent},
+          { path: 'traslados/sol/create', component: pages.SolCreatePageComponent}
         ]
       },
     ]

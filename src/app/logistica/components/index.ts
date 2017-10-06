@@ -15,7 +15,7 @@ export { DevolucionPartidasComponent } from './devolucion-form/partidas/devoluci
 export { SelectorDeVentasDialogComponent } from './devolucion-form/selector-de-ventas/selector-de-ventas-dialog.component';
 export { RmdVentadetGridComponent } from './devolucion-form/selector-de-ventas/venta-det-list/rmdVentadet-grid.component';
 
-//Recepciondes de compra
+// Recepciondes de compra
 export { ComsGridComponent } from './coms-grid/coms-grid.component';
 export { ComdetGridComponent } from './comdet-grid/comdet-grid.component';
 export { ComFormComponent } from './com-form/com-form.component';
@@ -30,3 +30,9 @@ export { DecFormComponent } from './dec-form/dec-form.component';
 export { DecPartidasComponent } from './dec-form/partidas/dec-partidas.component';
 export { DecComdetGridComponent } from './dec-form/selector-de-com/comdet-gid/dec-comdet-grid.component';
 export { SelectorDeComDialogComponent } from './dec-form/selector-de-com/selector-de-com-dialog.component';
+
+// Solicitud de traslados
+export { SolsGridComponent } from './sols/sols-grid.component';
+export { SolFormComponent } from './sol-form/sol-form.component';
+export { AddSoldetDialogComponent } from './sol-form/add-soldet-dialog.component';
+export { SolFormPartidasComponent } from './sol-form/partidas/sol-form-partidas.component';

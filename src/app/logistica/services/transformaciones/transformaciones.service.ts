@@ -11,23 +11,28 @@ export class TransformacionesService {
 
   readonly apiUrl = environment.apiUrl + '/inventario/transformaciones';
 
+  sucursal = {
+    id: '402880fc5e4ec411015e4ec64e70012e',
+    nombre: 'TACUBA'
+  }
+
   constructor(private http: HttpClient) { }
 
   get(id: string): Observable<Transformacion> {
-    let url = `${this.apiUrl}/${id}`;
+    const url = `${this.apiUrl}/${id}`;
     return this.http.get<Transformacion>(url)
     .shareReplay();
   }
 
   list(documento = null, comentario = null): Observable<Transformacion[]> {
-    let params = new HttpParams();
+    let params = new HttpParams().set('sucursal', this.sucursal.id);
     if (documento) {
       params = params.set('documento', documento)
-    } 
+    }
     return this.http.get<Transformacion[]>(this.apiUrl, {params: params})
       .shareReplay();
   }
-  
+
   save(transformacion: Transformacion) {
     return this.http.post(this.apiUrl, transformacion);
   }
