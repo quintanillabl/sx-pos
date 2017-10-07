@@ -5,12 +5,12 @@ import { Router } from '@angular/router';
 import { TdLoadingService } from '@covalent/core';
 
 import * as fromRoot from 'app/reducers';
-import * as coms from 'app/logistica/store/actions/coms.actions';
 
-import { RecepcionDeCompra } from 'app/logistica/models/recepcionDeCompra';
+
 import { Sucursal } from 'app/models';
 
-import { ComsService } from 'app/logistica/services/coms/coms.service';
+import {Sector} from 'app/logistica/models/sector';
+import {SectoresService} from 'app/logistica/services/sectores/sectores.service';
 
 @Component({
   selector: 'sx-sector-create-page',
@@ -30,7 +30,7 @@ export class SectorCreatePageComponent implements OnInit {
 
   constructor(
     private store: Store<fromRoot.State>,
-    private service: ComsService,
+    private service: SectoresService,
     private router: Router,
     private loadingService: TdLoadingService,
   ) { }
@@ -39,16 +39,15 @@ export class SectorCreatePageComponent implements OnInit {
     this.sucursal$ = this.store.select(fromRoot.getSucursal);
   }
 
-  onSave(com: RecepcionDeCompra) {
-    console.log('Salvando recepcion de compra: ', com);
+  onSave(sector: Sector) {
     this.loadingService.register('saving');
     this.service
-      .save(com)
+      .save(sector)
       .subscribe(
-        (com) => {
-          console.log('RMD salvado: ', com);
+        (res: any) => {
+          console.log('Salvado sector: ', res);
           this.loadingService.resolve('saving');
-          this.router.navigate(['/logistica/inventarios/coms'])
+          this.router.navigate(['/logistica/almacen/sectores'])
         },
         response => {
           this.handlePostError(response);
@@ -57,8 +56,8 @@ export class SectorCreatePageComponent implements OnInit {
       );
   }
 
-  private handlePostError(response){
-    console.log('Error al salvar compra: ', response);
+  private handlePostError(response) {
+    console.log('Error al salvar sector: ', response);
   }
 
 

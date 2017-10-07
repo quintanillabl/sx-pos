@@ -1,5 +1,5 @@
-<ng-template >
-  <form novalidate (ngSubmit)="doAccept()" [formGroup]="form" *ngIf="!compra">
+
+  <form novalidate (ngSubmit)="doAccept()" [formGroup]="form" >
 
     <h4 md-dialog-title>Selector de existencia Sucursal: {{sucursal.nombre}}</h4>
 
@@ -34,4 +34,4 @@
       <button md-button type="button" (click)="close()" >Cancelar</button>
     </md-dialog-actions>
   </form>
-</ng-template>
+

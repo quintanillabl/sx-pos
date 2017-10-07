@@ -1,4 +1,5 @@
 import {Sucursal} from 'app/models';
+import {SectorDet} from './sectorDet';
 
 export interface Sector {
   id: string;
@@ -11,4 +12,5 @@ export interface Sector {
   lastUpdated?: string;
   createUser?: string;
   updateUser?: string;
+  partidas: Array<SectorDet>
 }
