@@ -10,6 +10,7 @@ import {SolicitudDeTraslado} from 'app/logistica/models/solicitudDeTraslado';
 export class SolsGridComponent implements  OnInit {
 
   @Input() sols: SolicitudDeTraslado[];
+  @Input() tipo = 'PENDIENTE';
 
   constructor() {}
 

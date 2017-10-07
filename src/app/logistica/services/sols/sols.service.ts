@@ -24,6 +24,14 @@ export class SolsService {
     return this.http.get<SolicitudDeTraslado>(url)
   }
 
+  peidnetesDeAtender(documento?: string ) {
+    let params = new HttpParams().set('sucursalAtiende', this.sucursal.id);
+    if (documento) {
+      params =  params.set('documento', documento);
+    }
+    return this.http.get<SolicitudDeTraslado[]>(this.apiUrl, {params: params})
+  }
+
   list(documento?: string ): Observable<SolicitudDeTraslado[]> {
     let params = new HttpParams().set('sucursal', this.sucursal.id);
     if (documento) {

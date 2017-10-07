@@ -1,8 +1,13 @@
 <div layout-gt-sm="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']">
-
-  <sx-sol-page flex-gt-sm="50"></sx-sol-page>
-
-  <sx-trs-atendidos-page flex-gt-sm="50"></sx-trs-atendidos-page>
-
+  <md-card flex>
+    <md-tab-group flex>
+      <md-tab label="Solicitudes pendientes">
+        <sx-sol-page flex></sx-sol-page>
+      </md-tab>
+      <md-tab label="Por Atender">
+        <sx-sols-por-atender-page ></sx-sols-por-atender-page>
+      </md-tab>
+    </md-tab-group>
+  </md-card>
 </div>
 

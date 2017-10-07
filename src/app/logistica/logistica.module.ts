@@ -56,6 +56,19 @@ const PAGES =  [
   pages.AtendidosPageComponent,
   pages.SolShowPageComponent,
   pages.SolCreatePageComponent,
+  pages.SolicitudesPorAtenderPageComponent,
+  // ALMACEN
+  pages.AlmacenPageComponent,
+  //  Alacen sectores
+  pages.SectoresPageComponent,
+  pages.SectorCreatePageComponent,
+  pages.AlmacenSectorFormComponent,
+  pages.SectorDetDialogComponent,
+  pages.SectorFormPartidasComponent,
+  // Almacen Conteo
+  pages.ConteoPageComponent,
+  // Almacen Registro
+  pages.RegistroConteoPageComponent,
 ];
 const COMPONENTS = [
   components.MovimientosListComponent,

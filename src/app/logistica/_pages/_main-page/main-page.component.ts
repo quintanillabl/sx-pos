@@ -16,7 +16,8 @@ export class MainPageComponent implements OnInit,  AfterViewInit {
   navigation = [
     {path: 'home', nombre: 'Inicio', descripcion: 'Compras Dashboard', icon: 'dashboard'},
     {path: 'inventarios', nombre: 'Inventario', descripcion: 'Movimientos de inventario', icon: 'device_hub'},
-    
+    {path: 'almacen', nombre: 'Almacén', descripcion: 'Operaciones', icon: 'store'},
+
   ];
 
   constructor(

@@ -31,6 +31,17 @@ export { DecCreatePageComponent } from './decs/create/dec-create-page.component'
 // Traslados
 export { TrasladosPageComponent } from './traslados/traslados-page.component';
 export { SolicitudesComponent } from './traslados/solicitudes-page';
+export { SolicitudesPorAtenderPageComponent } from './traslados/poratender-page';
 export { AtendidosPageComponent } from './traslados/atendidos-page';
 export { SolShowPageComponent } from './traslados/sols/sol-show-page/sol-show-page.component';
 export { SolCreatePageComponent } from './traslados/sols/sol-create-page/sol-create-page.component';
+/**** ALMACEN ****/
+export { AlmacenPageComponent } from './almacen/almacen-page.component';
+export { SectoresPageComponent } from './almacen/sectores/sectores-page.component';
+export { ConteoPageComponent } from './almacen/conteo/conteo-page.component';
+export { RegistroConteoPageComponent } from './almacen/registro/registro-conteo-page.component';
+// Sectores
+export { SectorCreatePageComponent} from './almacen/sectores/sector-create-page.component';
+export { AlmacenSectorFormComponent } from './almacen/sectores/form/almacen-sector-form.component';
+export { SectorDetDialogComponent } from './almacen/sectores/form/sector-det-dialog.component';
+export { SectorFormPartidasComponent } from './almacen/sectores/form/partidas/sector-form-partidas.component';

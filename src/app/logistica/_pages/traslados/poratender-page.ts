@@ -5,16 +5,16 @@ import {SolicitudDeTraslado} from 'app/logistica/models/solicitudDeTraslado';
 import {SolsService} from 'app/logistica/services/sols/sols.service';
 
 @Component({
-  selector: 'sx-sol-page',
+  selector: 'sx-sols-por-atender-page',
   template: `
     <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
     </div>
     <md-divider></md-divider>
-    <sx-sols-grid [sols]="sols$ | async"></sx-sols-grid>
+    <sx-sols-grid [sols]="sols$ | async" tipo="POR_ATENDER"></sx-sols-grid>
     <md-divider></md-divider>
   `
 })
-export class SolicitudesComponent implements OnInit{
+export class SolicitudesPorAtenderPageComponent implements OnInit{
 
   sols$: Observable<SolicitudDeTraslado[]>;
 
@@ -23,7 +23,8 @@ export class SolicitudesComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this.sols$ = this.solsService.list();
+    this.sols$ = this.solsService.peidnetesDeAtender();
+    this.sols$.subscribe( sols => { console.log('Sols Pendientes de atender: ', sols)})
   }
 
 }

@@ -41,6 +41,16 @@ const routes: Routes = [
           { path: 'traslados/sol/create', component: pages.SolCreatePageComponent}
         ]
       },
+      {
+        path: 'almacen',
+        component: pages.AlmacenPageComponent,
+        children: [
+          { path: 'sectores', component: pages.SectoresPageComponent},
+          { path: 'sectores/create', component: pages.SectorCreatePageComponent},
+          { path: 'conteo', component: pages.ConteoPageComponent},
+          { path: 'registro', component: pages.RegistroConteoPageComponent}
+        ]
+      }
     ]
   }
 ];
