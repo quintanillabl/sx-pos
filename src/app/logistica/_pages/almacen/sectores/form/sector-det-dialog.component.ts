@@ -1,10 +1,6 @@
-import {Component, Input, OnInit, Inject, OnDestroy} from '@angular/core';
-import {FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl} from '@angular/forms';
-import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
-
-import * as _ from 'lodash';
-import {Subscription} from 'rxjs/Subscription';
-
+import {Component, OnInit, Inject, OnDestroy} from '@angular/core';
+import {FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 
 
 @Component({
@@ -23,10 +19,6 @@ export class SectorDetDialogComponent implements OnInit, OnDestroy {
 
   sucursal;
 
-  disponible = 0;
-
-  subscription: Subscription;
-
   selected: string[] = [];
 
   constructor(
@@ -40,20 +32,13 @@ export class SectorDetDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.form = this.fb.group({
-      sucursalAtiende: [{ value: this.sucursal, disabled: true}, Validators.required],
+      sucursal: [{ value: this.sucursal, disabled: true}, Validators.required],
       existencia: [null, Validators.required],
-      cantidad: [null, [Validators.required, this.validateCantidad()]]
-    });
-    this.subscription = this.form.get('existencia').valueChanges.subscribe( exis => {
-      if (exis) {
-        this.disponible = exis.cantidad;
-      }
+      comentario: [null, [Validators.required, Validators.maxLength(100)]]
     });
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+  ngOnDestroy(): void {}
 
   close() {
     this.dialogRef.close();
@@ -61,12 +46,6 @@ export class SectorDetDialogComponent implements OnInit, OnDestroy {
 
   doAccept() {
     this.dialogRef.close(this.form.getRawValue());
-  }
-
-  validateCantidad(): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} => {
-      return control.value > this.disponible ? {'eixstenciaInsuficciente': {value: control.value}} : null;
-    };
   }
 
 }

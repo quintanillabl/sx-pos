@@ -1,13 +1,12 @@
 <div [formGroup]="parent" layout layout-align="center" layout-margin class="partidas-grid-container">
   <div formArrayName="partidas">
-
     <table td-data-table>
       <thead>
       <tr td-data-table-column-row>
         <th td-data-table-column>Rng</th>
         <th td-data-table-column>Producto</th>
         <th td-data-table-column>Descripción</th>
-        <th td-data-table-column>Solicitado</th>
+        <th td-data-table-column>Comentario</th>
         <th td-data-table-column>Quitar</th>
       </tr>
       </thead>
@@ -16,7 +15,7 @@
         <td td-data-table-cell >{{i + 1}}</td>
         <td td-data-table-cell >{{row.producto.clave}}</td>
         <td td-data-table-cell >{{row.producto.descripcion}}</td>
-        <td td-data-table-cell numeric="true" >{{row.solicitado}}</td>
+        <td td-data-table-cell numeric="true" >{{row.comentario}}</td>
         <td td-data-table-cell numeric="false">
           <button md-icon-button type="button" (click)="delete(i)">
             <md-icon md-icon-button color="accent" >delete</md-icon>

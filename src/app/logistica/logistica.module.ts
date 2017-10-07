@@ -131,6 +131,7 @@ const COMPONENTS = [
     components.SelectorDeCompraDialogComponent,
     components.SelectorDeComDialogComponent,
     components.AddSoldetDialogComponent,
+    pages.SectorDetDialogComponent,
   ],
   providers: [MovimientosService, TransformacionesService,
     DevolucionesService,
