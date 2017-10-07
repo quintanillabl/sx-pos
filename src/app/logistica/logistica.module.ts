@@ -22,6 +22,7 @@ import { DevolucionesService } from './services/devoluciones/devoluciones.servic
 import { DecsService } from './services/decs/decs.service';
 import { ComsService } from './services/coms/coms.service';
 import {SolsService} from './services/sols/sols.service';
+import {SectoresService} from './services/sectores/sectores.service';
 
 
 
@@ -138,6 +139,7 @@ const COMPONENTS = [
     DecsService,
     ComsService,
     SolsService,
+    SectoresService,
   ]
 })
 export class LogisticaModule { }

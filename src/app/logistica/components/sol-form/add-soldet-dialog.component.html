@@ -1,4 +1,4 @@
-<ng-template tdLoading [tdLoadingUntil]="!loading" tdLoadingStrategy="overlay">
+<ng-template >
   <form novalidate (ngSubmit)="doAccept()" [formGroup]="form" *ngIf="!compra">
 
     <h4 md-dialog-title>Selector de existencia Sucursal: {{sucursal.nombre}}</h4>
