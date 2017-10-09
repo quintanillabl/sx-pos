@@ -4,6 +4,7 @@
       <thead>
       <tr td-data-table-column-row>
         <th td-data-table-column>Rng</th>
+        <th td-data-table-column [sortable]="true" [sortOrder]="'ASC'" [numeric]="true" >Indice</th>
         <th td-data-table-column>Producto</th>
         <th td-data-table-column>Descripción</th>
         <th td-data-table-column>Comentario</th>
@@ -13,6 +14,7 @@
       <tbody>
       <tr td-data-table-row *ngFor="let row of partidas; index as i" [formGroupName]="i">
         <td td-data-table-cell >{{i + 1}}</td>
+        <td td-data-table-cell numeric="true">{{row.indice}}</td>
         <td td-data-table-cell >{{row.producto.clave}}</td>
         <td td-data-table-cell >{{row.producto.descripcion}}</td>
         <td td-data-table-cell numeric="true" >{{row.comentario}}</td>

@@ -52,24 +52,15 @@ export function reducer(state = initialState, action: conteos.Actions): State {
         selected: null
       }
     }
-    case conteos.SELECT_SUCCESS: {
-      return {
-        ...state,
-        loading: false,
-        selected: action.payload
-      }
+    // Generar registros de conteo
+    case conteos.GENERAR_CONTEO: {
+      return {...state, loading: true};
     }
-    case conteos.SELECT_ERROR: {
-      return {
-        ...state,
-        loading: false
-      }
+    case conteos.GENERAR_CONTEO_SUCCESS: {
+      return {...state, loading: false, lastProcess: action.payload};
     }
-    case conteos.DELETE_SUCCESS: {
-      return {
-        ...state,
-        selected: null
-      }
+    case conteos.GENERAR_CONTEO_ERROR: {
+      return {...state, loading: false};
     }
     default:
       return state;

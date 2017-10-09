@@ -11,9 +11,21 @@
       <span>
           <button md-icon-button [mdMenuTriggerFor]="toolbarMenu"><md-icon>more_vert</md-icon></button>
           <md-menu #toolbarMenu="mdMenu">
+            <button md-menu-item (click)="genearConteo()">
+              <md-icon>settings</md-icon>
+              <span>Carga de sectores</span>
+            </button>
             <button md-menu-item>
               <md-icon>settings</md-icon>
               <span>Generar existencias</span>
+            </button>
+            <button md-menu-item>
+              <md-icon>settings</md-icon>
+              <span>Fijar conteo</span>
+            </button>
+            <button md-menu-item>
+              <md-icon>settings</md-icon>
+              <span>Limpiar existencias</span>
             </button>
           </md-menu>
         </span>

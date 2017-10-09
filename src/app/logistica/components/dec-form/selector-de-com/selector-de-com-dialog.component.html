@@ -1,4 +1,4 @@
-<ng-template >
+
   <h4 md-dialog-title>
     <span *ngIf="!com">Selector de recepción de compra (COM)</span>
     <span *ngIf="com"> COM: {{com.documento}}  {{(com.proveedor.nombre)}}</span>
@@ -41,4 +41,4 @@
   <button md-button class="accent" type="button" [disabled]="!com" (click)="doAccept()">Aceptar</button>
   <button md-button type="button" (click)="close()" >Cancelar</button>
 </md-dialog-actions>
-</ng-template>
+

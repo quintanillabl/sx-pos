@@ -74,6 +74,20 @@ export class ConteosEffects {
     .catch(error => Observable.of(new Conteos.DeleteErrorAction(error))
     );
 
+    @Effect() generarConteo$ = this.actions$
+    .ofType<Conteos.SearchAction>(Conteos.GENERAR_CONTEO)
+    .switchMap( filter =>
+      this.service.generarConteo()
+        .map(res => {
+          console.log('Conteos exitosamente generados: ', res);
+          return new Conteos.GenerarConteoSuccessAction(res);
+        })
+        .catch(error => {
+          console.log('Error al generar conteo: ', error);
+         return Observable.of(new Conteos.GenerarConteoSuccessError(error));
+        })
+    );
+
   constructor(
     private actions$: Actions,
     private router: Router,

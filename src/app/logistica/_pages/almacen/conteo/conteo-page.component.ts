@@ -5,6 +5,7 @@ import {TdDialogService} from '@covalent/core';
 
 import * as fromRoot from 'app/logistica/store/reducers';
 import { SearchAction } from 'app/logistica/store/actions/conteos.actions';
+import { GenerarConteoAction } from 'app/logistica/store/actions/conteos.actions';
 import { Conteo } from 'app/logistica/models/conteo';
 
 
@@ -40,7 +41,6 @@ export class ConteoPageComponent implements OnInit {
     this.store.dispatch(new SearchAction());
   }
 
-  /*
   genearConteo() {
     this._dialogService.openConfirm({
       message: `Cargar secrores ?`,
@@ -59,7 +59,8 @@ export class ConteoPageComponent implements OnInit {
     console.log('Generando Conteos');
     this.store.dispatch(new GenerarConteoAction());
   }
-  */
+
+  
 
   get title() {
     return 'Configuración de conteo físico de invenario';

@@ -57,6 +57,7 @@ export class AlmacenSectorFormComponent implements OnInit, OnChanges {
         comentario: sector.comentario,
       });
       this.form.get('sectorFolio').disable()
+      // const sortedPartidas = _.sortBy(sector.partidas, ['indice'])
       sector.partidas.forEach( item => this.insertarPartida(item));
     }
   }
@@ -113,7 +114,9 @@ export class AlmacenSectorFormComponent implements OnInit, OnChanges {
         const det = {
           producto: result.existencia.producto,
           comentario: result.comentario,
-          cantidad: 0
+          cantidad: 0,
+          indice: result.indice,
+          subsector: result.indice
         };
         this.insertarPartida(det);
       }
@@ -131,8 +134,10 @@ export class AlmacenSectorFormComponent implements OnInit, OnChanges {
   }
 
   onDelete(index: number) {
-    console.log('Eliminando partida');
     this.removePartida(index);
+    // console.log('Eliminando partida');
+    this.cd.detectChanges();
+    // console.log('Entidad: ', this.form.getRawValue());
   }
 
   get title() {

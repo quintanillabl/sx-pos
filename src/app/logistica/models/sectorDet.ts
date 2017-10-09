@@ -5,4 +5,6 @@ export interface SectorDet {
   producto: Producto;
   cantidad: number;
   comentario: string;
+  indice: number;
+  subsector: number;
 }

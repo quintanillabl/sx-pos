@@ -58,19 +58,7 @@ export class SectoresEffects {
     .catch(error => Observable.of(new Sectores.DeleteErrorAction(error))
     );
 
-  @Effect() generarConteo$ = this.actions$
-    .ofType<Sectores.SearchAction>(Sectores.GENERAR_CONTEO)
-    .switchMap( filter =>
-      this.service.generarConteo()
-        .map(res => {
-          console.log('Conteos exitosamente generados: ', res);
-          return new Sectores.GenerarConteoSuccessAction(res);
-        })
-        .catch(error => {
-          console.log('Error al generar conteo: ', error);
-         return Observable.of(new Sectores.GenerarConteoSuccessError(error));
-        })
-    );
+ 
 
   constructor(
     private actions$: Actions,

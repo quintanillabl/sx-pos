@@ -52,36 +52,6 @@ export function reducer(state = initialState, action: secs.Actions): State {
         selected: null
       }
     }
-    // Generar conteo
-    case secs.SELECT_SUCCESS: {
-      return {
-        ...state,
-        loading: false,
-        selected: action.payload
-      }
-    }
-    case secs.SELECT_ERROR: {
-      return {
-        ...state,
-        loading: false
-      }
-    }
-    case secs.DELETE_SUCCESS: {
-      return {
-        ...state,
-        selected: null
-      }
-    }
-    // Generar registros de conteo
-    case secs.GENERAR_CONTEO: {
-      return {...state, loading: true};
-    }
-    case secs.GENERAR_CONTEO_SUCCESS: {
-      return {...state, loading: false, lastProcess: action.payload};
-    }
-    case secs.GENERAR_CONTEO_ERROR: {
-      return {...state, loading: false};
-    }
     default:
       return state;
   }

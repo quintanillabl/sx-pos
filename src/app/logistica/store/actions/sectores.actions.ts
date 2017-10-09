@@ -15,10 +15,6 @@ export const DELETE = '[Sectores] Delete';
 export const DELETE_SUCCESS = '[Sectores] Delete succcess';
 export const DELETE_ERROR = '[Sectores] Delete error';
 
-export const GENERAR_CONTEO = '[Sectores] Generar conteo';
-export const GENERAR_CONTEO_SUCCESS = '[Sectores] Generar conteo success';
-export const GENERAR_CONTEO_ERROR = '[Sectores] Generar conteo error';
-
 export class SearchAction implements Action {
   readonly type = SEARCH;
 
@@ -73,20 +69,6 @@ export class DeleteErrorAction implements Action {
   constructor(public payload: any) {}
 }
 
-export class GenerarConteoAction implements Action {
-  readonly type = GENERAR_CONTEO;
-}
-export class GenerarConteoSuccessAction implements Action {
-  readonly type = GENERAR_CONTEO_SUCCESS
-
-  constructor(public payload: any) {}
-}
-export class GenerarConteoSuccessError implements Action {
-  readonly type = GENERAR_CONTEO_ERROR
-
-  constructor(public payload: any) {}
-}
-
 
 /**
  * Export a type alias of all actions in this action group
@@ -102,6 +84,3 @@ export type Actions =
   | DeleteAction
   | DeleteSuccessAction
   | DeleteErrorAction
-  | GenerarConteoAction
-  | GenerarConteoSuccessAction
-  | GenerarConteoSuccessError

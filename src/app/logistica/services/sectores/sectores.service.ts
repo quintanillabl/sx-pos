@@ -52,10 +52,4 @@ export class SectoresService {
     return this.http.delete(url);
   }
 
-  generarConteo() {
-    const params = new HttpParams().set('sucursal', this.sucursal.id);
-    const url = `${this.apiUrl}/generarConteo`;
-    return this.http.post(url, {params: params})
-  }
-
 }

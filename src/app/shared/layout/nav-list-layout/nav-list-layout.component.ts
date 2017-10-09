@@ -21,6 +21,7 @@ export class NavListLayoutComponent implements AfterViewInit {
   
   @Input() modulo: string = "Modulo";
 
+
   constructor(
     private _changeDetectorRef: ChangeDetectorRef,
     public media: TdMediaService,

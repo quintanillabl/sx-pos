@@ -55,7 +55,7 @@ export class SectorEditPageComponent implements OnInit {
         (res: any) => {
           console.log('Actualizando sector: ', res);
           this.loadingService.resolve('saving');
-          this.router.navigate(['/logistica/almacen/sectores'])
+          this.router.navigate(['/logistica/almacen/sectores/show', res.id], { queryParams: { tipo: 'show' } })
         },
         response => {
           this.handlePostError(response);

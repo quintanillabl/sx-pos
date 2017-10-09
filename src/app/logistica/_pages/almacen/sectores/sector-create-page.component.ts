@@ -50,7 +50,7 @@ export class SectorCreatePageComponent implements OnInit {
         (res: any) => {
           console.log('Salvado sector: ', res);
           this.loadingService.resolve('saving');
-          this.router.navigate(['/logistica/almacen/sectores'])
+          this.router.navigate(['/logistica/almacen/sectores/show', res.id]);
         },
         response => {
           this.handlePostError(response);
