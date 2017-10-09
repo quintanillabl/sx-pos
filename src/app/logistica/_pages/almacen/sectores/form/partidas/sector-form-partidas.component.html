@@ -17,8 +17,8 @@
         <td td-data-table-cell >{{row.producto.descripcion}}</td>
         <td td-data-table-cell numeric="true" >{{row.comentario}}</td>
         <td td-data-table-cell numeric="false">
-          <button md-icon-button type="button" (click)="delete(i)">
-            <md-icon md-icon-button color="accent" >delete</md-icon>
+          <button md-icon-button type="button" (click)="delete(i)" [disabled]="disabled">
+            <md-icon *ngIf="!disabled" md-icon-button color="accent" >delete</md-icon>
           </button>
         </td>
       </tr>

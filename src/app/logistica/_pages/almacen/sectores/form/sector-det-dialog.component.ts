@@ -19,7 +19,7 @@ export class SectorDetDialogComponent implements OnInit, OnDestroy {
 
   sucursal;
 
-  selected: string[] = [];
+  inserted: string[] = [];
 
   constructor(
     public dialogRef: MdDialogRef<SectorDetDialogComponent>,
@@ -27,7 +27,7 @@ export class SectorDetDialogComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
   ) {
     this.sucursal = data.sucursal;
-    this.selected = data.selected;
+    this.inserted = data.inserted;
   }
 
   ngOnInit() {

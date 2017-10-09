@@ -11,6 +11,7 @@ import { Sucursal } from 'app/models';
 
 import {Sector} from 'app/logistica/models/sector';
 import {SectoresService} from 'app/logistica/services/sectores/sectores.service';
+import * as Sectores from 'app/logistica/store/actions/sectores.actions';
 
 @Component({
   selector: 'sx-sector-create-page',
@@ -27,6 +28,8 @@ import {SectoresService} from 'app/logistica/services/sectores/sectores.service'
 export class SectorCreatePageComponent implements OnInit {
 
   sucursal$: Observable<Sucursal>;
+
+  tipo = 'SHOW';
 
   constructor(
     private store: Store<fromRoot.State>,

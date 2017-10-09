@@ -23,6 +23,9 @@ import { DecsService } from './services/decs/decs.service';
 import { ComsService } from './services/coms/coms.service';
 import {SolsService} from './services/sols/sols.service';
 import {SectoresService} from './services/sectores/sectores.service';
+import {SectoresEffects} from 'app/logistica/store/effects/sectores.effects';
+import {ConteosService} from 'app/logistica/services/conteos/conteos.service';
+import {ConteosEffects} from 'app/logistica/store/effects/conteos.effects';
 
 
 
@@ -66,8 +69,22 @@ const PAGES =  [
   pages.AlmacenSectorFormComponent,
   pages.SectorDetDialogComponent,
   pages.SectorFormPartidasComponent,
+  pages.SectoresGridComponent,
+  pages.SectorEditPageComponent,
   // Almacen Conteo
   pages.ConteoPageComponent,
+  pages.ConteoEditPageComponent,
+  pages.ConteoGridComponent,
+  pages.ConteoFormComponent,
+  pages.ConteoFormPartidasComponent,
+  pages.ConteoDetDialogComponent,
+  // Almacen Captura
+  pages.CapturaPageComponent,
+  pages.CapturaEditPageComponent,
+  pages.CapturaGridComponent,
+  pages.CapturaFormComponent,
+  pages.CapturaFormPartidasComponent,
+  pages.CapturaDetDialogComponent,
   // Almacen Registro
   pages.RegistroConteoPageComponent,
 ];
@@ -120,7 +137,9 @@ const COMPONENTS = [
     /**
      * Side Effects for the module
      */
-    EffectsModule.forFeature([DevolucionesEffects, ComsEffects, DecsEffects, SolsEffects])
+    EffectsModule.forFeature([
+      DevolucionesEffects, ComsEffects, DecsEffects, SolsEffects, SectoresEffects, ConteosEffects,
+    ])
   ],
   declarations: [
     ...PAGES,
@@ -133,6 +152,8 @@ const COMPONENTS = [
     components.SelectorDeComDialogComponent,
     components.AddSoldetDialogComponent,
     pages.SectorDetDialogComponent,
+    pages.ConteoDetDialogComponent,
+    pages.CapturaDetDialogComponent,
   ],
   providers: [MovimientosService, TransformacionesService,
     DevolucionesService,
@@ -140,6 +161,7 @@ const COMPONENTS = [
     ComsService,
     SolsService,
     SectoresService,
+    ConteosService
   ]
 })
 export class LogisticaModule { }

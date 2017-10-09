@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnDestroy, 
+import {Component, Input, OnInit, OnDestroy,
   forwardRef, ChangeDetectionStrategy, ViewChild, ElementRef} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
@@ -8,7 +8,7 @@ import * as _ from 'lodash';
 
 import { Existencia } from 'app/models';
 import { environment} from 'environments/environment';
-import { Sucursal } from "app/models/sucursal";
+import { Sucursal } from 'app/models/sucursal';
 
 export const EXISTENCIA_LOOKUPFIELD_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -51,13 +51,15 @@ export class ExistenciaFieldComponent implements OnInit, ControlValueAccessor, O
 
   @Input() required = true;
 
-  @Input() activos: boolean = true;
+  @Input() activos = true;
 
-  @Input() conExistencia: boolean = true;
+  @Input() conExistencia = true;
 
-  @Input() placeholder = "Seleccione un producto";
+  @Input() placeholder = 'Seleccione un producto';
 
   @Input() sucursal: Sucursal = undefined;
+
+  @Input() exclude: string[] = [];
 
   existencias$: Observable<Existencia[]>;
 
@@ -70,24 +72,28 @@ export class ExistenciaFieldComponent implements OnInit, ControlValueAccessor, O
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    
+    console.log('Excludes: ', this.exclude);
     this.searchControl = new FormControl(null, Validators.required);
 
     this.existencias$ = this.searchControl
       .valueChanges
       .startWith(null)
-      .switchMap( term => this.lookupExistencia(term));
+      .switchMap( term => this.lookupExistencia(term))
+      .map( existencias => _.differenceWith(existencias, this.exclude, (exis: any, clave) => {
+        return exis.producto.clave === clave;
+      }))
+      ;
 
     this.prepareControl();
   }
-  
+
   private prepareControl() {
     this.subscription = this.searchControl
       .valueChanges
       .skip(1)
       .filter( value => value !== null)
       .subscribe( value => {
-        if( _.isObject(value)) {
+        if ( _.isObject(value)) {
           this.onChange(value);
         } else {
           this.onChange(null);
@@ -95,7 +101,7 @@ export class ExistenciaFieldComponent implements OnInit, ControlValueAccessor, O
       });
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
@@ -103,14 +109,14 @@ export class ExistenciaFieldComponent implements OnInit, ControlValueAccessor, O
     let params = new HttpParams()
       .set('term', term);
     if (this.sucursal) {
-      params = params.set('sucursal',this.sucursal.id)
-    } 
+      params = params.set('sucursal', this.sucursal.id)
+    }
     if(this.activos) {
-      params = params.set('activos','activos')
-    } 
+      params = params.set('activos', 'activos')
+    }
     if(this.conExistencia) {
-      params = params.set('conexistencia','conexistencia')
-    } 
+      params = params.set('conexistencia', 'conexistencia')
+    }
     return this.http.get<Existencia[]>(this.apiUrl, {params: params});
   }
 

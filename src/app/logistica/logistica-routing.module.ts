@@ -47,8 +47,15 @@ const routes: Routes = [
         children: [
           { path: 'sectores', component: pages.SectoresPageComponent},
           { path: 'sectores/create', component: pages.SectorCreatePageComponent},
+          { path: 'sectores/edit/:id', component: pages.SectorEditPageComponent},
+          { path: 'sectores/show/:id', component: pages.SectorEditPageComponent},
           { path: 'conteo', component: pages.ConteoPageComponent},
-          { path: 'registro', component: pages.RegistroConteoPageComponent}
+          { path: 'conteo/show/:id', component: pages.ConteoEditPageComponent},
+          { path: 'conteo/edit/:id', component: pages.ConteoEditPageComponent},
+          { path: 'registro', component: pages.RegistroConteoPageComponent},
+          { path: 'captura', component: pages.CapturaPageComponent},
+          { path: 'captura/show/:id', component: pages.CapturaEditPageComponent},
+          { path: 'captura/edit/:id', component: pages.CapturaEditPageComponent},
         ]
       }
     ]

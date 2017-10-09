@@ -4,12 +4,16 @@ import * as fromDevoluciones from './devoluciones.reducer';
 import * as fromComs from './coms.reducer';
 import * as fromDecs from './decs.reducer';
 import * as fromSols from './sols.reducers';
+import * as fromSectores from './sectores.reducer';
+import * as fromConteos from './conteos.reducer';
 
 export interface LogisticaState {
   devoluciones: fromDevoluciones.State
   coms: fromComs.State
   decs: fromDecs.State
   sols: fromSols.State
+  sectores: fromSectores.State
+  conteos: fromConteos.State
 }
 
 export interface State extends fromRoot.State {
@@ -21,6 +25,8 @@ export const reducers = {
   coms: fromComs.reducer,
   decs: fromDecs.reducer,
   sols: fromSols.reducer,
+  sectores: fromSectores.reducer,
+  conteos: fromConteos.reducer,
 };
 
 export const selectLogisticaState = createFeatureSelector<LogisticaState>('logistica');
@@ -107,4 +113,39 @@ export const getSelectedSol = createSelector(
   fromSols.getSelected
 );
 
+/**** Sectores state selectors */
+export const selectSectoresState = createSelector(
+  selectLogisticaState,
+  (state: LogisticaState) => state.sectores
+);
 
+export const getSectores = createSelector(
+  selectSectoresState,
+  fromSectores.getEntities
+);
+export const getSectoresLoading = createSelector(
+  selectSectoresState,
+  fromSectores.getLoading
+);
+export const getSelectedSector = createSelector(
+  selectSectoresState,
+  fromSectores.getSelected
+);
+
+/**** Conteos selectors */
+export const selectConteoState = createSelector(
+  selectLogisticaState,
+  (state: LogisticaState) => state.conteos
+);
+export const getConteos = createSelector(
+  selectConteoState,
+  fromConteos.getEntities
+);
+export const getConteosLoading = createSelector(
+  selectConteoState,
+  fromConteos.getLoading
+);
+export const getSelectedConteo = createSelector(
+  selectConteoState,
+  fromConteos.getSelected
+);

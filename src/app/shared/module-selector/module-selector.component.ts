@@ -18,7 +18,7 @@ export class ModuleSelectorComponent implements OnInit {
 
   ngOnInit() {
     this.modulos$ = this.store.select(fromRoot.getModulos);
-    this.store.select(fromRoot.getCurrentModulo).subscribe( modulo => console.log('Modulo: ', modulo));
+    // this.store.select(fromRoot.getCurrentModulo).subscribe( modulo => console.log('Modulo: ', modulo));
   }
 
 }

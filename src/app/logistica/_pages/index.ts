@@ -37,11 +37,31 @@ export { SolShowPageComponent } from './traslados/sols/sol-show-page/sol-show-pa
 export { SolCreatePageComponent } from './traslados/sols/sol-create-page/sol-create-page.component';
 /**** ALMACEN ****/
 export { AlmacenPageComponent } from './almacen/almacen-page.component';
-export { SectoresPageComponent } from './almacen/sectores/sectores-page.component';
-export { ConteoPageComponent } from './almacen/conteo/conteo-page.component';
-export { RegistroConteoPageComponent } from './almacen/registro/registro-conteo-page.component';
+
 // Sectores
+export { SectoresPageComponent } from './almacen/sectores/sectores-page.component';
 export { SectorCreatePageComponent} from './almacen/sectores/sector-create-page.component';
 export { AlmacenSectorFormComponent } from './almacen/sectores/form/almacen-sector-form.component';
 export { SectorDetDialogComponent } from './almacen/sectores/form/sector-det-dialog.component';
 export { SectorFormPartidasComponent } from './almacen/sectores/form/partidas/sector-form-partidas.component';
+export { SectoresGridComponent } from './almacen/sectores/grid/sectores-grid.component';
+export { SectorEditPageComponent } from './almacen/sectores/sector-edit-page.component';
+// Conteo
+export { ConteoPageComponent } from './almacen/conteo/conteo-page.component';
+export { ConteoEditPageComponent } from './almacen/conteo/conteo-edit-page.component';
+export { ConteoGridComponent } from './almacen/conteo/grid/conteo-grid.component';
+export { ConteoFormComponent } from './almacen/conteo/form/conteo-form.component';
+export { ConteoDetDialogComponent } from './almacen/conteo/form/conteo-det-dialog.component';
+export { ConteoFormPartidasComponent } from './almacen/conteo/form/partidas/conteo-form-partidas.component';
+
+// Captura
+export { CapturaPageComponent } from './almacen/captura/captura-page.component';
+export { CapturaEditPageComponent } from './almacen/captura/captura-edit-page.component';
+export { CapturaGridComponent } from './almacen/captura/grid/captura-grid.component';
+export { CapturaFormComponent } from './almacen/captura/form/captura-form.component';
+export { CapturaDetDialogComponent } from './almacen/captura/form/captura-det-dialog.component';
+export { CapturaFormPartidasComponent } from './almacen/captura/form/partidas/captura-form-partidas.component';
+
+// Registro
+export { RegistroConteoPageComponent } from './almacen/registro/registro-conteo-page.component';
+

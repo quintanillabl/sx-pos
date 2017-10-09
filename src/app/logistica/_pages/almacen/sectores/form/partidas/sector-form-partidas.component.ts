@@ -13,6 +13,8 @@ export class SectorFormPartidasComponent implements OnInit {
 
   @Input() partidas;
 
+  @Input() disabled = false;
+
   @Output() remove = new EventEmitter<number>();
 
   constructor() { }

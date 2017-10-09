@@ -3,7 +3,11 @@
   <h4 md-dialog-title>Selector de producto: {{sucursal.nombre}}</h4>
 
   <div layout="column" class="selector-form" class="exis-form">
-    <sx-existencia-field [sucursal]="sucursal" placeholder="Producto" formControlName="existencia">
+    <sx-existencia-field
+      [exclude]="inserted"
+      [sucursal]="sucursal"
+      placeholder="Producto"
+      formControlName="existencia">
     </sx-existencia-field>
     <sx-comentario-field [parent]="form" [rows]="1"></sx-comentario-field>
   </div>
