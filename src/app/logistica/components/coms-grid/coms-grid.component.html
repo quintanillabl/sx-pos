@@ -15,8 +15,15 @@
   <td-virtual-scroll-container #virtualScroll [style.height.px]="350" [data]="coms">
     <ng-template let-row="row" let-last="last" tdVirtualScrollRow>
       <md-list-item >
-          <md-icon md-list-avatar>apps</md-icon>
-          <h3 md-line><span class="tc-pink-500">COM: {{row.documento}} </span>  {{ row.fecha | date:'dd/MM/yyyy'}} {{row.proveedor.nombre}}</h3>
+          <button md-icon-button md-list-avatar color="accent"  [routerLink]="['show', row.id]">
+              {{row.documento}}
+          </button>
+          
+          <span md-line layout>
+              <!-- <span class="tc-pink-500">COM: {{row.documento}} </span> -->
+              <!-- <a href="" md-button color="accent">{{row.documento}}</a> -->
+              <span>{{ row.fecha | date:'dd/MM/yyyy'}} {{row.proveedor.nombre}}</span>
+          </span>
           <span md-line> {{row.comentario}} 
               <span class="text-sm tc-pink-800">{{row.sucursal.nombre}}</span>
           </span>

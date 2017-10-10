@@ -19,7 +19,7 @@ import * as Sectores from 'app/logistica/store/actions/sectores.actions';
   template: `
     <div layout
       *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
-      <sx-almacen-sector-form [sector]="sector$ | async" flex="80" [disabled]="disabled$ | async"
+      <sx-almacen-sector-form [sector]="sector$ | async" flex [disabled]="disabled$ | async"
         [sucursal]="sucursal$ | async" (save)="onSave($event)">
       </sx-almacen-sector-form>
     </div>

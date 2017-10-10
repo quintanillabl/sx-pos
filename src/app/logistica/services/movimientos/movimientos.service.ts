@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 
 import { environment } from 'environments/environment';
@@ -25,8 +25,7 @@ export class MovimientosService {
     } if(comentario) {
       params = params.set('comentario', comentario)
     }
-    return this.http.get<Movimiento[]>(this.apiUrl, {params: params})
-      .shareReplay();
+    return this.http.get<Movimiento[]>(this.apiUrl, {params: params});
   }
 
   save(movimiento: Movimiento) {
@@ -52,6 +51,20 @@ export class MovimientosService {
     return this.http.put(url, mov, {
       params: new HttpParams().set('inventariar','inventariar')
     });
+  }
+
+  print(id: string){
+    console.log('Printing id: ', id);
+    const url = environment.apiUrl + '/report';
+    let params = new HttpParams().set('ID', this.sucursal.id);
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        params: params,
+        responseType: 'blob'
+      }
+    );
   }
 
 

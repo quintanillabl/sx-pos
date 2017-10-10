@@ -17,6 +17,7 @@ import { SectorDet } from 'app/logistica/models/sectorDet';
 @Component({
   selector: 'sx-almacen-sector-form',
   templateUrl: 'almacen-sector-form.component.html',
+  styleUrls:['./almacen-sector-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AlmacenSectorFormComponent implements OnInit, OnChanges {
@@ -146,6 +147,10 @@ export class AlmacenSectorFormComponent implements OnInit, OnChanges {
 
   get id() {
     return this.form.get('id').value;
+  }
+
+  print() {
+
   }
 
 

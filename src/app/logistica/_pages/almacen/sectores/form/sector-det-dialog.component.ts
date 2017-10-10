@@ -35,7 +35,7 @@ export class SectorDetDialogComponent implements OnInit, OnDestroy {
       sucursal: [{ value: this.sucursal, disabled: true}, Validators.required],
       existencia: [null, Validators.required],
       indice: [0, Validators.required],
-      comentario: [null, [Validators.required, Validators.maxLength(100)]]
+      comentario: [null, [ Validators.maxLength(100)]]
     });
   }
 

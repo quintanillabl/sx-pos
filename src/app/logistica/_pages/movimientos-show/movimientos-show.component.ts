@@ -86,12 +86,19 @@ export class MovimientosShowComponent implements OnInit {
     });
   }
 
-  print() {
-    this._dialogService.openAlert({
-      message: 'La impresión de este documento está en desarrollo',
-      viewContainerRef: this._viewContainerRef, //OPTIONAL
-      title: 'Impresíon', //OPTIONAL, hides if not provided
-      closeButton: 'Cancelar', //OPTIONAL, defaults to 'CLOSE'
+  print(id: string) {
+    this.service.print(id)
+    .subscribe(res => {
+      console.log('Reporte: ', res);
+      let blob = new Blob([res], { 
+        type: 'application/pdf' 
+     });
+     /*
+      const pdfUrl = URL.createObjectURL(res);
+      const printwWindow = window.open(pdfUrl);
+      printwWindow.print();
+      */
+      
     });
   }
 

@@ -1,12 +1,12 @@
-<div [formGroup]="parent" layout layout-align="center" layout-margin class="partidas-grid-container">
+<div [formGroup]="parent"   >
   <div formArrayName="partidas">
     <table td-data-table>
       <thead>
-      <tr td-data-table-column-row>
+      <tr td-data-table-column-row >
         <th td-data-table-column>Rng</th>
-        <th td-data-table-column [sortable]="true" [sortOrder]="'ASC'" [numeric]="true" >Indice</th>
+        <th td-data-table-column [sortable]="true" [sortOrder]="'ASC'" [numeric]="true" >Línea</th>
         <th td-data-table-column>Producto</th>
-        <th td-data-table-column>Descripción</th>
+        <th td-data-table-column width="40%">Descripción</th>
         <th td-data-table-column>Comentario</th>
         <th td-data-table-column>Quitar</th>
       </tr>

@@ -1,6 +1,6 @@
-<div layout-gt-sm="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']">
+<div layout *tdLoading="let working until !(procesando$ | async); type:'circular'; color:'primary' strategy:'overlay';">
 
-  <md-card flex-gt-sm >
+  <md-card flex >
     <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm "  >
       <span  class="push-left-sm" flex>
           <span class="md-title">{{title}}</span>
@@ -15,18 +15,19 @@
               <md-icon>settings</md-icon>
               <span>Carga de sectores</span>
             </button>
-            <button md-menu-item>
+            <button md-menu-item (click)="generarExistencias()">
               <md-icon>settings</md-icon>
               <span>Generar existencias</span>
             </button>
+            <!-- <button md-menu-item  (click)="limpiarExistencias()">
+              <md-icon>settings</md-icon>
+              <span>Limpiar existencias</span>
+            </button> -->
             <button md-menu-item>
               <md-icon>settings</md-icon>
               <span>Fijar conteo</span>
             </button>
-            <button md-menu-item>
-              <md-icon>settings</md-icon>
-              <span>Limpiar existencias</span>
-            </button>
+            
           </md-menu>
         </span>
     </div>

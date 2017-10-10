@@ -58,4 +58,16 @@ export class ConteosService {
     return this.http.post(url, {params: params})
   }
 
+  generarExistencias() {
+    const params = new HttpParams().set('id', this.sucursal.id);
+    const url = `${this.apiUrl}/generarExistencias`;
+    return this.http.get(url, {params: params})
+  }
+
+  limpiarExistencias() {
+    const params = new HttpParams().set('id', this.sucursal.id);
+    const url = `${this.apiUrl}/limpiarExistencias`;
+    return this.http.get(url, {params: params});
+  }
+
 }

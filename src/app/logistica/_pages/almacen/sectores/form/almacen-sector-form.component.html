@@ -16,7 +16,7 @@
     <md-divider></md-divider>
 
 
-    <div layout layout-padding>
+    <div layout class="pad-left-sm pad-right-sm">
 
       <md-form-field flex="10">
         <input type="text" mdInput formControlName="sectorFolio" placeholder="Sector">
@@ -28,15 +28,9 @@
       <md-form-field flex>
         <input type="text" mdInput formControlName="responsable2" placeholder="Responsable 1">
       </md-form-field>
-    </div>
-    <div layout layout-padding="">
       <sx-comentario-field flex [parent]="form" rows="1" ></sx-comentario-field>
-      <!--<md-form-field flex="10">
-        <input type="text" mdInput [value]="fecha | date:'dd/MM/yyyy'" placeholder="Fecha" [disabled]="true">
-      </md-form-field>-->
     </div>
-
-
+    
     <div>
       <sx-sector-form-partidas [disabled]="disabled"
         [parent]="form" [partidas]="partidas.value" (remove)="onDelete($event)">
