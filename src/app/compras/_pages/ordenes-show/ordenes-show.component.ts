@@ -26,10 +26,10 @@ export class OrdenesShowComponent implements OnInit {
 
   columns: ITdDataTableColumn[] = [
     { name: 'producto.clave',  label: 'Producto', width: 70 },
-    { name: 'producto.descripcion', label: 'Descripcion', width: { min: 200, max: 450 }},
-    { name: 'solicitado', label: 'Solicitado', width: 50, numeric: true, format: DECIMAL_FORMAT},
-    { name: 'recibido', label: 'Recibido', width: 50, numeric: true, format: DECIMAL_FORMAT},
-    { name: 'comentario', label: 'Comentario', width: { min: 100, max: 250 }},
+    { name: 'producto.descripcion', label: 'Descripcion', width:350},
+    { name: 'solicitado', label: 'Solicitado', width: 70, numeric: true, format: DECIMAL_FORMAT},
+    { name: 'recibido', label: 'Recibido', width: 70, numeric: true, format: DECIMAL_FORMAT},
+    { name: 'comentario', label: 'Comentario', width: 400},
   ];
 
   constructor(

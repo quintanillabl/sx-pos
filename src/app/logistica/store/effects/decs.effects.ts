@@ -17,7 +17,7 @@ export class DecsEffects {
   .map(action => action.payload)
   .debounceTime(300)
   .distinctUntilChanged()
-  .do( value => console.log('Loading decs: ', value))
+  // .do( value => console.log('Loading decs: ', value))
   .switchMap( filter =>
     this.service.list(filter)
     .map(ordenes => new Decs.SearchSuccessAction(ordenes))
@@ -30,7 +30,7 @@ export class DecsEffects {
   .map(r => r.payload.routerState.url)
   .delay(300)
   .filter( r => r ==='/logistica/inventarios/decs' )
-  .do(route => console.log('Navegando a DECS: ', route))
+  // .do(route => console.log('Navegando a DECS: ', route))
   .switchMap( r => 
     this.service.list()
     .map(decs => new Decs.SearchSuccessAction(decs))
@@ -44,7 +44,7 @@ export class DecsEffects {
   .switchMap(id => 
     this.service.get(id))
     .map(dev => {
-      console.log('Dev localizado: ', dev);
+      // console.log('Dev localizado: ', dev);
       return new Decs.SelectSuccessAction(dev)
     })
     .catch(error => Observable.of(new Decs.SelectErrorAction(error))
@@ -56,14 +56,14 @@ export class DecsEffects {
   .map(r => r.payload.routerState.url)
   .filter( r => r.startsWith('/logistica/inventarios/decs/show/'))
   .map(r => _.replace(r, '/logistica/inventarios/decs/show/', ''))
-  .do(route => console.log('Show DEC id: ', route))
+  // .do(route => console.log('Show DEC id: ', route))
   .switchMap( id => Observable.of(new Decs.SelectAction(id)));
 
   
   @Effect()
   delete$ = this.actions$.ofType<Decs.DeleteAction>(Decs.DELETE)
   .map(action => action.payload)
-  .do( value => console.log('Eliminando rmd', value))
+  // .do( value => console.log('Eliminando rmd', value))
   .switchMap(id => 
     this.service.delete(id))
     .map(dev => new Decs.DeleteSuccessAction())

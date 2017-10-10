@@ -27,12 +27,12 @@
   </div>
 
   <ng-container *ngIf="com">
-    <!--
-      <td-json-formatter [data]="comp.partidas" [levelsOpen]="1">
-        </td-json-formatter>
-      -->
-    <sx-com-compradet-grid [data]="disponibles" [selectedRows]="selectedRows">
-    </sx-com-compradet-grid>
+    
+      <!-- <td-json-formatter [data]="disponibles" [levelsOpen]="1">
+        </td-json-formatter> -->
+     <sx-dec-comdet-grid [data]="disponibles" [selectedRows]="selectedRows"></sx-dec-comdet-grid>
+    <!-- <sx-dec-compradet-grid [data]="disponibles" [selectedRows]="selectedRows">
+    </sx-dec-compradet-grid> -->
 
   </ng-container>
 

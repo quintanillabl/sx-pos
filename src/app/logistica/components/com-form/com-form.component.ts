@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import * as _ from 'lodash';
 
@@ -16,7 +17,7 @@ import { Compra, CompraDet } from "app/models";
   styleUrls: ['com-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ComFormComponent implements OnInit {
+export class ComFormComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
   
@@ -26,7 +27,8 @@ export class ComFormComponent implements OnInit {
 
   @Output() save = new EventEmitter<RecepcionDeCompra>();
 
-  inserted$: Observable<CompraDet[]>;
+  selected: CompraDet[];
+  subscription1: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -36,6 +38,10 @@ export class ComFormComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
+  }
+  
+  ngOnDestroy() {
+    this.subscription1.unsubscribe();
   }
   
 
@@ -50,14 +56,14 @@ export class ComFormComponent implements OnInit {
       partidas: this.fb.array([])
     });
 
-    this.inserted$ = this.form.get('partidas')
+    this.subscription1 = this.form.get('partidas')
       .valueChanges
       .map( (value: Array<RecepcionDeCompraDet> )  => _.map(value, item => item.compraDet) )
+      .subscribe( coms => this.selected = coms)
    
   }
   
   onSubmit(){
-    console.log('Salvando com......');
     if(this.form.valid) {
       const entity = this.prepareEntity();
       this.save.emit(entity);
@@ -88,7 +94,7 @@ export class ComFormComponent implements OnInit {
   insertar() {
     
     let dialogRef = this.dialog.open(SelectorDeCompraDialogComponent, {
-      data: {sucursal:this.sucursal, compra: this.compra}
+      data: {sucursal:this.sucursal, compra: this.compra, selected: this.selected}
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -23,7 +23,7 @@ export class SelectorDeCompraDialogComponent implements OnInit {
   error: any;
   compra: Compra;
 
-  @Input() partivasSelected: CompraDet[] = [];
+  selected: CompraDet[] = [];
 
   
   selectedRows: any[] = [];
@@ -35,7 +35,8 @@ export class SelectorDeCompraDialogComponent implements OnInit {
     private service: ComsService
   ) { 
     this.sucursal = data.sucursal;
-    this.compra = data.venta;
+    this.compra = data.compra;
+    this.selected = data.selected;
   }
 
   ngOnInit() {
@@ -71,7 +72,6 @@ export class SelectorDeCompraDialogComponent implements OnInit {
 
   selectCompra(compra) {
     this.compra = compra;
-    // console.log('Compra seleccionada: ', this.compra);
     console.log('Partidas de compra seleccionada: ', compra.partidas);
     this.error = null;
     this.loading = false;
@@ -89,15 +89,14 @@ export class SelectorDeCompraDialogComponent implements OnInit {
 
   get disponibles() {
     if(this.compra === null) return [];
-    const partidas = this.compra.partidas;
-    return _.filter(partidas, item => item.pendiente > 0 )
-    // return this.compra.partidas.filter;
-    /*
-    const partidas = _.forEach(this.compra.partidas, (item) => {
-      item.disponibleParaDevolucion = Math.abs(item.cantidad) - item.devuelto;  
+    // const partidas = this.compra.partidas;
+    // return _.filter(partidas, item => item.pendiente > 0 )
+    const partidas = _.filter(this.compra.partidas, item => item.pendiente > 0 )
+
+    const filtrados = _.differenceWith(partidas, this.selected, (val1, val2) => {
+      return val1.id === val2.id;
     });
-    
-    */
+    return filtrados;
   }
   
 

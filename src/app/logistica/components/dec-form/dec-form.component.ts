@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, AbstractControl, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import * as _ from 'lodash';
 
@@ -32,7 +33,9 @@ export class DecFormComponent implements OnInit {
 
   @Output() save = new EventEmitter<DevolucionDeCompra>();
 
-  inserted$: Observable<RecepcionDeCompraDet[]>;
+  selectedComs: RecepcionDeCompraDet[];
+
+  subscription1: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -42,6 +45,9 @@ export class DecFormComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
+  }
+  ngOnDestroy() {
+    this.subscription1.unsubscribe();
   }
 
   buildForm(){
@@ -55,10 +61,10 @@ export class DecFormComponent implements OnInit {
       validator: PartidasValidator
     });
 
-    this.inserted$ = this.form.get('partidas')
+    this.subscription1 = this.form.get('partidas')
       .valueChanges
       .map( (value: Array<DevolucionDeCompraDet> )  => _.map(value, item => item.recepcionDeCompraDet) )
-   
+      .subscribe( coms => this.selectedComs = coms);
   }
   
   onSubmit(){
@@ -78,6 +84,7 @@ export class DecFormComponent implements OnInit {
   get partidas() {
     return this.form.get('partidas') as FormArray
   }
+  
 
   removePartida(index: number) {
     this.partidas.removeAt(index);
@@ -92,12 +99,12 @@ export class DecFormComponent implements OnInit {
   insertar() {
     
     let dialogRef = this.dialog.open(SelectorDeComDialogComponent, {
-      data: {sucursal:this.sucursal, com: this.recepcionDeCompra}
+      data: {sucursal:this.sucursal, com: this.recepcionDeCompra, selected: this.selectedComs}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        console.log('Asignando com....', result);
+        // console.log('Asignando com....', result);
         if(!this.recepcionDeCompra)
           this.asignarCom(result.com);
         result.partidas.forEach(element => {
@@ -112,7 +119,7 @@ export class DecFormComponent implements OnInit {
   insertarComDet(comDet: RecepcionDeCompraDet) {
     const fg = this.fb.group({
       recepcionDeCompraDet:comDet,
-      cantidad: [comDet.cantidad , Validators.required],
+      cantidad: [comDet.disponible , Validators.required],
       producto: {
         id: comDet.producto.id,
         clave: comDet.producto.clave,
@@ -127,7 +134,6 @@ export class DecFormComponent implements OnInit {
   }
   
   editarPartida($event) {
-    console.log('Editando: ', $event);
     const {row, cantidad} = $event;
     this.partidas.controls[row].patchValue({cantidad: cantidad});
   }

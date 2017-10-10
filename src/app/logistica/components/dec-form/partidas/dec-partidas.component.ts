@@ -28,14 +28,18 @@ export class DecPartidasComponent implements OnInit {
 
 
   editar(index, row) {
-    //this.edit.emit(row);
+    // console.log(`Editando: `, row);
+    const disponible = row.recepcionDeCompraDet.disponible;
     this._dialogService.openPrompt({
-      message: `Registre la cantidad a recibit (max: ${row.solicitado}) `,
+      message: `Registre la cantidad a recibit (max: ${disponible}) `,
       value: row.cantidad,
     }).afterClosed().subscribe((value: any) => {
       
       if (value !== undefined ) {
         let cantidad = _.toSafeInteger(value);
+        if (cantidad > disponible) {
+          cantidad = disponible;
+        }
         const e = { row: index, cantidad: cantidad};
         this.edit.emit(e);
       }

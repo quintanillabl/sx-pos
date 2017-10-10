@@ -10,7 +10,7 @@ const DECIMAL_FORMAT: (v: any) => any = (v: number) => v.toFixed(2);
 
 @Component({
   selector: 'sx-dec-comdet-grid',
-  templateUrl: 'dec-comdet-grid.component.html'
+  templateUrl: './dec-comdet-grid.component.html'
 })
 export class DecComdetGridComponent implements  OnInit {
 
@@ -31,10 +31,11 @@ export class DecComdetGridComponent implements  OnInit {
   sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
   columns: ITdDataTableColumn[] = [
-    { name: 'producto.clave',  label: 'Clave', sortable: true, width: 40, numeric: false },
+    { name: 'producto.clave',  label: 'Clave', sortable: true, width: 30, numeric: false },
     { name: 'producto.descripcion',  label: 'Descripcion', sortable: true, width: 320, numeric: false },
-    { name: 'solicitado',  label: 'Solicitado', sortable: true, width: 40, numeric: true, format: NUMBER_FORMAT },
-    
+    { name: 'cantidad',  label: 'Ingresado', sortable: true, width: 20, numeric: true, format: NUMBER_FORMAT },
+    { name: 'devuelto',  label: 'Devuelto', sortable: true, width: 20, numeric: true, format: NUMBER_FORMAT },
+    { name: 'disponible',  label: 'Por devolver', sortable: true, width: 20, numeric: true, format: NUMBER_FORMAT },
   ];
 
   constructor(private _dataTableService: TdDataTableService) {}

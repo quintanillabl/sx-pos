@@ -11,4 +11,6 @@ export interface RecepcionDeCompraDet {
     comentario?: string;
     dateCreated?: string;
     lastUpdated?: string;
+    devuelto?: number;
+    disponible?: number;
 }

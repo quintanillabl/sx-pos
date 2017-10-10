@@ -37,13 +37,23 @@ export class ComPartidasComponent implements OnInit {
 
   editar(index, row) {
     //this.edit.emit(row);
+    
+    const recibido = row.compraDet.recibido;
+    const pendiente = row.compraDet.pendiente;
+    let message = 'Registrar la cantidad a recibir' ;
+    if(recibido > 0){
+      message = `Registrar la cantidad a recibir (max: ${pendiente})`
+    }
     this._dialogService.openPrompt({
-      message: `Registre la cantidad a recibit (max: ${row.solicitado}) `,
+      message: message,
       value: row.cantidad,
     }).afterClosed().subscribe((value: any) => {
       
       if (value !== undefined ) {
         let cantidad = _.toSafeInteger(value);
+        if(recibido> 0 && (cantidad > pendiente)) {
+          // cantidad = pendiente;
+        }
         const e = { row: index, cantidad: cantidad};
         this.edit.emit(e);
       }

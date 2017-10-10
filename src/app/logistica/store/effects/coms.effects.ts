@@ -17,7 +17,6 @@ export class ComsEffects {
   .map(action => action.payload)
   .debounceTime(300)
   .distinctUntilChanged()
-  .do( value => console.log('Loading decs: ', value))
   .switchMap( filter =>
     this.service.list({})
     .map(coms => new Coms.SearchSuccessAction(coms))
@@ -29,7 +28,6 @@ export class ComsEffects {
   .map(r => r.payload.routerState.url)
   .delay(300)
   .filter( r => r ==='/logistica/inventarios/coms' )
-  .do(route => console.log('Navegando a: ', route))
   .switchMap( r => 
     this.service.list({})
     .map(coms => new Coms.SearchSuccessAction(coms))
@@ -40,7 +38,6 @@ export class ComsEffects {
   
   @Effect() select$ = this.actions$.ofType<Coms.SelectAction>(Coms.SELECT)
   .map( action => action.payload)
-  // .do(value => console.log('Selecting dev: ', value))
   .switchMap(id => 
     this.service.get(id))
     .map(com => new Coms.SelectSuccessAction(com))
@@ -53,7 +50,6 @@ export class ComsEffects {
   .map(r => r.payload.routerState.url)
   .filter( r => r.startsWith('/logistica/inventarios/coms/show/'))
   .map(r => _.replace(r, '/logistica/inventarios/coms/show/', ''))
-  .do(route => console.log('Show COM id: ', route))
   .switchMap( id => Observable.of(new Coms.SelectAction(id)));
 
   

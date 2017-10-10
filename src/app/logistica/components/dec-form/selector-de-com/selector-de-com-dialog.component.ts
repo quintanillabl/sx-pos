@@ -24,7 +24,7 @@ export class SelectorDeComDialogComponent implements OnInit {
   error: any;
   com: RecepcionDeCompra;
 
-  @Input() partivasSelected: RecepcionDeCompraDet[] = [];
+  selected: RecepcionDeCompraDet[] = [];
 
   
   selectedRows: any[] = [];
@@ -37,6 +37,7 @@ export class SelectorDeComDialogComponent implements OnInit {
   ) { 
     this.sucursal = data.sucursal;
     this.com = data.com;
+    this.selected = data.selected;
   }
 
   ngOnInit() {
@@ -72,7 +73,9 @@ export class SelectorDeComDialogComponent implements OnInit {
 
   selectCom(com) {
     this.com = com;
-    console.log('COM seleccionado: ', this.com);
+    _.each(this.com.partidas, item => {
+      item.disponible = item.cantidad - item.devuelto 
+    })
     this.error = null;
     this.loading = false;
   }
@@ -90,8 +93,10 @@ export class SelectorDeComDialogComponent implements OnInit {
   get disponibles() {
     if(this.com === null) return [];
 
-    const partidas = this.com.partidas;
-    const filtrados = _.differenceWith(partidas, this.partivasSelected, (val1, val2) => {
+    //let partidas = this.com.partidas;
+    const partidas = _.filter(this.com.partidas, item => item.disponible > 0 )
+
+    const filtrados = _.differenceWith(partidas, this.selected, (val1, val2) => {
       return val1.id === val2.id;
     });
     // console.log('Filtrando con excludes', filtrados);
