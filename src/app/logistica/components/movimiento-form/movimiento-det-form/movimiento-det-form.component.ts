@@ -35,7 +35,7 @@ export class MovimientoDetFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.form = this.fb.group({
       producto: [null, Validators.required],
-      cantidad: [0, Validators.min(1)],
+      cantidad: [null, Validators.required],
       comentario: [null, Validators.maxLength(100)],
       sw2: ['SIIPAPX'], // small fix temporal
       tipoCIS: [{value: null, disabled: true}]
@@ -68,7 +68,12 @@ export class MovimientoDetFormComponent implements OnInit, OnDestroy {
 
   prepareEneity() {
     const entity = Object.assign({}, this.form.value);
-    entity.cantidad = entity.cantidad * -1;
+    if(this.parent.get('tipo').value === 'CIM') {
+      // entity.cantidad = entity.cantidad * -1;
+    } else {
+      entity.cantidad = entity.cantidad * -1;
+    }
+    
     return entity;
   }
 

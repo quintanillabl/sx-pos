@@ -93,10 +93,12 @@ export class ComFormComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        console.log('Asignando compra....', result);
+        // console.log('Asignando compra....', result);
+        
         if(!this.compra)
           this.asignarCompra(result.compra);
         result.partidas.forEach(element => {
+          
           this.insertarCompraDet(element);
         });
         this.cd.markForCheck();
@@ -108,7 +110,7 @@ export class ComFormComponent implements OnInit {
   insertarCompraDet(compraDet: CompraDet) {
     const fg = this.fb.group({
       compraDet:compraDet,
-      cantidad: [compraDet.solicitado , Validators.required],
+      cantidad: [compraDet.pendiente , Validators.required],
       producto: {
         id: compraDet.producto.id,
         clave: compraDet.producto.clave,

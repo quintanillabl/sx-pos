@@ -71,7 +71,8 @@ export class SelectorDeCompraDialogComponent implements OnInit {
 
   selectCompra(compra) {
     this.compra = compra;
-    console.log('Compra seleccionada: ', this.compra);
+    // console.log('Compra seleccionada: ', this.compra);
+    console.log('Partidas de compra seleccionada: ', compra.partidas);
     this.error = null;
     this.loading = false;
   }
@@ -88,12 +89,14 @@ export class SelectorDeCompraDialogComponent implements OnInit {
 
   get disponibles() {
     if(this.compra === null) return [];
-    return this.compra.partidas;
+    const partidas = this.compra.partidas;
+    return _.filter(partidas, item => item.pendiente > 0 )
+    // return this.compra.partidas.filter;
     /*
     const partidas = _.forEach(this.compra.partidas, (item) => {
       item.disponibleParaDevolucion = Math.abs(item.cantidad) - item.devuelto;  
     });
-    return _.filter(partidas, item => item.disponibleParaDevolucion > 0 )
+    
     */
   }
   

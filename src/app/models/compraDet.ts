@@ -7,4 +7,5 @@ export interface CompraDet {
   comentario?: string;
   sucursal?: Sucursal;  
   sw2?: string;
+  pendiente?: number;
 }

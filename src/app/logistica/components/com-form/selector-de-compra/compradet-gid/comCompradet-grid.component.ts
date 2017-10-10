@@ -10,7 +10,7 @@ const DECIMAL_FORMAT: (v: any) => any = (v: number) => v.toFixed(2);
 
 @Component({
   selector: 'sx-com-compradet-grid',
-  templateUrl: 'comCompradet-grid.component.html'
+  templateUrl: './comCompradet-grid.component.html'
 })
 export class ComCompradetGridComponent implements OnInit {
 
@@ -32,8 +32,11 @@ export class ComCompradetGridComponent implements OnInit {
 
   columns: ITdDataTableColumn[] = [
     { name: 'producto.clave',  label: 'Clave', sortable: true, width: 40, numeric: false },
-    { name: 'producto.descripcion',  label: 'Descripcion', sortable: true, width: 320, numeric: false },
+    { name: 'producto.descripcion',  label: 'Descripcion', sortable: true, width: 300, numeric: false },
     { name: 'solicitado',  label: 'Solicitado', sortable: true, width: 40, numeric: true, format: NUMBER_FORMAT },
+    { name: 'recibido',  label: 'Recibido', sortable: true, width: 40, numeric: true, format: NUMBER_FORMAT },
+    { name: 'pendiente',  label: 'Por recibir', sortable: false, width: 40, numeric: true, format: NUMBER_FORMAT },
+    
     
   ];
 
