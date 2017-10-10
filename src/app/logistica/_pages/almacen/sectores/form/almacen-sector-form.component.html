@@ -49,7 +49,8 @@
 
     <md-divider></md-divider>
     <md-card-actions>
-      <button type="submit" md-button [disabled]="form.invalid"> Salvar </button>
+      <!-- <button type="submit" md-button [disabled]="form.invalid"> Salvar </button> -->
+      <button type="submit" md-button [disabled]="form.invalid" *ngIf="!disabled"> Salvar </button>
       <a  md-button [routerLink]="['/logistica/almacen/sectores']"> Cancelar </a>
       <button md-icon-button (click)="print()" mdTooltip="Imprimir documento" *ngIf="id">
         <md-icon>print</md-icon>

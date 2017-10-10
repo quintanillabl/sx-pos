@@ -55,7 +55,8 @@ export class ConteoEditPageComponent implements OnInit {
         (res: any) => {
           // console.log('Actualizacion exitosa: ', res);
           this.loadingService.resolve('saving');
-          this.router.navigate(['/logistica/almacen/conteo'])
+          // this.router.navigate(['/logistica/almacen/conteo'])
+          this.router.navigate(['/logistica/almacen/conteo/show', res.id], { queryParams: { tipo: 'show' } })
         },
         response => {
           this.handlePostError(response);

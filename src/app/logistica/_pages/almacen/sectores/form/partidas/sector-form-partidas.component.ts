@@ -24,4 +24,9 @@ export class SectorFormPartidasComponent implements OnInit {
   delete(index: number) {
     this.remove.emit(index);
   }
+
+  modificar( row, value) {
+    console.log(`Aignando ${value} a ${row.producto.clave}`)
+    row.indice = value;
+  }
 }

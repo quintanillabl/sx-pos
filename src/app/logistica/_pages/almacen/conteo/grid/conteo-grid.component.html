@@ -27,7 +27,8 @@
         <md-icon md-list-icon class="tc-pink-800" >apps</md-icon>
         <span md-line >
           <span layout layout-padding>
-            <span flex="10" class="tc-indigo-700">{{row.sector.sectorFolio}} </span>
+            <!-- <span flex="10" class="tc-indigo-700">{{row.sector.sectorFolio}} </span> -->
+            <a md-button [routerLink]="['show', row.id]" [queryParams]="{tipo: 'show'}"  class="tc-indigo-700">{{row.sector.sectorFolio}} </a>
             <!--<span flex>{{row.capturista}}</span>
             <span flex >{{row.contador1}}</span>
             <span flex >{{row.contador2}}</span>-->

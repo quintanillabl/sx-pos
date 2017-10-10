@@ -55,7 +55,8 @@ export class CapturaEditPageComponent implements OnInit {
         (res: any) => {
           console.log('Actualizacion exitosa: ', res);
           this.loadingService.resolve('saving');
-          this.router.navigate(['/logistica/almacen/captura'])
+          // this.router.navigate(['/logistica/almacen/captura'])
+          this.router.navigate(['/logistica/almacen/captura/show', res.id], { queryParams: { tipo: 'show' } })
         },
         response => {
           this.handlePostError(response);
