@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { MdIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'sx-root',
   templateUrl: './app.component.html',
@@ -37,6 +39,7 @@ export class AppComponent {
     this.iconRegistry.addSvgIconInNamespace('assets', 'logo',
       this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/logo.svg'));
 
+    moment.locale('es');
   }
 
 

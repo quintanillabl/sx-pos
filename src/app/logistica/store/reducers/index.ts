@@ -7,6 +7,13 @@ import * as fromSols from './sols.reducers';
 import * as fromSectores from './sectores.reducer';
 import * as fromConteos from './conteos.reducer';
 
+
+// Embarques state
+import * as fromFacturistas from './facturistas.reducers';
+import * as fromChoferes from './choferes.reducer';
+import * as fromTransportes from './transportes.reducre';
+import * as fromEmbarques from './embarques.reducer';
+
 export interface LogisticaState {
   devoluciones: fromDevoluciones.State
   coms: fromComs.State
@@ -14,6 +21,10 @@ export interface LogisticaState {
   sols: fromSols.State
   sectores: fromSectores.State
   conteos: fromConteos.State
+  facturistas: fromFacturistas.State
+  choferes: fromChoferes.State
+  transportes: fromTransportes.State
+  embarques: fromEmbarques.State
 }
 
 export interface State extends fromRoot.State {
@@ -27,6 +38,10 @@ export const reducers = {
   sols: fromSols.reducer,
   sectores: fromSectores.reducer,
   conteos: fromConteos.reducer,
+  facturistas: fromFacturistas.reducer,
+  choferes: fromChoferes.reducer,
+  transportes: fromTransportes.reducer,
+  embarques: fromEmbarques.reducer,
 };
 
 export const selectLogisticaState = createFeatureSelector<LogisticaState>('logistica');
@@ -148,4 +163,77 @@ export const getConteosLoading = createSelector(
 export const getSelectedConteo = createSelector(
   selectConteoState,
   fromConteos.getSelected
+);
+
+/**** EMBARQUES  */
+/** Facturistas */
+export const selectFacturistasState = createSelector(
+  selectLogisticaState,
+  (state: LogisticaState) => state.facturistas
+);
+export const getFacturistas = createSelector(
+  selectFacturistasState,
+  fromFacturistas.getEntities
+);
+export const getFacturistasLoading = createSelector(
+  selectFacturistasState,
+  fromFacturistas.getLoading
+);
+export const getSelectedFacturista = createSelector(
+  selectFacturistasState,
+  fromFacturistas.getSelected
+);
+
+/** Choferes */
+export const selectChoferesState = createSelector(
+  selectLogisticaState,
+  (state: LogisticaState) => state.choferes
+);
+export const getChoferes = createSelector(
+  selectChoferesState,
+  fromChoferes.getEntities
+);
+export const getChoferesLoading = createSelector(
+  selectChoferesState,
+  fromChoferes.getLoading
+);
+export const getSelectedChofer = createSelector(
+  selectChoferesState,
+  fromChoferes.getSelected
+);
+
+/** Transportes */
+export const selectTransportesState = createSelector(
+  selectLogisticaState,
+  (state: LogisticaState) => state.transportes
+);
+export const getTransportes = createSelector(
+  selectTransportesState,
+  fromTransportes.getEntities
+);
+export const getTransportesLoading = createSelector(
+  selectTransportesState,
+  fromTransportes.getLoading
+);
+export const getSelectedTransporte = createSelector(
+  selectTransportesState,
+  fromTransportes.getSelected
+);
+
+/** Embarque */
+export const selectEmbarquesState = createSelector(
+  selectLogisticaState,
+  (state: LogisticaState) => state.embarques
+);
+export const getEmbarques = createSelector(
+  selectEmbarquesState,
+  fromEmbarques.getEntities
+);
+export const getEmbarquesLoading = createSelector(
+  selectEmbarquesState,
+  fromEmbarques.getLoading
+);
+export const getSelectedEmbarque = createSelector(
+  selectEmbarquesState,
+  fromEmbarques.getSelected
 );

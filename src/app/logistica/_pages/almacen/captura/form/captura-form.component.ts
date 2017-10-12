@@ -147,7 +147,7 @@ export class CapturaFormComponent implements OnInit, OnChanges {
   }
 
   get title() {
-    return 'Conteo físico de inventario';
+    return 'Captura de conteo físico ';
   }
 
   get id() {

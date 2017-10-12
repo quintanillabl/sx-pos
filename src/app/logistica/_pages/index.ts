@@ -62,6 +62,21 @@ export { CapturaFormComponent } from './almacen/captura/form/captura-form.compon
 export { CapturaDetDialogComponent } from './almacen/captura/form/captura-det-dialog.component';
 export { CapturaFormPartidasComponent } from './almacen/captura/form/partidas/captura-form-partidas.component';
 
+// Embarques
+export { EmbarquesPageComponent } from './embarques/embarques-page.component';
+export { FacturistaPageComponent } from './embarques/facturista/facturista-page.component';
+export { FacturistasGridComponent } from './embarques/facturista/grid/facturistas-grid.component';
+export { ChoferesPageComponent } from './embarques/choferes/choferes-page.component';
+export { ChoferesGridComponent } from './embarques/choferes/grid/choferes-grid.component';
+export { TransportesPageComponent } from './embarques/transportes/transportes-page.component';
+export { TransportesGridComponent } from './embarques/transportes/grid/transportes-grid.component';
+export { EmbarquePageComponent } from './embarques/embarque/embarque-page.component';
+export { EmbarqueFormComponent } from './embarques/embarque/form/embarque-form.component';
+export { EmbarqueCreatePageComponent } from './embarques/embarque/embarque-create-page.component';
+export { EmbarqueListComponent } from './embarques/embarque/embarque-list/embarque-list.component';
+export { EmbarqueEditPageComponent } from './embarques/embarque/embarque-edit-page.component';
+export { EnvioFormComponent } from './embarques/embarque/envio-form/envio-form.component';
+
 // Registro
 export { RegistroConteoPageComponent } from './almacen/registro/registro-conteo-page.component';
 

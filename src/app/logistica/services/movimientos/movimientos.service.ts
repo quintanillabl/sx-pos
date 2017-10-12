@@ -56,7 +56,8 @@ export class MovimientosService {
   print(id: string){
     console.log('Printing id: ', id);
     const url = environment.apiUrl + '/report';
-    let params = new HttpParams().set('ID', this.sucursal.id);
+    let params = new HttpParams()
+      .set('ID', id);
     const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
     return this.http.get(
       url, {

@@ -6,6 +6,7 @@ import { TdDialogService } from '@covalent/core';
 import { Transformacion } from "app/logistica/models/transformacion";
 import { TransformacionesService } from "app/logistica/services/transformaciones/transformaciones.service";
 import { ITdDataTableColumn } from "@covalent/core";
+import * as FileSaver from 'file-saver'; 
 
 const DECIMAL_FORMAT: (v: any) => any = (v: number) => v.toFixed(3);
 const NUMBER_FORMAT: (v: any) => any = (v: number) => v;
@@ -42,7 +43,7 @@ const NUMBER_FORMAT: (v: any) => any = (v: number) => v;
           </td-data-table>
           <md-card-actions>
             <a md-button [routerLink]="['../../']" ><md-icon>keyboard_backspace</md-icon> Regresar </a>
-            <button md-icon-button mdTooltip="Imprimir documento" (click)="print()"><md-icon>print</md-icon></button>
+            <button md-icon-button mdTooltip="Imprimir documento" (click)="print(trs)"><md-icon>print</md-icon></button>
             <button md-button color="accent" *ngIf="trs.fechaInventario === undefined"
               mdTooltip="Mandar al inventario" (click)="inventariar(trs)">  
             <md-icon >send</md-icon> Mandar al inventario</button>
@@ -106,15 +107,17 @@ export class TransformacionesShowPageComponent implements OnInit {
     });
   }
 
-  print() {
-    this._dialogService.openAlert({
-      message: 'La impresión de este documento está en desarrollo',
-      viewContainerRef: this._viewContainerRef, //OPTIONAL
-      title: 'Impresíon', //OPTIONAL, hides if not provided
-      closeButton: 'Cancelar', //OPTIONAL, defaults to 'CLOSE'
+  print(trs: Transformacion) {
+    this.service.print(trs.id)
+    .subscribe(res => {
+      let blob = new Blob([res], { 
+        type: 'application/pdf' 
+      });
+      let filename = `trs_${trs.tipo}_${trs.documento}.pdf`;
+      FileSaver.saveAs(blob, filename);
     });
-
   }
+
 
   doDelete(trs: Transformacion) {
     this.service

@@ -26,8 +26,14 @@ import {SectoresService} from './services/sectores/sectores.service';
 import {SectoresEffects} from 'app/logistica/store/effects/sectores.effects';
 import {ConteosService} from 'app/logistica/services/conteos/conteos.service';
 import {ConteosEffects} from 'app/logistica/store/effects/conteos.effects';
-
-
+import { FacturistasEffects } from 'app/logistica/store/effects/facturistas.effects';
+import { FacturistasService } from 'app/logistica/services/facturistas/facturistas.service';
+import { ChoferesService } from 'app/logistica/services/choferes/choferes.service';
+import { ChoferesEffects } from 'app/logistica/store/effects/choferes.effects';
+import { TransportesService } from 'app/logistica/services/transportes/transportes.service';
+import { TransportesEffects } from 'app/logistica/store/effects/transportes.effects';
+import { EmbarqueService } from 'app/logistica/services/embarque/embarque.service';
+import { EmbarquesEffects } from 'app/logistica/store/effects/embarques.effects';
 
 
 const PAGES =  [
@@ -85,8 +91,25 @@ const PAGES =  [
   pages.CapturaFormComponent,
   pages.CapturaFormPartidasComponent,
   pages.CapturaDetDialogComponent,
+  
+  // Embarques
+  pages.EmbarquesPageComponent,
+  pages.FacturistaPageComponent,
+  pages.FacturistasGridComponent,
+  pages.ChoferesPageComponent,
+  pages.ChoferesGridComponent,
+  pages.TransportesPageComponent,
+  pages.TransportesGridComponent,
+  pages.EmbarquePageComponent,
+  pages.EmbarqueFormComponent,
+  pages.EmbarqueCreatePageComponent,
+  pages.EmbarqueListComponent,
+  pages.EmbarqueEditPageComponent,
+  pages.EnvioFormComponent,
+  
   // Almacen Registro
   pages.RegistroConteoPageComponent,
+
 ];
 const COMPONENTS = [
   components.MovimientosListComponent,
@@ -123,6 +146,8 @@ const COMPONENTS = [
   components.SolFormComponent,
   components.AddSoldetDialogComponent,
   components.SolFormPartidasComponent,
+  // Embarques
+  components.ChoferFieldComponent,
 
 ]
 
@@ -138,12 +163,17 @@ const COMPONENTS = [
      * Side Effects for the module
      */
     EffectsModule.forFeature([
-      DevolucionesEffects, ComsEffects, DecsEffects, SolsEffects, SectoresEffects, ConteosEffects,
+      DevolucionesEffects, ComsEffects, DecsEffects, SolsEffects, SectoresEffects,
+      ConteosEffects,
+      FacturistasEffects,
+      ChoferesEffects,
+      TransportesEffects,
+      EmbarquesEffects,
     ])
   ],
   declarations: [
     ...PAGES,
-    ...COMPONENTS
+    ...COMPONENTS,
   ],
   entryComponents: [
     components.TransformaciondetDialogComponent,
@@ -161,7 +191,11 @@ const COMPONENTS = [
     ComsService,
     SolsService,
     SectoresService,
-    ConteosService
+    ConteosService,
+    FacturistasService,
+    ChoferesService,
+    TransportesService,
+    EmbarqueService,
   ]
 })
 export class LogisticaModule { }

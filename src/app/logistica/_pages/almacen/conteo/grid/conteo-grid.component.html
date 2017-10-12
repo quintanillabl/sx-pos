@@ -14,11 +14,11 @@
       </span>
     </span>
     <span flex></span>
-    <span >
+    <!-- <span >
       <button md-icon-button>
         <md-icon >more_vert</md-icon>
       </button>
-    </span>
+    </span> -->
   </md-list-item>
   <md-divider></md-divider>
   <td-virtual-scroll-container #virtualScroll [style.height.px]="350" [data]="conteos">
@@ -37,7 +37,7 @@
           </span>
         </span>
         <span flex></span>
-        <span >
+        <!-- <span >
           <button md-icon-button [md-menu-trigger-for]="menu"  >
           <md-icon [ngClass]="{'tc-blue-600':odd }">more_vert</md-icon>
           </button>
@@ -49,7 +49,7 @@
                 <md-icon>edit</md-icon> Editar
             </a>
           </md-menu>
-        </span>
+        </span> -->
       </md-list-item>
       <md-divider *ngIf="!last" md-inset></md-divider>
     </ng-template>

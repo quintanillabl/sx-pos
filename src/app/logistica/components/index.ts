@@ -36,3 +36,5 @@ export { SolsGridComponent } from './sols/sols-grid.component';
 export { SolFormComponent } from './sol-form/sol-form.component';
 export { AddSoldetDialogComponent } from './sol-form/add-soldet-dialog.component';
 export { SolFormPartidasComponent } from './sol-form/partidas/sol-form-partidas.component';
+
+export { ChoferFieldComponent } from './chofer-field/chofer-field.component';

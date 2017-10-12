@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { TdDialogService } from '@covalent/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import * as FileSaver from 'file-saver'; 
 
 import { Movimiento } from 'app/logistica/models/movimiento';
 import { MovimientosService } from 'app/logistica/services/movimientos/movimientos.service';
@@ -86,19 +87,14 @@ export class MovimientosShowComponent implements OnInit {
     });
   }
 
-  print(id: string) {
-    this.service.print(id)
+  print(mov: Movimiento) {
+    this.service.print(mov.id)
     .subscribe(res => {
-      console.log('Reporte: ', res);
       let blob = new Blob([res], { 
         type: 'application/pdf' 
-     });
-     /*
-      const pdfUrl = URL.createObjectURL(res);
-      const printwWindow = window.open(pdfUrl);
-      printwWindow.print();
-      */
-      
+      });
+      let filename = `mov_${mov.tipo}_${mov.documento}.pdf`;
+      FileSaver.saveAs(blob, filename);
     });
   }
 

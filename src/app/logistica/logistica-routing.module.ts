@@ -57,6 +57,19 @@ const routes: Routes = [
           { path: 'captura/show/:id', component: pages.CapturaEditPageComponent},
           { path: 'captura/edit/:id', component: pages.CapturaEditPageComponent},
         ]
+      },
+      {
+        path: 'embarques',
+        component: pages.EmbarquesPageComponent,
+        children: [
+          //{ path: '', redirectTo: 'facturistas', pathMatch: 'full'},
+          { path: 'embarques', component: pages.EmbarquePageComponent},
+          { path: 'embarques/edit/:id', component: pages.EmbarqueEditPageComponent},
+          { path: 'create', component: pages.EmbarqueCreatePageComponent},
+          { path: 'choferes', component: pages.ChoferesPageComponent},
+          { path: 'facturistas', component: pages.FacturistaPageComponent},
+          { path: 'transportes', component: pages.TransportesPageComponent},
+        ]
       }
     ]
   }
