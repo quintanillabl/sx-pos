@@ -76,6 +76,7 @@ export { EmbarqueCreatePageComponent } from './embarques/embarque/embarque-creat
 export { EmbarqueListComponent } from './embarques/embarque/embarque-list/embarque-list.component';
 export { EmbarqueEditPageComponent } from './embarques/embarque/embarque-edit-page.component';
 export { EnvioFormComponent } from './embarques/embarque/envio-form/envio-form.component';
+export { PartidasEnvioDialogComponent } from './embarques/embarque/envio-form/selector/partidas-envio-dialog.component';
 
 // Registro
 export { RegistroConteoPageComponent } from './almacen/registro/registro-conteo-page.component';
