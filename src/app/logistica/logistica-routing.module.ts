@@ -64,11 +64,14 @@ const routes: Routes = [
         children: [
           //{ path: '', redirectTo: 'facturistas', pathMatch: 'full'},
           { path: 'embarques', component: pages.EmbarquePageComponent},
-          { path: 'create', component: pages.EmbarqueCreatePageComponent},
+          { path: 'embarques/create', component: pages.EmbarqueCreatePageComponent},
           { path: 'embarques/edit/:id', component: pages.EmbarqueEditPageComponent},
           { path: 'transito', component: pages.TransitoPageComponent},
           { path: 'transito/edit/:id', component: pages.TransitoEditPageComponent},
-          { path: 'facturasEnTransito', component: pages.VentasTransitoPageComponent}
+          { path: 'facturasEnTransito', component: pages.VentasTransitoPageComponent},
+          { path: 'facturasPendientes', component: pages.FacturasPendientesPageComponent},
+          { path: 'trasladosPendientes', component: pages.TrasladosPendientesPageComponent},
+          { path: 'devolucionesPendientes', component: pages.DevolucionesPendientesPageComponent},
         ]
       }
     ]

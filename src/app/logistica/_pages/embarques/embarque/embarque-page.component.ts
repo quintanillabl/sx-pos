@@ -30,7 +30,7 @@ export class EmbarquePageComponent implements OnInit {
 
   ngOnInit() {
     this.embarques$ = this.store
-      .select(fromRoot.getEmbarques)
+      .select(fromRoot.getEmbarquesPorSalir)
       .shareReplay();
     this.loading$ = this.store.select(fromRoot.getEmbarquesLoading);
     this.load();

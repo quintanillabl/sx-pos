@@ -115,6 +115,9 @@ const PAGES =  [
   pages.TransitoFormPartidasComponent,
   pages.EntregaPorChoferComponent,
   pages.VentasTransitoPageComponent,
+  pages.FacturasPendientesPageComponent,
+  pages.TrasladosPendientesPageComponent,
+  pages.DevolucionesPendientesPageComponent,
 
   // Almacen Registro
   pages.RegistroConteoPageComponent,

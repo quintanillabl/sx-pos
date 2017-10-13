@@ -57,3 +57,7 @@ export function reducer(state = initialState, action: embarques.Actions): State 
 export const getEntities = (state: State) => state.entities;
 export const getSelected = (state: State) => state.selected;
 export const getLoading = (state: State) => state.loading;
+
+export const getEmbarquesPorSalir = (state: State) => {
+  return state.entities.filter( item => !item.salida )
+};

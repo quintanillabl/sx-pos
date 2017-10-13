@@ -237,3 +237,7 @@ export const getSelectedEmbarque = createSelector(
   selectEmbarquesState,
   fromEmbarques.getSelected
 );
+export const getEmbarquesPorSalir = createSelector(
+  selectEmbarquesState,
+  fromEmbarques.getEmbarquesPorSalir
+)

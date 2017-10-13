@@ -86,7 +86,9 @@ export { TransitoFormComponent } from './embarques/transito/envio-form/transito-
 export { TransitoFormPartidasComponent } from './embarques/transito/envio-form/partidas/transito-form-partidas.component';
 export { EntregaPorChoferComponent } from './embarques/reportes/entrega-por-chofer/entrega-por-chofer.component';
 export { VentasTransitoPageComponent } from './embarques/pendientes/ventas-transito-page.component';
-  
+export { FacturasPendientesPageComponent } from './embarques/pendientes/facturas-pendientes.component';
+export { TrasladosPendientesPageComponent } from './embarques/pendientes/traslados-pendientes.component.';
+export { DevolucionesPendientesPageComponent } from './embarques/pendientes/devoluciones-pendientes.component.';
 
 // Registro
 export { RegistroConteoPageComponent } from './almacen/registro/registro-conteo-page.component';

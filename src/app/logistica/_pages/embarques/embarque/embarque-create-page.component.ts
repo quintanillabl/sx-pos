@@ -49,7 +49,7 @@ export class EmbarqueCreatePageComponent implements OnInit {
           console.log('Salvado sector: ', res);
           this.loadingService.resolve('saving');
           // this.router.navigate(['/logistica/almacen/sectores/show', res.id]);
-          this.router.navigate(['/logistica/embarques']);
+          this.router.navigate(['/logistica/embarques/embarques']);
         },
         response => {
           this.handlePostError(response);

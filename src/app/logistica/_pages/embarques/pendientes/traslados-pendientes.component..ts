@@ -12,10 +12,10 @@ import * as FileSaver from 'file-saver';
 
 
 @Component({
-  selector: 'sx-ventas-transito-page',
-  templateUrl: './ventas-transito-page.component.html',
+  selector: 'sx-traslados-pendientes-page',
+  templateUrl: './traslados-pendientes.component.html',
 })
-export class VentasTransitoPageComponent implements OnInit {
+export class TrasladosPendientesPageComponent implements OnInit {
 
   embarques$: Observable<Embarque[]>;
   loading$: Observable<boolean>;
@@ -37,11 +37,11 @@ export class VentasTransitoPageComponent implements OnInit {
   }
 
   search(folio: string) {
-     // this.store.dispatch(new SearchAction({'documento': folio}));
+    this.store.dispatch(new SearchAction({'documento': folio}));
   }
 
   load() {
-    // this.store.dispatch(new SearchAction({'transito':'transito'}));
+    this.store.dispatch(new SearchAction({'transito':'transito'}));
   }
 
   print(embarque: Embarque) {
