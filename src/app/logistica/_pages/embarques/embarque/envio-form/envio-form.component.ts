@@ -10,6 +10,8 @@ import * as _ from 'lodash';
 
 import { Sucursal } from 'app/models';
 import { Embarque } from 'app/logistica/models/embarque';
+import { PartidasEnvioDialogComponent } from './selector/partidas-envio-dialog.component';
+import { Envio } from 'app/logistica/models/envio';
 
 @Component({
   selector: 'sx-envio-form',
@@ -20,13 +22,13 @@ export class EnvioFormComponent implements OnInit, OnChanges {
 
   form: FormGroup;
 
-  @Input() sucursal: Sucursal;
-
   @Output() save = new EventEmitter<any>();
 
   @Input() embarque: Embarque;
 
   @Input() readonly = false;  
+
+  @Output() print = new EventEmitter<Embarque>();
 
   constructor(
     private fb: FormBuilder,
@@ -42,14 +44,14 @@ export class EnvioFormComponent implements OnInit, OnChanges {
     if (changes.embarque && !changes.embarque.isFirstChange()) {
       const embarque: Embarque = changes.embarque.currentValue;
       this.form.patchValue(embarque);
-      // embarque.partidas.forEach( item => this.insertarPartida(item));
+      embarque.partidas.forEach( item => this.agregarEnvio(item));
     }
   }
 
   buildForm() {
     this.form = this.fb.group({
       id: [null],
-      sucursal: [{value: this.sucursal, disabled: true}, Validators.required],
+      sucursal: [null, Validators.required],
       fecha: [new Date(), Validators.required],
       chofer: [null, Validators.required],
       comentario: ['', [Validators.maxLength(100)]],
@@ -74,17 +76,27 @@ export class EnvioFormComponent implements OnInit, OnChanges {
     return this.form.get('partidas') as FormArray
   }
 
-  removePartida(index: number) {
+  onDelete(index: number) {
     this.partidas.removeAt(index);
   }
 
   insertar() {
+    let dialogRef = this.dialog.open(PartidasEnvioDialogComponent, {
+      data: {embarque: this.embarque}
+    });
+    dialogRef.afterClosed().subscribe(envio => {
+      if(envio) {
+        console.log('Agregando:....', envio);
+        this.agregarEnvio(envio);
+      }
+    });
   }
-
-  // insertarPartida(det: SectorDet) {
-  //   this.partidas.push(new FormControl(det));
-  //   this.cd.detectChanges();
-  // }
+  
+  agregarEnvio(envio: Envio) {
+    this.partidas.push(new FormControl(envio));
+    this.cd.detectChanges();
+  }
+  
 
   // editarPartida($event) {
   //   const {row, cantidad} = $event;
@@ -108,8 +120,10 @@ export class EnvioFormComponent implements OnInit, OnChanges {
     return this.form.get('fecha').value;
   }
 
-  print() {
+  onPrint() {
+    this.print.emit(this.embarque);
   }
 
+  
 }
 

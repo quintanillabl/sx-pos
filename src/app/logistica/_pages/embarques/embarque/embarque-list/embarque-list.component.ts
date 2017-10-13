@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Embarque } from 'app/logistica/models/embarque';
 
@@ -11,9 +11,15 @@ export class EmbarqueListComponent implements OnInit {
 
   @Input() embrques: Embarque[] = [];
 
+  @Output() salida = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  marcarSalida(row) {
+    this.salida.emit(row);
   }
 
 }

@@ -1,5 +1,6 @@
 import { Chofer } from "app/logistica/models/chofer";
 import { Sucursal } from "app/models";
+import { Envio } from "./envio";
 
 export interface Embarque {
     id: string
@@ -13,7 +14,7 @@ export interface Embarque {
     regreso?: string
     salida?: string
     valor?: number
-    partidas: Array<any>
+    partidas: Array<Envio>
     dateCreated?: string
     lastUpdated?: string
     createUser?: string

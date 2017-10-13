@@ -2,31 +2,32 @@
   
   
   
-  <h4 md-dialog-title>
-    <span *ngIf="!venta">Selector de ventas</span>
-    <span *ngIf="venta"> {{venta.tipo}}: {{venta.documeto}}  {{(venta.cliente.nombre)}}</span>
-  </h4>
+  <h4 md-dialog-title>Selector de documento de envío</h4>
   
 <div layout="column" class="selector-form" >
   
-  <form novalidate (ngSubmit)="buscarVenta()" [formGroup]="form" *ngIf="!venta">
+
+  <form novalidate (ngSubmit)="buscarDocumento()" [formGroup]="form" *ngIf="!venta">
     <div layout>
-      <md-form-field >
+        <md-select placeholder="Tipo" formControlName="tipo" flex>
+            <md-option *ngFor="let tipo of tipos" 
+                [value]="tipo">{{ tipo }}
+            </md-option>
+          </md-select>
+      <md-form-field flex>
         <input type="text" mdInput placeholder="Documento" formControlName="documento">
         <md-error>El documento requerido</md-error>
       </md-form-field>
-      <div >
-        <md-select placeholder="Tipo" formControlName="tipo" >
-          <md-option *ngFor="let tipo of ['CRE','CON','COD']" 
-              [value]="tipo">{{ tipo }}
-          </md-option>
-        </md-select>
-      </div>
-      
-      <md-form-field >
-        <input type="text" mdInput placeholder="Sucursal" [value]="sucursal.nombre" disabled="true">
+
+      <md-form-field flex>
+        <input mdInput [mdDatepicker]="picker" placeholder="Fecha" formControlName="fecha">
+        <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
+        <md-datepicker #picker></md-datepicker>
       </md-form-field>
-      <button md-button type="submit">Buscar</button>
+
+      <button md-icon-button	 type="submit" [disabled]="form.invalid">
+        <md-icon>search</md-icon>
+      </button>
       
     </div>
   </form>
@@ -34,8 +35,7 @@
   <div *ngIf="error">
     {{error}}
   </div>
-
-  <ng-container *ngIf="venta"> 
+  
     <!--
       <td-json-formatter [data]="venta.partidas" [levelsOpen]="1">
         </td-json-formatter>
@@ -43,11 +43,11 @@
     <!-- <sx-rmd-ventadet-grid [data]="disponibles" [selectedRows]="selectedRows">
     </sx-rmd-ventadet-grid> -->
     
-  </ng-container>
+  
   
 </div>
 <md-dialog-actions>
-  <button md-button class="accent" type="button" [disabled]="!venta" (click)="doAccept()">Aceptar</button>
+  <button md-button class="accent" type="button" [disabled]="!envio" (click)="doAccept()">Aceptar</button>
   <button md-button type="button" (click)="close()" >Cancelar</button>
 </md-dialog-actions>
 </ng-template>

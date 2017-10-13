@@ -15,6 +15,8 @@ export const DELETE = '[Embarque] Delete';
 export const DELETE_SUCCESS = '[Embarque] Delete succcess';
 export const DELETE_ERROR = '[Embarque] Delete error';
 
+export const REGISTRAR_SALIDA = '[Embarque] Registrar salida';
+
 export class SearchAction implements Action {
   readonly type = SEARCH;
 
@@ -69,6 +71,12 @@ export class DeleteErrorAction implements Action {
   constructor(public payload: any) {}
 }
 
+export class RegistrarSalidaAction implements Action {
+  readonly type = REGISTRAR_SALIDA;
+
+  constructor(public payload: string) {}
+}
+
 
 /**
  * Export a type alias of all actions in this action group
@@ -84,3 +92,4 @@ export type Actions =
   | DeleteAction
   | DeleteSuccessAction
   | DeleteErrorAction
+  | RegistrarSalidaAction

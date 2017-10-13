@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { MdIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { DateAdapter, NativeDateAdapter } from '@angular/material';
+
 
 import * as moment from 'moment';
 
@@ -13,6 +15,7 @@ export class AppComponent {
 
   constructor(private iconRegistry: MdIconRegistry,
               private domSanitizer: DomSanitizer,
+              dateAdapter: DateAdapter<NativeDateAdapter>
               ) {
     this.iconRegistry.addSvgIconInNamespace('assets', 'teradata',
       this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/teradata.svg'));
@@ -40,6 +43,7 @@ export class AppComponent {
       this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/logo.svg'));
 
     moment.locale('es');
+    dateAdapter.setLocale('es_MX');
   }
 
 

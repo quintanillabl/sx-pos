@@ -1,16 +1,13 @@
 import { Component, Input, OnInit, OnDestroy, Inject, ChangeDetectionStrategy, OnChanges} from '@angular/core';
 import { FormGroup, FormBuilder, AbstractControl, Validators } from '@angular/forms';
-
-import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
-// import { TdDataTableService, TdDataTableSortingOrder, ITdDataTableSortChangeEvent, ITdDataTableColumn } from '@covalent/core';
-
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from "rxjs/Observable";
-
-import { DevolucionesService } from "app/logistica/services/devoluciones/devoluciones.service";
-import { Venta } from "app/models";
+import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import * as _ from 'lodash';
-import { VentaDet } from 'app/models/ventaDet';
+
+import { EmbarqueService } from 'app/logistica/services/embarque/embarque.service';
+import { Embarque } from 'app/logistica/models/embarque';
+import { Envio } from 'app/logistica/models/envio';
 
 @Component({
   selector: 'sx-partidas-envio-dialog',
@@ -18,34 +15,29 @@ import { VentaDet } from 'app/models/ventaDet';
   styleUrls: ['./partidas-envio-dialog.component.scss']
 })
 export class PartidasEnvioDialogComponent implements OnInit {
-
-  sucursal;
+  
   form: FormGroup;
   loading = false;
   error: any;
-  venta: Venta;
+  embarque: Embarque;
+  envio: Envio;
 
-  @Input() partivasSelected: VentaDet[] = [];
-
-  
-  selectedRows: any[] = [];
+  tipos = ['VENTA','TRASLADO','DEVOLUCION'];
 
   constructor(
     public dialogRef: MdDialogRef<PartidasEnvioDialogComponent>,
     @Inject(MD_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
-    private service: DevolucionesService
-  ) { 
-    this.sucursal = data.sucursal;
-    this.venta = data.venta;
+    private service: EmbarqueService
+  ) {
+    this.embarque = data.embarque;
   }
 
   ngOnInit() {
     this.form = this.fb.group({
+      tipo: ['VENTA', Validators.required],
       documento: [null, Validators.required],
-      // fecha: [new Date(), Validators.required],
-      sucursal: [{ value: this.sucursal.id, disabled: true}, Validators.required],
-      tipo: ['CRE', Validators.required]
+      fecha: [new Date(), Validators.required],
     });
   }
 
@@ -54,49 +46,48 @@ export class PartidasEnvioDialogComponent implements OnInit {
   }
 
   doAccept() {
-    const res = {
-      venta: this.venta,
-      partidas: this.selectedRows
-    }
-    this.dialogRef.close(res);
+    this.dialogRef.close(this.envio);
   }
 
-  buscarVenta() {
+  buscarDocumento() {
+    const docto = this.form.value;
+    //console.log("Buscando documento", this.form.value);
+    if(Object.prototype.toString.call(docto.fecha) === '[object Date]'){
+      // console.log('Tipo de fecha: ', typeof docto.fecha);
+      // console.log('Fecha: ', date.toISOString())
+      const date: Date = docto.fecha
+      docto.fecha = date.toISOString();
+    }
+    this.buscar(docto);
+  }
+
+  buscar(docto) {
+    console.log('Buscando documento: ', docto);
     if(this.form.valid) {
       this.loading = true;
-      const filtro = Object.assign({}, this.form.getRawValue());
-      this.service.buscarVenta(filtro)
-      //.delay(2000)
+      this.service.buscarDocumento(this.embarque.sucursal.id, docto.tipo, docto.documento, docto.fecha)
+      .delay(2000)
       .subscribe(
-        venta => this.selectVenta(venta),
+        envio => this.selectEnvio(envio),
         response => this.handleError(response));
     }
   }
 
-  selectVenta(venta) {
-    this.venta = venta;
-    console.log('Venta seleccionada: ', this.venta);
+  selectEnvio(envio) {
+    console.log('Envio sselecionado: ', envio);
+    this.envio = envio;
     this.error = null;
     this.loading = false;
   }
 
   handleError(response) {
-    console.error('Error buscando venta ', response);
+    console.error('Error buscando documento ', response);
     if(response.status === 404) {
-      this.error = 'Venta no localizada';
+      this.error = 'Documento no localizada';
     } else if (response.message !== null) {
       this.error = response.message;
     }
     this.loading = false;
   }
-
-  get disponibles(){
-    if(this.venta === null) return [];
-    const partidas = _.forEach(this.venta.partidas, (item) => {
-      item.disponibleParaDevolucion = Math.abs(item.cantidad) - item.devuelto;  
-    });
-    return _.filter(partidas, item => item.disponibleParaDevolucion > 0 )
-  }
-  
 
 }

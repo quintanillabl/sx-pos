@@ -62,7 +62,7 @@ export { CapturaFormComponent } from './almacen/captura/form/captura-form.compon
 export { CapturaDetDialogComponent } from './almacen/captura/form/captura-det-dialog.component';
 export { CapturaFormPartidasComponent } from './almacen/captura/form/partidas/captura-form-partidas.component';
 
-// Embarques
+/****  EMBARQUES *****/
 export { EmbarquesPageComponent } from './embarques/embarques-page.component';
 export { FacturistaPageComponent } from './embarques/facturista/facturista-page.component';
 export { FacturistasGridComponent } from './embarques/facturista/grid/facturistas-grid.component';
@@ -77,6 +77,16 @@ export { EmbarqueListComponent } from './embarques/embarque/embarque-list/embarq
 export { EmbarqueEditPageComponent } from './embarques/embarque/embarque-edit-page.component';
 export { EnvioFormComponent } from './embarques/embarque/envio-form/envio-form.component';
 export { PartidasEnvioDialogComponent } from './embarques/embarque/envio-form/selector/partidas-envio-dialog.component';
+export { EnvioFormPartidasComponent } from './embarques/embarque/envio-form/partidas/envio-form-partidas.component';
+//Transito
+export { TransitoPageComponent } from './embarques/transito/transito-page.component';
+export { TransitoListComponent } from './embarques/transito/transito-list/transito-list.component';
+export { TransitoEditPageComponent } from './embarques/transito/transito-edit-page.component';
+export { TransitoFormComponent } from './embarques/transito/envio-form/transito-form.component';
+export { TransitoFormPartidasComponent } from './embarques/transito/envio-form/partidas/transito-form-partidas.component';
+export { EntregaPorChoferComponent } from './embarques/reportes/entrega-por-chofer/entrega-por-chofer.component';
+export { VentasTransitoPageComponent } from './embarques/pendientes/ventas-transito-page.component';
+  
 
 // Registro
 export { RegistroConteoPageComponent } from './almacen/registro/registro-conteo-page.component';

@@ -3,7 +3,7 @@
     <div layout="row" layout-align="start center" layout-padding class="pad-left-sm pad-right-sm">
       <span class="pad-left">Administración de embarque</span>
       <span class="pad-left tc-pink-700">{{embarque?.documento}}</span>
-      <span class="pad ">{{embarque?.chofer?.nombre}}</span>
+      <span class="pad-left">Chofer: </span><span class="pad tc-indigo-700">{{embarque?.chofer?.nombre}}</span>
       <span flex></span>
       <span class="pad">Fecha: {{embarque?.fecha | date:'dd/MM/yyyy'}}</span>
       <span>
@@ -13,20 +13,23 @@
         </button>
       </span>
     </div>
-    <div layout>
+    <!-- <div layout>
       <span flex></span>
       <span class="pad text-md"> Modificado: {{embarque?.lastUpdated | date: 'dd/MM/yyyy hh:mm'}}</span>
-    </div>
+    </div> -->
     <md-divider></md-divider>
-    <md-card-content>
+    <!-- <md-card-content>
       <td-json-formatter [data]="embarque"></td-json-formatter>
-    </md-card-content>
+      <td-json-formatter [data]="partidas.value"></td-json-formatter>
+    </md-card-content> -->
+      <sx-envio-form-partidas [parent]="form" [partidas]="partidas.value" (remove)="onDelete($event)">
 
+      </sx-envio-form-partidas>
     <md-divider></md-divider>
     <md-card-actions>
       <button type="submit" md-button [disabled]="form.invalid" *ngIf="!readonly"> Salvar </button>
-      <a  md-button [routerLink]="['/logistica/embarques']"> Cancelar </a>
-      <button md-icon-button (click)="print()" mdTooltip="Imprimir documento" *ngIf="id">
+      <a  md-button [routerLink]="['/logistica/embarques/embarques']"> Cancelar </a>
+      <button md-icon-button type="button" (click)="onPrint()" mdTooltip="Imprimir documento" *ngIf="id">
         <md-icon>print</md-icon>
       </button>
       <a md-button  *ngIf="id && readonly" [routerLink]="['../../edit', id]">

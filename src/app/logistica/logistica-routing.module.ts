@@ -64,11 +64,11 @@ const routes: Routes = [
         children: [
           //{ path: '', redirectTo: 'facturistas', pathMatch: 'full'},
           { path: 'embarques', component: pages.EmbarquePageComponent},
-          { path: 'embarques/edit/:id', component: pages.EmbarqueEditPageComponent},
           { path: 'create', component: pages.EmbarqueCreatePageComponent},
-          { path: 'choferes', component: pages.ChoferesPageComponent},
-          { path: 'facturistas', component: pages.FacturistaPageComponent},
-          { path: 'transportes', component: pages.TransportesPageComponent},
+          { path: 'embarques/edit/:id', component: pages.EmbarqueEditPageComponent},
+          { path: 'transito', component: pages.TransitoPageComponent},
+          { path: 'transito/edit/:id', component: pages.TransitoEditPageComponent},
+          { path: 'facturasEnTransito', component: pages.VentasTransitoPageComponent}
         ]
       }
     ]

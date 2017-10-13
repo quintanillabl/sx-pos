@@ -107,6 +107,14 @@ const PAGES =  [
   pages.EmbarqueEditPageComponent,
   pages.EnvioFormComponent,
   pages.PartidasEnvioDialogComponent,
+  pages.EnvioFormPartidasComponent,
+  pages.TransitoPageComponent,
+  pages.TransitoListComponent,
+  pages.TransitoEditPageComponent,
+  pages.TransitoFormComponent,
+  pages.TransitoFormPartidasComponent,
+  pages.EntregaPorChoferComponent,
+  pages.VentasTransitoPageComponent,
 
   // Almacen Registro
   pages.RegistroConteoPageComponent,
@@ -186,6 +194,7 @@ const COMPONENTS = [
     pages.ConteoDetDialogComponent,
     pages.CapturaDetDialogComponent,
     pages.PartidasEnvioDialogComponent,
+    pages.EntregaPorChoferComponent,
   ],
   providers: [MovimientosService, TransformacionesService,
     DevolucionesService,

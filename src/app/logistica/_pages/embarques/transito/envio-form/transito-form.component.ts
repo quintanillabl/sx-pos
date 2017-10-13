@@ -10,24 +10,24 @@ import * as _ from 'lodash';
 
 import { Sucursal } from 'app/models';
 import { Embarque } from 'app/logistica/models/embarque';
+import { Envio } from 'app/logistica/models/envio';
 
 @Component({
-  selector: 'sx-embarque-form',
-  templateUrl: 'embarque-form.component.html',
-  styleUrls:['./embarque-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'sx-transito-form',
+  templateUrl: './transito-form.component.html',
+  styleUrls: ['./transito-form.component.scss']
 })
-export class EmbarqueFormComponent implements OnInit, OnChanges {
+export class TransitoFormComponent implements OnInit, OnChanges {
 
   form: FormGroup;
-
-  @Input() sucursal: Sucursal;
 
   @Output() save = new EventEmitter<any>();
 
   @Input() embarque: Embarque;
 
   @Input() readonly = false;  
+
+  @Output() print = new EventEmitter<Embarque>();
 
   constructor(
     private fb: FormBuilder,
@@ -43,14 +43,14 @@ export class EmbarqueFormComponent implements OnInit, OnChanges {
     if (changes.embarque && !changes.embarque.isFirstChange()) {
       const embarque: Embarque = changes.embarque.currentValue;
       this.form.patchValue(embarque);
-      // embarque.partidas.forEach( item => this.insertarPartida(item));
+      embarque.partidas.forEach( item => this.agregarEnvio(item));
     }
   }
 
   buildForm() {
     this.form = this.fb.group({
       id: [null],
-      sucursal: [{value: this.sucursal, disabled: true}, Validators.required],
+      sucursal: [null, Validators.required],
       fecha: [new Date(), Validators.required],
       chofer: [null, Validators.required],
       comentario: ['', [Validators.maxLength(100)]],
@@ -75,30 +75,31 @@ export class EmbarqueFormComponent implements OnInit, OnChanges {
     return this.form.get('partidas') as FormArray
   }
 
-  removePartida(index: number) {
+  onDelete(index: number) {
     this.partidas.removeAt(index);
   }
 
-  insertar() {
+  onArribo(index: number) {
+    const envio = this.partidas.at(index).value;
+    envio.arribo = new Date().toISOString()
+    this.cd.detectChanges()
+    console.log('Registrando arribo de envio: ', envio);
   }
 
-  // insertarPartida(det: SectorDet) {
-  //   this.partidas.push(new FormControl(det));
-  //   this.cd.detectChanges();
-  // }
-
-  // editarPartida($event) {
-  //   const {row, cantidad} = $event;
-  //   this.partidas.controls[row].patchValue({cantidad: cantidad});
-  // }
-
-  // onDelete(index: number) {
-  //   this.removePartida(index);
-  //   this.cd.detectChanges();
-  // }
+  onRecepcion(index: number) {
+    const envio = this.partidas.at(index).value;
+    envio.recepcion = new Date().toISOString()
+    this.cd.detectChanges()
+    console.log('Registrando recepcion de envio: ', envio);
+  }
+   
+  agregarEnvio(envio: Envio) {
+    this.partidas.push(new FormControl(envio));
+    this.cd.detectChanges();
+  }
 
   get title() {
-    return ' Alta de embarque'
+    return ' Mantenimiento de embarque en transito'
   }
 
   get id() {
@@ -109,4 +110,10 @@ export class EmbarqueFormComponent implements OnInit, OnChanges {
     return this.form.get('fecha').value;
   }
 
+  onPrint() {
+    this.print.emit(this.embarque);
+  }
+
+  
 }
+

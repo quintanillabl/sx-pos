@@ -38,7 +38,7 @@
     <md-card-actions>
       <button type="submit" md-button [disabled]="form.invalid" *ngIf="!readonly"> Salvar </button>
       <a  md-button [routerLink]="['/logistica/embarques']"> Cancelar </a>
-      <button md-icon-button (click)="print()" mdTooltip="Imprimir documento" *ngIf="id">
+      <button md-icon-button (click)="print.emit(form.value)" mdTooltip="Imprimir documento" *ngIf="id">
         <md-icon>print</md-icon>
       </button>
       <a md-button  *ngIf="id && readonly" [routerLink]="['../../edit', id]">

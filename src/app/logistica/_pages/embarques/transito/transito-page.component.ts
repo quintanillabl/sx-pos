@@ -12,10 +12,10 @@ import * as FileSaver from 'file-saver';
 
 
 @Component({
-  selector: 'sx-embarque-page',
-  templateUrl: './embarque-page.component.html',
+  selector: 'sx-transito-page',
+  templateUrl: './transito-page.component.html',
 })
-export class EmbarquePageComponent implements OnInit {
+export class TransitoPageComponent implements OnInit {
 
   embarques$: Observable<Embarque[]>;
   loading$: Observable<boolean>;
@@ -41,7 +41,7 @@ export class EmbarquePageComponent implements OnInit {
   }
 
   load() {
-    this.store.dispatch(new SearchAction());
+    this.store.dispatch(new SearchAction({'transito':'transito'}));
   }
 
   print(embarque: Embarque) {
@@ -55,23 +55,21 @@ export class EmbarquePageComponent implements OnInit {
     });
   }
 
-  onSalida(embarque: Embarque) {
-    console.log('Embarque salida: ', embarque.salida);
-    if(!embarque.salida) {
+  onRegreso(embarque: Embarque) {
+    if(!embarque.regreso) {
       this._dialogService.openConfirm({
-        message: 'Registrar salida de embarue?' + embarque.documento,
+        message: 'Registrar regreso del embarue?' + embarque.documento,
         viewContainerRef: this._viewContainerRef,
         title: 'Embarques',
         cancelButton: 'Cancelar',
         acceptButton: 'Aceptar',
       }).afterClosed().subscribe((accept: boolean) => {
         if (accept) {
-          console.log('Marcando salida de embarque para: ', embarque);
-          // this.store.dispatch(new RegistrarSalidaAction(embarque.id));
+          console.log('Marcando regreso de embarque para: ', embarque);
           this.service
-            .registrarSalida(embarque)
+            .registrarRegreso(embarque)
             .subscribe( res => {
-              console.log('Salida registrada...', res);
+              console.log('Regreso registrado...', res);
               this.router.navigate(['/logistica/embarques/transito']);
             }, error=> {
 

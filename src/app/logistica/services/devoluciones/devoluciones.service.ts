@@ -63,5 +63,6 @@ export class DevolucionesService {
     const url = `${this.apiUrl}/buscarVenta`;
     return this.http.get<Venta[]>(url, {params: params})
   }
+  
 
 }

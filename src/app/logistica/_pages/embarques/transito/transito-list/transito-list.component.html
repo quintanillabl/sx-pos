@@ -6,9 +6,9 @@
           <span layout layout-padding>
             <span flex="10" class="tc-indigo-700"> Embarque</span>
             <span flex>Chofer </span>
-            <span flex>Fecha </span>
+            <span flex>Salida </span>
             <span flex></span>
-            <span >Salida </span>
+            <span >Regreso </span>
           </span>
         </span>
         <span flex></span>
@@ -27,11 +27,12 @@
               <span layout layout-padding>
                 <a md-button [routerLink]="['edit', row.id]"  class="tc-indigo-700">{{row.documento}} </a>
                 <span flex>{{row.chofer.nombre}} </span>
-                <span flex>{{ row.dateCreated | amTimeAgo }} </span>
+                <span flex md-tooltip="{{row.salida | date:'short'}}">{{ row.salida | amTimeAgo }} </span>
                 
                 <span flex></span>
-                <button  md-icon-button (click)="marcarSalida(row)" mdTooltip="Regisrar salida de embarque" *ngIf="!row.salida">
-                  <md-icon>flight_takeoff</md-icon>
+                <button  md-icon-button (click)="marcarRegreso(row)" 
+                  mdTooltip="Regisrar regreso de embarque" *ngIf="!row.regreso">
+                  <md-icon>flight_land</md-icon>
                 </button>
               </span>
             </span>
