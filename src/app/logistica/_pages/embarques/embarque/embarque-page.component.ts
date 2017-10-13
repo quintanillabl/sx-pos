@@ -37,7 +37,7 @@ export class EmbarquePageComponent implements OnInit {
   }
 
   search(folio: string) {
-    this.store.dispatch(new SearchAction({'documento': folio}));
+    // this.store.dispatch(new SearchAction({'documento': folio}));
   }
 
   load() {

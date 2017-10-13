@@ -49,6 +49,20 @@ export class EmbarqueService {
     return this.http.get<Embarque[]>(this.apiUrl, {params: params})
   }
 
+  documentosEnTransito() {
+    const url = `${this.apiUrl}/documentosEnTransito`;
+    let params = new HttpParams()
+      .set('sucursal', this.sucursal.id)
+    return this.http.get<Array<any>>(url, {params: params})
+  }
+
+  enviosPendientes() {
+    const url = `${this.apiUrl}/enviosPendientes`;
+    let params = new HttpParams()
+      .set('sucursal', this.sucursal.id)
+    return this.http.get<Array<any>>(url, {params: params})
+  }
+
   save(sol: Embarque) {
     return this.http.post(this.apiUrl, sol);
   }
@@ -78,6 +92,7 @@ export class EmbarqueService {
       .set('fecha',fecha)
       .set('documento', documento)
       .set('tipo',tipo);
+      // console.log('Buscando documento con: ', params);
     const url = `${this.apiUrl}/buscarDocumento`;
     return this.http.get<any>(url, {params: params})
   }

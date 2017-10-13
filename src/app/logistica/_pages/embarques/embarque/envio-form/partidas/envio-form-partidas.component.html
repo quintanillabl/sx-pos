@@ -23,7 +23,13 @@
         <td td-data-table-cell numeric="true">{{row.totalDocumento}}</td>
         <td td-data-table-cell >{{row.nombre}}</td>
         <td td-data-table-cell >{{row.kilos}}</td>
-        <td td-data-table-cell >{{row.parcial ? 'SI': 'NO'}}</td>
+        <td td-data-table-cell >
+          <a md-button [routerLink]="['/logistica/envios/edit',row.id]" (click)="delete(i)"  tabindex="-1" class="text-md">
+            <md-icon *ngIf="!row.salida" md-button color="accent" >
+              {{row.parcial ? 'SI': 'NO'}}
+            </md-icon>
+          </a>
+        </td>
         
         <!--<td td-data-table-cell >
           <input type="text" *ngIf="!disabled" value="{{row.cantidad}}" (blur)="modificar(row, ifield.value)" #ifield>

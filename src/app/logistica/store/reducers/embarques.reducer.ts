@@ -61,3 +61,4 @@ export const getLoading = (state: State) => state.loading;
 export const getEmbarquesPorSalir = (state: State) => {
   return state.entities.filter( item => !item.salida )
 };
+
