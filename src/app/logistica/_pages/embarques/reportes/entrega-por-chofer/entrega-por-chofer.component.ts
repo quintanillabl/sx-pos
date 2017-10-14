@@ -1,15 +1,41 @@
 import { Component, OnInit } from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MdDialogRef} from '@angular/material';
 
 @Component({
-  selector: 'app-entrega-por-chofer',
+  selector: 'sx-entrega-por-chofer',
   templateUrl: './entrega-por-chofer.component.html',
   styleUrls: ['./entrega-por-chofer.component.scss']
 })
 export class EntregaPorChoferComponent implements OnInit {
 
-  constructor() { }
+  form: FormGroup;
+
+
+  constructor(
+    private fb: FormBuilder,
+    public dialogRef: MdDialogRef<EntregaPorChoferComponent>,
+  ) { }
 
   ngOnInit() {
+    this.form = this.fb.group({
+      fecha: [new Date(), Validators.required],
+      chofer: [null, Validators.required]
+    });
+  }
+
+  close() {
+    this.dialogRef.close();
+  }
+
+  doAccept() {
+    const fecha: Date = this.form.get('fecha').value;
+    const res = {
+      ... this.form.value,
+      fecha: fecha.toISOString(),
+    };
+    console.log('Params: ', res);
+    this.dialogRef.close(this.form.value);
   }
 
 }

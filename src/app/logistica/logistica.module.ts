@@ -123,6 +123,7 @@ const PAGES =  [
   pages.EnvioParcialPartidasComponent,
   pages.EnviodetSelectorDialogComponent,
 
+
   // Almacen Registro
   pages.RegistroConteoPageComponent,
 
@@ -203,6 +204,7 @@ const COMPONENTS = [
     pages.PartidasEnvioDialogComponent,
     pages.EntregaPorChoferComponent,
     pages.EnviodetSelectorDialogComponent,
+    pages.EntregaPorChoferComponent,
   ],
   providers: [MovimientosService, TransformacionesService,
     DevolucionesService,

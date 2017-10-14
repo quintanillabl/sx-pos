@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { TdDialogService } from '@covalent/core';
-import * as FileSaver from 'file-saver'; 
+import * as FileSaver from 'file-saver';
+
 import { EmbarqueService } from 'app/logistica/services/embarque/embarque.service';
+import { EntregaPorChoferComponent } from './reportes/entrega-por-chofer/entrega-por-chofer.component';
+import {MdDialog} from '@angular/material';
 
 @Component({
   selector: 'sx-embarques-page',
@@ -9,7 +12,7 @@ import { EmbarqueService } from 'app/logistica/services/embarque/embarque.servic
 })
 export class EmbarquesPageComponent implements OnInit {
 
-  
+
   navigation: Object[] = [
     {route: 'embarques', title: 'Asignaciones', icon: 'storage'},
     {route: 'transito', title: 'Transito', icon: 'local_shipping'},
@@ -17,7 +20,7 @@ export class EmbarquesPageComponent implements OnInit {
     {route: 'facturasPendientes', title: 'Facs pendientes', icon: 'alarm'},
     {route: 'trasladosPendientes', title: 'Traslados', icon: 'settings_ethernet'},
     {route: 'devolucionesPendientes', title: 'Devoluciones', icon: 'sync_disabled'},
-    
+
     // {route: 'choferes', title: 'Choferes', icon: 'subtitles'},
     // {route: 'transportes', title: 'Transportes', icon: 'swap_horiz'},
   ];
@@ -35,37 +38,45 @@ export class EmbarquesPageComponent implements OnInit {
   constructor(
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
-    private service: EmbarqueService
+    private service: EmbarqueService,
+    public dialog: MdDialog,
   ) { }
 
   ngOnInit() {
   }
 
-  
+
   runReport(report) {
     // this._dialogService.openAlert({
     //   message: `Reporte ${report} en desarrollo`,
-    //   viewContainerRef: this._viewContainerRef, 
-    //   title: 'Impresíon de reporte: ' + report, 
-    //   closeButton: 'Cancelar', 
+    //   viewContainerRef: this._viewContainerRef,
+    //   title: 'Impresíon de reporte: ' + report,
+    //   closeButton: 'Cancelar',
     // });
-    if(report ==='entregasPorChofer'){
+    if (report === 'entregasPorChofer') {
       this.reporteDeEntregasPorChofer();
     }
   }
 
   reporteDeEntregasPorChofer() {
-    this.service.reporteDeEntregasPorChofer({})
-    .subscribe(res => {
-      let blob = new Blob([res], { 
-        type: 'application/pdf' 
-      });
-      let filename = `EntregasPorChofer.pdf`;
-      FileSaver.saveAs(blob, filename);
+
+    const dialogRef = this.dialog.open(EntregaPorChoferComponent, {});
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.service.reporteDeEntregasPorChofer(result)
+          .subscribe(res => {
+            const blob = new Blob([res], {
+              type: 'application/pdf'
+            });
+            const filename = `EntregasPorChofer.pdf`;
+            FileSaver.saveAs(blob, filename);
+          });
+      }
     });
   }
 
 
-  
+
 
 }

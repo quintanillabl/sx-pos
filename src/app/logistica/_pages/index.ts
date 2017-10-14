@@ -94,6 +94,7 @@ export { EnvioParcialFormComponent } from './embarques/envio/envio-parcial-form/
 export { EnvioParcialPartidasComponent } from './embarques/envio/envio-parcial-form/partidas/envio-parcial-partidas.component';
 export { EnviodetSelectorDialogComponent } from './embarques/envio/envio-parcial-form/selector/enviodet-selector-dialog.component';
 
+
 // Registro
 export { RegistroConteoPageComponent } from './almacen/registro/registro-conteo-page.component';
 
