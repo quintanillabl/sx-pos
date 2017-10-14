@@ -6,6 +6,8 @@ import * as _ from 'lodash';
 import { environment } from 'environments/environment';
 import { Embarque } from 'app/logistica/models/embarque';
 import { Venta } from 'app/models';
+import { Envio } from 'app/logistica/models/envio';
+import { VentaDet } from 'app/models/ventaDet';
 
 @Injectable()
 export class EmbarqueService {
@@ -97,6 +99,26 @@ export class EmbarqueService {
     return this.http.get<any>(url, {params: params})
   }
 
+  buscarVenta( sucursal, tipo, documento, fecha ) {
+    let params = new HttpParams()
+      .set('sucursal', sucursal)
+      .set('fecha',fecha)
+      .set('documento', documento)
+      .set('tipo',tipo);
+    const url = `${this.apiUrl}/buscarVenta`;
+    return this.http.get<Venta>(url, {params: params})
+  }
+  
+  buscarPartidasDeVenta( sucursal, tipo, documento, fecha ) {
+    let params = new HttpParams()
+      .set('sucursal', sucursal)
+      .set('fecha',fecha)
+      .set('documento', documento)
+      .set('tipo',tipo);
+    const url = `${this.apiUrl}/buscarPartidasDeVenta`;
+    return this.http.get<VentaDet>(url, {params: params})
+  }
+
   print(id: string){
     console.log('Printing id: ', id);
     const url = `${this.apiUrl}/print`;
@@ -133,6 +155,17 @@ export class EmbarqueService {
         responseType: 'blob'
       }
     );
+  }
+
+  getEnvio(id: string): Observable<Envio> {
+    //const url = environment.apiUrl + '/embarques/envios';
+    const url = `${environment.apiUrl}/embarques/envios/${id}`;
+    return this.http.get<Envio>(url)
+  }
+
+  updateEnvio(envio){
+    const url = `${environment.apiUrl}/embarques/envios`;
+    return this.http.put(url, envio);
   }
 
 }

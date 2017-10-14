@@ -89,7 +89,9 @@ export { VentasTransitoPageComponent } from './embarques/pendientes/ventas-trans
 export { FacturasPendientesPageComponent } from './embarques/pendientes/facturas-pendientes.component';
 export { TrasladosPendientesPageComponent } from './embarques/pendientes/traslados-pendientes.component.';
 export { DevolucionesPendientesPageComponent } from './embarques/pendientes/devoluciones-pendientes.component.';
-
+export { EnvioEditPageComponent } from './embarques/envio/envio-edit-page.component';
+export { EnvioParcialFormComponent } from './embarques/envio/envio-parcial-form/envio-parcial-form.component';
+ 
 // Registro
 export { RegistroConteoPageComponent } from './almacen/registro/registro-conteo-page.component';
 

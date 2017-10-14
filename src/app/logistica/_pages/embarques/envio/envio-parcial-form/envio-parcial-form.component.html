@@ -1,0 +1,50 @@
+<form novalidate [formGroup]="form" (ngSubmit)="onSubmit()">
+  <md-card >
+    <div layout="row" layout-align="start center" layout-padding class="pad-left-sm pad-right-sm">
+      <span class="pad-left">Envio parcial</span>
+      <span class="pad-left tc-pink-700">{{embarque?.documento}}</span>
+      <span class="pad-left">Chofer: </span><span class="pad tc-indigo-700">{{embarque?.chofer?.nombre}}</span>
+      <span flex></span>
+    </div>
+    <div layout>
+      <span class="pad-right pad-left">Documento: {{envio?.documento}}</span>
+      <span class="pad-right">Fecha: {{envio?.fechaDocumento | date:'dd/MM/yyyy'}}</span>
+      <span>Tipo: {{envio?.tipoDocumento}}</span>
+    </div>
+    <md-divider></md-divider>
+      
+        <table td-data-table class="text-30">
+          <thead>
+          <tr td-data-table-column-row >
+            <th td-data-table-column>Rng</th>
+            <th td-data-table-column>Producto</th>
+            <th td-data-table-column>Descripción</th>
+            <th td-data-table-column>Cantidad</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr td-data-table-row *ngFor="let row of partidasDeVenta; index as i" >
+            <td td-data-table-cell >{{i + 1}}</td>
+            <td td-data-table-cell >{{row.producto.clave}}</td>
+            <td td-data-table-cell >{{row.producto.descripcion}}</td>
+            <td td-data-table-cell #selRow>
+              <input type="text" *ngIf="!disabled" value="{{row.cantidad}}" (blur)="modificar(row, ifield.value)" #ifield>
+              {{selRow}}
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      
+    
+    
+    <md-divider></md-divider>
+    <!-- <md-card-actions>
+      <button type="submit" md-button [disabled]="form.invalid" *ngIf="!readonly"> Salvar </button>
+      <a  md-button [routerLink]="['/logistica/embarques/embarques']"> Cancelar </a>
+    </md-card-actions> -->
+
+  </md-card>
+</form>
+<td-json-formatter [data]="partidasDeVenta">
+
+</td-json-formatter>

@@ -118,6 +118,8 @@ const PAGES =  [
   pages.FacturasPendientesPageComponent,
   pages.TrasladosPendientesPageComponent,
   pages.DevolucionesPendientesPageComponent,
+  pages.EnvioEditPageComponent,
+  pages.EnvioParcialFormComponent,
 
   // Almacen Registro
   pages.RegistroConteoPageComponent,

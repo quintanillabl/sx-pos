@@ -66,6 +66,7 @@ const routes: Routes = [
           { path: 'embarques', component: pages.EmbarquePageComponent},
           { path: 'embarques/create', component: pages.EmbarqueCreatePageComponent},
           { path: 'embarques/edit/:id', component: pages.EmbarqueEditPageComponent},
+          { path: 'envios/edit/:id', component: pages.EnvioEditPageComponent},
           { path: 'transito', component: pages.TransitoPageComponent},
           { path: 'transito/edit/:id', component: pages.TransitoEditPageComponent},
           { path: 'facturasEnTransito', component: pages.VentasTransitoPageComponent},

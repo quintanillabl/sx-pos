@@ -1,4 +1,5 @@
 import { Cliente } from "app/models";
+import { Embarque } from "./embarque";
 
 export interface Envio {
     id: string
@@ -37,6 +38,7 @@ export interface Envio {
     partidas?: Array<any>
     reated?: string
     lastUpdated?: string
+    embarque?: Embarque
 }   
     
     
