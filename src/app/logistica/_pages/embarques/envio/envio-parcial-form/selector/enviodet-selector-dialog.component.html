@@ -1,13 +1,11 @@
 <h4 md-dialog-title>
   <span class="pad">Documento: </span>
-  <span class="pad"> {{envio.tipoDocumento}}-{{envio.documento}}  </span>
+  <span class="pad"> {{envio.tipoDocumento}} {{envio.documento}}  </span>
   <span class="pad">{{envio.nombre}}</span>
 </h4>
 
 <div layout="column" class="selector-form" >
 
-  <!--<sx-rmd-ventadet-grid [data]="disponibles" [selectedRows]="selectedRows">-->
-  <!--</sx-rmd-ventadet-grid>-->
   <td-data-table
     #dataTable
     [data]="disponibles"
@@ -23,7 +21,6 @@
 </div>
 
 <md-dialog-actions>
-  <button md-button class="accent" type="button" [disabled]="selectedRows<=0" (click)="doAccept()">Aceptar</button>
+  <button md-button class="accent" type="button" [disabled]="selectedRows.length <= 0" (click)="doAccept()">Aceptar</button>
   <button md-button type="button" (click)="close()" >Cancelar</button>
 </md-dialog-actions>
-

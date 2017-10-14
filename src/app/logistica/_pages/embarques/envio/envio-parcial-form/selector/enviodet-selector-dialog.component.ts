@@ -28,7 +28,7 @@ export class EnviodetSelectorDialogComponent implements OnInit {
   envio: Envio;
 
 
-  selectedRows: any[] = [];
+  selectedRows = [];
 
   columns: ITdDataTableColumn[] = [
     { name: 'producto.clave',  label: 'Clave', sortable: true, width: 40, numeric: false },
