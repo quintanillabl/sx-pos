@@ -22,7 +22,9 @@
     <md-card-actions>
       <a  md-button [routerLink]="['/logistica/embarques/transito']"> Regresar </a>
       <button type="submit" md-button > Salvar </button>
-      
+      <button md-icon-button type="button" (click)="onPrint()" mdTooltip="Imprimir documento" *ngIf="id">
+        <md-icon>print</md-icon>
+      </button>
     </md-card-actions>
 
   </md-card>
