@@ -91,7 +91,9 @@ export { TrasladosPendientesPageComponent } from './embarques/pendientes/traslad
 export { DevolucionesPendientesPageComponent } from './embarques/pendientes/devoluciones-pendientes.component.';
 export { EnvioEditPageComponent } from './embarques/envio/envio-edit-page.component';
 export { EnvioParcialFormComponent } from './embarques/envio/envio-parcial-form/envio-parcial-form.component';
- 
+export { EnvioParcialPartidasComponent } from './embarques/envio/envio-parcial-form/partidas/envio-parcial-partidas.component';
+export { EnviodetSelectorDialogComponent } from './embarques/envio/envio-parcial-form/selector/enviodet-selector-dialog.component';
+
 // Registro
 export { RegistroConteoPageComponent } from './almacen/registro/registro-conteo-page.component';
 

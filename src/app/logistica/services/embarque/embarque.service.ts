@@ -108,7 +108,7 @@ export class EmbarqueService {
     const url = `${this.apiUrl}/buscarVenta`;
     return this.http.get<Venta>(url, {params: params})
   }
-  
+
   buscarPartidasDeVenta( sucursal, tipo, documento, fecha ) {
     let params = new HttpParams()
       .set('sucursal', sucursal)
@@ -135,7 +135,7 @@ export class EmbarqueService {
   }
 
   reporteDeEntregasPorChofer(reportParams: {}) {
-    
+
     reportParams['SUCURSAL'] = this.sucursal.id;
     reportParams['CHOFER'] = '6f8b7d4a-aed7-11e7-b1f8-b4b52f67eab0';
     reportParams['FECHA'] = new Date().toISOString()
@@ -158,12 +158,12 @@ export class EmbarqueService {
   }
 
   getEnvio(id: string): Observable<Envio> {
-    //const url = environment.apiUrl + '/embarques/envios';
+    // const url = environment.apiUrl + '/embarques/envios';
     const url = `${environment.apiUrl}/embarques/envios/${id}`;
     return this.http.get<Envio>(url)
   }
 
-  updateEnvio(envio){
+  updateEnvio(envio) {
     const url = `${environment.apiUrl}/embarques/envios`;
     return this.http.put(url, envio);
   }

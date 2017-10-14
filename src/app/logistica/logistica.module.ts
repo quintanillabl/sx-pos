@@ -91,7 +91,7 @@ const PAGES =  [
   pages.CapturaFormComponent,
   pages.CapturaFormPartidasComponent,
   pages.CapturaDetDialogComponent,
-  
+
   // Embarques
   pages.EmbarquesPageComponent,
   pages.FacturistaPageComponent,
@@ -120,6 +120,8 @@ const PAGES =  [
   pages.DevolucionesPendientesPageComponent,
   pages.EnvioEditPageComponent,
   pages.EnvioParcialFormComponent,
+  pages.EnvioParcialPartidasComponent,
+  pages.EnviodetSelectorDialogComponent,
 
   // Almacen Registro
   pages.RegistroConteoPageComponent,
@@ -200,6 +202,7 @@ const COMPONENTS = [
     pages.CapturaDetDialogComponent,
     pages.PartidasEnvioDialogComponent,
     pages.EntregaPorChoferComponent,
+    pages.EnviodetSelectorDialogComponent,
   ],
   providers: [MovimientosService, TransformacionesService,
     DevolucionesService,

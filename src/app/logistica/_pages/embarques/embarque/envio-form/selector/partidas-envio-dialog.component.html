@@ -1,16 +1,16 @@
 <ng-template tdLoading [tdLoadingUntil]="!loading" tdLoadingStrategy="overlay">
-  
-  
-  
+
+
+
   <h4 md-dialog-title>Selector de documento de envío</h4>
-  
+
 <div layout="column" class="selector-form" >
-  
+
 
   <form novalidate (ngSubmit)="buscarDocumento()" [formGroup]="form" *ngIf="!venta">
     <div layout>
         <md-select placeholder="Tipo" formControlName="tipo" flex>
-            <md-option *ngFor="let tipo of tipos" 
+            <md-option *ngFor="let tipo of tipos"
                 [value]="tipo">{{ tipo }}
             </md-option>
           </md-select>
@@ -28,23 +28,26 @@
       <button md-icon-button	 type="submit" [disabled]="form.invalid">
         <md-icon>search</md-icon>
       </button>
-      
+
     </div>
   </form>
-  
+
   <div *ngIf="error">
     {{error}}
   </div>
-  
+
+  <div layout layout-padding *ngIf="envio">
+    <h2> Documento encontrado: {{envio?.documento}}</h2>
+  </div>
     <!--
       <td-json-formatter [data]="venta.partidas" [levelsOpen]="1">
         </td-json-formatter>
       -->
     <!-- <sx-rmd-ventadet-grid [data]="disponibles" [selectedRows]="selectedRows">
     </sx-rmd-ventadet-grid> -->
-    
-  
-  
+
+
+
 </div>
 <md-dialog-actions>
   <button md-button class="accent" type="button" [disabled]="!envio" (click)="doAccept()">Aceptar</button>

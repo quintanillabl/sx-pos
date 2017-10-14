@@ -11,8 +11,9 @@ import * as _ from 'lodash';
 import { Sucursal } from 'app/models';
 import { Embarque } from 'app/logistica/models/embarque';
 import { Envio } from 'app/logistica/models/envio';
-import { Venta } from 'app/models/venta';
+
 import { VentaDet } from 'app/models/ventaDet';
+import {EnviodetSelectorDialogComponent} from './selector/enviodet-selector-dialog.component';
 
 @Component({
   selector: 'sx-envio-parcial-form',
@@ -26,8 +27,6 @@ export class EnvioParcialFormComponent implements OnInit, OnChanges {
   @Output() update = new EventEmitter<any>();
 
   @Input() envio: Envio;
-
-  
 
   @Input() partidasDeVenta: VentaDet[];
 
@@ -44,6 +43,7 @@ export class EnvioParcialFormComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.envio && !changes.envio.isFirstChange()) {
       const envio: Envio = changes.envio.currentValue;
+      envio.parcial = true;
       this.form.patchValue(envio);
       // envio.partidas.forEach( item => this.agregarEnvio(item));
     }
@@ -52,7 +52,7 @@ export class EnvioParcialFormComponent implements OnInit, OnChanges {
   buildForm() {
     this.form = this.fb.group({
       parcial: [true, Validators.required],
-      embarque:[null, Validators.required],
+      embarque: [null, Validators.required],
       partidas: this.fb.array([])
     });
   }
@@ -64,12 +64,35 @@ export class EnvioParcialFormComponent implements OnInit, OnChanges {
     }
   }
 
-  modificar(row, value){
-    console.log(' modificando cantidad: ', value);
+  insertar() {
+    const dialogRef = this.dialog.open(EnviodetSelectorDialogComponent, {
+      data: {envio: this.envio, partidasDeVenta: this.partidasDeVenta}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        _.forEach(result.partidas, item => this.insertarEnvioDet(item));
+      }
+    });
+  }
+
+  insertarEnvioDet(envioDet) {
+    this.partidas.push(new FormControl(envioDet));
+    this.cd.markForCheck();
+  }
+
+  onEdit($event) {
+    // console.log('Editando: ', $event);
+    // const {row, cantidad} = $event;
+    // const control = this.partidas.controls[row];
+    // console.log('Row:', control.value);
+    this.cd.markForCheck();
+    // this.partidas.controls[row].patchValue({cantidad: cantidad});
   }
 
   private prepareEntity() {
     return {
+      id: this.envio.id,
       ...this.form.getRawValue(),
     }
   }
@@ -89,7 +112,7 @@ export class EnvioParcialFormComponent implements OnInit, OnChanges {
   get embarque() {
     return this.form.get('embarque').value
   }
-  
+
 }
 
 

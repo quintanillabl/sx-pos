@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import {ActivatedRoute, Router} from '@angular/router';
 import { TdLoadingService } from '@covalent/core';
-import * as FileSaver from 'file-saver'; 
+import * as FileSaver from 'file-saver';
 
 import * as fromRoot from 'app/reducers';
 import * as fromLogistica from 'app/logistica/store/reducers';
@@ -21,11 +21,10 @@ import { VentaDet } from 'app/models/ventaDet';
   template: `
     <div layout
       *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
-      
-      <sx-envio-parcial-form [envio]="envio$ | async" [partidasDeVenta]="partidas$ | async">
+      <sx-envio-parcial-form (update)="onUpdate($event)"
+        [envio]="envio$ | async"
+        [partidasDeVenta]="partidasParaEnvio$ | async">
       </sx-envio-parcial-form>
-      
-      
     </div>
   `,
   styles: ['']
@@ -33,9 +32,7 @@ import { VentaDet } from 'app/models/ventaDet';
 export class EnvioEditPageComponent implements OnInit {
 
   sucursal$: Observable<Sucursal>;
-  embarque$: Observable<Embarque>;
-  venta$: Observable<Venta>;
-  partidas$: Observable<VentaDet>;
+  partidasParaEnvio$: Observable<VentaDet>;
   envio$: Observable<Envio>;
 
   constructor(
@@ -48,47 +45,39 @@ export class EnvioEditPageComponent implements OnInit {
 
   ngOnInit() {
     this.sucursal$ = this.store.select(fromRoot.getSucursal);
-    this.embarque$ = this.store.select(fromLogistica.getSelectedEmbarque);
 
     this.envio$ = this.route.paramMap
       .switchMap(map => this.service.getEnvio(map.get('id')));
 
-    /*
-    this.venta$ = this.sucursal$.combineLatest(this.envio$)
+    this.partidasParaEnvio$ = this.sucursal$.combineLatest(this.envio$)
     .switchMap( val => {
       const sucursal = val[0];
       const envio = val[1];
-      return this.service.buscarVenta(sucursal.id,envio.entidad, envio.documento, envio.fechaDocumento);
+      return this.service.buscarPartidasDeVenta(sucursal.id, envio.entidad, envio.documento, envio.fechaDocumento);
     });
-    */
-    
-    this.partidas$ = this.sucursal$.combineLatest(this.envio$)
-    .switchMap( val => {
-      const sucursal = val[0];
-      const envio = val[1];
-      return this.service.buscarPartidasDeVenta(sucursal.id,envio.entidad, envio.documento, envio.fechaDocumento);
-    });
-    
-    //.subscribe( val => {console.log('Combine latest:', val)});
-    
   }
 
-  onSave(embarque: Embarque) {
+  onUpdate(envio: Envio) {
+    console.log('Salvando: ', envio);
     this.loadingService.register('saving');
     this.service
-      .update(embarque)
+      .updateEnvio(envio)
       .subscribe(
         (res: any) => {
-          console.log('Embarque actualizado: ', res);
+          console.log('Envio actualizado: ', res);
           this.loadingService.resolve('saving');
-          //this.router.navigate(['/logistica/almacen/sectores/show', res.id], { queryParams: { tipo: 'show' } })
-          this.router.navigate(['/logistica/embarques/embarques'])
+          // this.router.navigate(['/logistica/almacen/sectores/show', res.id], { queryParams: { tipo: 'show' } })
+          this.router.navigate(['/logistica/embarques/embarques/edit', envio.embarque.id]);
         },
         response => {
           this.handlePostError(response);
           this.loadingService.resolve('saving');
         }
       );
+  }
+
+  onSave(embarque: Embarque) {
+
   }
 
   private handlePostError(response) {
@@ -98,8 +87,8 @@ export class EnvioEditPageComponent implements OnInit {
   onPrint(embarque) {
     this.service.print(embarque.id)
     .subscribe(res => {
-      let blob = new Blob([res], { 
-        type: 'application/pdf' 
+      let blob = new Blob([res], {
+        type: 'application/pdf'
       });
       let filename = `embarque_${embarque.documento}.pdf`;
       FileSaver.saveAs(blob, filename);
