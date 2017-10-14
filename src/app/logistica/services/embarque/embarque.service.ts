@@ -79,7 +79,7 @@ export class EmbarqueService {
     return this.http.put(url, sol);
   }
   registrarRegreso(sol: Embarque) {
-    const url = `${this.apiUrl}/registrarSalida/${sol.id}`;
+    const url = `${this.apiUrl}/registrarRegreso/${sol.id}`;
     return this.http.put(url, sol);
   }
 

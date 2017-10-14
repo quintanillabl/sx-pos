@@ -8,7 +8,7 @@ import { SearchAction, RegistrarSalidaAction } from 'app/logistica/store/actions
 import { Embarque } from 'app/logistica/models/embarque';
 import {TdDialogService} from '@covalent/core';
 import { EmbarqueService } from 'app/logistica/services/embarque/embarque.service';
-import * as FileSaver from 'file-saver'; 
+import * as FileSaver from 'file-saver';
 
 
 @Component({
@@ -41,16 +41,16 @@ export class TransitoPageComponent implements OnInit {
   }
 
   load() {
-    this.store.dispatch(new SearchAction({'transito':'transito'}));
+    this.store.dispatch(new SearchAction({'transito': 'transito'}));
   }
 
   print(embarque: Embarque) {
     this.service.print(embarque.id)
     .subscribe(res => {
-      let blob = new Blob([res], { 
-        type: 'application/pdf' 
+      const blob = new Blob([res], {
+        type: 'application/pdf'
       });
-      let filename = `embarque_${embarque.documento}.pdf`;
+      const filename = `embarque_${embarque.documento}.pdf`;
       FileSaver.saveAs(blob, filename);
     });
   }
@@ -70,14 +70,24 @@ export class TransitoPageComponent implements OnInit {
             .registrarRegreso(embarque)
             .subscribe( res => {
               console.log('Regreso registrado...', res);
-              this.router.navigate(['/logistica/embarques/transito']);
-            }, error=> {
-
+              this.load();
+            }, error => {
+              this.handleError(error);
             });
         }
       });
+
     }
-    
-  }  
+
+  }
+
+  handleError(response) {
+    const message = response.error  = response.error ? response.error.message : 'Error ';
+    this._dialogService.openAlert({
+      message: message,
+      title: 'Error',
+      closeButton: 'Aceptar',
+    });
+  }
 
 }
