@@ -8,11 +8,11 @@
       <span flex></span>
       <span class="pad">Fecha: {{embarque?.fecha | date:'dd/MM/yyyy'}}</span>
     </div>
-    
+
     <md-divider></md-divider>
-      <sx-transito-form-partidas 
-        [parent]="form" 
-        [partidas]="partidas.value" 
+      <sx-transito-form-partidas
+        [parent]="form"
+        [partidas]="partidas.value"
         (remove)="onDelete($event)"
         (arrivo)="onArribo($event)"
         (recepcion)="onRecepcion($event)">
@@ -21,6 +21,7 @@
 
     <md-card-actions>
       <a  md-button [routerLink]="['/logistica/embarques/transito']"> Regresar </a>
+      <button type="submit" md-button > Salvar </button>
       <button md-icon-button type="button" (click)="onPrint()" mdTooltip="Imprimir documento" *ngIf="id">
         <md-icon>print</md-icon>
       </button>

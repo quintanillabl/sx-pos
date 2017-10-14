@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import {ActivatedRoute, Router} from '@angular/router';
 import { TdLoadingService } from '@covalent/core';
-import * as FileSaver from 'file-saver'; 
+import * as FileSaver from 'file-saver';
 
 import * as fromRoot from 'app/reducers';
 import * as fromLogistica from 'app/logistica/store/reducers';
@@ -44,31 +44,32 @@ export class TransitoEditPageComponent implements OnInit {
   ngOnInit() {
     this.sucursal$ = this.store.select(fromRoot.getSucursal);
     this.embarque$ = this.store.select(fromLogistica.getSelectedEmbarque);
-    
+
   }
 
   onSave(embarque: Embarque) {
-    // this.loadingService.register('saving');
-    // this.service
-    //   .update(embarque)
-    //   .subscribe(
-    //     (res: any) => {
-    //       console.log('Embarque actualizado: ', res);
-    //       this.loadingService.resolve('saving');
-    //       //this.router.navigate(['/logistica/almacen/sectores/show', res.id], { queryParams: { tipo: 'show' } })
-    //       this.router.navigate(['/logistica/embarques/embarques'])
-    //     },
-    //     response => {
-    //       this.handlePostError(response);
-    //       this.loadingService.resolve('saving');
-    //     }
-    //   );
+    console.log('Salvando embarque', embarque);
+    this.loadingService.register('saving');
+    this.service
+      .update(embarque)
+      .subscribe(
+        (res: any) => {
+          console.log('Embarque actualizado: ', res);
+          this.loadingService.resolve('saving');
+          // this.router.navigate(['/logistica/almacen/sectores/show', res.id], { queryParams: { tipo: 'show' } })
+          this.router.navigate(['/logistica/embarques/transito'])
+        },
+        response => {
+          this.handlePostError(response);
+          this.loadingService.resolve('saving');
+        }
+      );
   }
 
-  onSaveEnvio(envio: Envio){
+  onSaveEnvio(envio: Envio) {
     console.log('Salvar envio: ', envio);
   }
-  
+
 
   private handlePostError(response) {
     console.log('Error al salvar embarque: ', response);
@@ -77,8 +78,8 @@ export class TransitoEditPageComponent implements OnInit {
   onPrint(embarque) {
     this.service.print(embarque.id)
     .subscribe(res => {
-      let blob = new Blob([res], { 
-        type: 'application/pdf' 
+      let blob = new Blob([res], {
+        type: 'application/pdf'
       });
       let filename = `embarque_${embarque.documento}.pdf`;
       FileSaver.saveAs(blob, filename);
