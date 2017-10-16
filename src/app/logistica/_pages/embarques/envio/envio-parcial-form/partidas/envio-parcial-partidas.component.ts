@@ -27,14 +27,16 @@ export class EnvioParcialPartidasComponent implements OnInit {
   ngOnInit() { }
 
   editar(index, row) {
+    const vendido = Math.abs(row.ventaDet.cantidad );
+    const enviado = row.ventaDet.enviado ;
+    const max = vendido - enviado;
     this._dialogService.openPrompt({
-      message: `Registre la cantidad a enviar (max: ${row.ventaDet.cantidad}) `,
+      message: `Registre la cantidad a enviar (max: ${max}) `,
       value: row.cantidad,
     }).afterClosed().subscribe((value: any) => {
 
       if (value !== undefined ) {
         let cantidad = _.toSafeInteger(value);
-        const max = row.ventaDet.cantidad * - 1;
         if (cantidad > max || cantidad <= 0) {
           cantidad = max;
         }

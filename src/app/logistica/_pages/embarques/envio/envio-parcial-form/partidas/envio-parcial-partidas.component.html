@@ -8,7 +8,8 @@
           <th td-data-table-column>Producto</th>
           <th td-data-table-column>Descripción</th>
           <th td-data-table-column>Vendido</th>
-          <th td-data-table-column>Por Enviar</th>
+          <th td-data-table-column>Asignado</th>
+          <th td-data-table-column>Instrucción</th>
           <th td-data-table-column>Quitar</th>
         </tr>
       </thead>
@@ -17,10 +18,11 @@
           <td td-data-table-cell >{{i + 1}}</td>
           <td td-data-table-cell >{{row.producto.clave}}</td>
           <td td-data-table-cell >{{row.producto.descripcion}}</td>
-          <td td-data-table-cell numeric="true">{{row.ventaDet.cantidad}}</td>
+          <td td-data-table-cell numeric="true">{{row.ventaDet.cantidad * -1}}</td>
           <td td-data-table-cell numeric="true" >
             <a  md-button class="mat-accent" (click)="editar(i, row)" >{{row.cantidad}}</a>
           </td>
+          <td td-data-table-cell >{{row.instruccionEntregaParcial}}</td>
           <td td-data-table-cell numeric="false">
             <button md-icon-button type="button" (click)="delete(i)">
               <md-icon md-icon-button color="accent" >delete</md-icon>

@@ -25,15 +25,18 @@ export class EnviodetSelectorDialogComponent implements OnInit {
 
   partidasDeVenta: VentaDet[] = [];
 
+  disponibles = [];
+
   envio: Envio;
 
 
   selectedRows = [];
 
   columns: ITdDataTableColumn[] = [
-    { name: 'producto.clave',  label: 'Clave', sortable: true, width: 40, numeric: false },
+    { name: 'producto.clave',  label: 'Clave', sortable: true, width: 30, numeric: false },
     { name: 'producto.descripcion',  label: 'Descripcion', sortable: true, width: 320, numeric: false },
-    { name: 'cantidad',  label: 'Devuelto', sortable: true, width: 40, numeric: true, format: NUMBER_FORMAT },
+    { name: 'cantidad',  label: 'Vendido', sortable: true, width: 30, numeric: true, format: NUMBER_FORMAT },
+    { name: 'enviado',  label: 'Enviado', sortable: true, width: 30, numeric: true, format: NUMBER_FORMAT },
   ];
 
   constructor(
@@ -42,6 +45,9 @@ export class EnviodetSelectorDialogComponent implements OnInit {
   ) {
     this.partidasDeVenta = data.partidasDeVenta;
     this.envio = data.envio;
+    this.disponibles = _.differenceWith(this.partidasDeVenta, this.envio.partidas, ( val1, val2) => {
+      return val1.id === val2.ventaDet.id;
+    });
   }
 
   ngOnInit() {}
@@ -63,9 +69,20 @@ export class EnviodetSelectorDialogComponent implements OnInit {
     this.dialogRef.close(res);
   }
 
+  /*
   get disponibles(){
-    return this.partidasDeVenta
+    // console.log('Comprando partidas de la venta: ', this.partidasDeVenta.length);
+    // console.log('Partidas del envio: ', this.envio.partidas.length);
+    const res = _.differenceWith(this.partidasDeVenta, this.envio.partidas, ( val1, val2) => {
+      console.log('Compranado: ', val1.id);
+      console.log('Con :', val2.ventaDet.id);
+      return val1.id === val2.ventaDet.id;
+    });
+    console.log('Res:', res );
+    // const res = _.differenceWith(this.partidasDeVenta, this.envio.partidas , (val1, val2 ) => val1.id === val2.ventaDet.id)
+    return res;
   }
+  */
 
 
 }

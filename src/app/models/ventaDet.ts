@@ -23,4 +23,5 @@ export interface VentaDet {
   lastUpdated: string
   devuelto?: number
   disponibleParaDevolucion?: number
+  enviado?: number
 }

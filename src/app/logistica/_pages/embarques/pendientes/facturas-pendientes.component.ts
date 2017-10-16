@@ -53,12 +53,10 @@ export class FacturasPendientesPageComponent implements OnInit {
     private _dataTableService: TdDataTableService
   ) { }
 
-  ngOnInit() {    
+  ngOnInit() {
     this.service.enviosPendientes().subscribe( data => {
-      console.log('Data: ', data);
       this.data = data;
-      console.log(data);
-      this.filteredData= this.data;
+      this.filteredData = this.data;
       this.filter();
     });
   }
@@ -104,10 +102,10 @@ export class FacturasPendientesPageComponent implements OnInit {
     const entera = Math.round(diff);
     let decimales = (diff - entera) * 60;
     decimales = Math.round(decimales);
-    
-    
+
+
     return `${entera}`;
-   
+
   }
 
 }

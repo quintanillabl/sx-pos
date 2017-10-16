@@ -8,7 +8,7 @@ import { SearchAction, RegistrarSalidaAction } from 'app/logistica/store/actions
 import { Embarque } from 'app/logistica/models/embarque';
 import {TdDialogService} from '@covalent/core';
 import { EmbarqueService } from 'app/logistica/services/embarque/embarque.service';
-import * as FileSaver from 'file-saver'; 
+import * as FileSaver from 'file-saver';
 
 
 @Component({
@@ -41,22 +41,22 @@ export class TrasladosPendientesPageComponent implements OnInit {
   }
 
   load() {
-    this.store.dispatch(new SearchAction({'transito':'transito'}));
+    this.store.dispatch(new SearchAction({'transito': 'transito'}));
   }
 
   print(embarque: Embarque) {
     this.service.print(embarque.id)
     .subscribe(res => {
-      let blob = new Blob([res], { 
-        type: 'application/pdf' 
+      const blob = new Blob([res], {
+        type: 'application/pdf'
       });
-      let filename = `embarque_${embarque.documento}.pdf`;
+      const filename = `embarque_${embarque.documento}.pdf`;
       FileSaver.saveAs(blob, filename);
     });
   }
 
   onRegreso(embarque: Embarque) {
-    if(!embarque.regreso) {
+    if (!embarque.regreso) {
       this._dialogService.openConfirm({
         message: 'Registrar regreso del embarue?' + embarque.documento,
         viewContainerRef: this._viewContainerRef,
@@ -68,16 +68,15 @@ export class TrasladosPendientesPageComponent implements OnInit {
           console.log('Marcando regreso de embarque para: ', embarque);
           this.service
             .registrarRegreso(embarque)
-            .subscribe( res => {
+            .subscribe(res => {
               console.log('Regreso registrado...', res);
               this.router.navigate(['/logistica/embarques/transito']);
-            }, error=> {
+            }, error => {
 
             });
         }
       });
     }
-    
-  }  
+  }
 
 }

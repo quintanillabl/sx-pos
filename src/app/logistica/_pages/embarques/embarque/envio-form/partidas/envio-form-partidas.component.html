@@ -24,13 +24,19 @@
         <td td-data-table-cell >{{row.nombre}}</td>
         <td td-data-table-cell >{{row.kilos}}</td>
         <td td-data-table-cell >
-          <a md-button [routerLink]="['/logistica/embarques/envios/edit',row.id]" (click)="delete(i)"  tabindex="-1" class="text-md">
+          <a md-icon-button [routerLink]="['/logistica/embarques/envios/edit',row.id]" *ngIf="row.id; else parcialTmp"
+             tabindex="-1" class="text-md">
             <md-icon *ngIf="!row.salida" md-button color="accent" >
-              {{row.parcial ? 'SI': 'NO'}}
+              {{row.parcial ? 'check': 'clear'}}
             </md-icon>
           </a>
+          <ng-template #parcialTmp>
+            <md-icon *ngIf="!row.salida" md-button color="accent" >
+              {{row.parcial ? 'check': 'clear'}}
+            </md-icon>
+          </ng-template>
         </td>
-        
+
         <!--<td td-data-table-cell >
           <input type="text" *ngIf="!disabled" value="{{row.cantidad}}" (blur)="modificar(row, ifield.value)" #ifield>
           <span *ngIf="disabled">{{row.cantidad}}</span>

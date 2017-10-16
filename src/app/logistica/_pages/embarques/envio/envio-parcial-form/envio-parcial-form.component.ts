@@ -45,7 +45,7 @@ export class EnvioParcialFormComponent implements OnInit, OnChanges {
       const envio: Envio = changes.envio.currentValue;
       envio.parcial = true;
       this.form.patchValue(envio);
-      // envio.partidas.forEach( item => this.agregarEnvio(item));
+      _.forEach(envio.partidas, item => this.insertarEnvioDet(item));
     }
   }
 
@@ -82,17 +82,13 @@ export class EnvioParcialFormComponent implements OnInit, OnChanges {
   }
 
   onEdit($event) {
-    // console.log('Editando: ', $event);
-    // const {row, cantidad} = $event;
-    // const control = this.partidas.controls[row];
-    // console.log('Row:', control.value);
     this.cd.markForCheck();
-    // this.partidas.controls[row].patchValue({cantidad: cantidad});
   }
 
   private prepareEntity() {
     return {
       id: this.envio.id,
+      instruccionEntregaParcial: 'ND',
       ...this.form.getRawValue(),
     }
   }

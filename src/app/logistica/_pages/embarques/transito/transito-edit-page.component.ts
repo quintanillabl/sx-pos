@@ -20,10 +20,8 @@ import { EmbarqueService } from 'app/logistica/services/embarque/embarque.servic
   template: `
     <div layout
       *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
-      
       <sx-transito-form flex [embarque]="embarque$ | async" (save)="onSave($event)" (print)="onPrint($event)">
       </sx-transito-form>
-      
     </div>
   `,
   styles: ['']
@@ -78,10 +76,10 @@ export class TransitoEditPageComponent implements OnInit {
   onPrint(embarque) {
     this.service.print(embarque.id)
     .subscribe(res => {
-      let blob = new Blob([res], {
+      const blob = new Blob([res], {
         type: 'application/pdf'
       });
-      let filename = `embarque_${embarque.documento}.pdf`;
+      const filename = `embarque_${embarque.documento}.pdf`;
       FileSaver.saveAs(blob, filename);
     });
   }

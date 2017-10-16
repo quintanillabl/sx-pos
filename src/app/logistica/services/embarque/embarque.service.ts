@@ -164,7 +164,7 @@ export class EmbarqueService {
   }
 
   updateEnvio(envio) {
-    const url = `${environment.apiUrl}/embarques/envios`;
+    const url = `${environment.apiUrl}/embarques/envios/${envio.id}`;
     return this.http.put(url, envio);
   }
 
