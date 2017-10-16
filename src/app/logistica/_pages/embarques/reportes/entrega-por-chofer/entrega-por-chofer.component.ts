@@ -33,9 +33,9 @@ export class EntregaPorChoferComponent implements OnInit {
     const res = {
       ... this.form.value,
       fecha: fecha.toISOString(),
+      chofer: this.form.get('chofer').value.id
     };
-    console.log('Params: ', res);
-    this.dialogRef.close(this.form.value);
+    this.dialogRef.close(res);
   }
 
 }

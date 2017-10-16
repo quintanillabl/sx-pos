@@ -7,7 +7,8 @@
         
         <span *ngIf="selectedRows.length && selectable" class="md-body-1">0 item(s) seleccionados</span>
       </span>
-      <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Buscar" (searchDebounce)="search($event)" flex>
+      <td-search-box #searchBox backIcon="arrow_back" 
+        class="push-right-sm" placeholder="Documento" (searchDebounce)="search($event)" flex>
       </td-search-box>
     </div>
     <md-divider></md-divider>
@@ -24,6 +25,9 @@
       [sortOrder]="sortOrder"
       (sortChange)="sort($event)"
       [style.height.px]="450">
+      <ng-template tdDataTableTemplate="parcial" let-value="value">
+        <md-icon *ngIf="value">check</md-icon>
+      </ng-template>
       <ng-template tdDataTableTemplate="venta.fecha" let-value="value">
         {{ value | date: 'dd/MM/yyyy'}}
       </ng-template>

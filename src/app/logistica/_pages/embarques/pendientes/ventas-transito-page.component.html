@@ -25,7 +25,7 @@
     (sortChange)="sort($event)"
     [style.height.px]="450">
     <ng-template tdDataTableTemplate="embarque.salida" let-value="value">
-      {{ value | date: 'HH:mm'}}
+      {{ value | date: 'dd/MM/yyyy HH:mm'}}
     </ng-template>
     <ng-template tdDataTableTemplate="retraso" let-value="value">
       {{ getRetraso(value) }}

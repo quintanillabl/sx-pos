@@ -119,6 +119,20 @@ export class EmbarqueService {
     return this.http.get<VentaDet>(url, {params: params})
   }
 
+  buscarTrasladosPendientes(): Observable<any> {
+    let params = new HttpParams()
+      .set('sucursal', this.sucursal.id);
+    const url = `${this.apiUrl}/buscarTrasladosPendientes`;
+    return this.http.get(url, {params: params})
+  }
+
+  buscarDevolucionesPendientes(): Observable<any> {
+    let params = new HttpParams()
+      .set('sucursal', this.sucursal.id);
+    const url = `${this.apiUrl}/buscarDevolucionesPendientes`;
+    return this.http.get(url, {params: params})
+  }
+
   print(id: string){
     console.log('Printing id: ', id);
     const url = `${this.apiUrl}/print`;
@@ -136,7 +150,7 @@ export class EmbarqueService {
 
   reporteDeEntregasPorChofer(reportParams: {}) {
 
-    reportParams['SUCURSAL'] = this.sucursal.id;
+    reportParams['sucursal'] = this.sucursal.id;
     // reportParams['CHOFER'] = '6f8b7d4a-aed7-11e7-b1f8-b4b52f67eab0';
     // reportParams['FECHA'] = new Date().toISOString()
     console.log('Ejecutando reporte de entragas por chofer con: ', reportParams);

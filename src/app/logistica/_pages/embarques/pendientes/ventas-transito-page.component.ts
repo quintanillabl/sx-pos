@@ -26,13 +26,13 @@ export class VentasTransitoPageComponent implements OnInit {
   loading$: Observable<boolean>;
 
   columns: ITdDataTableColumn[] = [
-    { name: 'tipoDocumento',  label: 'Tipo', sortable: true, width: 50 },
-    { name: 'nombre', label: 'Cliente', filter: true, width: 350 },
-    { name: 'documento', label: 'Factura', hidden: false, width: 50},
+    { name: 'tipoDocumento',  label: 'Tipo', sortable: true, width: 10 },
+    { name: 'nombre', label: 'Cliente', filter: true, width: 300 },
+    { name: 'documento', label: 'Factura', hidden: false, width: 10},
     { name: 'chofer.nombre', label: 'Chofer', hidden: false , width: 200},
-    { name: 'embarque.documento', label: 'Embarque', hidden: false },
-    { name: 'kilos', label: 'Kilos', hidden: false },
-    { name: 'embarque.salida', label: 'Salida', hidden: false },
+    { name: 'embarque.documento', label: 'Embarque', hidden: false, width: 15 },
+    { name: 'kilos', label: 'Kilos', hidden: false, width: 15 },
+    { name: 'embarque.salida', label: 'Salida', hidden: false, width:70 },
     { name: 'retraso', label: 'Retraso', hidden: false },
   ];
 

@@ -22,9 +22,10 @@ export class FacturasPendientesPageComponent implements OnInit {
   columns: ITdDataTableColumn[] = [
     { name: 'venta.tipo',  label: 'Tipo', sortable: true, width: 50 },
     { name: 'venta.nombre', label: 'Cliente', filter: true, width: 350 },
-    { name: 'venta.documento', label: 'Factura', hidden: false, width: 50},
+    { name: 'documento', label: 'Factura', hidden: false, width: 50},
     { name: 'venta.fecha', label: 'Fecha', hidden: false, width: 50},
     { name: 'venta.kilos', label: 'Kilos', hidden: false },
+    { name: 'parcial', label: 'Parcial', hidden: false },
     { name: 'venta.lastUpdated', label: 'Creada', hidden: false },
     { name: 'retraso', label: 'Retraso', hidden: false },
   ];

@@ -66,7 +66,7 @@ export class PartidasEnvioDialogComponent implements OnInit {
     if(this.form.valid) {
       this.loading = true;
       this.service.buscarDocumento(this.embarque.sucursal.id, docto.tipo, docto.documento, docto.fecha)
-      .delay(2000)
+      .delay(1000)
       .subscribe(
         envio => this.selectEnvio(envio),
         response => this.handleError(response));

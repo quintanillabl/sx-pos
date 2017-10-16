@@ -16,6 +16,7 @@ export class EmbarquesPageComponent implements OnInit {
   navigation: Object[] = [
     {route: 'embarques', title: 'Asignaciones', icon: 'storage'},
     {route: 'transito', title: 'Transito', icon: 'local_shipping'},
+    {route: 'regresos', title: 'Regresos', icon: 'keyboard_return'},
     {route: 'facturasEnTransito', title: 'Facs en transito', icon: 'trafficx'},
     {route: 'facturasPendientes', title: 'Facs pendientes', icon: 'alarm'},
     {route: 'trasladosPendientes', title: 'Traslados', icon: 'settings_ethernet'},

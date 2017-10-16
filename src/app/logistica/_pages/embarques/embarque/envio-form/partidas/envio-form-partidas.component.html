@@ -24,15 +24,17 @@
         <td td-data-table-cell >{{row.nombre}}</td>
         <td td-data-table-cell >{{row.kilos}}</td>
         <td td-data-table-cell >
-          <a md-icon-button [routerLink]="['/logistica/embarques/envios/edit',row.id]" *ngIf="row.id; else parcialTmp"
+          <a md-icon-button 
+            [routerLink]="['/logistica/embarques/envios/edit',row.id]" 
+            *ngIf="(row.id && row.entidad !=='TRASLADO'); else parcialTmp"
              tabindex="-1" class="text-md">
             <md-icon *ngIf="!row.salida" md-button color="accent" >
-              {{row.parcial ? 'check': 'clear'}}
+              {{row.parcial ? 'check': 'NO'}}
             </md-icon>
           </a>
           <ng-template #parcialTmp>
             <md-icon *ngIf="!row.salida" md-button color="accent" >
-              {{row.parcial ? 'check': 'clear'}}
+              {{row.parcial ? 'check': 'NO'}}
             </md-icon>
           </ng-template>
         </td>

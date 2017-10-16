@@ -49,11 +49,13 @@ export class EnvioEditPageComponent implements OnInit {
     this.envio$ = this.route.paramMap
       .switchMap(map => this.service.getEnvio(map.get('id')));
 
-    this.partidasParaEnvio$ = this.sucursal$.combineLatest(this.envio$)
+    this.partidasParaEnvio$ = this.sucursal$
+    .combineLatest(this.envio$)
     .switchMap( val => {
       const sucursal = val[0];
       const envio = val[1];
-      return this.service.buscarPartidasDeVenta(sucursal.id, envio.entidad, envio.documento, envio.fechaDocumento);
+      return this.service
+      .buscarPartidasDeVenta(sucursal.id, envio.entidad, envio.documento, envio.fechaDocumento);
     });
   }
 

@@ -9,6 +9,7 @@ import { Embarque } from 'app/logistica/models/embarque';
 import {TdDialogService} from '@covalent/core';
 import { EmbarqueService } from 'app/logistica/services/embarque/embarque.service';
 import * as FileSaver from 'file-saver'; 
+import * as _ from 'lodash';
 
 
 @Component({
@@ -55,8 +56,47 @@ export class EmbarquePageComponent implements OnInit {
     });
   }
 
-  onSalida(embarque: Embarque) {
-    console.log('Embarque salida: ', embarque.salida);
+  
+  onSalida(embarque: Embarque){
+    this.service.get(embarque.id)
+    .subscribe(e => {
+      console.log('Embarque salida: ', e);
+      if(e.partidas.length === 0){
+        this.message('Embarque sin envios no se puede registrar salida');
+      }
+      else {
+        const faltante = _.find(e.partidas, envio => {
+          return envio.parcial && !envio.partidas;
+        });  
+        if( faltante ) {
+          this.message('Embarque con envios parciales sin partidas');
+        } else {
+          this.registrarSalida(e);
+        }
+      }
+      // _.forEach(e.partidas, envio => {
+      //   console.log(`Envio parcial: ${envio.parcial} `, envio);
+        
+      //   if( envio.parcial && !envio.partidas) {
+      //     console.log('Envio parcial sin partidas no se puede registrar salida');
+      //   }
+        
+      // });
+    });
+  }
+
+  message(message: string) {
+    this._dialogService.openAlert({
+      message: message,
+      viewContainerRef: this._viewContainerRef, 
+      title: 'Error', 
+      closeButton: 'Cerrar',
+    });
+  }
+  
+
+  registrarSalida(embarque: Embarque) {
+    
     if(!embarque.salida) {
       this._dialogService.openConfirm({
         message: 'Registrar salida de embarue?' + embarque.documento,
@@ -79,7 +119,6 @@ export class EmbarquePageComponent implements OnInit {
         }
       });
     }
-    
   }  
 
 }

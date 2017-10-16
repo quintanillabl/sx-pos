@@ -122,6 +122,8 @@ const PAGES =  [
   pages.EnvioParcialFormComponent,
   pages.EnvioParcialPartidasComponent,
   pages.EnviodetSelectorDialogComponent,
+  pages.RegresosPageComponent,
+  pages.RegresosListComponent,
 
 
   // Almacen Registro

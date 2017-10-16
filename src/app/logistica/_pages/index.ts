@@ -93,8 +93,9 @@ export { EnvioEditPageComponent } from './embarques/envio/envio-edit-page.compon
 export { EnvioParcialFormComponent } from './embarques/envio/envio-parcial-form/envio-parcial-form.component';
 export { EnvioParcialPartidasComponent } from './embarques/envio/envio-parcial-form/partidas/envio-parcial-partidas.component';
 export { EnviodetSelectorDialogComponent } from './embarques/envio/envio-parcial-form/selector/enviodet-selector-dialog.component';
-
-
+export { RegresosPageComponent } from './embarques/regresos/regresos-page.component';
+export { RegresosListComponent } from './embarques/regresos/regresos-list/regresos-list.component';
+ 
 // Registro
 export { RegistroConteoPageComponent } from './almacen/registro/registro-conteo-page.component';
 
