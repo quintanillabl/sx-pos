@@ -59,10 +59,11 @@ export class EnviodetSelectorDialogComponent implements OnInit {
   doAccept() {
     const res = {
       partidas: this.selectedRows.map( item => {
+        const porEnviar = Math.abs(item.cantidad) - item.enviado
         return {
          producto: item.producto,
           ventaDet: item,
-          cantidad: item.cantidad * -1
+          cantidad: porEnviar
         };
       })
     }
