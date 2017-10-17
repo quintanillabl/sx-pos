@@ -182,4 +182,13 @@ export class EmbarqueService {
     return this.http.put(url, envio);
   }
 
+  asignarFacturas(embarque, condiciones) {
+    const data = {
+      embarque: embarque,
+      condiciones: condiciones
+    };
+    const url = `${this.apiUrl}/asignarFacturas`;
+    return this.http.put(url, data);    
+  }
+
 }

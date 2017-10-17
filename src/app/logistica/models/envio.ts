@@ -2,8 +2,8 @@ import { Cliente } from "app/models";
 import { Embarque } from "./embarque";
 
 export interface Envio {
-    id: string
-    cliente: Cliente
+    id?: string
+    cliente?: Cliente
     origen: string
     entidad: string
     porCobrar?: number

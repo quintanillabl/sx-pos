@@ -36,6 +36,7 @@ import { EmbarqueService } from 'app/logistica/services/embarque/embarque.servic
 import { EmbarquesEffects } from 'app/logistica/store/effects/embarques.effects';
 
 
+
 const PAGES =  [
   pages.MainPageComponent,
   pages.MainDashboardComponent,
@@ -124,6 +125,7 @@ const PAGES =  [
   pages.EnviodetSelectorDialogComponent,
   pages.RegresosPageComponent,
   pages.RegresosListComponent,
+  pages.SelectorDeEmbarqueComponent,
 
 
   // Almacen Registro
@@ -207,6 +209,7 @@ const COMPONENTS = [
     pages.EntregaPorChoferComponent,
     pages.EnviodetSelectorDialogComponent,
     pages.EntregaPorChoferComponent,
+    pages.SelectorDeEmbarqueComponent,
   ],
   providers: [MovimientosService, TransformacionesService,
     DevolucionesService,
