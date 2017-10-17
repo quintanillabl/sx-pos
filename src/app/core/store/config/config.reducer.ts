@@ -8,7 +8,7 @@ export interface State {
 const initialState: State = {
   sucursal: {
       id: '402880fc5e4ec411015e4ec64e70012e',
-      clave: '10',
+      clave: '12',
       nombre: 'TACUBA'
     }
 };

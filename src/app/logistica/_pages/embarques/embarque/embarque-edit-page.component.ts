@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import {ActivatedRoute, Router} from '@angular/router';
-import { TdLoadingService } from '@covalent/core';
+import { TdLoadingService, TdDialogService } from '@covalent/core';
 import * as FileSaver from 'file-saver'; 
 
 import * as fromRoot from 'app/reducers';
@@ -37,6 +37,8 @@ export class EmbarqueEditPageComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private loadingService: TdLoadingService,
+    private _dialogService: TdDialogService,
+    private _viewContainerRef: ViewContainerRef,
   ) { }
 
   ngOnInit() {
@@ -65,6 +67,26 @@ export class EmbarqueEditPageComponent implements OnInit {
 
   private handlePostError(response) {
     console.log('Error al salvar embarque: ', response);
+  }
+
+  onDelete(embarque: Embarque) {
+    this._dialogService.openConfirm({
+      message: `Eliminar embarque  ${embarque.documento} ?` ,
+      viewContainerRef: this._viewContainerRef,
+      title: 'Embarques',
+      cancelButton: 'Cancelar',
+      acceptButton: 'Eliminar',
+    }).afterClosed().subscribe((accept: boolean) => {
+      if (accept) {
+        this.service
+          .delete(embarque.id)
+          .subscribe( res => {
+            this.router.navigate(['/logistica/embarques/embarques']);
+          }, error => {
+            console.error('Error al elimnar embarque', embarque);
+          });
+      }
+    });
   }
 
   onPrint(embarque) {

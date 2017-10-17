@@ -119,6 +119,15 @@ export class EmbarquePageComponent implements OnInit {
         }
       });
     }
-  }  
+  }
+  
+  onDelete(embarque: Embarque){
+    this.service
+    .delete(embarque.id)
+    .subscribe( 
+      value => this.load(),
+      error => console.error('Error al eliminar embarque ', error)
+    );
+  }
 
 }

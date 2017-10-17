@@ -8,7 +8,9 @@
             <span flex>Chofer </span>
             <span flex>Fecha </span>
             <span flex></span>
-            <span >Salida </span>
+            <span layout>
+              <span class="pad-left">Salida </span>
+            </span>
           </span>
         </span>
         <span flex></span>
@@ -28,11 +30,23 @@
                 <a md-button [routerLink]="['edit', row.id]"  class="tc-indigo-700">{{row.documento}} </a>
                 <span flex>{{row.chofer.nombre}} </span>
                 <span flex>{{ row.dateCreated | amTimeAgo }} </span>
-                
                 <span flex></span>
-                <button  md-icon-button (click)="marcarSalida(row)" mdTooltip="Regisrar salida de embarque" *ngIf="!row.salida">
-                  <md-icon>flight_takeoff</md-icon>
-                </button>
+                <span layout>
+                    <button  md-icon-button flex
+                      (click)="eliminar(row)" 
+                      *ngIf="row.numeroDePartidas === 0">
+                        <md-icon  class="pad tc-pink-700" >delete</md-icon>
+                    </button>
+
+                    <button  md-icon-button  
+                      (click)="marcarSalida(row)" 
+                      mdTooltip="Regisrar salida de embarque" 
+                      *ngIf="!row.salida">
+                      <md-icon class="pad">flight_takeoff</md-icon>
+                    </button>
+                    
+                </span>
+                
               </span>
             </span>
             

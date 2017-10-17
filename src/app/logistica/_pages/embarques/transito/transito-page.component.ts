@@ -71,14 +71,41 @@ export class TransitoPageComponent implements OnInit {
             .subscribe( res => {
               console.log('Regreso registrado...', res);
               this.load();
+              this.generarNuevoEmbarque(res);
             }, error => {
               this.handleError(error);
             });
         }
       });
-
     }
+  }
 
+  generarNuevoEmbarque(origen: Embarque){
+    this._dialogService.openConfirm({
+      message: `Generar un nuevo embarque para ${origen.chofer.nombre} ?` ,
+      viewContainerRef: this._viewContainerRef,
+      title: 'Embarques',
+      cancelButton: 'Cancelar',
+      acceptButton: 'Aceptar',
+    }).afterClosed().subscribe((accept: boolean) => {
+      if (accept) {
+        const embarque: Embarque = {
+          sucursal: origen.sucursal,
+          chofer: origen.chofer,
+          fecha: new Date().toISOString()
+        }
+        console.log('Generando. ', embarque);
+       
+        this.service
+          .save(embarque)
+          .subscribe( res => {
+            this.load();
+          }, error => {
+            this.handleError(error);
+          });
+          
+      }
+    });
   }
 
   handleError(response) {

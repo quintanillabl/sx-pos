@@ -1,10 +1,9 @@
 <md-card *tdLoading="'overlayStarSyntax'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
   <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
-    <span >
-      <span class="md-title">Facturas en pendientes de envío</span>
-    </span>
-    <span flex="20" class="pad-left"> Facturas: {{filteredData.length}}</span>
-    <span flex="12" class="pad-left"> Kilos: {{kilos}}</span>
+    <span class="md-title">Facturas en pendientes de envío</span>
+    <span flex></span>
+    <span  class="pad-left tc-pink-700" > Facturas: {{filteredData.length}}</span>
+    <span  class="pad-left tc-pink-700"> Kilos: {{kilos}}</span>
     <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
       
       <span *ngIf="selectedRows.length && selectable" class="md-body-1">0 item(s) seleccionados</span>
@@ -29,7 +28,7 @@
     [(ngModel)]="selectedRows"
     [sortOrder]="sortOrder"
     (sortChange)="sort($event)"
-    [style.height.px]="450">
+    [style.height.px]="550">
     <ng-template tdDataTableTemplate="parcial" let-value="value">
       <md-icon *ngIf="value">check</md-icon>
     </ng-template>

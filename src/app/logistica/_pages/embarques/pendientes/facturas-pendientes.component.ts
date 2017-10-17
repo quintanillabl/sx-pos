@@ -31,11 +31,14 @@ export class FacturasPendientesPageComponent implements OnInit, OnDestroy {
   kilos = 0
 
   columns: ITdDataTableColumn[] = [
-    { name: 'venta.tipo',  label: 'Tipo', sortable: true, width: 50 },
+    { name: 'venta.tipo',  label: 'Tipo', sortable: true, width: 5 },
     { name: 'venta.nombre', label: 'Cliente', filter: true, width: 350 },
-    { name: 'documento', label: 'Factura', hidden: false, width: 50},
-    { name: 'venta.fecha', label: 'Fecha', hidden: false, width: 50},
-    { name: 'venta.kilos', label: 'Kilos', hidden: false },
+    { name: 'documento', label: 'Factura', hidden: false, width: 10},
+    { name: 'venta.fecha', label: 'Fecha', hidden: false, width: 10},
+    { name: 'zona', label: 'Zona', hidden: false, width: 15},
+    { name: 'municipio', label: 'Mpo', hidden: false, width: 15},
+    { name: 'grupo', label: 'Gpo', hidden: false, width: 15},
+    { name: 'venta.kilos', label: 'Kilos', hidden: false, width: 15 },
     { name: 'parcial', label: 'Parcial', hidden: false },
     { name: 'venta.lastUpdated', label: 'Creada', hidden: false },
     { name: 'retraso', label: 'Retraso', hidden: false },

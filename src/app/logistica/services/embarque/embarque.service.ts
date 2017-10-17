@@ -65,22 +65,22 @@ export class EmbarqueService {
     return this.http.get<Array<any>>(url, {params: params})
   }
 
-  save(sol: Embarque) {
-    return this.http.post(this.apiUrl, sol);
+  save(embarque: Embarque) {
+    return this.http.post(this.apiUrl, embarque);
   }
 
-  update(sol: Embarque) {
-    const url = `${this.apiUrl}/${sol.id}`;
-    return this.http.put(url, sol);
+  update(embarque: Embarque) {
+    const url = `${this.apiUrl}/${embarque.id}`;
+    return this.http.put(url, embarque);
   }
 
-  registrarSalida(sol: Embarque) {
-    const url = `${this.apiUrl}/registrarSalida/${sol.id}`;
-    return this.http.put(url, sol);
+  registrarSalida(embarque: Embarque) {
+    const url = `${this.apiUrl}/registrarSalida/${embarque.id}`;
+    return this.http.put(url, embarque);
   }
-  registrarRegreso(sol: Embarque) {
-    const url = `${this.apiUrl}/registrarRegreso/${sol.id}`;
-    return this.http.put(url, sol);
+  registrarRegreso(embarque: Embarque): Observable<Embarque> {
+    const url = `${this.apiUrl}/registrarRegreso/${embarque.id}`;
+    return this.http.put<Embarque>(url, embarque);
   }
 
   delete(id: string) {
