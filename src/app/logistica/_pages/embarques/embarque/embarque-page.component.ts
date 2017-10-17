@@ -66,8 +66,10 @@ export class EmbarquePageComponent implements OnInit {
       }
       else {
         const faltante = _.find(e.partidas, envio => {
-          return envio.parcial && !envio.partidas;
-        });  
+          return envio.parcial && (envio.numeroDePartidas === 0);
+        }); 
+        console.log('Faltante: ', faltante); 
+        
         if( faltante ) {
           this.message('Embarque con envios parciales sin partidas');
         } else {

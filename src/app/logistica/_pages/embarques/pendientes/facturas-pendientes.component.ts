@@ -80,7 +80,7 @@ export class FacturasPendientesPageComponent implements OnInit, OnDestroy {
       this.embarquesPendientes = embarques;
     });
 
-    this.service.enviosPendientes().subscribe( data => {
+    this.subscription2 = this.service.enviosPendientes().subscribe( data => {
       this.data = data;
       this.filteredData = this.data;
       this.filter();

@@ -52,7 +52,7 @@ export class MovimientoFormComponent implements OnInit, OnDestroy {
       fecha: [{ value: new Date(), disabled: 'true'}],
       tipo: [null,Validators.required],
       porInventario: [false, Validators.required],
-      comentario: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
+      comentario: ['', [Validators.maxLength(100)]],
       partidas: this.fb.array([])
     }, {
       validator: PartidasValidator

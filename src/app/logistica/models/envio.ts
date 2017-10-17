@@ -39,6 +39,7 @@ export interface Envio {
     reated?: string
     lastUpdated?: string
     embarque?: Embarque
+    numeroDePartidas?: number
 }   
     
     

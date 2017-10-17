@@ -9,7 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "server": "./node_modules/.bin/json-server  --watch  ./server/db.json"
+    "server": "./node_modules/.bin/json-server  --watch  ./server/db.json",
+    "build-prod": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --prod --aot"
   },
   "private": true,
   "dependencies": {
@@ -45,7 +46,7 @@
     "zone.js": "^0.8.17"
   },
   "devDependencies": {
-    "@angular/cli": "^1.4.1",
+    "@angular/cli": "1.4.4",
     "@angular/compiler-cli": "^4.3.6",
     "@angular/language-service": "^4.3.6",
     "@types/jasmine": "^2.5.54",
@@ -66,7 +67,7 @@
     "protractor": "~5.1.2",
     "ts-node": "^3.3.0",
     "tslint": "^5.7.0",
-    "typescript": "^2.4.0"
+    "typescript": "2.3.4"
   },
   "ngrxGen": {
     "seperateDirectory": "true"

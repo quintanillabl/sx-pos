@@ -3,7 +3,7 @@
     <table td-data-table>
       <thead>
       <tr td-data-table-column-row >
-        <th td-data-table-column>Rng</th>
+        <!-- <th td-data-table-column>Rng</th> -->
         <th td-data-table-column [sortable]="true" [sortOrder]="'ASC'" [numeric]="true" >Línea</th>
         <th td-data-table-column>Producto</th>
         <th td-data-table-column width="40%">Descripción</th>
@@ -13,7 +13,7 @@
       </thead>
       <tbody>
       <tr td-data-table-row *ngFor="let row of partidas; index as i" [formGroupName]="i">
-        <td td-data-table-cell >{{i + 1}}</td>
+        <!-- <td td-data-table-cell >{{i + 1}}</td> -->
         <!-- <td td-data-table-cell numeric="true">{{row.indice}}</td> -->
         <td td-data-table-cell numeric="true" >
           <input type="text" *ngIf="!disabled" value="{{row.indice}}" (blur)="modificar(row, ifield.value)" #ifield>

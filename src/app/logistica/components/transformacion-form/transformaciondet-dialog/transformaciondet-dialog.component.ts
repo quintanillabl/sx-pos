@@ -1,19 +1,22 @@
 import { Component, Input, OnInit, OnDestroy, Inject, ChangeDetectionStrategy, OnChanges} from '@angular/core';
-import { FormGroup, FormBuilder, AbstractControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, AbstractControl, Validators, ValidatorFn } from '@angular/forms';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
+import * as _ from 'lodash';
 // import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 export const AutorizacionValidator = (control: AbstractControl): {[key: string]: boolean} => {
   const origen = control.get('origen').value;
   const destino = control.get('destino').value;
   if( origen && destino ){
-    console.log('Validando precios: ')
-    console.log(`Origen: ${origen.producto.precioContado} Destino: ${destino.producto.precioContado}`);
+    // console.log('Validando precios: ')
+    // console.log(`Origen: ${origen.producto.precioContado} Destino: ${destino.producto.precioContado}`);
     return origen.producto.precioContado < destino.producto.precioContado ? null : { precioMenor: true};
   }
   return null;
 };
+
+
  
 @Component({
   selector: 'sx-transformaciondet-dialog',
@@ -63,6 +66,8 @@ export class TransformaciondetDialogComponent implements OnInit, OnChanges, OnDe
         clave: [{value:'', disabled: true}],
         usuario: [{value:'', disabled: true}],
       })
+    }, {
+      validator: this.getGlobalValidator()
     });
 
     this.subscription1 = this.form.get('origen').valueChanges
@@ -101,5 +106,33 @@ export class TransformaciondetDialogComponent implements OnInit, OnChanges, OnDe
   get existenciaDestino() {
     return this.form.get('destino').value ? this.form.get('destino').value.cantidad: 0 
   }
+
+  getGlobalValidator(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: boolean} => {
+      // Reclasificaciones
+      if(this.tipo === 'REC') {
+        const salen = control.get('salida').value;
+        const entran = control.get('entrada').value;
+        if(salen && entran) {
+          
+          if(salen !== entran){
+            console.log(`Salen: ${salen}  Entran:${entran}  ERROR`);
+            control.get('entrada').setErrors({cantidadRecIncorrecta: true});
+          }
+        }
+      }
+      const salida = control.get('salida').value;
+      const disponible = control.get('disponible').value;
+      if(salida && disponible) {
+        if(salida > disponible){
+          console.log(`Salida: ${salida}  Disponible:${disponible}  ERROR`);
+          control.get('salida').setErrors({sinDisponibleSuficiente: true});
+          // return {sinDisponibleSuficiente: true};
+        }
+      }
+      return null;
+    }
+  }
+  
 
 }

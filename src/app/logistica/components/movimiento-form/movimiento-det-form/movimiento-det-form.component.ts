@@ -68,8 +68,8 @@ export class MovimientoDetFormComponent implements OnInit, OnDestroy {
 
   prepareEneity() {
     const entity = Object.assign({}, this.form.value);
-    if(this.parent.get('tipo').value === 'CIM') {
-      // entity.cantidad = entity.cantidad * -1;
+    if(this.parent.get('tipo').value === 'OIM') {
+       entity.cantidad = Math.abs(entity.cantidad);
     } else {
       entity.cantidad = entity.cantidad * -1;
     }

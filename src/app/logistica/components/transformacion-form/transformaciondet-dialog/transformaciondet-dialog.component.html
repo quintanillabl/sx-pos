@@ -13,6 +13,7 @@
       <md-form-field hintLabel="Cantidad de hojas que salen" flex>
         <input type="text" mdInput placeholder="Salen" formControlName="salida">
         <md-error>Cantidad incorrecta</md-error>
+        <md-error *ngIf="form.hasError('sinDisponibleSuficiente')">Debe ser igual a la salida</md-error>
       </md-form-field>
     </div>
 
@@ -28,6 +29,7 @@
       <md-form-field hintLabel="Cantidad de hojas que entran" flex>
         <input type="text" mdInput placeholder="Entran" formControlName="entrada">
         <md-error> Cantidad de entra incorrecta</md-error>
+        <md-error *ngIf="form.hasError('cantidadRecIncorrecta')">Debe ser igual a la salida</md-error>
       </md-form-field>
     </div>
 
