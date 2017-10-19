@@ -17,3 +17,16 @@ export interface Venta {
   kilos: number;
   partidas: Array<VentaDet>
 }
+
+export interface TipoDeVenta {
+  clave: string
+  descripcion: string
+}
+export const TIPOS: TipoDeVenta[] = [
+  { clave: 'CON', descripcion: 'Contado'},
+  { clave: 'CRE', descripcion: 'Crédito'},
+  { clave: 'COD', descripcion: 'Cobro contra entrega'},
+  // { clave: 'ANT', descripcion: 'Anticipo'},
+  // { clave: 'USD', descripcion: 'Dolares'},
+  // { clave: 'ACT', descripcion: 'Activos'},
+];

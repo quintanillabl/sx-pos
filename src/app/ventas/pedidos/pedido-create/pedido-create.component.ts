@@ -4,8 +4,10 @@ import { AddNewClienteService } from "app/clientes/services/add-new-cliente/add-
 
 @Component({
   selector: 'sx-pedido-create',
-  templateUrl: './pedido-create.component.html',
-  styleUrls: ['./pedido-create.component.scss']
+  template: `
+    <sx-pedido-form (addNewCliente)="onAddNewCliente()" >
+    </sx-pedido-form>
+  `
 })
 export class PedidoCreateComponent implements OnInit {
 

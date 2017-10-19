@@ -10,17 +10,19 @@ import { Producto } from "@siipapx/models";
 export class ProdSelectorComponent implements OnInit, OnDestroy {
 
   producto: Producto = undefined;
-  activos = new FormControl();
-  deLinea = new FormControl();
+  activos = new FormControl(true);
+  deLinea = new FormControl(true);
   
   private storeKey = 'sx.product-selector.state';
 
   constructor() { }
 
   ngOnInit() {
+    /*
     const state = JSON.parse(localStorage.getItem(this.storeKey));
     this.activos.setValue(state.activos);
     this.deLinea.setValue(state.deLinea);
+    */
   }
 
   ngOnDestroy() {

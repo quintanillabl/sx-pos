@@ -1,9 +1,11 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy,Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from "rxjs/Observable";
+import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
-import { Cliente } from "@siipapx/models";
+import { Sucursal, Cliente } from "@siipapx/models";
 import { PedidoFormService } from "./pedido-form.service";
+
 
 
 @Component({
@@ -11,13 +13,16 @@ import { PedidoFormService } from "./pedido-form.service";
   templateUrl: './pedido-form.component.html',
   styleUrls: ['./pedido-form.component.scss']
 })
-export class PedidoFormComponent implements OnInit {
-
-  cliente$: Observable<Cliente>;
+export class PedidoFormComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
 
   @Output() addNewCliente = new EventEmitter();
+
+  @Input() sucursal: Sucursal;
+  
+
+  subscription1: Subscription;
   
   constructor(
     private fb: FormBuilder,
@@ -26,11 +31,17 @@ export class PedidoFormComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
+    
+  }
+
+  ngOnDestroy(){
+    // this.subscription1.unsubscribe();
   }
 
   private buildForm() {
     this.form = this.fb.group({
       fecha: [{value: new Date(), disabled: true}, Validators.required],
+      cliente: [null, Validators.required],
       tipo: ['CONTADO', Validators.required],
       modo: ['MOSTRADOR', Validators.required],
       entrega: ['LOCAL', Validators.required],
@@ -55,6 +66,10 @@ export class PedidoFormComponent implements OnInit {
   onInsertPartida() {
     // console.log('Insertando partida al pedido');
     this.pedidoFormService.agregarPartida();
+  }
+
+  get cliente() {
+    return this.form.get('cliente').value;
   }
 
 }

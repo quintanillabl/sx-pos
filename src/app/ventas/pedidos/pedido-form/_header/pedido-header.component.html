@@ -1,3 +1,42 @@
-<div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm" layout-padding>
-    <h1>PEDIDO HEADER GOES HERE</h1>
+<div layout="column" [formGroup]="parent">
+  <div layout class="row1">
+    <sx-cliente-field flex formControlName="cliente"></sx-cliente-field>
+    <div layout layout-align="center center" class="pad-left" >
+      <span flex>RFC:</span><span>{{cliente?.rfc}}</span>
+    </div>
+    <div layout layout-align="center center" class="pad-left" *ngIf="cliente">
+        <span>Crédito: </span> 
+        <span class="text-right pad-left" >{{cliente?.credito? 'SI': 'NO'}}</span>
+    </div>
+    <span flex></span>
+
+    <span>
+      <button md-icon-button  (click)="insertar.emit()"  mdTooltip="Agregar partida" >
+        <md-icon>add</md-icon>
+      </button>
+      <button md-icon-button [matMenuTriggerFor]="toolbarMenu"><md-icon>more_vert</md-icon></button>
+      <md-menu #toolbarMenu="mdMenu">
+        <button md-menu-item (click)="addCliente.emit()"  mdTooltip="Buscr cliente" >
+          <md-icon>person_add</md-icon>
+          <span>Agregar cliente</span>
+        </button>
+      </md-menu>
+    </span>
+    
+  </div>
+
+  <div layout class="row2">
+    <address *ngIf="cliente?.direccion; let direccion" class="text-sm">
+        {{direccion.calle}} {{direccion.numeroExterior}}<br>
+        {{direccion.colonia}}<br>
+        {{direccion.estado}} / {{direccion.pais}}<br>
+        {{direccion.codigoPostal}}<br>
+    </address>
+    <span flex class="pad-sm"></span>
+    <span *ngIf="comprador">
+      <span>Comprador: </span>
+      <span class="tc-pink-700">{{comprador}}</span>
+    </span>
+    
+  </div>
 </div>

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-
+import { RouterModule } from '@angular/router';
 import { SharedModule } from "app/shared/shared.module";
 
 import { 
@@ -10,14 +10,19 @@ import {
   PedidoToolbarComponent,
   PedidoHeaderComponent,
   PedidoComentarioPanelComponent,
-  AddPartidaComponent
 } from '.';
 import { PartidasGridComponent } from './partidas-grid/partidas-grid.component';
 import { PedidoFormService } from "./pedido-form.service";
+import { TipoFieldComponent } from './tipo-field/tipo-field.component';
+import { ModoFieldComponent } from './modo-field/modo-field.component';
+import { CompradorFieldComponent } from './comprador-field/comprador-field.component';
+import { PedidoDetFormComponent } from './pedido-det-form/pedido-det-form.component';
+
 
 @NgModule({
   imports: [
-    SharedModule
+    SharedModule,
+    RouterModule.forChild([])
   ],
   exports: [
     PedidoFormComponent
@@ -31,7 +36,13 @@ import { PedidoFormService } from "./pedido-form.service";
     PedidoHeaderComponent,
     PedidoComentarioPanelComponent,
     PartidasGridComponent,
-    AddPartidaComponent
+    TipoFieldComponent,
+    ModoFieldComponent,
+    CompradorFieldComponent,
+    PedidoDetFormComponent
+  ],
+  entryComponents: [
+    PedidoDetFormComponent
   ],
   providers: [ PedidoFormService],
 })

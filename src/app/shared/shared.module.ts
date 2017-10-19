@@ -27,6 +27,7 @@ import { ConsultasRapidasComponent } from './_components/consultas-rapidas/consu
 import * as Layout from './layout';
 import { QvProductosBtnComponent } from './quick-views';
 import { DireccionFormComponent } from './_components/direccion-form/direccion-form.component';
+import { ClienteFieldComponent } from './_fields/cliente-field/cliente-field.component';
 
 
 const FLEX_LAYOUT_MODULES: any[] = [
@@ -51,6 +52,7 @@ const COMPONENTS: any[] = [
   MonedaFieldComponent,
   DireccionFormComponent,
   QvProductosBtnComponent,
+  ClienteFieldComponent,
 ]
 
 @NgModule({

@@ -1,4 +1,5 @@
-<td-layout-nav logo="assets:siipap-rx2"  navigationRoute="/" toolbarTitle="SX-POS">
+
+<!-- <td-layout-nav logo="assets:siipap-rx2"  navigationRoute="/" toolbarTitle="SX-POS">
   
   <button md-icon-button td-menu-button  tdLayoutToggle> 
     <md-icon>menu</md-icon>
@@ -16,15 +17,15 @@
   </div>
 
   <div layout-gt-sm="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']">
-    
-    <!-- <sx-pedidos-pendientes flex-gt-sm="60">  </sx-pedidos-pendientes> -->
     <div flex-gt-sm>
         <router-outlet></router-outlet>
     </div>
-    
   </div>
 
   <a md-fab color="accent" class="mat-fab-bottom-right" [routerLink]="['create']" style="bottom:20px; position: fixed;">
     <md-icon>add</md-icon>
   </a>
-</td-layout-nav>
+</td-layout-nav> -->
+<sx-nav-layout header="Pedidos" modulo="Ventas">
+  <router-outlet></router-outlet>
+</sx-nav-layout>

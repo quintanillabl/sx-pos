@@ -5,7 +5,6 @@ import { SharedModule } from "app/shared/shared.module";
 import { PedidosService } from "./services/pedidos.service";
 import { 
   PedidosPageComponent,
-  PedidosPendientesComponent,
   PedidoCreateComponent,
   } from '.';
 import { PedidoFormModule } from './pedido-form/pedido-form.module';
@@ -22,7 +21,6 @@ import { ProductosModule } from "app/productos/productos.module";
   ],
   declarations: [
     PedidosPageComponent, 
-    PedidosPendientesComponent,
     PedidoCreateComponent,
   ],
   providers: [ PedidosService],

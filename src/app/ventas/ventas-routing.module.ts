@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { MainPageComponent,MainDashboardComponent,} from './_pages';
-import { PedidosPageComponent, PedidoCreateComponent, PedidosPendientesComponent } from "./pedidos";
+import { PedidosPageComponent, PedidoCreateComponent } from "./pedidos";
 
 const routes: Routes = [
   {
@@ -22,10 +22,6 @@ const routes: Routes = [
         path: 'pedidos',
         component: PedidosPageComponent,
         children: [
-          {
-            path: '',
-            component: PedidosPendientesComponent
-          },
           {
             path: 'create',
             component: PedidoCreateComponent
