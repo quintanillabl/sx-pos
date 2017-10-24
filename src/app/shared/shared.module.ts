@@ -28,6 +28,8 @@ import * as Layout from './layout';
 import { QvProductosBtnComponent } from './quick-views';
 import { DireccionFormComponent } from './_components/direccion-form/direccion-form.component';
 import { ClienteFieldComponent } from './_fields/cliente-field/cliente-field.component';
+import { OnlyNumbersDirective } from './directives/only-numbers.directive';
+import { FormaDePagoComponent } from './_fields/forma-de-pago/forma-de-pago.component';
 
 
 const FLEX_LAYOUT_MODULES: any[] = [
@@ -35,7 +37,7 @@ const FLEX_LAYOUT_MODULES: any[] = [
 ];
 
 const ANGULAR_MODULES: any[] = [
-  FormsModule, 
+  FormsModule,
   ReactiveFormsModule,
 ];
 
@@ -80,6 +82,8 @@ const COMPONENTS: any[] = [
     Layout.NavListLayoutComponent,
     Layout.ManageListLayoutComponent,
     DireccionFormComponent,
+    OnlyNumbersDirective,
+    FormaDePagoComponent,
   ],
   exports: [
     ANGULAR_MODULES,
@@ -101,6 +105,8 @@ const COMPONENTS: any[] = [
     ExistenciaFieldComponent,
     GlobalUserNavListComponent,
     ConsultasRapidasComponent,
+    OnlyNumbersDirective,
+    FormaDePagoComponent,
   ],
 })
 export class SharedModule { }

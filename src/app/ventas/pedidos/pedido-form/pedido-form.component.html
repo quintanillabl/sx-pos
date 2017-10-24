@@ -1,5 +1,5 @@
-<form novalidate [formGroup]="form" layout="row" class="pedido-form">
-  
+<form novalidate [formGroup]="form" layout="row" class="pedido-form" (ngSubmit)="onSave()">
+
   <md-card flex="70" >
     <sx-pedido-header (addCliente)="onAddNewCliente()" [parent]="form" (insertar)="onInsertPartida()">
     </sx-pedido-header>
@@ -8,11 +8,12 @@
     <div layout="row" layout-margin>
       <sx-tipo-field [parent]="form" flex="15" ></sx-tipo-field>
       <sx-modo-field [parent]="form" flex="15"></sx-modo-field>
+      <sx-forma-de-pago [parent]="form" flex="15"></sx-forma-de-pago>
       <sx-comprador-field [parent]="form" flex></sx-comprador-field>
     </div>
     <md-divider></md-divider>
 
-    <sx-pedido-partidas-grid flex  ></sx-pedido-partidas-grid>
+    <sx-pedido-partidas-grid flex [partidas]="partidas.value" ></sx-pedido-partidas-grid>
     <md-divider></md-divider>
 
     <md-card-actions>
@@ -32,7 +33,7 @@
         <sx-pedido-comentario-panel [parent]="form" ></sx-pedido-comentario-panel>
         <sx-pedido-cargos-panel [parent]="form"></sx-pedido-cargos-panel>
         <sx-pedido-totales-panel [parent]="form"></sx-pedido-totales-panel>
-        
+
       </td-expansion-panel-group>
     </md-card>
   </div>

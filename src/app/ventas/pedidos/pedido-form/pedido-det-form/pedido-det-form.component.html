@@ -1,28 +1,107 @@
 <form novalidate (ngSubmit)="doAccept()" [formGroup]="form" class="pedido-det-form">
-  
-  <h4 md-dialog-title>Selector de producto: </h4>
+
+  <!--<h4 md-dialog-title>Agregar producto </h4>-->
   <md-dialog-content>
-    <div class="form-content">
-      Campos
+    <div class="form-content" layout="column">
+
+      <sx-existencia-field
+        [sucursal]="sucursal" [conExistencia]="false" [activos]="true"
+        placeholder="Producto"
+        formControlName="existencia">
+      </sx-existencia-field>
+
+      <div layout *ngIf="producto$ | async; else seleccionProducto; let producto">
+        <md-form-field>
+          <input type="text" mdInput placeholder="Precio Contado" [disabled]="true"
+                 value="{{producto.precioContado | currency:'USD': true: '1.2-2'}}">
+        </md-form-field>
+        <md-form-field>
+          <input type="text" mdInput placeholder="Precio Crédito" [disabled]="true"
+                 value="{{producto.precioCredito | currency:'USD': true: '1.2-2'}}">
+        </md-form-field>
+        <md-form-field>
+          <input type="text" mdInput placeholder="Ancho" [disabled]="true" value="{{producto.ancho}}">
+        </md-form-field>
+        <md-form-field>
+          <input type="text" mdInput placeholder="Largo" [disabled]="true" value="{{producto.largo}}">
+        </md-form-field>
+        <md-form-field>
+          <input type="text" mdInput placeholder="Calibre" [disabled]="true" value="{{producto.calibre}}">
+        </md-form-field>
+        <md-form-field>
+          <input type="text" mdInput placeholder="T. precio" [disabled]="true" value="{{producto.modoVenta === 'B' ? 'Bruto' : 'Neto'}}">
+        </md-form-field>
+      </div>
+      <ng-template #seleccionProducto>
+        <h4>Seleccione el producto</h4>
+      </ng-template>
+
+      <div layout>
+        <md-form-field >
+          <input type="text" mdInput sxOnlyNumbers
+                 placeholder="Cantidad" formControlName="cantidad" autocomplete="off">
+          <md-error> Cantidad incorrecta</md-error>
+        </md-form-field>
+        <md-form-field >
+          <input type="text" mdInput placeholder="Unidad" value="{{existencia?.producto?.unidad}}" [disabled]="true">
+        </md-form-field>
+        <md-form-field >
+          <input type="text" mdInput placeholder="Precio" formControlName="precio">
+        </md-form-field>
+        <md-form-field >
+          <input type="text" mdInput placeholder="Importe Bruto" [disabled]="true"
+                 value="{{importeBruto$ | async | currency:'USD': true: '1.2-2' }}">
+        </md-form-field>
+      </div>
+
+      <div layout class="pad">
+        <md-checkbox flex formControlName="cortado">Corte</md-checkbox>
+        <md-checkbox flex formControlName="sinExistencia">Sin existencia</md-checkbox>
+        <md-checkbox flex formControlName="conVale"> Con vale</md-checkbox>
+        <md-checkbox flex formControlName="conTrs" mdTooltip="Transformación o reclasificacion">Con TRS</md-checkbox>
+      </div>
+
+      <div layout>
+        <span class="md-subhead pad-right"> Disponibilidad </span>
+        <span class="pad-right" flex>{{sucursal.nombre}}:</span>
+        <span [ngClass]="{'tc-indigo-700': existencia?.cantidad > 0, 'tc-pink-700': existencia?.cantidad <= 0} " flex>
+            {{existencia?.cantidad | number:'3.0'}}
+        </span>
+        <span class="pad-right" flex>TOTAL:</span>
+        <span [ngClass]="{'tc-indigo-700': existencia?.cantidad > 0, 'tc-pink-700': existencia?.cantidad <= 0} " flex>
+          {{disponibilidadTotal$ | async | number:'3.0'}}
+        </span>
+
+      </div>
+
+      <div class="pad">
+        <table >
+          <thead >
+            <tr class="text-md" >
+              <th>Sucursal</th>
+              <th>Existencia</th>
+              <th>Recorte</th>
+              <th>Pedidos</th>
+              <th>Disponible</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let exis of existenciaRemota$ | async " class="pad-md text-md" >
+              <td>{{exis.sucursal.nombre}}</td>
+              <td class="text-right">{{exis.cantidad | number}}</td>
+              <td class="text-right">{{exis.recorte | number:'1.0'}}</td>
+              <td class="text-right">{{exis.pedidosPendiente | number:'1.0'}}</td>
+              <td class="text-right">{{exis.disponible | number:'1.0'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
     </div>
   </md-dialog-content>
-  <!--
-  <div layout="column" class="selector-form" class="exis-form">
-    <sx-existencia-field
-      [exclude]="inserted"
-      [sucursal]="sucursal"
-      placeholder="Producto"
-      formControlName="existencia">
-    </sx-existencia-field>
-    <md-form-field >
-      <input type="text" mdInput placeholder="Cantidad" formControlName="cantidad">
-      <md-error> Cantidad es mandatoria</md-error>
-    </md-form-field>
-  </div>
-  -->
+
   <md-dialog-actions>
     <button md-button class="accent" type="submit" [disabled]="form.invalid" >Aceptar</button>
     <button md-button type="button" (click)="close()" >Cancelar</button>
   </md-dialog-actions>
 </form>
-    

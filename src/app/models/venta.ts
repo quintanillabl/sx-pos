@@ -1,4 +1,4 @@
-import { Sucursal, Cliente, VentaDet } from "app/models";
+import { Sucursal, Cliente, VentaDet } from 'app/models';
 
 
 export interface Venta {

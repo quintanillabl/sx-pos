@@ -15,8 +15,8 @@ export class PedidoTotalesPanelComponent implements OnInit {
   ngOnInit() {
   }
 
-  get importeBruto() {
-    return this.parent.get('importeBruto');
+  get importe() {
+    return this.parent.get('importe').value;
   }
 
 }

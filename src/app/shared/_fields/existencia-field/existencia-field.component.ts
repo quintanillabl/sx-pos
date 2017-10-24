@@ -72,7 +72,6 @@ export class ExistenciaFieldComponent implements OnInit, ControlValueAccessor, O
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    console.log('Excludes: ', this.exclude);
     this.searchControl = new FormControl(null, Validators.required);
 
     this.existencias$ = this.searchControl
@@ -96,7 +95,7 @@ export class ExistenciaFieldComponent implements OnInit, ControlValueAccessor, O
         if ( _.isObject(value)) {
           this.onChange(value);
         } else {
-          this.onChange(null);
+          // this.onChange(null);
         }
       });
   }
@@ -121,7 +120,8 @@ export class ExistenciaFieldComponent implements OnInit, ControlValueAccessor, O
   }
 
   displayFn(existencia: Existencia) {
-    return existencia ? `(${existencia.producto.clave}) ${existencia.producto.descripcion}  Exis: ${existencia.cantidad}` : '';
+    return existencia ? `(${existencia.producto.clave}) ${existencia.producto.descripcion}
+    Exis: ${existencia.cantidad}  ${existencia.producto.presentacion}` : '';
   }
 
   writeValue(obj: any): void {

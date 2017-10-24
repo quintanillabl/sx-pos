@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy,Input, Output, EventEmitter } from '@angular/core';
-import { Observable } from "rxjs/Observable";
-import { Subscription } from 'rxjs';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import {FormGroup, FormBuilder, Validators, FormArray} from '@angular/forms';
 
-import { Sucursal, Cliente } from "@siipapx/models";
-import { PedidoFormService } from "./pedido-form.service";
+import { Sucursal, Cliente } from '@siipapx/models';
+import { PedidoFormService } from './pedido-form.service';
 
 
 
@@ -17,13 +17,14 @@ export class PedidoFormComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
 
+  @Output() save = new EventEmitter();
+
   @Output() addNewCliente = new EventEmitter();
 
   @Input() sucursal: Sucursal;
-  
 
   subscription1: Subscription;
-  
+
   constructor(
     private fb: FormBuilder,
     private pedidoFormService: PedidoFormService
@@ -31,10 +32,10 @@ export class PedidoFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.buildForm();
-    
+    this.pedidoFormService.registerForm(this.form);
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     // this.subscription1.unsubscribe();
   }
 
@@ -42,16 +43,21 @@ export class PedidoFormComponent implements OnInit, OnDestroy {
     this.form = this.fb.group({
       fecha: [{value: new Date(), disabled: true}, Validators.required],
       cliente: [null, Validators.required],
-      tipo: ['CONTADO', Validators.required],
+      tipo: ['CON', Validators.required],
       modo: ['MOSTRADOR', Validators.required],
       entrega: ['LOCAL', Validators.required],
       vale: ['SIN_VALE', Validators.required],
+      formaDePago: ['EFECTIVO', Validators.required],
       sucursalVale: [null],
       almacen: [null],
       direccion: [null],
       comprador: [null],
       comentario: [null],
-      importeBruto: [{value: 13870, disabled: true}]
+      importe: [{value: 0, disabled: true}],
+      descuento: [{value: 0, disabled: true}],
+      impuesto: [{value: 0, disabled: true}],
+      total: [{value: 0, disabled: true}],
+      partidas: this.fb.array([]),
     });
   }
 
@@ -65,11 +71,23 @@ export class PedidoFormComponent implements OnInit, OnDestroy {
 
   onInsertPartida() {
     // console.log('Insertando partida al pedido');
-    this.pedidoFormService.agregarPartida();
+    this.pedidoFormService.agregarPartida({sucursal: this.sucursal});
   }
 
   get cliente() {
     return this.form.get('cliente').value;
+  }
+
+  get partidas() {
+    return this.form.get('partidas') as FormArray;
+  }
+
+  onSave() {
+    const pedido = {
+      ...this.form.getRawValue(),
+      sucursal: this.sucursal
+    };
+    this.save.emit(pedido);
   }
 
 }
