@@ -19,6 +19,12 @@
     </md-list-item>
 
     <md-list-item>
+        <h3 mdLine> Sub Total: </h3>
+        <span flex></span>
+        <h3>{{ parent.get('subTotal').value | currency:'USD': true: '1.2-2'}}</h3>
+      </md-list-item>
+
+    <md-list-item>
       <h3 mdLine> Impuesto: </h3>
       <span flex></span>
       <h3>{{ parent.get('impuesto').value | currency:'USD': true: '1.2-2'}}</h3>

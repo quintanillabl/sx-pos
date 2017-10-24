@@ -13,11 +13,13 @@ import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-
 @Component({
   selector: 'sx-pedido-create',
   template: `
-    <sx-pedido-form
-      *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'"
-      (addNewCliente)="onAddNewCliente()" (save)="onSave($event)"
-      [sucursal]="sucursal$ | async">
-    </sx-pedido-form>
+    <div layout="column">
+      <sx-pedido-form
+        *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'"
+        (addNewCliente)="onAddNewCliente()" (save)="onSave($event)"
+        [sucursal]="sucursal$ | async">
+      </sx-pedido-form>
+    </div>
   `
 })
 export class PedidoCreateComponent implements OnInit {

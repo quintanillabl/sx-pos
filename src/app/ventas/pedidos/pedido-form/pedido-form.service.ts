@@ -6,7 +6,8 @@ import { PedidoDetFormComponent } from './pedido-det-form/pedido-det-form.compon
 import {Sucursal, VentaDet} from 'app/models';
 
 import * as _ from 'lodash';
-
+import { CONTADO, CREDITO } from 'app/ventas/models/descuentos';
+ 
 
 @Injectable()
 export class PedidoFormService {
@@ -30,7 +31,6 @@ export class PedidoFormService {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Insertando ventaDet:  ', result);
         this.partidas.push(new FormControl(result));
         this.actualizarTotales();
       }
@@ -45,24 +45,60 @@ export class PedidoFormService {
   actualizarTotales() {
     const partidas: VentaDet[] = this.partidas.value;
     let importe = 0;
-    const descuento = 0;
+    let descuento = 0;
+    let descuentoImporte = 0;
+    let subTotal = 0;
     let impuesto = 0;
-    _.forEach(partidas, function(row) {
-      // Calculando el importe bruto
-      const factor = row.producto.unidad === 'MIL' ? 1000 : 1;
-      const cantidad = row.cantidad;
-      const precio = row.precio;
-      let impBruto = (cantidad * precio) / factor;
-      impBruto = _.round(impBruto, 2);
-      impuesto += _.round((impBruto * .16), 2);
-      importe += impBruto;
-    });
-    let total = (importe - descuento + impuesto);
-    total = _.round(total, 2);
+    let total = 0;
 
+    partidas.forEach(row => {
+      this.actualizarPartida(row);
+      importe += row.importe;
+      descuento = descuento < row.descuento ? row.descuento : descuento;
+      descuentoImporte += row.descuentoImporte;
+      subTotal += row.subTotal;
+      impuesto += row.impuesto;
+      total += row.total;
+    });
+    
     this.form.get('importe').setValue(importe);
     this.form.get('descuento').setValue(descuento);
+    this.form.get('subTotal').setValue(subTotal);
     this.form.get('impuesto').setValue(impuesto);
     this.form.get('total').setValue(total);
   }
+
+  actualizarPartida(det: VentaDet) {
+    
+    const factor = det.producto.unidad === 'MIL' ? 1000 : 1;
+    const cantidad = det.cantidad;
+    const precio = det.precio;
+    let importe = (cantidad * precio) / factor;
+    importe = _.round(importe, 2);
+    det.importe = importe;
+    det.descuentoImporte = _.round( (importe * det.descuento) , 2);
+    det.subTotal = det.importe - det.descuentoImporte
+    det.impuestoTasa = 0.16;
+    det.impuesto = _.round(det.subTotal * det.impuestoTasa , 2);
+    det.total = det.subTotal + det.impuesto;
+    
+  }
+
+  actualizarDescuentos(tipo: string) {
+    if(tipo === 'CON' || tipo === 'COD') {
+      this.actualizarDescuentoPorVolumen();
+    }
+  }
+
+  actualizarDescuentoPorVolumen() {
+    
+  }
+
+  findDescuento(tipo: string, importe: number){
+    const descuentos = tipo === 'CRE' ? CREDITO : CONTADO;
+    const found = _.findLast(descuentos, item => item.importe < importe);
+    return  found
+  }
+
+  
 }

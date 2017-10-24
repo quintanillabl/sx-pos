@@ -8,14 +8,22 @@ export interface Venta {
   vendedor: {id: string, nombre: string},
   tipo: string;
   documeto: number;
+  // Importes y totales
   importe: number;
-  impuesto: number;
+  descuento: number
+  descuentoImporte: number
+  subTotal: number
+  impuesto: number
+  impuestoTasa: number
   total: number;
+  // END Importes y totales
   formaDePago: string;
   moneda: string;
   tipoDeCambio: number;
   kilos: number;
-  partidas: Array<VentaDet>
+  partidas: Array<VentaDet>;
+  vale?: boolean;
+  atencion?: string;
 }
 
 export interface TipoDeVenta {

@@ -4,22 +4,26 @@ export interface VentaDet {
   id?: string
   sucursal: Sucursal
   producto: Producto
+  // Manejo de importes
   cantidad: number
-  precioLista: number
-  precioOriginal: number
   precio: number
   importe: number
-  desctoOriginal: number
   descuento: number
-  importeDescuento: number
-  importeNeto: number
-  subtotal: number
+  descuentoImporte: number
+  subTotal: number
+  impuesto: number
+  impuestoTasa: number
+  total: number
+  // End importes
   nacional?: boolean
   kilos?: number
   comentario?: string
   conVale?: boolean
   cortado?: boolean
   importeCortes?: number
+  precioLista: number
+  precioOriginal: number
+  desctoOriginal: number
   dateCreated?: string
   lastUpdated?: string
   devuelto?: number

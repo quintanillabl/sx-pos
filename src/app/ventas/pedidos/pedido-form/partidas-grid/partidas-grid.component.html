@@ -1,4 +1,4 @@
-<td-data-table
+<!-- <td-data-table
   #dataTable
   [data]="partidas"
   [columns]="configWidthColumns"
@@ -6,4 +6,33 @@
   clickable="false"
   sortable="false"
   [style.height.px]="400">
-</td-data-table> 
+</td-data-table>  -->
+
+
+<td-data-table
+  #dataTable
+  [data]="filteredData"
+  [columns]="columns"
+  [style.height.px]="320">
+  <ng-template tdDataTableTemplate="producto" let-value="value" let-row="row">
+    <span flex="15">({{value.clave}}) </span>
+    <span flex> {{value.descripcion}}</span>
+    <span class="text-sm pad-right pad-left"> {{row.producto.presentacion}}</span>
+    <span mdTooltip="Precio {{row.producto.modoVenta === 'B' ? 'Bruto': 'Neto'}}"
+      [ngClass]="{'tc-pink-700': row.producto.modoVenta === 'B', 'tc-indigo-700': row.producto.modoVenta === 'N'}">
+      {{row.producto.modoVenta}} 
+    </span>
+  </ng-template>
+  <ng-template tdDataTableTemplate="precio" let-value="value" let-row="row">
+      {{value | currency: 'USD': 1.2-2}}
+  </ng-template>
+  <ng-template tdDataTableTemplate="importe" let-value="value" let-row="row">
+      {{value | currency: 'USD': 1.2-2}}
+  </ng-template>
+  <ng-template tdDataTableTemplate="subTotal" let-value="value" let-row="row">
+      {{value | currency: 'USD': 1.2-2}}
+  </ng-template>
+</td-data-table>
+<div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">
+  <h3>Registre los productos para la venta.</h3>
+</div>

@@ -2,11 +2,16 @@ import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angu
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import {FormGroup, FormBuilder, Validators, FormArray} from '@angular/forms';
+import * as _ from 'lodash';
 
-import { Sucursal, Cliente } from '@siipapx/models';
+import { Sucursal, Cliente, VentaDet } from 'app/models';
 import { PedidoFormService } from './pedido-form.service';
 
-
+export function mapPartidaToImporte( det: VentaDet) {
+  const factor = det.producto.unidad === 'MIL' ? 1000 : 1;
+  const res =  (det.cantidad * det.precio) / factor
+  return _.round(res, 2);
+}
 
 @Component({
   selector: 'sx-pedido-form',
@@ -25,6 +30,8 @@ export class PedidoFormComponent implements OnInit, OnDestroy {
 
   subscription1: Subscription;
 
+  descuentoPorVolumen$: Observable<number>
+
   constructor(
     private fb: FormBuilder,
     private pedidoFormService: PedidoFormService
@@ -33,6 +40,24 @@ export class PedidoFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.buildForm();
     this.pedidoFormService.registerForm(this.form);
+    this.buildDescuentoPorVolumen$();
+  }
+
+  private buildDescuentoPorVolumen$() {
+    this.descuentoPorVolumen$ = this.form.get('tipo').valueChanges
+    .filter( tipo => tipo ==='CON' || tipo === 'COD')
+    .combineLatest(this.partidas.valueChanges, (tipo, partidas) => {
+      return partidas.filter(item => item.producto.modoVenta ==='B');
+    })
+    .map( partidas => _.map(partidas, mapPartidaToImporte))
+    .map ( partidas => _.sum(partidas));
+
+    this.descuentoPorVolumen$
+    .subscribe( importe => {
+      console.log('Importe para descuento', importe);
+      const descuento = this.pedidoFormService.findDescuento('CON', importe);
+      console.log('Descuento localizado: ', descuento);
+    });
   }
 
   ngOnDestroy() {
@@ -43,10 +68,10 @@ export class PedidoFormComponent implements OnInit, OnDestroy {
     this.form = this.fb.group({
       fecha: [{value: new Date(), disabled: true}, Validators.required],
       cliente: [null, Validators.required],
-      tipo: ['CON', Validators.required],
-      modo: ['MOSTRADOR', Validators.required],
+      tipo: [null, Validators.required],
+      atencion: ['MOSTRADOR', Validators.required],
       entrega: ['LOCAL', Validators.required],
-      vale: ['SIN_VALE', Validators.required],
+      vale: [false, Validators.required],
       formaDePago: ['EFECTIVO', Validators.required],
       sucursalVale: [null],
       almacen: [null],
@@ -55,6 +80,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy {
       comentario: [null],
       importe: [{value: 0, disabled: true}],
       descuento: [{value: 0, disabled: true}],
+      subTotal:  [{value: 0, disabled: true}],
       impuesto: [{value: 0, disabled: true}],
       total: [{value: 0, disabled: true}],
       partidas: this.fb.array([]),
@@ -85,7 +111,8 @@ export class PedidoFormComponent implements OnInit, OnDestroy {
   onSave() {
     const pedido = {
       ...this.form.getRawValue(),
-      sucursal: this.sucursal
+      sucursal: this.sucursal,
+      vendedor: this.cliente.vendedor.id
     };
     this.save.emit(pedido);
   }

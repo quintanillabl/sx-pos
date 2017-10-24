@@ -14,15 +14,8 @@
     <md-divider></md-divider>
 
     <sx-pedido-partidas-grid flex [partidas]="partidas.value" ></sx-pedido-partidas-grid>
-    <md-divider></md-divider>
 
-    <md-card-actions>
-      <button type="submit" md-button [disabled]="form.invalid" *ngIf="!disabled"> Salvar </button>
-      <a  md-button [routerLink]="['/ventas/pedidos']"> Cancelar </a>
-      <button type="button" md-icon-button  mdTooltip="Imprimir documento" >
-        <md-icon>print</md-icon>
-      </button>
-    </md-card-actions>
+    
 
   </md-card>
 
@@ -35,6 +28,14 @@
         <sx-pedido-totales-panel [parent]="form"></sx-pedido-totales-panel>
 
       </td-expansion-panel-group>
+      <md-divider></md-divider>
+      <md-card-actions>
+        <button type="submit" md-button [disabled]="form.invalid" *ngIf="!disabled"> Salvar </button>
+        <a  md-button [routerLink]="['/ventas/pedidos']"> Cancelar </a>
+        <button type="button" md-icon-button  mdTooltip="Imprimir documento" >
+          <md-icon>print</md-icon>
+        </button>
+      </md-card-actions>
     </md-card>
   </div>
 

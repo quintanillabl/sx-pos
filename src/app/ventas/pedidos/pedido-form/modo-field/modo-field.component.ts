@@ -5,8 +5,8 @@ import { FormGroup } from '@angular/forms';
   selector: 'sx-modo-field',
   template: `
   <ng-container [formGroup]="parent">
-    <md-select placeholder="Modo" formControlName="modo" class="fill">
-      <md-option *ngFor="let modo of ['MOSTRADOR','TELEFONICA']" 
+    <md-select placeholder="Modo" formControlName="atencion" class="fill">
+      <md-option *ngFor="let modo of ['MOSTRADOR','TELEFONICA','ND']" 
         [value]="modo">{{ modo }}
       </md-option>
     </md-select>

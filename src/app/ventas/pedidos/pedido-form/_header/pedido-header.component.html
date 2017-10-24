@@ -11,12 +11,12 @@
     <span flex></span>
 
     <span>
-      <button md-icon-button  (click)="insertar.emit()"  mdTooltip="Agregar partida" >
+      <button md-icon-button  (click)="insertar.emit()"  type="button" mdTooltip="Agregar partida" >
         <md-icon>add</md-icon>
       </button>
       <button md-icon-button [matMenuTriggerFor]="toolbarMenu"><md-icon>more_vert</md-icon></button>
       <md-menu #toolbarMenu="mdMenu">
-        <button md-menu-item (click)="addCliente.emit()"  mdTooltip="Buscr cliente" >
+        <button md-menu-item (click)="addCliente.emit()"  mdTooltip="Buscr cliente" type="button">
           <md-icon>person_add</md-icon>
           <span>Agregar cliente</span>
         </button>
