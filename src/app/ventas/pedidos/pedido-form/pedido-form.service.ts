@@ -84,14 +84,12 @@ export class PedidoFormService {
     
   }
 
-  actualizarDescuentos(tipo: string) {
-    if(tipo === 'CON' || tipo === 'COD') {
-      this.actualizarDescuentoPorVolumen();
-    }
-  }
-
-  actualizarDescuentoPorVolumen() {
-    
+  aplicarDescuento(descuento: number) {
+    const partidas: VentaDet[] = this.partidas.value;
+    partidas.forEach(row => {
+      row.descuento = (descuento / 100)
+    });
+    this.actualizarTotales();
   }
 
   findDescuento(tipo: string, importe: number){

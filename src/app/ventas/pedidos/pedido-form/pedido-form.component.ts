@@ -30,7 +30,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy {
 
   subscription1: Subscription;
 
-  descuentoPorVolumen$: Observable<number>
+  descuentoPorVolumen$: Observable<any>
 
   constructor(
     private fb: FormBuilder,
@@ -44,19 +44,22 @@ export class PedidoFormComponent implements OnInit, OnDestroy {
   }
 
   private buildDescuentoPorVolumen$() {
-    this.descuentoPorVolumen$ = this.form.get('tipo').valueChanges
-    .filter( tipo => tipo ==='CON' || tipo === 'COD')
-    .combineLatest(this.partidas.valueChanges, (tipo, partidas) => {
-      return partidas.filter(item => item.producto.modoVenta ==='B');
-    })
-    .map( partidas => _.map(partidas, mapPartidaToImporte))
-    .map ( partidas => _.sum(partidas));
+    const importeBruto$ = this.partidas.valueChanges
+      .map(partidas => partidas.filter(item => item.producto.modoVenta ==='B'))
+      .map( partidas => _.map(partidas, mapPartidaToImporte));
 
+    this.descuentoPorVolumen$ = this.form.get('tipo').valueChanges
+    .combineLatest(importeBruto$, (tipo, partidas) => {
+      const importe = _.sum(partidas);
+      const descuento = this.pedidoFormService.findDescuento(tipo, importe);
+      console.log(`Tipo: ${tipo} Importe bruto toal: ${importe} Descuento: ${descuento}`);
+      return descuento;
+    });
+    
     this.descuentoPorVolumen$
-    .subscribe( importe => {
-      console.log('Importe para descuento', importe);
-      const descuento = this.pedidoFormService.findDescuento('CON', importe);
-      console.log('Descuento localizado: ', descuento);
+    .subscribe( descuento => {
+      console.log('Descuento por volumen: ', descuento);
+      this.pedidoFormService.aplicarDescuento(descuento.descuento);
     });
   }
 
