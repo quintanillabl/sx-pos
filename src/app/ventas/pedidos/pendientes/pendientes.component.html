@@ -1,0 +1,34 @@
+<div layout-gt-sm="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']">
+  
+  <md-card flex-gt-sm = "70" >
+    <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+      <span  class="push-left-sm" flex>
+          <span class="md-title">Pedidos pendientes</span>
+      </span>
+      <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm"
+        placeholder="Pedidos " (searchDebounce)="search($event)" flex>
+      </td-search-box>
+      <span>
+        <a type="button" md-icon-button [routerLink]="['../create']"
+          mdTooltip="Nuevo pedido"> 
+          <md-icon>add</md-icon> 
+        </a>
+        <button md-icon-button (click)="load()"><md-icon>refresh</md-icon></button>
+      </span>
+    
+    </div>
+
+    <md-divider></md-divider>
+    <md-card-content class="page-grid"
+      *tdLoading="let loading until !(loading$ | async); color: 'accent' strategy:'overlay';">
+     <sx-pedidos-pendientes-list [pedidos]="pedidos$ | async">
+      </sx-pedidos-pendientes-list> 
+    </md-card-content>
+  </md-card>
+</div>
+  
+<a md-fab color="accent" class="mat-fab-bottom-right" [routerLink]="['create']">
+  <md-icon>add</md-icon>
+</a>
+  
+  

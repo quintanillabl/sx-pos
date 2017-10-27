@@ -1,5 +1,17 @@
 <td-expansion-panel label="Cargos" [formGroup]="parent">
-  <div class="md-padding">
-    <h3 class="md-subhead">md-padding class</h3>
-  </div>
+  
+  <md-list class="md-padding">
+    <md-list-item>
+      <h3 mdLine> C. Tarjeta: </h3>
+      <span flex></span>
+      <h3>{{ comisionTarjeta | percent }}</h3>
+    </md-list-item>
+
+    <md-list-item>
+      <h3 mdLine> Imp C.Tarjeta: </h3>
+      <span flex></span>
+      <h3>{{ parent.get('comisionTarjetaImporte').value | currency:'USD': true: '1.2-2'}}</h3>
+    </md-list-item>
+  </md-list>
+
 </td-expansion-panel>

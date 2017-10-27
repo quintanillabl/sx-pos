@@ -1,11 +1,12 @@
-import { Sucursal, Cliente, VentaDet } from 'app/models';
+import { Sucursal, Cliente, VentaDet, Vendedor } from 'app/models';
 
 
 export interface Venta {
   id: string;
+  fecha: string
   sucursal: Sucursal;
   cliente: Cliente;
-  vendedor: {id: string, nombre: string},
+  vendedor?: Vendedor,
   tipo: string;
   documeto: number;
   // Importes y totales
@@ -24,6 +25,10 @@ export interface Venta {
   partidas: Array<VentaDet>;
   vale?: boolean;
   atencion?: string;
+  cod?: boolean
+  cargosPorManiobra?: number
+  comisionTarjeta?: number
+  comisionTarjetaImporte?: number
 }
 
 export interface TipoDeVenta {

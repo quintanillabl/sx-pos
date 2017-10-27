@@ -15,4 +15,8 @@ export class PedidoCargosPanelComponent implements OnInit {
   ngOnInit() {
   }
 
+  get comisionTarjeta() {
+    return this.parent.get('comisionTarjeta').value;
+  }
+
 }

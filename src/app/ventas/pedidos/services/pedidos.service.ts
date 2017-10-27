@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from 'environments/environment';
-import { Venta } from 'app/models';
+import { Venta, Sucursal, Producto } from 'app/models';
 
 @Injectable()
 export class PedidosService {
@@ -15,6 +15,12 @@ export class PedidosService {
   get(id: string): Observable<Venta> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.get<Venta>(url)
+  }
+
+  pendientes(sucursal: Sucursal): Observable<Venta[]> {
+    // let params = new HttpParams().set('sucursal', sucursal.id);
+    const url = `${this.apiUrl}/pendientes/${sucursal.id}`;
+    return this.http.get<Venta[]>(url)
   }
 
   list(): Observable<Venta[]> {
@@ -33,6 +39,12 @@ export class PedidosService {
   delete(id: string) {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete(url);
+  }
+
+  findManiobra(): Observable<Producto> {
+    let params = new HttpParams().set('clave', 'MANIOBRA');
+    const url = `${this.apiUrl}/findManiobra`;
+    return this.http.get<Producto>(url);
   }
 
 }

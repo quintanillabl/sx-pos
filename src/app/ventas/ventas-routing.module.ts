@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { MainPageComponent,MainDashboardComponent,} from './_pages';
 import { PedidosPageComponent, PedidoCreateComponent } from "./pedidos";
+import { PendientesComponent } from './pedidos/pendientes/pendientes.component';
+import { PedidoEditComponent } from './pedidos/pedido-edit/pedido-edit.component';
 
 const routes: Routes = [
   {
@@ -23,8 +25,16 @@ const routes: Routes = [
         component: PedidosPageComponent,
         children: [
           {
+            path: 'pendientes',
+            component: PendientesComponent
+          },
+          {
             path: 'create',
             component: PedidoCreateComponent
+          },
+          {
+            path: 'edit/:id',
+            component: PedidoEditComponent
           }
         ]
       }

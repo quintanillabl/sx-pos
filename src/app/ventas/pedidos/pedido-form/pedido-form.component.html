@@ -6,16 +6,21 @@
     <md-divider></md-divider>
 
     <div layout="row" layout-margin>
-      <sx-tipo-field [parent]="form" flex="15" ></sx-tipo-field>
+      <sx-tipo-field [parent]="form"  ></sx-tipo-field>
+      <span layout ="column" layout-align="center center" class="pad">
+          <md-checkbox  labelPosition="before" formControlName="cod" mdTooltip="Contr entrega">COD</md-checkbox>
+      </span>
       <sx-modo-field [parent]="form" flex="15"></sx-modo-field>
       <sx-forma-de-pago [parent]="form" flex="15"></sx-forma-de-pago>
       <sx-comprador-field [parent]="form" flex></sx-comprador-field>
     </div>
     <md-divider></md-divider>
 
-    <sx-pedido-partidas-grid flex [partidas]="partidas.value" ></sx-pedido-partidas-grid>
-
-    
+    <sx-pedido-partidas-grid flex 
+      [partidas]="partidas.value" 
+      [parent]="form"
+      (delete)="onDelete($event)">
+    </sx-pedido-partidas-grid>
 
   </md-card>
 
@@ -31,7 +36,7 @@
       <md-divider></md-divider>
       <md-card-actions>
         <button type="submit" md-button [disabled]="form.invalid" *ngIf="!disabled"> Salvar </button>
-        <a  md-button [routerLink]="['/ventas/pedidos']"> Cancelar </a>
+        <a  md-button [routerLink]="['/ventas/pedidos/pendientes']"> Cancelar </a>
         <button type="button" md-icon-button  mdTooltip="Imprimir documento" >
           <md-icon>print</md-icon>
         </button>

@@ -9,6 +9,9 @@ import { PedidoFormModule } from './pedido-form/pedido-form.module';
 import { ClientesModule } from 'app/clientes/clientes.module';
 import { ProductosModule } from 'app/productos/productos.module';
 import { reducers } from './store/reducers';
+import { PendientesComponent } from './pendientes/pendientes.component';
+import { PendientesListComponent } from './pendientes/pendientes-list/pendientes-list.component';
+import { PedidoEditComponent } from './pedido-edit/pedido-edit.component';
 
 
 
@@ -25,6 +28,9 @@ import { reducers } from './store/reducers';
   declarations: [
     PedidosPageComponent,
     PedidoCreateComponent,
+    PendientesComponent,
+    PendientesListComponent,
+    PedidoEditComponent,
   ],
   providers: [ PedidosService],
   exports: [RouterModule]

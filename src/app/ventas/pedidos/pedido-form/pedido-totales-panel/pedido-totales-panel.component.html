@@ -7,15 +7,15 @@
   </ng-template>
   <md-list class="md-padding">
     <md-list-item>
-        <h3 mdLine> Importe bruto: </h3>
+        <h3 mdLine> Importe: </h3>
         <span flex></span>
         <h3>{{ importe | currency:'USD': true: '1.2-2'}}</h3>
     </md-list-item>
 
     <md-list-item>
-      <h3 mdLine> Descuento: </h3>
+      <h3 mdLine> Descuento <span class="span-left"> ({{ parent.get('descuento').value | percent }}):</span></h3>
       <span flex></span>
-      <h3>{{ parent.get('descuento').value | currency:'USD': true: '1.2-2'}}</h3>
+      <h3>{{ parent.get('descuentoImporte').value | currency:'USD': true: '1.2-2'}}</h3>
     </md-list-item>
 
     <md-list-item>

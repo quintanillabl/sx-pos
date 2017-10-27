@@ -11,3 +11,4 @@ export * from './moneda';
 export * from './existencia';
 export * from './venta';
 export * from './ventaDet';
+export * from './vendedor';
