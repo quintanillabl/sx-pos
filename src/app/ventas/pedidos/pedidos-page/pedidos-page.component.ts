@@ -24,6 +24,12 @@ export class PedidosPageComponent implements OnInit {
   navigation: Object[] = [
     {route: 'pendientes', title: 'Pendientes', icon: 'alarm'},
     {route: 'solicitudes', title: 'Solicitud de deposito', descripcion: 'Solicitud de autorizacion de deposito', icon: 'verified_user'},
+    {route: 'facturacionCredito', title: 'Fac Crédito', descripcion: 'Facturación crédito', icon: ''},
+    {route: 'facturacionDolares', title: 'Fac en dólares', descripcion: 'Facturación dólares', icon: ''},
+    {route: 'facturas', title: 'Facturas', descripcion: 'Facturación dólares', icon: ''},
+    {route: 'facturasCanceladas', title: 'Canceladas', descripcion: 'Facturación dólares', icon: ''},
+    {route: 'devoluciones', title: 'Devoluciones', descripcion: 'Devolución de facturas', icon: ''},
+    {route: 'traslados', title: 'Traslados', descripcion: 'Devolución de facturas', icon: ''},
   ];
 
   reportes = [

@@ -1,12 +1,24 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
+import {RouterModule} from '@angular/router';
 
+import {SharedModule} from 'app/shared/shared.module';
 import { SolicitudesPageComponent } from './solicitudes-page/solicitudes-page.component';
+import { reducers} from './store/reducers';
+import {SolicitudesService} from 'app/ventas/solicitudes/services/solicitudes.service';
+import {SolicitudesEffects} from 'app/ventas/solicitudes/store/effects/solicitudes.effects';
+import { SolicitudCreateComponent } from './solicitud-create/solicitud-create.component';
+
 
 @NgModule({
   imports: [
-    CommonModule
+    SharedModule,
+    RouterModule.forChild([]),
+    StoreModule.forFeature('solicitudes', reducers),
+    EffectsModule.forFeature([SolicitudesEffects]),
   ],
-  declarations: [SolicitudesPageComponent]
+  declarations: [SolicitudesPageComponent, SolicitudCreateComponent],
+  providers: [ SolicitudesService ]
 })
 export class SolicitudesModule { }
