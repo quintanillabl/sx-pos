@@ -1,5 +1,7 @@
-import { Component, OnInit, OnDestroy, OnChanges,
-  Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component, OnInit, OnDestroy, OnChanges,
+  Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges, ViewChild
+} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import {FormGroup, FormBuilder, Validators, FormArray, FormControl} from '@angular/forms';
@@ -42,24 +44,30 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     private cd: ChangeDetectorRef
   ) {
     this.buildForm();
-    this.pedidoFormService.registerForm(this.form);
-    this.buildRecalcular$();
-    this.buildFomraDePago$();
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.pedido && changes.pedido.currentValue) {
+      // console.log('Asignando pedido');
       // const pedido: Venta = _.clone(changes.pedido.currentValue);
       const pedido: Venta = changes.pedido.currentValue;
-      console.log('Editando pedido: ', pedido);
+      // console.log('Editando pedido: ', pedido);
       _.forEach(pedido.partidas, item => this.partidas.push(new FormControl(item)));
+      /*
       this.form.patchValue({
         id: pedido.id,
         fecha: pedido.fecha,
         cliente: pedido.cliente,
         tipo: pedido.tipo,
       }, {emitEvent: false});
+      */
+      this.form.patchValue(pedido, {emitEvent: false});
 
+
+      this.pedidoFormService.registerForm(this.form);
+      this.buildRecalcular$();
+      this.buildFomraDePago$();
     }
   }
 
@@ -147,6 +155,10 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
   onInsertPartida() {
     this.pedidoFormService.agregarPartida({sucursal: this.sucursal});
+  }
+
+  onEditPartida(index: number) {
+    this.pedidoFormService.editarPartida(index, {sucursal: this.sucursal});
   }
 
   onDelete(index: number) {

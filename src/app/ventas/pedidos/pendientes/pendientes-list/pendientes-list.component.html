@@ -20,22 +20,21 @@
             <span>
                 <a md-button [routerLink]="['../edit', row.id]"  class="tc-indigo-700" flex>{{row.documento}} </a>
             </span>
-            
-            <span flex>{{ row.fecha | date: 'dd/MM/yyyy' }} </span>
-            <span flex>{{ row.cliente.nombre}} </span>
-            <span flex>{{ row.dateCreated | amTimeAgo }} </span>
+            <span flex="40">{{ row.cliente.nombre}} </span>
+            <span flex="10">{{ row.fecha | date: 'dd/MM/yyyy' }} </span>
+            <span flex="20">{{ row.dateCreated | amTimeAgo }} </span>
             <span flex class="text-right">{{ row.total | currency: 'USD': 1.2-2 }} </span>
             <span flex></span>
             <span layout>
-              <button  md-icon-button  
-                (click)="marcarSalida(row)" 
+              <button  md-icon-button
+                (click)="marcarSalida(row)"
                 mdTooltip="Mandar facturar" >
                 <md-icon class="pad">flight_takeoff</md-icon>
               </button>
             </span>
           </span>
         </span>
-        
+
         <span flex></span>
         <!-- <span >
           <button md-icon-button [md-menu-trigger-for]="menu"  >

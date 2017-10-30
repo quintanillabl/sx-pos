@@ -19,7 +19,8 @@
     <sx-pedido-partidas-grid flex
       [partidas]="partidas.value"
       [parent]="form"
-      (delete)="onDelete($event)">
+      (delete)="onDelete($event)"
+      (edit)="onEditPartida($event)" >
     </sx-pedido-partidas-grid>
 
   </md-card>
@@ -36,7 +37,7 @@
       </td-expansion-panel-group>
       <md-divider></md-divider>
       <md-card-actions>
-        <button type="submit" md-button [disabled]="form.invalid" *ngIf="!disabled"> Salvar </button>
+        <button type="submit" md-button [disabled]="form.invalid" > Salvar </button>
         <a  md-button [routerLink]="['/ventas/pedidos/pendientes']"> Cancelar </a>
         <button type="button" md-icon-button  mdTooltip="Imprimir documento" >
           <md-icon>print</md-icon>
@@ -47,4 +48,4 @@
 
 </form>
 
-<td-json-formatter [data]="partidas.value"></td-json-formatter>
+<!--<td-json-formatter [data]="partidas.value"></td-json-formatter>-->

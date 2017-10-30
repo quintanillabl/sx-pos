@@ -56,6 +56,28 @@ export class PedidoFormService {
     });
   }
 
+  /**
+   * Editar una partida del pedido
+   */
+  editarPartida(index: number, config: {sucursal: Sucursal}) {
+    const det = this.partidas.value[index];
+    // console.log('Editando partida: ', det);
+    const dialogRef = this.dialog.open(PedidoDetFormComponent, {
+      data: {
+        sucursal: config.sucursal,
+        tipo: this.tipo,
+        partida: det
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.partidas.push(new FormControl(result));
+        this.recalcular();
+      }
+    });
+
+  }
+
   elimiarPartida( index: number) {
     this.partidas.removeAt(index);
     this.recalcular();
@@ -72,7 +94,7 @@ export class PedidoFormService {
   }
 
   recalcular() {
-    // console.log('Recalcuando el pedido....');
+    console.log('Recalcuando el pedido....');
     if (this.partidasActualizables.length > 0) {
       this.quitarCargosEspeciales();
       this.actualizarPrecios();
@@ -295,6 +317,7 @@ export class PedidoFormService {
         this.form.get('corteImporte').setValue( (importeCortes)) ;
         const det = this.buildPartidaDeManiobra(producto, importeCortes);
         console.log('Agregando partida de corte: ', {...det});
+        console.log('... Partidas actuales: ', this.partidas.value);
         this.partidas.push(new FormControl(det));
         this.actualizarTotales();
 

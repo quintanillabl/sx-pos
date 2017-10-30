@@ -34,6 +34,8 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   tipoDePrecio = 'CON';
   importeBruto$: Observable<number>;
 
+  partida: VentaDet;
+
   subs1: Subscription;
   subs2: Subscription;
   subs3: Subscription;
@@ -50,10 +52,12 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   ) {
     this.sucursal = data.sucursal;
     this.tipoDePrecio = data.tipo;
+    this.partida = data.partida;
   }
 
   ngOnInit() {
     this.buildForm();
+    this.edicion();
     this.buildExistenciaRemota$();
     this.buildDisponibilidadTotal$();
     this.buildProducto$();
@@ -61,6 +65,12 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     this.buildSinVale();
     this.buildImporteBruto$();
     this.buildCorte$();
+  }
+
+  private edicion() {
+    if (this.partida) {
+      this.form.patchValue(this.partida);
+    }
   }
 
   private buildForm() {
@@ -176,8 +186,12 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   }
 
   doAccept() {
-    const ventaDet = this.preparePartida();
-    this.dialogRef.close(ventaDet);
+    if (this.partida) {
+      this.dialogRef.close(this.partida);
+    } else {
+      const ventaDet = this.preparePartida();
+      this.dialogRef.close(ventaDet);
+    }
   }
 
   preparePartida(): VentaDet {

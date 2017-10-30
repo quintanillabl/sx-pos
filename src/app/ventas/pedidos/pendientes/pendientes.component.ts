@@ -15,7 +15,7 @@ import { Venta, Sucursal } from 'app/models';
 export class PendientesComponent implements OnInit {
 
   pedidos$: Observable<Venta[]>;
-  
+
   sucursal: Sucursal = {
     id: '402880fc5e4ec411015e4ec64e70012e',
     nombre: 'TACUBA',
@@ -34,6 +34,10 @@ export class PendientesComponent implements OnInit {
   load() {
     this.pedidos$ = this.service.pendientes(this.sucursal)
       .shareReplay();
+  }
+
+  search(term: string) {
+
   }
 
 }

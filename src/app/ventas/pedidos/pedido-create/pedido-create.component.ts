@@ -18,7 +18,7 @@ import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-
       <sx-pedido-form
         *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'"
         (addNewCliente)="onAddNewCliente()" (save)="onSave($event)"
-        [sucursal]="sucursal$ | async">
+        [sucursal]="sucursal$ | async" [pedido]="pedido$ | async">
       </sx-pedido-form>
     </div>
   `
@@ -26,6 +26,7 @@ import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-
 export class PedidoCreateComponent implements OnInit {
 
   sucursal$: Observable<Sucursal>;
+  pedido$: Observable<Venta>;
 
   constructor(
     private addNewClienteService: AddNewClienteService,
@@ -37,11 +38,28 @@ export class PedidoCreateComponent implements OnInit {
 
   ngOnInit() {
     this.sucursal$ = this.store.select(fromRoot.getSucursal);
-    this.sucursal$.map( s => {
-      return {
+    this.pedido$ = this.sucursal$.map( s => {
+      const p: Venta  = {
+        id: null,
         sucursal: s,
-        fecha: new Date()
-      }
+        fecha: new Date().toISOString(),
+        cliente: null,
+        tipo: 'COM',
+        documeto: 0,
+        importe: 0,
+        descuento: 0,
+        descuentoImporte: 0,
+        subTotal: 0,
+        impuesto: 0,
+        impuestoTasa: 0,
+        total: 0,
+        formaDePago: 'EFECTIVO',
+        moneda: 'MXN',
+        tipoDeCambio: 0,
+        kilos: 0,
+        partidas: []
+      };
+      return p;
     })
   }
 
