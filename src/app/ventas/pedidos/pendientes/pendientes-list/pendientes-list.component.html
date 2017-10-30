@@ -6,7 +6,10 @@
       <span layout layout-padding>
         <span flex="20" class="tc-indigo-700"> Pedido </span>
         <span flex></span>
-        <span > Facturar </span>
+        <span >
+          <md-icon>more_vert</md-icon>
+        </span>
+
       </span>
     </span>
   </md-list-item>
@@ -29,7 +32,11 @@
               <button  md-icon-button
                 (click)="marcarSalida(row)"
                 mdTooltip="Mandar facturar" >
-                <md-icon class="pad">flight_takeoff</md-icon>
+                <md-icon >assignment</md-icon>
+              </button>
+              <button  md-icon-button
+                       mdTooltip="Envío" >
+                <md-icon >flight_takeoff</md-icon>
               </button>
             </span>
           </span>

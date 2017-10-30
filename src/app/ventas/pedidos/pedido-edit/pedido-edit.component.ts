@@ -14,15 +14,16 @@ import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-
 @Component({
   selector: 'sx-pedido-edit',
   template: `
-    <div layout="column">
-      <sx-pedido-form
-        *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'"
-        (save)="onUpdate($event)"
-        [pedido]="pedido$ | async"
-        [sucursal]="sucursal$ | async">
-      </sx-pedido-form>
-    
-    </div>
+    <sx-nav-layout header="Pedidos" modulo="Ventas">
+      <div layout="column">
+        <sx-pedido-form
+          *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'"
+          (save)="onUpdate($event)"
+          [pedido]="pedido$ | async"
+          [sucursal]="sucursal$ | async">
+        </sx-pedido-form>
+      </div>
+    </sx-nav-layout>
   `
 })
 export class PedidoEditComponent implements OnInit {

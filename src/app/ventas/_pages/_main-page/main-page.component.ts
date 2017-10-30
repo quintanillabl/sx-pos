@@ -11,6 +11,7 @@ export class MainPageComponent implements OnInit {
   navigation = [
     {path: '', nombre: 'Inicio', descripcion: 'Inicio del sistema', icon: 'home'},
     {path: 'pedidos', nombre: 'Pedidos', descripcion: 'Alta y mantenimiento de pedidos', icon: 'shopping_basket'},
+    {path: 'solicitudes', nombre: 'Solicitud de deposito', descripcion: 'Solicitud de autorizacion de deposito', icon: 'verified_user'},
     {path: 'lealtad', nombre: 'Programa de lealtad', descripcion: 'Programa de lealtad', icon: 'loyalty'},
     {path: 'clientes', nombre: 'Clientes', descripcion: 'Catálogo de clientes', icon: 'account_circle'},
   ];

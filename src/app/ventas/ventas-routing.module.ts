@@ -31,16 +31,16 @@ const routes: Routes = [
           {
             path: 'pendientes',
             component: PendientesComponent
-          },
-          {
-            path: 'create',
-            component: PedidoCreateComponent
-          },
-          {
-            path: 'edit/:id',
-            component: PedidoEditComponent
           }
         ]
+      },
+      {
+        path: 'pedidos/create',
+        component: PedidoCreateComponent
+      },
+      {
+        path: 'pedidos/edit/:id',
+        component: PedidoEditComponent
       }
     ]
   }
