@@ -16,8 +16,8 @@
     </div>
     <md-divider></md-divider>
 
-    <sx-pedido-partidas-grid flex 
-      [partidas]="partidas.value" 
+    <sx-pedido-partidas-grid flex
+      [partidas]="partidas.value"
       [parent]="form"
       (delete)="onDelete($event)">
     </sx-pedido-partidas-grid>
@@ -27,10 +27,11 @@
   <div flex="30">
     <md-card >
       <td-expansion-panel-group>
+        <sx-pedido-totales-panel [parent]="form"></sx-pedido-totales-panel>
         <sx-pedido-envio-panel [parent]="form"></sx-pedido-envio-panel>
         <sx-pedido-comentario-panel [parent]="form" ></sx-pedido-comentario-panel>
         <sx-pedido-cargos-panel [parent]="form"></sx-pedido-cargos-panel>
-        <sx-pedido-totales-panel [parent]="form"></sx-pedido-totales-panel>
+
 
       </td-expansion-panel-group>
       <md-divider></md-divider>
@@ -46,3 +47,4 @@
 
 </form>
 
+<td-json-formatter [data]="partidas.value"></td-json-formatter>

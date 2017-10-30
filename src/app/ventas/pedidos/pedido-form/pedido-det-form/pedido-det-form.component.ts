@@ -31,13 +31,16 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   existenciaRemota$: Observable<Existencia[]>;
   sinExistencia$: Observable<boolean>;
   conVale$: Observable<boolean>;
-  tipoDePrecio = 'CONTADO';
+  tipoDePrecio = 'CON';
   importeBruto$: Observable<number>;
 
   subs1: Subscription;
   subs2: Subscription;
   subs3: Subscription;
   subs4: Subscription;
+
+  corte$: Observable<boolean>;
+  corteSubscription: Subscription
 
   constructor(
     public dialogRef: MdDialogRef<PedidoDetFormComponent>,
@@ -46,6 +49,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     private existenciasService: ExistenciasService,
   ) {
     this.sucursal = data.sucursal;
+    this.tipoDePrecio = data.tipo;
   }
 
   ngOnInit() {
@@ -56,6 +60,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     this.buildSinExistencia();
     this.buildSinVale();
     this.buildImporteBruto$();
+    this.buildCorte$();
   }
 
   private buildForm() {
@@ -68,15 +73,23 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       sinExistencia: [{value: false, disabled: true}],
       conVale: [{value: false, disabled: true}],
       conTrs: [{value: false, disabled: true}],
+      instruccionDeCorte: this.fb.group({
+        cantidad: [1, Validators.required],
+        tipo: ['CALCULADO', Validators.required],
+        precio: [10.0, Validators.required],
+        instruccion: [null]
+      })
     });
   }
 
   private buildExistenciaRemota$() {
     this.existenciaRemota$ = this.form.get('existencia')
       .valueChanges
+      .do( exis => this.form.get('precio')
+        .setValue(this.tipoDePrecio === 'CON' ? exis.producto.precioContado : exis.producto.precioCredito))
       .switchMap( exis => {
-        return this.existenciasService.buscarExistencias(exis.producto)
-          .map( res => res.filter(item => item.sucursal.id !== this.sucursal.id))
+        return this.existenciasService.buscarExistencias(exis.producto);
+          // .map( res => res.filter(item => item.sucursal.id !== this.sucursal.id))
       });
   }
 
@@ -90,7 +103,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       if (p.presentacion === 'EXTENDIDO') {
         this.form.get('cortado').enable();
       }
-      this.form.get('precio').setValue(this.tipoDePrecio === 'CREDITO' ? p.precioCredito : p.precioContado);
+      // this.form.get('precio').setValue(this.tipoDePrecio === 'CREDITO' ? p.precioCredito : p.precioContado);
     });
   }
 
@@ -138,11 +151,24 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     this.subs4 = this.importeBruto$.subscribe( importe => this.form.get('importe').setValue(importe));
   }
 
+  private buildCorte$() {
+    this.corte$ = this.form.get('cortado').valueChanges;
+    this.corteSubscription = this.corte$.subscribe( val => {
+      if (!val) {
+        const instruccion = this.form.get('instruccionDeCorte').value;
+        instruccion.cantidad = 0;
+        instruccion.precio = 0;
+        instruccion.instruccion = null;
+      }
+    })
+  }
+
   ngOnDestroy() {
     this.subs1.unsubscribe();
     this.subs2.unsubscribe();
     this.subs3.unsubscribe();
     this.subs4.unsubscribe();
+    this.corteSubscription.unsubscribe();
   }
 
   close() {
@@ -159,7 +185,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     const producto = rawData.existencia.producto;
     const factor = producto.unidad === 'MIL' ? 1000 : 1;
     const kilos = (rawData.cantidad * producto.kilos) / factor;
-    return {
+    const det: VentaDet = {
       producto: producto,
       cantidad: rawData.cantidad,
       precio: rawData.precio,
@@ -176,10 +202,13 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       kilos: kilos,
       comentario: rawData.comentario,
       conVale: rawData.conVale,
-      cortado: rawData.cortado,
       importeCortes: rawData.importeCortes,
       sucursal: this.sucursal
     }
+    if (this.form.get('cortado').value) {
+      det.corte = this.form.get('instruccionDeCorte').value;
+    }
+    return det;
   }
 
   get existencia() {

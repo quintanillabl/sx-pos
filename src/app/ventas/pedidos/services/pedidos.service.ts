@@ -42,9 +42,15 @@ export class PedidosService {
   }
 
   findManiobra(): Observable<Producto> {
-    let params = new HttpParams().set('clave', 'MANIOBRA');
+    const params = new HttpParams().set('clave', 'MANIOBRA');
     const url = `${this.apiUrl}/findManiobra`;
-    return this.http.get<Producto>(url);
+    return this.http.get<Producto>(url, {params: params});
+  }
+
+  findCorte(): Observable<Producto> {
+    const params = new HttpParams().set('clave', 'CORTE');
+    const url = `${this.apiUrl}/findManiobra`;
+    return this.http.get<Producto>(url, {params: params});
   }
 
 }

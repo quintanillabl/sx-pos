@@ -55,10 +55,28 @@
       </div>
 
       <div layout class="pad">
-        <md-checkbox flex formControlName="cortado">Corte</md-checkbox>
+        <md-checkbox flex formControlName="cortado" #cortadoBox>Corte</md-checkbox>
         <md-checkbox flex formControlName="sinExistencia">Sin existencia</md-checkbox>
         <md-checkbox flex formControlName="conVale"> Con vale</md-checkbox>
         <md-checkbox flex formControlName="conTrs" mdTooltip="Transformación o reclasificacion">Con TRS</md-checkbox>
+      </div>
+
+      <div layout  *ngIf="cortadoBox.checked" formGroupName="instruccionDeCorte">
+
+        <md-select  placeholder="Tipo" formControlName="tipo"  flex formControlName="tipo">
+          <md-option *ngFor="let
+           tipo of ['CALCULADO','CRUZ','CARTA','MITAD','1/8','CROQUIS','DOBLE_CARTA','MEDIA_CARTA','OFICIO']"
+                     [value]="tipo">{{ tipo }}</md-option>
+        </md-select>
+        <md-form-field flex ="15">
+          <input type="text" formControlName="cantidad" mdInput placeholder="Cantidad" sxOnlyNumbers>
+        </md-form-field>
+        <md-form-field flex="20">
+          <input type="text" formControlName="precio" mdInput placeholder="Precio" sxOnlyNumbers>
+        </md-form-field>
+        <md-form-field flex>
+          <input type="text" formControlName="instruccion" mdInput placeholder="Instrucción">
+        </md-form-field>
       </div>
 
       <div layout>
@@ -104,4 +122,6 @@
     <button md-button type="button"  (click)="doAccept()" class="accent" [disabled]="form.invalid" >Aceptar</button>
     <button md-button type="button" (click)="close()" >Cancelar</button>
   </md-dialog-actions>
+
+
 </form>

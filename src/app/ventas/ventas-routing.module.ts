@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { MainPageComponent,MainDashboardComponent,} from './_pages';
-import { PedidosPageComponent, PedidoCreateComponent } from "./pedidos";
+import { MainPageComponent, MainDashboardComponent } from './_pages';
+import { PedidosPageComponent, PedidoCreateComponent } from './pedidos';
 import { PendientesComponent } from './pedidos/pendientes/pendientes.component';
 import { PedidoEditComponent } from './pedidos/pedido-edit/pedido-edit.component';
 
@@ -24,6 +24,10 @@ const routes: Routes = [
         path: 'pedidos',
         component: PedidosPageComponent,
         children: [
+          {
+            path: '',
+            redirectTo: 'pendientes', pathMatch: 'full'
+          },
           {
             path: 'pendientes',
             component: PendientesComponent

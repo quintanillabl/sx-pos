@@ -16,7 +16,7 @@ import { PartidasGridComponent } from './partidas-grid/partidas-grid.component';
   styleUrls: ['./pedido-form.component.scss']
 })
 export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
-  
+
   form: FormGroup;
 
   @Output() save = new EventEmitter();
@@ -27,15 +27,12 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() pedido: Venta;
 
-  descuentoSubscription: Subscription;
+  recalcular$: Observable<any>;
+  recalcularSubscription: Subscription;
 
-  descuentoContado$: Observable<any>;
+  formaDePago$: Observable<any>;
+  formaDePagoSubscription: Subscription;
 
-  cliente$: Observable<Cliente>;
-
-  clienteSubscription: Subscription;
-
-  cargoPorTarjeta$: Observable<any>;
 
   @ViewChild(PartidasGridComponent) grid: PartidasGridComponent;
 
@@ -43,84 +40,34 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     private fb: FormBuilder,
     private pedidoFormService: PedidoFormService,
     private cd: ChangeDetectorRef
-  ) { }
-
-  ngOnInit() {
-    // console.log('onInit');
+  ) {
     this.buildForm();
     this.pedidoFormService.registerForm(this.form);
-    this.updateDescuentos$();
-    this.buildCliente$();
-
-    // Detectar cargos por tarjeta
-    const tipo$ = this.form.get('tipo').valueChanges;
-    const formaDePago$ = this.form.get('formaDePago').valueChanges;
-    const partidas$ = this.partidas.valueChanges;
-    this.cargoPorTarjeta$ = Observable.merge(tipo$, formaDePago$, partidas$);
-
-    this.cargoPorTarjeta$.subscribe( data => {
-      // const index = _.findIndex(this.partidas.value, (item: VentaDet) => item.producto.clave === 'MANIOBRA');
-      this.pedidoFormService.generarCargosPorPagoConTarjeta(); 
-      /*
-      if(index !== -1){
-      } else {
-        
-      }
-      */
-    });
+    this.buildRecalcular$();
+    this.buildFomraDePago$();
   }
-  
+
   ngOnChanges(changes: SimpleChanges): void {
-    // console.log('onChanges');
-    if(changes.pedido && changes.pedido.currentValue) {
+    if (changes.pedido && changes.pedido.currentValue) {
+      // const pedido: Venta = _.clone(changes.pedido.currentValue);
       const pedido: Venta = changes.pedido.currentValue;
       console.log('Editando pedido: ', pedido);
-      
+      _.forEach(pedido.partidas, item => this.partidas.push(new FormControl(item)));
       this.form.patchValue({
         id: pedido.id,
         fecha: pedido.fecha,
         cliente: pedido.cliente,
         tipo: pedido.tipo,
       }, {emitEvent: false});
-      
-      _.forEach(pedido.partidas, item => this.partidas.push(new FormControl(item)));
+
     }
   }
 
-  private updateDescuentos$() {
-    const tipo$ = this.form.get('tipo').valueChanges;
-    const partidas$ = this.partidas.valueChanges;
-    const cliente$ = this.form.get('cliente').valueChanges.filter(cliente => cliente!== null);
-    const formaDePago$ = this.form.get('formaDePago').valueChanges;
-
-    this.descuentoSubscription = Observable.merge(tipo$, partidas$, cliente$, formaDePago$)
-      .subscribe( value => {
-        this.pedidoFormService.calcularDescuentos()
-        this.cd.detectChanges();
-        this.grid.refresh();
-      });
-  }
-  
-  private buildCliente$() {
-    this.cliente$ = this.form.get('cliente').valueChanges
-    .filter( cliente => cliente !==null);
-    
-    this.clienteSubscription = this.cliente$.subscribe( (cliente: Cliente) => {
-      if( cliente.credito && cliente.credito.postfechado) {
-        if(cliente.credito.postfechado){
-          this.form.get('formaDePago').setValue('CHEQUE', {emitEvent: false});
-        } else {
-          this.form.get('formaDePago').setValue('EFECTIVO', {emitEvent: false});
-        }
-      } else {
-
-      }
-    });
-  }
+  ngOnInit() {}
 
   ngOnDestroy() {
-    this.descuentoSubscription.unsubscribe();
-    this.clienteSubscription.unsubscribe();
+    this.recalcularSubscription.unsubscribe();
+    this.formaDePagoSubscription.unsubscribe();
   }
 
   private buildForm() {
@@ -129,7 +76,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       sucursal: [this.sucursal],
       fecha: [{value: new Date(), disabled: true}, Validators.required],
       cliente: [null, Validators.required],
-      tipo: [{value:'CON', disabled: true}, Validators.required],
+      tipo: [{value: 'CON', disabled: true}, Validators.required],
       atencion: ['MOSTRADOR', Validators.required],
       entrega: ['LOCAL', Validators.required],
       vale: [false, Validators.required],
@@ -150,7 +97,48 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       cargosPorManiobra: [{value: 0, disabled: true}],
       comisionTarjeta: [{value: 0, disabled: true}],
       comisionTarjetaImporte: [{value: 0, disabled: true}],
+      corteImporte: [{value: 0, disabled: true}],
+
     });
+  }
+
+  private  buildRecalcular$() {
+    // console.log('Preparando recalculo observable');
+    const cliente$ = this.form.get('cliente').valueChanges.distinctUntilChanged();
+    const tipo$ = this.form.get('tipo').valueChanges.distinctUntilChanged();
+    const formaDePago$ = this.form.get('formaDePago').valueChanges.distinctUntilChanged();
+    this.recalcular$ = Observable.merge(cliente$, tipo$, formaDePago$);
+
+    this.recalcularSubscription = this.recalcular$.subscribe( data => {
+      console.log('Detectando cambios : ', data);
+      this.pedidoFormService.recalcular();
+      this.cd.detectChanges();
+      this.grid.refresh();
+    });
+  }
+
+  private buildFomraDePago$() {
+
+    const cliente$ = this.form.get('cliente')
+      .valueChanges; // .filter( cliente =>  cliente !== null);
+
+    const tipo$ = this.form.get('tipo').valueChanges.distinctUntilChanged();
+
+    this.formaDePago$ = Observable.combineLatest(cliente$, tipo$ );
+
+    this.formaDePagoSubscription = this.formaDePago$
+      .subscribe( value =>  {
+        // console.log('Activar/desactivar froma de pato', value);
+        const cliente = value[0];
+        const tipo = value[1];
+        if ( cliente && cliente.credito) {
+          this.form.get('formaDePago').disable();
+          this.form.get('formaDePago').setValue('CHEQUE');
+        } else {
+          this.form.get('formaDePago').enable();
+          this.form.get('formaDePago').setValue('EFECTIVO');
+        }
+      });
   }
 
   onAddNewCliente() {
@@ -162,7 +150,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onDelete(index: number) {
-    this.partidas.removeAt(index);
+    this.pedidoFormService.elimiarPartida(index);
   }
 
   get cliente() {
@@ -181,11 +169,12 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onSave() {
-    const pedido = {
+    const pedido: Venta = {
       ...this.form.getRawValue(),
       sucursal: this.sucursal,
       vendedor: this.cliente.vendedor
     };
+    _.forEach(pedido.partidas, item => item.sucursal = this.sucursal)
     this.save.emit(pedido);
   }
 

@@ -12,3 +12,5 @@ export * from './existencia';
 export * from './venta';
 export * from './ventaDet';
 export * from './vendedor';
+export * from './instruccionDeCorte';
+

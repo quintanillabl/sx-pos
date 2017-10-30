@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnDestroy, 
+import {Component, Input, OnInit, OnDestroy,
   forwardRef, ChangeDetectionStrategy, ViewChild, ElementRef} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
@@ -34,9 +34,9 @@ export class ClienteFieldComponent implements OnInit, ControlValueAccessor, OnDe
 
   @Input() required = false;
 
-  @Input() activos: boolean = true;
+  @Input() activos = true;
 
-  @Input() placeholder = "Cliente";
+  @Input() placeholder = 'Cliente';
 
   productos$: Observable<Cliente[]>;
 
@@ -56,14 +56,14 @@ export class ClienteFieldComponent implements OnInit, ControlValueAccessor, OnDe
 
     this.prepareControl();
   }
-  
+
   private prepareControl() {
     this.subscription = this.searchControl
       .valueChanges
       .skip(1)
       .filter( value => value !== null)
       .subscribe( value => {
-        if( _.isObject(value)) {
+        if ( _.isObject(value)) {
           this.onChange(value);
         } else {
           this.onChange(null);
@@ -71,12 +71,12 @@ export class ClienteFieldComponent implements OnInit, ControlValueAccessor, OnDe
       });
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
   lookupProductos(term: string): Observable<Cliente[]> {
-    let params = new HttpParams()
+    const params = new HttpParams()
       .set('term', term);
     return this.http.get<Cliente[]>(this.apiUrl, {params: params});
   }

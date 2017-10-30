@@ -1,5 +1,5 @@
-<td-expansion-panel label="Cargos" [formGroup]="parent">
-  
+<td-expansion-panel label="Cargos" [formGroup]="parent" [disabled] = "disabled$ | async">
+
   <md-list class="md-padding">
     <md-list-item>
       <h3 mdLine> C. Tarjeta: </h3>
@@ -11,6 +11,12 @@
       <h3 mdLine> Imp C.Tarjeta: </h3>
       <span flex></span>
       <h3>{{ parent.get('comisionTarjetaImporte').value | currency:'USD': true: '1.2-2'}}</h3>
+    </md-list-item>
+
+    <md-list-item>
+      <h3 mdLine> Cortes: </h3>
+      <span flex></span>
+      <h3>{{ parent.get('corteImporte').value | currency:'USD': true: '1.2-2'}}</h3>
     </md-list-item>
   </md-list>
 

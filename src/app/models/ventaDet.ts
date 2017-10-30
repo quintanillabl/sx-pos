@@ -1,4 +1,5 @@
-import { Producto, Sucursal } from 'app/models';
+import { Producto, Sucursal, InstruccionDeCorte } from 'app/models';
+
 
 export interface VentaDet {
   id?: string
@@ -19,8 +20,8 @@ export interface VentaDet {
   kilos?: number
   comentario?: string
   conVale?: boolean
-  cortado?: boolean
   importeCortes?: number
+  corte?: InstruccionDeCorte
   precioLista: number
   precioOriginal: number
   desctoOriginal: number

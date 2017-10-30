@@ -28,7 +28,8 @@ export interface Venta {
   cod?: boolean
   cargosPorManiobra?: number
   comisionTarjeta?: number
-  comisionTarjetaImporte?: number
+  comisionTarjetaImporte?: number,
+  corteImporte?: number
 }
 
 export interface TipoDeVenta {
