@@ -23,6 +23,7 @@ export class PedidosPageComponent implements OnInit {
 
   navigation: Object[] = [
     {route: 'pendientes', title: 'Pendientes', icon: 'alarm'},
+    {route: 'solicitudes', title: 'Solicitud de deposito', descripcion: 'Solicitud de autorizacion de deposito', icon: 'verified_user'},
   ];
 
   reportes = [

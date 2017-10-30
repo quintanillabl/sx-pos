@@ -5,7 +5,8 @@ import { VentasRoutingModule } from './ventas-routing.module';
 import { MainPageComponent, MainDashboardComponent } from './_pages';
 import { PedidosModule } from './pedidos/pedidos.module';
 import { ClientesModule } from 'app/clientes/clientes.module';
-import {ExistenciasService} from 'app/ventas/services/existencias.service';
+import { ExistenciasService } from 'app/ventas/services/existencias.service';
+import { SolicitudesModule } from 'app/ventas/solicitudes/solicitudes.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {ExistenciasService} from 'app/ventas/services/existencias.service';
     SharedModule,
     ClientesModule,
     VentasRoutingModule,
-    PedidosModule
+    PedidosModule,
+    SolicitudesModule
   ],
   declarations: [
     MainPageComponent,

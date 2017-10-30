@@ -5,6 +5,7 @@ import { MainPageComponent, MainDashboardComponent } from './_pages';
 import { PedidosPageComponent, PedidoCreateComponent } from './pedidos';
 import { PendientesComponent } from './pedidos/pendientes/pendientes.component';
 import { PedidoEditComponent } from './pedidos/pedido-edit/pedido-edit.component';
+import { SolicitudesPageComponent } from 'app/ventas/solicitudes/solicitudes-page/solicitudes-page.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
           {
             path: 'pendientes',
             component: PendientesComponent
+          },
+          {
+            path: 'solicitudes',
+            component: SolicitudesPageComponent
           }
         ]
       },
