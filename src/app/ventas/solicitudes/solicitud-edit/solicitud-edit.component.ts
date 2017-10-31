@@ -13,17 +13,18 @@ import { SaveAction } from '../store/actions/solicitudes.actions';
   template: `
     <ng-template tdLoading [tdLoadingUntil]="!(loading$ | async)" tdLoadingStrategy="overlay">
       <div layout>
-        <sx-solicitud-form flex="50" [sucursal]="sucursal$ | async" (save)="onSave($event)">
+        <sx-solicitud-form flex="50" [sucursal]="sucursal$ | async" (save)="onSave($event)" [solicitud]="solicitud$ | async">
         </sx-solicitud-form>
       </div>
     </ng-template>
   `,
   styles: []
 })
-export class SolicitudCreateComponent implements OnInit {
+export class SolicitudEditComponent implements OnInit {
 
   sucursal$: Observable<Sucursal>;
   loading$: Observable<boolean>;
+  solicitud$: Observable<SolicitudDeDeposito>;
 
   constructor(
     private store: Store<fromSolicitudes.State>,
@@ -31,11 +32,12 @@ export class SolicitudCreateComponent implements OnInit {
 
   ngOnInit() {
     this.sucursal$ = this.store.select(state => state.config.sucursal);
+    this.solicitud$ = this.store.select(fromSolicitudes.getSelected);
     this.loading$ = this.store.select(fromSolicitudes.getLoading);
+    // this.solicitud$.subscribe(sol => console.log('Editando sol: ', sol))
   }
 
   onSave(solicitud: SolicitudDeDeposito) {
-    console.log('Salvando solicitud de deposito: ', solicitud);
     this.store.dispatch(new SaveAction(solicitud));
   }
 

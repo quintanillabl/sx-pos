@@ -1,11 +1,11 @@
-
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChanges
+import {
+  Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChanges, ViewEncapsulation
 } from '@angular/core';
 import {FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl} from '@angular/forms';
-
+import * as _ from 'lodash';
 
 import { Sucursal } from 'app/models';
-import { SolicitudDeDeposito } from '@siipapx/ventas/models/solicitudDeDeposito';
+import { SolicitudDeDeposito } from 'app/ventas/models/solicitudDeDeposito';
 
 export function ImporteValidator(): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {
@@ -21,7 +21,8 @@ export function ImporteValidator(): ValidatorFn {
   selector: 'sx-solicitud-form',
   templateUrl: './solicitud-form.component.html',
   styleUrls: ['./solicitud-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class SolicitudFormComponent implements OnInit, OnChanges {
 
@@ -33,20 +34,31 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
 
   @Input() solicitud: SolicitudDeDeposito;
 
-  @Input() readonly = false;
+
 
   constructor(
     private fb: FormBuilder,
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.buildForm();
   }
 
+  ngOnInit() {
+
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.embarque && !changes.embarque.isFirstChange()) {
-      const solicitud: SolicitudDeDeposito = changes.solicitud.currentValue;
-      this.form.patchValue(solicitud);
+    if (changes.solicitud && changes.solicitud.currentValue) {
+      // console.log('Editando solicitud: ', changes.solicitud.currentValue);
+      const solicitud: SolicitudDeDeposito = _.clone(changes.solicitud.currentValue);
+
+      const fecha = new Date(solicitud.fecha);
+      const sol =  {
+        ...this.solicitud,
+        fecha: new Date(this.solicitud.fecha),
+        fechaDeposito: new Date(this.solicitud.fechaDeposito),
+        solicita: solicitud.createUser
+      }
+      this.form.patchValue(sol);
     }
   }
 
@@ -63,7 +75,7 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
       referencia: [''],
       banco: [null, Validators.required],
       cuenta: [null, Validators.required],
-      comentario: [{value: '', disabled: true}, [Validators.maxLength(100)]],
+      comentario: [{value: null, disabled: true}, [Validators.maxLength(100)]],
       solicita: [null, Validators.required]
     }, {validator: ImporteValidator()});
   }
@@ -79,6 +91,7 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
     return {
       ...this.form.getRawValue(),
       fechaDeposito: this.form.get('fechaDeposito').value.toISOString(),
+      createUser: this.form.get('solicita').value,
       updateUser: this.form.get('solicita').value
     }
   }
@@ -91,7 +104,23 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
     return this.form.get('fecha').value;
   }
 
+  get banco() {
+    return this.form.get('banco').value;
+  }
 
+  get cuenta() {
+    return this.form.get('cuenta').value;
+  }
+
+  isReadOnly() {
+    if (this.id === null) {
+      const comentario: string = this.form.get('comentario').value;
+      if (comentario !== null && comentario.length === 0) {
+        return true;
+      }
+    }
+    return false;
+  }
 
 }
 

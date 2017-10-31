@@ -23,15 +23,21 @@ export class SolicitudesEffects {
   @Effect() save$ = this.actions$
     .ofType<Sectores.SaveAction>(Sectores.SAVE)
     .map( action => action.payload)
-    .switchMap( sol =>
-      this.service.save(sol)
-        .map(res => new Sectores.SaveSuccess(res))
-        // .catch(error => {})
-        .catch(error => {
-          console.log('Error al persistir:', error);
-          return Observable.of(new Sectores.SaveError(error));
-        })
-    );
+    .switchMap( sol => {
+      if (sol.id === null) {
+        return this.service.save(sol)
+          .map(res => new Sectores.SaveSuccess(res))
+          .catch(error => Observable.of(new Sectores.SaveError(error)));
+      } else {
+        return this.service.update(sol)
+          .map(res => new Sectores.SaveSuccess(res))
+          // .catch(error => {})
+          .catch(error => {
+            console.log('Error al persistir:', error);
+            return Observable.of(new Sectores.SaveError(error));
+          });
+      }
+    });
 
   @Effect({dispatch: false}) saveSuccess$ = this.actions$
     .ofType<Sectores.SaveSuccess>(Sectores.SAVE_SUCCESS)
@@ -48,13 +54,6 @@ export class SolicitudesEffects {
     .catch(error => Observable.of(new Sectores.SelectErrorAction(error))
     );
 
-  @Effect()
-  navigateToShow = this.actions$.ofType<RouterNavigationAction>(ROUTER_NAVIGATION)
-    .map(r => r.payload.routerState.url)
-    .filter( r => r.startsWith('/ventas/pedidos/solicitudes/show/'))
-    .map(r => _.replace(r, '/ventas/pedidos/solicitudes/show/', ''))
-    // .do(route => console.log('Show SOL id: ', route))
-    .switchMap( id => Observable.of(new Sectores.SelectAction(id)));
 
   @Effect()
   navigateToEdit = this.actions$.ofType<RouterNavigationAction>(ROUTER_NAVIGATION)
@@ -68,7 +67,7 @@ export class SolicitudesEffects {
   @Effect()
   delete$ = this.actions$.ofType<Sectores.DeleteAction>(Sectores.DELETE)
     .map(action => action.payload)
-    .do( value => console.log('Eliminando sector:', value))
+    // .do( value => console.log('Eliminando sector:', value))
     .switchMap(id =>
       this.service.delete(id))
     .map(dev => new Sectores.DeleteSuccessAction())

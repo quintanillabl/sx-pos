@@ -7,6 +7,7 @@ import { PendientesComponent } from './pedidos/pendientes/pendientes.component';
 import { PedidoEditComponent } from './pedidos/pedido-edit/pedido-edit.component';
 import { SolicitudesPageComponent } from './solicitudes/solicitudes-page/solicitudes-page.component';
 import { SolicitudCreateComponent } from './solicitudes/solicitud-create/solicitud-create.component';
+import { SolicitudEditComponent } from './solicitudes/solicitud-edit/solicitud-edit.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,11 @@ const routes: Routes = [
           {
             path: 'solicitudes/create',
             component: SolicitudCreateComponent
+          }
+          ,
+          {
+            path: 'solicitudes/edit/:id',
+            component: SolicitudEditComponent
           }
         ]
       },

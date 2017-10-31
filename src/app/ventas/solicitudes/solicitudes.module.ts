@@ -13,6 +13,7 @@ import { SolicitudFormComponent } from './solicitud-form/solicitud-form.componen
 import { BancoFieldComponent } from './solicitud-form/banco-field/banco-field.component';
 import { CuentaFieldComponent } from './solicitud-form/cuenta-field/cuenta-field.component';
 import { SolicitudesListComponent } from './solicitudes-list/solicitudes-list.component';
+import { SolicitudEditComponent } from './solicitud-edit/solicitud-edit.component';
 
 
 @NgModule({
@@ -22,7 +23,7 @@ import { SolicitudesListComponent } from './solicitudes-list/solicitudes-list.co
     StoreModule.forFeature('solicitudes', reducers),
     EffectsModule.forFeature([SolicitudesEffects]),
   ],
-  declarations: [SolicitudesPageComponent, SolicitudCreateComponent, SolicitudFormComponent, BancoFieldComponent, CuentaFieldComponent, SolicitudesListComponent],
+  declarations: [SolicitudesPageComponent, SolicitudCreateComponent, SolicitudFormComponent, BancoFieldComponent, CuentaFieldComponent, SolicitudesListComponent, SolicitudEditComponent],
   providers: [ SolicitudesService ]
 })
 export class SolicitudesModule { }

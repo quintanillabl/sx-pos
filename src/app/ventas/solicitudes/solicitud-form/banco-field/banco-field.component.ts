@@ -8,8 +8,8 @@ import {BancoService} from 'app/ventas/services/banco.service';
   selector: 'sx-banco-field',
   template: `
     <ng-container [formGroup]="parent">
-      <md-select placeholder="Banco" [formControlName]="propertyName" class="fill">
-        <md-option *ngFor="let banco of bancos$ | async" [value]="banco">
+      <md-select placeholder="Banco origen" formControlName="banco" class="fill" >
+        <md-option *ngFor="let banco of bancos$ | async; trackBy: trackById" [value]="banco">
           {{banco.nombre}}
         </md-option>
       </md-select>
@@ -36,6 +36,10 @@ export class BancoFieldComponent implements OnInit {
 
   ngOnInit() {
     this.bancos$ = this.service.list();
+  }
+
+  trackById(index: number, banco: any): number {
+    return banco.id;
   }
 
 }

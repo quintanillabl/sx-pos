@@ -9,11 +9,17 @@
     <md-card-content>
 
       <div layout class="pad-left-sm pad-right-sm">
-        <md-form-field flex>
+        <md-form-field>
           <input type="text" mdInput value="{{fecha | date:'dd/MM/yyyy'}}" placeholder="Fecha" [disabled]="true">
         </md-form-field>
-        <md-form-field flex>
+        <md-form-field>
           <input type="text" mdInput value="{{sucursal.nombre}}" placeholder="Sucursal" [disabled]="true">
+        </md-form-field>
+        <md-form-field flex>
+          <input type="text" mdInput value="{{banco?.nombre}}" placeholder="Banco" [disabled]="true">
+        </md-form-field>
+        <md-form-field flex>
+          <input type="text" mdInput value="{{cuenta?.descripcion}}" placeholder="Destino" [disabled]="true">
         </md-form-field>
       </div>
 
@@ -33,7 +39,7 @@
         </md-form-field>
       </div>
 
-      <div layout class="pad" layout-align="center center">
+      <div layout class="pad" >
         <sx-banco-field [parent]="form" flex="50" class="pad-right"></sx-banco-field>
         <sx-cuenta-field [parent]="form" flex="50"></sx-cuenta-field>
       </div>
@@ -67,7 +73,7 @@
 
     <md-divider></md-divider>
     <md-card-actions>
-      <button type="submit" md-button [disabled]="form.invalid" *ngIf="!readonly"> Salvar </button>
+      <button type="submit" md-button [disabled]="form.invalid" *ngIf="isReadOnly()"> Salvar </button>
       <a  md-button [routerLink]="['/ventas/pedidos/solicitudes']"> Cancelar </a>
       <a md-button  *ngIf="id && readonly" [routerLink]="['../../edit', id]">
         Editar <md-icon>edit</md-icon>
@@ -79,3 +85,4 @@
 
 
 </form>
+<!--<td-json-formatter [data]="form.value"></td-json-formatter>-->

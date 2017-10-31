@@ -27,11 +27,11 @@ export const getPendientes = createSelector(
   selectSolicitudesState,
   fromSolcitidues.getEntities
 );
-export const getSectoresLoading = createSelector(
+export const getLoading = createSelector(
   selectSolicitudesState,
   fromSolcitidues.getLoading
 );
-export const getSelectedSector = createSelector(
+export const getSelected = createSelector(
   selectSolicitudesState,
   fromSolcitidues.getSelected
 );

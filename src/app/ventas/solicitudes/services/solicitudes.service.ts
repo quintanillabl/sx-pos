@@ -43,9 +43,9 @@ export class SolicitudesService {
     return this.http.post<SolicitudDeDeposito>(this.apiUrl, sol);
   }
 
-  update(sol: SolicitudDeDeposito) {
+  update(sol: SolicitudDeDeposito): Observable<SolicitudDeDeposito> {
     const url = `${this.apiUrl}/${sol.id}`;
-    return this.http.put(url, sol);
+    return this.http.put<SolicitudDeDeposito>(url, sol);
   }
 
   delete(id: string) {
