@@ -64,6 +64,7 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
       banco: [null, Validators.required],
       cuenta: [null, Validators.required],
       comentario: [{value: '', disabled: true}, [Validators.maxLength(100)]],
+      solicita: [null, Validators.required]
     }, {validator: ImporteValidator()});
   }
 
@@ -78,6 +79,7 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
     return {
       ...this.form.getRawValue(),
       fechaDeposito: this.form.get('fechaDeposito').value.toISOString(),
+      updateUser: this.form.get('solicita').value
     }
   }
 

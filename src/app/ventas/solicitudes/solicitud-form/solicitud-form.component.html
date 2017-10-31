@@ -50,6 +50,15 @@
       </div>
 
       <div layout class="pad-left-sm pad-right-sm">
+        <md-form-field flex>
+          <input type="text" mdInput formControlName="solicita" placeholder="Solicita" >
+        </md-form-field>
+        <md-form-field flex>
+          <input type="text" mdInput  placeholder="Nombre" [disabled]="true">
+        </md-form-field>
+      </div>
+
+      <div layout class="pad-left-sm pad-right-sm">
         <sx-comentario-field flex [parent]="form" rows="1" ></sx-comentario-field>
       </div>
 
