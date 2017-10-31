@@ -9,7 +9,7 @@ import { environment } from 'environments/environment';
 @Injectable()
 export class ReportesService {
 
-  readonly apiUrl = environment.apiUrl + '/ventas';
+  readonly apiUrl = environment.apiUrl;
 
   sucursal = {
     id: '402880fc5e4ec411015e4ec64e70012e',
@@ -19,13 +19,13 @@ export class ReportesService {
   constructor(private http: HttpClient) { }
 
 
-  reporteDeEntregasPorChofer(reportParams: {}) {
+  runReport(reportUrl: string, reportParams: {}) {
 
     reportParams['sucursal'] = this.sucursal.id;
     // reportParams['CHOFER'] = '6f8b7d4a-aed7-11e7-b1f8-b4b52f67eab0';
     // reportParams['FECHA'] = new Date().toISOString()
     console.log('Ejecutando reporte de entragas por chofer con: ', reportParams);
-    const url = `${this.apiUrl}/reporteDeEntregasPorChofer`;
+    const url = `${this.apiUrl}/${reportUrl}`;
     let params = new HttpParams()
     if (reportParams) {
       _.forIn(reportParams, (value, key) => {
