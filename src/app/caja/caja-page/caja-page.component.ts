@@ -2,11 +2,13 @@ import {AfterViewInit, Component, OnInit, ViewContainerRef} from '@angular/core'
 import {Title} from '@angular/platform-browser';
 import {TdDialogService, TdMediaService} from '@covalent/core';
 import {MdDialog} from '@angular/material';
+import * as FileSaver from 'file-saver';
+import { ReportesService } from 'app/caja/services/reportes.service';
+import { VentasDiariasComponent } from '../reportes/ventas-diarias/ventas-diarias.component';
 
 @Component({
   selector: 'sx-caja-page',
-  templateUrl: './caja-page.component.html',
-  styleUrls: ['./caja-page.component.scss']
+  templateUrl: './caja-page.component.html'
 })
 export class CajaPageComponent implements OnInit, AfterViewInit {
 
@@ -16,11 +18,10 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
 
   reportes = [
     {
-      name: 'reporte1',
-      title: 'Reporte 1',
-      description: 'Reporte de caja 1',
+      name: 'reporteDeVentasDiarias',
+      title: 'Ventas diarias',
+      description: 'Ventas diarias',
       icon: 'blur_linear',
-      action: 'reporteDeEntregasPorChofer()'
     },
   ];
 
@@ -29,6 +30,7 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     private _titleService: Title,
     private _dialogService: TdDialogService,
     public dialog: MdDialog,
+    public service: ReportesService
   ) { }
 
   ngOnInit() {
@@ -42,18 +44,18 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
 
   runReport(report) {
     console.log('Ejecutando reporte: ', report);
-    /*if (report === 'entregasPorChofer') {
-      this.reporteDeEntregasPorChofer();
-    }*/
+    if (report === 'reporteDeVentasDiarias') {
+      this.reporteDeVentasDiarias();
+    } 
   }
 
-  reporteDeEntregasPorChofer() {
-    /*
-    const dialogRef = this.dialog.open(EntregaPorChoferComponent, {});
+  reporteDeVentasDiarias() {
+    
+    const dialogRef = this.dialog.open(VentasDiariasComponent, {});
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.reporteDeEntregasPorChofer(result)
+        this.service.runReport('ventas/reportes/ventasDiarias', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -63,7 +65,7 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
           });
       }
     });
-    */
+    
   }
 
 }
