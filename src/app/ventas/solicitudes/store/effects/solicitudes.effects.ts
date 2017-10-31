@@ -12,14 +12,33 @@ import { SolicitudesService } from 'app/ventas/solicitudes/services/solicitudes.
 @Injectable()
 export class SolicitudesEffects {
 
-  @Effect() load$ = this.actions$
-    .ofType<Sectores.SearchAction>(Sectores.SEARCH)
-    .map(action => action.payload)
-    .switchMap( filter =>
-      this.service.list(filter)
-        .map(sols => new Sectores.SearchSuccessAction(sols))
-        .catch(error => Observable.of({type: 'HTTP_ERROR', payload: error}))
+  @Effect() loadPendientes$ = this.actions$
+    .ofType<Sectores.LoadPendientesAction>(Sectores.LOAD_PENDIENTES)
+    .switchMap( () =>
+      this.service.pendientes()
+        .map(sols => new Sectores.LoadPendientesSuccessAction(sols))
+        .catch(error => Observable.of(new Sectores.SearchError(error)))
     );
+
+  @Effect() save$ = this.actions$
+    .ofType<Sectores.SaveAction>(Sectores.SAVE)
+    .map( action => action.payload)
+    .switchMap( sol =>
+      this.service.save(sol)
+        .map(res => new Sectores.SaveSuccess(res))
+        // .catch(error => {})
+        .catch(error => {
+          console.log('Error al persistir:', error);
+          return Observable.of(new Sectores.SaveError(error));
+        })
+    );
+
+  @Effect({dispatch: false}) saveSuccess$ = this.actions$
+    .ofType<Sectores.SaveSuccess>(Sectores.SAVE_SUCCESS)
+    .map( action => action.payload)
+    .do(sol => {
+      this.router.navigate(['/ventas/pedidos/solicitudes']);
+    });
 
   @Effect() select$ = this.actions$.ofType<Sectores.SelectAction>(Sectores.SELECT)
     .map( action => action.payload)

@@ -5,7 +5,8 @@ import { MainPageComponent, MainDashboardComponent } from './_pages';
 import { PedidosPageComponent, PedidoCreateComponent } from './pedidos';
 import { PendientesComponent } from './pedidos/pendientes/pendientes.component';
 import { PedidoEditComponent } from './pedidos/pedido-edit/pedido-edit.component';
-import { SolicitudesPageComponent } from 'app/ventas/solicitudes/solicitudes-page/solicitudes-page.component';
+import { SolicitudesPageComponent } from './solicitudes/solicitudes-page/solicitudes-page.component';
+import { SolicitudCreateComponent } from './solicitudes/solicitud-create/solicitud-create.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
           {
             path: 'solicitudes',
             component: SolicitudesPageComponent
+          },
+          {
+            path: 'solicitudes/create',
+            component: SolicitudCreateComponent
           }
         ]
       },

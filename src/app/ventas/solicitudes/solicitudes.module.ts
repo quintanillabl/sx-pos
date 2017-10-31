@@ -9,6 +9,10 @@ import { reducers} from './store/reducers';
 import {SolicitudesService} from 'app/ventas/solicitudes/services/solicitudes.service';
 import {SolicitudesEffects} from 'app/ventas/solicitudes/store/effects/solicitudes.effects';
 import { SolicitudCreateComponent } from './solicitud-create/solicitud-create.component';
+import { SolicitudFormComponent } from './solicitud-form/solicitud-form.component';
+import { BancoFieldComponent } from './solicitud-form/banco-field/banco-field.component';
+import { CuentaFieldComponent } from './solicitud-form/cuenta-field/cuenta-field.component';
+import { SolicitudesListComponent } from './solicitudes-list/solicitudes-list.component';
 
 
 @NgModule({
@@ -18,7 +22,7 @@ import { SolicitudCreateComponent } from './solicitud-create/solicitud-create.co
     StoreModule.forFeature('solicitudes', reducers),
     EffectsModule.forFeature([SolicitudesEffects]),
   ],
-  declarations: [SolicitudesPageComponent, SolicitudCreateComponent],
+  declarations: [SolicitudesPageComponent, SolicitudCreateComponent, SolicitudFormComponent, BancoFieldComponent, CuentaFieldComponent, SolicitudesListComponent],
   providers: [ SolicitudesService ]
 })
 export class SolicitudesModule { }

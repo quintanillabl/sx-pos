@@ -18,6 +18,21 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: conteos.Actions): State {
   switch (action.type) {
+    case conteos.LOAD_PENDIENTES: {
+      return {...state, loading: true}
+    }
+    case conteos.LOAD_PENDIENTES_SUCCESS: {
+      return {...state, loading: false, entities: action.payload}
+    }
+    case conteos.SAVE: {
+      return {...state, loading: true}
+    }
+    case conteos.SAVE_SUCCESS: {
+      return {...state, loading: false}
+    }
+    case conteos.SAVE_ERROR: {
+      return {...state, loading: false}
+    }
     case conteos.SEARCH: {
       return {...state, loading: true}
     }

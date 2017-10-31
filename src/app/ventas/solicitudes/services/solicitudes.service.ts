@@ -9,7 +9,7 @@ import {SolicitudDeDeposito} from 'app/ventas/models/solicitudDeDeposito';
 @Injectable()
 export class SolicitudesService {
 
-  readonly apiUrl = environment.apiUrl + '/solicitudesDeDepostis';
+  readonly apiUrl = environment.apiUrl + '/tesoreria/solicitudes';
 
   sucursal = {
     id: '402880fc5e4ec411015e4ec64e70012e',
@@ -23,12 +23,12 @@ export class SolicitudesService {
     return this.http.get<SolicitudDeDeposito>(url)
   }
 
-  peidnetes(documento?: string ) {
-    let params = new HttpParams().set('sucursal', this.sucursal.id);
-    if (documento) {
-      params =  params.set('documento', documento);
-    }
-    return this.http.get<SolicitudDeDeposito[]>(this.apiUrl, {params: params})
+  pendientes() {
+    const params = new HttpParams()
+      .set('sucursal', this.sucursal.id)
+      .set('pendientes', 'pendientes');
+    const url = `${this.apiUrl}`
+    return this.http.get<SolicitudDeDeposito[]>(url, {params: params})
   }
 
   list(documento?: string ): Observable<SolicitudDeDeposito[]> {
@@ -39,8 +39,8 @@ export class SolicitudesService {
     return this.http.get<SolicitudDeDeposito[]>(this.apiUrl, {params: params})
   }
 
-  save(sol: SolicitudDeDeposito) {
-    return this.http.post(this.apiUrl, sol);
+  save(sol: SolicitudDeDeposito): Observable<SolicitudDeDeposito> {
+    return this.http.post<SolicitudDeDeposito>(this.apiUrl, sol);
   }
 
   update(sol: SolicitudDeDeposito) {

@@ -7,6 +7,7 @@ import { PedidosModule } from './pedidos/pedidos.module';
 import { ClientesModule } from 'app/clientes/clientes.module';
 import { ExistenciasService } from 'app/ventas/services/existencias.service';
 import { SolicitudesModule } from 'app/ventas/solicitudes/solicitudes.module';
+import {BancoService} from '@siipapx/ventas/services/banco.service';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { SolicitudesModule } from 'app/ventas/solicitudes/solicitudes.module';
     MainDashboardComponent,
   ],
   providers: [
-    ExistenciasService
+    ExistenciasService,
+    BancoService,
   ]
 })
 export class VentasModule { }

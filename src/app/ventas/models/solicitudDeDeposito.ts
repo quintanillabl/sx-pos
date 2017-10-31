@@ -12,13 +12,13 @@ export interface SolicitudDeDeposito {
   fecha: string
   fechaDeposito: string
   referencia: string
-  importe_cheque: number
-  importe_efectivo: number
-  importe_tarjeta: number
+  cheque: number
+  efectivo: number
+  tarjeta: number
   total: number
   comentario: string
   cancelacion?: string
-  comentario_cancelacion?: string
+  cancelacionComentario?: string
   enviado: boolean
   dateCreated?: string
   lastUpdated?: string

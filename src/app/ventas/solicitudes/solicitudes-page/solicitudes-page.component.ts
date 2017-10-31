@@ -8,7 +8,7 @@ import { Venta, Sucursal } from 'app/models';
 
 import { SolicitudDeDeposito } from 'app/ventas/models/solicitudDeDeposito';
 import * as fromSolicitudes from '../store/reducers';
-import { SearchAction } from '../store/actions/solicitudes.actions';
+import { LoadPendientesAction } from '../store/actions/solicitudes.actions';
 
 @Component({
   selector: 'sx-solicitudes-page',
@@ -17,18 +17,19 @@ import { SearchAction } from '../store/actions/solicitudes.actions';
 })
 export class SolicitudesPageComponent implements OnInit {
 
-  pendientes$: Observable<SolicitudDeDeposito>;
+  pendientes$: Observable<SolicitudDeDeposito[]>;
 
   constructor(
     private store: Store<fromSolicitudes.State>
   ) { }
 
   ngOnInit() {
+    this.pendientes$ = this.store.select(fromSolicitudes.getPendientes);
     this.load();
   }
 
   load() {
-    this.store.subscribe( store => console.log('Store: ', store));
+    this.store.dispatch(new LoadPendientesAction());
   }
 
   search(term: string) {
