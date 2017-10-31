@@ -4,7 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { MainComponent } from './core/main/main.component';
 import { HomeComponent } from './core/home/home.component';
 import { AuthGuard } from './_auth/services/auth.gard';
-import { PageNotFoundComponent } from "./core/_pages/page-not-found/page-not-found.component";
+
+import { PageNotFoundComponent } from './core/_pages/page-not-found/page-not-found.component';
 
 
 const routes: Routes = [
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'ventas',
     loadChildren: './ventas/ventas.module#VentasModule'
+  },
+  {
+    path: 'caja',
+    loadChildren: './caja/caja.module#CajaModule'
   }
 
 ];
