@@ -73,7 +73,7 @@
 
     <md-divider></md-divider>
     <md-card-actions>
-      <button type="submit" md-button [disabled]="form.invalid" *ngIf="isReadOnly()"> Salvar </button>
+      <button type="submit" md-button [disabled]="form.invalid" *ngIf="isEditable()"> Salvar </button>
       <a  md-button [routerLink]="['/ventas/pedidos/solicitudes']"> Cancelar </a>
       <a md-button  *ngIf="id && readonly" [routerLink]="['../../edit', id]">
         Editar <md-icon>edit</md-icon>

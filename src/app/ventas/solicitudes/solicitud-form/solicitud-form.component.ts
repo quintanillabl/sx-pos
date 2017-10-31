@@ -39,15 +39,15 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
   constructor(
     private fb: FormBuilder,
   ) {
-    this.buildForm();
+
   }
 
   ngOnInit() {
-
+    this.buildForm();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.solicitud && changes.solicitud.currentValue) {
+    if (changes.solicitud && !changes.solicitud.isFirstChange()) {
       // console.log('Editando solicitud: ', changes.solicitud.currentValue);
       const solicitud: SolicitudDeDeposito = _.clone(changes.solicitud.currentValue);
 
@@ -112,14 +112,18 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
     return this.form.get('cuenta').value;
   }
 
-  isReadOnly() {
-    if (this.id === null) {
+  isEditable() {
+    if (this.id !== null) {
+
       const comentario: string = this.form.get('comentario').value;
-      if (comentario !== null && comentario.length === 0) {
-        return true;
+      // console.log('Editable', comentario);
+      if (comentario === null || comentario.length === 0) {
+
+        return false;
       }
     }
-    return false;
+
+    return true;
   }
 
 }
