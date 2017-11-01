@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
 import { Venta } from 'app/models';
 
 @Component({
@@ -10,9 +10,15 @@ export class PendientesListComponent implements OnInit {
 
   @Input() pedidos: Venta[];
 
+  @Output() edit = new EventEmitter<any>();
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onEdit(pedido: Venta) {
+    this.edit.emit(pedido);
   }
 
 }

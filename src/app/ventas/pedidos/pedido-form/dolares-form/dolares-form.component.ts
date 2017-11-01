@@ -7,17 +7,18 @@ import { Subscription } from 'rxjs/Subscription';
 import {FormGroup, FormBuilder, Validators, FormArray, FormControl} from '@angular/forms';
 import * as _ from 'lodash';
 
-import { Sucursal, Cliente, Venta, VentaDet } from 'app/models';
-import { PedidoFormService } from './pedido-form.service';
-import { PartidasGridComponent } from './partidas-grid/partidas-grid.component';
+import { Sucursal, Venta } from 'app/models';
+
+import { PartidasGridComponent } from '../partidas-grid/partidas-grid.component';
+import { PedidoDolaresFormServiceService } from './pedido-dolares-form-service.service';
 
 
 @Component({
-  selector: 'sx-pedido-form',
-  templateUrl: './pedido-form.component.html',
-  styleUrls: ['./pedido-form.component.scss']
+  selector: 'sx-dolares-form',
+  templateUrl: './dolares-form.component.html',
+  styleUrls: ['./dolares-form.component.scss']
 })
-export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
+export class DolaresFormComponent implements OnInit, OnDestroy, OnChanges {
 
   form: FormGroup;
 
@@ -35,37 +36,22 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   formaDePago$: Observable<any>;
   formaDePagoSubscription: Subscription;
 
-
   @ViewChild(PartidasGridComponent) grid: PartidasGridComponent;
 
   constructor(
     private fb: FormBuilder,
-    private pedidoFormService: PedidoFormService,
+    private service: PedidoDolaresFormServiceService,
     private cd: ChangeDetectorRef
   ) {
     this.buildForm();
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.pedido && changes.pedido.currentValue) {
-      // console.log('Asignando pedido');
-      // const pedido: Venta = _.clone(changes.pedido.currentValue);
       const pedido: Venta = changes.pedido.currentValue;
-      // console.log('Editando pedido: ', pedido);
       _.forEach(pedido.partidas, item => this.partidas.push(new FormControl(item)));
-      /*
-      this.form.patchValue({
-        id: pedido.id,
-        fecha: pedido.fecha,
-        cliente: pedido.cliente,
-        tipo: pedido.tipo,
-      }, {emitEvent: false});
-      */
       this.form.patchValue(pedido, {emitEvent: false});
-
-
-      this.pedidoFormService.registerForm(this.form);
+      this.service.registerForm(this.form);
       this.buildRecalcular$();
       this.buildFomraDePago$();
     }
@@ -94,6 +80,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       direccion: [null],
       comprador: [null],
       comentario: [null],
+      tipoDeCambio: [{value: 1}, [Validators.required, Validators.min(2)]],
       importe: [{value: 0, disabled: true}],
       descuento: [{value: 0, disabled: true}],
       descuentoImporte: [{value: 0, disabled: true}],
@@ -106,39 +93,31 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       comisionTarjeta: [{value: 0, disabled: true}],
       comisionTarjetaImporte: [{value: 0, disabled: true}],
       corteImporte: [{value: 0, disabled: true}],
-
+      moneda: ['USD']
     });
   }
 
   private  buildRecalcular$() {
     // console.log('Preparando recalculo observable');
-    const cliente$ = this.form.get('cliente').valueChanges.distinctUntilChanged();
+
+    const cliente$ = this.form.get('cliente').valueChanges.filter( c => c !== null).distinctUntilChanged()
     const tipo$ = this.form.get('tipo').valueChanges.distinctUntilChanged();
     const formaDePago$ = this.form.get('formaDePago').valueChanges.distinctUntilChanged();
-    this.recalcular$ = Observable.merge(cliente$, tipo$, formaDePago$);
+
+    this.recalcular$ = Observable.combineLatest(cliente$, tipo$, formaDePago$);
 
     this.recalcularSubscription = this.recalcular$.subscribe( data => {
-      console.log('Detectando cambios : ', data);
-      this.pedidoFormService.recalcular();
+      // console.log('CombineLatest res : ', data);
+      this.service.recalcular();
       this.cd.detectChanges();
       this.grid.refresh();
     });
   }
 
   private buildFomraDePago$() {
-
-    const cliente$ = this.form.get('cliente')
-      .valueChanges; // .filter( cliente =>  cliente !== null);
-
     const tipo$ = this.form.get('tipo').valueChanges.distinctUntilChanged();
-
-    this.formaDePago$ = Observable.combineLatest(cliente$, tipo$ );
-
-    this.formaDePagoSubscription = this.formaDePago$
-      .subscribe( value =>  {
-        // console.log('Activar/desactivar froma de pato', value);
-        const cliente = value[0];
-        const tipo = value[1];
+    this.formaDePagoSubscription = tipo$
+      .subscribe( tipo =>  {
         if ( tipo === 'CRE') {
           this.form.get('formaDePago').disable();
           this.form.get('formaDePago').setValue('CHEQUE');
@@ -155,15 +134,15 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onInsertPartida() {
-    this.pedidoFormService.agregarPartida({sucursal: this.sucursal});
+    this.service.agregarPartida({sucursal: this.sucursal});
   }
 
   onEditPartida(index: number) {
-    this.pedidoFormService.editarPartida(index, {sucursal: this.sucursal});
+    this.service.editarPartida(index, {sucursal: this.sucursal});
   }
 
   onDelete(index: number) {
-    this.pedidoFormService.elimiarPartida(index);
+    this.service.elimiarPartida(index);
   }
 
   get cliente() {
@@ -182,13 +161,15 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onSave() {
-    const pedido: Venta = {
-      ...this.form.getRawValue(),
-      sucursal: this.sucursal,
-      vendedor: this.cliente.vendedor
-    };
-    _.forEach(pedido.partidas, item => item.sucursal = this.sucursal)
-    this.save.emit(pedido);
+    if (this.form.valid) {
+      const pedido: Venta = {
+        ...this.form.getRawValue(),
+        sucursal: this.sucursal,
+        vendedor: this.cliente.vendedor
+      };
+      _.forEach(pedido.partidas, item => item.sucursal = this.sucursal)
+      this.save.emit(pedido);
+    }
   }
 
 }

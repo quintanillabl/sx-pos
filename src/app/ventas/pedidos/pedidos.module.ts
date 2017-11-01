@@ -12,7 +12,10 @@ import { reducers } from './store/reducers';
 import { PendientesComponent } from './pendientes/pendientes.component';
 import { PendientesListComponent } from './pendientes/pendientes-list/pendientes-list.component';
 import { PedidoEditComponent } from './pedido-edit/pedido-edit.component';
-
+import { PedidoDolaresCreateComponent } from './pedido-create/pedido-dolares-create.component';
+import { PedidoDolaresEditComponent } from './pedido-edit/pedido-dolares-edit.component';
+import { PedidoAnticipoCreateComponent } from './pedido-create/pedido-anticipo-create.component';
+import { PedidoAnticipoEditComponent } from './pedido-edit/pedido-anticipo-edit.component';
 
 
 @NgModule({
@@ -31,6 +34,10 @@ import { PedidoEditComponent } from './pedido-edit/pedido-edit.component';
     PendientesComponent,
     PendientesListComponent,
     PedidoEditComponent,
+    PedidoDolaresCreateComponent,
+    PedidoDolaresEditComponent,
+    PedidoAnticipoCreateComponent,
+    PedidoAnticipoEditComponent,
   ],
   providers: [ PedidosService],
   exports: [RouterModule]
