@@ -15,19 +15,21 @@
             <span flex="10">{{ row.fecha | date: 'dd/MM/yyyy' }} </span>
             <span flex="10">{{ row.dateCreated | amTimeAgo }} </span>
             <span flex="10" class="text-right" layout>
+              <span flex="10" class="tc-indigo-700" *ngIf="row.tipo === 'ANT'"> (ANTICIPO) </span>
               <span flex *ngIf="row.moneda!=='MXN'" class="tc-pink-700"> {{row.moneda}}</span>
               <span flex>{{ row.total | currency: 'USD': 1.2-2 }}</span>
 
             </span>
             <span flex="10" class="tc-indigo-700" *ngIf="row.tipoDeCambio > 1"> (T.C: {{row.tipoDeCambio | number: '1.4-4'}})</span>
+            <span flex="10" class="tc-indigo-700" *ngIf="row.tipo === 'ANT'"> {{row.comentario}}</span>
             <span flex></span>
             <span layout>
               <button  md-icon-button
-                (click)="marcarSalida(row)"
+                       (click)="onFacturar(row)"
                 mdTooltip="Mandar facturar" >
                 <md-icon >assignment</md-icon>
               </button>
-              <button  md-icon-button
+              <button  md-icon-button type="button"
                        mdTooltip="Envío" >
                 <md-icon >flight_takeoff</md-icon>
               </button>

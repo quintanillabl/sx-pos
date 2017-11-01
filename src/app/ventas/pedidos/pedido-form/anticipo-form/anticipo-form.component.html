@@ -1,10 +1,8 @@
-<form novalidate [formGroup]="form" (ngSubmit)="onSubmit()" >
+<form novalidate [formGroup]="form" (ngSubmit)="onSave()" >
   <md-card  >
     <div layout="row" layout-align="start center" layout-padding class="pad-left-sm pad-right-sm">
       <span class="md-title">{{title}}</span>
     </div>
-    <!--<sx-pedido-header (addCliente)="onAddNewCliente()" [parent]="form" (insertar)="onInsertPartida()">
-    </sx-pedido-header>-->
     <md-divider></md-divider>
     <md-card-content>
       <div layout class="pad-left-sm pad-right-sm" layout-align="center center">

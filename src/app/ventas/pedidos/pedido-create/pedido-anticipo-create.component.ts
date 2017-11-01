@@ -46,8 +46,8 @@ export class PedidoAnticipoCreateComponent implements OnInit {
         sucursal: s,
         fecha: new Date().toISOString(),
         cliente: null,
-        tipo: 'CON',
-        documeto: 0,
+        tipo: 'ANT',
+        documento: 0,
         importe: 0,
         descuento: 0,
         descuentoImporte: 0,
@@ -56,7 +56,7 @@ export class PedidoAnticipoCreateComponent implements OnInit {
         impuestoTasa: 0,
         total: 0,
         formaDePago: 'EFECTIVO',
-        moneda: 'USD',
+        moneda: 'MXN',
         tipoDeCambio: 0,
         kilos: 0,
         partidas: []
@@ -70,16 +70,14 @@ export class PedidoAnticipoCreateComponent implements OnInit {
   }
 
   onSave(pedido: Venta) {
-    console.log('Salvando  pedido: ', pedido);
     this.loadingService.register('saving');
     this.service
       .save(pedido)
       .subscribe(
         (res: any) => {
-          console.log('Actualizacion exitosa: ', res);
+          console.log('Anticipo salvado: ', res);
           this.loadingService.resolve('saving');
           this.router.navigate(['/ventas/pedidos/pendientes'])
-          // this.router.navigate(['/logistica/almacen/conteo/show', res.id], { queryParams: { tipo: 'show' } })
         },
         response => this.handlePostError(response)
       );

@@ -47,7 +47,7 @@ export class PedidoDolaresCreateComponent implements OnInit {
         fecha: new Date().toISOString(),
         cliente: null,
         tipo: 'CON',
-        documeto: 0,
+        documento: 0,
         importe: 0,
         descuento: 0,
         descuentoImporte: 0,

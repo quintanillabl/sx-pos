@@ -27,6 +27,8 @@ export class AnticipoFormComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() readonly  = false;
 
+  importeSubscription: Subscription;
+
   constructor(
     private fb: FormBuilder,
   ) {
@@ -40,17 +42,28 @@ export class AnticipoFormComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.importeSubscription = this.form.get('importe').valueChanges.subscribe(importe => {
+      const impuesto = _.round((importe * 0.16), 2);
+      const total =  _.toNumber (importe) + impuesto;
+      this.form.get('impuesto').setValue(impuesto);
+      this.form.get('subTotal').setValue(importe);
+      this.form.get('total').setValue(total);
+    })
+  }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.importeSubscription.unsubscribe();
+  }
 
   private buildForm() {
     this.form = this.fb.group({
       id: [null],
+      documento: [null],
       sucursal: [this.sucursal],
       fecha: [{value: new Date(), disabled: true}, Validators.required],
       cliente: [null, Validators.required],
-      tipo: [{value: 'CON', disabled: true}, Validators.required],
+      tipo: [{value: 'ANT', disabled: true}, Validators.required],
       atencion: ['MOSTRADOR', Validators.required],
       formaDePago: ['EFECTIVO', Validators.required],
       comentario: [null],

@@ -8,7 +8,7 @@ export interface Venta {
   cliente: Cliente;
   vendedor?: Vendedor,
   tipo: string;
-  documeto: number;
+  documento: number;
   // Importes y totales
   importe: number;
   descuento: number
@@ -29,7 +29,8 @@ export interface Venta {
   cargosPorManiobra?: number
   comisionTarjeta?: number
   comisionTarjetaImporte?: number,
-  corteImporte?: number
+  corteImporte?: number,
+  facturar?: string
 }
 
 export interface TipoDeVenta {

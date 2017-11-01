@@ -13,11 +13,11 @@
           <md-icon [ngClass]="{'tc-blue-600':odd }">more_vert</md-icon>
           </button>
           <md-menu x-position="before" #menu="mdMenu">
+            <button  (click)="load()" md-menu-item><md-icon>refresh</md-icon> Refrescar</button>
             <a type="button" md-menu-item [routerLink]="['../create']"
                mdTooltip="Nuevo pedido">
               <md-icon>add</md-icon> Nuevo pedido
             </a>
-            <!--<button  (click)="load()" md-menu-item><md-icon>refresh</md-icon> Refrescar</button>-->
             <a type="button" md-menu-item [routerLink]="['../dolares/create']">
               <md-icon>library_add</md-icon> Pedido en dólares
             </a>
@@ -30,7 +30,7 @@
 
     <md-divider></md-divider>
     <md-card-content class="">
-     <sx-pedidos-pendientes-list [pedidos]="pedidos$ | async" (edit)="onEdit($event)">
+     <sx-pedidos-pendientes-list [pedidos]="pedidos" (edit)="onEdit($event)" (facturar)="mandarFacturar($event)">
       </sx-pedidos-pendientes-list>
     </md-card-content>
   </md-card>

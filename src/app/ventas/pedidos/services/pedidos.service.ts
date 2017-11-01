@@ -53,5 +53,10 @@ export class PedidosService {
     return this.http.get<Producto>(url, {params: params});
   }
 
+  mandarFacturar(venta: Venta) {
+    const url = `${this.apiUrl}/mandarFacturar/${venta.id}`;
+    return this.http.put(url, venta);
+  }
+
 }
 
