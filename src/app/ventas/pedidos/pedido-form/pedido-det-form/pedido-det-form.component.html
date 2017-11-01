@@ -46,7 +46,8 @@
           <input type="text" mdInput placeholder="Unidad" value="{{existencia?.producto?.unidad}}" [disabled]="true">
         </md-form-field>
         <md-form-field >
-          <input type="text" mdInput placeholder="Precio" formControlName="precio">
+          <input type="text" mdInput placeholder="{{dolares ? 'Precio USD' : 'Precio'}}" sxOnlyNumbers
+                 formControlName="precio">
         </md-form-field>
         <md-form-field >
           <input type="text" mdInput placeholder="Importe Bruto" [disabled]="true"

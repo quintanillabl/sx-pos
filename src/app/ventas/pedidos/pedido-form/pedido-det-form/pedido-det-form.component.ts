@@ -35,6 +35,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   importeBruto$: Observable<number>;
 
   partida: VentaDet;
+  dolares = false;
 
   subs1: Subscription;
   subs2: Subscription;
@@ -53,6 +54,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     this.sucursal = data.sucursal;
     this.tipoDePrecio = data.tipo;
     this.partida = data.partida;
+    this.dolares = data.dolares || false;
   }
 
   ngOnInit() {
@@ -77,7 +79,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     this.form = this.fb.group({
       existencia: [null, Validators.required],
       cantidad: [0, [Validators.required, Validators.min(1), onlyNumber()]],
-      precio: [{value: 0, disabled: true}, [Validators.required]],
+      precio: [{value: 0, disabled: !this.asignarPrecio()}, [Validators.required, , Validators.min(1)]],
       importe: [{value: 0, disabled: true}],
       cortado: [{value: false, disabled: true}],
       sinExistencia: [{value: false, disabled: true}],
@@ -95,8 +97,11 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   private buildExistenciaRemota$() {
     this.existenciaRemota$ = this.form.get('existencia')
       .valueChanges
-      .do( exis => this.form.get('precio')
-        .setValue(this.tipoDePrecio === 'CON' ? exis.producto.precioContado : exis.producto.precioCredito))
+      .do( exis => {
+          if (! this.asignarPrecio()) {
+            this.form.get('precio').setValue(this.tipoDePrecio === 'CON' ? exis.producto.precioContado : exis.producto.precioCredito)
+          }
+        })
       .switchMap( exis => {
         return this.existenciasService.buscarExistencias(exis.producto);
           // .map( res => res.filter(item => item.sucursal.id !== this.sucursal.id))
@@ -227,5 +232,16 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
 
   get existencia() {
     return this.form.get('existencia').value;
+  }
+
+  asignarPrecio() {
+    return this.dolares;
+  }
+
+  validarPrecio(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} => {
+      const precio = control.value;
+      return precio > 0.0 ? {'precioInvalido': {value: control.value}} : null;
+    };
   }
 }

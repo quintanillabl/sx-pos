@@ -8,6 +8,11 @@ import { PedidoEditComponent } from './pedidos/pedido-edit/pedido-edit.component
 import { SolicitudesPageComponent } from './solicitudes/solicitudes-page/solicitudes-page.component';
 import { SolicitudCreateComponent } from './solicitudes/solicitud-create/solicitud-create.component';
 import { SolicitudEditComponent } from './solicitudes/solicitud-edit/solicitud-edit.component';
+import {PedidoDolaresCreateComponent} from './pedidos/pedido-create/pedido-dolares-create.component';
+import {PedidoDolaresEditComponent} from './pedidos/pedido-edit/pedido-dolares-edit.component';
+import {PedidoAnticipoEditComponent} from './pedidos/pedido-edit/pedido-anticipo-edit.component';
+import {PedidoAnticipoCreateComponent} from './pedidos/pedido-create/pedido-anticipo-create.component';
+
 
 const routes: Routes = [
   {
@@ -47,7 +52,15 @@ const routes: Routes = [
           {
             path: 'solicitudes/edit/:id',
             component: SolicitudEditComponent
-          }
+          },
+          {
+            path: 'anticipo/create',
+            component: PedidoAnticipoCreateComponent
+          },
+          {
+            path: 'anticipo/edit/:id',
+            component: PedidoAnticipoEditComponent
+          },
         ]
       },
       {
@@ -57,7 +70,15 @@ const routes: Routes = [
       {
         path: 'pedidos/edit/:id',
         component: PedidoEditComponent
-      }
+      },
+      {
+        path: 'pedidos/dolares/create',
+        component: PedidoDolaresCreateComponent
+      },
+      {
+        path: 'pedidos/dolares/edit/:id',
+        component: PedidoDolaresEditComponent
+      },
     ]
   }
 ];

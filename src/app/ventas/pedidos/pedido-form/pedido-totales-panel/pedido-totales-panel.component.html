@@ -1,8 +1,10 @@
 <td-expansion-panel label="Totales" [expand]="'true'"  [formGroup]="parent" >
 
   <ng-template td-expansion-panel-header>
-    <md-toolbar color="accent">
+    <md-toolbar color="accent" layout>
         <span>Totales</span>
+        <span flex></span>
+        <span *ngIf="isDolares()" > USD </span>
     </md-toolbar>
   </ng-template>
   <md-list class="md-padding">

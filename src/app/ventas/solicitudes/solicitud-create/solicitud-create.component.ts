@@ -13,7 +13,7 @@ import { SaveAction } from '../store/actions/solicitudes.actions';
   template: `
     <ng-template tdLoading [tdLoadingUntil]="!(loading$ | async)" tdLoadingStrategy="overlay">
       <div layout>
-        <sx-solicitud-form flex="50" [sucursal]="sucursal$ | async" (save)="onSave($event)">
+        <sx-solicitud-form flex="60" [sucursal]="sucursal$ | async" (save)="onSave($event)">
         </sx-solicitud-form>
       </div>
     </ng-template>

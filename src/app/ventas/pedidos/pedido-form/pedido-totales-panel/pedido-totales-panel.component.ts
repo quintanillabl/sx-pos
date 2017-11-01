@@ -19,4 +19,13 @@ export class PedidoTotalesPanelComponent implements OnInit {
     return this.parent.get('importe').value;
   }
 
+  isDolares() {
+    const usd = this.parent.get('moneda');
+    if ( usd && usd.value === 'USD') {
+      return true
+    }
+    // return this.parent.get('moneda').value === 'USD'
+    return false;
+  }
+
 }

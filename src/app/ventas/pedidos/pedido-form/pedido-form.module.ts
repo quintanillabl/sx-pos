@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SharedModule } from "app/shared/shared.module";
+import { SharedModule } from 'app/shared/shared.module';
 
-import { 
-  PedidoFormComponent, 
+import {
+  PedidoFormComponent,
   PedidoEnvioPanelComponent,
   PedidoCargosPanelComponent,
   PedidoTotalesPanelComponent,
@@ -12,11 +12,14 @@ import {
   PedidoComentarioPanelComponent,
 } from '.';
 import { PartidasGridComponent } from './partidas-grid/partidas-grid.component';
-import { PedidoFormService } from "./pedido-form.service";
+import { PedidoFormService } from './pedido-form.service';
 import { TipoFieldComponent } from './tipo-field/tipo-field.component';
 import { ModoFieldComponent } from './modo-field/modo-field.component';
 import { CompradorFieldComponent } from './comprador-field/comprador-field.component';
 import { PedidoDetFormComponent } from './pedido-det-form/pedido-det-form.component';
+import { DolaresFormComponent } from './dolares-form/dolares-form.component';
+import {PedidoDolaresFormServiceService} from './dolares-form/pedido-dolares-form-service.service';
+import { AnticipoFormComponent } from './anticipo-form/anticipo-form.component';
 
 
 @NgModule({
@@ -25,10 +28,12 @@ import { PedidoDetFormComponent } from './pedido-det-form/pedido-det-form.compon
     RouterModule.forChild([])
   ],
   exports: [
-    PedidoFormComponent
+    PedidoFormComponent,
+    DolaresFormComponent,
+    AnticipoFormComponent,
   ],
   declarations: [
-    PedidoFormComponent, 
+    PedidoFormComponent,
     PedidoEnvioPanelComponent,
     PedidoCargosPanelComponent,
     PedidoTotalesPanelComponent,
@@ -39,11 +44,13 @@ import { PedidoDetFormComponent } from './pedido-det-form/pedido-det-form.compon
     TipoFieldComponent,
     ModoFieldComponent,
     CompradorFieldComponent,
-    PedidoDetFormComponent
+    PedidoDetFormComponent,
+    DolaresFormComponent,
+    AnticipoFormComponent
   ],
   entryComponents: [
-    PedidoDetFormComponent
+    PedidoDetFormComponent,
   ],
-  providers: [ PedidoFormService],
+  providers: [ PedidoFormService, PedidoDolaresFormServiceService],
 })
 export class PedidoFormModule { }
