@@ -6,6 +6,7 @@ export interface Venta {
   fecha: string
   sucursal: Sucursal;
   cliente: Cliente;
+  nombre?: string
   vendedor?: Vendedor,
   tipo: string;
   documento: number;
@@ -31,6 +32,9 @@ export interface Venta {
   comisionTarjetaImporte?: number,
   corteImporte?: number,
   facturar?: string
+  cuentaPorCobrar?: any;
+  cfdiMail?: string
+  usoDeCfdi?: string
 }
 
 export interface TipoDeVenta {

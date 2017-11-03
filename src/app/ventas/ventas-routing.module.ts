@@ -12,6 +12,9 @@ import {PedidoDolaresCreateComponent} from './pedidos/pedido-create/pedido-dolar
 import {PedidoDolaresEditComponent} from './pedidos/pedido-edit/pedido-dolares-edit.component';
 import {PedidoAnticipoEditComponent} from './pedidos/pedido-edit/pedido-anticipo-edit.component';
 import {PedidoAnticipoCreateComponent} from './pedidos/pedido-create/pedido-anticipo-create.component';
+import {FacturacionCreComponent} from './pedidos/facturacion-cre/facturacion-cre.component';
+import {FacturadosComponent} from './pedidos/facturados/facturados.component';
+import {FacturaViewComponent} from './pedidos/factura-view/factura-view.component';
 
 
 const routes: Routes = [
@@ -41,6 +44,10 @@ const routes: Routes = [
             component: PendientesComponent
           },
           {
+            path: 'facturacionCredito',
+            component: FacturacionCreComponent
+          },
+          {
             path: 'solicitudes',
             component: SolicitudesPageComponent
           },
@@ -61,6 +68,14 @@ const routes: Routes = [
             path: 'anticipo/edit/:id',
             component: PedidoAnticipoEditComponent
           },
+          {
+            path: 'facturados',
+            component: FacturadosComponent
+          },
+          {
+            path: 'facturados/show/:id',
+            component: FacturaViewComponent
+          }
         ]
       },
       {

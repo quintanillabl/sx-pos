@@ -1,17 +1,16 @@
 
 <md-list dense>
-
   <td-virtual-scroll-container #virtualScroll [style.height.px]="550" [data]="pedidos">
     <ng-template let-row="row" let-last="last" tdVirtualScrollRow>
       <md-list-item >
         <span md-line >
           <span layout layout-margin>
             <span>
-                <button md-button (click)="onEdit(row)"  class="tc-indigo-700" flex>
+                <button md-button class="tc-indigo-700" flex>
                   {{row.tipo}} {{row.documento}}
                 </button>
             </span>
-            <span flex="30">{{ row.nombre}} </span>
+            <span flex="30">{{ row.cliente.nombre}} </span>
             <span flex="10">{{ row.fecha | date: 'dd/MM/yyyy' }} </span>
             <span flex="10">{{ row.dateCreated | amTimeAgo }} </span>
             <span flex="10" class="text-right" layout>
@@ -25,13 +24,15 @@
             <span flex></span>
             <span layout>
               <button  md-icon-button
-                       (click)="onFacturar(row)"
-                mdTooltip="Mandar facturar" >
+                       (click)="facturar.emit(row)"
+                       mdTooltip="Facturar" >
                 <md-icon >assignment</md-icon>
               </button>
-              <button  md-icon-button type="button"
-                       mdTooltip="Envío" >
-                <md-icon >flight_takeoff</md-icon>
+              <button  md-icon-button
+                       (click)="cancelar.emit(row)"
+                       type="button"
+                       mdTooltip="Regresar a pedidos" >
+                <md-icon >arrow_back</md-icon>
               </button>
             </span>
           </span>

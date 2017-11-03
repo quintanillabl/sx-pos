@@ -8,10 +8,11 @@
     <div layout="row" layout-margin>
       <sx-tipo-field [parent]="form"  ></sx-tipo-field>
       <span layout ="column" layout-align="center center" class="pad">
-          <md-checkbox  labelPosition="before" formControlName="cod" mdTooltip="Contr entrega">COD</md-checkbox>
+          <md-checkbox  labelPosition="before" formControlName="cod" mdTooltip="Contra entrega">COD</md-checkbox>
       </span>
       <sx-modo-field [parent]="form" flex="15"></sx-modo-field>
       <sx-forma-de-pago [parent]="form" flex="15"></sx-forma-de-pago>
+      <sx-uso-cfdi [parent]="form" flex="10"></sx-uso-cfdi>
       <sx-comprador-field [parent]="form" flex></sx-comprador-field>
     </div>
     <md-divider></md-divider>

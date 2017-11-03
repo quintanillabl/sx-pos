@@ -1,17 +1,15 @@
-
 <md-list dense>
-
-  <td-virtual-scroll-container #virtualScroll [style.height.px]="550" [data]="pedidos">
+  <td-virtual-scroll-container #virtualScroll [style.height.px]="550" [data]="facturas">
     <ng-template let-row="row" let-last="last" tdVirtualScrollRow>
       <md-list-item >
         <span md-line >
           <span layout layout-margin>
-            <span>
-                <button md-button (click)="onEdit(row)"  class="tc-indigo-700" flex>
+            <span flex="10" class="text-left">
+                <a md-button class="tc-indigo-700 text-left" [routerLink]="['show', row.id]">
                   {{row.tipo}} {{row.documento}}
-                </button>
+                </a>
             </span>
-            <span flex="30">{{ row.nombre}} </span>
+            <span flex="30">{{ row.cliente.nombre}} </span>
             <span flex="10">{{ row.fecha | date: 'dd/MM/yyyy' }} </span>
             <span flex="10">{{ row.dateCreated | amTimeAgo }} </span>
             <span flex="10" class="text-right" layout>
@@ -23,17 +21,6 @@
             <span flex="10" class="tc-indigo-700" *ngIf="row.tipoDeCambio > 1"> (T.C: {{row.tipoDeCambio | number: '1.4-4'}})</span>
             <span flex="10" class="tc-indigo-700" *ngIf="row.tipo === 'ANT'"> {{row.comentario}}</span>
             <span flex></span>
-            <span layout>
-              <button  md-icon-button
-                       (click)="onFacturar(row)"
-                mdTooltip="Mandar facturar" >
-                <md-icon >assignment</md-icon>
-              </button>
-              <button  md-icon-button type="button"
-                       mdTooltip="Envío" >
-                <md-icon >flight_takeoff</md-icon>
-              </button>
-            </span>
           </span>
         </span>
 

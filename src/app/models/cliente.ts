@@ -3,6 +3,8 @@ export class Cliente {
   nombre: string;
   rfc: string;
   credito: ClienteCredito
+  email?: string
+  direccion?: {}
 }
 
 export class ClienteCredito {

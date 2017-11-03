@@ -84,6 +84,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       sucursal: [this.sucursal],
       fecha: [{value: new Date(), disabled: true}, Validators.required],
       cliente: [null, Validators.required],
+      nombre: [null],
       tipo: [{value: 'CON', disabled: true}, Validators.required],
       atencion: ['MOSTRADOR', Validators.required],
       entrega: ['LOCAL', Validators.required],
@@ -106,6 +107,8 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       comisionTarjeta: [{value: 0, disabled: true}],
       comisionTarjetaImporte: [{value: 0, disabled: true}],
       corteImporte: [{value: 0, disabled: true}],
+      cfdiMail: [null],
+      usoDeCfdi: 'G01'
 
     });
   }

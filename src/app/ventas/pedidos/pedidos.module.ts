@@ -16,6 +16,14 @@ import { PedidoDolaresCreateComponent } from './pedido-create/pedido-dolares-cre
 import { PedidoDolaresEditComponent } from './pedido-edit/pedido-dolares-edit.component';
 import { PedidoAnticipoCreateComponent } from './pedido-create/pedido-anticipo-create.component';
 import { PedidoAnticipoEditComponent } from './pedido-edit/pedido-anticipo-edit.component';
+import { FacturacionCreComponent } from './facturacion-cre/facturacion-cre.component';
+import { FacturasCreListComponent } from './facturacion-cre/facturas-cre-list/facturas-cre-list.component';
+import { FacturadosComponent } from './facturados/facturados.component';
+import { FacturadosListComponent } from './facturados/facturados-list/facturados-list.component';
+import { FacturaViewComponent } from './factura-view/factura-view.component';
+import { FacViewTotalesComponent } from './factura-view/fac-view-totales/fac-view-totales.component';
+import { FacViewHeaderComponent } from './factura-view/fac-view-header/fac-view-header.component';
+import { FacViewPartidasComponent } from './factura-view/fac-view-partidas/fac-view-partidas.component';
 
 
 @NgModule({
@@ -38,6 +46,14 @@ import { PedidoAnticipoEditComponent } from './pedido-edit/pedido-anticipo-edit.
     PedidoDolaresEditComponent,
     PedidoAnticipoCreateComponent,
     PedidoAnticipoEditComponent,
+    FacturacionCreComponent,
+    FacturasCreListComponent,
+    FacturadosComponent,
+    FacturadosListComponent,
+    FacturaViewComponent,
+    FacViewTotalesComponent,
+    FacViewHeaderComponent,
+    FacViewPartidasComponent,
   ],
   providers: [ PedidosService],
   exports: [RouterModule]

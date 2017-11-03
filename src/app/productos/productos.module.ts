@@ -19,8 +19,8 @@ import { ProdFieldComponent } from './_components/prod-field/prod-field.componen
     ProdSelectorComponent
   ],
 })
-export class ProductosModule { 
-  
+export class ProductosModule {
+
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: RootProductosModule,

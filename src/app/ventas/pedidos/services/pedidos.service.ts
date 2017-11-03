@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from 'environments/environment';
@@ -9,6 +9,11 @@ import { Venta, Sucursal, Producto } from 'app/models';
 export class PedidosService {
 
   readonly apiUrl = environment.apiUrl + '/ventas';
+
+  sucursal = {
+    id: '402880fc5e4ec411015e4ec64e70012e',
+    nombre: 'TACUBA'
+  }
 
   constructor(private http: HttpClient) { }
 
@@ -56,6 +61,43 @@ export class PedidosService {
   mandarFacturar(venta: Venta) {
     const url = `${this.apiUrl}/mandarFacturar/${venta.id}`;
     return this.http.put(url, venta);
+  }
+
+  pendientesDeFacturar(tipo: string) {
+    const params = new HttpParams().set('facturables', tipo);
+    return this.http.get<Venta[]>(this.apiUrl, {params: params})
+  }
+
+  facturados(tipo: string) {
+    const params = new HttpParams()
+      .set('facturados', tipo)
+      .set('sucursal', this.sucursal.id);
+    return this.http.get<Venta[]>(this.apiUrl, {params: params})
+  }
+
+  facturar(venta: Venta) {
+    const url = `${this.apiUrl}/facturar/${venta.id}`;
+    return this.http.put(url, venta);
+  }
+
+  print(id: string) {
+    const url = `${this.apiUrl}/print`;
+    const params = new HttpParams()
+      .set('ID', id);
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        params: params,
+        responseType: 'blob'
+      }
+    );
+  }
+
+  cancelar(factura: Venta): Observable<Venta> {
+    console.log('Cancelando en el sistema la factura: ', factura);
+    const url = `${this.apiUrl}/cancelar/${factura.id}`;
+    return this.http.put<Venta>(url, factura);
   }
 
 }

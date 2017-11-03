@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ProductUtils } from "@siipapx/productos/services/productUtils";
+import { ProductUtils } from 'app/productos/services/productUtils';
 
 @Component({
   selector: 'sx-prod-selector-btn',
   template: `
     <button type="button" md-icon-button (click)="select()" mdTooltip="Consulta rápida de productos">
-      <md-icon>layers</md-icon> 
+      <md-icon>layers</md-icon>
     </button>
   `,
   styles: []

@@ -13,25 +13,14 @@
         </button>
       </span>
     </div>
-    <!-- <div layout>
-      <span flex></span>
-      <span class="pad text-md"> Modificado: {{embarque?.lastUpdated | date: 'dd/MM/yyyy hh:mm'}}</span>
-    </div> -->
-    <md-divider></md-divider>
-    <!-- <md-card-content>
-      <td-json-formatter [data]="embarque"></td-json-formatter>
-      <td-json-formatter [data]="partidas.value"></td-json-formatter>
-    </md-card-content> -->
-      <sx-envio-form-partidas [parent]="form" [partidas]="partidas.value" (remove)="onDelete($event)">
 
+    <md-divider></md-divider>
+      <sx-envio-form-partidas [parent]="form" [partidas]="partidas.value" (remove)="onDelete($event)">
       </sx-envio-form-partidas>
     <md-divider></md-divider>
     <md-card-actions>
       <button type="submit" md-button [disabled]="form.invalid" *ngIf="!readonly"> Salvar </button>
       <a  md-button [routerLink]="['/logistica/embarques/embarques']"> Cancelar </a>
-      <!--<button md-icon-button type="button" (click)="onPrint()" mdTooltip="Imprimir documento" *ngIf="id">-->
-        <!--<md-icon>print</md-icon>-->
-      <!--</button>-->
       <a md-button  *ngIf="id && readonly" [routerLink]="['../../edit', id]">
         Editar <md-icon>edit</md-icon>
       </a>

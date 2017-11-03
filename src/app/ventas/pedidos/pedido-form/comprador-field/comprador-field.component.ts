@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy, ViewContainerRef } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { TdDialogService } from '@covalent/core';
 import * as _ from 'lodash';
 
@@ -10,16 +10,6 @@ import * as _ from 'lodash';
     <section>
       <md-checkbox checked="checked"  [formControl]="control">Mismo comprador</md-checkbox>
     </section>
-    <!--
-    <div [formGroup]="parent" layout>
-      <md-input-container  class="fill" flex>
-          <input type="text" mdInput placeholder="Comprador" fomControlName="comprador" [disabled]="control.value">
-      </md-input-container>
-      <section>
-        <md-checkbox checked="checked" flex="10" [formControl]="control">Mismo</md-checkbox>
-      </section>
-    </div>
-    -->
   `,
   styles: [
     `
@@ -66,7 +56,7 @@ export class CompradorFieldComponent implements OnInit, OnDestroy {
     this._dialogService.openPrompt({
       message: 'Nombre del comprador.',
       viewContainerRef: this._viewContainerRef,
-      title: 'Comprador', 
+      title: 'Comprador',
       cancelButton: 'Cancelar',
       acceptButton: 'Aceptar',
     }).afterClosed().subscribe((newValue: string) => {
@@ -88,9 +78,9 @@ export class CompradorFieldComponent implements OnInit, OnDestroy {
     } else {
       this.invalidComrador();
     }
-    
+
   }
 
-  
+
 
 }

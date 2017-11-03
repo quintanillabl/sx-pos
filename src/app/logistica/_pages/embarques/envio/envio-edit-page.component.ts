@@ -60,7 +60,7 @@ export class EnvioEditPageComponent implements OnInit {
   }
 
   onUpdate(envio: Envio) {
-    console.log('Salvando: ', envio);
+    // console.log('Salvando: ', envio);
     this.loadingService.register('saving');
     this.service
       .updateEnvio(envio)
