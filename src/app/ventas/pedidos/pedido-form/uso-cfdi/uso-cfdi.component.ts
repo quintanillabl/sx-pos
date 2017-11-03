@@ -20,6 +20,8 @@ export class UsoCfdiComponent implements OnInit {
 
   usos = [
     {clave: 'G01', descripcion: 'Adquisición de mercancias'},
+    {clave: 'G03', descripcion: 'Gastos en general'},
+    {clave: 'P01', descripcion: 'Por definir'},
   ];
 
   constructor() { }

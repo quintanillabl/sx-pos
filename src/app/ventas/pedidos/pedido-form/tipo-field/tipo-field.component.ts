@@ -39,7 +39,7 @@ export class TipoFieldComponent implements OnInit, OnDestroy {
           this.parent.get('tipo').enable();
         } else {
           this.parent.get('tipo').setValue('CON');
-          this.parent.get('tipo').disable();
+          // this.parent.get('tipo').disable();
         }
       });
   }
