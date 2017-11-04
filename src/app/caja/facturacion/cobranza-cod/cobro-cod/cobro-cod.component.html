@@ -1,0 +1,13 @@
+<div layout >
+  <sx-cobro-cod-form [cxc]="cxc$ | async"  
+    (cancelar)="onCancelar()"
+    (save)="onSave($event)">
+
+  </sx-cobro-cod-form>
+  <!-- <sx-cobro-form [venta]="venta$ | async" 
+    (cancelar)="onCancelar()"
+    (facturar)="onFacturar($event)" 
+    (save)="onSave($event)">
+  </sx-cobro-form> -->
+</div>
+  

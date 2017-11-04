@@ -1,0 +1,7 @@
+<div layout *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
+  <sx-cobro-form [venta]="venta$ | async" 
+    (cancelar)="onCancelar()"
+    (facturar)="onFacturar($event)" 
+    (save)="onSave($event)">
+  </sx-cobro-form>
+</div>

@@ -1,0 +1,74 @@
+<form  (ngSubmit)="onSubmit()" [formGroup]="form" novalidate>
+  <md-card >
+  <md-card-title class="md-title"><span >{{cxc?.cliente.nombre}}</span></md-card-title>
+  <md-divider></md-divider>
+  <md-card-content>  
+
+    <div layout  layout-align="center center" layout-padding>
+      <md-form-field flex>
+        <input type="text" mdInput value="{{cxc?.tipo}}" placeholder="Tipo" [disabled]="true">
+      </md-form-field>
+
+      <md-form-field flex>
+        <input type="text" mdInput value="{{cxc?.documento}}" placeholder="Documento" [disabled]="true">
+      </md-form-field>
+
+      <md-form-field flex>
+          <input type="text" mdInput value="{{cxc?.fecha | date: 'dd/MM/yyyy'}}" placeholder="Fecha" [disabled]="true">
+      </md-form-field>
+
+      <md-form-field flex>
+        <input type="text" mdInput value="{{cxc?.total | currency: 'USD': 1.2-2}}" placeholder="Total" [disabled]="true">
+      </md-form-field>
+
+    </div>
+  
+    <div layout  layout-align="start start" layout-padding>
+      <span flex></span>
+      <md-form-field flex>
+        <input type="text" mdInput value="{{cxc?.saldo | currency: 'USD': 1.2-2}}" placeholder="Saldo" [disabled]="true">
+      </md-form-field>
+
+      <sx-forma-de-pago [parent]="form" flex></sx-forma-de-pago>
+
+      <!-- <md-form-field flex>
+        <input type="text" mdInput  placeholder="Cobro" >
+      </md-form-field> -->
+      <md-form-field flex>
+        <input type="text" mdInput  placeholder="A Cobrar" formControlName="importe" sxOnlyNumbers>
+        <md-error>Imorte incorrecto</md-error>
+      </md-form-field>
+
+      
+      
+    </div>
+  
+    <!-- <div layout  layout-align="center center" layout-padding>
+      <span flex></span>
+      <md-form-field flex>
+        <input type="text" mdInput  placeholder="Cobrado" formControlName="cobrado" sxOnlyNumbers>
+        <md-error>Imorte incorrecto</md-error>
+      </md-form-field>
+      
+      <md-form-field flex>
+        <input type="text" mdInput  placeholder="Cambio" formControlName="cambio">
+      </md-form-field>
+    </div> -->
+        
+  </md-card-content>
+  <md-divider></md-divider>
+    <md-card-actions>
+      <button md-button color="primary" class="text-upper" 
+        [disabled]="form.invalid">
+        Cobrar
+      </button>
+      
+      <button md-button type="button"
+        color="primary" 
+        class="text-upper">Disponibles
+      </button>
+      <button md-button type="button" class="text-upper" (click)="cancelar.emit()">Cancelar</button>
+    </md-card-actions>    
+  </md-card>    
+</form>
+  
