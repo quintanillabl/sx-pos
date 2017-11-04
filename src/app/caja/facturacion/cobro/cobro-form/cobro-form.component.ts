@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, OnDestroy,
+  SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -19,10 +20,10 @@ export const CobradoValidator = (control: AbstractControl): {[key: string]: bool
 @Component({
   selector: 'sx-cobro-form',
   templateUrl: './cobro-form.component.html',
-  styleUrls: ['./cobro-form.component.scss']
+  styleUrls: ['./cobro-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
-  
 
   @Input() venta: Venta;
 
@@ -31,6 +32,8 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
   @Output() cancelar = new EventEmitter();
 
   @Output() facturar = new EventEmitter();
+
+  @Output() cambiarPedido = new EventEmitter();
 
   subscription: Subscription;
 

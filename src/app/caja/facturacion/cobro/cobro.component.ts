@@ -88,4 +88,21 @@ export class CobroComponent implements OnInit {
     });
   }
 
+  onCambiar(pedido: Venta) {
+    if (! pedido.cuentaPorCobrar) {
+      this._dialogService.openConfirm({
+        message: `Cambiar la forma de pago del  pedido:
+         ${pedido.tipo}-${pedido.documento} (${pedido.formaDePago}) (Server error: 403)` ,
+        viewContainerRef: this._viewContainerRef,
+        title: 'Facturación de contado',
+        cancelButton: 'Cancelar',
+        acceptButton: 'Aceptar',
+      }).afterClosed().subscribe((accept: boolean) => {
+        if (accept) {
+          // this.router.navigate(['', pedido.id]);
+        }
+      });
+    }
+  }
+
 }

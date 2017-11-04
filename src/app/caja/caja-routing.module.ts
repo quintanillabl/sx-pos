@@ -8,6 +8,7 @@ import { CobroComponent } from './facturacion/cobro/cobro.component';
 import { GeneradasPageComponent } from './facturacion/generadas-page/generadas-page.component';
 import { CobranzaCodComponent } from './facturacion/cobranza-cod/cobranza-cod.component';
 import { CobroCodComponent } from './facturacion/cobranza-cod/cobro-cod/cobro-cod.component';
+import { CortesPageComponent } from './cortes/cortes-page/cortes-page.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,10 @@ const routes: Routes = [
             component: CobroCodComponent
           }
         ]
+      },
+      {
+        path:'cortes',
+        component: CortesPageComponent
       }
     ]
   }

@@ -2,6 +2,7 @@
   <sx-cobro-form [venta]="venta$ | async" 
     (cancelar)="onCancelar()"
     (facturar)="onFacturar($event)" 
+    (cambiarPedido)="onCambiar($event)"
     (save)="onSave($event)">
   </sx-cobro-form>
 </div>

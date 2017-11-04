@@ -21,13 +21,15 @@ import { FacturasCobradasComponent } from './reportes/facturas-cobradas/facturas
 import { FacturasPendientesEmbarqueComponent } from './reportes/facturas-pendientes-embarque/facturas-pendientes-embarque.component';
 import { DisponiblesSucursalComponent } from './reportes/disponibles-sucursal/disponibles-sucursal.component';
 import { VentasDiariasCheComponent } from './reportes/ventas-diarias-che/ventas-diarias-che.component';
+import { CortesModule } from './cortes/cortes.module';
 
 
 @NgModule({
   imports: [
     SharedModule,
     CajaRoutingModule,
-    FacturacionModule
+    FacturacionModule,
+    CortesModule,
   ],
   declarations: [
     MainPageComponent,

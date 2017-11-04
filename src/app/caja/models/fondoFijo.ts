@@ -1,0 +1,15 @@
+import { Sucursal } from "@siipapx/models";
+
+export interface FondoFijo {
+  id?:	string	
+  rembolso?: boolean
+  fecha:	string	
+  documento: string
+  descripcion: string	
+  importe: number
+  fondo?: FondoFijo
+  solicitud: string	
+  sucursal:	Sucursal	
+  comentario?:	string	
+  
+}

@@ -56,7 +56,7 @@
           [disabled]="form.invalid">
           Cobrar
         </button>
-        <button md-button type="button"
+        <button md-button type="button" (click)="cambiarPedido.emit(venta)"
           color="primary" 
           class="text-upper" 
           mdTooltip="Cambiar forma de pago al pedido">F.P.
