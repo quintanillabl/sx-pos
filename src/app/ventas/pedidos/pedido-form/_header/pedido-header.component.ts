@@ -1,12 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'sx-pedido-header',
   templateUrl: './pedido-header.component.html',
   styleUrls: ['./pedido-header.component.scss']
 })
-export class PedidoHeaderComponent implements OnInit {
+export class PedidoHeaderComponent implements OnInit, OnDestroy {
+
 
   @Output() addCliente = new EventEmitter();
 
@@ -14,9 +16,19 @@ export class PedidoHeaderComponent implements OnInit {
 
   @Input() parent: FormGroup;
 
+  subscription: Subscription
+
   constructor() { }
 
   ngOnInit() {
+    this.subscription = this.parent.get('cliente').valueChanges.subscribe( cliente => {
+      if (cliente !== null) {
+        this.parent.get('cfdiMail').setValue(cliente.email);
+      }
+    });
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   get comprador() {
@@ -24,6 +36,9 @@ export class PedidoHeaderComponent implements OnInit {
   }
   get cliente() {
     return this.parent.get('cliente').value;
+  }
+  get kilos() {
+    return this.parent.get('kilos').value;
   }
 
 }

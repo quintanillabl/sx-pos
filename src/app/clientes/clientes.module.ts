@@ -2,7 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 
 import { SharedModule } from '../shared/shared.module';
 import { ClientesRoutingModule } from './clientes-routing.module';
-import { 
+import {
   MainPageComponent,
   MainDashboardComponent,
   ClienteDashboardComponent
@@ -12,9 +12,10 @@ import { ClienteFieldComponent } from './cliente-field/cliente-field.component';
 import { AddNewClienteService } from "./services/add-new-cliente/add-new-cliente.service";
 import { AddClienteDialogComponent } from "./_components/add-cliente-dialog/add-cliente-dialog.component";
 import { AddClienteContactoComponent } from "./_components/add-cliente-dialog/add-cliente-contacto.component";
+import {ClienteService} from 'app/clientes/services/cliente.service';
 
 export const COMPONENTS = [
-  MainPageComponent, 
+  MainPageComponent,
   MainDashboardComponent,
   ClienteDashboardComponent,
   ClienteFieldComponent,
@@ -36,11 +37,11 @@ export const COMPONENTS = [
     ClienteFieldComponent
   ]
 })
-export class ClientesModule { 
+export class ClientesModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: RootClientesModule,
-      providers: [AddNewClienteService]
+      providers: [ClienteService, AddNewClienteService]
     }
   }
 }

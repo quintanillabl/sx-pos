@@ -82,7 +82,7 @@ export class ClienteFieldComponent implements OnInit, ControlValueAccessor, OnDe
   }
 
   displayFn(producto: Cliente) {
-    return producto ? producto.nombre : '';
+    return producto ? `${producto.nombre} (${producto.clave})` : '';
   }
 
   writeValue(obj: any): void {

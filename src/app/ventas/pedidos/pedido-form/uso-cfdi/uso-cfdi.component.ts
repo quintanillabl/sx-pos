@@ -6,22 +6,28 @@ import { FormGroup } from '@angular/forms';
   selector: 'sx-uso-cfdi',
   template: `
   <ng-container [formGroup]="parent">
-    <md-select placeholder="Uso CFDI" formControlName="usoDeCfdi" >
+    <md-select placeholder="Uso CFDI" formControlName="usoDeCfdi" class="fill">
       <md-option *ngFor="let tipo of usos"
-          [value]="tipo.clave">{{ tipo.clave }}
+          [value]="tipo.clave">{{ tipo.descripcion }}
       </md-option>
     </md-select>
   </ng-container>
-  `
+  `,
+  styles: [
+    `
+    .fill {
+      width: 100%;
+    }
+    `]
 })
 export class UsoCfdiComponent implements OnInit {
 
   @Input() parent: FormGroup;
 
   usos = [
-    {clave: 'G01', descripcion: 'Adquisición de mercancias'},
-    {clave: 'G03', descripcion: 'Gastos en general'},
-    {clave: 'P01', descripcion: 'Por definir'},
+    {clave: 'G01', descripcion: 'Adquisición de mercancias (G01)'},
+    {clave: 'G03', descripcion: 'Gastos en general (G03)'},
+    {clave: 'P01', descripcion: 'Por definir (P01)'},
   ];
 
   constructor() { }

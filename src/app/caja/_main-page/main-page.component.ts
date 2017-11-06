@@ -24,15 +24,7 @@ export class MainPageComponent implements OnInit,  AfterViewInit {
   ) { }
 
   ngOnInit() {
-    // console.log('Inicializando servicios remotos en la nube.....');
-    const obs = Observable.timer(150000, 120000).take(10);
-    obs.subscribe(val => {
-      // console.log('Resolve: ', val)
-      this.snackBar
-        .open("Browser error: Memory allocation error. Your browser is low in PERM Memory for 32bit BUS", 'Close Http connection?', {
-        duration: 7000,
-      });
-    });
+
   }
 
   ngAfterViewInit(): void {

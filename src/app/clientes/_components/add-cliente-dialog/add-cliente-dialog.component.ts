@@ -21,6 +21,8 @@ export class AddClienteDialogComponent implements OnInit {
     this.form = this.fb.group({
       nombre: [null, [Validators.required, Validators.maxLength(20)]],
       rfc: [null, [Validators.required, Validators.minLength(12), Validators.maxLength(13)]],
+      clave: ['TEST', Validators.required],
+      email: [null],
       direccion: this.fb.group({
         calle: [null, Validators.required],
         numeroExterior: [null, Validators.required],
@@ -28,7 +30,7 @@ export class AddClienteDialogComponent implements OnInit {
         colonia: [null, Validators.required],
         municipio: [null, Validators.required],
         estado: [null, Validators.required],
-        pais: [null, Validators.required],
+        pais: [{value: 'MEXICO', disabled: true}, Validators.required],
         codigoPostal: [null, Validators.required],
       })
     });
@@ -40,7 +42,10 @@ export class AddClienteDialogComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      this.dialogRef.close(this.form.value);
+      const cliente = {
+        ... this.form.getRawValue()
+      }
+      this.dialogRef.close(cliente);
     }
   }
 
@@ -56,6 +61,6 @@ export class AddClienteDialogComponent implements OnInit {
     this.form.reset();
   }
 
-  
+
 
 }

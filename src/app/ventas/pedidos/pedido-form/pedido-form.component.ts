@@ -1,6 +1,6 @@
 import {
   Component, OnInit, OnDestroy, OnChanges,
-  Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges, ViewChild
+  Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges, ViewChild, HostListener
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -107,8 +107,9 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       comisionTarjeta: [{value: 0, disabled: true}],
       comisionTarjetaImporte: [{value: 0, disabled: true}],
       corteImporte: [{value: 0, disabled: true}],
-      cfdiMail: [null],
-      usoDeCfdi: 'G01'
+      cfdiMail: [{value: null, disabled: true}],
+      usoDeCfdi: 'G01',
+      kilos: [{value: 0, disabled: true}]
 
     });
   }
@@ -193,5 +194,15 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     _.forEach(pedido.partidas, item => item.sucursal = this.sucursal)
     this.save.emit(pedido);
   }
+
+  lookupKey($event) {
+    console.log('Keyup: ', $event);
+  }
+  /*
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    console.log('Event: ', event.key);
+  }
+  */
 
 }

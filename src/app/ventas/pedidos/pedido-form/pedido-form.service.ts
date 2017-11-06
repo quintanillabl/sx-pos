@@ -95,8 +95,9 @@ export class PedidoFormService {
 
   recalcular() {
     console.log('Recalcuando el pedido....');
+    this.quitarCargosEspeciales();
     if (this.partidasActualizables.length > 0) {
-      this.quitarCargosEspeciales();
+
       this.actualizarPrecios();
       this.actualizarImportesEnPartidas();
       // console.log('Actualizar descuentos');
@@ -141,6 +142,7 @@ export class PedidoFormService {
     det.impuestoTasa = 0.16;
     det.impuesto = _.round(det.subTotal * det.impuestoTasa , 2);
     det.total = det.subTotal + det.impuesto;
+    det.kilos = (cantidad * det.producto.kilos) / factor;
 
   }
 
@@ -154,6 +156,7 @@ export class PedidoFormService {
     let subTotal = 0;
     let impuesto = 0;
     let total = 0;
+    let kilos = 0;
 
     partidas.forEach(row => {
       this.actualizarPartida(row);
@@ -163,6 +166,7 @@ export class PedidoFormService {
       subTotal += row.subTotal;
       impuesto += row.impuesto;
       total += row.total;
+      kilos += row.kilos
     });
 
     this.form.get('importe').setValue(importe);
@@ -171,6 +175,7 @@ export class PedidoFormService {
     this.form.get('subTotal').setValue(subTotal);
     this.form.get('impuesto').setValue(impuesto);
     this.form.get('total').setValue(total);
+    this.form.get('kilos').setValue(kilos);
   }
 
 
