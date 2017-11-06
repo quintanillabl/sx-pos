@@ -71,7 +71,10 @@ export class PedidoFormService {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.partidas.push(new FormControl(result));
+        console.log('Partida editada: ', result);
+        this.partidas.removeAt(index);
+        this.partidas.insert(index, new FormControl(result));
+        // this.partidas.push(new FormControl(result));
         this.recalcular();
       }
     });

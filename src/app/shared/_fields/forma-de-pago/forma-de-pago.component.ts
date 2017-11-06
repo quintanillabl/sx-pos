@@ -12,7 +12,7 @@ export class FormaDePagoComponent implements OnInit {
 
   @Input() propertyName = 'formaDePago';
 
-  tipos = ['EFECTIVO', 'CHEQUE', 'TRANSFERENCIA', 'DEPOSITO', 'TARJETA_DEBITO', 'TARJETA_CREDITO'];
+  tipos = ['EFECTIVO', 'CHEQUE', 'TRANSFERENCIA', 'TARJETA_DEBITO', 'TARJETA_CREDITO'];
 
   constructor() { }
 

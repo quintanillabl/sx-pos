@@ -63,21 +63,23 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     this.buildExistenciaRemota$();
     this.buildDisponibilidadTotal$();
     this.buildProducto$();
-    this.buildSinExistencia();
-    this.buildSinVale();
+    // this.buildSinExistencia();
+    // this.buildSinVale();
     this.buildImporteBruto$();
     this.buildCorte$();
   }
 
   private edicion() {
     if (this.partida) {
+      console.log('Editando la partida.....', this.partida);
       this.form.patchValue(this.partida);
     }
   }
 
   private buildForm() {
     this.form = this.fb.group({
-      existencia: [null, Validators.required],
+      existencia: [null],
+      producto: [null, Validators.required],
       cantidad: [0, [Validators.required, Validators.min(1), onlyNumber()]],
       precio: [{value: 0, disabled: !this.asignarPrecio()}, [Validators.required, , Validators.min(1)]],
       importe: [{value: 0, disabled: true}],
@@ -95,15 +97,17 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   }
 
   private buildExistenciaRemota$() {
-    this.existenciaRemota$ = this.form.get('existencia')
+    this.existenciaRemota$ = this.form.get('producto')
       .valueChanges
-      .do( exis => {
+      .filter(producto => producto !== null)
+      .distinctUntilChanged()
+      .do( producto => {
           if (! this.asignarPrecio()) {
-            this.form.get('precio').setValue(this.tipoDePrecio === 'CON' ? exis.producto.precioContado : exis.producto.precioCredito)
+            this.form.get('precio').setValue(this.tipoDePrecio === 'CON' ? producto.precioContado : producto.precioCredito)
           }
         })
-      .switchMap( exis => {
-        return this.existenciasService.buscarExistencias(exis.producto);
+      .switchMap( producto => {
+        return this.existenciasService.buscarExistencias(producto);
           // .map( res => res.filter(item => item.sucursal.id !== this.sucursal.id))
       });
   }
@@ -113,10 +117,12 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   }
 
   private buildProducto$() {
-    this.producto$ = this.form.get('existencia').valueChanges.pluck('producto');
+    this.producto$ = this.form.get('producto').valueChanges;
     this.subs1 = this.producto$.subscribe( p => {
-      if (p.presentacion === 'EXTENDIDO') {
-        this.form.get('cortado').enable();
+      if (p !== null) {
+        if (p.presentacion === 'EXTENDIDO') {
+          this.form.get('cortado').enable();
+        }
       }
       // this.form.get('precio').setValue(this.tipoDePrecio === 'CREDITO' ? p.precioCredito : p.precioContado);
     });
@@ -160,7 +166,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   private buildImporteBruto$() {
     const precio$ = this.form.get('precio').valueChanges;
     const cantidad$ = this.form.get('cantidad').valueChanges;
-    const factor$ = this.producto$.pluck('unidad').map( unidad => unidad === 'MIL' ? 1000 : 1);
+    const factor$ = this.producto$.filter(p => p !== null).pluck('unidad').map( unidad => unidad === 'MIL' ? 1000 : 1);
     this.importeBruto$ = precio$
       .combineLatest(cantidad$, factor$, (cantidad, precio, factor) => (cantidad * precio) / factor).startWith(0);
     this.subs4 = this.importeBruto$.subscribe( importe => this.form.get('importe').setValue(importe));
@@ -180,8 +186,8 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subs1.unsubscribe();
-    this.subs2.unsubscribe();
-    this.subs3.unsubscribe();
+    // this.subs2.unsubscribe();
+    // this.subs3.unsubscribe();
     this.subs4.unsubscribe();
     this.corteSubscription.unsubscribe();
   }
@@ -191,17 +197,21 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   }
 
   doAccept() {
+    /*
     if (this.partida) {
       this.dialogRef.close(this.partida);
     } else {
       const ventaDet = this.preparePartida();
       this.dialogRef.close(ventaDet);
     }
+    */
+    const ventaDet = this.preparePartida();
+    this.dialogRef.close(ventaDet);
   }
 
   preparePartida(): VentaDet {
     const rawData = this.form.getRawValue();
-    const producto = rawData.existencia.producto;
+    const producto = rawData.producto;
     const factor = producto.unidad === 'MIL' ? 1000 : 1;
     const kilos = (rawData.cantidad * producto.kilos) / factor;
     const det: VentaDet = {

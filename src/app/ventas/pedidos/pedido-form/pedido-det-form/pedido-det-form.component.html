@@ -4,11 +4,12 @@
   <md-dialog-content>
     <div class="form-content" layout="column">
 
-      <sx-existencia-field
+      <!--<sx-existencia-field
         [sucursal]="sucursal" [conExistencia]="false" [activos]="true"
         placeholder="Producto"
         formControlName="existencia">
-      </sx-existencia-field>
+      </sx-existencia-field>-->
+      <sx-producto-field formControlName="producto"></sx-producto-field>
 
       <div layout *ngIf="producto$ | async; else seleccionProducto; let producto">
         <md-form-field>
