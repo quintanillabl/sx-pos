@@ -171,6 +171,10 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     this.pedidoFormService.elimiarPartida(index);
   }
 
+  onCambioDePrecio(index: number) {
+    this.pedidoFormService.cambioDePrecio(index, this.grid);
+  }
+
   get cliente() {
     return this.form.get('cliente').value;
   }

@@ -18,6 +18,8 @@ export class PartidasGridComponent implements OnInit {
 
   @Output() edit = new EventEmitter();
 
+  @Output() cambioDePrecio = new EventEmitter();
+
   @Input() partidas = [];
 
   @Input() parent: FormGroup;

@@ -34,7 +34,13 @@
             </span>
           </td>
           <td td-data-table-cell numeric="true">{{row.cantidad}}</td>
-          <td td-data-table-cell numeric="true"> {{row.precio | currency: 'USD': 1.2-2}}</td>
+          <td td-data-table-cell numeric="true"> 
+            <ng-container *ngIf="isEditable(row)">
+              <button md-button type="button" (click)="cambioDePrecio.emit(i)">
+                  {{row.precio | currency: 'USD': 1.2-2}}
+              </button>
+            </ng-container>
+          </td>
           <td td-data-table-cell numeric="true"> {{row.importe | currency: 'USD': 1.2-2}}</td>
           <td td-data-table-cell numeric="true"> {{row.descuentoImporte | currency: 'USD': 1.2-2}}</td>
           <td td-data-table-cell numeric="true"> {{row.subtotal | currency: 'USD': 1.2-2}}</td>

@@ -1,6 +1,10 @@
 <div layout="column" [formGroup]="parent">
   <div layout class="row1">
-    <sx-cliente-field flex="60" formControlName="cliente"></sx-cliente-field>
+    <md-form-field class="pad-right " *ngIf="parent.get('id').value" flex="60">
+      <input type="text" mdInput placeholder="Cliente" class="tc-indigo-700"
+          value="{{parent.get('cliente').value.nombre}}" [disabled]="true">
+    </md-form-field>
+    <sx-cliente-field flex="60" formControlName="cliente"  *ngIf="!parent.get('id').value"></sx-cliente-field>
     <div layout layout-align="center center" class="pad-left" >
       <!-- <md-form-field flex class="pad-right">
         <input type="text" mdInput placeholder="RFC" [disabled]="true" value="{{cliente?.rfc}}">

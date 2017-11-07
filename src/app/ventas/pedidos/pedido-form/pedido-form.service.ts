@@ -10,6 +10,7 @@ import { CONTADO, CREDITO } from 'app/ventas/models/descuentos';
 
 import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
 import { DescuentoEspecialComponent } from './descuento-especial/descuento-especial.component';
+import { PrecioEspecialComponent } from './precio-especial/precio-especial.component';
 
 export function mapPartidaToImporte( det: VentaDet) {
   const factor = det.producto.unidad === 'MIL' ? 1000 : 1;
@@ -132,8 +133,8 @@ export class PedidoFormService {
       // console.log('Actualizando precios....')
       partidas
         .forEach(item => {
-          const precio = contado ? item.producto.precioContado : item.producto.precioCredito;
-          item.precio = precio;
+          // const precio = contado ? item.producto.precioContado : item.producto.precioCredito;
+          // item.precio = precio;
           this.actualizarPartida(item);
         });
     }
@@ -436,6 +437,29 @@ export class PedidoFormService {
       }
     });
     this.actualizarTotales();
+  }
+
+
+  /**
+   * Editar una partida del pedido
+   */
+  cambioDePrecio(index: number, grid) {
+    const det = this.partidas.value[index];
+    // console.log('Editando partida: ', det);
+    const dialogRef = this.dialog.open(PrecioEspecialComponent, {
+      data: {
+        precio: det.precio,
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // this.partidas.push(new FormControl(result));
+        det.precio = result
+        this.recalcular();
+        grid.refresh();
+      }
+    });
+
   }
 
 

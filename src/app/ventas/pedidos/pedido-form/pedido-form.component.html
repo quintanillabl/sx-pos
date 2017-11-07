@@ -24,7 +24,8 @@
       [partidas]="partidas.value"
       [parent]="form"
       (delete)="onDelete($event)"
-      (edit)="onEditPartida($event)" >
+      (edit)="onEditPartida($event)" 
+      (cambioDePrecio)="onCambioDePrecio($event)">
     </sx-pedido-partidas-grid>
 
   </md-card>
