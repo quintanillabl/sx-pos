@@ -112,10 +112,10 @@ export class PedidoDolaresFormServiceService {
     importe = _.round(importe, 2);
     det.importe = importe;
     det.descuentoImporte = _.round( (importe * det.descuento) , 2);
-    det.subTotal = det.importe - det.descuentoImporte
+    det.subtotal = det.importe - det.descuentoImporte
     det.impuestoTasa = 0.16;
-    det.impuesto = _.round(det.subTotal * det.impuestoTasa , 2);
-    det.total = det.subTotal + det.impuesto;
+    det.impuesto = _.round(det.subtotal * det.impuestoTasa , 2);
+    det.total = det.subtotal + det.impuesto;
 
   }
 
@@ -124,7 +124,7 @@ export class PedidoDolaresFormServiceService {
     let importe = 0;
     let descuento = 0;
     let descuentoImporte = 0;
-    let subTotal = 0;
+    let subtotal = 0;
     let impuesto = 0;
     let total = 0;
 
@@ -133,7 +133,7 @@ export class PedidoDolaresFormServiceService {
       importe += row.importe;
       descuento = descuento < row.descuento ? row.descuento : descuento;
       descuentoImporte += row.descuentoImporte;
-      subTotal += row.subTotal;
+      subtotal += row.subtotal;
       impuesto += row.impuesto;
       total += row.total;
     });
@@ -141,7 +141,7 @@ export class PedidoDolaresFormServiceService {
     this.form.get('importe').setValue(importe);
     this.form.get('descuento').setValue(descuento);
     this.form.get('descuentoImporte').setValue(descuentoImporte);
-    this.form.get('subTotal').setValue(subTotal);
+    this.form.get('subtotal').setValue(subtotal);
     this.form.get('impuesto').setValue(impuesto);
     this.form.get('total').setValue(total);
   }

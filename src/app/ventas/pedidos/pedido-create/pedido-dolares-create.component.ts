@@ -51,7 +51,7 @@ export class PedidoDolaresCreateComponent implements OnInit {
         importe: 0,
         descuento: 0,
         descuentoImporte: 0,
-        subTotal: 0,
+        subtotal: 0,
         impuesto: 0,
         impuestoTasa: 0,
         total: 0,

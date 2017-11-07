@@ -21,6 +21,7 @@ import { DolaresFormComponent } from './dolares-form/dolares-form.component';
 import {PedidoDolaresFormServiceService} from './dolares-form/pedido-dolares-form-service.service';
 import { AnticipoFormComponent } from './anticipo-form/anticipo-form.component';
 import { UsoCfdiComponent } from './uso-cfdi/uso-cfdi.component';
+import { DescuentoEspecialComponent } from './descuento-especial/descuento-especial.component';
 
 
 @NgModule({
@@ -48,10 +49,12 @@ import { UsoCfdiComponent } from './uso-cfdi/uso-cfdi.component';
     PedidoDetFormComponent,
     DolaresFormComponent,
     AnticipoFormComponent,
-    UsoCfdiComponent
+    UsoCfdiComponent,
+    DescuentoEspecialComponent
   ],
   entryComponents: [
     PedidoDetFormComponent,
+    DescuentoEspecialComponent,
   ],
   providers: [ PedidoFormService, PedidoDolaresFormServiceService],
 })

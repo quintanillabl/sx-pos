@@ -14,6 +14,8 @@ export class PedidoHeaderComponent implements OnInit, OnDestroy {
 
   @Output() insertar = new EventEmitter();
 
+  @Output() descuento = new EventEmitter();
+
   @Input() parent: FormGroup;
 
   subscription: Subscription

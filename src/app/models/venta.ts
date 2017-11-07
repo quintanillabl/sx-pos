@@ -14,7 +14,7 @@ export interface Venta {
   importe: number;
   descuento: number
   descuentoImporte: number
-  subTotal: number
+  subtotal: number
   impuesto: number
   impuestoTasa: number
   total: number;

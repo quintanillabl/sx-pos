@@ -1,12 +1,15 @@
 <form novalidate [formGroup]="form" layout="row" class="pedido-form" (ngSubmit)="onSave()" >
 
   <md-card flex="70" >
-    <sx-pedido-header (addCliente)="onAddNewCliente()" [parent]="form" (insertar)="onInsertPartida()">
+    <sx-pedido-header 
+      (addCliente)="onAddNewCliente()" [parent]="form" 
+      (insertar)="onInsertPartida()"
+      (descuento)="onDescuento()">
     </sx-pedido-header>
     <md-divider></md-divider>
 
     <div layout="row" layout-margin>
-      <sx-tipo-field [parent]="form"  ></sx-tipo-field>
+      <sx-tipo-field [parent]="form"  *ngIf="!id"></sx-tipo-field>
       <span layout ="column" layout-align="center center" class="pad">
           <md-checkbox  labelPosition="before" formControlName="cod" mdTooltip="Contra entrega">COD</md-checkbox>
       </span>

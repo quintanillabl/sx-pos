@@ -34,13 +34,13 @@ export class TipoFieldComponent implements OnInit, OnDestroy {
     this.subscription = this.parent.get('cliente').valueChanges
       .distinctUntilChanged()
       .subscribe( (cliente: Cliente) => {
-        if (cliente !== null && cliente.credito) {
-          this.parent.get('tipo').setValue('CRE');
-          this.parent.get('tipo').enable();
-        } else {
+        if( cliente === null ) {
           this.parent.get('tipo').setValue('CON');
-          // this.parent.get('tipo').disable();
-        }
+          this.parent.get('tipo').disable();
+        } else if(cliente !== null && cliente.credito) {
+          this.parent.get('tipo').enable();
+          this.parent.get('tipo').setValue('CRE');
+        } 
       });
   }
 

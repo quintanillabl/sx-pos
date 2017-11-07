@@ -81,6 +81,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   private buildForm() {
     this.form = this.fb.group({
       id: [null],
+      documento: [0],
       sucursal: [this.sucursal],
       fecha: [{value: new Date(), disabled: true}, Validators.required],
       cliente: [null, Validators.required],
@@ -98,7 +99,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       importe: [{value: 0, disabled: true}],
       descuento: [{value: 0, disabled: true}],
       descuentoImporte: [{value: 0, disabled: true}],
-      subTotal:  [{value: 0, disabled: true}],
+      subtotal:  [{value: 0, disabled: true}],
       impuesto: [{value: 0, disabled: true}],
       total: [{value: 0, disabled: true}],
       partidas: this.fb.array([]),
@@ -122,7 +123,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     this.recalcular$ = Observable.merge(cliente$, tipo$, formaDePago$);
 
     this.recalcularSubscription = this.recalcular$.subscribe( data => {
-      console.log('Detectando cambios : ', data);
+      // console.log('Detectando cambios : ', data);
       this.pedidoFormService.recalcular();
       this.cd.detectChanges();
       this.grid.refresh();
@@ -194,15 +195,20 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     _.forEach(pedido.partidas, item => item.sucursal = this.sucursal)
     this.save.emit(pedido);
   }
-
-  lookupKey($event) {
-    console.log('Keyup: ', $event);
-  }
+  
   /*
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     console.log('Event: ', event.key);
   }
   */
+
+  onDescuento() {
+    this.pedidoFormService.aplicarDescuentoEspecial(this.grid);
+    // this.cd.detectChanges();
+    // this.grid.refresh();
+  }
+
+  
 
 }

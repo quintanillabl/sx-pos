@@ -11,7 +11,7 @@ export interface VentaDet {
   importe: number
   descuento: number
   descuentoImporte: number
-  subTotal: number
+  subtotal: number
   impuesto: number
   impuestoTasa: number
   total: number
@@ -24,7 +24,7 @@ export interface VentaDet {
   corte?: InstruccionDeCorte
   precioLista: number
   precioOriginal: number
-  desctoOriginal: number
+  descuentoOriginal: number
   dateCreated?: string
   lastUpdated?: string
   devuelto?: number

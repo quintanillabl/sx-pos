@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 import { CONTADO, CREDITO } from 'app/ventas/models/descuentos';
 
 import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
+import { DescuentoEspecialComponent } from './descuento-especial/descuento-especial.component';
 
 export function mapPartidaToImporte( det: VentaDet) {
   const factor = det.producto.unidad === 'MIL' ? 1000 : 1;
@@ -36,6 +37,14 @@ export class PedidoFormService {
 
   isCredito() {
     return this.tipo === 'CRE';
+  }
+
+  isContado() {
+    return this.tipo === 'CON';
+  }
+
+  get cliente() {
+    return this.form.get('cliente').value;
   }
 
   /**
@@ -86,6 +95,9 @@ export class PedidoFormService {
     this.recalcular();
   }
 
+  
+  
+
 
   get partidas() {
     return this.form.get('partidas') as FormArray;
@@ -97,7 +109,7 @@ export class PedidoFormService {
   }
 
   recalcular() {
-    console.log('Recalcuando el pedido....');
+    // console.log('Recalcuando el pedido....');
     this.quitarCargosEspeciales();
     if (this.partidasActualizables.length > 0) {
 
@@ -141,10 +153,10 @@ export class PedidoFormService {
     importe = _.round(importe, 2);
     det.importe = importe;
     det.descuentoImporte = _.round( (importe * det.descuento) , 2);
-    det.subTotal = det.importe - det.descuentoImporte
+    det.subtotal = det.importe - det.descuentoImporte
     det.impuestoTasa = 0.16;
-    det.impuesto = _.round(det.subTotal * det.impuestoTasa , 2);
-    det.total = det.subTotal + det.impuesto;
+    det.impuesto = _.round(det.subtotal * det.impuestoTasa , 2);
+    det.total = det.subtotal + det.impuesto;
     det.kilos = (cantidad * det.producto.kilos) / factor;
 
   }
@@ -156,7 +168,7 @@ export class PedidoFormService {
     let importe = 0;
     let descuento = 0;
     let descuentoImporte = 0;
-    let subTotal = 0;
+    let subtotal = 0;
     let impuesto = 0;
     let total = 0;
     let kilos = 0;
@@ -166,7 +178,7 @@ export class PedidoFormService {
       importe += row.importe;
       descuento = descuento < row.descuento ? row.descuento : descuento;
       descuentoImporte += row.descuentoImporte;
-      subTotal += row.subTotal;
+      subtotal += row.subtotal;
       impuesto += row.impuesto;
       total += row.total;
       kilos += row.kilos
@@ -175,7 +187,7 @@ export class PedidoFormService {
     this.form.get('importe').setValue(importe);
     this.form.get('descuento').setValue(descuento);
     this.form.get('descuentoImporte').setValue(descuentoImporte);
-    this.form.get('subTotal').setValue(subTotal);
+    this.form.get('subtotal').setValue(subtotal);
     this.form.get('impuesto').setValue(impuesto);
     this.form.get('total').setValue(total);
     this.form.get('kilos').setValue(kilos);
@@ -215,9 +227,11 @@ export class PedidoFormService {
       if (item.producto.modoVenta === 'B') {
         // item.precio = item.producto.precioContado;
         item.descuento = (descuento) / 100
+        item.descuentoOriginal = item.descuento;
       } else if (item.producto.modoVenta === 'N' && item.producto.clave !== 'MANIOBRA') {
         // item.precio = item.producto.precioContado;
         item.descuento = 0
+        item.descuentoOriginal = item.descuento;
       }
     });
   }
@@ -239,6 +253,7 @@ export class PedidoFormService {
     const partidas: VentaDet[] = this.partidasActualizables
     _.forEach(partidas, item => {
       item.descuento = descuento / 100;
+      item.descuentoOriginal = item.descuento;
     });
   }
 
@@ -303,11 +318,11 @@ export class PedidoFormService {
       // console.log('Qutandi cargo por maniobra T');
       this.partidas.removeAt(cargoPorTarjeta);
     }
-    console.log('Buscando partida de corte en:', this.partidas.value);
+    // console.log('Buscando partida de corte en:', this.partidas.value);
     const cargoPorCorte = _.findIndex(this.partidas.value, (item: VentaDet) => item.producto.clave === 'CORTE');
-    console.log('Partida de corte: ', cargoPorCorte);
+    //  console.log('Partida de corte: ', cargoPorCorte);
     if (cargoPorCorte !== -1) {
-      console.log('Quitando cargo por corte');
+      // console.log('Quitando cargo por corte');
       this.partidas.removeAt(cargoPorCorte);
     }
 
@@ -335,8 +350,6 @@ export class PedidoFormService {
     }
   }
 
-
-
   private getImporte(tipo: 'B' | 'N') {
     const partidas: VentaDet[] = this.partidas.value;
     const partidasPrecioBruto = this.partidas.value
@@ -352,10 +365,10 @@ export class PedidoFormService {
       cantidad: 1,
       precio: importe,
       importe: importe,
-      desctoOriginal: 0,
+      descuentoOriginal: 0,
       descuento: 0,
       descuentoImporte: 0,
-      subTotal: importe,
+      subtotal: importe,
       impuesto: 0,
       impuestoTasa: 0.16,
       total: importe,
@@ -369,6 +382,61 @@ export class PedidoFormService {
     }
   }
 
+  /*
+  aplicarDescuentoEspecial(){
+    const dialogRef = this.dialog.open(DescuentoEspecialComponent, {
+      data: {
+        descuento: this.form.get('descuento').value * 100
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.doAplicarDescuentoEspecial(result);
+      }
+    });
+  }
+*/
+  aplicarDescuentoEspecial(grid: any) {
+    const contado = this.isContado();
+    const cliente = this.cliente;
+    if (contado && this.cliente) {
+      
+      const partidas: VentaDet[] = this.partidasActualizables.filter( item => item.producto.modoVenta === 'B');
+      
+      // console.log('Partidas: ', partidas.length);
+      // console.log('Cliente: ', cliente);
+      // console.log('Contado: ', contado);
+
+      if( partidas.length > 0 ){
+        
+        const dialogRef = this.dialog.open(DescuentoEspecialComponent, {
+          data: {
+            descuento: this.form.get('descuento').value * 100
+          }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+            this.doAplicarDescuentoEspecial(result);
+            grid.refresh();
+          }
+        });
+      }
+    }
+  }
+
+  doAplicarDescuentoEspecial(descuento: number) {
+    const partidas: VentaDet[] = this.partidasActualizables;
+    _.forEach(partidas, item => {
+      if (item.producto.modoVenta === 'B') {
+        item.descuento = (descuento) / 100
+        item.descuentoOriginal = item.descuento;
+      } else if (item.producto.modoVenta === 'N' && item.producto.clave !== 'MANIOBRA') {
+        item.descuento = 0
+        item.descuentoOriginal = item.descuento;
+      }
+    });
+    this.actualizarTotales();
+  }
 
 
 
