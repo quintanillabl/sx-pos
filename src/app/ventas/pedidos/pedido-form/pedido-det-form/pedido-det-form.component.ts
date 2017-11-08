@@ -55,20 +55,18 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     this.tipoDePrecio = data.tipo;
     this.partida = data.partida;
     this.dolares = data.dolares || false;
+  }
+
+  ngOnInit() {
     this.buildForm();
-    this.buildExistenciaRemota$();
     this.edicion();
-    
+    this.buildExistenciaRemota$();
     this.buildDisponibilidadTotal$();
     this.buildProducto$();
     // this.buildSinExistencia();
     // this.buildSinVale();
     this.buildImporteBruto$();
     this.buildCorte$();
-  }
-
-  ngOnInit() {
-    
     
   }
 
@@ -110,7 +108,6 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   private buildExistenciaRemota$() {
     this.existenciaRemota$ = this.form.get('producto')
       .valueChanges
-      .do( p => console.log('Buscando existencias: ', p))
       .filter(producto => producto !== null)
       .distinctUntilChanged()
       .do( producto => {
