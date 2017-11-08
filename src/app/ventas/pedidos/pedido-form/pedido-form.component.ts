@@ -49,22 +49,15 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.pedido && changes.pedido.currentValue) {
-      // console.log('Asignando pedido');
-      // const pedido: Venta = _.clone(changes.pedido.currentValue);
       const pedido: Venta = changes.pedido.currentValue;
-      // console.log('Editando pedido: ', pedido);
       _.forEach(pedido.partidas, item => this.partidas.push(new FormControl(item)));
-      /*
-      this.form.patchValue({
-        id: pedido.id,
-        fecha: pedido.fecha,
-        cliente: pedido.cliente,
-        tipo: pedido.tipo,
-      }, {emitEvent: false});
-      */
+      this.form.get('isPuesto').setValue(pedido.puesto !== undefined);
+      
+      if (pedido.envio !== null) {
+        this.form.get('mismaDireccion').setValue(false);
+        this.form.get('mismaDireccion').enable();
+      }
       this.form.patchValue(pedido, {emitEvent: false});
-
-
       this.pedidoFormService.registerForm(this.form);
       this.buildRecalcular$();
       this.buildFomraDePago$();
@@ -87,12 +80,15 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       cliente: [null, Validators.required],
       nombre: [null],
       tipo: [{value: 'CON', disabled: true}, Validators.required],
+      formaDePago: ['EFECTIVO', Validators.required],
       atencion: ['MOSTRADOR', Validators.required],
       entrega: ['LOCAL', Validators.required],
-      vale: [false, Validators.required],
-      formaDePago: ['EFECTIVO', Validators.required],
-      sucursalVale: [null],
-      almacen: [null],
+      vale: [{value:false, disabled: true}, Validators.required],
+      clasificacionVale: [{value:'SIN_VALE', disabled: true}, Validators.required],
+      sucursalVale: [{value: null, disabled: true}],
+      almacen: [{value: null, disabled: true}],
+      mismaDireccion: [{value: true, disabled: true}, Validators.required],
+      entregaParcial: [{value: false, disabled: true}, Validators.required],
       direccion: [null],
       comprador: [null],
       comentario: [null],
@@ -110,8 +106,10 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       corteImporte: [{value: 0, disabled: true}],
       cfdiMail: [{value: null, disabled: true}],
       usoDeCfdi: 'G01',
-      kilos: [{value: 0, disabled: true}]
-
+      kilos: [{value: 0, disabled: true}],
+      envio: null,
+      isPuesto: false,
+      puesto: null
     });
   }
 
@@ -196,6 +194,13 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       sucursal: this.sucursal,
       vendedor: this.cliente.vendedor
     };
+    /*
+    if (this.form.get('direccion').value) {
+      pedido.envio = {
+        direccion: this.form.get('direccion').value
+      }
+    }
+    */
     _.forEach(pedido.partidas, item => item.sucursal = this.sucursal)
     this.save.emit(pedido);
   }
@@ -211,6 +216,14 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     this.pedidoFormService.aplicarDescuentoEspecial(this.grid);
     // this.cd.detectChanges();
     // this.grid.refresh();
+  }
+
+  onPuesto(puesto) {
+    if(puesto.checked) {
+      this.form.get('puesto').setValue(new Date().toISOString());
+    } else {
+      this.form.get('puesto').setValue(null);
+    }
   }
 
   

@@ -78,7 +78,32 @@ export class FacturacionCreComponent implements OnInit {
   }
 
   regresarAVentas(pedido: Venta) {
+    pedido.facturar = null
+    this._dialogService.openConfirm({
+      message: `Regresar a pendientes el pedido ${pedido.tipo} - ${pedido.documento} (${pedido.total})` ,
+      viewContainerRef: this._viewContainerRef,
+      title: 'Ventas de crédito',
+      cancelButton: 'Cancelar',
+      acceptButton: 'Aceptar',
+    }).afterClosed().subscribe((accept: boolean) => {
+      if (accept) {
+        this.doRegresar(pedido);
+      }
+    });
+  }
 
+  doRegresar(pedido) {
+    this.loadingService.register('saving');
+    this.service
+      .update(pedido)
+      .delay(1000)
+      .subscribe( res => {
+        this.loadingService.resolve('saving');
+        this.load();
+      }, error => {
+        console.error(error);
+        this.loadingService.resolve('saving');
+      });
   }
 
 }

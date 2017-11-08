@@ -7,8 +7,8 @@ import * as _ from 'lodash';
 @Component({
   selector: 'sx-comprador-field',
   template: `
-    <section>
-      <md-checkbox checked="checked"  [formControl]="control">Mismo comprador</md-checkbox>
+    <section >
+      <md-checkbox checked="checked"  [formControl]="control" class="text-md">Mismo comprador</md-checkbox>
     </section>
   `,
   styles: [

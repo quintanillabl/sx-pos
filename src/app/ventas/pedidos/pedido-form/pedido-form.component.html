@@ -17,6 +17,10 @@
       <sx-forma-de-pago [parent]="form" flex="15"></sx-forma-de-pago>
       <sx-uso-cfdi [parent]="form" flex></sx-uso-cfdi>
       <sx-comprador-field [parent]="form" flex></sx-comprador-field>
+      <section  flex>
+          <md-checkbox class="text-md"  (change)="onPuesto($event)" formControlName="isPuesto">Puesto</md-checkbox>
+      </section>
+      
     </div>
     <md-divider></md-divider>
 
@@ -53,4 +57,5 @@
 
 </form>
 
-<!--<td-json-formatter [data]="partidas.value"></td-json-formatter>-->
+<!-- <td-json-formatter [data]="form.value"></td-json-formatter> -->
+

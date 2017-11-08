@@ -25,6 +25,7 @@ export interface Venta {
   kilos: number;
   partidas: Array<VentaDet>;
   vale?: boolean;
+  clasificacionVale?: string
   atencion?: string;
   cod?: boolean
   cargosPorManiobra?: number
@@ -34,7 +35,9 @@ export interface Venta {
   facturar?: string
   cuentaPorCobrar?: any;
   cfdiMail?: string
-  usoDeCfdi?: string
+  usoDeCfdi?: string;
+  puesto?: string;
+  envio?: {}
 }
 
 export interface TipoDeVenta {

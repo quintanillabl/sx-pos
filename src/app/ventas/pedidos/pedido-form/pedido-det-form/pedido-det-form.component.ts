@@ -55,12 +55,10 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     this.tipoDePrecio = data.tipo;
     this.partida = data.partida;
     this.dolares = data.dolares || false;
-  }
-
-  ngOnInit() {
     this.buildForm();
-    this.edicion();
     this.buildExistenciaRemota$();
+    this.edicion();
+    
     this.buildDisponibilidadTotal$();
     this.buildProducto$();
     // this.buildSinExistencia();
@@ -69,10 +67,23 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     this.buildCorte$();
   }
 
+  ngOnInit() {
+    
+    
+  }
+
   private edicion() {
     if (this.partida) {
       console.log('Editando la partida.....', this.partida);
       this.form.patchValue(this.partida);
+      if (this.partida.corte) {
+        console.log('Asignando corte');
+        // const corte: FormGroup = this.form.get('corte') as FormGroup;
+        // corte.patchValue(this.partida.corte);
+        // this.form.get('cortado').enable();
+        this.form.get('cortado').enable();
+        this.form.get('cortado').setValue(true);
+      }
     }
   }
 
@@ -87,7 +98,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       sinExistencia: [{value: false, disabled: true}],
       conVale: [{value: false, disabled: true}],
       conTrs: [{value: false, disabled: true}],
-      instruccionDeCorte: this.fb.group({
+      corte: this.fb.group({
         cantidad: [1, Validators.required],
         tipo: ['CALCULADO', Validators.required],
         precio: [10.0, Validators.required],
@@ -99,6 +110,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   private buildExistenciaRemota$() {
     this.existenciaRemota$ = this.form.get('producto')
       .valueChanges
+      .do( p => console.log('Buscando existencias: ', p))
       .filter(producto => producto !== null)
       .distinctUntilChanged()
       .do( producto => {
@@ -108,7 +120,6 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
         })
       .switchMap( producto => {
         return this.existenciasService.buscarExistencias(producto);
-          // .map( res => res.filter(item => item.sucursal.id !== this.sucursal.id))
       });
   }
 
@@ -119,12 +130,13 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   private buildProducto$() {
     this.producto$ = this.form.get('producto').valueChanges;
     this.subs1 = this.producto$.subscribe( p => {
+      
       if (p !== null) {
         if (p.presentacion === 'EXTENDIDO') {
           this.form.get('cortado').enable();
         }
       }
-      // this.form.get('precio').setValue(this.tipoDePrecio === 'CREDITO' ? p.precioCredito : p.precioContado);
+      
     });
   }
 
@@ -176,7 +188,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     this.corte$ = this.form.get('cortado').valueChanges;
     this.corteSubscription = this.corte$.subscribe( val => {
       if (!val) {
-        const instruccion = this.form.get('instruccionDeCorte').value;
+        const instruccion = this.form.get('corte').value;
         instruccion.cantidad = 0;
         instruccion.precio = 0;
         instruccion.instruccion = null;
@@ -235,7 +247,8 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       sucursal: this.sucursal
     }
     if (this.form.get('cortado').value) {
-      det.corte = this.form.get('instruccionDeCorte').value;
+      det.corte = this.form.get('corte').value;
+      det.importeCortes = det.corte.cantidad * det.corte.precio;
     }
     return det;
   }

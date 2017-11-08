@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'sx-pedido-header',
@@ -40,7 +41,7 @@ export class PedidoHeaderComponent implements OnInit, OnDestroy {
     return this.parent.get('cliente').value;
   }
   get kilos() {
-    return this.parent.get('kilos').value;
+    return _.round(this.parent.get('kilos').value, 2);
   }
 
 }

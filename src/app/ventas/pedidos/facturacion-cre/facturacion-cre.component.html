@@ -21,7 +21,8 @@
 
     <md-divider></md-divider>
     <md-card-content class="facturas-panel">
-      <sx-facturas-cre-list [pedidos]="pedidos" (facturar)="facturar($event)">
+      <sx-facturas-cre-list [pedidos]="pedidos" (facturar)="facturar($event)" 
+        (cancelar)="regresarAVentas($event)">
 
       </sx-facturas-cre-list>
       <!--<sx-pedidos-pendientes-list [pedidos]="pedidos" (edit)="onEdit($event)" (facturar)="mandarFacturar($event)">

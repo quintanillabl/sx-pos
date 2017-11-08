@@ -23,7 +23,13 @@
           <td td-data-table-cell   class="text-left">{{i + 1}}</td>
           <td td-data-table-cell  [style.width.em]="40" class="text-left">
             <span flex="25" class="text-md">({{row.producto.clave}}) </span>
-            <span flex="70"> {{row.producto.descripcion}}</span>
+            <span flex="70" layout="column">
+              <span>{{row.producto.descripcion}}</span> 
+              <span class="text-sm tc-indigo-400" *ngIf="row.corte">
+                  {{row.corte.cantidad}} * {{row.corte.precio}} = {{row.corte.cantidad * row.corte.precio}} 
+                  / {{row.corte.instruccion}} / {{row.corte.tipo}}
+              </span>
+            </span>
             <span flex></span>
             <span mdTooltip="Precio {{row.producto.modoVenta === 'B' ? 'Bruto': 'Neto'}}" clsss="pad-right"
               [ngClass]="{'tc-pink-700': row.producto.modoVenta === 'B', 'tc-indigo-700': row.producto.modoVenta === 'N'}">

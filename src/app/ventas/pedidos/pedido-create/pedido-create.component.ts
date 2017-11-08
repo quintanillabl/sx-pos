@@ -70,7 +70,8 @@ export class PedidoCreateComponent implements OnInit {
   }
 
   onSave(pedido: Venta) {
-    console.log('Salvando  pedido: ', pedido);
+    // console.log('Salvando  pedido: ', pedido);
+    
     this.loadingService.register('saving');
     this.service
       .save(pedido)
@@ -83,6 +84,7 @@ export class PedidoCreateComponent implements OnInit {
         },
         response => this.handlePostError(response)
       );
+      
   }
 
   private handlePostError(response) {
