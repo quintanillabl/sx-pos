@@ -38,8 +38,7 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
   parciales: Cobro[] = [];
 
   subscription: Subscription;
-  subscription2: Subscription;
-
+  
   form: FormGroup;
 
   constructor(
@@ -52,13 +51,12 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-    this.subscription2.unsubscribe();
+    
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if(changes.venta && changes.venta.currentValue !=null ){
       this.form.patchValue({
-        porCobrar: this.venta.total,
         formaDePago: this.venta.formaDePago,
       })
     }
@@ -66,23 +64,13 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
 
   private buildForm(){
     this.form = this.fb.group({
-      cobrado: [0, [Validators.required, CobradoValidator]],
-      porCobrar: [{value: 0, required: false }, [this.validarPorCobrar.bind(this)]],
+      importe: [0, [Validators.required, CobradoValidator]],
+      formaDePago: ['', Validators.required],
       cambio: [{value: 0, disabled: true}],
-      formaDePago: ['', Validators.required]
-    });
-
-    this.subscription = this.form.get('cobrado').valueChanges.subscribe(cobrado => {
-      let pendiente = this.saldo - cobrado;
-      if(pendiente < 0) {
-        pendiente = 0;
-      }
-      //console.log('Por cobrar: ', pendiente);
-      this.form.get('porCobrar').setValue(pendiente);
     });
     
-    this.subscription2 = this.form.get('cobrado').valueChanges.subscribe(porCobrar => {
-      let cambio = porCobrar - this.saldo
+    this.subscription = this.form.get('importe').valueChanges.subscribe(importe => {
+      let cambio = importe - this.saldo
       if (cambio > 0) {
         cambio = _.round(cambio,2);
         this.form.get('cambio').setValue(cambio);
@@ -93,6 +81,66 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
   validarPorCobrar(control: AbstractControl) {
     const pendiente = control.value;
     return pendiente <= 0 ? null : {importeInvalido: true};
+  }
+
+  get saldo() {
+    return this.venta.total;
+  }
+
+  get totalParciales() {
+    return _.sumBy(this.parciales, 'importe');
+  }
+
+  get importe() {
+    return this.form.get('importe').value;
+  }
+
+  get porCobrar() {
+    return this.saldo - this.totalParciales - this.importe
+  }
+
+  get permitirMasCobros() {
+    return this.porCobrar > 0 && this.importe > 0
+  }
+
+  agregarCobro(){
+    const cobro = this.prepareEntity();
+    this.parciales.push(cobro);
+    this.form.reset({
+      importe: 0,
+      formaDePago: this.venta.formaDePago,
+      cambio: 0
+    });
+    
+  }
+
+  private prepareEntity(){
+    //const importe = this.form.get('porCobrar').value
+    const cobro: Cobro = {
+      cliente: this.venta.cliente,
+      sucursal: this.venta.sucursal,
+      tipo: this.venta.tipo,
+      fecha: new Date().toISOString(),
+      formaDePago: this.form.get('formaDePago').value,
+      moneda: this.venta.moneda,
+      tipoDeCambio: this.venta.tipoDeCambio,
+      importe: _.toNumber(this.form.get('importe').value),
+    }
+    return cobro;
+  }
+
+  onSubmit() {
+    if (this.form.valid) {
+      const importe = this.form.get('porCobrar').value
+      const cobro: Cobro = this.prepareEntity();
+      if (this.venta.tipo !== 'CRE') {
+        cobro.aplicaciones = [
+          {fecha: new Date().toISOString(), importe: importe, cuentaPorCobrar: this.venta.cuentaPorCobrar}
+        ];
+      }
+      // console.log('Cobro preparado: ', cobro);
+      this.save.emit(cobro);
+    }
   }
 
   getTipo(venta: Venta){
@@ -112,65 +160,6 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
       }
     } else {
       return '';
-    }
-  }
-
-  get porCobrar() {
-    return this.form.get('porCobrar').value;
-  }
-  get cobrado() {
-    return this.form.get('cobrado').value;
-  }
-
-  get permitirMasCobros() {
-    return this.porCobrar > 0 && this.cobrado > 0
-  }
-
-  get saldo() {
-    return this.venta.total;
-  }
-
-  agregarCobro(){
-    const cobro = this.prepareEntity();
-    this.parciales.push(cobro);
-  }
-
-  private prepareEntity(){
-    //const importe = this.form.get('porCobrar').value
-    const cobro: Cobro = {
-      cliente: this.venta.cliente,
-      sucursal: this.venta.sucursal,
-      tipo: this.venta.tipo,
-      fecha: new Date().toISOString(),
-      formaDePago: this.form.get('formaDePago').value,
-      moneda: this.venta.moneda,
-      tipoDeCambio: this.venta.tipoDeCambio,
-      importe: this.form.get('cobrado').value,
-    }
-    return cobro;
-  }
-
-  onSubmit() {
-    if (this.form.valid) {
-      const importe = this.form.get('porCobrar').value
-      const cobro: Cobro = {
-        cliente: this.venta.cliente,
-        sucursal: this.venta.sucursal,
-        tipo: this.venta.tipo,
-        fecha: this.venta.fecha,
-        formaDePago: this.venta.formaDePago,
-        moneda: this.venta.moneda,
-        tipoDeCambio: this.venta.tipoDeCambio,
-        importe: importe,
-      }
-      if (this.venta.tipo !== 'CRE') {
-        
-        cobro.aplicaciones = [
-          {fecha: new Date().toISOString(), importe: importe, cuentaPorCobrar: this.venta.cuentaPorCobrar}
-        ];
-      }
-      // console.log('Cobro preparado: ', cobro);
-      this.save.emit(cobro);
     }
   }
 

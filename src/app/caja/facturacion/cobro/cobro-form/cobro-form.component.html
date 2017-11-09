@@ -28,6 +28,10 @@
         </md-form-field>
 
         <md-form-field flex>
+            <input type="text" mdInput value="{{totalParciales | currency: 'USD': 1.2-2}}" placeholder="Parciales" [disabled]="true">
+        </md-form-field>
+
+        <md-form-field flex>
           <input type="text" mdInput value="{{porCobrar | currency: 'USD': 1.2-2}}" placeholder="Por Cobrar" [disabled]="true">
           <md-error>Importe invalido</md-error>
         </md-form-field>
@@ -39,7 +43,7 @@
       <div layout  layout-align="center center" layout-padding>
         <span flex></span>
         <md-form-field flex>
-          <input type="text" mdInput  placeholder="Cobrado" formControlName="cobrado" sxOnlyNumbers>
+          <input type="text" mdInput  placeholder="Cobrado" formControlName="importe" sxOnlyNumbers>
           <md-error>Imorte incorrecto</md-error>
         </md-form-field>
         
@@ -80,7 +84,10 @@
   </md-card>    
 
   <md-card flex="30">
-    <md-card-title class="md-title">Cobros parciales</md-card-title>
+    <md-card-title class="md-title">
+      <span>Cobros parciales</span>
+      <span>{{totalParciales | currency: 'USD': 1.2-2}}</span>
+    </md-card-title>
     <md-divider></md-divider>
     <md-list>
       <ng-template let-item let-last="last" ngFor [ngForOf]="parciales">
