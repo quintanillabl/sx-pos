@@ -35,6 +35,8 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
 
   @Output() cambiarPedido = new EventEmitter();
 
+  formasDePago = ['EFECTIVO', 'TRANSFERENCIA', 'TARJETA_DEBITO', 'TARJETA_CREDITO'];
+
   parciales: Cobro[] = [];
 
   subscription: Subscription;
@@ -47,11 +49,18 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
     this.buildForm();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // console.log('Cobro de venta: ', this.venta);
+    if (this.venta.cliente.permiteCheque) {
+      this.formasDePago.push('CHEQUE');
+    }
+    if (this.venta.formaDePago === 'TARJETA_DEBITO') {
+      _.pull(this.formasDePago, 'TARJETA_CREDITO');
+    }
+  }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-    
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -65,22 +74,41 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
   private buildForm(){
     this.form = this.fb.group({
       importe: [0, [Validators.required, CobradoValidator]],
-      formaDePago: ['', Validators.required],
+      formaDePago: [{value: '', disabled: true}, [Validators.required, this.validarFormaDePago.bind(this)]],
       cambio: [{value: 0, disabled: true}],
+    },{
+      validator: this.validarPorCobrar.bind(this)
     });
     
     this.subscription = this.form.get('importe').valueChanges.subscribe(importe => {
-      let cambio = importe - this.saldo
-      if (cambio > 0) {
+      
+      if (this.porCobrar < 0) {
+        let cambio = Math.abs(this.porCobrar); 
         cambio = _.round(cambio,2);
         this.form.get('cambio').setValue(cambio);
+      } else {
+        this.form.get('cambio').setValue(0);
       }
     });
   }
 
   validarPorCobrar(control: AbstractControl) {
-    const pendiente = control.value;
-    return pendiente <= 0 ? null : {importeInvalido: true};
+    if (this.venta) {
+      const pendiente = this.porCobrar
+      return pendiente <= 0 ? null : {importeInvalido: true};
+    }
+    return null;
+  }
+
+  validarFormaDePago(control: AbstractControl) {
+    const fp = control.value;
+    if ( this.parciales.length > 0) {
+      if (fp === 'CHEQUE') {
+        const cliente = this.venta.cliente;
+        return cliente.permiteCheque ? null : {permiteCheque: false};
+      }
+    }
+    return null;
   }
 
   get saldo() {
@@ -99,6 +127,10 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
     return this.saldo - this.totalParciales - this.importe
   }
 
+  get pendiente() {
+    return this.saldo - this.totalParciales 
+  }
+
   get permitirMasCobros() {
     return this.porCobrar > 0 && this.importe > 0
   }
@@ -106,12 +138,20 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
   agregarCobro(){
     const cobro = this.prepareEntity();
     this.parciales.push(cobro);
+    this.form.get('formaDePago').enable();
     this.form.reset({
       importe: 0,
       formaDePago: this.venta.formaDePago,
       cambio: 0
     });
-    
+  }
+
+  quitarCobro(index: number) {
+    console.log('Quitando cobro: ', index);
+    this.parciales.splice(index);
+    if (this.parciales.length === 0) {
+      this.form.get('formaDePago').disable();
+    }
   }
 
   private prepareEntity(){
@@ -131,15 +171,13 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
 
   onSubmit() {
     if (this.form.valid) {
-      const importe = this.form.get('porCobrar').value
-      const cobro: Cobro = this.prepareEntity();
-      if (this.venta.tipo !== 'CRE') {
-        cobro.aplicaciones = [
-          {fecha: new Date().toISOString(), importe: importe, cuentaPorCobrar: this.venta.cuentaPorCobrar}
-        ];
+      const cobros = [... this.parciales];
+      cobros.push(this.prepareEntity());
+      const cobroJob = {
+        venta: this.venta,
+        cobros: cobros
       }
-      // console.log('Cobro preparado: ', cobro);
-      this.save.emit(cobro);
+      this.save.emit(cobroJob);
     }
   }
 
@@ -160,6 +198,19 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
       }
     } else {
       return '';
+    }
+  }
+
+  getItemIcon(item) {
+    switch (item.formaDePago) {
+      case 'TARJETA_CREDITO':
+      case 'TARJETA_DEBITO': {
+        return 'credit_card';
+      }
+      case 'EFECTIVO':
+        return 'attach_money'
+      default: 
+        return 'local_atm'
     }
   }
 

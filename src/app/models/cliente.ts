@@ -5,7 +5,8 @@ export class Cliente {
   rfc: string;
   credito: ClienteCredito
   email?: string
-  direccion?: {}
+  permiteCheque?: boolean
+  direccion?: {};
 }
 
 export class ClienteCredito {
