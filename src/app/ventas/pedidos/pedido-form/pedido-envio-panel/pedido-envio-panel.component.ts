@@ -24,11 +24,9 @@ export class PedidoEnvioPanelComponent implements OnInit, OnDestroy {
     return this.parent.get('envio').value
   }
 
-  
-
   ngOnInit() {
     this.subscription = this.parent.get('entrega').valueChanges.subscribe( entrega => {
-      console.log('Evaluando entrega: ', entrega);
+      
       if (entrega !== 'LOCAL'){
         this.parent.get('clasificacionVale').enable();
         this.parent.get('sucursalVale').enable();
@@ -39,6 +37,7 @@ export class PedidoEnvioPanelComponent implements OnInit, OnDestroy {
 
         const cliente = this.parent.get('cliente').value;
         if (cliente !== null) {
+          this.parent.get('mismaDireccion').setValue(true);
           this.parent.get('envio').setValue({direccion: cliente.direccion});
         } 
       } else {
@@ -68,7 +67,7 @@ export class PedidoEnvioPanelComponent implements OnInit, OnDestroy {
       const dialogRef = this.dialog.open(EnvioDireccionComponent, );
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          console.log('Asignando direccion de envío: ', result);
+         //  console.log('Asignando direccion de envío: ', result);
           this.parent.get('envio').setValue({direccion: result});
         }
       });

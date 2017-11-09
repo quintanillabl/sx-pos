@@ -28,7 +28,10 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   sucursal: Sucursal;
   producto$: Observable<Producto>;
   disponibilidadTotal$: Observable<number>;
+  
   existenciaRemota$: Observable<Existencia[]>;
+  existencias: Existencia[] = [];
+
   sinExistencia$: Observable<boolean>;
   conVale$: Observable<boolean>;
   tipoDePrecio = 'CON';
@@ -82,6 +85,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
         this.form.get('cortado').enable();
         this.form.get('cortado').setValue(true);
       }
+      this.buildExistencias();
     }
   }
 
@@ -98,7 +102,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       conTrs: [{value: false, disabled: true}],
       corte: this.fb.group({
         cantidad: [1, Validators.required],
-        tipo: ['CALCULADO', Validators.required],
+        tipo: [''],
         precio: [10.0, Validators.required],
         instruccion: [null]
       })
@@ -118,6 +122,14 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       .switchMap( producto => {
         return this.existenciasService.buscarExistencias(producto);
       });
+    this.existenciaRemota$.subscribe(exis => this.existencias = exis);
+  }
+
+  buildExistencias() {
+    const producto = this.form.get('producto').value;
+    if (producto) {
+      this.existenciasService.buscarExistencias(producto).subscribe(exis => this.existencias = exis);
+    }
   }
 
   private buildDisponibilidadTotal$() {

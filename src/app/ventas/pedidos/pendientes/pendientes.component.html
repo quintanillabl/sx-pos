@@ -30,7 +30,11 @@
 
     <md-divider></md-divider>
     <md-card-content class="">
-     <sx-pedidos-pendientes-list [pedidos]="pedidos" (edit)="onEdit($event)" (facturar)="mandarFacturar($event)">
+     <sx-pedidos-pendientes-list 
+        [pedidos]="pedidos" 
+        (edit)="onEdit($event)" 
+        (facturar)="mandarFacturar($event)"
+        (envio)="asignarEnvio($event)">
       </sx-pedidos-pendientes-list>
     </md-card-content>
   </md-card>

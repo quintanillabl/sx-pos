@@ -7,6 +7,8 @@ import {TdDialogService} from '@covalent/core';
 import * as fromPedidos from 'app/ventas/pedidos/store/reducers';
 import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
 import { Venta, Sucursal } from 'app/models';
+import { MdDialog } from '@angular/material';
+import { EnvioDireccionComponent } from '../pedido-form/envio-direccion/envio-direccion.component';
 
 
 
@@ -32,6 +34,7 @@ export class PendientesComponent implements OnInit {
     private router: Router,
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
+    public dialog: MdDialog,
   ) { }
 
   ngOnInit() {
@@ -89,6 +92,22 @@ export class PendientesComponent implements OnInit {
         value => this.load(),
         error => console.error('Error al eliminar pedido ', error)
       );
+  }
+
+  asignarEnvio(pedido: Venta) {
+    console.log('Asignando envio al pedido.....');
+    const dialogRef = this.dialog.open(EnvioDireccionComponent, );
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+       // console.log('Asignando direccion de envío: ', result);
+       this.doAsignarEnvio(pedido, result);
+      }
+    });
+  }
+
+  doAsignarEnvio(pedido: Venta, direccion){
+    pedido.envio = {direccion: direccion};
+    this.service.update(pedido).subscribe(res => this.load(), error=> console.error(error));
   }
 
 }

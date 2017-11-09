@@ -27,7 +27,7 @@
               <span>{{row.producto.descripcion}}</span> 
               <span class="text-sm tc-indigo-400" *ngIf="row.corte">
                   {{row.corte.cantidad}} * {{row.corte.precio}} = {{row.corte.cantidad * row.corte.precio}} 
-                  / {{row.corte.instruccion}} / {{row.corte.tipo}}
+                  /{{row.corte.tipo}}  / {{row.corte.instruccion}}
               </span>
             </span>
             <span flex></span>
@@ -42,9 +42,10 @@
           <td td-data-table-cell numeric="true">{{row.cantidad}}</td>
           <td td-data-table-cell numeric="true"> 
             <ng-container *ngIf="isEditable(row)">
-              <button md-button type="button" (click)="cambioDePrecio.emit(i)">
+                {{row.precio | currency: 'USD': 1.2-2}}
+              <!-- <button md-button type="button" (click)="cambioDePrecio.emit(i)">
                   {{row.precio | currency: 'USD': 1.2-2}}
-              </button>
+              </button> -->
             </ng-container>
           </td>
           <td td-data-table-cell numeric="true"> {{row.importe | currency: 'USD': 1.2-2}}</td>

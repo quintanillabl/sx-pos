@@ -35,7 +35,10 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
 
   @Output() cambiarPedido = new EventEmitter();
 
+  parciales: Cobro[] = [];
+
   subscription: Subscription;
+  subscription2: Subscription;
 
   form: FormGroup;
 
@@ -49,11 +52,14 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.subscription2.unsubscribe();
   }
+
   ngOnChanges(changes: SimpleChanges) {
     if(changes.venta && changes.venta.currentValue !=null ){
       this.form.patchValue({
-        porCobrar: this.venta.total
+        porCobrar: this.venta.total,
+        formaDePago: this.venta.formaDePago,
       })
     }
   }
@@ -61,17 +67,32 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
   private buildForm(){
     this.form = this.fb.group({
       cobrado: [0, [Validators.required, CobradoValidator]],
-      porCobrar: [{value: 0, required: false }, Validators.required],
-      cambio: [{value: 0, disabled: true}]
+      porCobrar: [{value: 0, required: false }, [this.validarPorCobrar.bind(this)]],
+      cambio: [{value: 0, disabled: true}],
+      formaDePago: ['', Validators.required]
     });
 
     this.subscription = this.form.get('cobrado').valueChanges.subscribe(cobrado => {
-      let cambio = cobrado - this.porCobrar 
+      let pendiente = this.saldo - cobrado;
+      if(pendiente < 0) {
+        pendiente = 0;
+      }
+      //console.log('Por cobrar: ', pendiente);
+      this.form.get('porCobrar').setValue(pendiente);
+    });
+    
+    this.subscription2 = this.form.get('cobrado').valueChanges.subscribe(porCobrar => {
+      let cambio = porCobrar - this.saldo
       if (cambio > 0) {
         cambio = _.round(cambio,2);
         this.form.get('cambio').setValue(cambio);
       }
     });
+  }
+
+  validarPorCobrar(control: AbstractControl) {
+    const pendiente = control.value;
+    return pendiente <= 0 ? null : {importeInvalido: true};
   }
 
   getTipo(venta: Venta){
@@ -95,11 +116,38 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
   }
 
   get porCobrar() {
-    if(this.venta)
-      return this.venta.total;
-    else {
-      return 0.0;
+    return this.form.get('porCobrar').value;
+  }
+  get cobrado() {
+    return this.form.get('cobrado').value;
+  }
+
+  get permitirMasCobros() {
+    return this.porCobrar > 0 && this.cobrado > 0
+  }
+
+  get saldo() {
+    return this.venta.total;
+  }
+
+  agregarCobro(){
+    const cobro = this.prepareEntity();
+    this.parciales.push(cobro);
+  }
+
+  private prepareEntity(){
+    //const importe = this.form.get('porCobrar').value
+    const cobro: Cobro = {
+      cliente: this.venta.cliente,
+      sucursal: this.venta.sucursal,
+      tipo: this.venta.tipo,
+      fecha: new Date().toISOString(),
+      formaDePago: this.form.get('formaDePago').value,
+      moneda: this.venta.moneda,
+      tipoDeCambio: this.venta.tipoDeCambio,
+      importe: this.form.get('cobrado').value,
     }
+    return cobro;
   }
 
   onSubmit() {

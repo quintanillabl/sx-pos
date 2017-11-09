@@ -18,6 +18,11 @@
       <span flex></span>
       <h3>{{ parent.get('corteImporte').value | currency:'USD': true: '1.2-2'}}</h3>
     </md-list-item>
+    <md-list-item>
+        <h3 mdLine> Maniobra: </h3>
+        <span flex></span>
+        <h3>{{ parent.get('cargosPorManiobra').value | currency:'USD': true: '1.2-2'}}</h3>
+      </md-list-item>
   </md-list>
 
 </td-expansion-panel>

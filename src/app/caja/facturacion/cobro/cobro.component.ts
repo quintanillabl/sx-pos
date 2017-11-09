@@ -31,7 +31,8 @@ export class CobroComponent implements OnInit {
   ngOnInit() {
     this.venta$ = this.route.paramMap
       .map( params => params.get('id'))
-      .switchMap( id => this.service.getVenta(id).shareReplay());
+      .do(id => console.log('Buscando venta con id: ', id))
+      .switchMap( id => this.service.getVenta(id));
     
     // this.venta$.subscribe(venta => console.log('Cobro de venta: ', venta));
   }

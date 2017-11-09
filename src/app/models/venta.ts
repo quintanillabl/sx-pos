@@ -13,6 +13,7 @@ export interface Venta {
   // Importes y totales
   importe: number;
   descuento: number
+  descuentoOriginal?: number;
   descuentoImporte: number
   subtotal: number
   impuesto: number

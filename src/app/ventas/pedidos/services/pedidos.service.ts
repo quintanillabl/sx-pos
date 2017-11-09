@@ -46,6 +46,12 @@ export class PedidosService {
     return this.http.delete(url);
   }
 
+  findManiobraFlete(): Observable<Producto> {
+    const params = new HttpParams().set('clave', 'MANIOBRAF');
+    const url = `${this.apiUrl}/findManiobra`;
+    return this.http.get<Producto>(url, {params: params});
+  }
+
   findManiobra(): Observable<Producto> {
     const params = new HttpParams().set('clave', 'MANIOBRA');
     const url = `${this.apiUrl}/findManiobra`;

@@ -12,13 +12,14 @@
       <sx-producto-field formControlName="producto"></sx-producto-field>
 
       <div layout *ngIf="producto$ | async; else seleccionProducto; let producto">
-        <md-form-field>
+        <md-form-field *ngIf="tipoDePrecio ==='CON'">
           <input type="text" mdInput placeholder="Precio Contado" [disabled]="true"
                  value="{{producto.precioContado | currency:'USD': true: '1.2-2'}}">
         </md-form-field>
-        <md-form-field>
-          <input type="text" mdInput placeholder="Precio Crédito" [disabled]="true"
-                 value="{{producto.precioCredito | currency:'USD': true: '1.2-2'}}">
+        <md-form-field *ngIf="tipoDePrecio ==='CRE'">
+          <input type="text" 
+            mdInput placeholder="Precio Crédito" [disabled]="true"
+            value="{{producto.precioCredito | currency:'USD': true: '1.2-2'}}">
         </md-form-field>
         <md-form-field>
           <input type="text" mdInput placeholder="Ancho" [disabled]="true" value="{{producto.ancho}}">
@@ -43,10 +44,10 @@
                  placeholder="Cantidad" formControlName="cantidad" autocomplete="off">
           <md-error> Cantidad incorrecta</md-error>
         </md-form-field>
-        <md-form-field >
+        <!-- <md-form-field >
           <input type="text" mdInput placeholder="Unidad" value="{{existencia?.producto?.unidad}}" [disabled]="true">
-        </md-form-field>
-        <md-form-field >
+        </md-form-field> -->
+        <md-form-field *ngIf="dolares">
           <input type="text" mdInput placeholder="{{dolares ? 'Precio USD' : 'Precio'}}" sxOnlyNumbers
                  formControlName="precio">
         </md-form-field>
@@ -54,6 +55,12 @@
           <input type="text" mdInput placeholder="Importe Bruto" [disabled]="true"
                  value="{{importeBruto$ | async | currency:'USD': true: '1.2-2' }}">
         </md-form-field>
+
+        <md-form-field >
+          <input type="text" mdInput placeholder="Importe con IVA" [disabled]="true"
+                   value="{{(importeBruto$ | async) * 1.16 | currency:'USD': true: '1.2-2' }}">
+        </md-form-field>
+
       </div>
 
       <div layout class="pad">
@@ -66,19 +73,21 @@
       <div layout  *ngIf="cortadoBox.checked" formGroupName="corte">
 
         <md-select  placeholder="Tipo" formControlName="tipo"  flex formControlName="tipo">
+          <md-option></md-option>
           <md-option *ngFor="let
            tipo of ['CALCULADO','CRUZ','CARTA','MITAD','1/8','CROQUIS','DOBLE_CARTA','MEDIA_CARTA','OFICIO']"
                      [value]="tipo">{{ tipo }}</md-option>
         </md-select>
+        <md-form-field flex>
+            <input type="text" formControlName="instruccion" mdInput placeholder="Instrucción">
+          </md-form-field>
         <md-form-field flex ="15">
           <input type="text" formControlName="cantidad" mdInput placeholder="Cantidad" sxOnlyNumbers>
         </md-form-field>
         <md-form-field flex="20">
           <input type="text" formControlName="precio" mdInput placeholder="Precio" sxOnlyNumbers>
         </md-form-field>
-        <md-form-field flex>
-          <input type="text" formControlName="instruccion" mdInput placeholder="Instrucción">
-        </md-form-field>
+        
       </div>
 
       <div layout>
@@ -106,7 +115,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let exis of existenciaRemota$ | async " class="pad-md text-md" >
+            <tr *ngFor="let exis of existencias" class="pad-md text-md" >
               <td>{{exis.sucursal.nombre}}</td>
               <td class="text-right">{{exis.cantidad | number}}</td>
               <td class="text-right">{{exis.recorte | number:'1.0'}}</td>

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
-import {TdLoadingService} from '@covalent/core';
+import {TdLoadingService, TdDialogService} from '@covalent/core';
 
 import * as fromRoot from 'app/reducers';
 import {Sucursal, Venta} from 'app/models';
@@ -19,6 +19,7 @@ import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-
         <sx-pedido-form
           *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'"
           (save)="onUpdate($event)"
+          (delete)="onDelete($event)"
           [pedido]="pedido$ | async"
           [sucursal]="sucursal$ | async">
         </sx-pedido-form>
@@ -38,6 +39,8 @@ export class PedidoEditComponent implements OnInit {
     private loadingService: TdLoadingService,
     private route: ActivatedRoute,
     private router: Router,
+    private _dialogService: TdDialogService,
+    private _viewContainerRef: ViewContainerRef,
   ) { }
 
   ngOnInit() {
@@ -66,6 +69,28 @@ export class PedidoEditComponent implements OnInit {
   private handlePostError(response) {
     console.log('Error al salvar conteo: ', response);
     this.loadingService.resolve('saving');
+  }
+
+  onDelete(pedido: Venta) {
+    this._dialogService.openConfirm({
+      message: `Eliminar pedido  ${pedido.tipo} - ${pedido.documento} ?` ,
+      viewContainerRef: this._viewContainerRef,
+      title: 'Ventas',
+      cancelButton: 'Cancelar',
+      acceptButton: 'Eliminar',
+    }).afterClosed().subscribe((accept: boolean) => {
+      if (accept) {
+        this.loadingService.register('saving');
+        this.service
+          .delete(pedido.id)
+          .subscribe( res => {
+            this.loadingService.resolve('saving');
+            this.router.navigate(['/ventas/pedidos/pendientes']);
+          }, error => {
+            this.handlePostError(error);
+          });
+      }
+    });
   }
 
 }

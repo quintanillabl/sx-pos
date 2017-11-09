@@ -1,6 +1,6 @@
 import {
   Component, OnInit, OnDestroy, OnChanges,
-  Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges, ViewChild, HostListener
+  Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges, ViewChild, HostListener, ViewContainerRef
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 import { Sucursal, Cliente, Venta, VentaDet } from 'app/models';
 import { PedidoFormService } from './pedido-form.service';
 import { PartidasGridComponent } from './partidas-grid/partidas-grid.component';
+import { TdDialogService } from '@covalent/core';
 
 
 @Component({
@@ -22,6 +23,8 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   form: FormGroup;
 
   @Output() save = new EventEmitter();
+
+  @Output() delete = new EventEmitter();
 
   @Output() addNewCliente = new EventEmitter();
 
@@ -41,7 +44,9 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private fb: FormBuilder,
     private pedidoFormService: PedidoFormService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private _dialogService: TdDialogService,
+    private _viewContainerRef: ViewContainerRef
   ) {
     this.buildForm();
 
@@ -50,17 +55,20 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.pedido && changes.pedido.currentValue) {
       const pedido: Venta = changes.pedido.currentValue;
+      // console.log('Editando pedido: ', pedido);
       _.forEach(pedido.partidas, item => this.partidas.push(new FormControl(item)));
       this.form.get('isPuesto').setValue(pedido.puesto !== undefined);
       
       if (pedido.envio !== null) {
         this.form.get('mismaDireccion').setValue(false);
         this.form.get('mismaDireccion').enable();
+        this.form.get('entrega').setValue('ENVIO');
       }
       this.form.patchValue(pedido, {emitEvent: false});
       this.pedidoFormService.registerForm(this.form);
       this.buildRecalcular$();
       this.buildFomraDePago$();
+      this.pedidoFormService.recalcular();
     }
   }
 
@@ -194,13 +202,9 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       sucursal: this.sucursal,
       vendedor: this.cliente.vendedor
     };
-    /*
-    if (this.form.get('direccion').value) {
-      pedido.envio = {
-        direccion: this.form.get('direccion').value
-      }
+    if (!this.id ) {
+      pedido.descuentoOriginal = pedido.descuento
     }
-    */
     _.forEach(pedido.partidas, item => item.sucursal = this.sucursal)
     this.save.emit(pedido);
   }
@@ -224,6 +228,26 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       this.form.get('puesto').setValue(null);
     }
+  }
+
+  onManiobra(){
+    this._dialogService.openPrompt({
+      message: 'Importe del cargo',
+      viewContainerRef: this._viewContainerRef, 
+      title: 'Maniobras', 
+      cancelButton: 'Cancelar',
+      acceptButton: 'Aceptar', 
+    }).afterClosed().subscribe((newValue: string) => {
+      if (newValue) {
+        const importe = _.toNumber(newValue);
+        if ( !_.isNaN(importe) && _.isNumber(importe)){
+          console.log('Asignando flete: ', importe);
+          this.form.get('cargosPorManiobra').setValue(importe);
+          this.pedidoFormService.generarCargosPorFlete(this.grid);
+        }
+      } 
+    });
+    
   }
 
   

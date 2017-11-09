@@ -14,6 +14,8 @@ export class PendientesListComponent implements OnInit {
 
   @Output() facturar = new EventEmitter<any>();
 
+  @Output() envio = new EventEmitter<any>();
+
   constructor() { }
 
   ngOnInit() {
@@ -26,5 +28,7 @@ export class PendientesListComponent implements OnInit {
   onFacturar(pedido: Venta) {
     this.facturar.emit(pedido);
   }
+
+  
 
 }

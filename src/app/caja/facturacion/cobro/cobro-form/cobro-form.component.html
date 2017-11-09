@@ -1,14 +1,14 @@
-<form  (ngSubmit)="onSubmit()" [formGroup]="form" novalidate>
-  <md-card >
+<form  (ngSubmit)="onSubmit()" [formGroup]="form" novalidate layout>
+  <md-card flex="70">
     <md-card-title class="md-title">Facturación y cobro</md-card-title>
     <md-divider></md-divider>
     <md-card-content>  
       
       <div layout  class="md-title ">
-        <span >{{venta?.nombre}}</span>
+        <span >{{venta.nombre}}</span>
       </div>
 
-      <div layout  layout-align="center center" layout-padding>
+      <div layout  layout-align="" layout-padding>
         <md-form-field flex>
           <input type="text" mdInput value="{{getTipo(venta)}}" placeholder="Tipo" [disabled]="true">
         </md-form-field>
@@ -19,20 +19,20 @@
         <md-form-field flex>
             <input type="text" mdInput value="{{venta?.fecha | date: 'dd/MM/yyyy'}}" placeholder="Fecha" [disabled]="true">
         </md-form-field>
+        <sx-forma-de-pago [parent]="form" flex></sx-forma-de-pago>
       </div>
     
       <div layout  layout-align="center center" layout-padding>
         <md-form-field flex>
-          <input type="text" mdInput value="{{venta?.total | currency: 'USD': 1.2-2}}" placeholder="Total" [disabled]="true">
+          <input type="text" mdInput value="{{venta?.total | currency: 'USD': 1.2-2}}" placeholder="Total pedido" [disabled]="true">
         </md-form-field>
 
         <md-form-field flex>
           <input type="text" mdInput value="{{porCobrar | currency: 'USD': 1.2-2}}" placeholder="Por Cobrar" [disabled]="true">
+          <md-error>Importe invalido</md-error>
         </md-form-field>
 
-        <md-form-field flex>
-          <input type="text" mdInput  value="{{venta?.formaDePago}}" placeholder="FormaDePago" [disabled]=true>
-        </md-form-field>
+        
         
       </div>
     
@@ -46,13 +46,17 @@
         <md-form-field flex>
           <input type="text" mdInput  placeholder="Cambio" formControlName="cambio">
         </md-form-field>
+        <section>
+          <button type="button" md-button color="accent" (click)="agregarCobro()"
+            [disabled]="!permitirMasCobros"> Agregar otra F.P</button>
+        </section>
       </div>
           
     </md-card-content>
     <md-divider></md-divider>
     <md-card-actions>
       <ng-container *ngIf="venta?.cod !==true " > 
-        <button md-button color="primary" class="text-upper" *ngIf="venta?.cuentaPorCobrar"
+        <button md-button color="primary" class="text-upper" 
           [disabled]="form.invalid">
           Cobrar
         </button>
@@ -66,12 +70,32 @@
           class="text-upper">Disponibles
         </button>
       </ng-container>
-      <button md-button color="primary" type="button" 
+      <!-- <button md-button color="primary" type="button" 
         class="text-upper" *ngIf="!venta?.cuentaPorCobrar"
         (click)="facturar.emit(venta)" >
         Facturar
-      </button>
+      </button> -->
       <button md-button class="text-upper" (click)="cancelar.emit()">Cancelar</button>
     </md-card-actions>    
   </md-card>    
+
+  <md-card flex="30">
+    <md-card-title class="md-title">Cobros parciales</md-card-title>
+    <md-divider></md-divider>
+    <md-list>
+      <ng-template let-item let-last="last" ngFor [ngForOf]="parciales">
+        <md-list-item>
+            <md-icon mdListAvatar>account_box</md-icon>
+            <h4 mdLine>{{item.formaDePago}}</h4>
+            <p mdLine>{{item.importe | currency: 'USD': 1.2-2}}</p>
+            <button md-icon-button>
+                <md-icon>delete</md-icon>
+            </button>
+        </md-list-item>
+      </ng-template>
+    </md-list>
+  </md-card>
+
 </form>
+
+

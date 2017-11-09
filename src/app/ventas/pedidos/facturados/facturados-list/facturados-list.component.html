@@ -6,7 +6,7 @@
           <span layout layout-margin>
             <span flex="10" class="text-left">
                 <a md-button class="tc-indigo-700 text-left" [routerLink]="['show', row.id]">
-                  {{row.tipo}} {{row.documento}}
+                  {{row.cuentaPorCobrar.tipo}} {{row.cuentaPorCobrar.documento}}
                 </a>
             </span>
             <span flex="30">{{ row.cliente.nombre}} </span>

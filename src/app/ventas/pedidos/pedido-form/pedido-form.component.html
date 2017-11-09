@@ -4,12 +4,13 @@
     <sx-pedido-header 
       (addCliente)="onAddNewCliente()" [parent]="form" 
       (insertar)="onInsertPartida()"
-      (descuento)="onDescuento()">
+      (descuento)="onDescuento()"
+      (maniobra)="onManiobra()">
     </sx-pedido-header>
     <md-divider></md-divider>
 
     <div layout="row" layout-margin>
-      <sx-tipo-field [parent]="form"  *ngIf="!id"></sx-tipo-field>
+      <sx-tipo-field [parent]="form"  ></sx-tipo-field>
       <span layout ="column" layout-align="center center" class="pad">
           <md-checkbox  labelPosition="before" formControlName="cod" mdTooltip="Contra entrega">COD</md-checkbox>
       </span>
@@ -51,6 +52,10 @@
         <button type="button" md-icon-button  mdTooltip="Imprimir documento" >
           <md-icon>print</md-icon>
         </button>
+        <button type="button" md-button  *ngIf="id"
+          mdTooltip="Eliminar pedido" color="warn" (click)="delete.emit(pedido)">
+            <md-icon>delete</md-icon> Eliminar
+          </button>
       </md-card-actions>
     </md-card>
   </div>

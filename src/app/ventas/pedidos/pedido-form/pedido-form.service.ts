@@ -105,7 +105,7 @@ export class PedidoFormService {
   }
 
   get partidasActualizables() {
-    const EXCEPTIONS = ['MANIOBRA'];
+    const EXCEPTIONS = ['MANIOBRA','MANIOBRAF'];
     return this.partidas.value.filter(value => !_.includes(EXCEPTIONS, value.producto.clave ));
   }
 
@@ -340,8 +340,8 @@ export class PedidoFormService {
       this.service.findCorte().subscribe(producto => {
         this.form.get('corteImporte').setValue( (importeCortes)) ;
         const det = this.buildPartidaDeManiobra(producto, importeCortes);
-        console.log('Agregando partida de corte: ', {...det});
-        console.log('... Partidas actuales: ', this.partidas.value);
+        // console.log('Agregando partida de corte: ', {...det});
+        // console.log('... Partidas actuales: ', this.partidas.value);
         this.partidas.push(new FormControl(det));
         this.actualizarTotales();
 
@@ -461,6 +461,26 @@ export class PedidoFormService {
     });
 
   }
+
+  generarCargosPorFlete( grid) {
+    const flete = this.form.get('cargosPorManiobra').value;
+    if (flete > 0) {
+      const det: VentaDet = _.find(this.partidas.value, (item: VentaDet) => item.producto.clave === 'MANIOBRAF');
+      if (det) {
+        det.subtotal = flete;
+        grid.refresh();
+      } else {
+        this.service.findManiobraFlete().subscribe(producto => {
+          const det = this.buildPartidaDeManiobra(producto, flete);
+          this.partidas.push(new FormControl(det));
+          this.actualizarTotales();
+        }, err => {
+          console.log('No se encuentra el producto de maniobras');
+        });
+      }
+    }
+  }
+  
 
 
 
