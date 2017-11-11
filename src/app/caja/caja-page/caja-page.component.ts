@@ -42,7 +42,7 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     },
     { 
       name: 'cobranzaCamioneta',
-      title: 'Cobranza camioneta',
+      title: 'Cobranza COD',
       icon: 'blur_linear',
     },
     { 
@@ -139,12 +139,12 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('ventas/reportes/ventasDiarias', result)
+        this.service.runReport('report/ventasDiarias', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
             });
-            const filename = `EntregasPorChofer.pdf`;
+            const filename = `VentasDiarias.pdf`;
             FileSaver.saveAs(blob, filename);
           });
       }
@@ -158,7 +158,7 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('ventas/reportes/aplicacionSaldos', result)
+        this.service.runReport('report/aplicacionSaldos', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -177,7 +177,7 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('ventas/reportes/cobranzaCamionea', result)
+        this.service.runReport('report/cobranzaCod', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -194,7 +194,7 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(CobranzaEfectivoComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('ventas/reportes/cobranzaEfectivo', result)
+        this.service.runReport('report/cobranzaEfectivo', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -210,7 +210,7 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(FacturasPendientesCODComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('ventas/reportes/facturasPendientesCod', result)
+        this.service.runReport('report/facturasPendientesCod', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -226,7 +226,7 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(FacturasCobradasComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('ventas/reportes/facturasCobradas', result)
+        this.service.runReport('report/cobranzaContado', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -242,7 +242,7 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(FacturasCanceladasComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('ventas/reportes/facturasCanceladas', result)
+        this.service.runReport('report/facturasCanceladas', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -258,7 +258,7 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(FacturasPendientesEmbarqueComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('ventas/reportes/facturasPendientesEmbarque', result)
+        this.service.runReport('report/facturasPendientesEmbarque', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -274,7 +274,7 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(DisponiblesSucursalComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('ventas/reportes/disponiblesSucursal', result)
+        this.service.runReport('report/disponiblesSucursal', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -290,7 +290,7 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(VentasDiariasCheComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('ventas/reportes/ventasDiariasChe', result)
+        this.service.runReport('report/ventasDiariasChe', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'

@@ -66,7 +66,7 @@ export class CobroComponent implements OnInit {
       .subscribe( res => {
         console.log('Pedido listo para facturación', res);
         this.loadingService.resolve('saving');
-        this.router.navigate(['caja/cobro', res.id])
+        this.router.navigate(['caja/facturacion'])
       }, error => {
         console.error(error);
         this.loadingService.resolve('saving');

@@ -84,11 +84,11 @@
           class="text-upper">Disponibles
         </button>
       </ng-container>
-      <!-- <button md-button color="primary" type="button" 
-        class="text-upper" *ngIf="!venta?.cuentaPorCobrar"
+      <button md-button color="primary" type="button" 
+        class="text-upper" *ngIf="venta.cod"
         (click)="facturar.emit(venta)" >
         Facturar
-      </button> -->
+      </button>
       <button md-button class="text-upper" (click)="cancelar.emit()">Cancelar</button>
     </md-card-actions>    
   </md-card>    

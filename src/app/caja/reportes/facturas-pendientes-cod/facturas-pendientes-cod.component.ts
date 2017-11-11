@@ -29,7 +29,7 @@ export class FacturasPendientesCODComponent implements OnInit {
     const fecha: Date = this.form.get('fecha').value;
     const res = {
       ... this.form.value,
-      fecha: fecha.toISOString(),
+      FECHA: fecha.toISOString().slice(0, 10),
     };
     this.dialogRef.close(res);
   }
