@@ -30,6 +30,7 @@ import { DireccionFormComponent } from './_components/direccion-form/direccion-f
 import { ClienteFieldComponent } from './_fields/cliente-field/cliente-field.component';
 import { OnlyNumbersDirective } from './directives/only-numbers.directive';
 import { FormaDePagoComponent } from './_fields/forma-de-pago/forma-de-pago.component';
+import { BancoFieldComponent } from './_fields/banco-field/banco-field.component';
 
 
 const FLEX_LAYOUT_MODULES: any[] = [
@@ -84,6 +85,7 @@ const COMPONENTS: any[] = [
     DireccionFormComponent,
     OnlyNumbersDirective,
     FormaDePagoComponent,
+    BancoFieldComponent,
   ],
   exports: [
     ANGULAR_MODULES,
@@ -107,6 +109,7 @@ const COMPONENTS: any[] = [
     ConsultasRapidasComponent,
     OnlyNumbersDirective,
     FormaDePagoComponent,
+    BancoFieldComponent
   ],
 })
 export class SharedModule { }

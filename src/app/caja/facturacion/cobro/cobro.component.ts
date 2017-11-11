@@ -73,24 +73,19 @@ export class CobroComponent implements OnInit {
       });
   }
 
-  // onSave(cobro: Cobro) {
-  //   // console.log('Generando cobro...', cobro);
-  //   this.loadingService.register('saving');
-  //   this.cobroService
-  //   .save(cobro)
-  //   .subscribe( res => {
-  //     console.log('Cobro generado exitosamente', res);
-  //     this.loadingService.resolve('saving');
-  //     //this.router.navigate(['caja/cobro', res.id])
-  //     this.onCancelar();
-  //   }, error => {
-  //     console.error(error);
-  //     this.loadingService.resolve('saving');
-  //   });
-  // }
-
   onSave(cobroJob) {
     console.log('Generando facturacion y cobro: ', cobroJob);
+    this.loadingService.register('saving');
+    this.service
+    .cobroContado(cobroJob)
+    .subscribe( (res: any) => {
+      console.log('Cobro generado exitosamente', res);
+      this.loadingService.resolve('saving');
+      this.router.navigate(['caja/generadas/show', res.id])
+    }, error => {
+      console.error(error);
+      this.loadingService.resolve('saving');
+    });
   }
 
   onCambiar(pedido: Venta) {

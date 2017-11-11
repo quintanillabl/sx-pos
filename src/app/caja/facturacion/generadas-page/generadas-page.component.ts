@@ -15,6 +15,7 @@ export class GeneradasPageComponent implements OnInit {
     { name: 'fecha',  label: 'Fecha', width: 10},
     { name: 'nombre',  label: 'Cliente', width: 400},
     { name: 'total',  label: 'Total', width: 10},
+    { name: 'saldo',  label: 'Saldo', width: 10},
     { name: 'cuentaPorCobrar',  label: 'CFDI', width: 20},
     { name: 'formaDePago',  label: 'F.Pago'},
   ];

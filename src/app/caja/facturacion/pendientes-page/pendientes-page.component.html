@@ -45,6 +45,15 @@
     <ng-template tdDataTableTemplate="cuentaPorCobrar" let-value="value" let-row="row">
         <span *ngIf="value">{{value.id}}</span>
     </ng-template>
+
+    <ng-template tdDataTableTemplate="regresar" let-value="value" let-row="row">
+        <button  md-icon-button
+            (click)="regresarAVentas(row)"
+            type="button"
+            mdTooltip="Regresar a pedidos" >
+            <md-icon >arrow_back</md-icon>
+        </button>
+    </ng-template>
     
     
   </td-data-table>

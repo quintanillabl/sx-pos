@@ -9,6 +9,10 @@ import { GeneradasPageComponent } from './generadas-page/generadas-page.componen
 import { CobranzaCodComponent } from './cobranza-cod/cobranza-cod.component';
 import { CobroCodFormComponent } from './cobranza-cod/cobro-cod-form/cobro-cod-form.component';
 import { CobroCodComponent } from './cobranza-cod/cobro-cod/cobro-cod.component';
+import { FacturaShowComponent } from './factura-show/factura-show.component';
+import { FacShowHeaderComponent } from './factura-show/fac-show-header/fac-show-header.component';
+import { FacShowPartidasComponent } from './factura-show/fac-show-partidas/fac-show-partidas.component';
+import { FacShowTotalesComponent } from './factura-show/fac-show-totales/fac-show-totales.component';
 
 
 @NgModule({
@@ -16,6 +20,6 @@ import { CobroCodComponent } from './cobranza-cod/cobro-cod/cobro-cod.component'
     SharedModule,
     RouterModule.forChild([]),
   ],
-  declarations: [PendientesPageComponent, CobroComponent, CobroFormComponent, GeneradasPageComponent, CobranzaCodComponent, CobroCodFormComponent, CobroCodComponent]
+  declarations: [PendientesPageComponent, CobroComponent, CobroFormComponent, GeneradasPageComponent, CobranzaCodComponent, CobroCodFormComponent, CobroCodComponent, FacturaShowComponent, FacShowHeaderComponent, FacShowPartidasComponent, FacShowTotalesComponent]
 })
 export class FacturacionModule { }

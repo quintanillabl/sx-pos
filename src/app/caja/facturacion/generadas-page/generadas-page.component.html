@@ -23,7 +23,7 @@
         [sortable]="false"
         [style.height.px]="400">
         <ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
-            <a md-button [routerLink]="['../cobro', row.id]"  [ngClass]="{'tc-pink-700':row.cod,'tc-indigo-700':!row.cod}">
+            <a md-button [routerLink]="['show', row.id]"  [ngClass]="{'tc-pink-700':row.cod,'tc-indigo-700':!row.cod}">
                 <span flex>{{row.cod ? 'COD': row.tipo}}</span> 
                 <span flex>{{value}} </span>
             </a>
@@ -33,6 +33,10 @@
         </ng-template>
         <ng-template tdDataTableTemplate="total" let-value="value" let-row="row">
             <span>{{value | currency: 'USD': 1.2-2}}</span> <span *ngIf="row.moneda === 'USD'"> USD</span>
+        </ng-template>
+
+        <ng-template tdDataTableTemplate="saldo" let-value="value" let-row="row">
+            <span>{{row.cuentaPorCobrar.saldo | currency: 'USD': 1.2-2}}</span> 
         </ng-template>
     
         <ng-template tdDataTableTemplate="cuentaPorCobrar" let-value="value" let-row="row">

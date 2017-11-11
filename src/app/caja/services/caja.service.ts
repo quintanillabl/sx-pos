@@ -3,7 +3,8 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from 'environments/environment';
-import { Venta, Sucursal, Producto } from 'app/models';
+import { Venta, Sucursal, Producto, Banco } from 'app/models';
+
 
 
 @Injectable()
@@ -46,6 +47,26 @@ export class CajaService {
   cuentaPorCobrar(id: string) {
     const url = `${environment.apiUrl}/cuentasPorCobrar/${id}`;
     return this.http.get(url);
+  }
+
+  cobroContado(cobro) {
+    const url = `${environment.apiUrl}/cxc/cobro/cobroContado/`;
+    const cob = {
+      ... cobro,
+      venta: cobro.venta.id
+    }
+    return this.http.post(url, cob);
+  }
+
+  regresarAPedidos(venta: Venta): Observable<Venta> {
+    venta.facturar = null;
+    const url = `${this.apiUrl}/${venta.id}`;
+    return this.http.put<Venta>(url, venta);
+  }
+
+  bancos(): Observable<Banco[]> {
+     const url = environment.apiUrl + '/tesoreria/bancos';
+     return this.http.get<Banco[]>(url);
   }
 
 }

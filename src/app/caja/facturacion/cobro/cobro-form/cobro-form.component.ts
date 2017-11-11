@@ -132,13 +132,15 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
   }
 
   get permitirMasCobros() {
-    return this.porCobrar > 0 && this.importe > 0
+    return this.porCobrar > 0 && this.importe > 0 && (this.venta.formaDePago !== 'EFECTIVO')
   }
 
   agregarCobro(){
     const cobro = this.prepareEntity();
     this.parciales.push(cobro);
-    this.form.get('formaDePago').enable();
+    if(this.venta.formaDePago !== 'EFECTIVO') {
+      this.form.get('formaDePago').enable();
+    }
     this.form.reset({
       importe: 0,
       formaDePago: this.venta.formaDePago,

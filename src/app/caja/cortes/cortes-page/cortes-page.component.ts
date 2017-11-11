@@ -7,9 +7,9 @@ import { Component, OnInit } from '@angular/core';
 export class CortesPageComponent implements OnInit {
 
   navigation: Object[] = [
-    {route: 'facturacion', title: 'Corte cobranza', icon: 'storage'},
-    {route: 'facturacion', title: 'Gastos', icon: 'storage'},
-    {route: 'facturacion', title: 'Morralla', icon: 'storage'},
+    {route: 'cobranza', title: 'Corte cobranza', icon: 'storage'},
+    {route: 'fondoFijo', title: 'Fondo fijo', icon: 'storage'},
+    {route: 'morralla', title: 'Morralla', icon: 'storage'},
     {route: 'facturacion', title: 'Fichas', icon: 'storage'},
 
     

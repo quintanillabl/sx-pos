@@ -22,7 +22,10 @@ import { FacturasPendientesEmbarqueComponent } from './reportes/facturas-pendien
 import { DisponiblesSucursalComponent } from './reportes/disponibles-sucursal/disponibles-sucursal.component';
 import { VentasDiariasCheComponent } from './reportes/ventas-diarias-che/ventas-diarias-che.component';
 import { CortesModule } from './cortes/cortes.module';
+import { CorteCobranzaService } from './services/corteCobranza.service';
+import { FondoFijoService } from './services/fondo-fijo.service';
 
+ 
 
 @NgModule({
   imports: [
@@ -43,12 +46,14 @@ import { CortesModule } from './cortes/cortes.module';
     FacturasCanceladasComponent,
     FacturasPendientesEmbarqueComponent,
     DisponiblesSucursalComponent,
-    VentasDiariasCheComponent
+    VentasDiariasCheComponent,
   ],
   providers: [
     ReportesService,
     CajaService,
     CobroService,
+    CorteCobranzaService,
+    FondoFijoService,
   ],
   entryComponents: [
     VentasDiariasComponent,

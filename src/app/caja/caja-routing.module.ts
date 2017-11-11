@@ -9,6 +9,10 @@ import { GeneradasPageComponent } from './facturacion/generadas-page/generadas-p
 import { CobranzaCodComponent } from './facturacion/cobranza-cod/cobranza-cod.component';
 import { CobroCodComponent } from './facturacion/cobranza-cod/cobro-cod/cobro-cod.component';
 import { CortesPageComponent } from './cortes/cortes-page/cortes-page.component';
+import { FacturaShowComponent } from '@siipapx/caja/facturacion/factura-show/factura-show.component';
+import { CorteCobranzaComponent } from '@siipapx/caja/cortes/corte-cobranza/corte-cobranza.component';
+import { CorteMorrallaComponent } from '@siipapx/caja/cortes/corte-morralla/corte-morralla.component';
+import { CorteFondoFijoComponent } from '@siipapx/caja/cortes/corte-fondo-fijo/corte-fondo-fijo.component';
 
 const routes: Routes = [
   {
@@ -32,6 +36,10 @@ const routes: Routes = [
             component: GeneradasPageComponent
           },
           {
+            path: 'generadas/show/:id',
+            component: FacturaShowComponent
+          },
+          {
             path: 'cobranzaCod',
             component: CobranzaCodComponent
           },
@@ -43,7 +51,12 @@ const routes: Routes = [
       },
       {
         path:'cortes',
-        component: CortesPageComponent
+        component: CortesPageComponent,
+        children: [
+          {path: 'cobranza', component: CorteCobranzaComponent},
+          {path: 'fondoFijo', component: CorteFondoFijoComponent},
+          {path: 'morralla', component: CorteMorrallaComponent}
+        ]
       }
     ]
   }

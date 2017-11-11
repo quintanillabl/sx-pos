@@ -1,0 +1,36 @@
+<div layout="column">
+  
+  <div layout class="row1 pad">
+    <span class="md-title" flex="70">
+      {{cliente.nombre}}
+    </span>
+    <span>Docto</span>
+    <div layout="column" layout-align="center right" class="pad-left" *ngIf="cliente">
+      <span class="pad-left pad-right tc-pink-800">
+        {{venta.cuentaPorCobrar.tipo}} {{venta.cuentaPorCobrar.documento}}
+      </span>
+      <span class="pad-left pad-right">Fecha {{venta.fecha | date: 'dd/MM/yyyy'}}</span>
+    </div>
+    <div layout="column" layout-align="center center" class="pad-left" *ngIf="cliente">
+      <span class="text-right pad-left text-md" 
+        *ngIf="cliente.credito && cliente.credito.postfechado" >Postfechado</span>
+      <span flex></span>
+    </div>
+  </div>
+  
+  <div layout class="row2">
+    <address *ngIf="cliente?.direccion; let direccion" class="text-sm">
+      {{direccion.calle}} {{direccion.numeroExterior}}<br>
+      {{direccion.colonia}}<br>
+      {{direccion.estado}} / {{direccion.pais}}<br>
+      {{direccion.codigoPostal}}<br>
+    </address>
+    <span flex class="pad-sm"></span>
+    <span fldex="15">CFDI:
+      <a (click)="consultarCfdi()" [routerLink]="['/ventas/cfdi/show/:id']">
+      {{venta.cuentaPorCobrar.uuid}}
+      </a>
+    </span>
+  </div>
+</div>
+  
