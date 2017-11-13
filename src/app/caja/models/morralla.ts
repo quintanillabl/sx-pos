@@ -7,5 +7,4 @@ export interface Morralla {
   importe: number
   sucursal:	Sucursal
   comentario?:	string
-  
 }

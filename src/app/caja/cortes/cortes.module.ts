@@ -14,6 +14,8 @@ import { CorteCobranzaListComponent } from './corte-cobranza/corte-cobranza-list
 import { FondoFijoListComponent } from './corte-fondo-fijo/fondo-fijo-list/fondo-fijo-list.component';
 import { RembolsoComponent } from './corte-fondo-fijo/rembolso/rembolso.component';
 import { GastoComponent } from './corte-fondo-fijo/gasto/gasto.component';
+import { MorrallaDialogComponent } from './corte-morralla/morralla-dialog/morralla-dialog.component';
+import { MorrallaListComponent } from './corte-morralla/morralla-list/morralla-list.component';
 
 @NgModule({
   imports: [
@@ -31,6 +33,8 @@ import { GastoComponent } from './corte-fondo-fijo/gasto/gasto.component';
     FondoFijoListComponent,
     RembolsoComponent,
     GastoComponent,
+    MorrallaDialogComponent,
+    MorrallaListComponent,
   ],
   entryComponents: [
     EfectivoDialogComponent,
@@ -40,6 +44,7 @@ import { GastoComponent } from './corte-fondo-fijo/gasto/gasto.component';
     CambioDeChequeDialogComponent,
     RembolsoComponent,
     GastoComponent,
+    MorrallaDialogComponent
   ]
 })
 export class CortesModule { }
