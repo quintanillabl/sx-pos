@@ -13,6 +13,8 @@ import { FacturaShowComponent } from './factura-show/factura-show.component';
 import { FacShowHeaderComponent } from './factura-show/fac-show-header/fac-show-header.component';
 import { FacShowPartidasComponent } from './factura-show/fac-show-partidas/fac-show-partidas.component';
 import { FacShowTotalesComponent } from './factura-show/fac-show-totales/fac-show-totales.component';
+import { ChequeFormComponent } from './cobro/cheque-form/cheque-form.component';
+import { TarjetaFormComponent } from './cobro/tarjeta-form/tarjeta-form.component';
 
 
 @NgModule({
@@ -20,6 +22,14 @@ import { FacShowTotalesComponent } from './factura-show/fac-show-totales/fac-sho
     SharedModule,
     RouterModule.forChild([]),
   ],
-  declarations: [PendientesPageComponent, CobroComponent, CobroFormComponent, GeneradasPageComponent, CobranzaCodComponent, CobroCodFormComponent, CobroCodComponent, FacturaShowComponent, FacShowHeaderComponent, FacShowPartidasComponent, FacShowTotalesComponent]
+  declarations: [
+    PendientesPageComponent, CobroComponent, CobroFormComponent, GeneradasPageComponent, CobranzaCodComponent,
+    CobroCodFormComponent, CobroCodComponent, FacturaShowComponent, FacShowHeaderComponent, FacShowPartidasComponent,
+    FacShowTotalesComponent, ChequeFormComponent, TarjetaFormComponent
+  ],
+  entryComponents: [
+    ChequeFormComponent,
+    TarjetaFormComponent
+  ]
 })
 export class FacturacionModule { }

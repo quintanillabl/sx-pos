@@ -9,6 +9,9 @@ import * as _ from 'lodash';
 import { CajaService } from 'app/caja/services/caja.service';
 import { Venta } from 'app/models';
 import { Cobro } from 'app/models/cobro';
+import {MdDialog} from '@angular/material';
+import {ChequeFormComponent} from '@siipapx/caja/facturacion/cobro/cheque-form/cheque-form.component';
+import {TarjetaFormComponent} from '@siipapx/caja/facturacion/cobro/tarjeta-form/tarjeta-form.component';
 
 
 export const CobradoValidator = (control: AbstractControl): {[key: string]: boolean} => {
@@ -40,11 +43,12 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
   parciales: Cobro[] = [];
 
   subscription: Subscription;
-  
+
   form: FormGroup;
 
   constructor(
     private fb: FormBuilder,
+    public dialog: MdDialog,
   ) {
     this.buildForm();
   }
@@ -64,26 +68,25 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(changes.venta && changes.venta.currentValue !=null ){
+    if (changes.venta && changes.venta.currentValue !== null ) {
       this.form.patchValue({
         formaDePago: this.venta.formaDePago,
       })
     }
   }
 
-  private buildForm(){
+  private buildForm() {
     this.form = this.fb.group({
       importe: [0, [Validators.required, CobradoValidator]],
       formaDePago: [{value: '', disabled: true}, [Validators.required, this.validarFormaDePago.bind(this)]],
       cambio: [{value: 0, disabled: true}],
-    },{
+    }, {
       validator: this.validarPorCobrar.bind(this)
     });
-    
+
     this.subscription = this.form.get('importe').valueChanges.subscribe(importe => {
-      
       if (this.porCobrar < 0) {
-        let cambio = Math.abs(this.porCobrar); 
+        let cambio = Math.abs(this.porCobrar);
         cambio = _.round(cambio,2);
         this.form.get('cambio').setValue(cambio);
       } else {
@@ -128,17 +131,29 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
   }
 
   get pendiente() {
-    return this.saldo - this.totalParciales 
+    return this.saldo - this.totalParciales
   }
 
   get permitirMasCobros() {
     return this.porCobrar > 0 && this.importe > 0 && (this.venta.formaDePago !== 'EFECTIVO')
   }
 
-  agregarCobro(){
+  agregarCobro() {
     const cobro = this.prepareEntity();
+    if (cobro.formaDePago === 'CHEQUE') {
+      this.agregarCheque(cobro);
+    }
+    if (cobro.formaDePago === 'TARJETA_DEBITO' || cobro.formaDePago === 'TARJETA_CREDITO') {
+      this.agregarTarjeta(cobro);
+    } else {
+      this.pushCobro(cobro);
+    }
+  }
+
+  pushCobro(cobro: Cobro) {
+    console.log('Cobro generado: ', cobro);
     this.parciales.push(cobro);
-    if(this.venta.formaDePago !== 'EFECTIVO') {
+    if (this.venta.formaDePago !== 'EFECTIVO') {
       this.form.get('formaDePago').enable();
     }
     this.form.reset({
@@ -149,15 +164,13 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
   }
 
   quitarCobro(index: number) {
-    console.log('Quitando cobro: ', index);
     this.parciales.splice(index);
     if (this.parciales.length === 0) {
       this.form.get('formaDePago').disable();
     }
   }
 
-  private prepareEntity(){
-    //const importe = this.form.get('porCobrar').value
+  private prepareEntity() {
     const cobro: Cobro = {
       cliente: this.venta.cliente,
       sucursal: this.venta.sucursal,
@@ -168,25 +181,42 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
       tipoDeCambio: this.venta.tipoDeCambio,
       importe: _.toNumber(this.form.get('importe').value),
     }
+    console.log('Agregar datos de la forma de pago...');
     return cobro;
   }
 
   onSubmit() {
     if (this.form.valid) {
       const cobros = [... this.parciales];
-      cobros.push(this.prepareEntity());
-      const cobroJob = {
-        venta: this.venta,
-        cobros: cobros
+      const last = this.prepareEntity();
+
+      if (last.formaDePago === 'TARJETA_DEBITO' || last.formaDePago === 'TARJETA_CREDITO') {
+        this.agregarTarjeta2(last).subscribe( result => {
+          if (result) {
+            cobros.push(result);
+            const cobroJob = {
+              venta: this.venta,
+              cobros: cobros
+            }
+            this.save.emit(cobroJob);
+          }
+        });
+      } else {
+        cobros.push(this.prepareEntity());
+        const cobroJob = {
+          venta: this.venta,
+          cobros: cobros
+        }
+        this.save.emit(cobroJob);
       }
-      this.save.emit(cobroJob);
+
     }
   }
 
-  getTipo(venta: Venta){
-    if(venta !== null) {
+  getTipo(venta: Venta) {
+    if (venta !== null) {
       switch (venta.tipo) {
-        case 'CRE': 
+        case 'CRE':
           return 'CREDITO'
         case 'ANT':
           return 'ANTICIPO'
@@ -211,9 +241,38 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
       }
       case 'EFECTIVO':
         return 'attach_money'
-      default: 
+      default:
         return 'local_atm'
     }
+  }
+
+  agregarCheque(cobro: Cobro) {
+    const dialogRef = this.dialog.open(ChequeFormComponent, {
+      data: {cobro: cobro}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Complmeneto de cheque generado');
+      }
+    });
+  }
+
+  agregarTarjeta(cobro: Cobro) {
+    const dialogRef = this.dialog.open(TarjetaFormComponent, {
+      data: {cobro: cobro}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.pushCobro(result);
+      }
+    });
+  }
+
+  agregarTarjeta2(cobro: Cobro): Observable<any> {
+    const dialogRef = this.dialog.open(TarjetaFormComponent, {
+      data: {cobro: cobro}
+    });
+    return dialogRef.afterClosed();
   }
 
 }

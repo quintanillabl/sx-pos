@@ -1,9 +1,9 @@
-import { Cliente, Sucursal } from "app/models";
-import { AplicacionDeCobro } from "./aplicacionDeCobro";
+import { Cliente, Sucursal } from 'app/models';
+import { AplicacionDeCobro } from './aplicacionDeCobro';
 
 export interface Cobro {
     id?: string
-    cliente: Cliente 
+    cliente: Cliente
     sucursal: Sucursal
     tipo: string
     fecha: string
@@ -20,4 +20,12 @@ export interface Cobro {
     createUser?: string
     updateUser?: string
     aplicaciones?: Array<AplicacionDeCobro>
+    tarjeta?: CobroTarjeta
+}
+
+export interface CobroTarjeta {
+  id?: string;
+  debitoCredito: boolean;
+  visaMaster: boolean;
+  validacion: number;
 }

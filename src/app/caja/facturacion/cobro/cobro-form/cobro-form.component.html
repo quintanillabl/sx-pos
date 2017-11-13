@@ -2,8 +2,8 @@
   <md-card flex="70">
     <md-card-title class="md-title">Facturación y cobro</md-card-title>
     <md-divider></md-divider>
-    <md-card-content>  
-      
+    <md-card-content>
+
       <div layout  class="md-title ">
         <span >{{venta.nombre}}</span>
       </div>
@@ -19,19 +19,19 @@
         <md-form-field flex>
             <input type="text" mdInput value="{{venta?.fecha | date: 'dd/MM/yyyy'}}" placeholder="Fecha" [disabled]="true">
         </md-form-field>
-        
+
         <md-select placeholder="Fomra de pago" formControlName="formaDePago" flex>
           <md-option *ngFor="let tipo of formasDePago" [value]="tipo">
             {{tipo}}
           </md-option>
         </md-select>
-        
+
         <!-- <md-form-field flex *ngIf="parciales.length === 0">
             <input type="text" mdInput value="{{venta.formaDePago}}" placeholder="Forma de Pago" [disabled]="true">
         </md-form-field> -->
 
       </div>
-    
+
       <div layout  layout-align="center center" layout-padding>
         <md-form-field flex>
           <input type="text" mdInput value="{{venta?.total | currency: 'USD': 1.2-2}}" placeholder="Total pedido" [disabled]="true">
@@ -46,17 +46,20 @@
           <md-error>Importe invalido</md-error>
         </md-form-field>
 
-        
-        
+
+
       </div>
-    
+
       <div layout  layout-align="center center" layout-padding>
-        <span flex></span>
+        <section>
+          <button type="button" md-button color="accent" (click)="form.get('importe').setValue(pendiente)"
+                  [disabled]="pendiente <= 0"> Aplicar: {{pendiente | currency: 'USD': 1.2-2}}</button>
+        </section>
         <md-form-field flex>
           <input type="text" mdInput  placeholder="Cobrado" formControlName="importe" sxOnlyNumbers>
           <md-error>Imorte incorrecto</md-error>
         </md-form-field>
-        
+
         <md-form-field flex>
           <input type="text" mdInput  placeholder="Diferencia" formControlName="cambio">
         </md-form-field>
@@ -65,33 +68,29 @@
             [disabled]="!permitirMasCobros"> Agregar otra F.P</button>
         </section>
       </div>
-          
+
     </md-card-content>
     <md-divider></md-divider>
     <md-card-actions>
-      <ng-container *ngIf="venta?.cod !==true " > 
-        <button md-button color="primary" class="text-upper" 
+      <ng-container *ngIf="venta?.cod !==true " >
+        <button md-button color="primary" class="text-upper"
           [disabled]="form.invalid">
           Cobrar
         </button>
-        <button md-button type="button" (click)="cambiarPedido.emit(venta)"
-          color="primary" 
-          class="text-upper" 
-          mdTooltip="Cambiar forma de pago al pedido">F.P.
-        </button>
+
         <button md-button type="button"
-          color="primary" 
+          color="primary"
           class="text-upper">Disponibles
         </button>
       </ng-container>
-      <button md-button color="primary" type="button" 
+      <button md-button color="primary" type="button"
         class="text-upper" *ngIf="venta.cod"
         (click)="facturar.emit(venta)" >
         Facturar
       </button>
       <button md-button class="text-upper" (click)="cancelar.emit()">Cancelar</button>
-    </md-card-actions>    
-  </md-card>    
+    </md-card-actions>
+  </md-card>
 
   <md-card flex="30">
     <md-card-title class="md-title" >

@@ -33,7 +33,7 @@ export class CobroComponent implements OnInit {
       .map( params => params.get('id'))
       .do(id => console.log('Buscando venta con id: ', id))
       .switchMap( id => this.service.getVenta(id));
-    
+
     // this.venta$.subscribe(venta => console.log('Cobro de venta: ', venta));
   }
 
@@ -74,7 +74,7 @@ export class CobroComponent implements OnInit {
   }
 
   onSave(cobroJob) {
-    console.log('Generando facturacion y cobro: ', cobroJob);
+    // console.log('Generando facturacion y cobro: ', cobroJob);
     this.loadingService.register('saving');
     this.service
     .cobroContado(cobroJob)
@@ -87,22 +87,4 @@ export class CobroComponent implements OnInit {
       this.loadingService.resolve('saving');
     });
   }
-
-  onCambiar(pedido: Venta) {
-    if (! pedido.cuentaPorCobrar) {
-      this._dialogService.openConfirm({
-        message: `Cambiar la forma de pago del  pedido:
-         ${pedido.tipo}-${pedido.documento} (${pedido.formaDePago}) (Server error: 403)` ,
-        viewContainerRef: this._viewContainerRef,
-        title: 'Facturación de contado',
-        cancelButton: 'Cancelar',
-        acceptButton: 'Aceptar',
-      }).afterClosed().subscribe((accept: boolean) => {
-        if (accept) {
-          // this.router.navigate(['', pedido.id]);
-        }
-      });
-    }
-  }
-
 }
