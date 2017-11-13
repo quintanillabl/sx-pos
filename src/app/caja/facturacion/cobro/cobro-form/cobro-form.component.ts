@@ -57,9 +57,16 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
     // console.log('Cobro de venta: ', this.venta);
     if (this.venta.cliente.permiteCheque) {
       this.formasDePago.push('CHEQUE');
+      _.pull(this.formasDePago, 'TRANSFERENCIA');
     }
     if (this.venta.formaDePago === 'TARJETA_DEBITO') {
       _.pull(this.formasDePago, 'TARJETA_CREDITO');
+      _.pull(this.formasDePago, 'TRANSFERENCIA');
+    }
+    if (this.venta.formaDePago === 'CHEQUE') {
+      _.pull(this.formasDePago, 'TARJETA_CREDITO');
+      _.pull(this.formasDePago, 'TARJETA_DEBITO');
+      _.pull(this.formasDePago, 'TRANSFERENCIA');
     }
   }
 
@@ -140,11 +147,19 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
 
   agregarCobro() {
     const cobro = this.prepareEntity();
+    let cobro$: Observable<any> = null;
     if (cobro.formaDePago === 'CHEQUE') {
-      this.agregarCheque(cobro);
+      cobro$ = this.agregarCheque(cobro);
     }
     if (cobro.formaDePago === 'TARJETA_DEBITO' || cobro.formaDePago === 'TARJETA_CREDITO') {
-      this.agregarTarjeta(cobro);
+      cobro$ = this.agregarTarjeta2(cobro);
+    }
+    if (cobro$) {
+      cobro$.subscribe(res => {
+        if (res) {
+          this.pushCobro(res);
+        }
+      });
     } else {
       this.pushCobro(cobro);
     }
@@ -189,9 +204,13 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
     if (this.form.valid) {
       const cobros = [... this.parciales];
       const last = this.prepareEntity();
-
+      let cobro$: Observable<any> = null;
       if (last.formaDePago === 'TARJETA_DEBITO' || last.formaDePago === 'TARJETA_CREDITO') {
-        this.agregarTarjeta2(last).subscribe( result => {
+        cobro$ = this.agregarTarjeta2(last);
+      } if (last.formaDePago === 'CHEQUE') {
+        cobro$ = this.agregarCheque(last);
+      } if (cobro$) {
+        cobro$.subscribe( result => {
           if (result) {
             cobros.push(result);
             const cobroJob = {
@@ -209,7 +228,6 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
         }
         this.save.emit(cobroJob);
       }
-
     }
   }
 
@@ -246,15 +264,11 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy{
     }
   }
 
-  agregarCheque(cobro: Cobro) {
+  agregarCheque(cobro: Cobro): Observable<any> {
     const dialogRef = this.dialog.open(ChequeFormComponent, {
       data: {cobro: cobro}
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Complmeneto de cheque generado');
-      }
-    });
+    return dialogRef.afterClosed();
   }
 
   agregarTarjeta(cobro: Cobro) {

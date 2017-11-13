@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MD_DIALOG_DATA, MdDialogRef} from '@angular/material';
 
-import {Cobro} from 'app/models/cobro';
+import {Cobro, CobroCheque} from 'app/models/cobro';
 
 @Component({
   selector: 'sx-cheque-form',
@@ -24,7 +24,9 @@ export class ChequeFormComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      numero: '',
+      numero: [0, Validators.required],
+      bancoOrigen: [null, Validators.required],
+      numeroDeCuenta: ['', Validators.required],
     });
   }
 
@@ -34,6 +36,10 @@ export class ChequeFormComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
+      const cheque: CobroCheque = {
+        ...this.form.value
+      }
+      this.cobro.cheque = cheque;
       this.dialogRef.close(this.cobro);
     }
   }

@@ -1,5 +1,6 @@
 import { Cliente, Sucursal } from 'app/models';
 import { AplicacionDeCobro } from './aplicacionDeCobro';
+import {Banco} from '@siipapx/models/banco';
 
 export interface Cobro {
     id?: string
@@ -20,7 +21,8 @@ export interface Cobro {
     createUser?: string
     updateUser?: string
     aplicaciones?: Array<AplicacionDeCobro>
-    tarjeta?: CobroTarjeta
+    tarjeta?: CobroTarjeta;
+    cheque?: CobroCheque;
 }
 
 export interface CobroTarjeta {
@@ -28,4 +30,11 @@ export interface CobroTarjeta {
   debitoCredito: boolean;
   visaMaster: boolean;
   validacion: number;
+}
+
+export interface  CobroCheque {
+  id?: string;
+  banco: Banco;
+  numero: string;
+  numeroDeCuenta: string;
 }

@@ -11,7 +11,7 @@ import { environment} from 'environments/environment';
   selector: 'sx-bancos-field',
   template: `
     <ng-container [formGroup]="parent">
-      <md-select placeholder="Banco" formControlName="banco" class="fill" >
+      <md-select placeholder="Banco" [formControlName]="propertyName" class="fill" >
         <md-option *ngFor="let banco of bancos$ | async; " [value]="banco">
           {{banco.nombre}}
         </md-option>

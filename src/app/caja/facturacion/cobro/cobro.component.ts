@@ -74,7 +74,7 @@ export class CobroComponent implements OnInit {
   }
 
   onSave(cobroJob) {
-    // console.log('Generando facturacion y cobro: ', cobroJob);
+    console.log('Generando facturacion y cobro: ', cobroJob);
     this.loadingService.register('saving');
     this.service
     .cobroContado(cobroJob)
