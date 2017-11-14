@@ -47,13 +47,13 @@ export class CobroCodFormComponent implements OnInit {
     // this.subscription.unsubscribe();
   }
   ngOnChanges(changes: SimpleChanges) {
-    
+
     if(changes.cxc && changes.cxc.currentValue !=null ){
       this.form.patchValue({
         formaDePago: this.cxc.formaDePago
       })
     }
-    
+
   }
 
   private buildForm(){
@@ -65,14 +65,14 @@ export class CobroCodFormComponent implements OnInit {
     });
 
     // this.subscription = this.form.get('cobrado').valueChanges.subscribe(cobrado => {
-    //   let cambio = cobrado - this.porCobrar 
+    //   let cambio = cobrado - this.porCobrar
     //   if (cambio > 0) {
     //     cambio = _.round(cambio,2);
     //     this.form.get('cambio').setValue(cambio);
     //   }
     // });
   }
-  
+
 
   onSubmit() {
     if (this.form.valid) {
@@ -86,7 +86,8 @@ export class CobroCodFormComponent implements OnInit {
         moneda: this.cxc.moneda,
         tipoDeCambio: this.cxc.tipoDeCambio,
         importe: importe,
-      } 
+        disponible: importe
+      }
       cobro.aplicaciones = [
         {fecha: new Date().toISOString(), importe: importe, cuentaPorCobrar: this.cxc}
       ];

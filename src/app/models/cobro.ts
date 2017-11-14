@@ -11,7 +11,8 @@ export interface Cobro {
     formaDePago: string
     moneda: string
     tipoDeCambio: number
-    importe: number
+    importe: number,
+    disponible: number,
     referencia?: string
     primeraAplicacion?: string
     anticipo?: boolean
@@ -23,6 +24,7 @@ export interface Cobro {
     aplicaciones?: Array<AplicacionDeCobro>
     tarjeta?: CobroTarjeta;
     cheque?: CobroCheque;
+    porAplicar?: number;
 }
 
 export interface CobroTarjeta {

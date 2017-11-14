@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { environment } from 'environments/environment';
 import { Cobro } from 'app/models/cobro';
+import { Cliente } from 'app/models';
 
 @Injectable()
 export class CobroService {
@@ -45,6 +46,11 @@ export class CobroService {
   delete(id: string) {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete(url);
+  }
+
+  buscarDisponibles(cliente: Cliente): Observable<Cobro[]> {
+    const url = `${this.apiUrl}/buscarDisponibles/${cliente.id}`;
+    return this.http.get<Cobro[]>(url);
   }
 
 }

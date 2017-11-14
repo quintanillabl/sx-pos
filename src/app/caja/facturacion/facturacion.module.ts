@@ -15,6 +15,7 @@ import { FacShowPartidasComponent } from './factura-show/fac-show-partidas/fac-s
 import { FacShowTotalesComponent } from './factura-show/fac-show-totales/fac-show-totales.component';
 import { ChequeFormComponent } from './cobro/cheque-form/cheque-form.component';
 import { TarjetaFormComponent } from './cobro/tarjeta-form/tarjeta-form.component';
+import { DisponibleFormComponent } from './cobro/disponible-form/disponible-form.component';
 
 
 @NgModule({
@@ -25,11 +26,12 @@ import { TarjetaFormComponent } from './cobro/tarjeta-form/tarjeta-form.componen
   declarations: [
     PendientesPageComponent, CobroComponent, CobroFormComponent, GeneradasPageComponent, CobranzaCodComponent,
     CobroCodFormComponent, CobroCodComponent, FacturaShowComponent, FacShowHeaderComponent, FacShowPartidasComponent,
-    FacShowTotalesComponent, ChequeFormComponent, TarjetaFormComponent
+    FacShowTotalesComponent, ChequeFormComponent, TarjetaFormComponent, DisponibleFormComponent
   ],
   entryComponents: [
     ChequeFormComponent,
-    TarjetaFormComponent
+    TarjetaFormComponent,
+    DisponibleFormComponent,
   ]
 })
 export class FacturacionModule { }

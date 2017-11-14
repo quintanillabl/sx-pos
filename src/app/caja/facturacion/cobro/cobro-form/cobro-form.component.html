@@ -52,8 +52,8 @@
 
       <div layout  layout-align="center center" layout-padding>
         <section>
-          <button type="button" md-button color="accent" (click)="form.get('importe').setValue(pendiente)"
-                  [disabled]="pendiente <= 0"> Aplicar: {{pendiente | currency: 'USD': 1.2-2}}</button>
+          <button type="button" md-button color="accent" (click)="saldar()"
+                  [disabled]="porCobrar <= 0"> Aplicar: {{pendiente | currency: 'USD': 1.2-2}}</button>
         </section>
         <md-form-field flex>
           <input type="text" mdInput  placeholder="Cobrado" formControlName="importe" sxOnlyNumbers>
@@ -70,6 +70,8 @@
       </div>
 
     </md-card-content>
+    <td-message *ngIf="!form.hasError('permiteCheque') && form.get('formaDePago').value=== 'CHEQUE' "
+      label="Error!" sublabel="No se permite cheque a este cliente" color="warn" icon="error"></td-message>
     <md-divider></md-divider>
     <md-card-actions>
       <ng-container *ngIf="venta?.cod !==true " >
@@ -78,7 +80,7 @@
           Cobrar
         </button>
 
-        <button md-button type="button"
+        <button md-button type="button" (click)="buscarDisponible()" [disabled]="porCobrar <= 0"
           color="primary"
           class="text-upper">Disponibles
         </button>
@@ -105,8 +107,11 @@
       <ng-template let-item let-last="last" let-index="index" ngFor [ngForOf]="parciales">
         <md-list-item>
             <md-icon mdListAvatar>{{getItemIcon(item)}}</md-icon>
-            <h4 mdLine>{{item.formaDePago}}</h4>
-            <p mdLine>{{item.importe | currency: 'USD': 1.2-2}}</p>
+            <h4 mdLine>{{item.formaDePago}} </h4>
+            <p mdLine>
+              <span *ngIf="item.id">Disponible: </span>{{item.disponible | currency: 'USD': 1.2-2}}
+            </p>
+            <p mdLine *ngIf="item.id"> Por Aplicar: {{item.porAplicar | currency: 'USD': 1.2-2}}</p>
             <button md-icon-button type="button" (click)="quitarCobro(index)">
                 <md-icon>delete</md-icon>
             </button>
