@@ -36,7 +36,9 @@ export class PedidosService {
   }
 
   list(): Observable<Venta[]> {
-    return this.http.get<Venta[]>(this.apiUrl)
+    const params = new HttpParams()
+      .set('sucursal', this.sucursal.id);
+    return this.http.get<Venta[]>(this.apiUrl, {params: params})
   }
 
   save(venta: Venta) {
@@ -86,7 +88,7 @@ export class PedidosService {
   facturados(tipo: string) {
     const params = new HttpParams()
       .set('facturados', tipo)
-      // .set('sucursal', this.sucursal.id);
+      .set('sucursal', this.sucursal.id);
     return this.http.get<Venta[]>(this.apiUrl, {params: params})
   }
 

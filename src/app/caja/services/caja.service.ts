@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 
 import { environment } from 'environments/environment';
 import { Venta, Sucursal, Producto, Banco } from 'app/models';
-import { ConfigService } from 'app/core/services/config.service';
 
 import {Store} from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
@@ -20,10 +19,8 @@ export class CajaService {
 
   constructor(
     private http: HttpClient,
-    /// private configService: ConfigService
     private store: Store<fromRoot.State>
   ) {
-    // this.configService.get().subscribe(conf => this.sucursal = conf.sucursal);
     this.store.select(fromRoot.getSucursal).subscribe( s => this.sucursal = s);
   }
 

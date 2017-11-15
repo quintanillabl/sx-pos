@@ -6,7 +6,10 @@ import * as _ from 'lodash';
 
 import { environment } from 'environments/environment';
 import {Sucursal} from 'app/models';
-import {ConfigService} from '@siipapx/core/services/config.service';
+
+import {Store} from '@ngrx/store';
+import * as fromRoot from 'app/reducers';
+
 
 @Injectable()
 export class ReportesService {
@@ -17,9 +20,9 @@ export class ReportesService {
 
   constructor(
     private http: HttpClient,
-    private configService: ConfigService
+    private store: Store<fromRoot.State>
   ) {
-    this.configService.get().subscribe(config => this.sucursal = config.sucursal);
+    this.store.select(fromRoot.getSucursal).subscribe( s => this.sucursal = s);
   }
 
 

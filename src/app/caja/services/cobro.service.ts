@@ -5,7 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import { environment } from 'environments/environment';
 import { Cobro } from 'app/models/cobro';
 import {Cliente, Sucursal} from 'app/models';
-import { ConfigService } from 'app/core/services/config.service';
+
+import {Store} from '@ngrx/store';
+import * as fromRoot from 'app/reducers';
 
 @Injectable()
 export class CobroService {
@@ -16,9 +18,9 @@ export class CobroService {
 
   constructor(
     private http: HttpClient,
-    private configService: ConfigService,
+    private store: Store<fromRoot.State>
   ) {
-    this.configService.get().subscribe(config => this.sucursal = config.sucursal);
+    this.store.select(fromRoot.getSucursal).subscribe( s => this.sucursal = s);
   }
 
   get(id: string): Observable<Cobro> {

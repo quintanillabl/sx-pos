@@ -5,7 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import { environment } from 'environments/environment';
 import { Morralla } from 'app/caja/models/morralla';
 import { Sucursal } from 'app/models';
-import {ConfigService} from '@siipapx/core/services/config.service';
+
+import {Store} from '@ngrx/store';
+import * as fromRoot from 'app/reducers';
 
 
 @Injectable()
@@ -17,9 +19,9 @@ export class MorrallaService {
 
   constructor(
     private http: HttpClient,
-    private configService: ConfigService
+    private store: Store<fromRoot.State>
   ) {
-    this.configService.get().subscribe(config => this.sucursal = config.sucursal);
+    this.store.select(fromRoot.getSucursal).subscribe( s => this.sucursal = s);
   }
 
   get(id: string): Observable<Morralla> {
