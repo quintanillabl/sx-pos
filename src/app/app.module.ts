@@ -22,7 +22,9 @@ import { AuthModule } from './_auth/auth.module';
 import { AuthInterceptor } from './_auth/services/authInterceptor';
 import { GlobalErrorHandler } from './global-error-handler';
 import { ClientesModule } from './clientes/clientes.module';
-import { ProductosModule } from "app/productos/productos.module";
+import { ProductosModule } from 'app/productos/productos.module';
+import { ConfigService} from './core/services/config.service';
+
 
 const config: SocketIoConfig = { url: 'http://10.10.1.136:8500', options: {} };
 
@@ -30,12 +32,31 @@ const config: SocketIoConfig = { url: 'http://10.10.1.136:8500', options: {} };
   declarations: [
     AppComponent,
   ],
+  providers: [ ConfigService,
+
+    { provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler
+    },
+    /**
+     * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
+     * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
+     * by `@ngrx/router-store` to include only the desired pieces of the snapshot.
+     */
+    { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
+
+
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
     HttpClientModule,
-    
+
     AppRoutingModule,
     /**
      * StoreModule.forRoot is imported once in the root module, accepting a reducer
@@ -81,24 +102,6 @@ const config: SocketIoConfig = { url: 'http://10.10.1.136:8500', options: {} };
     ProductosModule.forRoot(),
     SocketIoModule.forRoot(config),
 
-  ],
-  providers: [
-    [
-      { provide: HTTP_INTERCEPTORS,
-        useClass: AuthInterceptor,
-        multi: true
-      },
-      {
-        provide: ErrorHandler,
-        useClass: GlobalErrorHandler
-      },
-      /**
-       * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
-       * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
-       * by `@ngrx/router-store` to include only the desired pieces of the snapshot.
-       */
-      { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer }
-    ]
   ],
   bootstrap: [AppComponent]
 })

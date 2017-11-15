@@ -6,15 +6,17 @@ export interface State {
 }
 
 const initialState: State = {
-  sucursal: {
-      id: '402880fc5e4ec411015e4ec64e70012e',
-      clave: '12',
-      nombre: 'TACUBA'
-    }
+  sucursal: null
 };
 
 export function reducer(state = initialState, action: config.Actions): State {
   switch (action.type) {
+    case config.SET_SUCURSAL_SUCCESS: {
+      return {
+        ...state,
+        sucursal: action.payload.sucursal
+      };
+    }
     default:
       return state;
   }

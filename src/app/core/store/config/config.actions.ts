@@ -1,11 +1,24 @@
 import { Action } from '@ngrx/store';
+import { AppConfig } from 'app/models/appConfig';
 
-export const SELECT_SUCURSAL = '[App Config] Select sucursal';
+export const SET_SUCURSAL = '[App Config] Set sucursal';
+export const SET_SUCURSAL_SUCCESS = '[App Config] Set sucees sucursal';
+export const SET_SUCURSAL_ERROR = '[App Config] Set error sucursal';
 
 
-export class SelectSucursalAction implements Action {
-  readonly type = SELECT_SUCURSAL;
+export class SetSucursalAction implements Action {
+  readonly type = SET_SUCURSAL;
+}
+export class SetSucursalSuccessAction implements Action {
+  readonly type = SET_SUCURSAL_SUCCESS;
+
+  constructor(public payload: AppConfig) {}
+}
+export class SetSucursalErrorAction implements Action {
+  readonly type = SET_SUCURSAL_ERROR;
+
+  constructor(public  payload: any) {}
 }
 
 
-export type Actions = SelectSucursalAction;
+export type Actions = SetSucursalAction | SetSucursalSuccessAction | SetSucursalErrorAction;

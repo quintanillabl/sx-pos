@@ -11,6 +11,7 @@ import { AuthEffects } from './effects/auth.effects';
 import { reducers } from './reducers';
 import { LoginPageComponent } from './pages/login-page.component';
 import { LoginFormComponent } from './components/login-form.component';
+import {ConfigEffects} from 'app/core/store/config/config.effects';
 
 
 export const COMPONENTS = [LoginPageComponent, LoginFormComponent];
@@ -45,7 +46,7 @@ export class AuthModule {
     /**
      * Effects for the auth module
      */
-    EffectsModule.forFeature([AuthEffects])
+    EffectsModule.forFeature([AuthEffects, ConfigEffects])
   ],
   declarations: [],
   exports: []

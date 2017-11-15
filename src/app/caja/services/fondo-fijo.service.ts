@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import { environment } from 'environments/environment';
 import { FondoFijo } from 'app/caja/models/fondoFijo';
 import { Sucursal } from 'app/models';
+import {ConfigService} from 'app/core/services/config.service';
 
 
 @Injectable()
@@ -13,12 +14,14 @@ export class FondoFijoService {
 
   readonly apiUrl = environment.apiUrl + '/tesoreria/fondoFijo';
 
-  sucursal: Sucursal = {
-    id: '402880fc5e4ec411015e4ec64e70012e',
-    nombre: 'TACUBA'
-  }
+  sucursal: Sucursal;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService
+  ) {
+    this.configService.get().subscribe(config => this.sucursal = config.sucursal)
+  }
 
   get(id: string): Observable<FondoFijo> {
     let url = `${this.apiUrl}/${id}`;
@@ -29,7 +32,7 @@ export class FondoFijoService {
     let params = new HttpParams().set('sucursal',this.sucursal.id);
     return this.http.get<FondoFijo[]>(this.apiUrl, {params: params})
   }
-  
+
   save(corte: FondoFijo) {
     corte.sucursal = this.sucursal
     return this.http.post(this.apiUrl, corte);

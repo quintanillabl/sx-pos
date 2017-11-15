@@ -31,8 +31,8 @@ export class FacturaShowComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.venta$ = this.route.paramMap.switchMap( params => this.service.getVenta(params.get('id')));
-    this.venta$.subscribe(venta => console.log('View venta: ', venta));
+    this.venta$ = this.route.paramMap
+      .switchMap( params => this.service.getVenta(params.get('id')));
   }
 
   cancelar(factura: Venta) {
@@ -107,6 +107,21 @@ export class FacturaShowComponent implements OnInit {
       .of(true)
       .delay(1000)
       .subscribe( val => this.openAlert('Factura enviada', 'Envio de facturas'));
+  }
+
+  timbrar(venta: Venta) {
+    if (venta.cuentaPorCobrar && !venta.cuentaPorCobrar.uuid) {
+      console.log('Timbrando factura: ', venta.cuentaPorCobrar);
+      this.service.timbrar(venta)
+        .subscribe( cfdi => {
+          console.log('Cfdi generado: ', cfdi)
+        }, error2 => this.handleError(error2))
+    }
+  }
+
+
+  handleError(error) {
+    console.error('Error: ', error);
   }
 
 }

@@ -4,19 +4,22 @@ import { Observable } from 'rxjs/Observable';
 
 import { environment } from 'environments/environment';
 import {SolicitudDeDeposito} from 'app/ventas/models/solicitudDeDeposito';
+import {Sucursal} from 'app/models';
+import {ConfigService} from '@siipapx/core/services/config.service';
 
 
 @Injectable()
 export class SolicitudesService {
 
   readonly apiUrl = environment.apiUrl + '/tesoreria/solicitudes';
+  sucursal: Sucursal
 
-  sucursal = {
-    id: '402880fc5e4ec411015e4ec64e70012e',
-    nombre: 'TACUBA'
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService
+  ) {
+    this.configService.get().subscribe( conf => this.sucursal = conf.sucursal);
   }
-
-  constructor(private http: HttpClient) { }
 
   get(id: string): Observable<SolicitudDeDeposito> {
     const url = `${this.apiUrl}/${id}`;

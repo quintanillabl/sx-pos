@@ -4,27 +4,34 @@ import { Observable } from 'rxjs/Observable';
 
 import { environment } from 'environments/environment';
 import { Venta, Sucursal, Producto } from 'app/models';
+import {ConfigService} from 'app/core/services/config.service';
+import {Store} from '@ngrx/store';
+import * as fromRoot from 'app/reducers';
+
+
 
 @Injectable()
 export class PedidosService {
 
   readonly apiUrl = environment.apiUrl + '/ventas';
 
-  sucursal = {
-    id: '402880fc5e4ec411015e4ec64e70012e',
-    nombre: 'TACUBA'
-  }
+  sucursal: Sucursal;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private store: Store<fromRoot.State>
+  ) {
+    // this.configService.get().subscribe(config => this.sucursal = config.sucursal);
+    this.store.select(fromRoot.getSucursal).subscribe( s => this.sucursal = s);
+  }
 
   get(id: string): Observable<Venta> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.get<Venta>(url)
   }
 
-  pendientes(sucursal: Sucursal): Observable<Venta[]> {
-    // let params = new HttpParams().set('sucursal', sucursal.id);
-    const url = `${this.apiUrl}/pendientes/${sucursal.id}`;
+  pendientes(): Observable<Venta[]> {
+    const url = `${this.apiUrl}/pendientes/${this.sucursal.id}`;
     return this.http.get<Venta[]>(url)
   }
 
@@ -70,14 +77,16 @@ export class PedidosService {
   }
 
   pendientesDeFacturar(tipo: string) {
-    const params = new HttpParams().set('facturables', tipo);
+    const params = new HttpParams()
+      .set('facturables', tipo)
+      .set('sucursal', this.sucursal.id);
     return this.http.get<Venta[]>(this.apiUrl, {params: params})
   }
 
   facturados(tipo: string) {
     const params = new HttpParams()
       .set('facturados', tipo)
-      .set('sucursal', this.sucursal.id);
+      // .set('sucursal', this.sucursal.id);
     return this.http.get<Venta[]>(this.apiUrl, {params: params})
   }
 

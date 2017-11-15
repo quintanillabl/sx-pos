@@ -4,19 +4,22 @@ import { Observable } from 'rxjs/Observable';
 
 import { environment } from 'environments/environment';
 import { Cobro } from 'app/models/cobro';
-import { Cliente } from 'app/models';
+import {Cliente, Sucursal} from 'app/models';
+import { ConfigService } from 'app/core/services/config.service';
 
 @Injectable()
 export class CobroService {
 
   readonly apiUrl = environment.apiUrl + '/cxc/cobro';
 
-  sucursal = {
-    id: '402880fc5e4ec411015e4ec64e70012e',
-    nombre: 'TACUBA'
-  }
+  sucursal: Sucursal;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService,
+  ) {
+    this.configService.get().subscribe(config => this.sucursal = config.sucursal);
+  }
 
   get(id: string): Observable<Cobro> {
     const url = `${this.apiUrl}/${id}`;
@@ -24,12 +27,12 @@ export class CobroService {
   }
 
   peidnetes(documento?: string ) {
-    let params = new HttpParams().set('sucursal', this.sucursal.id);
+    const params = new HttpParams().set('sucursal', this.sucursal.id);
     return this.http.get<Cobro[]>(this.apiUrl, {params: params})
   }
 
   list(documento?: string ): Observable<Cobro[]> {
-    let params = new HttpParams().set('sucursal', this.sucursal.id);
+    const params = new HttpParams().set('sucursal', this.sucursal.id);
     return this.http.get<Cobro[]>(this.apiUrl, {params: params})
   }
 

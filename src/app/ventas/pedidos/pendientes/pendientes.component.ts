@@ -22,12 +22,6 @@ export class PendientesComponent implements OnInit {
   pedidos$: Observable<Venta[]>;
   pedidos: Venta[] = [];
 
-  sucursal: Sucursal = {
-    id: '402880fc5e4ec411015e4ec64e70012e',
-    nombre: 'TACUBA',
-    clave: '12'
-  }
-
   constructor(
     private store: Store<fromPedidos.State>,
     private service: PedidosService,
@@ -42,7 +36,7 @@ export class PendientesComponent implements OnInit {
   }
 
   load() {
-    this.service.pendientes(this.sucursal)
+    this.service.pendientes()
       .subscribe(pedidos => this.pedidos = pedidos, error2 => console.error('Error al cargar pendienetes ', error2));
   }
 

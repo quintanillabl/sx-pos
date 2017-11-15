@@ -24,6 +24,7 @@ import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/pluck';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/skip';
+import 'rxjs/add/operator/toPromise';
 
 
 import 'rxjs/add/observable/of';

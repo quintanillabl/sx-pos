@@ -4,6 +4,10 @@ import { Observable } from 'rxjs/Observable';
 
 import { environment } from 'environments/environment';
 import { Venta, Sucursal, Producto, Banco } from 'app/models';
+import { ConfigService } from 'app/core/services/config.service';
+
+import {Store} from '@ngrx/store';
+import * as fromRoot from 'app/reducers';
 
 
 
@@ -11,16 +15,22 @@ import { Venta, Sucursal, Producto, Banco } from 'app/models';
 export class CajaService {
 
   readonly apiUrl = environment.apiUrl + '/ventas';
-  
-  sucursal = {
-    id: '402880fc5e4ec411015e4ec64e70012e',
-    nombre: 'TACUBA'
+
+  sucursal: Sucursal;
+
+  constructor(
+    private http: HttpClient,
+    /// private configService: ConfigService
+    private store: Store<fromRoot.State>
+  ) {
+    // this.configService.get().subscribe(conf => this.sucursal = conf.sucursal);
+    this.store.select(fromRoot.getSucursal).subscribe( s => this.sucursal = s);
   }
 
-  constructor(private http: HttpClient) { }
-
   pendientesDeFacturar(tipo: string) {
-    const params = new HttpParams().set('facturables', tipo);
+    const params = new HttpParams()
+      .set('facturables', tipo)
+      .set('sucursal', this.sucursal.id);
     return this.http.get<Venta[]>(this.apiUrl, {params: params})
   }
 
@@ -67,6 +77,11 @@ export class CajaService {
   bancos(): Observable<Banco[]> {
      const url = environment.apiUrl + '/tesoreria/bancos';
      return this.http.get<Banco[]>(url);
+  }
+
+  timbrar(venta: Venta): Observable<Venta> {
+    const url = `${this.apiUrl}/timbrar/${venta.id}`;
+    return this.http.put<Venta>(url, venta);
   }
 
 }

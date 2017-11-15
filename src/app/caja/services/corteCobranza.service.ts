@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import { environment } from 'environments/environment';
 import { CorteCobranza } from 'app/caja/models/corteCobranza';
 import { Sucursal } from 'app/models';
+import {ConfigService} from 'app/core/services/config.service';
 
 
 @Injectable()
@@ -13,23 +14,25 @@ export class CorteCobranzaService {
 
   readonly apiUrl = environment.apiUrl + '/tesoreria/corteCobranza';
 
-  sucursal: Sucursal = {
-    id: '402880fc5e4ec411015e4ec64e70012e',
-    nombre: 'TACUBA'
+  sucursal: Sucursal;
+
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService
+    ) {
+    this.configService.get().subscribe(config => this.sucursal = config.sucursal);
   }
 
-  constructor(private http: HttpClient) { }
-
   get(id: string): Observable<CorteCobranza> {
-    let url = `${this.apiUrl}/${id}`;
+    const url = `${this.apiUrl}/${id}`;
     return this.http.get<CorteCobranza>(url)
   }
 
   list(): Observable<CorteCobranza[]> {
-    let params = new HttpParams().set('sucursal',this.sucursal.id);
+    const params = new HttpParams().set('sucursal',this.sucursal.id);
     return this.http.get<CorteCobranza[]>(this.apiUrl, {params: params})
   }
-  
+
   save(corte: CorteCobranza) {
     corte.sucursal = this.sucursal
     return this.http.post(this.apiUrl, corte);
@@ -45,7 +48,7 @@ export class CorteCobranzaService {
 
   cambioDeCheque(cambio: any) {
     cambio.sucursal = this.sucursal
-    const url =  `${environment.apiUrl}/cxc/cobro/cambioDeCheque` 
+    const url =  `${environment.apiUrl}/cxc/cobro/cambioDeCheque`
     return this.http.post(url, cambio);
   }
 

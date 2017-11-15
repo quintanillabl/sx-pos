@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { environment } from 'environments/environment';
 import { Morralla } from 'app/caja/models/morralla';
 import { Sucursal } from 'app/models';
+import {ConfigService} from '@siipapx/core/services/config.service';
 
 
 @Injectable()
@@ -12,12 +13,14 @@ export class MorrallaService {
 
   readonly apiUrl = environment.apiUrl + '/tesoreria/morralla';
 
-  sucursal: Sucursal = {
-    id: '402880fc5e4ec411015e4ec64e70012e',
-    nombre: 'TACUBA'
-  }
+  sucursal: Sucursal;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService
+  ) {
+    this.configService.get().subscribe(config => this.sucursal = config.sucursal);
+  }
 
   get(id: string): Observable<Morralla> {
     const url = `${this.apiUrl}/${id}`;
