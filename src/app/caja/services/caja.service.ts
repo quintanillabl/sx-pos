@@ -81,4 +81,16 @@ export class CajaService {
     return this.http.put<Venta>(url, venta);
   }
 
+  mostrarXml(venta: Venta): Observable<any> {
+    const url = `${environment.apiUrl}/cfdis/mostrarXml/${venta.cuentaPorCobrar.cfdi.id}`;
+    const headers = new HttpHeaders().set('Content-type' , 'text/xml');
+    // return this.http.get(url)
+    return this.http.get(
+      url, {
+        headers: headers,
+        responseType: 'blob'
+      }
+    );
+  }
+
 }

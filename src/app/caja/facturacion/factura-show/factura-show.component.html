@@ -24,9 +24,16 @@
           Timbrar <md-icon>cast</md-icon>
         </button>
       </ng-container>
+
       <button type="button" md-button   color="warn" (click)="cancelar(venta)">
         Cancelar <md-icon>cancel</md-icon>
       </button>
+
+      <ng-container *ngIf="venta.cuentaPorCobrar && venta.cuentaPorCobrar.cfdi">
+        <button type="button" md-button    (click)="mostrarXml(venta)">
+          Ver XML <md-icon>file</md-icon>
+        </button>
+      </ng-container>
 
     </md-card-actions>
   </md-card>

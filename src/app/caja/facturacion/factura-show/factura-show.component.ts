@@ -33,6 +33,7 @@ export class FacturaShowComponent implements OnInit {
   ngOnInit() {
     this.venta$ = this.route.paramMap
       .switchMap( params => this.service.getVenta(params.get('id')));
+    this.venta$.subscribe(v => console.log('Venta: ', v));
   }
 
   cancelar(factura: Venta) {
@@ -122,6 +123,43 @@ export class FacturaShowComponent implements OnInit {
 
   handleError(error) {
     console.error('Error: ', error);
+  }
+
+  mostrarXml2(venta: Venta) {
+    console.log('Mostrando xml');
+    this.service.mostrarXml(venta)
+      .subscribe(res => {
+        const blob = new Blob([res], {
+          type: 'text/xml'
+        });
+        const filename = venta.cuentaPorCobrar.cfdi.fileName;
+        FileSaver.saveAs(blob, filename);
+      });
+  }
+
+  mostrarXml(venta: Venta) {
+    console.log('Mostrando xml');
+    this.service.mostrarXml(venta)
+      .subscribe(res => {
+        const blob = new Blob([res], {
+          type: 'text/xml'
+        });
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      });
+  }
+
+  printCfdi(cfdi: Venta) {
+    /*
+    this.service.print(embarque.id)
+      .subscribe(res => {
+        let blob = new Blob([res], {
+          type: 'application/pdf'
+        });
+        let filename = `embarque_${embarque.documento}.pdf`;
+        FileSaver.saveAs(blob, filename);
+      });
+      */
   }
 
 }
