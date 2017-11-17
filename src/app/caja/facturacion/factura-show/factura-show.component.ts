@@ -125,7 +125,7 @@ export class FacturaShowComponent implements OnInit {
     console.error('Error: ', error);
   }
 
-  mostrarXml2(venta: Venta) {
+  /*mostrarXml2(venta: Venta) {
     console.log('Mostrando xml');
     this.service.mostrarXml(venta)
       .subscribe(res => {
@@ -135,7 +135,7 @@ export class FacturaShowComponent implements OnInit {
         const filename = venta.cuentaPorCobrar.cfdi.fileName;
         FileSaver.saveAs(blob, filename);
       });
-  }
+  }*/
 
   mostrarXml(venta: Venta) {
     console.log('Mostrando xml');
