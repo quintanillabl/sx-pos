@@ -93,4 +93,15 @@ export class CajaService {
     );
   }
 
+  imprimirCfdi(cfdi: any) {
+    const url = `${environment.apiUrl}/cfdis/print/${cfdi.id}`;
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        responseType: 'blob'
+      }
+    );
+  }
+
 }

@@ -149,17 +149,24 @@ export class FacturaShowComponent implements OnInit {
       });
   }
 
-  printCfdi(cfdi: Venta) {
-    /*
-    this.service.print(embarque.id)
+  print(venta: Venta) {
+    if (venta.cuentaPorCobrar && venta.cuentaPorCobrar.cfdi) {
+     this.printCfdi(venta.cuentaPorCobrar.cfdi);
+    }
+  }
+
+  printCfdi(cfdi) {
+    console.log('Imprimiendo cfdi: ', cfdi);
+    this.service.imprimirCfdi(cfdi)
       .subscribe(res => {
-        let blob = new Blob([res], {
+        const blob = new Blob([res], {
           type: 'application/pdf'
         });
-        let filename = `embarque_${embarque.documento}.pdf`;
-        FileSaver.saveAs(blob, filename);
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+        // let filename = `embarque_${embarque.documento}.pdf`;
+        // FileSaver.saveAs(blob, filename);
       });
-      */
   }
 
 }
