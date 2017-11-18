@@ -1,5 +1,5 @@
 <div layout="column">
-  
+
   <div layout class="row1 pad">
     <span class="md-title" flex="70">
       {{cliente.nombre}}
@@ -12,12 +12,12 @@
       <span class="pad-left pad-right">Fecha {{venta.fecha | date: 'dd/MM/yyyy'}}</span>
     </div>
     <div layout="column" layout-align="center center" class="pad-left" *ngIf="cliente">
-      <span class="text-right pad-left text-md" 
+      <span class="text-right pad-left text-md"
         *ngIf="cliente.credito && cliente.credito.postfechado" >Postfechado</span>
       <span flex></span>
     </div>
   </div>
-  
+
   <div layout class="row2">
     <address *ngIf="cliente?.direccion; let direccion" class="text-sm">
       {{direccion.calle}} {{direccion.numeroExterior}}<br>
@@ -28,9 +28,8 @@
     <span flex class="pad-sm"></span>
     <span fldex="15">CFDI:
       <a (click)="consultarCfdi()" [routerLink]="['/ventas/cfdi/show/:id']">
-      {{venta.cuentaPorCobrar.uuid}}
+      {{venta?.cuentaPorCobrar?.cfdi?.uuid}}
       </a>
     </span>
   </div>
 </div>
-  
