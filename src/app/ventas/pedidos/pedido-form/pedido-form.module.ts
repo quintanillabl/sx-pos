@@ -24,6 +24,7 @@ import { UsoCfdiComponent } from './uso-cfdi/uso-cfdi.component';
 import { DescuentoEspecialComponent } from './descuento-especial/descuento-especial.component';
 import { PrecioEspecialComponent } from './precio-especial/precio-especial.component';
 import { EnvioDireccionComponent } from './envio-direccion/envio-direccion.component';
+import { ValidationPanelComponent } from './validation-panel/validation-panel.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { EnvioDireccionComponent } from './envio-direccion/envio-direccion.compo
     UsoCfdiComponent,
     DescuentoEspecialComponent,
     PrecioEspecialComponent,
-    EnvioDireccionComponent
+    EnvioDireccionComponent,
+    ValidationPanelComponent
   ],
   entryComponents: [
     PedidoDetFormComponent,

@@ -1,8 +1,8 @@
 <form novalidate [formGroup]="form" layout="row" class="pedido-form" (ngSubmit)="onSave()" >
 
   <md-card flex="70" >
-    <sx-pedido-header 
-      (addCliente)="onAddNewCliente()" [parent]="form" 
+    <sx-pedido-header
+      (addCliente)="onAddNewCliente()" [parent]="form"
       (insertar)="onInsertPartida()"
       (descuento)="onDescuento()"
       (maniobra)="onManiobra()">
@@ -21,7 +21,7 @@
       <section  flex>
           <md-checkbox class="text-md"  (change)="onPuesto($event)" formControlName="isPuesto">Puesto</md-checkbox>
       </section>
-      
+
     </div>
     <md-divider></md-divider>
 
@@ -29,10 +29,10 @@
       [partidas]="partidas.value"
       [parent]="form"
       (delete)="onDelete($event)"
-      (edit)="onEditPartida($event)" 
+      (edit)="onEditPartida($event)"
       (cambioDePrecio)="onCambioDePrecio($event)">
     </sx-pedido-partidas-grid>
-
+    <sx-validation-panel [parent]="form"></sx-validation-panel>
   </md-card>
 
   <div flex="30">

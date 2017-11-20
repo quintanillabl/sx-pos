@@ -53,6 +53,8 @@ export class PedidoEditComponent implements OnInit {
   }
 
   onUpdate(pedido: Venta) {
+    // console.log('Actualizando pedido: ', pedido)
+
     this.loadingService.register('saving');
     this.service
       .update(pedido)
@@ -64,6 +66,7 @@ export class PedidoEditComponent implements OnInit {
         },
         response => this.handlePostError(response)
       );
+
   }
 
   private handlePostError(response) {

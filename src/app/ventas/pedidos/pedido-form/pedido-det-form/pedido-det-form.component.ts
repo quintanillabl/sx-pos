@@ -28,7 +28,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   sucursal: Sucursal;
   producto$: Observable<Producto>;
   disponibilidadTotal$: Observable<number>;
-  
+
   existenciaRemota$: Observable<Existencia[]>;
   existencias: Existencia[] = [];
 
@@ -70,7 +70,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     // this.buildSinVale();
     this.buildImporteBruto$();
     this.buildCorte$();
-    
+
   }
 
   private edicion() {
@@ -139,13 +139,13 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   private buildProducto$() {
     this.producto$ = this.form.get('producto').valueChanges;
     this.subs1 = this.producto$.subscribe( p => {
-      
+
       if (p !== null) {
         if (p.presentacion === 'EXTENDIDO') {
           this.form.get('cortado').enable();
         }
       }
-      
+
     });
   }
 

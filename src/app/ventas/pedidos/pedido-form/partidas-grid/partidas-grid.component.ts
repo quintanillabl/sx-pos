@@ -38,4 +38,8 @@ export class PartidasGridComponent implements OnInit {
    const MANIOBRAS = ['CORTE', 'MANIOBRA'];
     return !_.includes(MANIOBRAS, row.producto.clave )
   }
+
+  get invalid() {
+    return this.parent.hasError('sinPartidas');
+  }
 }

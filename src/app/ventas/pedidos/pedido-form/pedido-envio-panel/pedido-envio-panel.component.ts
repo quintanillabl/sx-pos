@@ -26,38 +26,36 @@ export class PedidoEnvioPanelComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.parent.get('entrega').valueChanges.subscribe( entrega => {
-      
-      if (entrega !== 'LOCAL'){
+
+      if (entrega !== 'LOCAL') {
         this.parent.get('clasificacionVale').enable();
         this.parent.get('sucursalVale').enable();
         this.parent.get('almacen').enable();
         this.parent.get('mismaDireccion').enable();
-        // this.parent.get('entregaParcial').enable();
-        // const direccion = this.parent.get('direccion').value;
+        this.parent.get('mismaDireccion').setValue(true);
 
-        const cliente = this.parent.get('cliente').value;
-        if (cliente !== null) {
-          this.parent.get('mismaDireccion').setValue(true);
-          this.parent.get('envio').setValue({direccion: cliente.direccion});
-        } 
       } else {
         this.parent.get('clasificacionVale').disable();
         this.parent.get('sucursalVale').disable();
         this.parent.get('almacen').disable();
         this.parent.get('mismaDireccion').disable();
-        // this.parent.get('entregaParcial').disable();
         this.parent.get('envio').setValue(null);
       }
     });
 
-    this.subscription2 = this.parent.get('mismaDireccion').valueChanges.subscribe( value => {
+    this.subscription2 = this.parent.get('mismaDireccion')
+      .valueChanges.subscribe( value => {
       if (value === false ) {
+        // this.limpiarEnvio();
         this.registrarDireccion();
+      } else {
+        this.fijarDireccionDelCliente();
+
       }
     });
   }
-  
-  ngOnDestroy(){
+
+  ngOnDestroy() {
     this.subscription.unsubscribe();
     this.subscription2.unsubscribe();
   }
@@ -67,15 +65,28 @@ export class PedidoEnvioPanelComponent implements OnInit, OnDestroy {
       const dialogRef = this.dialog.open(EnvioDireccionComponent, );
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-         //  console.log('Asignando direccion de envío: ', result);
           this.parent.get('envio').setValue({direccion: result});
+        } else {
+          this.parent.get('mismaDireccion').setValue(true);
         }
       });
     }
   }
-  
+
+  fijarDireccionDelCliente() {
+    const cliente = this.parent.get('cliente').value;
+    if (cliente !== null) {
+      this.parent.get('envio').setValue({direccion: cliente.direccion});
+    }
+  }
+
   get disabled() {
-    return this.parent.get('cliente').value === null
+    // return this.parent.get('cliente').value === null
+    return false
+  }
+
+  limpiarEnvio() {
+    this.parent.get('envio').setValue(null);
   }
 
 }

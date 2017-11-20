@@ -70,8 +70,6 @@ export class PedidoCreateComponent implements OnInit {
   }
 
   onSave(pedido: Venta) {
-    // console.log('Salvando  pedido: ', pedido);
-    
     this.loadingService.register('saving');
     this.service
       .save(pedido)
@@ -80,11 +78,9 @@ export class PedidoCreateComponent implements OnInit {
           console.log('Actualizacion exitosa: ', res);
           this.loadingService.resolve('saving');
           this.router.navigate(['/ventas/pedidos/pendientes'])
-          // this.router.navigate(['/logistica/almacen/conteo/show', res.id], { queryParams: { tipo: 'show' } })
         },
         response => this.handlePostError(response)
       );
-      
   }
 
   private handlePostError(response) {

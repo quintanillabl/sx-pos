@@ -4,13 +4,14 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import {FormGroup, FormBuilder, Validators, FormArray, FormControl} from '@angular/forms';
+import {FormGroup, FormBuilder, Validators, FormArray, FormControl, AbstractControl} from '@angular/forms';
 import * as _ from 'lodash';
 
 import { Sucursal, Cliente, Venta, VentaDet } from 'app/models';
 import { PedidoFormService } from './pedido-form.service';
 import { PartidasGridComponent } from './partidas-grid/partidas-grid.component';
 import { TdDialogService } from '@covalent/core';
+import { PedidoValidator } from './pedido.validator';
 
 
 @Component({
@@ -58,8 +59,9 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       // console.log('Editando pedido: ', pedido);
       _.forEach(pedido.partidas, item => this.partidas.push(new FormControl(item)));
       this.form.get('isPuesto').setValue(pedido.puesto !== undefined);
-      
-      if (pedido.envio !== null) {
+
+      if (pedido.envio) {
+        console.log('Pedido con envio: ', pedido.envio)
         this.form.get('mismaDireccion').setValue(false);
         this.form.get('mismaDireccion').enable();
         this.form.get('entrega').setValue('ENVIO');
@@ -69,6 +71,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       this.buildRecalcular$();
       this.buildFomraDePago$();
       this.pedidoFormService.recalcular();
+
     }
   }
 
@@ -91,8 +94,8 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       formaDePago: ['EFECTIVO', Validators.required],
       atencion: ['MOSTRADOR', Validators.required],
       entrega: ['LOCAL', Validators.required],
-      vale: [{value:false, disabled: true}, Validators.required],
-      clasificacionVale: [{value:'SIN_VALE', disabled: true}, Validators.required],
+      vale: [{value: false, disabled: true}, Validators.required],
+      clasificacionVale: [{value: 'SIN_VALE', disabled: true}, Validators.required],
       sucursalVale: [{value: null, disabled: true}],
       almacen: [{value: null, disabled: true}],
       mismaDireccion: [{value: true, disabled: true}, Validators.required],
@@ -118,7 +121,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       envio: null,
       isPuesto: false,
       puesto: null
-    });
+    }, { validator: PedidoValidator});
   }
 
   private  buildRecalcular$() {
@@ -200,15 +203,30 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     const pedido: Venta = {
       ...this.form.getRawValue(),
       sucursal: this.sucursal,
-      vendedor: this.cliente.vendedor
+      vendedor: this.cliente.vendedor,
     };
+    this.fixPedidoToApi(pedido);
     if (!this.id ) {
       pedido.descuentoOriginal = pedido.descuento
     }
     _.forEach(pedido.partidas, item => item.sucursal = this.sucursal)
     this.save.emit(pedido);
   }
-  
+
+  /**
+   * Ajuste requerido para que Grails genere un update inecesario al producto. Cuando Grails recibe en
+   * el payload de un HttpRequest mas propiedades aparte del ID genera un update a estas. Lo que ocaciona que
+   * se registre un cambio inecesario en cada producto y en el cliente
+   * @param pedido
+   * @returns {any[]}
+   */
+  private fixPedidoToApi(pedido) {
+    pedido.cliente = pedido.cliente.id
+    const data = [...pedido.partidas];
+    _.forEach(data, item => item.producto = item.producto.id);
+    return pedido;
+  }
+
   /*
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -223,20 +241,20 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onPuesto(puesto) {
-    if(puesto.checked) {
+    if (puesto.checked) {
       this.form.get('puesto').setValue(new Date().toISOString());
     } else {
       this.form.get('puesto').setValue(null);
     }
   }
 
-  onManiobra(){
+  onManiobra() {
     this._dialogService.openPrompt({
       message: 'Importe del cargo',
-      viewContainerRef: this._viewContainerRef, 
-      title: 'Maniobras', 
+      viewContainerRef: this._viewContainerRef,
+      title: 'Maniobras',
       cancelButton: 'Cancelar',
-      acceptButton: 'Aceptar', 
+      acceptButton: 'Aceptar',
     }).afterClosed().subscribe((newValue: string) => {
       if (newValue) {
         const importe = _.toNumber(newValue);
@@ -245,11 +263,11 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
           this.form.get('cargosPorManiobra').setValue(importe);
           this.pedidoFormService.generarCargosPorFlete(this.grid);
         }
-      } 
+      }
     });
-    
+
   }
 
-  
+
 
 }

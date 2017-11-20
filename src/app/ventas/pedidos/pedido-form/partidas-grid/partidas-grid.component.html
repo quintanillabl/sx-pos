@@ -1,6 +1,8 @@
 <div [formGroup]="parent" layout layout-align="center" layout-margin class="partidas-grid-container">
   <div formArrayName="partidas">
-
+    <div *ngIf="invalid" class="text-center">
+      <h3 class="tc-pink-700">Debe registrar al menos una partida</h3>
+    </div>
     <table td-data-table class="table" #dataTable>
       <thead>
         <tr td-data-table-column-row>
@@ -24,9 +26,9 @@
           <td td-data-table-cell  [style.width.em]="40" class="text-left">
             <span flex="25" class="text-md">({{row.producto.clave}}) </span>
             <span flex="70" layout="column">
-              <span>{{row.producto.descripcion}}</span> 
+              <span>{{row.producto.descripcion}}</span>
               <span class="text-sm tc-indigo-400" *ngIf="row.corte">
-                  {{row.corte.cantidad}} * {{row.corte.precio}} = {{row.corte.cantidad * row.corte.precio}} 
+                  {{row.corte.cantidad}} * {{row.corte.precio}} = {{row.corte.cantidad * row.corte.precio}}
                   /{{row.corte.tipo}}  / {{row.corte.instruccion}}
               </span>
             </span>
@@ -40,7 +42,7 @@
             </span>
           </td>
           <td td-data-table-cell numeric="true">{{row.cantidad}}</td>
-          <td td-data-table-cell numeric="true"> 
+          <td td-data-table-cell numeric="true">
             <ng-container *ngIf="isEditable(row)">
                 {{row.precio | currency: 'USD': 1.2-2}}
               <!-- <button md-button type="button" (click)="cambioDePrecio.emit(i)">
