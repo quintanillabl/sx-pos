@@ -131,6 +131,8 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
     const fp = control.value;
     if (fp === 'CHEQUE') {
       const cliente = this.venta.cliente;
+      const result = cliente.permiteCheque ? null : {permiteCheque: false};
+      console.log('Permite cheque: ', result);
       return cliente.permiteCheque ? null : {permiteCheque: false};
     }
     return null;

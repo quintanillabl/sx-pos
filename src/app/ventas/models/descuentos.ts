@@ -6,11 +6,11 @@ export interface DescuentoPorVolumen {
 
 export const CONTADO: Array<DescuentoPorVolumen> = [
   {tipo: "CONTADO", descuento: 0,importe: 100.00},
-  {tipo: "CONTADO", descuento: 6,importe: 1000.00},
-  {tipo: "CONTADO", descuento: 8,importe: 5000.00},
-  {tipo: "CONTADO", descuento: 10,importe: 12000.00},
-  {tipo: "CONTADO", descuento: 12,importe: 21500.00},
-  {tipo: "CONTADO", descuento: 14,importe: 46000.00},
+  {tipo: "CONTADO", descuento: 8,importe: 1000.00},
+  {tipo: "CONTADO", descuento: 10,importe: 5000.00},
+  {tipo: "CONTADO", descuento: 12,importe: 12000.00},
+  {tipo: "CONTADO", descuento: 14,importe: 21500.00},
+  {tipo: "CONTADO", descuento: 15,importe: 46000.00},
   {tipo: "CONTADO", descuento: 16,importe: 82000.00},
   {tipo: "CONTADO", descuento: 17,importe: 150000.00},
   {tipo: "CONTADO", descuento: 18,importe: 300000.00},

@@ -96,8 +96,8 @@ export class PedidoFormService {
     this.recalcular();
   }
 
-  
-  
+
+
 
 
   get partidas() {
@@ -269,6 +269,7 @@ export class PedidoFormService {
 
   findDescuentoPorVolumen(importe: number) {
     const found = _.findLast(CONTADO, item => item.importe < importe);
+    // console.log('Descuento localizado para el importe: ', importe, found);
     return  found
   }
 
@@ -401,15 +402,15 @@ export class PedidoFormService {
     const contado = this.isContado();
     const cliente = this.cliente;
     if (contado && this.cliente) {
-      
+
       const partidas: VentaDet[] = this.partidasActualizables.filter( item => item.producto.modoVenta === 'B');
-      
+
       // console.log('Partidas: ', partidas.length);
       // console.log('Cliente: ', cliente);
       // console.log('Contado: ', contado);
 
       if( partidas.length > 0 ){
-        
+
         const dialogRef = this.dialog.open(DescuentoEspecialComponent, {
           data: {
             descuento: this.form.get('descuento').value * 100
@@ -480,7 +481,7 @@ export class PedidoFormService {
       }
     }
   }
-  
+
 
 
 

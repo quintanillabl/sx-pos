@@ -9,6 +9,11 @@ import {AbstractControl, FormArray, ValidatorFn} from '@angular/forms';
  * @constructor
  */
 export const PedidoValidator = (control: AbstractControl): {[key: string]: boolean} => {
+
+  // Algunos valores requeridos en las validaciones
+  const cliente = control.get('cliente').value;
+  const tipo = control.get('tipo').value;
+
   // Valida que existan partidas
   const partidas = (control.get('partidas') as FormArray).value;
   if (partidas.length === 0) {
@@ -34,5 +39,15 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
       return { entregaSinEnvio: true}
     }
   }
+
+  // Validar forma de pago cheque
+  const formaDePago = control.get('formaDePago').value;
+
+  if (formaDePago === 'CHEQUE' && tipo !== 'CRE') {
+    if (cliente && !cliente.permiteCheque) {
+      return { noSePermiteFormaDeCheque: true}
+    }
+  }
+
   return null;
 };

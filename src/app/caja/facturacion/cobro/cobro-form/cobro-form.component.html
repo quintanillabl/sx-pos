@@ -70,7 +70,7 @@
       </div>
 
     </md-card-content>
-    <td-message *ngIf="!form.hasError('permiteCheque') && form.get('formaDePago').value=== 'CHEQUE' "
+    <td-message *ngIf="form.hasError('permiteCheque') "
       label="Error!" sublabel="No se permite cheque a este cliente" color="warn" icon="error"></td-message>
     <md-divider></md-divider>
     <md-card-actions>
