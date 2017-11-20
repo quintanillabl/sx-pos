@@ -117,5 +117,33 @@ export class PedidosService {
     return this.http.put<Venta>(url, factura);
   }
 
+  timbrar(venta: Venta): Observable<Venta> {
+    const url = `${this.apiUrl}/timbrar/${venta.id}`;
+    return this.http.put<Venta>(url, venta);
+  }
+
+  mostrarXml(venta: Venta): Observable<any> {
+    const url = `${environment.apiUrl}/cfdis/mostrarXml/${venta.cuentaPorCobrar.cfdi.id}`;
+    const headers = new HttpHeaders().set('Content-type' , 'text/xml');
+    // return this.http.get(url)
+    return this.http.get(
+      url, {
+        headers: headers,
+        responseType: 'blob'
+      }
+    );
+  }
+
+  imprimirCfdi(cfdi: any) {
+    const url = `${environment.apiUrl}/cfdis/print/${cfdi.id}`;
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        responseType: 'blob'
+      }
+    );
+  }
+
 }
 

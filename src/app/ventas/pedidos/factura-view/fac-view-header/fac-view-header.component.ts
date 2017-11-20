@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 
 import {Venta, Cliente} from 'app/models';
 
@@ -10,6 +10,8 @@ import {Venta, Cliente} from 'app/models';
 export class FacViewHeaderComponent implements OnInit {
 
   @Input() venta: Venta;
+  @Output() mostrarXml = new EventEmitter();
+  @Output() cancelar = new EventEmitter();
 
   constructor() { }
 
@@ -18,10 +20,6 @@ export class FacViewHeaderComponent implements OnInit {
 
   get cliente(): Cliente {
     return this.venta.cliente;
-  }
-
-  consultarCfdi() {
-    console.log('Consultando CFDI');
   }
 
 }

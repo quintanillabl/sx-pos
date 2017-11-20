@@ -21,7 +21,7 @@ export class PendientesPageComponent implements OnInit {
     { name: 'regresar',  label: 'Regresar', width: 10},
   ];
 
-  data: any[] = []; 
+  data: any[] = [];
 
   filteredData: any[] = this.data;
   filteredTotal: number = this.data.length;
@@ -50,7 +50,7 @@ export class PendientesPageComponent implements OnInit {
     .subscribe( pendientes => {
       this.data = pendientes;
       this.filteredData = this.data;
-      },error => console.log('Error: ', error)
+      }, error => console.log('Error: ', error)
     );
   }
 

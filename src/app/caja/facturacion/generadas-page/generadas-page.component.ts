@@ -11,7 +11,7 @@ import { Venta } from 'app/models';
 export class GeneradasPageComponent implements OnInit {
 
   columns: ITdDataTableColumn[] = [
-    { name: 'documento',  label: 'Documento', numeric: true, width: 15 },
+    { name: 'documento',  label: 'Documento', numeric: true, width: 10 },
     { name: 'fecha',  label: 'Fecha', width: 10},
     { name: 'nombre',  label: 'Cliente', width: 400},
     { name: 'total',  label: 'Total', width: 10},
@@ -20,7 +20,7 @@ export class GeneradasPageComponent implements OnInit {
     { name: 'formaDePago',  label: 'F.Pago'},
   ];
 
-  data: any[] = []; 
+  data: any[] = [];
 
   constructor(
     private _dataTableService: TdDataTableService,
@@ -31,7 +31,7 @@ export class GeneradasPageComponent implements OnInit {
     this.service.cobradas()
     .subscribe( pendientes => {
       this.data = pendientes;
-      },error => console.log('Error: ', error)
+      }, error => console.log('Error: ', error)
     );
   }
 

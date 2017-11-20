@@ -2,8 +2,8 @@ import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
-import {TdLoadingService, TdDialogService} from '@covalent/core';
-import * as FileSaver from 'file-saver';
+import {TdDialogService} from '@covalent/core';
+
 
 
 import * as fromRoot from 'app/reducers';
@@ -19,11 +19,11 @@ export class FacturaShowComponent implements OnInit {
 
   sucursal$: Observable<Sucursal>;
   venta$: Observable<Venta>;
+  procesando = false;
 
   constructor(
     private store: Store<fromRoot.State>,
     private service: CajaService,
-    private loadingService: TdLoadingService,
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
     private route: ActivatedRoute,
@@ -31,6 +31,12 @@ export class FacturaShowComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.venta$ = this.route.paramMap
+      .switchMap( params => this.service.getVenta(params.get('id')));
+    this.venta$.subscribe(v => console.log('Venta: ', v));
+  }
+
+  load() {
     this.venta$ = this.route.paramMap
       .switchMap( params => this.service.getVenta(params.get('id')));
     this.venta$.subscribe(v => console.log('Venta: ', v));
@@ -63,18 +69,6 @@ export class FacturaShowComponent implements OnInit {
         }
       });
     }
-
-  }
-
-  onPrint(factura: Venta) {
-    // this.service.print(factura.id)
-    //   .subscribe(res => {
-    //     const blob = new Blob([res], {
-    //       type: 'application/pdf'
-    //     });
-    //     const filename = `FAC_${factura.tipo}-${factura.documento}.pdf`;
-    //     FileSaver.saveAs(blob, filename);
-    //   });
   }
 
   openAlert(message: string, title: string = 'Advertencia'): void {
@@ -113,29 +107,15 @@ export class FacturaShowComponent implements OnInit {
   timbrar(venta: Venta) {
     if (venta.cuentaPorCobrar && !venta.cuentaPorCobrar.uuid) {
       console.log('Timbrando factura: ', venta.cuentaPorCobrar);
+      this.procesando = true;
       this.service.timbrar(venta)
         .subscribe( cfdi => {
+          this.procesando = false;
+          this.load();
           console.log('Cfdi generado: ', cfdi)
         }, error2 => this.handleError(error2))
     }
   }
-
-
-  handleError(error) {
-    console.error('Error: ', error);
-  }
-
-  /*mostrarXml2(venta: Venta) {
-    console.log('Mostrando xml');
-    this.service.mostrarXml(venta)
-      .subscribe(res => {
-        const blob = new Blob([res], {
-          type: 'text/xml'
-        });
-        const filename = venta.cuentaPorCobrar.cfdi.fileName;
-        FileSaver.saveAs(blob, filename);
-      });
-  }*/
 
   mostrarXml(venta: Venta) {
     console.log('Mostrando xml');
@@ -150,23 +130,32 @@ export class FacturaShowComponent implements OnInit {
   }
 
   print(venta: Venta) {
-    if (venta.cuentaPorCobrar && venta.cuentaPorCobrar.cfdi) {
+    if ( venta.cuentaPorCobrar.cfdi === null || venta.cuentaPorCobrar.cfdi.uuid === null) {
+      this.openAlert('Esta factura no es ha timbrado por lo que no se puede imprimir')
+    }
+    if (venta.cuentaPorCobrar.cfdi) {
      this.printCfdi(venta.cuentaPorCobrar.cfdi);
     }
   }
 
   printCfdi(cfdi) {
     console.log('Imprimiendo cfdi: ', cfdi);
+    this.procesando = true;
     this.service.imprimirCfdi(cfdi)
+      .delay(1000)
       .subscribe(res => {
         const blob = new Blob([res], {
           type: 'application/pdf'
         });
+        this.procesando = false;
         const fileURL = window.URL.createObjectURL(blob);
         window.open(fileURL, '_blank');
-        // let filename = `embarque_${embarque.documento}.pdf`;
-        // FileSaver.saveAs(blob, filename);
-      });
+      }, error2 => this.handleError(error2));
+  }
+
+  handleError(error) {
+    this.procesando = false;
+    console.error('Error: ', error);
   }
 
 }

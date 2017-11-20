@@ -1,34 +1,35 @@
-<md-list dense>
-  <td-virtual-scroll-container #virtualScroll [style.height.px]="550" [data]="facturas">
-    <ng-template let-row="row" let-last="last" tdVirtualScrollRow>
-      <md-list-item >
-        <span md-line >
-          <span layout layout-margin>
-            <span flex="10" class="text-left">
-                <a md-button class="tc-indigo-700 text-left" [routerLink]="['show', row.id]">
-                  {{row.cuentaPorCobrar.tipo}} {{row.cuentaPorCobrar.documento}}
-                </a>
-            </span>
-            <span flex="30">{{ row.cliente.nombre}} </span>
-            <span flex="10">{{ row.fecha | date: 'dd/MM/yyyy' }} </span>
-            <span flex="10">{{ row.dateCreated | amTimeAgo }} </span>
-            <span flex="10" class="text-right" layout>
-              <span flex="10" class="tc-indigo-700" *ngIf="row.tipo === 'ANT'"> (ANTICIPO) </span>
-              <span flex *ngIf="row.moneda!=='MXN'" class="tc-pink-700"> {{row.moneda}}</span>
-              <span flex>{{ row.total | currency: 'USD': 1.2-2 }}</span>
+<td-data-table
+  #dataTable
+  [data]="facturas"
+  [columns]="columns"
+  [selectable]="false"
+  [clickable]="false"
+  [multiple]="false"
+  [sortable]="false"
+  [style.height.px]="400">
+  <ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
+    <a md-button [routerLink]="['show', row.id]"  [ngClass]="{'tc-pink-700':row.cod,'tc-indigo-700':!row.cod}">
+      <span flex>{{row.cod ? 'COD': row.tipo}}</span>
+      <span flex>{{value}} </span>
+    </a>
+  </ng-template>
+  <ng-template tdDataTableTemplate="fecha" let-value="value" let-row="row">
+    {{value | date: 'dd/MM/yyyy'}}
+  </ng-template>
+  <ng-template tdDataTableTemplate="total" let-value="value" let-row="row">
+    <span>{{value | currency: 'USD': 1.2-2}}</span> <span *ngIf="row.moneda === 'USD'"> USD</span>
+  </ng-template>
 
-            </span>
-            <span flex="10" class="tc-indigo-700" *ngIf="row.tipoDeCambio > 1"> (T.C: {{row.tipoDeCambio | number: '1.4-4'}})</span>
-            <span flex="10" class="tc-indigo-700" *ngIf="row.tipo === 'ANT'"> {{row.comentario}}</span>
-            <span flex></span>
-          </span>
-        </span>
+  <ng-template tdDataTableTemplate="saldo" let-value="value" let-row="row">
+    <span>{{row.cuentaPorCobrar.saldo | currency: 'USD': 1.2-2}}</span>
+  </ng-template>
 
-        <span flex></span>
+  <ng-template tdDataTableTemplate="cuentaPorCobrar" let-value="value" let-row="row">
+    <!--<span *ngIf="value.cfdi" class="text-sm">{{value.cfdi.uuid}}</span>-->
+    <md-icon class="tc-green-700" mdTooltip="{{value.cfdi.uuid}}" *ngIf="value?.cfdi?.uuid">verified_user</md-icon>
+  </ng-template>
 
-      </md-list-item>
-      <md-divider *ngIf="!last" md-inset></md-divider>
-    </ng-template>
-  </td-virtual-scroll-container>
 
-</md-list>
+
+</td-data-table>
+

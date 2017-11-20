@@ -19,6 +19,7 @@ export class FacturaViewComponent implements OnInit {
 
   sucursal$: Observable<Sucursal>;
   venta$: Observable<Venta>;
+  procesando = false;
 
   constructor(
     private store: Store<fromRoot.State>,
@@ -32,48 +33,17 @@ export class FacturaViewComponent implements OnInit {
 
   ngOnInit() {
     this.venta$ = this.route.paramMap.switchMap( params => this.service.get(params.get('id')));
-    // this.venta$.subscribe(venta => console.log('View venta: ', venta));
+    this.venta$.subscribe(venta => console.log('View venta: ', venta));
+  }
+
+  load() {
+    this.venta$ = this.route.paramMap
+      .switchMap( params => this.service.get(params.get('id')));
+    this.venta$.subscribe(v => console.log('Venta: ', v));
   }
 
   cancelar(factura: Venta) {
-    const hoy = new Date()
-    const fecha = new Date(factura.fecha)
-    const diff = hoy === fecha;
-    if (! diff) {
-      this.openAlert('La factura no es del día no se puede cancelar');
-    } else {
-      console.log('Tratando de cancelar factura:', factura);
-      console.log(`Hoy: ${hoy} Fac: ${fecha}  Diff: ${diff}`)
-      this._dialogService.openConfirm({
-        message: `Cancelar factura  ${factura.documento} ?` ,
-        viewContainerRef: this._viewContainerRef,
-        title: 'Cancelación de facturas',
-        cancelButton: 'Cancelar',
-        acceptButton: 'Aceptar',
-      }).afterClosed().subscribe((accept: boolean) => {
-        if (accept) {
-          this.service
-            .cancelar(factura)
-            .subscribe( res => {
-              this.router.navigate(['/ventas/pedidos/pendientes']);
-            }, error => {
-              console.error('Error al cancelar venta', factura);
-            });
-        }
-      });
-    }
-
-  }
-
-  onPrint(factura: Venta) {
-    this.service.print(factura.id)
-      .subscribe(res => {
-        const blob = new Blob([res], {
-          type: 'application/pdf'
-        });
-        const filename = `FAC_${factura.tipo}-${factura.documento}.pdf`;
-        FileSaver.saveAs(blob, filename);
-      });
+    console.log('Cancelando factura: ', factura);
   }
 
   openAlert(message: string, title: string = 'Advertencia'): void {
@@ -107,6 +77,61 @@ export class FacturaViewComponent implements OnInit {
       .of(true)
       .delay(1000)
       .subscribe( val => this.openAlert('Factura enviada', 'Envio de facturas'));
+  }
+
+  timbrar(venta: Venta) {
+    if (venta.cuentaPorCobrar && !venta.cuentaPorCobrar.uuid) {
+      console.log('Timbrando factura: ', venta.cuentaPorCobrar);
+      this.procesando = true;
+      this.service.timbrar(venta)
+        .subscribe( cfdi => {
+          this.procesando = false;
+          this.load();
+          console.log('Cfdi generado: ', cfdi)
+        }, error2 => this.handleError(error2))
+    }
+  }
+
+  mostrarXml(venta: Venta) {
+    console.log('Mostrando xml');
+    this.service.mostrarXml(venta)
+      .subscribe(res => {
+        const blob = new Blob([res], {
+          type: 'text/xml'
+        });
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      });
+  }
+
+  print(venta: Venta) {
+    if ( venta.cuentaPorCobrar.cfdi === null || !venta.cuentaPorCobrar.cfdi.uuid) {
+      this.openAlert('Esta factura no es ha timbrado por lo que no se puede imprimir')
+      return
+    }
+    if (venta.cuentaPorCobrar.cfdi.uuid) {
+      this.printCfdi(venta.cuentaPorCobrar.cfdi);
+    }
+  }
+
+  printCfdi(cfdi) {
+    console.log('Imprimiendo cfdi: ', cfdi);
+    this.procesando = true;
+    this.service.imprimirCfdi(cfdi)
+      .delay(1000)
+      .subscribe(res => {
+        const blob = new Blob([res], {
+          type: 'application/pdf'
+        });
+        this.procesando = false;
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      }, error2 => this.handleError(error2));
+  }
+
+  handleError(error) {
+    this.procesando = false;
+    console.error('Error: ', error);
   }
 
 }
