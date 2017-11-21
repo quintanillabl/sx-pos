@@ -40,8 +40,6 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() facturar = new EventEmitter();
 
-  @Output() cambiarPedido = new EventEmitter();
-
   formasDePago = ['EFECTIVO', 'TRANSFERENCIA', 'TARJETA_DEBITO', 'TARJETA_CREDITO'];
 
   parciales: Cobro[] = [];
@@ -63,6 +61,9 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
         formaDePago: this.venta.formaDePago,
         importe: this.venta.total
       });
+      if (this.venta.cod) {
+        this.form.get('formaDePago').disable();
+      }
     }
   }
 
@@ -132,13 +133,9 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
     if (fp === 'CHEQUE') {
       const cliente = this.venta.cliente;
       const result = cliente.permiteCheque ? null : {permiteCheque: false};
-      console.log('Permite cheque: ', result);
       return cliente.permiteCheque ? null : {permiteCheque: false};
     }
     return null;
-    /*if ( this.parciales.length > 0) {
-    }
-    return null;*/
   }
 
   get saldo() {

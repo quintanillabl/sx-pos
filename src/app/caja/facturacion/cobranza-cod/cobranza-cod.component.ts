@@ -17,8 +17,7 @@ export class CobranzaCodComponent implements OnInit {
     { name: 'cliente.nombre',  label: 'Cliente', width: 350},
     { name: 'formaDePago',  label: 'F.Pago', width: 20},
     { name: 'total',  label: 'Total', width: 10},
-    // { name: 'cuentaPorCobrar',  label: 'CFDI', width: 20},
-    
+    { name: 'cuentaPorCobrar',  label: 'CFDI', width: 10},
     { name: 'pagos',  label: 'Pagos', width: 10},
     { name: 'saldo',  label: 'Saldo', width: 10},
   ];
@@ -34,7 +33,7 @@ export class CobranzaCodComponent implements OnInit {
     this.service.facturasPendientesCod()
     .subscribe( (pendientes: any) => {
       this.data = pendientes;
-      console.log('Facturas: ', pendientes)
+      console.log('Pendientes: ', pendientes);
       },error => console.log('Error: ', error)
     );
   }

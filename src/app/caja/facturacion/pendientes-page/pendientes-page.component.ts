@@ -12,7 +12,7 @@ import { Venta } from 'app/models';
 export class PendientesPageComponent implements OnInit {
 
   columns: ITdDataTableColumn[] = [
-    { name: 'documento',  label: 'Documento', numeric: true, width: 15 },
+    { name: 'documento',  label: 'Folio', numeric: true, width: 15 },
     { name: 'fecha',  label: 'Fecha', width: 10},
     { name: 'nombre',  label: 'Cliente', width: 500},
     { name: 'total',  label: 'Total', width: 10},

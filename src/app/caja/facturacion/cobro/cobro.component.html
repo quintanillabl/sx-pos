@@ -2,8 +2,7 @@
   <ng-container *ngIf="venta$ | async; else loading; let venta">
     <sx-cobro-form [venta]="venta" flex
       (cancelar)="onCancelar()"
-      (facturar)="onFacturar($event)" 
-      (cambiarPedido)="onCambiar($event)"
+      (facturar)="onFacturar($event)"
       (save)="onSave($event)">
     </sx-cobro-form>
   </ng-container>

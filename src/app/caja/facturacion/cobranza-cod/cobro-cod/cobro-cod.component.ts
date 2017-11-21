@@ -16,7 +16,7 @@ import { CobroService } from 'app/caja/services/cobro.service';
 })
 export class CobroCodComponent implements OnInit {
 
-  cxc$: Observable<any>;
+  venta$: Observable<Venta>;
 
   constructor(
     private router: Router,
@@ -29,33 +29,31 @@ export class CobroCodComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.cxc$ = this.route.paramMap
+    this.venta$ = this.route.paramMap
       .map( params => params.get('id'))
-      .switchMap( id => this.service.cuentaPorCobrar(id).delay(1000))
-      .shareReplay();
-    
-      this.cxc$.subscribe(cxc => console.log('Cobrando CXC: ', cxc));
+      // .do(id => console.log('Buscando venta con id: ', id))
+      .switchMap( id => this.service.getVenta(id));
   }
 
   onCancelar() {
-    this.router.navigate(['/caja/cobranzaCod']);
+    this.router.navigate(['/caja/facturacion']);
   }
 
   
-  onSave(cobro: Cobro) {
-    // console.log('Generando cobro...', cobro);
+  onSave(cobroJob) {
+    console.log('Generando cobro COD par: ', cobroJob);
     this.loadingService.register('saving');
-    this.cobroService
-    .save(cobro)
-    .subscribe( res => {
+    this.service
+    .cobroContado(cobroJob)
+    .subscribe( (res: any) => {
       console.log('Cobro generado exitosamente', res);
       this.loadingService.resolve('saving');
-      // this.router.navigate(['/caja/cobroCod', cobro.id])
-      this.onCancelar();
+      this.router.navigate(['caja/generadas/show', res.id])
     }, error => {
       console.error(error);
       this.loadingService.resolve('saving');
     });
+    
   }
-
 }
+

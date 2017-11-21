@@ -24,8 +24,8 @@
         [style.height.px]="400">
         <ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
             <a md-button [routerLink]="['../cobroCod', row.id]"  [ngClass]="{'tc-pink-700':row.cod,'tc-indigo-700':!row.cod}">
-                <span flex>{{row.cod ? 'COD': row.tipo}}</span> 
-                <span flex>{{value}} </span>
+                <span flex>{{row.cuentaPorCobrar.tipo}}</span> 
+                <span flex>{{row.cuentaPorCobrar.documento}} </span>
             </a>
         </ng-template>
         <ng-template tdDataTableTemplate="fecha" let-value="value" let-row="row">
@@ -34,17 +34,17 @@
         <ng-template tdDataTableTemplate="total" let-value="value" let-row="row">
             <span>{{value | currency: 'USD': 1.2-2}}</span> <span *ngIf="row.moneda === 'USD'"> USD</span>
         </ng-template>
-    
-        <ng-template tdDataTableTemplate="cuentaPorCobrar" let-value="value" let-row="row">
-            <span *ngIf="value">{{value.id}}</span>
-        </ng-template>
         
         <ng-template tdDataTableTemplate="pagos" let-value="value" let-row="row">
-                <span>{{ row.pagos | currency: 'USD': 1.2-2}}</span> 
-            </ng-template>
+            <span>{{ row.cuentaPorCobrar.pagos | currency: 'USD': 1.2-2}}</span> 
+        </ng-template>
         
         <ng-template tdDataTableTemplate="saldo" let-value="value" let-row="row">
-            <span>{{ (row.total - row.pagos) | currency: 'USD': 1.2-2}}</span> 
+            <span>{{ (row.cuentaPorCobrar.saldo) | currency: 'USD': 1.2-2}}</span> 
+        </ng-template>
+
+        <ng-template tdDataTableTemplate="cuentaPorCobrar" let-value="value" let-row="row">
+            <md-icon class="tc-green-700" mdTooltip="{{value.cfdi.uuid}}" *ngIf="value?.cfdi?.uuid">verified_user</md-icon>
         </ng-template>
         
       </td-data-table>

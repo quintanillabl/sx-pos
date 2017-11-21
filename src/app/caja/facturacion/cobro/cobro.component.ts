@@ -31,7 +31,6 @@ export class CobroComponent implements OnInit {
   ngOnInit() {
     this.venta$ = this.route.paramMap
       .map( params => params.get('id'))
-      .do(id => console.log('Buscando venta con id: ', id))
       .switchMap( id => this.service.getVenta(id));
 
     // this.venta$.subscribe(venta => console.log('Cobro de venta: ', venta));
@@ -62,11 +61,11 @@ export class CobroComponent implements OnInit {
     this.loadingService.register('saving');
     this.service
       .facturar(pedido)
-      .delay(2000)
+      .delay(1000)
       .subscribe( res => {
-        console.log('Pedido listo para facturación', res);
+        console.log('Pedido facturado', res);
         this.loadingService.resolve('saving');
-        this.router.navigate(['caja/facturacion'])
+        this.router.navigate(['caja/generadas/show', res.id])
       }, error => {
         console.error(error);
         this.loadingService.resolve('saving');

@@ -24,8 +24,10 @@
         [style.height.px]="400">
         <ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
             <a md-button [routerLink]="['show', row.id]"  [ngClass]="{'tc-pink-700':row.cod,'tc-indigo-700':!row.cod}">
-                <span flex>{{row.cod ? 'COD': row.tipo}}</span>
-                <span flex>{{value}} </span>
+                <!-- <span flex>{{row.cod ? 'COD': row.tipo}}</span>
+                <span flex>{{value}} </span> -->
+                <span flex>{{row.cuentaPorCobrar.tipo}}</span> 
+                <span flex>{{row.cuentaPorCobrar.documento}} </span>
             </a>
         </ng-template>
         <ng-template tdDataTableTemplate="fecha" let-value="value" let-row="row">

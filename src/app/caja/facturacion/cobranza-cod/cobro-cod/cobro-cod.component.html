@@ -1,13 +1,15 @@
-<div layout >
-  <sx-cobro-cod-form [cxc]="cxc$ | async"  
-    (cancelar)="onCancelar()"
-    (save)="onSave($event)">
-
-  </sx-cobro-cod-form>
-  <!-- <sx-cobro-form [venta]="venta$ | async" 
-    (cancelar)="onCancelar()"
-    (facturar)="onFacturar($event)" 
-    (save)="onSave($event)">
-  </sx-cobro-form> -->
-</div>
+<div layout *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
+  <ng-container *ngIf="venta$ | async; else loading; let venta">
+    
+    <sx-cobro-cod-form [venta]="venta" flex
+      (cancelar)="onCancelar()"
+      (save)="onSave($event)">
+    </sx-cobro-cod-form>
+    
+  </ng-container>
   
+  
+</div>
+<ng-template #loading>
+  Cargando datos.....
+</ng-template>
