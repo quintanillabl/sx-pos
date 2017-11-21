@@ -268,7 +268,23 @@ export class PedidoFormService {
   }
 
   findDescuentoPorVolumen(importe: number) {
-    const found = _.findLast(CONTADO, item => item.importe < importe);
+    let found = null;
+    for (let i = 0; i < CONTADO.length; i++) {
+      const item = CONTADO[i];
+      if ( importe <= item.importe ) {
+        found = item;
+        break
+      }
+    }
+    /*_.forEach(CONTADO, item => {
+
+      if ( importe <= item.importe ) {
+        console.log('Asignando: ', item)
+        found = item;
+        break
+      }
+    });*/
+    // const found = _.findLast(CONTADO, item => item.importe < importe);
     // console.log('Descuento localizado para el importe: ', importe, found);
     return  found
   }
