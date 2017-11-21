@@ -26,6 +26,9 @@ export class ValidationPanelComponent implements OnInit {
     if (this.parent.hasError('codSinEnvio')) {
       return 'Requiere configurar el envío si es pedido COD';
     }
+    if (this.parent.hasError('codConFormaDePagoIncorrecta')) {
+      return 'Forma de pago no permitida en COD (Solo CHEQUE o EFECTIVO)'
+    }
     if (this.parent.hasError('entregaSinEnvio')) {
       return 'Se requiere configurar la direccion de envío ';
     }

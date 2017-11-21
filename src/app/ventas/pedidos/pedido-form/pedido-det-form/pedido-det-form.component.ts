@@ -28,6 +28,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   sucursal: Sucursal;
   producto$: Observable<Producto>;
   disponibilidadTotal$: Observable<number>;
+  disponibilidadTotal = 0
 
   existenciaRemota$: Observable<Existencia[]>;
   existencias: Existencia[] = [];
@@ -66,22 +67,16 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     this.buildExistenciaRemota$();
     this.buildDisponibilidadTotal$();
     this.buildProducto$();
-    // this.buildSinExistencia();
-    // this.buildSinVale();
-    this.buildImporteBruto$();
+    // this.buildImporteBruto$();
     this.buildCorte$();
-
   }
 
   private edicion() {
     if (this.partida) {
-      console.log('Editando la partida.....', this.partida);
+      // console.log('Editando la partida.....', this.partida);
       this.form.patchValue(this.partida);
       if (this.partida.corte) {
-        console.log('Asignando corte');
-        // const corte: FormGroup = this.form.get('corte') as FormGroup;
-        // corte.patchValue(this.partida.corte);
-        // this.form.get('cortado').enable();
+        // Actualizando informacion de corte
         this.form.get('cortado').enable();
         this.form.get('cortado').setValue(true);
       }
@@ -96,7 +91,8 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       cantidad: [0, [Validators.required, Validators.min(1), onlyNumber()]],
       precio: [{value: 0, disabled: !this.asignarPrecio()}, [Validators.required, , Validators.min(1)]],
       importe: [{value: 0, disabled: true}],
-      cortado: [{value: false, disabled: true}],
+      importeConIva: [{value: 0, disabled: true}],
+      cortado: [{value: false, disabled: false}],
       sinExistencia: [{value: false, disabled: true}],
       conVale: [{value: false, disabled: true}],
       conTrs: [{value: false, disabled: true}],
@@ -128,7 +124,17 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   buildExistencias() {
     const producto = this.form.get('producto').value;
     if (producto) {
-      this.existenciasService.buscarExistencias(producto).subscribe(exis => this.existencias = exis);
+      this.existenciasService
+        .buscarExistencias(producto)
+        .subscribe(exis => {
+          this.existencias = exis
+          
+          // Fijar la existencia local
+          const found =_.find(this.existencias, item => item.sucursal.id === this.sucursal.id);
+          this.form.get('existencia').setValue(found);
+          // Calcular la existencia total
+          this.disponibilidadTotal =  _.sumBy(this.existencias, 'disponible');
+        });
     }
   }
 
@@ -139,13 +145,13 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   private buildProducto$() {
     this.producto$ = this.form.get('producto').valueChanges;
     this.subs1 = this.producto$.subscribe( p => {
-
       if (p !== null) {
         if (p.presentacion === 'EXTENDIDO') {
           this.form.get('cortado').enable();
+        } else {
+          this.form.get('cortado').disable();
         }
       }
-
     });
   }
 
@@ -184,6 +190,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  /*
   private buildImporteBruto$() {
     const precio$ = this.form.get('precio').valueChanges;
     const cantidad$ = this.form.get('cantidad').valueChanges;
@@ -192,6 +199,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       .combineLatest(cantidad$, factor$, (cantidad, precio, factor) => (cantidad * precio) / factor).startWith(0);
     this.subs4 = this.importeBruto$.subscribe( importe => this.form.get('importe').setValue(importe));
   }
+  */
 
   private buildCorte$() {
     this.corte$ = this.form.get('cortado').valueChanges;
@@ -207,9 +215,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subs1.unsubscribe();
-    // this.subs2.unsubscribe();
-    // this.subs3.unsubscribe();
-    this.subs4.unsubscribe();
+    //this.subs4.unsubscribe();
     this.corteSubscription.unsubscribe();
   }
 
@@ -218,14 +224,6 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   }
 
   doAccept() {
-    /*
-    if (this.partida) {
-      this.dialogRef.close(this.partida);
-    } else {
-      const ventaDet = this.preparePartida();
-      this.dialogRef.close(ventaDet);
-    }
-    */
     const ventaDet = this.preparePartida();
     this.dialogRef.close(ventaDet);
   }
@@ -276,4 +274,34 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       return precio > 0.0 ? {'precioInvalido': {value: control.value}} : null;
     };
   }
+
+  get producto() {
+    return this.form.get('producto').value
+  }
+
+  get importeConIva() {
+    return _.round(this.importeBruto * 1.1600);
+  }
+  get importeBruto() {
+    const importeBruto = (this.cantidad * this.precio) / this.factor
+    return _.round(importeBruto, 2);
+  }
+
+  get factor() {
+    if (this.producto) {
+      return this.producto.unidad === 'MIL' ? 1000 : 1;
+    } else {
+      return 1;
+    }
+    
+  }
+  
+  get cantidad(): number {
+    return this.form.get('cantidad').value
+  }
+
+  get precio(): number {
+    return this.form.get('precio').value
+  }
+
 }
