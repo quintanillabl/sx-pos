@@ -114,12 +114,12 @@ export class PendientesComponent implements OnInit {
           type: 'application/pdf'
         });
         // this.loadingService.resolve('saving');
-        /*
         const fileURL = window.URL.createObjectURL(blob);
         window.open(fileURL, '_blank');
-        */
+        /*
         let filename = `Pedido_${id}.pdf`;
         FileSaver.saveAs(blob, filename);
+        */
       }, error2 => this.handleError(error2));
   }
 
