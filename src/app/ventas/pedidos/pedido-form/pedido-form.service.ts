@@ -331,14 +331,15 @@ export class PedidoFormService {
   }
 
   private quitarCargosEspeciales() {
+    //console.log('Quitando los cargos especiales..')
     const cargoPorTarjeta = _.findIndex(this.partidas.value, (item: VentaDet) => item.producto.clave === 'MANIOBRA');
     if (cargoPorTarjeta !== -1) {
-      // console.log('Qutandi cargo por maniobra T');
+      // console.log('Qutandi cargo por tarjeta');
       this.partidas.removeAt(cargoPorTarjeta);
     }
     // console.log('Buscando partida de corte en:', this.partidas.value);
     const cargoPorCorte = _.findIndex(this.partidas.value, (item: VentaDet) => item.producto.clave === 'CORTE');
-    //  console.log('Partida de corte: ', cargoPorCorte);
+    // console.log('Partida de corte: ', cargoPorCorte);
     if (cargoPorCorte !== -1) {
       // console.log('Quitando cargo por corte');
       this.partidas.removeAt(cargoPorCorte);
@@ -357,6 +358,13 @@ export class PedidoFormService {
       this.service.findCorte().subscribe(producto => {
         this.form.get('corteImporte').setValue( (importeCortes)) ;
         const det = this.buildPartidaDeManiobra(producto, importeCortes);
+
+        const cargoPorCorte = _.findIndex(this.partidas.value, (item: VentaDet) => item.producto.clave === 'CORTE');
+        if( cargoPorCorte !== -1) {
+          // console.log('Partida de corte ya registrada...', cargoPorCorte);
+          this.partidas.removeAt(cargoPorCorte);
+
+        }
         // console.log('Agregando partida de corte: ', {...det});
         // console.log('... Partidas actuales: ', this.partidas.value);
         this.partidas.push(new FormControl(det));

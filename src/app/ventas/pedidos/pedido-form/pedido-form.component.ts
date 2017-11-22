@@ -136,7 +136,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     this.recalcular$ = Observable.merge(cliente$, tipo$, formaDePago$);
 
     this.recalcularSubscription = this.recalcular$.subscribe( data => {
-      // console.log('Detectando cambios : ', data);
+      // console.log('Recalculando importes : ', data);
       this.pedidoFormService.recalcular();
       this.cd.detectChanges();
       this.grid.refresh();
