@@ -7,6 +7,8 @@ export class Cliente {
   email?: string
   permiteCheque?: boolean
   direccion?: {};
+  telefonos?: Array<any>
+  cfdiMail?: string
 }
 
 export class ClienteCredito {

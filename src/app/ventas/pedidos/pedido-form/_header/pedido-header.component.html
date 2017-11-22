@@ -6,9 +6,7 @@
     </md-form-field>
     <sx-cliente-field flex="60" formControlName="cliente"  *ngIf="!parent.get('id').value"></sx-cliente-field>
     <div layout layout-align="center center" class="pad-left" >
-      <!-- <md-form-field flex class="pad-right">
-        <input type="text" mdInput placeholder="RFC" [disabled]="true" value="{{cliente?.rfc}}">
-      </md-form-field> -->
+      
       <md-form-field class="pad-right" *ngIf="parent.get('id').value">
         <input type="text" mdInput placeholder="Documento" 
           value="{{parent.get('tipo').value}} - {{parent.get('documento').value}}" [disabled]="true">
@@ -64,12 +62,26 @@
         {{direccion.codigoPostal}}<br>
     </address>
     
-    <div layout class="pad-left pad-right">
-        <span>RFC:</span>
-        <span class="tc-indigo-700 pad-left pad-right">{{cliente?.rfc}}</span>
+    <div layout="column" class="pad-left-md text-md" flex="50">
+      <span layout class="pad-top-xs">
+        <span flex="20">RFC:</span>
+        <span class="tc-indigo-700" flex>{{cliente?.rfc}}</span>
+      </span>
+      <div layout class="pad-top-xs">
+        <span flex="20">TELS:</span>
+        <span class="tc-indigo-700 " flex>{{cliente?.telefonos?.join('/')}}</span>
+      </div>
+      <div layout class="pad-top-xs">
+          <span flex="20">CFDI Mail:</span>
+          <span class="tc-pink-700 " flex>
+            <a (click)="cambiarCfdi.emit(cliente)" mb-button >
+              {{cliente?.cfdiMail}}
+            </a>
+          </span>
+        </div>
     </div>
 
-    <div layout="column" layout-align="">
+    <div layout="column" >
       <span class="text-right pad-left" > Crédito: {{cliente?.credito? 'SI': 'NO'}}</span>
       <span class="text-right pad-left text-md" *ngIf="cliente?.credito && cliente?.credito?.postfechado" >Postfechado</span>
     </div>

@@ -10,7 +10,7 @@ import { Venta, Sucursal } from 'app/models';
 import { MdDialog } from '@angular/material';
 import { EnvioDireccionComponent } from '../pedido-form/envio-direccion/envio-direccion.component';
 
-
+import * as FileSaver from 'file-saver'; 
 
 @Component({
   selector: 'sx-pedidos-pendientes',
@@ -103,5 +103,30 @@ export class PendientesComponent implements OnInit {
     pedido.envio = {direccion: direccion};
     this.service.update(pedido).subscribe(res => this.load(), error=> console.error(error));
   }
+
+  print(id: string) {
+    console.log('Imprimiendo pedido: ', id);
+    // this.loadingService.register('saving');
+    this.service.imprimirPedido(id)
+      .delay(1000)
+      .subscribe(res => {
+        const blob = new Blob([res], {
+          type: 'application/pdf'
+        });
+        // this.loadingService.resolve('saving');
+        /*
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+        */
+        let filename = `Pedido_${id}.pdf`;
+        FileSaver.saveAs(blob, filename);
+      }, error2 => this.handleError(error2));
+  }
+
+  handleError(error) {
+    // this.loadingService.resolve('saving');
+    console.error('Error: ', error);
+  }
+
 
 }

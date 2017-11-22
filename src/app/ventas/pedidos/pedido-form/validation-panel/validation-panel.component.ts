@@ -35,6 +35,9 @@ export class ValidationPanelComponent implements OnInit {
     if (this.parent.hasError('noSePermiteFormaDeCheque')) {
       return 'No se permite forma de pago CHEQUE para este cliente';
     }
+    if (this.parent.hasError('totalMaximoPermitido')) {
+      return 'Monto máxmo permitido para pago en efectivo es de $100,000';
+    }
     return null;
   }
 

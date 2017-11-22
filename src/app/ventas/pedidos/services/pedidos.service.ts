@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from 'environments/environment';
-import { Venta, Sucursal, Producto } from 'app/models';
+import { Venta, Sucursal, Producto, Cliente } from 'app/models';
 import {ConfigService} from 'app/core/services/config.service';
 import {Store} from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
@@ -143,6 +143,24 @@ export class PedidosService {
         responseType: 'blob'
       }
     );
+  }
+
+  imprimirPedido(pedidoId: string) {
+    const url = `${this.apiUrl}/print/${pedidoId}`;
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        responseType: 'blob'
+      }
+    );
+  }
+
+  actualizarCfdiEmail(cliente: Cliente, email: string) {
+    const url = `${environment.apiUrl}/clientes/actualizarCfdiMail/${cliente.id}`;
+    const params = new HttpParams()
+    .set('email', email);
+    return this.http.put(url, {}, {params: params});
   }
 
 }

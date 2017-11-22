@@ -16,6 +16,8 @@ export class PendientesListComponent implements OnInit {
 
   @Output() envio = new EventEmitter<any>();
 
+  @Output() print = new EventEmitter<any>();
+
   constructor() { }
 
   ngOnInit() {

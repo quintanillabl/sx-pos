@@ -34,6 +34,7 @@
         [pedidos]="pedidos" 
         (edit)="onEdit($event)" 
         (facturar)="mandarFacturar($event)"
+        (print)="print($event)"
         (envio)="asignarEnvio($event)">
       </sx-pedidos-pendientes-list>
     </md-card-content>

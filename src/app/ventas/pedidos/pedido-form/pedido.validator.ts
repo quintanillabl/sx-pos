@@ -14,6 +14,7 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
   const cliente = control.get('cliente').value;
   const tipo = control.get('tipo').value;
   const formaDePago = control.get('formaDePago').value;
+  const total = (control.get('total').value);
 
   // Valida que existan partidas
   const partidas = (control.get('partidas') as FormArray).value;
@@ -21,7 +22,7 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
     return { sinPartidas: true };
   }
   // Valida que el importe del pedido sea mayor o igual a $10
-  const total = (control.get('total').value);
+  
   if (total < 1) {
     return { importeMuyBajo: true };
   }
@@ -49,6 +50,13 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
   if (formaDePago === 'CHEQUE' && tipo !== 'CRE') {
     if (cliente && !cliente.permiteCheque) {
       return { noSePermiteFormaDeCheque: true}
+    }
+  }
+
+  // Validar que el total no pase de 100,000
+  if (formaDePago === 'EFECTIVO') {
+    if (total > 100000) {
+      return { totalMaximoPermitido: true}
     }
   }
 

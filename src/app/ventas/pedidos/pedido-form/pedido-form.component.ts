@@ -29,6 +29,10 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
   @Output() addNewCliente = new EventEmitter();
 
+  @Output() cambiarCfdiMail = new EventEmitter();
+
+  @Output() print = new EventEmitter();
+
   @Input() sucursal: Sucursal;
 
   @Input() pedido: Venta;
@@ -56,7 +60,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.pedido && changes.pedido.currentValue) {
       const pedido: Venta = changes.pedido.currentValue;
-      // console.log('Editando pedido: ', pedido);
+      console.log('Editando pedido: ', pedido.cliente);
       _.forEach(pedido.partidas, item => this.partidas.push(new FormControl(item)));
       this.form.get('isPuesto').setValue(pedido.puesto !== undefined);
 
@@ -246,6 +250,11 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       this.form.get('puesto').setValue(null);
     }
+  }
+
+  onCambioDeCfdi(cliente) {
+    // console.log('Cambio de CFDI mail', cliente);
+    this.cambiarCfdiMail.emit(cliente);
   }
 
   onManiobra() {

@@ -5,6 +5,7 @@
       (addCliente)="onAddNewCliente()" [parent]="form"
       (insertar)="onInsertPartida()"
       (descuento)="onDescuento()"
+      (cambiarCfdi)="onCambioDeCfdi($event)"
       (maniobra)="onManiobra()">
     </sx-pedido-header>
     <md-divider></md-divider>
@@ -19,7 +20,7 @@
       <sx-uso-cfdi [parent]="form" flex></sx-uso-cfdi>
       <sx-comprador-field [parent]="form" flex></sx-comprador-field>
       <section  flex>
-          <md-checkbox class="text-md"  (change)="onPuesto($event)" formControlName="isPuesto">Puesto</md-checkbox>
+        <md-checkbox class="text-md"  (change)="onPuesto($event)" formControlName="isPuesto">Puesto</md-checkbox>
       </section>
 
     </div>
@@ -49,7 +50,7 @@
       <md-card-actions>
         <button type="submit" md-button [disabled]="form.invalid" > Salvar </button>
         <a  md-button [routerLink]="['/ventas/pedidos/pendientes']"> Cancelar </a>
-        <button type="button" md-icon-button  mdTooltip="Imprimir documento" >
+        <button type="button" md-icon-button  mdTooltip="Imprimir documento" (click)="print.emit(id)">
           <md-icon>print</md-icon>
         </button>
         <button type="button" md-button  *ngIf="id"

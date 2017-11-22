@@ -12,13 +12,11 @@
                 </button>
             </span>
             <span flex="30">{{ row.nombre}} </span>
+            <span flex="5" class="tc-indigo-500">{{ row.cod ? 'COD' : ''  }} </span>
             <span flex="10">{{ row.fecha | date: 'dd/MM/yyyy' }} </span>
             <!-- <span flex="10">{{ row.dateCreated | amTimeAgo }} </span> -->
             <span flex="10">{{ row.formaDePago}} </span>
-            <!-- <span flex="10" class="text-right" layout>
-              <span  class="tc-indigo-700 text-sm" *ngIf="row.tipo === 'ANT'"> (ANT) </span>
-              <span  class="tc-pink-700 text-sm" *ngIf="row.moneda!=='MXN'" > {{row.moneda}}</span>
-            </span> -->
+            
             <span flex="10">
                 {{ row.total | currency: 'USD': 1.2-2 }}
             </span>
@@ -29,7 +27,11 @@
                   PUESTO
               </span>
             </span>
-            
+
+            <span flex="10" layout>
+              <span class="pad-left-sm ">{{row.createUser}}</span>
+              <span class="pad-left-sm ">{{row.updateUser}}</span>
+            </span>
             
             <span layout>
               <button  md-icon-button
@@ -41,6 +43,10 @@
                        mdTooltip="Configurar envío"
                        (click)="envio.emit(row)" >
                 <md-icon [ngClass]="{'tc-green-500': (row.envio !== null)}">flight_takeoff</md-icon>
+              </button>
+              <button  md-icon-button type="button" mdTooltip="Imprimir pedido"
+                (click)="print.emit(row.id)" >
+                <md-icon>print</md-icon>
               </button>
             </span>
           </span>
