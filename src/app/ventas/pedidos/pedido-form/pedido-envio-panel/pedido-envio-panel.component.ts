@@ -28,16 +28,9 @@ export class PedidoEnvioPanelComponent implements OnInit, OnDestroy {
     this.subscription = this.parent.get('entrega').valueChanges.subscribe( entrega => {
 
       if (entrega !== 'LOCAL') {
-        this.parent.get('clasificacionVale').enable();
-        this.parent.get('sucursalVale').enable();
-        this.parent.get('almacen').enable();
         this.parent.get('mismaDireccion').enable();
         this.parent.get('mismaDireccion').setValue(true);
-
       } else {
-        this.parent.get('clasificacionVale').disable();
-        this.parent.get('sucursalVale').disable();
-        this.parent.get('almacen').disable();
         this.parent.get('mismaDireccion').disable();
         this.parent.get('envio').setValue(null);
       }

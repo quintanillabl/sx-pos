@@ -45,7 +45,7 @@ export class PendientesComponent implements OnInit {
   }
 
   onEdit(pedido: Venta) {
-    console.log('Editando pedido: ', pedido);
+    // console.log('Editando pedido: ', pedido);
     if (pedido.moneda === 'USD') {
       this.router.navigate(['/ventas/pedidos/dolares/edit', pedido.id]);
     } else if ( pedido.tipo === 'ANT') {
@@ -71,9 +71,7 @@ export class PendientesComponent implements OnInit {
             .subscribe( res => {
               console.log('Pedido listo para facturación', res);
               this.load();
-            }, error => {
-
-            });
+            }, error => this.handleError(error));
         }
       });
     }
@@ -126,6 +124,28 @@ export class PendientesComponent implements OnInit {
   handleError(error) {
     // this.loadingService.resolve('saving');
     console.error('Error: ', error);
+  }
+
+  OnGenerarVale(pedido: Venta) {
+
+    if (pedido.clasificacionVale === 'EXISTENCIA_VENTA') {
+      this._dialogService.openConfirm({
+        message: `Generar vale ${pedido.tipo} - ${pedido.documento} (${pedido.total})` ,
+        viewContainerRef: this._viewContainerRef,
+        title: 'Vale de traslado ',
+        cancelButton: 'Cancelar',
+        acceptButton: 'Aceptar',
+      }).afterClosed().subscribe((accept: boolean) => {
+        if (accept) {
+          this.service
+            .generarValeAutomatico(pedido)
+            .subscribe( res => {
+              console.log('Pedido listo para facturación', res);
+              this.load();
+            }, error => this.handleError(error));
+        }
+      });
+    }
   }
 
 

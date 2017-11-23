@@ -60,5 +60,16 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
     }
   }
 
+  // Validar el uso de vale
+  const conVale = partidas.find (item => item.conVale);
+  if (conVale) {
+    const clasificacionVale = control.get('clasificacionVale').value;
+    const sucursalVale = control.get('sucursalVale').value;
+    if ( clasificacionVale === 'SIN_VALE' || sucursalVale === null) {
+      return { sinConfiguracionDeVale: true}
+    }
+    
+  }
+
   return null;
 };

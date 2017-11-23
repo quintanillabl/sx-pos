@@ -28,12 +28,18 @@
               </span>
             </span>
 
-            <span flex="10" layout>
+            <span flex layout>
               <span class="pad-left-sm ">{{row.createUser}}</span>
               <span class="pad-left-sm ">{{row.updateUser}}</span>
             </span>
-            
             <span layout>
+              
+            </span>
+            <span layout>
+              <button  md-icon-button (click)="generarVale.emit(row)"
+                 mdTooltip="Requiere vale" *ngIf="row.clasificacionVale !== 'SIN_VALE'">
+                <md-icon >swap_horiz</md-icon>
+              </button>
               <button  md-icon-button
                        (click)="onFacturar(row)"
                 mdTooltip="Mandar facturar" >

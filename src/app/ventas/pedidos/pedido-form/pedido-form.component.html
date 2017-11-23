@@ -1,6 +1,6 @@
 <form novalidate [formGroup]="form" layout="row" class="pedido-form" (ngSubmit)="onSave()" >
 
-  <md-card flex="70" >
+  <md-card flex="75" >
     <sx-pedido-header
       (addCliente)="onAddNewCliente()" [parent]="form"
       (insertar)="onInsertPartida()"
@@ -36,11 +36,12 @@
     <sx-validation-panel [parent]="form"></sx-validation-panel>
   </md-card>
 
-  <div flex="30">
+  <div flex="25">
     <md-card >
       <td-expansion-panel-group>
         <sx-pedido-totales-panel [parent]="form"></sx-pedido-totales-panel>
         <sx-pedido-envio-panel [parent]="form"></sx-pedido-envio-panel>
+        <sx-configuracion-vale [parent]="form"></sx-configuracion-vale>
         <sx-pedido-comentario-panel [parent]="form" ></sx-pedido-comentario-panel>
         <sx-pedido-cargos-panel [parent]="form"></sx-pedido-cargos-panel>
 

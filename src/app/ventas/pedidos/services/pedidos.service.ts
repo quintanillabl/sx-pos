@@ -78,6 +78,11 @@ export class PedidosService {
     return this.http.put(url, venta);
   }
 
+  generarValeAutomatico(venta: Venta) {
+    const url = `${this.apiUrl}/generarValeAutomatico/${venta.id}`;
+    return this.http.put(url, venta);
+  }
+
   pendientesDeFacturar(tipo: string) {
     const params = new HttpParams()
       .set('facturables', tipo)

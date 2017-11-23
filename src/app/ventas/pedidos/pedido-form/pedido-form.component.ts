@@ -60,7 +60,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.pedido && changes.pedido.currentValue) {
       const pedido: Venta = changes.pedido.currentValue;
-      console.log('Editando pedido: ', pedido.cliente);
+      // console.log('Editando pedido: ', pedido.cliente);
       _.forEach(pedido.partidas, item => this.partidas.push(new FormControl(item)));
       this.form.get('isPuesto').setValue(pedido.puesto !== undefined);
 
@@ -99,8 +99,8 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       atencion: ['MOSTRADOR', Validators.required],
       entrega: ['LOCAL', Validators.required],
       vale: [{value: false, disabled: true}, Validators.required],
-      clasificacionVale: [{value: 'SIN_VALE', disabled: true}, Validators.required],
-      sucursalVale: [{value: null, disabled: true}],
+      clasificacionVale: [{value: 'SIN_VALE', disabled: false}, Validators.required],
+      sucursalVale: [{value: null, disabled: false}],
       almacen: [{value: null, disabled: true}],
       mismaDireccion: [{value: true, disabled: true}, Validators.required],
       entregaParcial: [{value: false, disabled: true}, Validators.required],

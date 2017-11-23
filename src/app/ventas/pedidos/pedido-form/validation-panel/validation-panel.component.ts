@@ -38,6 +38,10 @@ export class ValidationPanelComponent implements OnInit {
     if (this.parent.hasError('totalMaximoPermitido')) {
       return 'Monto máxmo permitido para pago en efectivo es de $100,000';
     }
+    if (this.parent.hasError('sinConfiguracionDeVale')) {
+      return 'Debe registrar la configuración del vale de traslado';
+    }
+    
     return null;
   }
 

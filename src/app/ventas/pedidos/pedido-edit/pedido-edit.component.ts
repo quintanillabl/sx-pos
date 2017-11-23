@@ -60,7 +60,7 @@ export class PedidoEditComponent implements OnInit {
   }
 
   onUpdate(pedido: Venta) {
-    // console.log('Actualizando pedido: ', pedido)
+    console.log('Actualizando pedido: ', pedido)
 
     this.loadingService.register('saving');
     this.service
@@ -129,7 +129,7 @@ export class PedidoEditComponent implements OnInit {
   }
 
   print(id: string) {
-    console.log('Imprimiendo pedido: ', id);
+    // console.log('Imprimiendo pedido: ', id);
     this.loadingService.register('saving');
     this.service.imprimirPedido(id)
       .delay(1000)

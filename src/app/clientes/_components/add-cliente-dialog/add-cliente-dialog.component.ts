@@ -19,9 +19,9 @@ export class AddClienteDialogComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      nombre: [null, [Validators.required, Validators.maxLength(20)]],
+      nombre: [null, [Validators.required, Validators.maxLength(255)]],
       rfc: [null, [Validators.required, Validators.minLength(12), Validators.maxLength(13)]],
-      clave: ['TEST', Validators.required],
+      clave: ['', Validators.required],
       email: [null],
       direccion: this.fb.group({
         calle: [null, Validators.required],

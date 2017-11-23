@@ -12,8 +12,8 @@
           value="{{parent.get('tipo').value}} - {{parent.get('documento').value}}" [disabled]="true">
       </md-form-field>
 
-      <md-form-field class="pad-right" *ngIf="!parent.get('id').value">
-        <input type="text" mdInput placeholder="CFD Email" formControlName="cfdiMail">
+      <md-form-field class="pad-right" >
+        <input type="text" mdInput placeholder="Socio" [disabled]="true">
       </md-form-field>
     </div>
 

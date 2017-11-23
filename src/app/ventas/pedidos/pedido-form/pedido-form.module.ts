@@ -25,6 +25,7 @@ import { DescuentoEspecialComponent } from './descuento-especial/descuento-espec
 import { PrecioEspecialComponent } from './precio-especial/precio-especial.component';
 import { EnvioDireccionComponent } from './envio-direccion/envio-direccion.component';
 import { ValidationPanelComponent } from './validation-panel/validation-panel.component';
+import { ConfiguracionValeComponent } from './configuracion-vale/configuracion-vale.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { ValidationPanelComponent } from './validation-panel/validation-panel.co
     DescuentoEspecialComponent,
     PrecioEspecialComponent,
     EnvioDireccionComponent,
-    ValidationPanelComponent
+    ValidationPanelComponent,
+    ConfiguracionValeComponent
   ],
   entryComponents: [
     PedidoDetFormComponent,

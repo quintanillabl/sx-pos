@@ -34,7 +34,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   existencias: Existencia[] = [];
 
   sinExistencia$: Observable<boolean>;
-  conVale$: Observable<boolean>;
+  // conVale$: Observable<boolean>;
   tipoDePrecio = 'CON';
   importeBruto$: Observable<number>;
 
@@ -43,8 +43,8 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
 
   subs1: Subscription;
   subs2: Subscription;
-  subs3: Subscription;
-  subs4: Subscription;
+  // subs3: Subscription;
+  // subs4: Subscription;
 
   corte$: Observable<boolean>;
   corteSubscription: Subscription
@@ -94,8 +94,8 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       importeConIva: [{value: 0, disabled: true}],
       cortado: [{value: false, disabled: false}],
       sinExistencia: [{value: false, disabled: true}],
-      conVale: [{value: false, disabled: true}],
-      conTrs: [{value: false, disabled: true}],
+      conVale: [{value: false, disabled: false}],
+      conTrs: [{value: false, disabled: false}],
       corte: this.fb.group({
         cantidad: [1, Validators.required],
         tipo: [''],
@@ -169,6 +169,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  /*
   private buildSinVale() {
     this.conVale$ = this.sinExistencia$.combineLatest(
       this.disponibilidadTotal$,
@@ -189,6 +190,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       }
     });
   }
+  */
 
   /*
   private buildImporteBruto$() {
@@ -197,7 +199,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     const factor$ = this.producto$.filter(p => p !== null).pluck('unidad').map( unidad => unidad === 'MIL' ? 1000 : 1);
     this.importeBruto$ = precio$
       .combineLatest(cantidad$, factor$, (cantidad, precio, factor) => (cantidad * precio) / factor).startWith(0);
-    this.subs4 = this.importeBruto$.subscribe( importe => this.form.get('importe').setValue(importe));
+    this.//subs4 = this.importeBruto$.subscribe( importe => this.form.get('importe').setValue(importe));
   }
   */
 
@@ -215,7 +217,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subs1.unsubscribe();
-    //this.subs4.unsubscribe();
+    //this.//subs4.unsubscribe();
     this.corteSubscription.unsubscribe();
   }
 
