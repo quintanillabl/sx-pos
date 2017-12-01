@@ -140,8 +140,8 @@ export class PendientesComponent implements OnInit {
           this.service
             .generarValeAutomatico(pedido)
             .subscribe( res => {
-              console.log('Pedido listo para facturación', res);
-              this.load();
+              console.log('Vale para pedido generado exitosamente', res);
+              // this.load();
             }, error => this.handleError(error));
         }
       });

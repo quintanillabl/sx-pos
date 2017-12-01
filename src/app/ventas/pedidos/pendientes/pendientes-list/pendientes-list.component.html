@@ -37,7 +37,8 @@
             </span>
             <span layout>
               <button  md-icon-button (click)="generarVale.emit(row)"
-                 mdTooltip="Requiere vale" *ngIf="row.clasificacionVale !== 'SIN_VALE'">
+                 mdTooltip="Generar vale tipo: {{row.clasificacionVale}}" 
+                 *ngIf="row.clasificacionVale !== 'SIN_VALE'">
                 <md-icon >swap_horiz</md-icon>
               </button>
               <button  md-icon-button

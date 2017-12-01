@@ -75,12 +75,12 @@ export class PedidosService {
 
   mandarFacturar(venta: Venta) {
     const url = `${this.apiUrl}/mandarFacturar/${venta.id}`;
-    return this.http.put(url, venta);
+    return this.http.put(url, {});
   }
 
   generarValeAutomatico(venta: Venta) {
     const url = `${this.apiUrl}/generarValeAutomatico/${venta.id}`;
-    return this.http.put(url, venta);
+    return this.http.put(url, {});
   }
 
   pendientesDeFacturar(tipo: string) {

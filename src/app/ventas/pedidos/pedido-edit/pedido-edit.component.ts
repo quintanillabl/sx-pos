@@ -60,14 +60,11 @@ export class PedidoEditComponent implements OnInit {
   }
 
   onUpdate(pedido: Venta) {
-    console.log('Actualizando pedido: ', pedido)
-
     this.loadingService.register('saving');
     this.service
       .update(pedido)
       .subscribe(
         (res: any) => {
-          console.log('Actualizacion exitosa: ', res);
           this.loadingService.resolve('saving');
           this.router.navigate(['/ventas/pedidos/pendientes'])
         },
