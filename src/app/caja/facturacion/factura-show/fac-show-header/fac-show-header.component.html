@@ -4,11 +4,19 @@
     <span class="md-title" flex="50">
       {{cliente.nombre}}
     </span>
-    <span layout>
-      <span flex>Factura:</span>
-      <span class="pad-left tc-pink-800" flex>
-      {{venta.cuentaPorCobrar.tipo}} {{venta.cuentaPorCobrar.documento}}
+    <span layout="column">
+      <span layout>
+        <span flex>Factura:</span>
+        <span class="pad-left tc-pink-800" flex>
+        {{venta.cuentaPorCobrar.tipo}} {{venta.cuentaPorCobrar.documento}}
+        </span>
       </span>
+      <span layout>
+          <span flex>Pedido:</span>
+          <span class="pad-left tc-pink-800" flex>
+          {{venta.documento}}
+          </span>
+        </span>
     </span>
     <span layout class="pad-left">
       <span flex>Fecha:</span>

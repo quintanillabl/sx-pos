@@ -27,7 +27,7 @@
             <span flex="25" class="text-md">({{row.producto.clave}}) </span>
             <span flex="70" layout="column">
               <span>{{row.producto.descripcion}}</span>
-              <span class="text-sm tc-indigo-400" *ngIf="row.corte">
+              <span class="tc-pink-800" *ngIf="row.corte">
                   {{row.corte.cantidad}} * {{row.corte.precio}} = {{row.corte.cantidad * row.corte.precio}}
                   /{{row.corte.tipo}}  / {{row.corte.instruccion}}
               </span>

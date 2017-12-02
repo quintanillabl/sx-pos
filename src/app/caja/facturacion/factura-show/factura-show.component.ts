@@ -43,32 +43,24 @@ export class FacturaShowComponent implements OnInit {
   }
 
   cancelar(factura: Venta) {
-    const hoy = new Date()
-    const fecha = new Date(factura.fecha)
-    const diff = hoy === fecha;
-    if (! diff) {
-      this.openAlert('La factura no es del día no se puede cancelar');
-    } else {
-      console.log('Tratando de cancelar factura:', factura);
-      console.log(`Hoy: ${hoy} Fac: ${fecha}  Diff: ${diff}`)
-      this._dialogService.openConfirm({
-        message: `Cancelar factura  ${factura.documento} ?` ,
-        viewContainerRef: this._viewContainerRef,
-        title: 'Cancelación de facturas',
-        cancelButton: 'Cancelar',
-        acceptButton: 'Aceptar',
-      }).afterClosed().subscribe((accept: boolean) => {
-        if (accept) {
-          // this.service
-          //   .cancelar(factura)
-          //   .subscribe( res => {
-          //     this.router.navigate(['/ventas/pedidos/pendientes']);
-          //   }, error => {
-          //     console.error('Error al cancelar venta', factura);
-          //   });
-        }
-      });
-    }
+    this._dialogService.openConfirm({
+      message: `Cancelar factura ${factura.cuentaPorCobrar.documento} ?` ,
+      viewContainerRef: this._viewContainerRef,
+      title: 'Cancelación de venta/factura',
+      cancelButton: 'Cancelar',
+      acceptButton: 'Aceptar',
+    }).afterClosed().subscribe((accept: boolean) => {
+      console.log('Cancelando factura: ', factura.cuentaPorCobrar.documento);
+      if (accept) {
+        this.service
+          .cancelar(factura)
+          .subscribe( res => {
+            this.router.navigate(['/caja/facturacion']);
+          }, error => {
+            console.error('Error al cancelar venta', factura);
+          });
+      }
+    });
   }
 
   openAlert(message: string, title: string = 'Advertencia'): void {

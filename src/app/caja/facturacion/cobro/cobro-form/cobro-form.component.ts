@@ -82,6 +82,11 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
       _.pull(this.formasDePago, 'TARJETA_DEBITO');
       _.pull(this.formasDePago, 'TRANSFERENCIA');
     }
+    if (this.venta.formaDePago === 'EFECTIVO') {
+      _.pull(this.formasDePago, 'TARJETA_CREDITO');
+      _.pull(this.formasDePago, 'TARJETA_DEBITO');
+      _.pull(this.formasDePago, 'TRANSFERENCIA');
+    }
   }
 
   ngOnDestroy() {
@@ -113,18 +118,9 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
 
     if (this.venta) {
       const pendiente = this.porCobrar
-      // console.log('Pendiente: ', pendiente);
+      console.log('Pendiente: ', pendiente);
       return pendiente <= 0 ? null : {importeInvalido: true};
     }
-    /*
-    const fp  = control.get('formaDePago').value;
-    console.log('Validando forma de pago: ', fp);
-    if (fp === 'CHEQUE') {
-
-      const cliente = this.venta.cliente;
-      return cliente.permiteCheque ? null : {permiteCheque: false};
-    }
-    */
     return null;
   }
 
@@ -161,7 +157,8 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   get permitirMasCobros() {
-    return this.porCobrar > 0 && this.importe > 0 && (this.venta.formaDePago !== 'EFECTIVO')
+    // return this.porCobrar > 0 && this.importe > 0 && (this.venta.formaDePago !== 'EFECTIVO')
+    return (this.porCobrar > 0 && this.importe > 0 )
   }
 
   agregarCobro() {

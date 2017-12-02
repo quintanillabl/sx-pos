@@ -12,6 +12,7 @@ export class GeneradasPageComponent implements OnInit {
 
   columns: ITdDataTableColumn[] = [
     { name: 'documento',  label: 'Documento', numeric: true, width: 10 },
+    { name: 'pedido',  label: 'Pedido', numeric: true, width: 10 },
     { name: 'fecha',  label: 'Fecha', width: 10},
     { name: 'nombre',  label: 'Cliente', width: 400},
     { name: 'total',  label: 'Total', width: 10},
