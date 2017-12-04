@@ -11,6 +11,7 @@ import { CONTADO, CREDITO } from 'app/ventas/models/descuentos';
 import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
 import { DescuentoEspecialComponent } from './descuento-especial/descuento-especial.component';
 import { PrecioEspecialComponent } from './precio-especial/precio-especial.component';
+import {Venta} from '@siipapx/models';
 
 export function mapPartidaToImporte( det: VentaDet) {
   const factor = det.producto.unidad === 'MIL' ? 1000 : 1;
@@ -22,14 +23,16 @@ export function mapPartidaToImporte( det: VentaDet) {
 export class PedidoFormService {
 
   form: FormGroup;
+  pedido: Venta; // edicion de pedido existente
 
   constructor(
     public dialog: MdDialog,
     private service: PedidosService
   ) { }
 
-  registerForm(parentForm: FormGroup) {
+  registerForm(parentForm: FormGroup, pedido: Venta) {
     this.form = parentForm;
+    this.pedido = pedido;
   }
 
   get tipo() {
@@ -105,7 +108,7 @@ export class PedidoFormService {
   }
 
   get partidasActualizables() {
-    const EXCEPTIONS = ['MANIOBRA','MANIOBRAF'];
+    const EXCEPTIONS = ['MANIOBRA', 'MANIOBRAF'];
     return this.partidas.value.filter(value => !_.includes(EXCEPTIONS, value.producto.clave ));
   }
 
@@ -220,10 +223,19 @@ export class PedidoFormService {
     const importes = _.map(partidasPrecioBruto, mapPartidaToImporte);
     const importeBruto = _.sum(importes);
     const descRow = this.findDescuentoPorVolumen(importeBruto);
+    const descuentoOriginal = descRow ? descRow.descuento : 0
     let descuento = descRow ? descRow.descuento : 0
+
+
+
     if (descuento > pena ) {
       descuento = descuento - pena
     }
+
+    if (this.pedido.id) {
+      descuento = this.pedido.descuento * 100;
+    }
+
     _.forEach(partidas, item => {
       if (item.producto.modoVenta === 'B') {
         // item.precio = item.producto.precioContado;
@@ -235,7 +247,8 @@ export class PedidoFormService {
         item.descuentoOriginal = item.descuento;
       }
     });
-    this.form.get('descuentoOriginal').setValue(_.round((descuento / 100), 2));
+    this.form.get('descuentoOriginal').setValue(_.round((descuentoOriginal / 100), 2));
+
   }
 
   aplicarDescuentoCredito() {
@@ -333,7 +346,7 @@ export class PedidoFormService {
   }
 
   private quitarCargosEspeciales() {
-    //console.log('Quitando los cargos especiales..')
+    // console.log('Quitando los cargos especiales..')
     const cargoPorTarjeta = _.findIndex(this.partidas.value, (item: VentaDet) => item.producto.clave === 'MANIOBRA');
     if (cargoPorTarjeta !== -1) {
       // console.log('Qutandi cargo por tarjeta');
@@ -502,8 +515,6 @@ export class PedidoFormService {
       }
     }
   }
-
-
 
 
 }

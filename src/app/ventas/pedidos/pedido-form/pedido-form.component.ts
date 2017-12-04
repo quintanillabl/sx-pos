@@ -71,7 +71,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
         this.form.get('entrega').setValue('ENVIO');
       }
       this.form.patchValue(pedido, {emitEvent: false});
-      this.pedidoFormService.registerForm(this.form);
+      this.pedidoFormService.registerForm(this.form, pedido);
       this.buildRecalcular$();
       this.buildFomraDePago$();
       this.pedidoFormService.recalcular();

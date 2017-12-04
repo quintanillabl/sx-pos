@@ -54,4 +54,14 @@ export class PedidoHeaderComponent implements OnInit, OnDestroy {
     return descuento !== descuentoOriginal;
   }
 
+  get descuentoNormal() {
+    return this.parent.get('descuento').value;
+  }
+
+  get descuentoOriginal() {
+    return this.parent.get('descuentoOriginal').value;
+  }
+
+
+
 }
