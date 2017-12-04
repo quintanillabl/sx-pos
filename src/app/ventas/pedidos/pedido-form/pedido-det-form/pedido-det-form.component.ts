@@ -128,8 +128,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
         .buscarExistencias(producto)
         .subscribe(exis => {
           this.existencias = exis
-          
-          // Fijar la existencia local
+           // Fijar la existencia local
           const found =_.find(this.existencias, item => item.sucursal.id === this.sucursal.id);
           this.form.get('existencia').setValue(found);
           // Calcular la existencia total
@@ -217,7 +216,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subs1.unsubscribe();
-    //this.//subs4.unsubscribe();
+    // this.//subs4.unsubscribe();
     this.corteSubscription.unsubscribe();
   }
 
@@ -295,9 +294,8 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     } else {
       return 1;
     }
-    
   }
-  
+
   get cantidad(): number {
     return this.form.get('cantidad').value
   }

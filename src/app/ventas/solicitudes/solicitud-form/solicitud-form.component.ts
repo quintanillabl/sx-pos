@@ -11,7 +11,7 @@ export function ImporteValidator(): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {
     const efectivo = control.get('efectivo').value || 0;
     const cheque = control.get('cheque').value || 0;
-    const transferencia = control.get('tarjeta').value || 0;
+    const transferencia = control.get('transferencia').value || 0;
     const total = efectivo + cheque + transferencia;
     return total <= 0 ? {'totalInvalido': {value: control.value}} : null;
   };
@@ -70,7 +70,7 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
       cliente: [null, Validators.required],
       efectivo: 0,
       cheque: 0,
-      tarjeta: 0,
+      transferencia: 0,
       fechaDeposito: [null, Validators.required],
       referencia: [''],
       banco: [null, Validators.required],

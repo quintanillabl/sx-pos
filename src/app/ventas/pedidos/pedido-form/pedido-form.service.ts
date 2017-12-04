@@ -235,6 +235,7 @@ export class PedidoFormService {
         item.descuentoOriginal = item.descuento;
       }
     });
+    this.form.get('descuentoOriginal').setValue(_.round((descuento / 100), 2));
   }
 
   aplicarDescuentoCredito() {
@@ -242,6 +243,7 @@ export class PedidoFormService {
     if (cliente && cliente.credito) {
       if (!cliente.credito.postfechado) {
         this.aplicarDescuentCreditoDescuentoFijo(cliente.credito.descuentoFijo);
+        this.form.get('descuentoOriginal').setValue(cliente.credito.descuentoFijo);
       } else {
         this.aplicarDescuentoContado(4);
       }
@@ -428,16 +430,11 @@ export class PedidoFormService {
     if (contado && this.cliente) {
 
       const partidas: VentaDet[] = this.partidasActualizables.filter( item => item.producto.modoVenta === 'B');
-
-      // console.log('Partidas: ', partidas.length);
-      // console.log('Cliente: ', cliente);
-      // console.log('Contado: ', contado);
-
-      if( partidas.length > 0 ){
-
+      if ( partidas.length > 0 ) {
+        const descto = this.form.get('descuento').value * 100;
         const dialogRef = this.dialog.open(DescuentoEspecialComponent, {
           data: {
-            descuento: this.form.get('descuento').value * 100
+            descuento: descto
           }
         });
         dialogRef.afterClosed().subscribe(result => {

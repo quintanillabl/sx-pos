@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { FormControl, Validators } from '@angular/forms';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'sx-descuento-especial',
@@ -16,7 +17,7 @@ export class DescuentoEspecialComponent implements OnInit {
     public dialogRef: MdDialogRef<DescuentoEspecialComponent>,
     @Inject(MD_DIALOG_DATA) public data: any,
   ) {
-    this.descuento = data.descuento;
+    this.descuento = _.round(data.descuento, 2);
   }
 
   ngOnInit() {

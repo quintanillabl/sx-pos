@@ -48,4 +48,10 @@ export class PedidoHeaderComponent implements OnInit, OnDestroy {
     return _.round(this.parent.get('kilos').value, 2);
   }
 
+  isDescuentoEspecial() {
+    const descuento = this.parent.get('descuento').value;
+    const descuentoOriginal = this.parent.get('descuentoOriginal').value;
+    return descuento !== descuentoOriginal;
+  }
+
 }

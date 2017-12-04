@@ -60,7 +60,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.pedido && changes.pedido.currentValue) {
       const pedido: Venta = changes.pedido.currentValue;
-      // console.log('Editando pedido: ', pedido.cliente);
+      console.log('Editando pedido: ', pedido);
       _.forEach(pedido.partidas, item => this.partidas.push(new FormControl(item)));
       this.form.get('isPuesto').setValue(pedido.puesto !== undefined);
 
@@ -110,6 +110,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       importe: [{value: 0, disabled: true}],
       descuento: [{value: 0, disabled: true}],
       descuentoImporte: [{value: 0, disabled: true}],
+      descuentoOriginal: [{value: 0, disabled: true}],
       subtotal:  [{value: 0, disabled: true}],
       impuesto: [{value: 0, disabled: true}],
       total: [{value: 0, disabled: true}],
@@ -210,9 +211,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       vendedor: this.cliente.vendedor,
     };
     this.fixPedidoToApi(pedido);
-    if (!this.id ) {
-      pedido.descuentoOriginal = pedido.descuento
-    }
+
     _.forEach(pedido.partidas, item => item.sucursal = this.sucursal)
     this.save.emit(pedido);
   }

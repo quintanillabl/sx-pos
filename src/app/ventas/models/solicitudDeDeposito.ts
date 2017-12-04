@@ -14,7 +14,7 @@ export interface SolicitudDeDeposito {
   referencia: string
   cheque: number
   efectivo: number
-  tarjeta: number
+  transferencia: number
   total: number
   comentario: string
   cancelacion?: string

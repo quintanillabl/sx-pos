@@ -9,15 +9,22 @@
         placeholder="Producto"
         formControlName="existencia">
       </sx-existencia-field>-->
-      <sx-producto-field formControlName="producto"></sx-producto-field>
+      <sx-producto-field formControlName="producto" *ngIf="!partida">
 
-      <div layout *ngIf="producto$ | async; else seleccionProducto; let producto">
+      </sx-producto-field>
+
+      <div *ngIf="partida" class="pad tc-indigo-700 md-title">
+        {{producto.descripcion}}
+      </div>
+
+
+      <div layout *ngIf="producto">
         <md-form-field *ngIf="tipoDePrecio ==='CON'">
           <input type="text" mdInput placeholder="Precio Contado" [disabled]="true"
                  value="{{producto.precioContado | currency:'USD': true: '1.2-2'}}">
         </md-form-field>
         <md-form-field *ngIf="tipoDePrecio ==='CRE'">
-          <input type="text" 
+          <input type="text"
             mdInput placeholder="Precio Crédito" [disabled]="true"
             value="{{producto.precioCredito | currency:'USD': true: '1.2-2'}}">
         </md-form-field>
@@ -37,9 +44,9 @@
           <input type="text" mdInput placeholder="Presentación" [disabled]="true" value="{{producto.presentacion}}">
         </md-form-field>
       </div>
-      <ng-template #seleccionProducto>
+      <!--<ng-template #seleccionProducto>
         <h4>Seleccione el producto</h4>
-      </ng-template>
+      </ng-template>-->
 
       <div layout>
         <md-form-field >
@@ -92,7 +99,7 @@
         <md-form-field flex="20">
           <input type="text" formControlName="precio" mdInput placeholder="Precio" sxOnlyNumbers>
         </md-form-field>
-        
+
       </div>
 
       <div layout>
