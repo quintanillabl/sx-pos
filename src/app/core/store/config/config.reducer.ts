@@ -9,7 +9,11 @@ const initialState: State = {
   sucursal: null
 };
 
-export function reducer(state = initialState, action: config.Actions): State {
+export function getInitlaConfigState() {
+  return JSON.parse(localStorage.getItem('appConfig')) || {}
+}
+
+export function reducer(state = getInitlaConfigState(), action: config.Actions): State {
   switch (action.type) {
     case config.SET_SUCURSAL_SUCCESS: {
       return {

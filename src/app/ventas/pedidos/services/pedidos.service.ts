@@ -4,11 +4,10 @@ import { Observable } from 'rxjs/Observable';
 
 import { environment } from 'environments/environment';
 import { Venta, Sucursal, Producto, Cliente } from 'app/models';
-import {ConfigService} from 'app/core/services/config.service';
-import {Store} from '@ngrx/store';
+import { ConfigService } from 'app/core/services/config.service';
+import { Store } from '@ngrx/store';
+
 import * as fromRoot from 'app/reducers';
-
-
 
 @Injectable()
 export class PedidosService {
@@ -19,10 +18,12 @@ export class PedidosService {
 
   constructor(
     private http: HttpClient,
-    private store: Store<fromRoot.State>
+    private store: Store<fromRoot.State>,
+    private configService: ConfigService
   ) {
     // this.configService.get().subscribe(config => this.sucursal = config.sucursal);
-    this.store.select(fromRoot.getSucursal).subscribe( s => this.sucursal = s);
+    // this.store.select(fromRoot.getSucursal).subscribe( s => this.sucursal = s);
+    this.sucursal = configService.getCurrentSucursal();
   }
 
   get(id: string): Observable<Venta> {

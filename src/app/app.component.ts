@@ -52,9 +52,7 @@ export class AppComponent implements  OnInit {
 
   }
 
-  ngOnInit(): void {
-    this.store.dispatch(new SetSucursalAction());
-  }
+  ngOnInit(): void {}
 
 
 
