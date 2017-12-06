@@ -15,8 +15,8 @@
               <span >
                 {{ row.nombre}}
               </span>
-              <span *ngIf="row.descuento !== row.descuentoOriginal" class="tc-amber-800 pad-bottom-sm text-center">
-                Descuento especial del {{row.descuentoOriginal | percent}} al {{row.descuento | percent}}
+              <span *ngIf="row.descuento !== row.descuentoOriginal" class="tc-pink-800 pad-bottom-sm ">
+                Descuento especial del {{row.descuentoOriginal/100 | percent}} al {{row.descuento/100 | percent}}
               </span>
             </span>
 

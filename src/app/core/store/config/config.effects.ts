@@ -24,7 +24,7 @@ export class ConfigEffects {
   @Effect() fetchSucursal$ = this.actions$
     .ofType<Auth.LoginSuccess>(Auth.LOGIN_SUCCESS)
     .do((action: Auth.LoginSuccess) => {
-      console.log('Looking up configuration data for:', action.payload.username);
+      // console.log('Looking up configuration data for:', action.payload.username);
     })
     .switchMap( () =>
       this.service.get()

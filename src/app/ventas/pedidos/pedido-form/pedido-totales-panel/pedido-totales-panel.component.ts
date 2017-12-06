@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
+import * as _ from 'lodash';
+
 @Component({
   selector: 'sx-pedido-totales-panel',
   templateUrl: './pedido-totales-panel.component.html',
@@ -26,6 +28,11 @@ export class PedidoTotalesPanelComponent implements OnInit {
     }
     // return this.parent.get('moneda').value === 'USD'
     return false;
+  }
+
+  get descuento(){
+    const desc =  this.parent.get('descuento').value;
+    return _.round(desc/100, 2);
   }
 
 }

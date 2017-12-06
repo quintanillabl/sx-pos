@@ -32,6 +32,7 @@ import { OnlyNumbersDirective } from './directives/only-numbers.directive';
 import { FormaDePagoComponent } from './_fields/forma-de-pago/forma-de-pago.component';
 import { BancoFieldComponent } from './_fields/banco-field/banco-field.component';
 import { AlmacenesFieldComponent } from './_fields/almacenes-field/almacenes-field.component';
+import { SucursalLabelComponent } from './sucursal-label/sucursal-label.component';
 
 
 const FLEX_LAYOUT_MODULES: any[] = [
@@ -88,6 +89,7 @@ const COMPONENTS: any[] = [
     FormaDePagoComponent,
     BancoFieldComponent,
     AlmacenesFieldComponent,
+    SucursalLabelComponent,
   ],
   exports: [
     ANGULAR_MODULES,

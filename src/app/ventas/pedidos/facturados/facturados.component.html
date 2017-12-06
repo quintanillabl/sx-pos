@@ -6,7 +6,7 @@
           <span class="md-title">Facturas registradas</span>
       </span>
       <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm"
-                     placeholder="Documento " (searchDebounce)="search($event)" flex>
+                     placeholder="Factura " (searchDebounce)="search($event)" flex>
       </td-search-box>
       <span >
           <button md-icon-button [md-menu-trigger-for]="menu"  >
@@ -20,8 +20,11 @@
 
     <md-divider></md-divider>
     <md-card-content class="facturas-panel"
-                     *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
-      <sx-facturados-list [facturas]="pedidos"></sx-facturados-list>
+      *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
+      <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
+          <sx-facturados-list [facturas]="facturas$ | async" (print)="print($event)">
+          </sx-facturados-list>
+      </ng-template>
     </md-card-content>
   </md-card>
 </div>

@@ -11,6 +11,8 @@ import { MdDialog } from '@angular/material';
 import { EnvioDireccionComponent } from '../pedido-form/envio-direccion/envio-direccion.component';
 
 import * as FileSaver from 'file-saver'; 
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'sx-pedidos-pendientes',
@@ -20,7 +22,12 @@ import * as FileSaver from 'file-saver';
 export class PendientesComponent implements OnInit {
 
   pedidos$: Observable<Venta[]>;
+
   pedidos: Venta[] = [];
+
+  search$ = new BehaviorSubject<string>('');
+
+  loading = false;
 
   constructor(
     private store: Store<fromPedidos.State>,
@@ -32,16 +39,54 @@ export class PendientesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.load();
+    
+
+    // this.pedidos$.subscribe( pedidos => this.pedidos = pedidos);
+    /*
+    this.pedidos$ = this.service
+    .pendientes()
+    .delay(3000)
+    .do( () => this.loading = true);
+
+    this.search$
+    .debounceTime(100)
+    .distinctUntilChanged()
+    .combineLatest(this.pedidos$, (term: string, pedidos: Venta[]) => {
+      if (!term) {
+        console.log('Sin term: ', term);
+        console.log('Current pedidos: ', pedidos);
+        return pedidos
+      } else {
+        console.log('Con term: ', term);
+        const found = pedidos.filter( item => _.startsWith(item.documento.toString(), term));
+        console.log('Found: ', found);
+        return found
+      }
+        
+    })
+    .subscribe( 
+      pedidos => {
+        console.log('Recibiendo: ', pedidos);
+        this.pedidos = pedidos;
+        this.loading = false;
+      }, 
+      error => this.handleError(error), 
+      () => {
+        this.loading = false;
+        console.log('Complete .....');
+      });
+      */
+      this.load();
   }
 
   load() {
-    this.service.pendientes()
-      .subscribe(pedidos => this.pedidos = pedidos, error2 => console.error('Error al cargar pendienetes ', error2));
+    // this.pedidos$ = this.service.pendientes();
+    this.pedidos$ = this.search$
+    .switchMap( term => this.service.pendientes(term));
   }
 
   search(term: string) {
-
+    this.search$.next(term);
   }
 
   onEdit(pedido: Venta) {

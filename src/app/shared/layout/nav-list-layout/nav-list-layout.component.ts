@@ -1,6 +1,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input} from '@angular/core';
 import {TdMediaService} from '@covalent/core';
 import {Title} from '@angular/platform-browser';
+import { Sucursal } from 'app/models';
 
 
 @Component({

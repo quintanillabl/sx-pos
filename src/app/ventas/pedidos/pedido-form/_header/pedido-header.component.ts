@@ -49,17 +49,23 @@ export class PedidoHeaderComponent implements OnInit, OnDestroy {
   }
 
   isDescuentoEspecial() {
-    const descuento = this.parent.get('descuento').value;
-    const descuentoOriginal = this.parent.get('descuentoOriginal').value;
-    return descuento !== descuentoOriginal;
+    const tipo = this.parent.get('tipo').value;
+    if(tipo === 'CON') {
+      const descuento = this.parent.get('descuento').value;
+      const descuentoOriginal = this.parent.get('descuentoOriginal').value;
+      return descuento !== descuentoOriginal;
+    } else {
+      return false;
+    }
+    
   }
 
   get descuentoNormal() {
-    return this.parent.get('descuento').value;
+    return this.parent.get('descuento').value / 100;
   }
 
   get descuentoOriginal() {
-    return this.parent.get('descuentoOriginal').value;
+    return this.parent.get('descuentoOriginal').value /100;
   }
 
 

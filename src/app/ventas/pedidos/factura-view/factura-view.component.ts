@@ -43,7 +43,8 @@ export class FacturaViewComponent implements OnInit {
   }
 
   cancelar(factura: Venta) {
-    console.log('Cancelando factura: ', factura);
+    if(factura.tipo === 'CRE')
+      console.log('Cancelando factura: ', factura);
   }
 
   openAlert(message: string, title: string = 'Advertencia'): void {
@@ -80,7 +81,7 @@ export class FacturaViewComponent implements OnInit {
   }
 
   timbrar(venta: Venta) {
-    if (venta.cuentaPorCobrar && !venta.cuentaPorCobrar.uuid) {
+    if (!venta.cuentaPorCobrar.uuid) {
       console.log('Timbrando factura: ', venta.cuentaPorCobrar);
       this.procesando = true;
       this.service.timbrar(venta)

@@ -4,14 +4,13 @@
 [mode]="(media.registerQuery('gt-sm') | async) ? 'side' : 'over'"
 [sidenavWidth]="(media.registerQuery('gt-xs') | async) ? sideNavWidth : '100%'">
 
-<!-- <button md-icon-button td-menu-button>
-    <md-icon>menu</md-icon>
-  </button> -->
+
   <div td-sidenav-toolbar-content layout="row" layout-align="start center">
     <button md-icon-button tdLayoutToggle>
       <md-icon>menu</md-icon>
     </button>
     <md-icon [routerLink]="['/']" class="md-icon-logo cursor-pointer" svgIcon="assets:siipap-rx2"></md-icon>
+    <span> ({{modulo}}) </span>
   </div>
 
   <div td-toolbar-content layout="row" layout-align="start center" flex>
@@ -21,11 +20,12 @@
     <span flex></span>
     <md-icon>{{headerIcon}}</md-icon>
     <span>{{header}} </span>
+    <sx-sucursal-label></sx-sucursal-label>
     <span flex></span>
-    <span> SX-POS </span>
-    <span> ({{modulo}})</span>
-
+    <!-- <span> SX-POS ({{modulo}}) </span> -->
+    
      <!--<sx-prod-selector-btn></sx-prod-selector-btn>-->
+    <ng-content select="[toolbar]"></ng-content>
     <button md-icon-button><md-icon >settings</md-icon></button>
     <sx-module-selector></sx-module-selector>
   </div>

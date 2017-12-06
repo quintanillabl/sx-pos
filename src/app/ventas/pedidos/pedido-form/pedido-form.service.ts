@@ -153,10 +153,11 @@ export class PedidoFormService {
     const factor = det.producto.unidad === 'MIL' ? 1000 : 1;
     const cantidad = det.cantidad;
     const precio = det.precio;
+    const descuento = det.descuento / 100;
     let importe = (cantidad * precio) / factor;
     importe = _.round(importe, 2);
     det.importe = importe;
-    det.descuentoImporte = _.round( (importe * det.descuento) , 2);
+    det.descuentoImporte = _.round( (importe * descuento) , 2);
     det.subtotal = det.importe - det.descuentoImporte
     det.impuestoTasa = 0.16;
     det.impuesto = _.round(det.subtotal * det.impuestoTasa , 2);
@@ -227,27 +228,23 @@ export class PedidoFormService {
     let descuento = descRow ? descRow.descuento : 0
 
 
-
     if (descuento > pena ) {
       descuento = descuento - pena
     }
 
     if (this.pedido.id) {
-      descuento = this.pedido.descuento * 100;
+      descuento = this.pedido.descuento;
     }
-
     _.forEach(partidas, item => {
       if (item.producto.modoVenta === 'B') {
-        // item.precio = item.producto.precioContado;
-        item.descuento = (descuento) / 100
+        item.descuento = descuento
         item.descuentoOriginal = item.descuento;
       } else if (item.producto.modoVenta === 'N' && item.producto.clave !== 'MANIOBRA') {
-        // item.precio = item.producto.precioContado;
         item.descuento = 0
         item.descuentoOriginal = item.descuento;
       }
     });
-    this.form.get('descuentoOriginal').setValue(_.round((descuentoOriginal / 100), 2));
+    this.form.get('descuentoOriginal').setValue(_.round((descuentoOriginal ), 2));
 
   }
 
@@ -268,7 +265,7 @@ export class PedidoFormService {
     // console.log('Aplicando descuento en CREDITO Desc fijo de: ', descuento);
     const partidas: VentaDet[] = this.partidasActualizables
     _.forEach(partidas, item => {
-      item.descuento = descuento / 100;
+      item.descuento = descuento;
       item.descuentoOriginal = item.descuento;
     });
   }
@@ -444,7 +441,7 @@ export class PedidoFormService {
 
       const partidas: VentaDet[] = this.partidasActualizables.filter( item => item.producto.modoVenta === 'B');
       if ( partidas.length > 0 ) {
-        const descto = this.form.get('descuento').value * 100;
+        const descto = this.form.get('descuento').value ;
         const dialogRef = this.dialog.open(DescuentoEspecialComponent, {
           data: {
             descuento: descto
@@ -464,7 +461,7 @@ export class PedidoFormService {
     const partidas: VentaDet[] = this.partidasActualizables;
     _.forEach(partidas, item => {
       if (item.producto.modoVenta === 'B') {
-        item.descuento = (descuento) / 100
+        item.descuento = (descuento) 
         item.descuentoOriginal = item.descuento;
       } else if (item.producto.modoVenta === 'N' && item.producto.clave !== 'MANIOBRA') {
         item.descuento = 0

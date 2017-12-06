@@ -84,8 +84,8 @@
     <div layout="column" flex>
       <span class="text-right pad-left" > Crédito: {{cliente?.credito? 'SI': 'NO'}}</span>
       <span class="text-right pad-left text-md" *ngIf="cliente?.credito && cliente?.credito?.postfechado" >Postfechado</span>
-      <span class="pad-top-sm pad-bottom-sm tc-amber-800" *ngIf="isDescuentoEspecial()">
-        PEDIDO CON DESCUENTO ESPECIAL DEL {{descuentoOriginal | percent}} al {{descuentoNormal | percent}}
+      <span class="pad-top-sm pad-bottom-sm tc-pink-800 " *ngIf="isDescuentoEspecial()">
+        DESCTO ESPECIAL DEL {{descuentoOriginal | percent}} al {{descuentoNormal | percent}}
       </span>
     </div>
 

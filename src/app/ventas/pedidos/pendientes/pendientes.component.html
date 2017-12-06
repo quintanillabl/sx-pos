@@ -29,15 +29,18 @@
     </div>
 
     <md-divider></md-divider>
-    <md-card-content class="">
-     <sx-pedidos-pendientes-list 
-        [pedidos]="pedidos" 
-        (edit)="onEdit($event)" 
-        (facturar)="mandarFacturar($event)"
-        (print)="print($event)"
-        (generarVale)="OnGenerarVale($event)"
-        (envio)="asignarEnvio($event)">
-      </sx-pedidos-pendientes-list>
+    <md-card-content>
+      <ng-template tdLoading [tdLoadingUntil]="!loading" tdLoadingStrategy="overlay" tdLoadingType="linear">
+        <sx-pedidos-pendientes-list 
+          [pedidos]="pedidos$ | async" 
+          (edit)="onEdit($event)" 
+          (facturar)="mandarFacturar($event)"
+          (print)="print($event)"
+          (generarVale)="OnGenerarVale($event)"
+          (envio)="asignarEnvio($event)">
+        </sx-pedidos-pendientes-list>
+
+      </ng-template>
     </md-card-content>
   </md-card>
 </div>

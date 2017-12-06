@@ -21,8 +21,6 @@ export class PedidosService {
     private store: Store<fromRoot.State>,
     private configService: ConfigService
   ) {
-    // this.configService.get().subscribe(config => this.sucursal = config.sucursal);
-    // this.store.select(fromRoot.getSucursal).subscribe( s => this.sucursal = s);
     this.sucursal = configService.getCurrentSucursal();
   }
 
@@ -31,9 +29,11 @@ export class PedidosService {
     return this.http.get<Venta>(url)
   }
 
-  pendientes(): Observable<Venta[]> {
+  pendientes(term = ''): Observable<Venta[]> {
+    const params = new HttpParams()
+    .set('term', term);
     const url = `${this.apiUrl}/pendientes/${this.sucursal.id}`;
-    return this.http.get<Venta[]>(url)
+    return this.http.get<Venta[]>(url, {params: params})
   }
 
   list(): Observable<Venta[]> {
@@ -91,11 +91,11 @@ export class PedidosService {
     return this.http.get<Venta[]>(this.apiUrl, {params: params})
   }
 
-  facturados(tipo: string) {
+  facturados(term = '') {
     const params = new HttpParams()
-      .set('facturados', tipo)
-      .set('sucursal', this.sucursal.id);
-    return this.http.get<Venta[]>(this.apiUrl, {params: params})
+      .set('term', term);
+      const url = `${this.apiUrl}/facturados/${this.sucursal.id}`;
+    return this.http.get<Venta[]>(url, {params: params})
   }
 
   facturar(venta: Venta) {

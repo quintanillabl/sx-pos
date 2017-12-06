@@ -43,8 +43,8 @@ export class AuthEffects {
   loginSuccess$ = this.actions$
     .ofType<Auth.LoginSuccess>(Auth.LOGIN_SUCCESS)
     .do((action: Auth.LoginSuccess) => {
-      console.log('Save auth in local storage: ', action.payload);
-      console.log('Return url: ', action.returUrl);
+      // console.log('Save auth in local storage: ', action.payload);
+      // console.log('Return url: ', action.returUrl);
       localStorage.setItem('auth', JSON.stringify(action.payload));
       this.router.navigateByUrl(action.returUrl);
     });
