@@ -1,4 +1,4 @@
-<sx-nav-list-layout header="Caja" modulo="CAJA" sideNavWidth="350px"
+<sx-nav-list-layout header="Caja" modulo="CAJA" sideNavWidth="250px"
                       [navigation]="navigation">
   
                       <router-outlet></router-outlet>
@@ -7,9 +7,9 @@
     <h2 matSubheader>Reportes</h2>
 
     <ng-template let-item let-last="last" ngFor [ngForOf]="reportes">
-      <md-list-item (click)="runReport(item.name)">
+      <md-list-item (click)="runReport(item.name)" mdTooltip="{{item.title}}">
         <md-icon md-list-icon>blur_linear</md-icon>
-        <h3 md-line> {{item.title}} </h3>
+        <h4 md-line> {{item.title}} </h4>
       </md-list-item>
       <md-divider md-inset *ngIf="!last"></md-divider>
     </ng-template>

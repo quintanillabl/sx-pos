@@ -118,7 +118,6 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
 
     if (this.venta) {
       const pendiente = this.porCobrar
-      console.log('Pendiente: ', pendiente);
       return pendiente <= 0 ? null : {importeInvalido: true};
     }
     return null;

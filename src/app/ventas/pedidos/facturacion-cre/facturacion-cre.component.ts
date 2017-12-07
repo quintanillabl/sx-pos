@@ -1,7 +1,8 @@
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import {Router} from '@angular/router';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Router } from '@angular/router';
 import {TdDialogService, TdLoadingService} from '@covalent/core';
 
 import * as fromPedidos from 'app/ventas/pedidos/store/reducers';
@@ -17,10 +18,10 @@ import { Venta, Sucursal } from 'app/models';
 })
 export class FacturacionCreComponent implements OnInit {
 
+  pendientes$: Observable<Venta[]>;
   pedidos$: Observable<Venta[]>;
-  pedidos: Venta[] = [];
-  sucursal$: Observable<Sucursal>;
-
+  search$ = new BehaviorSubject<string>('');
+  procesando = false;
 
   constructor(
     private store: Store<fromPedidos.State>,
@@ -29,21 +30,37 @@ export class FacturacionCreComponent implements OnInit {
     private loadingService: TdLoadingService,
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
-  ) { }
+  ) { 
 
-  ngOnInit() {
-    this.sucursal$ = this.store.select(state => state.config.sucursal);
-    this.load();
+    this.pendientes$ = this.service
+      .pendientesDeFacturar('CRE')
+      .catch( err => Observable.of(err))
+      .finally( ()=> this.procesando = false);
+
+    this.pedidos$ = this.pendientes$
+      .combineLatest(this.search$, (pedidos: Venta[], term: string) => {
+        if (!term) {
+          return pedidos
+        } else {
+          return pedidos.filter( (value: Venta) => value.documento.toString() === term)
+        }
+      });
   }
 
+  ngOnInit() {}
+
   load() {
+    /*
     this.service.pendientesDeFacturar('CRE')
       .subscribe(
         pedidos => this.pedidos = pedidos,
         error2 => console.error('Error al cargar pendienetes ', error2));
+        */
   }
 
-  search(term: string) {}
+  search(term: string) {
+    this.search$.next('');
+  }
 
   facturar(pedido: Venta) {
 
@@ -67,14 +84,50 @@ export class FacturacionCreComponent implements OnInit {
     this.service
       .facturar(pedido)
       .delay(1000)
-      .subscribe( res => {
+      .subscribe( (res: Venta) => {
         console.log('Pedido facturado:', res);
+        this.timbrar(res);
         this.loadingService.resolve('saving');
-        this.load();
       }, error => {
         console.error(error);
         this.loadingService.resolve('saving');
       });
+  }
+
+  timbrar(venta: Venta) {
+    if (!venta.cuentaPorCobrar.uuid) {
+      this.procesando = true;
+      this.service.timbrar(venta)
+        .subscribe( cfdi => {
+          this.procesando = false;
+          this.printCfdi(cfdi);
+          this.showFactura(venta);
+          
+        }, error2 => {
+          this.handleError(error2);
+          this.showFactura(venta);
+        })
+    }
+  }
+
+
+  showFactura(factura: Venta) {
+    this.router.navigate(['/ventas/pedidos/facturados/show', factura.id]);
+  }
+
+  printCfdi(cfdi) {
+    console.log('Imprimiendo cfdi: ', cfdi);
+    this.procesando = true;
+    this.service.imprimirCfdi(cfdi)
+      .delay(500)
+      .subscribe(res => {
+        const blob = new Blob([res], {
+          type: 'application/pdf'
+        });
+        this.procesando = false;
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      }, error2 => this.handleError(error2));
   }
 
   regresarAVentas(pedido: Venta) {
@@ -99,11 +152,16 @@ export class FacturacionCreComponent implements OnInit {
       .delay(1000)
       .subscribe( res => {
         this.loadingService.resolve('saving');
-        this.load();
+        this.router.navigate(['/ventas/pedidos/pendientes']);
       }, error => {
         console.error(error);
         this.loadingService.resolve('saving');
       });
+  }
+
+  handleError(error) {
+    this.procesando = false;
+    console.error('Error: ', error);
   }
 
 }

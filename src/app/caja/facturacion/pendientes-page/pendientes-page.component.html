@@ -42,8 +42,8 @@
         <span>{{value | currency: 'USD': 1.2-2}}</span> <span *ngIf="row.moneda === 'USD'"> USD</span>
     </ng-template>
 
-    <ng-template tdDataTableTemplate="cuentaPorCobrar" let-value="value" let-row="row">
-        <span *ngIf="value">{{value.id}}</span>
+    <ng-template tdDataTableTemplate="formaDePago" let-value="value" let-row="row">
+        <span *ngIf="value">{{getFormaDePago(row)}}</span>
     </ng-template>
 
     <ng-template tdDataTableTemplate="regresar" let-value="value" let-row="row">

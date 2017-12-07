@@ -80,10 +80,49 @@ export class CobroComponent implements OnInit {
     .subscribe( (res: any) => {
       console.log('Cobro generado exitosamente', res);
       this.loadingService.resolve('saving');
-      this.router.navigate(['caja/generadas/show', res.id])
+      this.timbrar(res);
+      // this.router.navigate(['caja/generadas/show', res.id])
     }, error => {
       console.error(error);
       this.loadingService.resolve('saving');
     });
   }
+
+  timbrar(venta) {
+    if (venta.cuentaPorCobrar && !venta.cuentaPorCobrar.uuid) {
+      this.loadingService.register('saving');
+      console.log('Timbrando factura: ', venta.cuentaPorCobrar);
+      this.service.timbrar(venta)
+        .subscribe( cfdi => {
+          this.loadingService.resolve('saving');
+          this.printCfdi(cfdi);
+          this.router.navigate(['caja/generadas/show', venta.id]);
+          console.log('Cfdi generado: ', cfdi)
+        }, error2 => {
+          this.router.navigate(['caja/generadas/show', venta.id])
+          this.loadingService.resolve('saving');
+          console.error('Error: ', error2);
+        })
+    }
+  }
+
+  printCfdi(cfdi) {
+    console.log('Imprimiendo cfdi: ', cfdi);
+    this.loadingService.register('saving');
+    this.service.imprimirCfdi(cfdi)
+      .delay(200)
+      .subscribe(res => {
+        const blob = new Blob([res], {
+          type: 'application/pdf'
+        });
+        this.loadingService.resolve('saving');
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      }, error2 => {
+        this.loadingService.resolve('saving');
+        console.error(error2);
+      });
+  }
+
+  
 }

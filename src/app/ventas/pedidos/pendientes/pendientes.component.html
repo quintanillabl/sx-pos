@@ -30,7 +30,8 @@
 
     <md-divider></md-divider>
     <md-card-content>
-      <ng-template tdLoading [tdLoadingUntil]="!loading" tdLoadingStrategy="overlay" tdLoadingType="linear">
+      <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">  
+        
         <sx-pedidos-pendientes-list 
           [pedidos]="pedidos$ | async" 
           (edit)="onEdit($event)" 

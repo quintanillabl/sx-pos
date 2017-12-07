@@ -4,7 +4,7 @@
   <md-card flex-gt-sm class="facturas-card" >
     <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
       <span  class="push-left-sm" flex>
-          <span class="md-title">Ventas pendientes de facturar (CRE)</span>
+          <span class="md-title">Pedidos pendientes de facturar (CRE)</span>
       </span>
       <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm"
                      placeholder="Documento " (searchDebounce)="search($event)" flex>
@@ -21,12 +21,13 @@
 
     <md-divider></md-divider>
     <md-card-content class="facturas-panel">
-      <sx-facturas-cre-list [pedidos]="pedidos" (facturar)="facturar($event)" 
-        (cancelar)="regresarAVentas($event)">
-
-      </sx-facturas-cre-list>
-      <!--<sx-pedidos-pendientes-list [pedidos]="pedidos" (edit)="onEdit($event)" (facturar)="mandarFacturar($event)">
-      </sx-pedidos-pendientes-list>-->
+      <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
+          <sx-facturas-cre-list 
+            [pedidos]="pedidos$ | async" 
+            (facturar)="facturar($event)" 
+            (cancelar)="regresarAVentas($event)">
+          </sx-facturas-cre-list>
+      </ng-template>
     </md-card-content>
   </md-card>
 </div>

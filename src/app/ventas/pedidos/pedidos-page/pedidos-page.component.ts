@@ -21,7 +21,7 @@ export class PedidosPageComponent implements OnInit {
     {route: 'pendientes', title: 'Pendientes', icon: 'alarm'},
     {route: 'facturacionCredito', title: 'Facturación CRE', icon: 'event_note'},
     {route: 'facturados', title: 'Facturas ', descripcion: 'Facturas generadas', icon: 'view_list'},
-    {route: 'facturasCanceladas', title: 'Canceladas', descripcion: 'Cancelación de facturas', icon: 'cancel'},
+    {route: 'canceladas', title: 'Canceladas', descripcion: 'Cancelación de facturas', icon: 'cancel'},
     {route: 'solicitudes', title: 'Solicitud de deposito', descripcion: 'Solicitud de autorizacion de deposito', icon: 'verified_user'},
     /*{route: 'devoluciones', title: 'Devoluciones', descripcion: 'Devolución de facturas', icon: ''},
     {route: 'traslados', title: 'Traslados', descripcion: 'Devolución de facturas', icon: ''},*/

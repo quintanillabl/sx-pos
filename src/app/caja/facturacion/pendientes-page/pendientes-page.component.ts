@@ -14,10 +14,10 @@ export class PendientesPageComponent implements OnInit {
   columns: ITdDataTableColumn[] = [
     { name: 'documento',  label: 'Folio', numeric: true, width: 15 },
     { name: 'fecha',  label: 'Fecha', width: 10},
-    { name: 'nombre',  label: 'Cliente', width: 500},
-    { name: 'total',  label: 'Total', width: 10},
+    { name: 'nombre',  label: 'Cliente', width: 400},
+    { name: 'total',  label: 'Total', width: 20},
     { name: 'formaDePago',  label: 'F.Pago', numeric: false, width: 10},
-    { name: 'cuentaPorCobrar',  label: 'Factura', width: 10},
+    // { name: 'cuentaPorCobrar',  label: 'Factura', width: 10},
     { name: 'regresar',  label: 'Regresar', width: 10},
   ];
 
@@ -80,6 +80,18 @@ export class PendientesPageComponent implements OnInit {
       }, error => {
         console.error(error);
       });
+  }
+
+  getFormaDePago(row: Venta) {
+    switch(row.formaDePago) {
+      case 'TARJETA_DEBITO':
+        return 'TAR_DEV'
+      case 'TARJETA_CREDITO':
+        return 'TAR_CRE'
+      default:
+        return row.formaDePago;
+
+    }
   }
 
 }

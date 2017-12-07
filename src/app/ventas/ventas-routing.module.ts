@@ -15,6 +15,7 @@ import {PedidoAnticipoCreateComponent} from './pedidos/pedido-create/pedido-anti
 import {FacturacionCreComponent} from './pedidos/facturacion-cre/facturacion-cre.component';
 import {FacturadosComponent} from './pedidos/facturados/facturados.component';
 import {FacturaViewComponent} from './pedidos/factura-view/factura-view.component';
+import { CanceladasPageComponent } from 'app/ventas/canceladas/canceladas-page/canceladas-page.component';
 
 
 const routes: Routes = [
@@ -75,6 +76,10 @@ const routes: Routes = [
           {
             path: 'facturados/show/:id',
             component: FacturaViewComponent
+          },
+          {
+            path: 'canceladas',
+            component: CanceladasPageComponent
           }
         ]
       },

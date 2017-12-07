@@ -34,6 +34,8 @@ export class FacturaViewComponent implements OnInit {
   ngOnInit() {
     this.venta$ = this.route.paramMap.switchMap( params => this.service.get(params.get('id')));
     this.venta$.subscribe(venta => console.log('View venta: ', venta));
+
+    // this.route.queryParamMap.subscribe( params => console.log(params));
   }
 
   load() {

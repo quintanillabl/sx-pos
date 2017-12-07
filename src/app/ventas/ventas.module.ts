@@ -9,6 +9,7 @@ import { ExistenciasService } from 'app/ventas/services/existencias.service';
 import { SolicitudesModule } from 'app/ventas/solicitudes/solicitudes.module';
 import {BancoService} from 'app/ventas/services/banco.service';
 import {ProductosModule} from 'app/productos/productos.module';
+import { CanceladasModule } from './canceladas/canceladas.module';
 
 
 
@@ -20,7 +21,8 @@ import {ProductosModule} from 'app/productos/productos.module';
     ProductosModule,
     VentasRoutingModule,
     PedidosModule,
-    SolicitudesModule
+    SolicitudesModule,
+    CanceladasModule
   ],
   declarations: [
     MainPageComponent,

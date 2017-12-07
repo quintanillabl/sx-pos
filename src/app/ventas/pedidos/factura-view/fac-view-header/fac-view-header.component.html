@@ -27,7 +27,8 @@
         <md-icon >more_vert</md-icon>
       </button>
       <md-menu x-position="before" #menu="mdMenu">
-        <button   md-menu-item type="button" (click)="mostrarXml.emit(venta)" *ngIf="venta?.cuentaPorCobrar?.cfdi?.uuid">
+        <button   md-menu-item type="button" (click)="mostrarXml.emit(venta)" 
+         *ngIf="venta?.cuentaPorCobrar?.cfdi">
           <md-icon>dvr</md-icon>  Ver XML
         </button>
         <button md-menu-item type="button" color="warn" (click)="cancelar.emit(venta)" mdTooltip="Cancelar factura">
