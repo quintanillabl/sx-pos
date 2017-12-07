@@ -14,6 +14,7 @@ export class InventariosPageComponent implements OnInit {
     {route: 'coms', title: 'Rec de compras', description: '(COMS)', icon: 'add_shopping_cart'},
     {route: 'decs', title: 'Dev de compras', description: '(DECS)', icon: 'info'},
     {route: 'traslados', title: 'Traslados', descripcion: 'Traslados de mercancía', icon:  'local_shipping'},
+    {route: 'kardex', title: 'Kardex', descripcion: 'Kardex de productos', icon: 'layers'},
     {route: 'existencias', title: 'Existencias', icon: 'layers'},
   ];
 

@@ -4,10 +4,9 @@ import { Observable } from 'rxjs/Observable';
 
 import { environment } from 'environments/environment';
 import { Venta, Sucursal, Producto, Banco } from 'app/models';
-
 import {Store} from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
-
+import { ConfigService } from 'app/core/services/config.service';
 
 
 @Injectable()
@@ -19,9 +18,10 @@ export class CajaService {
 
   constructor(
     private http: HttpClient,
-    private store: Store<fromRoot.State>
+    private store: Store<fromRoot.State>,
+    private configService: ConfigService
   ) {
-    this.store.select(fromRoot.getSucursal).subscribe( s => this.sucursal = s);
+    this.sucursal = configService.getCurrentSucursal();
   }
 
   pendientesDeFacturar(tipo: string) {

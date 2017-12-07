@@ -5,19 +5,22 @@ import * as _ from 'lodash';
 
 import { environment } from 'environments/environment';
 import {SolicitudDeTraslado} from 'app/logistica/models/solicitudDeTraslado';
-
+import { Sucursal } from 'app/models';
+import { ConfigService } from 'app/core/services/config.service';
 
 @Injectable()
 export class SolsService {
 
   readonly apiUrl = environment.apiUrl + '/inventario/sols';
 
-  sucursal = {
-    id: '402880fc5e4ec411015e4ec64e70012e',
-    nombre: 'TACUBA'
+  sucursal: Sucursal;
+  
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService) 
+  {
+    this.sucursal = configService.getCurrentSucursal();
   }
-
-  constructor(private http: HttpClient) { }
 
   get(id: string): Observable<SolicitudDeTraslado> {
     const url = `${this.apiUrl}/${id}`;

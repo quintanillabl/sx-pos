@@ -4,18 +4,22 @@ import { Observable } from 'rxjs/Observable';
 
 import { environment } from 'environments/environment';
 import {Sector} from 'app/logistica/models/sector';
+import { Sucursal } from 'app/models';
+import { ConfigService } from 'app/core/services/config.service';
 
 @Injectable()
 export class SectoresService {
 
   readonly apiUrl = environment.apiUrl + '/inventario/sectores';
 
-  sucursal = {
-    id: '402880fc5e4ec411015e4ec64e70012e',
-    nombre: 'TACUBA'
+  sucursal: Sucursal;
+  
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService) 
+  {
+    this.sucursal = configService.getCurrentSucursal();
   }
-
-  constructor(private http: HttpClient) { }
 
   get(id: string): Observable<Sector> {
     const url = `${this.apiUrl}/${id}`;

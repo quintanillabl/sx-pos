@@ -34,6 +34,7 @@ import { TransportesService } from 'app/logistica/services/transportes/transport
 import { TransportesEffects } from 'app/logistica/store/effects/transportes.effects';
 import { EmbarqueService } from 'app/logistica/services/embarque/embarque.service';
 import { EmbarquesEffects } from 'app/logistica/store/effects/embarques.effects';
+import { KardexService } from 'app/logistica/services/kardex.service';
 
 
 
@@ -68,6 +69,10 @@ const PAGES =  [
   pages.SolShowPageComponent,
   pages.SolCreatePageComponent,
   pages.SolicitudesPorAtenderPageComponent,
+  // Karde
+  pages.KardexPageComponent,
+  pages.KardexViewPageComponent,
+  pages.KardexListComponent,
   // ALMACEN
   pages.AlmacenPageComponent,
   //  Alacen sectores
@@ -222,6 +227,7 @@ const COMPONENTS = [
     ChoferesService,
     TransportesService,
     EmbarqueService,
+    KardexService,
   ]
 })
 export class LogisticaModule { }

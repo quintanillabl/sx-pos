@@ -4,6 +4,8 @@ import { Observable } from "rxjs/Observable";
 
 import { environment } from 'environments/environment';
 import { Movimiento } from "@siipapx/logistica/models/movimiento";
+import { Sucursal } from 'app/models';
+import { ConfigService } from 'app/core/services/config.service';
 
 
 @Injectable()
@@ -11,12 +13,14 @@ export class MovimientosService {
 
   readonly apiUrl = environment.apiUrl + '/inventario/movimientos';
 
-  sucursal = {
-    id: '402880fc5e4ec411015e4ec64e70012e',
-    nombre: 'TACUBA'
-  }
+  sucursal: Sucursal;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService) 
+    {
+      this.sucursal = configService.getCurrentSucursal();
+     }
 
   list(documento = null, comentario = null): Observable<Movimiento[]> {
     let params = new HttpParams().set('sucursal', this.sucursal.id);
@@ -29,6 +33,7 @@ export class MovimientosService {
   }
 
   save(movimiento: Movimiento) {
+    movimiento.sucursal = this.sucursal;
     return this.http.post(this.apiUrl, movimiento);
   }
 

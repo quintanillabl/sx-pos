@@ -8,18 +8,22 @@ import { Embarque } from 'app/logistica/models/embarque';
 import { Venta } from 'app/models';
 import { Envio } from 'app/logistica/models/envio';
 import { VentaDet } from 'app/models/ventaDet';
+import { Sucursal } from 'app/models';
+import { ConfigService } from 'app/core/services/config.service';
 
 @Injectable()
 export class EmbarqueService {
 
   readonly apiUrl = environment.apiUrl + '/embarques/embarques';
 
-  sucursal = {
-    id: '402880fc5e4ec411015e4ec64e70012e',
-    nombre: 'TACUBA'
+  sucursal: Sucursal;
+  
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService) 
+  {
+    this.sucursal = configService.getCurrentSucursal();
   }
-
-  constructor(private http: HttpClient) { }
 
   get(id: string): Observable<Embarque> {
     const url = `${this.apiUrl}/${id}`;

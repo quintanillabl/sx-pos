@@ -6,9 +6,9 @@ import * as _ from 'lodash';
 import { environment } from 'environments/environment';
 import { CorteCobranza } from 'app/caja/models/corteCobranza';
 import { Sucursal } from 'app/models';
+import { ConfigService } from 'app/core/services/config.service';
 
-import {Store} from '@ngrx/store';
-import * as fromRoot from 'app/reducers';
+
 
 @Injectable()
 export class CorteCobranzaService {
@@ -19,9 +19,9 @@ export class CorteCobranzaService {
 
   constructor(
     private http: HttpClient,
-    private store: Store<fromRoot.State>
+    private configService: ConfigService
   ) {
-    this.store.select(fromRoot.getSucursal).subscribe( s => this.sucursal = s);
+    this.sucursal = configService.getCurrentSucursal();
   }
 
   get(id: string): Observable<CorteCobranza> {

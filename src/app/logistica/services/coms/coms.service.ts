@@ -6,6 +6,9 @@ import * as _ from 'lodash';
 import { environment } from 'environments/environment';
 import { RecepcionDeCompra } from 'app/logistica/models/recepcionDeCompra';
 import { Compra } from "app/models";
+import { Sucursal } from 'app/models';
+import { ConfigService } from 'app/core/services/config.service';
+
 
 
 @Injectable()
@@ -13,15 +16,15 @@ export class ComsService {
 
   readonly apiUrl = environment.apiUrl + '/compras/recepciones';
 
+  sucursal: Sucursal;
+  
   constructor(
     private http: HttpClient,
-  ) { }
-  
-  sucursal = {
-    id: '402880fc5e4ec411015e4ec64e70012e',
-    nombre: 'TACUBA'
+    private configService: ConfigService) 
+  {
+    this.sucursal = configService.getCurrentSucursal();
   }
-
+  
   get(id: string): Observable<RecepcionDeCompra> {
     let url = `${this.apiUrl}/${id}`;
     return this.http.get<RecepcionDeCompra>(url)

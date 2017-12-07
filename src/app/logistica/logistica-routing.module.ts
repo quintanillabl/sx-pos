@@ -38,7 +38,11 @@ const routes: Routes = [
           // Traslados
           { path: 'traslados', component: pages.TrasladosPageComponent},
           { path: 'traslados/sol/show/:id', component: pages.SolShowPageComponent},
-          { path: 'traslados/sol/create', component: pages.SolCreatePageComponent}
+          { path: 'traslados/sol/create', component: pages.SolCreatePageComponent},
+
+          // Kardex
+          { path: 'kardex', component: pages.KardexPageComponent},
+          { path: 'kardex/show/:id', component: pages.KardexViewPageComponent},
         ]
       },
       {

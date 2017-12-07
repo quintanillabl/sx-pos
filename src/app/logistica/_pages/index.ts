@@ -35,6 +35,10 @@ export { SolicitudesPorAtenderPageComponent } from './traslados/poratender-page'
 export { AtendidosPageComponent } from './traslados/atendidos-page';
 export { SolShowPageComponent } from './traslados/sols/sol-show-page/sol-show-page.component';
 export { SolCreatePageComponent } from './traslados/sols/sol-create-page/sol-create-page.component';
+// Kardex
+export { KardexPageComponent } from './kardex-page/kardex-page.component';
+export { KardexViewPageComponent } from './kardex-view-page/kardex-view-page.component';
+export { KardexListComponent } from './kardex-page/kardex-list/kardex-list.component';
 /**** ALMACEN ****/
 export { AlmacenPageComponent } from './almacen/almacen-page.component';
 

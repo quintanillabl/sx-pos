@@ -6,6 +6,8 @@ import * as _ from 'lodash';
 import { environment } from 'environments/environment';
 import { DevolucionDeVenta } from 'app/logistica/models/devolucionDeVenta';
 import { Venta } from 'app/models';
+import { Sucursal } from 'app/models';
+import { ConfigService } from 'app/core/services/config.service';
 
 
 @Injectable()
@@ -13,13 +15,14 @@ export class DevolucionesService {
 
   readonly apiUrl = environment.apiUrl + '/inventario/devoluciones';
 
-  sucursal = {
-    id: '402880fc5e4ec411015e4ec64e70012e',
-    nombre: 'TACUBA'
-  };
-
-
-  constructor(private http: HttpClient) { }
+  sucursal: Sucursal;
+  
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService) 
+  {
+    this.sucursal = configService.getCurrentSucursal();
+  }
 
   get(id: string): Observable<DevolucionDeVenta> {
     const url = `${this.apiUrl}/${id}`;
