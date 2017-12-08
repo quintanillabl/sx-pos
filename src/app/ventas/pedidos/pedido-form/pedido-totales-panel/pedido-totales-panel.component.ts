@@ -32,7 +32,7 @@ export class PedidoTotalesPanelComponent implements OnInit {
 
   get descuento(){
     const desc =  this.parent.get('descuento').value;
-    return _.round(desc/100, 2);
+    return desc/100;
   }
 
 }

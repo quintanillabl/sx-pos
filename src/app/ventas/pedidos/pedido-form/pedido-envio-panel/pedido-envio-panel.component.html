@@ -19,7 +19,7 @@
   </md-list>
 
   <md-selection-list>
-    <md-list-item>
+    <md-list-item *ngIf="parent.get('id').value === null">
       <md-checkbox formControlName="mismaDireccion">Misma dirección (Dirección fiscal)</md-checkbox>
     </md-list-item>
 

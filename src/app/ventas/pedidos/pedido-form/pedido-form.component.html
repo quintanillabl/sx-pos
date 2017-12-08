@@ -51,9 +51,7 @@
       <md-card-actions>
         <button type="submit" md-button [disabled]="form.invalid" > Salvar </button>
         <a  md-button [routerLink]="['/ventas/pedidos/pendientes']"> Cancelar </a>
-        <button type="button" md-icon-button  mdTooltip="Imprimir documento" (click)="print.emit(id)">
-          <md-icon>print</md-icon>
-        </button>
+        
         <button type="button" md-button  *ngIf="id"
           mdTooltip="Eliminar pedido" color="warn" (click)="delete.emit(pedido)">
             <md-icon>delete</md-icon> Eliminar

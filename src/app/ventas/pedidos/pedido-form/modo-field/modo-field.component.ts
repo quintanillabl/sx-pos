@@ -6,7 +6,7 @@ import { FormGroup } from '@angular/forms';
   template: `
   <ng-container [formGroup]="parent">
     <md-select placeholder="Modo" formControlName="atencion" class="fill">
-      <md-option *ngFor="let modo of ['MOSTRADOR','TELEFONICA','ND']" 
+      <md-option *ngFor="let modo of ['MOSTRADOR','TELEFONICA']" 
         [value]="modo">{{ modo }}
       </md-option>
     </md-select>

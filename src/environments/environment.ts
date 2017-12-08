@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost/siipapx/api'
+  apiUrl: 'http://localhost:9090/siipapx/api'
 };

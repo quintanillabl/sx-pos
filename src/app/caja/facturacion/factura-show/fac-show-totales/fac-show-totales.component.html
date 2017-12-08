@@ -14,7 +14,7 @@
     </md-list-item>
 
     <md-list-item>
-      <h3 mdLine> Descuento <span class="span-left"> ({{ venta.descuento| percent }}):</span></h3>
+      <h3 mdLine> Descuento <span class="span-left"> ({{ venta.descuento/100| percent }}):</span></h3>
       <span flex></span>
       <h3>{{ venta.descuentoImporte | currency:'USD': true: '1.2-2'}}</h3>
     </md-list-item>

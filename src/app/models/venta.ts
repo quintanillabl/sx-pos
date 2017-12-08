@@ -38,7 +38,7 @@ export interface Venta {
   cfdiMail?: string
   usoDeCfdi?: string;
   puesto?: string;
-  envio?: {}
+  envio?: any
 }
 
 export interface TipoDeVenta {

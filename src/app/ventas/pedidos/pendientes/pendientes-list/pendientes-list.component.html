@@ -57,7 +57,7 @@
               <button  md-icon-button type="button"
                        mdTooltip="Configurar envío"
                        (click)="envio.emit(row)" >
-                <md-icon [ngClass]="{'tc-green-500': (row.envio !== null)}">flight_takeoff</md-icon>
+                <md-icon [ngClass]="{'tc-green-500': (row.envio)}">flight_takeoff</md-icon>
               </button>
               <button  md-icon-button type="button" mdTooltip="Imprimir pedido"
                 (click)="print.emit(row.id)" >

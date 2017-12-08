@@ -40,8 +40,8 @@ export class PendientesComponent implements OnInit {
     public dialog: MdDialog,
   ) { 
     this.pedidos$ = this.search$
-    .debounceTime(400)
-    .distinctUntilChanged()
+    // .debounceTime(400)
+    // .distinctUntilChanged()
     .switchMap(term => {
       this.procesando = true;
       return this.service
@@ -106,24 +106,32 @@ export class PendientesComponent implements OnInit {
   }
 
   asignarEnvio(pedido: Venta) {
-    console.log('Asignando envio al pedido.....');
-    const dialogRef = this.dialog.open(EnvioDireccionComponent, );
+    const params = {direccion: null};
+    if (pedido.envio) {
+      params.direccion = pedido.envio.direccion;
+    }
+    const dialogRef = this.dialog.open(EnvioDireccionComponent, {
+      data: params
+    });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-       // console.log('Asignando direccion de envío: ', result);
+       console.log('Asignando direccion de envío: ', result);
        this.doAsignarEnvio(pedido, result);
       }
     });
   }
 
   doAsignarEnvio(pedido: Venta, direccion){
-    pedido.envio = {direccion: direccion};
-    this.service.update(pedido)
-      .subscribe(res => this.load(), error=> this.handleError(error));
+    this.service.asignarEnvio(pedido, direccion)
+      .subscribe((res: Venta) => {
+        console.log('Direccion asignada exitosamente ', res);
+        this.load()
+        pedido = res;
+      },error=> this.handleError(error));
   }
 
   print(id: string) {
-    console.log('Imprimiendo pedido: ', id);
+    // console.log('Imprimiendo pedido: ', id);
     this.procesando = true;
     this.service.imprimirPedido(id)
       .delay(1000)
