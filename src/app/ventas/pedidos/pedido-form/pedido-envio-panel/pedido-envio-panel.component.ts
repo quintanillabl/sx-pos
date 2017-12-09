@@ -69,13 +69,20 @@ export class PedidoEnvioPanelComponent implements OnInit, OnDestroy {
   fijarDireccionDelCliente() {
     const cliente = this.parent.get('cliente').value;
     if (cliente !== null) {
-      this.parent.get('envio').setValue({direccion: cliente.direccion});
+      this.parent.get('envio').setValue({
+        direccion: cliente.direccion,
+        condiciones: this.entrega
+      });
     }
   }
 
   get disabled() {
     // return this.parent.get('cliente').value === null
     return false
+  }
+
+  get entrega() {
+    return this.parent.get('entrega').value;
   }
 
   limpiarEnvio() {
