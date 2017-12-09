@@ -104,6 +104,13 @@ export class PedidosService {
     return this.http.get<Venta[]>(url, {params: params})
   }
 
+  canceladas(term = '') {
+    const params = new HttpParams()
+      .set('term', term);
+    const url = `${this.apiUrl}/canceladas/${this.sucursal.id}`;
+    return this.http.get<Venta[]>(url, {params: params})
+  }
+
   facturar(venta: Venta) {
     const url = `${this.apiUrl}/facturar/${venta.id}`;
     return this.http.put(url, venta);

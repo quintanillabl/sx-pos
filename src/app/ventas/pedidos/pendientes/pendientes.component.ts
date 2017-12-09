@@ -10,7 +10,7 @@ import { Venta, Sucursal } from 'app/models';
 import { MdDialog } from '@angular/material';
 import { EnvioDireccionComponent } from '../pedido-form/envio-direccion/envio-direccion.component';
 
-import * as FileSaver from 'file-saver'; 
+import * as FileSaver from 'file-saver';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import * as _ from 'lodash';
 
@@ -29,6 +29,8 @@ export class PendientesComponent implements OnInit {
 
   search$ = new BehaviorSubject<string>('');
 
+  reload$ = new BehaviorSubject<boolean>(true);
+
   loading = false;
 
   constructor(
@@ -38,25 +40,41 @@ export class PendientesComponent implements OnInit {
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
     public dialog: MdDialog,
-  ) { 
+  ) {
+    this.pedidos$ = this.reload$.combineLatest(this.search$, (val, term) => {
+      return term;
+    }).switchMap(term => {
+      return this.service
+        .pendientes(term)
+        .delay(1000)
+        .catch( err => Observable.of(err))
+        .finally( () => this.procesando = false);
+    });
+    /*
     this.pedidos$ = this.search$
-    // .debounceTime(400)
+    .debounceTime(400)
     // .distinctUntilChanged()
     .switchMap(term => {
       this.procesando = true;
       return this.service
       .pendientes(term)
-      //.delay(200)
+      // .delay(200)
       .catch( err => Observable.of(err))
-      .finally( ()=> this.procesando = false);
+      .finally( () => this.procesando = false);
     });
+    */
   }
 
   ngOnInit() {
   }
 
   load() {
+    this.procesando = true;
     this.search('%');
+  }
+
+  reload() {
+    this.reload$.next(true);
   }
 
   search(term: string) {
@@ -89,20 +107,12 @@ export class PendientesComponent implements OnInit {
             .mandarFacturar(pedido)
             .subscribe( res => {
               console.log('Pedido listo para facturación', res);
-              this.router.navigate(['/ventas/pedidos/facturacionCredito']);
+              this.load();
+              // this.router.navigate(['/ventas/pedidos/facturacionCredito']);
             }, error => this.handleError(error));
         }
       });
     }
-  }
-
-  onDelete(pedido: Venta) {
-    this.service
-      .delete(pedido.id)
-      .subscribe(
-        value => this.load(),
-        error => console.error('Error al eliminar pedido ', error)
-      );
   }
 
   asignarEnvio(pedido: Venta) {
@@ -125,16 +135,16 @@ export class PendientesComponent implements OnInit {
     this.service.asignarEnvio(pedido, direccion)
       .subscribe((res: Venta) => {
         console.log('Direccion asignada exitosamente ', res);
-        this.load()
+        this.load();
         pedido = res;
-      },error=> this.handleError(error));
+      }, error =>  this.handleError(error));
   }
 
   print(id: string) {
     // console.log('Imprimiendo pedido: ', id);
     this.procesando = true;
     this.service.imprimirPedido(id)
-      .delay(1000)
+      .delay(500)
       .subscribe(res => {
         const blob = new Blob([res], {
           type: 'application/pdf'
@@ -163,8 +173,8 @@ export class PendientesComponent implements OnInit {
           this.service
             .generarValeAutomatico(pedido)
             .subscribe( res => {
-              console.log('Vale para pedido generado exitosamente', res);
-              // this.load();
+              // console.log('Vale para pedido generado exitosamente', res);
+              this.load();
             }, error => this.handleError(error));
         }
       });

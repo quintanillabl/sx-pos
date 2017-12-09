@@ -5,16 +5,10 @@
           value="{{parent.get('cliente').value.nombre}}" [disabled]="true">
     </md-form-field>
     <sx-cliente-field flex="60" formControlName="cliente"  *ngIf="!parent.get('id').value"></sx-cliente-field>
-    <div layout layout-align="center center" class="pad-left" >
 
-      <md-form-field class="pad-right" *ngIf="parent.get('id').value">
-        <input type="text" mdInput placeholder="Documento"
-          value="{{parent.get('tipo').value}} - {{parent.get('documento').value}}" [disabled]="true">
-      </md-form-field>
-
-      <md-form-field class="pad-right" >
-        <input type="text" mdInput placeholder="Socio" [disabled]="true">
-      </md-form-field>
+    <div layout layout-align="center center" class="pad-left" *ngIf="parent.get('id').value">
+      <span class="pad-right">Pedido: </span>
+      <span class="tc-indigo-800">{{parent.get('tipo').value}} - {{parent.get('documento').value}}</span>
     </div>
 
     <span flex></span>

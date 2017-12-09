@@ -6,33 +6,31 @@
     <table td-data-table class="table" #dataTable>
       <thead>
         <tr td-data-table-column-row>
-          <th td-data-table-column [style.width.em]="3">Rng</th>
-          <th td-data-table-column  [style.width.em]="40" class="text-center">Producto</th>
-          <th td-data-table-column>Cantidad</th>
-          <th td-data-table-column>Precio</th>
+          <th td-data-table-column [style.width.px]="50">Rng</th>
+          <th td-data-table-column  [style.width.px]="450" class="text-center">Producto</th>
+          <th td-data-table-column class="text-right">Cantidad</th>
+          <th td-data-table-column >Precio</th>
           <th td-data-table-column>Importe</th>
           <th td-data-table-column>Descuento</th>
           <th td-data-table-column>Sub Total</th>
           <th td-data-table-column class="text-right">
             <md-icon>more_vert</md-icon>
           </th>
-          <!--<th td-data-table-column class="text-right">C</th>
-          <th td-data-table-column>Quitar</th>-->
         </tr>
       </thead>
       <tbody>
         <tr td-data-table-row *ngFor="let row of partidas; index as i" [formGroupName]="i">
           <td td-data-table-cell   class="text-left">{{i + 1}}</td>
-          <td td-data-table-cell  [style.width.em]="40" class="text-left">
-            <span flex="25" class="text-md">({{row.producto.clave}}) </span>
-            <span flex="70" layout="column">
+          <td td-data-table-cell  class="text-left">
+            <span  class="pad-right-sm">{{row.producto.clave}}</span>
+            <span flex layout="column">
               <span>{{row.producto.descripcion}}</span>
               <span class="tc-pink-800" *ngIf="row.corte">
                   {{row.corte.cantidad}} * {{row.corte.precio}} = {{row.corte.cantidad * row.corte.precio}}
                   /{{row.corte.tipo}}  / {{row.corte.instruccion}}
               </span>
             </span>
-            <span flex></span>
+
             <span mdTooltip="Precio {{row.producto.modoVenta === 'B' ? 'Bruto': 'Neto'}}" clsss="pad-right"
               [ngClass]="{'tc-pink-700': row.producto.modoVenta === 'B', 'tc-indigo-700': row.producto.modoVenta === 'N'}">
               {{row.producto.modoVenta}}
@@ -41,13 +39,10 @@
               <md-icon *ngIf="row.corte">content_cut</md-icon>
             </span>
           </td>
-          <td td-data-table-cell numeric="true">{{row.cantidad}}</td>
+          <td td-data-table-cell numeric="true" [style.width.px]="70">{{row.cantidad}}</td>
           <td td-data-table-cell numeric="true">
             <ng-container *ngIf="isEditable(row)">
                 {{row.precio | currency: 'USD': 1.2-2}}
-              <!-- <button md-button type="button" (click)="cambioDePrecio.emit(i)">
-                  {{row.precio | currency: 'USD': 1.2-2}}
-              </button> -->
             </ng-container>
           </td>
           <td td-data-table-cell numeric="true"> {{row.importe | currency: 'USD': 1.2-2}}</td>

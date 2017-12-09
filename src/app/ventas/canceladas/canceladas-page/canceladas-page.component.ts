@@ -20,17 +20,22 @@ export class CanceladasPageComponent implements OnInit {
   constructor(
     private service: PedidosService,
     private loadingService: TdLoadingService,
-  ) { 
+  ) {
     this.facturas$ = this.search$
     .debounceTime(400)
     .distinctUntilChanged()
     .switchMap(term => {
       this.loadingService.register('loading');
+      return Observable.of([])
+        .delay(1000)
+        .catch( err => Observable.of(err))
+        .finally( () => this.loadingService.resolve('loading'));
+      /*
       return this.service
-      .facturados(term)
-      //.delay(200)
+      .canceladas(term)
       .catch( err => Observable.of(err))
-      .finally( ()=> this.loadingService.resolve('loading'));
+      .finally( () => this.loadingService.resolve('loading'));
+      */
     });
   }
 

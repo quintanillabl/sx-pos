@@ -14,6 +14,11 @@ import { TdDialogService } from '@covalent/core';
 import { PedidoValidator } from './pedido.validator';
 
 
+export enum KEY_CODE {
+  RIGHT_ARROW = 39,
+  LEFT_ARROW = 37
+}
+
 @Component({
   selector: 'sx-pedido-form',
   templateUrl: './pedido-form.component.html',
@@ -60,7 +65,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.pedido && changes.pedido.currentValue) {
       const pedido: Venta = changes.pedido.currentValue;
-      console.log('Editando pedido: ', pedido);
+      // console.log('Editando pedido: ', pedido);
       _.forEach(pedido.partidas, item => this.partidas.push(new FormControl(item)));
       this.form.get('isPuesto').setValue(pedido.puesto !== undefined);
 
@@ -276,6 +281,20 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
   }
 
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    // console.log(event);
+    if (event.ctrlKey && event.code === 'KeyI' ) {
+      this.onInsertPartida();
+    }
+    if (event.code === 'Insert') {
+      this.onInsertPartida();
+    }
+    if (event.code === 'F7') {
+      this.onAddNewCliente();
+    }
+  }
 
 
 }

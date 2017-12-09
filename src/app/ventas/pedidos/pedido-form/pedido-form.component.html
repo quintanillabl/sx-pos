@@ -1,6 +1,6 @@
 <form novalidate [formGroup]="form" layout="row" class="pedido-form" (ngSubmit)="onSave()" >
 
-  <md-card flex="75" >
+  <md-card flex="80" >
     <sx-pedido-header
       (addCliente)="onAddNewCliente()" [parent]="form"
       (insertar)="onInsertPartida()"
@@ -36,7 +36,7 @@
     <sx-validation-panel [parent]="form"></sx-validation-panel>
   </md-card>
 
-  <div flex="25">
+  <div flex="20">
     <md-card >
       <td-expansion-panel-group>
         <sx-pedido-totales-panel [parent]="form"></sx-pedido-totales-panel>
@@ -49,19 +49,22 @@
       </td-expansion-panel-group>
       <md-divider></md-divider>
       <md-card-actions>
-        <button type="submit" md-button [disabled]="form.invalid" > Salvar </button>
         <a  md-button [routerLink]="['/ventas/pedidos/pendientes']"> Cancelar </a>
-        
+        <button type="submit" md-button [disabled]="form.invalid" > Salvar </button>
+
         <button type="button" md-button  *ngIf="id"
           mdTooltip="Eliminar pedido" color="warn" (click)="delete.emit(pedido)">
             <md-icon>delete</md-icon> Eliminar
-          </button>
+        </button>
+        <button *ngIf="id" type="button" md-icon-button (click)="print.emit(id)"> <md-icon>print</md-icon></button>
       </md-card-actions>
     </md-card>
   </div>
 
 </form>
 
+<!--
 <td-json-formatter [data]="form.getRawValue()"></td-json-formatter>
+-->
 
 

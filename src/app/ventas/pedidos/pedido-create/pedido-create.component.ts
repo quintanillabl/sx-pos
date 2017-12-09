@@ -18,8 +18,8 @@ import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-
       <div layout="column">
         <sx-pedido-form
           *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'"
-          (addNewCliente)="onAddNewCliente()" 
-          (save)="onSave($event)" 
+          (addNewCliente)="onAddNewCliente()"
+          (save)="onSave($event)"
           (cambiarCfdiMail)="onCambioDeCfdiMail($event)"
           [sucursal]="sucursal$ | async" [pedido]="pedido$ | async">
         </sx-pedido-form>
