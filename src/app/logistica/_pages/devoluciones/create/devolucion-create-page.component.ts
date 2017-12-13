@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router } from "@angular/router";
+import { Store } from '@ngrx/store';
 
 import { DevolucionDeVenta } from "app/logistica/models/devolucionDeVenta";
 import { Sucursal } from 'app/models';
 
 import { DevolucionesService } from "app/logistica/services/devoluciones/devoluciones.service";
+import * as fromRoot from 'app/reducers';
 
 
 @Component({
@@ -23,18 +25,13 @@ export class DevolucionCreatePageComponent implements OnInit {
 
   constructor(
     private service: DevolucionesService,
-    private router: Router
+    private router: Router,
+    private store: Store<fromRoot.State>
   ) { }
 
   ngOnInit() {
-    
     // Temporal mientras la obtenemos del ConfigState
-    this.sucursal$ = Observable.of({
-      id: '402880fc5e4ec411015e4ec64e70012e',
-      clave: '10',
-      nombre: 'TACUBA'
-    });
-
+    this.sucursal$ = this.store.select(fromRoot.getSucursal);
   }
 
   onSave(dev: DevolucionDeVenta) {

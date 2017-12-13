@@ -17,7 +17,7 @@ export class OrdenesEffects {
   .map(r => r.payload.routerState.url)
   .delay(300)
   .filter( r => r ==='/compras/ordenes' )
-  // .do(route => console.log('Navegando a: ', route))
+  .do(route => console.log('Navegando a: ', route))
   // .map( r => new Compras.SearchAction('0'))
   .switchMap( r => 
     this.service.buscarPendientes()

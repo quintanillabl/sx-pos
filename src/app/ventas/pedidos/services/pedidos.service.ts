@@ -23,7 +23,7 @@ export class PedidosService {
   ) {
     // configService.getUrl().then( value => this.apiUrl = `${value.apiUrl}/ventas`);
     this.sucursal = configService.getCurrentSucursal();
-    this.apiUrl = `${this.configService.getApiUrl()}/ventas`
+    // this.apiUrl = `${this.configService.getApiUrl()}/ventas`
   }
 
   get(id: string): Observable<Venta> {

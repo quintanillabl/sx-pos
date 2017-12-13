@@ -35,7 +35,7 @@ export class MovimientoDetFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.form = this.fb.group({
       producto: [null, Validators.required],
-      cantidad: [null, Validators.required],
+      cantidad: [null, [Validators.required, this.validarCantidad.bind(this)]],
       comentario: [null, Validators.maxLength(100)],
       sw2: ['SIIPAPX'], // small fix temporal
       tipoCIS: [{value: null, disabled: true}]
@@ -70,7 +70,9 @@ export class MovimientoDetFormComponent implements OnInit, OnDestroy {
     const entity = Object.assign({}, this.form.value);
     if(this.parent.get('tipo').value === 'OIM') {
        entity.cantidad = Math.abs(entity.cantidad);
-    } else {
+    }else if(this.parent.get('tipo').value === 'CIM') {
+      entity.cantidad = entity.cantidad;
+   } else {
       entity.cantidad = entity.cantidad * -1;
     }
     
@@ -90,13 +92,21 @@ export class MovimientoDetFormComponent implements OnInit, OnDestroy {
   getTipoValidator(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: boolean} => {
       const tipoControl = this.parent.get('tipo').value;
-      if(tipoControl==='CIS') {
-        console.log('Evaluando tipo: ', tipoControl);
+      if (tipoControl==='CIS') {
         const tipoCIS = control.get('tipoCIS').value;
         return tipoCIS !== null ? null : {noTipoCIS: true};
       }
       return null;
     };
+  }
+
+  validarCantidad(control: AbstractControl) {
+    const tipo = this.parent.get('tipo').value;
+    if (tipo !== 'CIM') {
+      const cantidad = control.value;
+      return cantidad >= 0 ? null : {noPermiteNegativo: true};
+    }
+    return null;
   }
 
 }

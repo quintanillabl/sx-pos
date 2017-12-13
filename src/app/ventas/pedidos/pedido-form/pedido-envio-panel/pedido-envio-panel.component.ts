@@ -55,7 +55,12 @@ export class PedidoEnvioPanelComponent implements OnInit, OnDestroy {
 
   registrarDireccion() {
     if (this.envio) {
-      const dialogRef = this.dialog.open(EnvioDireccionComponent, );
+      const envio = this.parent.get('envio').value;
+      const dialogRef = this.dialog.open(EnvioDireccionComponent, {
+        data: {
+          direccion: envio.direccion
+        }
+      });
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.parent.get('envio').setValue({direccion: result});
@@ -63,6 +68,7 @@ export class PedidoEnvioPanelComponent implements OnInit, OnDestroy {
           this.parent.get('mismaDireccion').setValue(true);
         }
       });
+      
     }
   }
 

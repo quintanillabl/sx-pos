@@ -86,16 +86,16 @@ export class MovimientosShowComponent implements OnInit {
         console.log('Error al eliminar movimiento...');
     });
   }
-
+  
   print(mov: Movimiento) {
     this.service.print(mov.id)
-    .subscribe(res => {
-      let blob = new Blob([res], { 
-        type: 'application/pdf' 
-      });
-      let filename = `mov_${mov.tipo}_${mov.documento}.pdf`;
-      FileSaver.saveAs(blob, filename);
-    });
+      .subscribe(res => {
+        const blob = new Blob([res], {
+          type: 'application/pdf'
+        });
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      }, error2 => console.error(error2));
   }
 
   inventariar(mov: Movimiento){

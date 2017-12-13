@@ -38,6 +38,7 @@ export class TransformacionesService {
   }
 
   save(transformacion: Transformacion) {
+    transformacion.sucursal = this.sucursal;
     return this.http.post(this.apiUrl, transformacion);
   }
 

@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 
-import { Compra, Proveedor } from 'app/models';
+import { Compra, Proveedor, Sucursal } from 'app/models';
+import { ConfigService } from 'app/core/services/config.service';
+
+
 import { environment} from 'environments/environment';
 
 @Injectable()
@@ -10,12 +13,14 @@ export class OrdenesService {
 
   readonly apiUrl = environment.apiUrl + '/compras';
 
-  sucursal = {
-    id: '402880fc5e4ec411015e4ec64e70012e',
-    nombre: 'TACUBA'
-  }
+  sucursal: Sucursal;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService
+  ) { 
+    this.sucursal = configService.getCurrentSucursal();
+  }
 
   buscarPendientes(folio?: string) {
     return this.list({pendientes: true, folio: folio})

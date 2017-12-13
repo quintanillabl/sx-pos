@@ -4,7 +4,7 @@
       <span mdLine>Descripcion</span>
       <span flex></span>
       <span hide-xs hide-sm hide-md flex-gt-xs="60" flex-xs="40" layout-gt-xs="row">
-          <div class=" tc-grey-500" flex-gt-xs="50">Venta </div>
+          <div class=" tc-grey-500" flex-gt-xs="50">Factura </div>
           <div class=" tc-grey-500" flex-gt-xs="50">Estado </div>
       </span>
     </md-list-item>
@@ -17,7 +17,7 @@
             <span md-line> {{row.comentario}} </span>
             <span flex></span>
             <span hide-xs hide-sm hide-md flex-gt-xs="60" flex-xs="40" layout-gt-xs="row">
-                <div class=" tc-blue-500" flex-gt-xs="50"> {{row.venta.documento}} </div>
+                <div class=" tc-blue-500" flex-gt-xs="50"> {{row.factura}} </div>
                 <div  [ngClass]="{'tc-pink-500': !row.fechaInventario }" flex-gt-xs="50"> {{ row.fechaInventario ? 'INVENTARIADO' : 'PENDIENTE'}} </div>
             </span>
             <span >

@@ -19,7 +19,7 @@
   
       </md-list-item>
   
-      <td-virtual-scroll-container #virtualScroll [style.height.px]="400" [data]="partidas" >
+      <td-virtual-scroll-container #virtualScroll [style.height.px]="375" [data]="partidas" >
         <ng-template let-item="row" let-last="last" let-i="index" tdVirtualScrollRow>
           <md-list-item>
               <h5 md-line> {{i + 1}} {{item.producto.descripcion}} </h5>

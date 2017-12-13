@@ -1,6 +1,6 @@
 <form novalidate [formGroup]="form" (ngSubmit)="onSubmit() ">
 
-  <h3 md-dialog-title>Partida de  {{tipo}}</h3>
+  <h3 md-dialog-title>Partida de  {{tipo}} {{sucursal.nombre}}</h3>
   <md-dialog-content layout="column" class="det-form">
     <div layout >
       <sx-existencia-field formControlName="origen" flex  placeholder="Origen" [sucursal]="sucursal"></sx-existencia-field>

@@ -24,6 +24,7 @@ export class TransformacionesPageComponent implements OnInit {
   ngOnInit() {
     this.movimientos$ = this.search$
       .debounceTime(300)
+      .startWith('%')
       .do( term => console.log('Buscando transformaciones', term))
       .distinctUntilChanged()
       .switchMap( term => this.service.list(term))
