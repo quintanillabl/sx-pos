@@ -32,6 +32,10 @@ const routes: Routes = [
   {
     path: 'caja',
     loadChildren: './caja/caja.module#CajaModule'
+  },
+  {
+    path: 'traslados',
+    loadChildren: './traslados/traslados.module#TrasladosModule'
   }
 
 ];

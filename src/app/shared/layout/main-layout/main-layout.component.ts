@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { Title }     from '@angular/platform-browser';
+import { Title } from '@angular/platform-browser';
 import { TdLoadingService, TdDigitsPipe, TdMediaService } from '@covalent/core';
 
 @Component({
@@ -12,7 +12,7 @@ export class MainLayoutComponent implements OnInit, AfterViewInit {
   @Input() title = 'SX-POS';
 
   @Input() drawerTitle = 'Opciones';
-  
+
   @Input() navigationRoute = '/';
 
   @Input() logo = 'assets:siipap-rx2';
@@ -31,10 +31,10 @@ export class MainLayoutComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     // broadcast to all listener observables when loading the page
-    
+
     this.media.broadcast();
     this._titleService.setTitle( this.title);
-    
+
   }
 
 }

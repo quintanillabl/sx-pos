@@ -1,12 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, APP_INITIALIZER} from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient} from '@angular/common/http'
 /** ngrx stuff **/
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import {RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-store';
+import { RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-store';
 import { DBModule } from '@ngrx/db';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
@@ -24,32 +24,15 @@ import { GlobalErrorHandler } from './global-error-handler';
 import { ClientesModule } from './clientes/clientes.module';
 import { ProductosModule } from 'app/productos/productos.module';
 import { ConfigService} from './core/services/config.service';
+import { TrasladosModule} from '@siipapx/traslados/traslados.module';
 
-
-const config: SocketIoConfig = { url: 'http://10.10.1.136:8500', options: {} };
+export function onAppInit1(configService: ConfigService): () => Promise<any> {
+  return () => configService.load()
+}
 
 @NgModule({
   declarations: [
     AppComponent,
-  ],
-  providers: [ ConfigService,
-
-    { provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    },
-    {
-      provide: ErrorHandler,
-      useClass: GlobalErrorHandler
-    },
-    /**
-     * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
-     * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
-     * by `@ngrx/router-store` to include only the desired pieces of the snapshot.
-     */
-    { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
-
-
   ],
   imports: [
     BrowserModule,
@@ -100,8 +83,32 @@ const config: SocketIoConfig = { url: 'http://10.10.1.136:8500', options: {} };
     AuthModule.forRoot(),
     ClientesModule.forRoot(),
     ProductosModule.forRoot(),
-    SocketIoModule.forRoot(config),
+    TrasladosModule
 
+  ],
+  providers: [ ConfigService,
+    /*
+    {
+      provide: APP_INITIALIZER,
+      useFactory: onAppInit1,
+      multi: true,
+      deps: [ConfigService]
+    },
+    */
+    { provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler
+    },
+    /**
+     * The `RouterStateSnapshot` provided by the `Router` is a large complex structure.
+     * A custom RouterStateSerializer is used to parse the `RouterStateSnapshot` provided
+     * by `@ngrx/router-store` to include only the desired pieces of the snapshot.
+     */
+    { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
   ],
   bootstrap: [AppComponent]
 })

@@ -10,7 +10,7 @@
       <md-icon>menu</md-icon>
     </button>
     <md-icon [routerLink]="['/']" class="md-icon-logo cursor-pointer" svgIcon="assets:siipap-rx2"></md-icon>
-    <span> ({{modulo}}) </span>
+
   </div>
 
   <div td-toolbar-content layout="row" layout-align="start center" flex>
@@ -23,8 +23,9 @@
     <sx-sucursal-label></sx-sucursal-label>
     <span flex></span>
     <!-- <span> SX-POS ({{modulo}}) </span> -->
-    
+
      <!--<sx-prod-selector-btn></sx-prod-selector-btn>-->
+    <span> ({{modulo}}) </span>
     <ng-content select="[toolbar]"></ng-content>
     <button md-icon-button><md-icon >settings</md-icon></button>
     <sx-module-selector></sx-module-selector>

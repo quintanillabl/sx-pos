@@ -12,7 +12,7 @@ import * as fromRoot from 'app/reducers';
 @Injectable()
 export class PedidosService {
 
-  readonly apiUrl = environment.apiUrl + '/ventas';
+  apiUrl = environment.apiUrl + '/ventas';
 
   sucursal: Sucursal;
 
@@ -21,7 +21,9 @@ export class PedidosService {
     private store: Store<fromRoot.State>,
     private configService: ConfigService
   ) {
+    // configService.getUrl().then( value => this.apiUrl = `${value.apiUrl}/ventas`);
     this.sucursal = configService.getCurrentSucursal();
+    this.apiUrl = `${this.configService.getApiUrl()}/ventas`
   }
 
   get(id: string): Observable<Venta> {

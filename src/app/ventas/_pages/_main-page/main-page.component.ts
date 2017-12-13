@@ -15,6 +15,7 @@ export class MainPageComponent implements OnInit {
     // {path: 'solicitudes', nombre: 'Solicitud de deposito', descripcion: 'Solicitud de autorizacion de deposito', icon: 'verified_user'},
     {path: 'lealtad', nombre: 'Programa de lealtad', descripcion: 'Programa de lealtad', icon: 'loyalty'},
     {path: 'clientes', nombre: 'Clientes', descripcion: 'Catálogo de clientes', icon: 'account_circle'},
+    {path: '/traslados', nombre: 'Traslados', descripcion: 'Traslados de mercancía', icon:  'local_shipping'},
   ];
 
   constructor() { }

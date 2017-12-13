@@ -26,6 +26,7 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/finally';
+import 'rxjs/add/operator/first';
 
 
 import 'rxjs/add/observable/of';

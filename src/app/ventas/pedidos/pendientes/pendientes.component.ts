@@ -14,6 +14,7 @@ import * as FileSaver from 'file-saver';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import * as _ from 'lodash';
 
+
 @Component({
   selector: 'sx-pedidos-pendientes',
   templateUrl: './pendientes.component.html',
@@ -39,7 +40,7 @@ export class PendientesComponent implements OnInit {
     private router: Router,
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
-    public dialog: MdDialog,
+    public dialog: MdDialog
   ) {
     this.pedidos$ = this.reload$.combineLatest(this.search$, (val, term) => {
       return term;
@@ -65,8 +66,7 @@ export class PendientesComponent implements OnInit {
     */
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   load() {
     this.procesando = true;

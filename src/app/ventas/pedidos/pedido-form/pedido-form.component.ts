@@ -14,11 +14,6 @@ import { TdDialogService } from '@covalent/core';
 import { PedidoValidator } from './pedido.validator';
 
 
-export enum KEY_CODE {
-  RIGHT_ARROW = 39,
-  LEFT_ARROW = 37
-}
-
 @Component({
   selector: 'sx-pedido-form',
   templateUrl: './pedido-form.component.html',

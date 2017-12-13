@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {Component, HostListener, Inject, OnInit} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 
@@ -59,6 +59,14 @@ export class AddClienteDialogComponent implements OnInit {
 
   reset() {
     this.form.reset();
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    console.log(event);
+    if (event.code === 'F7') {
+      console.log('Interceptando F7');
+    }
   }
 
 
