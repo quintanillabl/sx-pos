@@ -494,13 +494,20 @@ export class PedidoFormService {
 
   }
 
-  generarCargosPorFlete( grid) {
-    const flete = this.form.get('cargosPorManiobra').value;
+  generarCargosPorFlete( grid, flete) {
+     // const flete = this.form.get('cargosPorManiobra').value;
     if (flete > 0) {
       const det: VentaDet = _.find(this.partidas.value, (item: VentaDet) => item.producto.clave === 'MANIOBRAF');
+      const index = _.findIndex(this.partidas.value, (item: VentaDet) => item.producto.clave ==='MANIOBRAF');
+      //console.log('Partida de maniobra localizada: ', det);
+      //console.log('Partida de maniobra localizada index: ', index);
       if (det) {
+        //console.log('Actualizando importes de flete...');
+        det.importe = flete;
         det.subtotal = flete;
         grid.refresh();
+        this.actualizarTotales();
+        
       } else {
         this.service.findManiobraFlete().subscribe(producto => {
           const det = this.buildPartidaDeManiobra(producto, flete);

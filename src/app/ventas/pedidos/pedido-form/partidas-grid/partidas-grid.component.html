@@ -49,11 +49,11 @@
           <td td-data-table-cell numeric="true"> {{row.descuentoImporte | currency: 'USD': 1.2-2}}</td>
           <td td-data-table-cell numeric="true"> {{row.subtotal | currency: 'USD': 1.2-2}}</td>
           <td td-data-table-cell numeric="false">
-            <ng-container *ngIf="isEditable(row)">
-              <button md-icon-button type="button" (click)="edit.emit(i)">
+            <ng-container >
+              <button md-icon-button type="button" (click)="edit.emit(i)" *ngIf="isEditable(row)">
                 <md-icon md-icon-button color="accent" >edit</md-icon>
               </button>
-              <button md-icon-button type="button" (click)="delete.emit(i)">
+              <button md-icon-button type="button" (click)="delete.emit(i)" *ngIf="isEliminable(row)">
                 <md-icon md-icon-button color="accent" >delete</md-icon>
               </button>
             </ng-container>

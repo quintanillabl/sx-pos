@@ -35,9 +35,14 @@ export class PartidasGridComponent implements OnInit {
   }
 
   isEditable(row: VentaDet) {
-   const MANIOBRAS = ['CORTE', 'MANIOBRA'];
+   const MANIOBRAS = ['CORTE', 'MANIOBRA', 'MANIOBRAF'];
     return !_.includes(MANIOBRAS, row.producto.clave )
   }
+
+  isEliminable(row: VentaDet) {
+    const MANIOBRAS = ['CORTE', 'MANIOBRA'];
+     return !_.includes(MANIOBRAS, row.producto.clave )
+   }
 
   get invalid() {
     return this.parent.hasError('sinPartidas');

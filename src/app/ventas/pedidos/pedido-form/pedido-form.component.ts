@@ -267,9 +267,9 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       if (newValue) {
         const importe = _.toNumber(newValue);
         if ( !_.isNaN(importe) && _.isNumber(importe)){
-          console.log('Asignando flete: ', importe);
+          // console.log('Asignando flete: ', importe);
           this.form.get('cargosPorManiobra').setValue(importe);
-          this.pedidoFormService.generarCargosPorFlete(this.grid);
+          this.pedidoFormService.generarCargosPorFlete(this.grid, importe);
         }
       }
     });
