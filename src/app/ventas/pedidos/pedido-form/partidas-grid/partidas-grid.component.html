@@ -7,12 +7,12 @@
       <thead>
         <tr td-data-table-column-row>
           <th td-data-table-column [style.width.px]="50">Rng</th>
-          <th td-data-table-column  [style.width.px]="450" class="text-center">Producto</th>
+          <th td-data-table-column  [style.width.px]="650" class="text-center">Producto</th>
           <th td-data-table-column class="text-right">Cantidad</th>
-          <th td-data-table-column >Precio</th>
-          <th td-data-table-column>Importe</th>
-          <th td-data-table-column>Descuento</th>
-          <th td-data-table-column>Sub Total</th>
+          <th td-data-table-column class="text-center">Precio</th>
+          <th td-data-table-column class="text-center">Importe</th>
+          <th td-data-table-column class="text-center">Descuento</th>
+          <th td-data-table-column class="text-center">Sub Total</th>
           <th td-data-table-column class="text-right">
             <md-icon>more_vert</md-icon>
           </th>
@@ -47,7 +47,7 @@
           </td>
           <td td-data-table-cell numeric="true"> {{row.importe | currency: 'USD': 1.2-2}}</td>
           <td td-data-table-cell numeric="true"> {{row.descuentoImporte | currency: 'USD': 1.2-2}}</td>
-          <td td-data-table-cell numeric="true"> {{row.subtotal | currency: 'USD': 1.2-2}}</td>
+          <td td-data-table-cell numeric="false" class="text-center"> {{row.subtotal | currency: 'USD': 1.2-2}}</td>
           <td td-data-table-cell numeric="false">
             <ng-container >
               <button md-icon-button type="button" (click)="edit.emit(i)" *ngIf="isEditable(row)">

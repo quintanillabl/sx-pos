@@ -19,7 +19,7 @@ export class EnvioDireccionComponent implements OnInit {
     @Inject(MD_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
   ) {
-    this.direccion = data.direccion;
+    // this.direccion = data.direccion;
     this.buildForm();
   }
 
@@ -37,7 +37,7 @@ export class EnvioDireccionComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.direccion !== null) {
+    if (this.direccion) {
        this.form.patchValue(this.direccion);
     }
   }

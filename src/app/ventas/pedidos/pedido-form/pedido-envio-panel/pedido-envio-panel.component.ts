@@ -58,7 +58,7 @@ export class PedidoEnvioPanelComponent implements OnInit, OnDestroy {
       const envio = this.parent.get('envio').value;
       const dialogRef = this.dialog.open(EnvioDireccionComponent, {
         data: {
-          direccion: envio.direccion
+          // direccion: envio.direccion
         }
       });
       dialogRef.afterClosed().subscribe(result => {

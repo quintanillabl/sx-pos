@@ -31,10 +31,5 @@ export { DecPartidasComponent } from './dec-form/partidas/dec-partidas.component
 export { DecComdetGridComponent } from './dec-form/selector-de-com/comdet-gid/dec-comdet-grid.component';
 export { SelectorDeComDialogComponent } from './dec-form/selector-de-com/selector-de-com-dialog.component';
 
-// Solicitud de traslados
-export { SolsGridComponent } from './sols/sols-grid.component';
-export { SolFormComponent } from './sol-form/sol-form.component';
-export { AddSoldetDialogComponent } from './sol-form/add-soldet-dialog.component';
-export { SolFormPartidasComponent } from './sol-form/partidas/sol-form-partidas.component';
 
 export { ChoferFieldComponent } from './chofer-field/chofer-field.component';

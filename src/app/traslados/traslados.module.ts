@@ -13,6 +13,7 @@ import { SolicitudDeTrasladoFormComponent } from './_components/solicitud-de-tra
 import { SolicitudPartidasListComponent } from './_components/solicitud-partidas-list/solicitud-partidas-list.component';
 import { SoldetAddComponent } from './_components/soldet-add/soldet-add.component';
 import { SolShowPageComponent } from './solicitudes-page/sol-show-page.component';
+import { SolsPoratenderListComponent } from './atencion-page/sols-poratender-list/sols-poratender-list.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { SolShowPageComponent } from './solicitudes-page/sol-show-page.component
     SolicitudDeTrasladoFormComponent,
     SolicitudPartidasListComponent,
     SoldetAddComponent,
-    SolShowPageComponent],
+    SolShowPageComponent,
+    SolsPoratenderListComponent],
   providers: [SolicitudesService],
   entryComponents: [SoldetAddComponent]
 })

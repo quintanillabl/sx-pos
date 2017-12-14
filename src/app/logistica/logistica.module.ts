@@ -62,13 +62,6 @@ const PAGES =  [
   pages.DecsPageComponent,
   pages.DecCreatePageComponent,
   pages.DecShowPageComponent,
-  // Traslados
-  pages.TrasladosPageComponent,
-  pages.SolicitudesComponent,
-  pages.AtendidosPageComponent,
-  pages.SolShowPageComponent,
-  pages.SolCreatePageComponent,
-  pages.SolicitudesPorAtenderPageComponent,
   // Karde
   pages.KardexPageComponent,
   pages.KardexViewPageComponent,
@@ -167,11 +160,7 @@ const COMPONENTS = [
   components.DecPartidasComponent,
   components.DecComdetGridComponent,
   components.SelectorDeComDialogComponent,
-  // Sols
-  components.SolsGridComponent,
-  components.SolFormComponent,
-  components.AddSoldetDialogComponent,
-  components.SolFormPartidasComponent,
+ 
   // Embarques
   components.ChoferFieldComponent,
 
@@ -206,7 +195,6 @@ const COMPONENTS = [
     components.SelectorDeVentasDialogComponent,
     components.SelectorDeCompraDialogComponent,
     components.SelectorDeComDialogComponent,
-    components.AddSoldetDialogComponent,
     pages.SectorDetDialogComponent,
     pages.ConteoDetDialogComponent,
     pages.CapturaDetDialogComponent,

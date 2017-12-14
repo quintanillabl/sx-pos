@@ -28,13 +28,7 @@ export { ComCreatePageComponent } from './coms/create/com-create-page.component'
 export { DecsPageComponent } from './decs/decs-page.component'
 export { DecShowPageComponent } from './decs/show/dec-show-page.component';
 export { DecCreatePageComponent } from './decs/create/dec-create-page.component';
-// Traslados
-export { TrasladosPageComponent } from './traslados/traslados-page.component';
-export { SolicitudesComponent } from './traslados/solicitudes-page';
-export { SolicitudesPorAtenderPageComponent } from './traslados/poratender-page';
-export { AtendidosPageComponent } from './traslados/atendidos-page';
-export { SolShowPageComponent } from './traslados/sols/sol-show-page/sol-show-page.component';
-export { SolCreatePageComponent } from './traslados/sols/sol-create-page/sol-create-page.component';
+
 // Kardex
 export { KardexPageComponent } from './kardex-page/kardex-page.component';
 export { KardexViewPageComponent } from './kardex-view-page/kardex-view-page.component';

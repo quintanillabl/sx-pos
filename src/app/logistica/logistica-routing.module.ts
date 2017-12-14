@@ -35,10 +35,7 @@ const routes: Routes = [
           { path: 'decs', component: pages.DecsPageComponent},
           { path: 'decs/show/:id', component: pages.DecShowPageComponent},
           { path: 'decs/create', component: pages.DecCreatePageComponent},
-          // Traslados
-          { path: 'traslados', component: pages.TrasladosPageComponent},
-          { path: 'traslados/sol/show/:id', component: pages.SolShowPageComponent},
-          { path: 'traslados/sol/create', component: pages.SolCreatePageComponent},
+          
 
           // Kardex
           { path: 'kardex', component: pages.KardexPageComponent},

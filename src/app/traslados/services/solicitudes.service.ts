@@ -68,6 +68,12 @@ export class SolicitudesService {
     });
   }
 
+  porAtender() {
+    const params = new HttpParams().set('sucursal', this.sucursal.id);
+    const url = `${this.apiUrl}/porAtender`;
+    return this.http.get<SolicitudDeTraslado[]>(url, {params: params})
+  }
+
   buscarSolicitudPendiente( filtro: {sucursal: string; documento: string} ): Observable<SolicitudDeTraslado> {
     let params = new HttpParams();
     _.forIn(filtro, (value, key) => {
