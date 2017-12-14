@@ -106,11 +106,11 @@
         <span class="md-subhead pad-right"> Disponibilidad </span>
         <span class="pad-right" flex>{{sucursal.nombre}}:</span>
         <span [ngClass]="{'tc-indigo-700': existencia?.cantidad > 0, 'tc-pink-700': existencia?.cantidad <= 0} " flex>
-            {{existencia?.cantidad | number:'3.0'}}
+            {{getExistenciaLocal()?.cantidad | number:'3.0'}}
         </span>
         <span class="pad-right" flex>TOTAL:</span>
         <span [ngClass]="{'tc-indigo-700': existencia?.cantidad > 0, 'tc-pink-700': existencia?.cantidad <= 0} " flex>
-          {{disponibilidadTotal | number:'3.0'}}
+          {{ (disponibilidadTotal$ | async) | number:'3.0'}}
         </span>
 
       </div>

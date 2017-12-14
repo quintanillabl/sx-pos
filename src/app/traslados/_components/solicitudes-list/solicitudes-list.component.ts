@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import {SolicitudDeTraslado} from 'app/logistica/models/solicitudDeTraslado';
-import {SolicitudesService} from 'app/traslados/services/solicitudes.service';
+
 
 @Component({
   selector: 'sx-solicitudes-list',
@@ -11,14 +10,11 @@ import {SolicitudesService} from 'app/traslados/services/solicitudes.service';
 })
 export class SolicitudesListComponent implements OnInit {
 
-  solicitudes$: Observable<SolicitudDeTraslado[]>;
+  @Input() solicitudes = [];
 
-  constructor(
-    private service: SolicitudesService
-  ) {
-    this.solicitudes$ = this.service.pendientes();
-    this.solicitudes$.subscribe( data =>  console.log('Data: ', data));
-  }
+  @Output() print = new EventEmitter();
+
+  constructor() {}
 
   ngOnInit() {
   }

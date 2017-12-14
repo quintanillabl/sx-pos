@@ -6,6 +6,7 @@ import {SolicitudesPageComponent} from './solicitudes-page/solicitudes-page.comp
 import {RecepcionesPageComponent} from './recepciones-page/recepciones-page.component';
 import {AtencionPageComponent} from './atencion-page/atencion-page.component';
 import {SolCreatePageComponent} from './solicitudes-page/sol-create-page.component';
+import { SolShowPageComponent} from './solicitudes-page/sol-show-page.component';
 
 
 
@@ -27,6 +28,10 @@ const routes: Routes = [
       {
         path: 'solicitudes/create',
         component: SolCreatePageComponent
+      },
+      {
+        path: 'solicitudes/show/:id',
+        component: SolShowPageComponent
       },
       {
         path: 'atencion',

@@ -41,13 +41,11 @@ export class SolCreatePageComponent implements OnInit {
   }
 
   onSave(sol: SolicitudDeTraslado) {
-    console.log('Salvando solicitud de traslado: ', sol);
     this.loadingService.register('saving');
     this.service
       .save(sol)
       .subscribe(
         (res) => {
-          console.log('SOL salvado: ', res);
           this.loadingService.resolve('saving');
           this.router.navigate(['/traslados/solicitudes'])
         },

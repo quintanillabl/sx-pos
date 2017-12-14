@@ -43,7 +43,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
 
   subs1: Subscription;
   subs2: Subscription;
-  // subs3: Subscription;
+  existenciaRemotaSubs: Subscription;
   // subs4: Subscription;
 
   corte$: Observable<boolean>;
@@ -118,7 +118,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       .switchMap( producto => {
         return this.existenciasService.buscarExistencias(producto);
       });
-    this.existenciaRemota$.subscribe(exis => this.existencias = exis);
+    this.existenciaRemotaSubs = this.existenciaRemota$.subscribe(exis => this.existencias = exis);
   }
 
   buildExistencias() {
@@ -130,6 +130,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
           this.existencias = exis
            // Fijar la existencia local
           const found =_.find(this.existencias, item => item.sucursal.id === this.sucursal.id);
+          console.log('Existencia local: ', found);
           this.form.get('existencia').setValue(found);
           // Calcular la existencia total
           this.disponibilidadTotal =  _.sumBy(this.existencias, 'disponible');
@@ -139,6 +140,13 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
 
   private buildDisponibilidadTotal$() {
     this.disponibilidadTotal$ = this.existenciaRemota$.map( exis => _.sumBy(exis, 'disponible'));
+  }
+  
+  getExistenciaLocal(): Existencia {
+    if (this.existencias) {
+      return _.find(this.existencias, item => item.sucursal.id === this.sucursal.id);
+    }
+    return null;
   }
 
   private buildProducto$() {
@@ -168,39 +176,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  /*
-  private buildSinVale() {
-    this.conVale$ = this.sinExistencia$.combineLatest(
-      this.disponibilidadTotal$,
-      this.form.get('cantidad').valueChanges ,
-      (sinExistencia, total, cantidad) => {
-        if (sinExistencia) {
-          return total - cantidad > 0;
-        } else {
-          return false;
-        }
-    });
-    // Subscribe to the observable to enable or diable the checkbox
-    this.subs3 = this.conVale$.subscribe( val => {
-      if (val) {
-        this.form.get('conVale').enable();
-      } else {
-        this.form.get('conVale').disable();
-      }
-    });
-  }
-  */
-
-  /*
-  private buildImporteBruto$() {
-    const precio$ = this.form.get('precio').valueChanges;
-    const cantidad$ = this.form.get('cantidad').valueChanges;
-    const factor$ = this.producto$.filter(p => p !== null).pluck('unidad').map( unidad => unidad === 'MIL' ? 1000 : 1);
-    this.importeBruto$ = precio$
-      .combineLatest(cantidad$, factor$, (cantidad, precio, factor) => (cantidad * precio) / factor).startWith(0);
-    this.//subs4 = this.importeBruto$.subscribe( importe => this.form.get('importe').setValue(importe));
-  }
-  */
+  
 
   private buildCorte$() {
     this.corte$ = this.form.get('cortado').valueChanges;
@@ -216,8 +192,13 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subs1.unsubscribe();
-    // this.//subs4.unsubscribe();
     this.corteSubscription.unsubscribe();
+    if(this.subs2) {
+      this.subs2.unsubscribe();
+    }
+    if (this.existenciaRemotaSubs) {
+      this.existenciaRemotaSubs.unsubscribe();
+    }
   }
 
   close() {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 
@@ -34,10 +34,10 @@ export class SolicitudesService {
     return this.http.get<SolicitudDeTraslado[]>(this.apiUrl, {params: params})
   }
 
-  list(documento?: string ): Observable<SolicitudDeTraslado[]> {
+  list(documento: number = 0 ): Observable<SolicitudDeTraslado[]> {
     let params = new HttpParams().set('sucursal', this.sucursal.id);
-    if (documento) {
-      params =  params.set('documento', documento);
+    if (documento > 0) {
+      params =  params.set('documento', documento.toString());
     }
     return this.http.get<SolicitudDeTraslado[]>(this.apiUrl, {params: params})
   }
@@ -75,6 +75,20 @@ export class SolicitudesService {
     });
     const url = `${this.apiUrl}/buscarSolicitudPendiente`;
     return this.http.get<SolicitudDeTraslado>(url, {params: params})
+  }
+
+  print(id: string) {
+    const url = `${this.apiUrl}/print`;
+    const params = new HttpParams()
+      .set('ID', id);
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        params: params,
+        responseType: 'blob'
+      }
+    );
   }
 
 }
