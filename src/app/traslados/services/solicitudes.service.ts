@@ -26,17 +26,19 @@ export class SolicitudesService {
     return this.http.get<SolicitudDeTraslado>(url)
   }
 
-  peidnetesDeAtender(documento?: string ) {
-    let params = new HttpParams().set('sucursalAtiende', this.sucursal.id);
-    if (documento) {
-      params =  params.set('documento', documento);
+  list(documento: number = 0 ): Observable<SolicitudDeTraslado[]> {
+    let params = new HttpParams().set('sucursal', this.sucursal.id);
+    if (documento > 0) {
+      params =  params.set('documento', documento.toString());
     }
     return this.http.get<SolicitudDeTraslado[]>(this.apiUrl, {params: params})
   }
 
-  list(documento: number = 0 ): Observable<SolicitudDeTraslado[]> {
-    let params = new HttpParams().set('sucursal', this.sucursal.id);
-    if (documento > 0) {
+  porAtender(documento: number = 0 ) {
+    let params = new HttpParams()
+      .set('sucursalAtiende', this.sucursal.id)
+      .set('porAtender','porAtender');
+    if (documento) {
       params =  params.set('documento', documento.toString());
     }
     return this.http.get<SolicitudDeTraslado[]>(this.apiUrl, {params: params})
@@ -61,26 +63,10 @@ export class SolicitudesService {
     return this.http.delete(url);
   }
 
-  inventariar(dev: SolicitudDeTraslado) {
-    const url = `${this.apiUrl}/${dev.id}`;
-    return this.http.put(url, dev, {
-      params: new HttpParams().set('inventariar', 'inventariar')
-    });
-  }
-
-  porAtender() {
-    const params = new HttpParams().set('sucursal', this.sucursal.id);
-    const url = `${this.apiUrl}/porAtender`;
-    return this.http.get<SolicitudDeTraslado[]>(url, {params: params})
-  }
-
-  buscarSolicitudPendiente( filtro: {sucursal: string; documento: string} ): Observable<SolicitudDeTraslado> {
-    let params = new HttpParams();
-    _.forIn(filtro, (value, key) => {
-      params = params.set(key, value);
-    });
-    const url = `${this.apiUrl}/buscarSolicitudPendiente`;
-    return this.http.get<SolicitudDeTraslado>(url, {params: params})
+  atender(sol: SolicitudDeTraslado) {
+    sol.atender = new Date().toISOString()
+    const url = `${this.apiUrl}/${sol.id}`;
+    return this.http.put(url, sol);
   }
 
   print(id: string) {

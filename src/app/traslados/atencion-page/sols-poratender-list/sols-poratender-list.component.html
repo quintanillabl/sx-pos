@@ -10,7 +10,7 @@
     </span>
     <span flex></span>
     <span hide-xs hide-sm hide-md flex-gt-xs="60"  layout-gt-xs="row" layout-align="start center">
-      <span flex class=" tc-blue-500" flex-gt-xs="10" > Atiende</span>
+      <span flex class=" tc-pink-500" flex-gt-xs="10" > Solicita</span>
     </span>
   </md-list-item>
   <md-divider></md-divider>
@@ -21,7 +21,7 @@
         <span md-line >
           <span layout layout-padding>
             <span flex="20" class="tc-indigo-700">
-              <button [routerLink]="['show', row.id]" md-button class="text-left">
+              <button [routerLink]="['edit', row.id]" md-button class="text-left">
                   {{row.documento}} 
               </button>
               
@@ -32,7 +32,7 @@
         </span>
         <span flex></span>
         <span hide-xs hide-sm hide-md flex-gt-xs="60" flex-xs="20" layout-gt-xs="row">
-          <div class=" tc-blue-500" flex-gt-xs="50" > {{row.sucursalAtiende.nombre}} </div>
+          <div class=" tc-blue-500" flex-gt-xs="50" > {{row.sucursalSolicita.nombre}} </div>
         </span>
         <span>
           <button md-icon-button (click)="print.emit(row)"><md-icon>print</md-icon></button>
@@ -42,9 +42,6 @@
           <md-icon [ngClass]="{'tc-blue-600':odd }">more_vert</md-icon>
           </button>
           <md-menu x-position="before" #menu="mdMenu">
-            <a [routerLink]="['show', row.id]" md-menu-item [disabled]="false">
-              <md-icon>info</md-icon> Consultar
-            </a>
             <a [routerLink]="['edit', row.id]" md-menu-item [disabled]="true">
                 <md-icon>edit</md-icon> Editar
             </a>

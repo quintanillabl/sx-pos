@@ -14,6 +14,7 @@ import { SolicitudPartidasListComponent } from './_components/solicitud-partidas
 import { SoldetAddComponent } from './_components/soldet-add/soldet-add.component';
 import { SolShowPageComponent } from './solicitudes-page/sol-show-page.component';
 import { SolsPoratenderListComponent } from './atencion-page/sols-poratender-list/sols-poratender-list.component';
+import { SolAtencionComponent } from './atencion-page/sol-atencion/sol-atencion.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { SolsPoratenderListComponent } from './atencion-page/sols-poratender-lis
     SolicitudPartidasListComponent,
     SoldetAddComponent,
     SolShowPageComponent,
-    SolsPoratenderListComponent],
+    SolsPoratenderListComponent,
+    SolAtencionComponent],
   providers: [SolicitudesService],
   entryComponents: [SoldetAddComponent]
 })

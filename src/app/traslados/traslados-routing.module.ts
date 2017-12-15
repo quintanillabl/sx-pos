@@ -7,6 +7,7 @@ import {RecepcionesPageComponent} from './recepciones-page/recepciones-page.comp
 import {AtencionPageComponent} from './atencion-page/atencion-page.component';
 import {SolCreatePageComponent} from './solicitudes-page/sol-create-page.component';
 import { SolShowPageComponent} from './solicitudes-page/sol-show-page.component';
+import { SolAtencionComponent } from './atencion-page/sol-atencion/sol-atencion.component';
 
 
 
@@ -36,6 +37,10 @@ const routes: Routes = [
       {
         path: 'atencion',
         component: AtencionPageComponent
+      },
+      {
+        path: 'atencion/edit/:id',
+        component: SolAtencionComponent
       },
       {
         path: 'recepciones',

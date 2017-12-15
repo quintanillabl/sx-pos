@@ -36,7 +36,7 @@ export class AtencionPageComponent implements OnInit {
       this.solicitudes$ = Observable.combineLatest(obs1, obs2, (term, reload) => {
         return term ? term : null;
       }).switchMap( documento => this.service
-        .list(documento)
+        .porAtender(documento)
         .do( () => this.procesando = true)
         .delay(300)
         .finally( () => this.procesando = false));

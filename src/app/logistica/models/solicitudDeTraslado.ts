@@ -17,4 +17,5 @@ export interface SolicitudDeTraslado {
   lastUpdated?: string;
   createUser?: string;
   updateUser?: string;
+  atender?: any
 }
