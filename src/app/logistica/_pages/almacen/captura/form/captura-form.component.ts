@@ -2,7 +2,7 @@ import {
   Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef,
   OnChanges, SimpleChanges
 } from '@angular/core';
-import {FormGroup, FormBuilder, FormArray, Validators, FormControl} from '@angular/forms';
+import {FormGroup, FormBuilder, FormArray, Validators, FormControl, AbstractControl} from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import * as _ from 'lodash';
@@ -160,5 +160,6 @@ export class CapturaFormComponent implements OnInit, OnChanges {
   get fecha() {
     return this.form.get('fecha').value;
   }
+
 
 }

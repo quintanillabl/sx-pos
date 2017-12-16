@@ -8,6 +8,7 @@ import { SolicitudDeTraslado } from 'app/logistica/models/solicitudDeTraslado';
 import { SolicitudesService } from 'app/traslados/services/solicitudes.service';
 
 
+
 const DECIMAL_FORMAT: (v: any) => any = (v: number) => v.toFixed(3);
 
 @Component({
@@ -23,10 +24,10 @@ export class SolShowPageComponent implements OnInit {
 
   columns: ITdDataTableColumn[] = [
     { name: 'producto.clave',  label: 'Producto', width: 50 },
-    { name: 'producto.descripcion', label: 'Descripcion', width: 350},
-    { name: 'solicitado', label: 'Solicitado', numeric: true, format: DECIMAL_FORMAT, width: 100},
-    { name: 'solicitado', label: 'Recibido', numeric: true, format: DECIMAL_FORMAT, width: 100},
-    { name: 'comentario', label: 'Comentario', width: 300},
+    { name: 'producto.descripcion', label: 'Descripcion', width: 450},
+    { name: 'solicitado', label: 'Solicitado', numeric: true, width: 100},
+    { name: 'recibido', label: 'Recibido', numeric: true, format: DECIMAL_FORMAT, width: 100},
+    { name: 'comentario', label: 'Comentario', width: 400},
   ];
 
   constructor(
@@ -34,7 +35,7 @@ export class SolShowPageComponent implements OnInit {
     private route: ActivatedRoute,
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
-    private service: SolicitudesService
+    private service: SolicitudesService,
   ) { }
 
   ngOnInit() {
@@ -62,8 +63,8 @@ export class SolShowPageComponent implements OnInit {
     .subscribe( () => {
       this.router.navigate(['/traslados/solicitudes']);
     }, error2 => console.error(error2))
-  } 
-  
+  }
+
   print(sol: SolicitudDeTraslado) {
     this.procesando = true;
     this.service.print(sol.id)

@@ -23,6 +23,20 @@
         <td-data-table
           [data]="sol.partidas"
           [columns]="columns">
+          <ng-template tdDataTableTemplate="solicitado" let-value="value" let-row="row">
+            <span>{{value | number:'1.0-0'}}</span>
+          </ng-template>
+
+          <!--<ng-template tdDataTableTemplate="recibido" let-value="value" let-row="row">
+            <span>{{value | number:'1.0-0'}}</span>
+          </ng-template>-->
+
+          <ng-template tdDataTableTemplate="recibido" let-value="value" let-row="row" >
+            <div [style.min-width.px]="150">
+              <input type="text" value="{{value}}" (blur)="modificarRecibido(row, ifield.value)" #ifield sxOnlyNumbers [style.width.%]="90">
+            </div>
+          </ng-template>
+
         </td-data-table>
       <md-divider></md-divider>
 
@@ -32,8 +46,8 @@
           <button md-icon-button (click)="print(sol)" mdTooltip="Imprimir documento">
             <md-icon>print</md-icon>
           </button>
-          
-          <button md-button color="accent"  (click)="atender(sol)" >  
+
+          <button md-button color="accent"  (click)="atender(sol)" >
             <md-icon >check</md-icon> Atender
           </button>
         </md-card-actions>

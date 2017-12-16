@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     const appConfig: AppConfig = JSON.parse(localStorage.getItem('appConfig')) ;
-    if(appConfig == null) {
+    if (appConfig == null) {
       console.log('Sin AppConfig...');
       this.store.dispatch(new Auth.LoginRedirect({ queryParams: { returnUrl: state.url }}));
       return Observable.of(false);

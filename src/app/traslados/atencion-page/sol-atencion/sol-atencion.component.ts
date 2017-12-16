@@ -27,8 +27,8 @@ export class SolAtencionComponent implements OnInit {
   columns: ITdDataTableColumn[] = [
     { name: 'producto.clave',  label: 'Producto', width: 60 },
     { name: 'producto.descripcion', label: 'Descripcion', width: 650},
-    { name: 'solicitado', label: 'Solicitado', format: DECIMAL_FORMAT, width: 70},
-    { name: 'solicitado', label: 'Recibido', format: DECIMAL_FORMAT, width: 70},
+    { name: 'solicitado', label: 'Solicitado', format: DECIMAL_FORMAT, width: 150},
+    { name: 'recibido', label: 'Recibido', format: DECIMAL_FORMAT, width: 150},
     { name: 'comentario', label: 'Comentario', width: 300},
   ];
 
@@ -49,16 +49,26 @@ export class SolAtencionComponent implements OnInit {
   }
 
   atender(sol: SolicitudDeTraslado) {
-    const dialogRef = this.dialog.open(AtenderSolComponent, {
-      data: {
-        choferes: this.choferes
-      }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.doAtender(sol, result.chofer, result.comentario)
-      }
-    });
+    if (!this.validar(sol)) {
+      this._dialogService.openAlert({
+        message: 'No se puede atender hasta que no se registre cuando menos una partida con recibido',
+        viewContainerRef: this._viewContainerRef,
+        title: 'Solicitud incompleta',
+        closeButton: 'Cerrar',
+      })
+      return;
+    } else {
+      const dialogRef = this.dialog.open(AtenderSolComponent, {
+        data: {
+          choferes: this.choferes
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.doAtender(sol, result.chofer, result.comentario)
+        }
+      });
+    }
   }
 
   private doAtender(sol: SolicitudDeTraslado, chofer, comentario) {
@@ -68,8 +78,13 @@ export class SolAtencionComponent implements OnInit {
     .subscribe( () => {
       this.router.navigate(['/traslados/atencion']);
     }, error2 => console.error(error2))
-  } 
-  
+  }
+
+  private validar(sol: SolicitudDeTraslado) {
+    const found = sol.partidas.find( item => item.recibido > 0);
+    return found
+  }
+
   print(sol: SolicitudDeTraslado) {
     this.procesando = true;
     this.service.print(sol.id)
@@ -83,6 +98,9 @@ export class SolAtencionComponent implements OnInit {
       }, error2 => console.error(error2));
   }
 
+  modificarRecibido(row, value) {
+    row.recibido = value;
+  }
 
 }
 
