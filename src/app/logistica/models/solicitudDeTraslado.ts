@@ -18,4 +18,5 @@ export interface SolicitudDeTraslado {
   createUser?: string;
   updateUser?: string;
   atender?: any
+  chofer?: any
 }

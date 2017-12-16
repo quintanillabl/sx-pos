@@ -18,7 +18,7 @@ export class SolicitudesService {
     private http: HttpClient,
     private configService: ConfigService
   ) {
-    this.configService.get().subscribe( conf => this.sucursal = conf.sucursal);
+    this.sucursal = configService.getCurrentSucursal();
   }
 
   get(id: string): Observable<SolicitudDeDeposito> {

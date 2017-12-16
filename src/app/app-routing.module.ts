@@ -16,18 +16,21 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent},
       { path: 'compras', loadChildren: './compras/compras.module#ComprasModule'},
       { path: 'logistica', loadChildren: './logistica/logistica.module#LogisticaModule'},
+      
       {
         path: '',
         redirectTo: '/home',
         pathMatch: 'full'
       },
+      
       // { path: '**', component: PageNotFoundComponent }
     ],
     canActivate: [AuthGuard],
   },
   {
     path: 'ventas',
-    loadChildren: './ventas/ventas.module#VentasModule'
+    loadChildren: './ventas/ventas.module#VentasModule',
+    canActivate: [AuthGuard]
   },
   {
     path: 'caja',

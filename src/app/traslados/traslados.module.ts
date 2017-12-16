@@ -15,6 +15,11 @@ import { SoldetAddComponent } from './_components/soldet-add/soldet-add.componen
 import { SolShowPageComponent } from './solicitudes-page/sol-show-page.component';
 import { SolsPoratenderListComponent } from './atencion-page/sols-poratender-list/sols-poratender-list.component';
 import { SolAtencionComponent } from './atencion-page/sol-atencion/sol-atencion.component';
+import { SalidasPageComponent } from './salidas-page/salidas-page.component';
+import { TrasladosService } from 'app/traslados/services/traslados.service';
+import { TpsListComponent } from './salidas-page/tps-list/tps-list.component';
+import { AtenderSolComponent } from './atencion-page/atender-sol/atender-sol.component';
+import { SalidaShowComponent } from './salidas-page/salida-show/salida-show.component';
 
 
 @NgModule({
@@ -31,8 +36,12 @@ import { SolAtencionComponent } from './atencion-page/sol-atencion/sol-atencion.
     SoldetAddComponent,
     SolShowPageComponent,
     SolsPoratenderListComponent,
-    SolAtencionComponent],
-  providers: [SolicitudesService],
-  entryComponents: [SoldetAddComponent]
+    SolAtencionComponent,
+    SalidasPageComponent,
+    TpsListComponent,
+    AtenderSolComponent,
+    SalidaShowComponent],
+  providers: [SolicitudesService, TrasladosService],
+  entryComponents: [SoldetAddComponent, AtenderSolComponent]
 })
 export class TrasladosModule { }

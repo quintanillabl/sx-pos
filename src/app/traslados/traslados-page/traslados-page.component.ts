@@ -23,8 +23,9 @@ export class TrasladosPageComponent implements AfterViewInit {
   navigation = [
     {route: 'solicitudes', title: 'Solicitudes', descripcion: 'Solicitude de material', icon: 'shopping_basket'},
     {route: 'atencion', title: 'Atención', descripcion: 'Solicitudes por atender', icon: 'account_circle'},
-    {route: 'recepciones', title: 'Recepción', descripcion: 'Entrada de traskadis', icon: 'loyalty'},
-    {route: 'historico', title: 'Histórico', descripcion: 'Registro de traslados de material', icon:  'local_shipping'},
+    {route: 'recepciones', title: 'TPEs', descripcion: 'Entrada de traslados', icon: 'flight_land'},
+    {route: 'salidas', title: 'TPSs', descripcion: 'Salidas de traslados', icon: 'flight_takeoff'},
+    {route: 'historico', title: 'Histórico', descripcion: 'Registro de traslados de material', icon:  'insert_chart'},
   ];
 
   constructor(

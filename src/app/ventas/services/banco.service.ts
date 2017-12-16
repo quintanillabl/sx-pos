@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { environment } from 'environments/environment';
@@ -19,8 +19,11 @@ export class BancoService {
   }
 
   findCuentasBancarias(): Observable<CuentaDeBanco[]> {
+    const params = new HttpParams()
+    .set('activa', 'activa')
+    .set('disponibleEnVenta', 'disponibleEnVenta');
     const url = `${environment.apiUrl}/tesoreria/cuentas`;
-    return this.http.get<CuentaDeBanco[]>(url)
+    return this.http.get<CuentaDeBanco[]>(url, {params: params})
   }
 
 }

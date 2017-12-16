@@ -63,10 +63,13 @@ export class SolicitudesService {
     return this.http.delete(url);
   }
 
-  atender(sol: SolicitudDeTraslado) {
-    sol.atender = new Date().toISOString()
-    const url = `${this.apiUrl}/${sol.id}`;
-    return this.http.put(url, sol);
+  atender(sol: SolicitudDeTraslado, chofer, comentario: string) {
+    // sol.atender = new Date().toISOString()
+    let params = new HttpParams()
+    .set('chofer_id', chofer)
+    .set('comentario',comentario);
+    const url = `${this.apiUrl}/atender/${sol.id}`;
+    return this.http.put(url, sol, { params: params});
   }
 
   print(id: string) {
@@ -81,6 +84,11 @@ export class SolicitudesService {
         responseType: 'blob'
       }
     );
+  }
+
+  choferes(): Observable<Array<any>> {
+    const url = environment.apiUrl + '/embarques/choferes';
+    return this.http.get<Array<any>>(url);
   }
 
 }

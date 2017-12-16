@@ -3,9 +3,11 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { Router, ActivatedRoute } from '@angular/router';
 import {ITdDataTableColumn, TdDialogService} from '@covalent/core';
+import {MdDialog} from '@angular/material';
 
 import { SolicitudDeTraslado } from 'app/logistica/models/solicitudDeTraslado';
 import { SolicitudesService } from 'app/traslados/services/solicitudes.service';
+import { AtenderSolComponent } from '@siipapx/traslados/atencion-page/atender-sol/atender-sol.component';
 
 
 const DECIMAL_FORMAT: (v: any) => any = (v: number) => v.toFixed(3);
@@ -20,6 +22,7 @@ export class SolAtencionComponent implements OnInit {
   sol$: Observable<SolicitudDeTraslado>;
   loading$: Observable<boolean>;
   procesando = false;
+  choferes = [];
 
   columns: ITdDataTableColumn[] = [
     { name: 'producto.clave',  label: 'Producto', width: 60 },
@@ -34,30 +37,33 @@ export class SolAtencionComponent implements OnInit {
     private route: ActivatedRoute,
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
+    public dialog: MdDialog,
     private service: SolicitudesService
   ) { }
 
   ngOnInit() {
     this.sol$ = this.route.paramMap.switchMap( params => this.service.get(params.get('id')));
+    this.service.choferes().subscribe( data => {
+      this.choferes = data;
+    });
   }
 
   atender(sol: SolicitudDeTraslado) {
-    this._dialogService.openConfirm({
-      message: `SOL ${sol.documento}`,
-      viewContainerRef: this._viewContainerRef,
-      title: 'Generar traslado',
-      cancelButton: 'Cancelar',
-      acceptButton: 'Aceptar',
-    }).afterClosed().subscribe((accept: boolean) => {
-      if (accept) {
-        this.doAtender(sol);
+    const dialogRef = this.dialog.open(AtenderSolComponent, {
+      data: {
+        choferes: this.choferes
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.doAtender(sol, result.chofer, result.comentario)
       }
     });
   }
 
-  private doAtender(sol: SolicitudDeTraslado) {
+  private doAtender(sol: SolicitudDeTraslado, chofer, comentario) {
     this.procesando = true;
-    this.service.atender(sol)
+    this.service.atender(sol, chofer, comentario)
     .finally( () => this.procesando = false)
     .subscribe( () => {
       this.router.navigate(['/traslados/atencion']);
@@ -76,6 +82,7 @@ export class SolAtencionComponent implements OnInit {
         window.open(fileURL, '_blank');
       }, error2 => console.error(error2));
   }
+
 
 }
 
