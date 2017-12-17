@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnDestroy, 
+import {Component, Input, OnInit, OnDestroy,
   forwardRef, ChangeDetectionStrategy, ViewChild, ElementRef} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
@@ -52,7 +52,7 @@ export class ProductoFieldComponent implements OnInit, ControlValueAccessor, OnD
 
     this.prepareControl();
   }
-  
+
   private prepareControl() {
     this.subscription = this.searchControl
       .valueChanges
@@ -62,7 +62,7 @@ export class ProductoFieldComponent implements OnInit, ControlValueAccessor, OnD
         if( _.isObject(value)) {
           this.onChange(value);
         } else {
-          this.onChange(null);
+          // this.onChange(null);
         }
       });
   }
@@ -76,7 +76,7 @@ export class ProductoFieldComponent implements OnInit, ControlValueAccessor, OnD
       .set('term', term);
     if (this.activos === true) {
       params = params.set('activos','activos')
-    }  
+    }
     return this.http.get<Producto[]>(this.apiUrl, {params: params});
   }
 

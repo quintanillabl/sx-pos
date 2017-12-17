@@ -1,0 +1,32 @@
+<div layout="row" >
+  <md-card flex >
+    
+    <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+      <span  class="push-left-sm" flex>
+          <span class="md-title">Cortes de caja (COBRANZA) </span>
+      </span>
+      <span >
+        <button md-icon-button [md-menu-trigger-for]="menu"  >
+          <md-icon >more_vert</md-icon>
+        </button>
+        <md-menu x-position="before" #menu="mdMenu">
+          <button   md-menu-item (click)="load()" ><md-icon>refresh</md-icon> Refrescar</button>
+          <button   md-menu-item (click)="efectivo()"><md-icon>attach_money</md-icon> Efectivo</button>
+          <button   md-menu-item (click)="cheques()"><md-icon>account_balance_wallet</md-icon> Cheques</button>
+          <button   md-menu-item (click)="tarjeta()"><md-icon>credit_card</md-icon> Tarjeta</button>
+          <button   md-menu-item (click)="depositos()"><md-icon>local_atm</md-icon> Depositos</button>
+          <button   md-menu-item (click)="cambioDeCheque()"><md-icon>swap_horiz</md-icon> Cambio de cheque</button>
+        </md-menu>
+      </span>
+    </div>
+    
+    <md-divider></md-divider>
+    <md-card-content class="facturas-panel">
+      <sx-corte-cobranza-list [cortes]="cortes"></sx-corte-cobranza-list>
+    </md-card-content>
+  </md-card>
+</div>
+    
+  
+    
+    

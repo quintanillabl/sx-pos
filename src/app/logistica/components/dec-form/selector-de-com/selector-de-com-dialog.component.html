@@ -1,0 +1,44 @@
+
+  <h4 md-dialog-title>
+    <span *ngIf="!com">Selector de recepción de compra (COM)</span>
+    <span *ngIf="com"> COM: {{com.documento}}  {{(com.proveedor.nombre)}}</span>
+  </h4>
+
+<div layout="column" class="selector-form" >
+
+  <form novalidate (ngSubmit)="buscarCom()" [formGroup]="form" *ngIf="!com">
+    <div layout>
+
+      <md-form-field flex>
+        <input type="text" mdInput placeholder="Documento" formControlName="documento">
+        <md-error>El documento requerido</md-error>
+      </md-form-field>
+
+      <md-form-field >
+        <input type="text" mdInput placeholder="Sucursal" [value]="sucursal.nombre" disabled="true">
+      </md-form-field>
+      <button md-button type="submit">Buscar</button>
+
+    </div>
+  </form>
+
+  <div *ngIf="error">
+    {{error}}
+  </div>
+
+  <ng-container *ngIf="com">
+    
+      <!-- <td-json-formatter [data]="disponibles" [levelsOpen]="1">
+        </td-json-formatter> -->
+     <sx-dec-comdet-grid [data]="disponibles" [selectedRows]="selectedRows"></sx-dec-comdet-grid>
+    <!-- <sx-dec-compradet-grid [data]="disponibles" [selectedRows]="selectedRows">
+    </sx-dec-compradet-grid> -->
+
+  </ng-container>
+
+</div>
+<md-dialog-actions>
+  <button md-button class="accent" type="button" [disabled]="!com" (click)="doAccept()">Aceptar</button>
+  <button md-button type="button" (click)="close()" >Cancelar</button>
+</md-dialog-actions>
+

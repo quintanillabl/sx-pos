@@ -1,28 +1,98 @@
 import { Component, OnInit } from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {Store} from '@ngrx/store';
+import { Router } from '@angular/router';
+import {TdLoadingService} from '@covalent/core';
 
-import { AddNewClienteService } from "app/clientes/services/add-new-cliente/add-new-cliente.service";
+import * as fromRoot from 'app/reducers';
+import { Sucursal, Venta } from 'app/models';
+import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
+import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-new-cliente.service';
+
+
 
 @Component({
   selector: 'sx-pedido-create',
-  templateUrl: './pedido-create.component.html',
-  styleUrls: ['./pedido-create.component.scss']
+  template: `
+    <sx-nav-layout header="Pedidos" modulo="Ventas">
+      <div layout="column">
+        <sx-pedido-form
+          *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'"
+          (addNewCliente)="onAddNewCliente()"
+          (save)="onSave($event)"
+          (cambiarCfdiMail)="onCambioDeCfdiMail($event)"
+          [sucursal]="sucursal$ | async" [pedido]="pedido$ | async">
+        </sx-pedido-form>
+      </div>
+    </sx-nav-layout>
+  `
 })
 export class PedidoCreateComponent implements OnInit {
 
+  sucursal$: Observable<Sucursal>;
+  pedido$: Observable<Venta>;
+
   constructor(
-    private addNewClienteService: AddNewClienteService
+    private addNewClienteService: AddNewClienteService,
+    private store: Store<fromRoot.State>,
+    private service: PedidosService,
+    private loadingService: TdLoadingService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
-  }
-
-  onSearch(term: string) {
-    console.log('Buscando cliente: ', term);
-    
+    this.sucursal$ = this.store.select(fromRoot.getSucursal);
+    this.pedido$ = this.sucursal$.map( s => {
+      const p: Venta  = {
+        id: null,
+        sucursal: s,
+        fecha: new Date().toISOString(),
+        cliente: null,
+        tipo: 'CON',
+        documento: 0,
+        importe: 0,
+        descuento: 0,
+        descuentoImporte: 0,
+        subtotal: 0,
+        impuesto: 0,
+        impuestoTasa: 0,
+        total: 0,
+        formaDePago: 'EFECTIVO',
+        moneda: 'MXN',
+        tipoDeCambio: 0,
+        kilos: 0,
+        partidas: []
+      };
+      return p;
+    })
   }
 
   onAddNewCliente() {
     this.addNewClienteService.newCliente();
+  }
+
+  onCambioDeCfdiMail(cliente) {
+    console.log('Actualizando el CFDI del cliente');
+  }
+
+  onSave(pedido: Venta) {
+    console.log('Salvando pedido: ', pedido);
+    this.loadingService.register('saving');
+    this.service
+      .save(pedido)
+      .subscribe(
+        (res: any) => {
+          console.log('Persistencia exitosa: ', res);
+          this.loadingService.resolve('saving');
+          this.router.navigate(['/ventas/pedidos/pendientes'])
+        },
+        response => this.handlePostError(response)
+      );
+  }
+
+  private handlePostError(response) {
+    console.log('Error : ', response);
+    this.loadingService.resolve('saving');
   }
 
 }

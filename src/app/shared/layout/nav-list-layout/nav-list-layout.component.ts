@@ -1,6 +1,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input} from '@angular/core';
 import {TdMediaService} from '@covalent/core';
 import {Title} from '@angular/platform-browser';
+import { Sucursal } from 'app/models';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class NavListLayoutComponent implements AfterViewInit {
   @Input() sideNavWidth = '275px'
   
   @Input() modulo: string = "Modulo";
+
 
   constructor(
     private _changeDetectorRef: ChangeDetectorRef,

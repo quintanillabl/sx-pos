@@ -20,7 +20,8 @@
         </div>
       <md-divider></md-divider>
 
-      <md-card-content *tdLoading="'overlayStarSyntax'; let loading until !(loading$ | async); color: 'accent' strategy:'overlay';" class="page-grid">
+      <md-card-content  class="page-grid"
+        *tdLoading="'overlayStarSyntax'; let loading until !(loading$ | async); color: 'accent' strategy:'overlay';">
         <sx-ordenes-list [compras]="ordenes$ | async" ></sx-ordenes-list>
       </md-card-content>
     </md-card>

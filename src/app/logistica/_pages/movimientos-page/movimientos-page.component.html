@@ -3,11 +3,13 @@
   <md-card flex-gt-sm>
 
     <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
-      <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
-        <span class="md-title">Movimientos de inventario</span>
+      
+      <span  class="push-left-sm" flex>
+          <span class="md-title">Movimientos genéricos de inventario</span>
       </span>
+      
       <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" 
-        placeholder="Buscar " (searchDebounce)="search$.next($event)" flex>
+        placeholder="Documento " (searchDebounce)="search$.next($event)" flex>
       </td-search-box>
 
       <span>

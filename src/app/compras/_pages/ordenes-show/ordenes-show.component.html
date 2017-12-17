@@ -1,32 +1,41 @@
 <sx-nav-layout header="Consulta de compra" modulo="Compras">
-  <div layout>
+  <div layout *tdLoading="'processing'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
     <ng-container *ngIf="orden$ | async; let orden ">
-      <md-card flex="70">
+      <md-card flex="70" >
         <md-card-title>
-          <span> Orden: {{orden.folio}}</span> 
-          <span> {{orden.proveedor.nombre}} </span>
+          <span layout>
+            <span> Orden de compra: {{orden.folio}}</span> 
+            <span flex></span>
+            <span> {{orden.proveedor.nombre}} </span>
+          </span>
         </md-card-title>
-        <md-card-subtitle>{{orden.comentario}}</md-card-subtitle>  
+        <md-card-subtitle>
+          <span layout>
+            <span>{{orden.comentario}}</span>
+            <span flex></span>
+            <span>{{orden.fecha | date: 'dd/MM/yyyy'}}</span>  
+          </span>
+          
+        </md-card-subtitle>  
         <md-divider></md-divider>
-        <div layout layout-margin>
-          <span> {{orden.fecha | date: 'dd/MM/yyyy'}}</span>
-          <span> ({{orden.sucursal.nombre}})</span>
-        </div>
+        
         <md-card-content >
           <td-data-table [data]="orden.partidas" [columns]="columns" [style.height.px]="400">
           </td-data-table>
+          <!-- <td-json-formatter [data]="orden.partidas"></td-json-formatter> -->
         </md-card-content>    
         <md-divider></md-divider>
         <md-card-actions>
           <a md-button [routerLink]="['../../']" ><md-icon>keyboard_backspace</md-icon> Regresar </a>
-          <button md-icon-button mdTooltip="Imprimir documento"><md-icon>print</md-icon></button>
-          <button md-button color="warn" mdTooltip="Eliminar documento"  >  <md-icon >delete</md-icon> Eliminar</button>
+          <button md-icon-button mdTooltip="Imprimir documento" (click)="print()">
+            <md-icon>print</md-icon>
+          </button>
+          <a md-button color="accent" [routerLink]="['../../edit',orden.id]" *ngIf="orden.pendiente">
+            <md-icon >edit</md-icon> Editar
+          </a>
+          <button md-button color="warn" (click)="onDelete(orden)"> <md-icon >delete</md-icon> Eliminar</button>
         </md-card-actions>
       </md-card>
-      <!-- <pre>
-          <td-json-formatter [data]="orden" [levelsOpen]="0">
-          </td-json-formatter>
-      </pre> -->
       
     </ng-container>
   </div>

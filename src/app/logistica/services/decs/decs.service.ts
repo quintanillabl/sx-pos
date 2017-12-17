@@ -5,6 +5,9 @@ import * as _ from 'lodash';
 
 import { environment } from 'environments/environment';
 import { DevolucionDeCompra } from 'app/logistica/models/devolucionDeCompra';
+import { RecepcionDeCompra } from 'app/logistica/models/recepcionDeCompra';
+import { Sucursal } from 'app/models';
+import { ConfigService } from 'app/core/services/config.service';
 
 
 @Injectable()
@@ -12,21 +15,25 @@ export class DecsService {
 
   readonly apiUrl = environment.apiUrl + '/inventario/decs';
 
-  sucursal = {
-    id: '402880fc5e4ec411015e4ec64e70012e',
-    nombre: 'TACUBA'
+  sucursal: Sucursal;
+  
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService) 
+  {
+    this.sucursal = configService.getCurrentSucursal();
   }
-
-
-  constructor(private http: HttpClient) { }
 
   get(id: string): Observable<DevolucionDeCompra> {
     let url = `${this.apiUrl}/${id}`;
     return this.http.get<DevolucionDeCompra>(url)
   }
 
-  list(): Observable<DevolucionDeCompra[]> {
+  list(documento?: string ): Observable<DevolucionDeCompra[]> {
     let params = new HttpParams().set('sucursal',this.sucursal.id);
+    if(documento){
+      params =  params.set('documento', documento);
+    }
     return this.http.get<DevolucionDeCompra[]>(this.apiUrl, {params: params})
   }
   
@@ -49,13 +56,13 @@ export class DecsService {
     });
   }
 
-  buscarCompra( filtro: {sucursal: string; tipo: string, documento: string, fecha?: string} ){
+  buscarCom( filtro: {sucursal: string; tipo: string, documento: string, fecha?: string} ): Observable<RecepcionDeCompra>{
     let params = new HttpParams();
     _.forIn(filtro, (value, key) =>{
       params = params.set(key,value);
     });
-    const url = `${this.apiUrl}/buscarCompra`;
-    return this.http.get<any[]>(url, {params: params})
+    const url = `${this.apiUrl}/buscarCom`;
+    return this.http.get<RecepcionDeCompra>(url, {params: params})
   }
 
 }

@@ -1,39 +1,50 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ITdDataTableColumn } from '@covalent/core';
+import { Component, OnInit, Output,
+  EventEmitter, Input, SimpleChange, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { ITdDataTableColumn, TdDataTableComponent } from '@covalent/core';
+import { FormGroup } from '@angular/forms';
+import * as _ from 'lodash';
 
-const NUMBER_FORMAT: (v: any) => any = (v: number) => v;
-const DECIMAL_FORMAT: (v: any) => any = (v: number) => v.toFixed(2);
+import {VentaDet} from 'app/models';
 
 @Component({
   selector: 'sx-pedido-partidas-grid',
   templateUrl: './partidas-grid.component.html',
-  styleUrls: ['./partidas-grid.component.scss']
+  styleUrls: ['./partidas-grid.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PartidasGridComponent implements OnInit {
 
-  @Output() insert = new EventEmitter(); 
+  @Output() delete = new EventEmitter();
 
-  configWidthColumns: ITdDataTableColumn[] = [
-    { name: 'sinExistencia',  label: 'S/E' },
-    { name: 'clave', label: 'Clave', width: 5},
-    { name: 'descripcion', label: 'Producto', width: 50},
-    { name: 'precio', label: 'Precio', numeric: true, format: DECIMAL_FORMAT, width: 5},
-    { name: 'importeBruto', label: 'Imp Bruto', numeric: true, format: DECIMAL_FORMAT, width: 5},
-    { name: 'descuento', label: 'Desc(%)', numeric: true, format: DECIMAL_FORMAT, width: 5},
-    { name: 'subTotal', label: 'Sub Total', numeric: true, format: DECIMAL_FORMAT, width: 5},
-    { name: 'corte', label: 'Corte', numeric: true, format: DECIMAL_FORMAT, width: 5},
-    { name: 'cortes', label: 'Cortes #', numeric: true, format: NUMBER_FORMAT, width: 5},
-    { name: 'creado', label: 'Creado', width: 5},
-    { name: 'vale', label: 'Vale', width: 5},
-  ];
+  @Output() edit = new EventEmitter();
 
-  partidas: any[] = [];
-  
+  @Output() cambioDePrecio = new EventEmitter();
 
-  constructor() { }
+  @Input() partidas = [];
 
-  ngOnInit() {
-    
+  @Input() parent: FormGroup;
+
+  constructor(
+    private cd: ChangeDetectorRef
+  ) {}
+
+  ngOnInit() {}
+
+  refresh() {
+    this.cd.detectChanges();
   }
 
+  isEditable(row: VentaDet) {
+   const MANIOBRAS = ['CORTE', 'MANIOBRA', 'MANIOBRAF'];
+    return !_.includes(MANIOBRAS, row.producto.clave )
+  }
+
+  isEliminable(row: VentaDet) {
+    const MANIOBRAS = ['CORTE', 'MANIOBRA'];
+     return !_.includes(MANIOBRAS, row.producto.clave )
+   }
+
+  get invalid() {
+    return this.parent.hasError('sinPartidas');
+  }
 }

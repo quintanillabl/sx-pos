@@ -1,0 +1,27 @@
+<form novalidate [formGroup]="form" (ngSubmit)="doAccept()" class="det-form">
+
+  <h4 md-dialog-title>
+    Agregando producto {{proveedor.nombre}}
+  </h4>
+  
+  <div layout>
+    
+    <sx-producto-prov-field [proveedor]="proveedor" formControlName="producto" [excludes]="selected"
+       flex></sx-producto-prov-field>
+    
+    
+  </div>
+  
+  <div layout>
+    <md-form-field>
+      <input type="text" mdInput placeholder="Cantidad" formControlName="solicitado">
+    </md-form-field>
+    <sx-comentario-field [parent]="form" rows="1" flex></sx-comentario-field>
+  </div>
+
+  <md-dialog-actions>
+    <button md-button class="accent" type="submit" [disabled]="form.invalid">Aceptar</button>
+    <button md-button type="button" (click)="close()" >Cancelar</button>
+  </md-dialog-actions>
+  
+</form>

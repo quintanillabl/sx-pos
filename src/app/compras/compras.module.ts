@@ -8,44 +8,40 @@ import { SharedModule } from "../shared/shared.module";
 //ngrx stuff 
 import { reducers } from './store/reducers';
 import { OrdenesEffects } from './store/effects/ordenes.effects';
+import { CompraFormEffects } from './store/effects/compra-form.effects';
 
 //Services
 import { OrdenesService } from "./services/ordenes.service";
+import { ProveedoresService } from '@siipapx/compras/services/proveedores.service';
+
 // Presentational components
-import { OrdenAddPartidaComponent } from './_components/orden-add-partida/orden-add-partida.component';
-import { ProveedorFieldComponent } from './_components/proveedor-field/proveedor-field.component';
-import { OrdenPartidasListComponent } from './_components/orden-partidas-list/orden-partidas-list.component';
 import { OrdenesListComponent } from './_components/ordenes-list/ordenes-list.component';
 import { RecepcionesPendientesComponent } from './_components/recepciones-pendientes/recepciones-pendientes.component';
 import { RecepcionesRegistradasComponent } from './_components/recepciones-registradas/recepciones-registradas.component';
 import { DevolucionesComponent } from './_components/devoluciones/devoluciones.component';
+
+// Presentational components
+import * as components from './_components';
 // Container components
-import { 
-  MainDashboardComponent,
-  MainPageComponent,
-  OrdenesPageComponent,
-  OrdenesCreatePageComponent,
-  RecepcionesPageComponent,
-  OrdenesShowComponent,
-} from './_pages';
-
-
+import * as pages from './_pages';
 
 const PAGES  = [
-  MainPageComponent,
-  MainDashboardComponent,
-  OrdenesPageComponent, 
-  OrdenesCreatePageComponent, 
-  RecepcionesPageComponent,
-  OrdenesShowComponent,
-  
+  pages.MainPageComponent,
+  pages.MainDashboardComponent,
+  pages.OrdenesPageComponent, 
+  pages.OrdenesCreatePageComponent, 
+  pages.RecepcionesPageComponent,
+  pages.OrdenesShowComponent,
 ];
 
 const COMPONENTS  = [
-  OrdenAddPartidaComponent, 
-  ProveedorFieldComponent, 
-  OrdenPartidasListComponent, 
-  OrdenesListComponent
+  components.OrdenFormComponent,
+  components.OrdenPartidasListComponent,
+  components.ProveedorFieldComponent,
+  components.OrdenAddPartidaBtnComponent,
+  components.OrdendetAddDialogComponent,
+  components.ProductoProvFieldComponent,
+  OrdenesListComponent,
 ];
 
 @NgModule({
@@ -59,15 +55,17 @@ const COMPONENTS  = [
     /**
      * Side Effects for the module
      */
-    EffectsModule.forFeature([OrdenesEffects])
+    EffectsModule.forFeature([OrdenesEffects, CompraFormEffects])
   ],
   declarations: [
     ...COMPONENTS,
     ...PAGES,
     RecepcionesPendientesComponent,
     RecepcionesRegistradasComponent,
-    DevolucionesComponent],
+    DevolucionesComponent
+  ],
+  entryComponents: [components.OrdendetAddDialogComponent],
   // Services
-  providers: [OrdenesService]
+  providers: [OrdenesService, ProveedoresService]
 })
 export class ComprasModule { }

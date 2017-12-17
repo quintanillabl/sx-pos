@@ -1,52 +1,70 @@
-<form novalidate [formGroup]="form" layout="row" class="pedido-form">
-  
-  <md-card flex="70" >
-    
-    <sx-pedido-toolbar (addCliente)="onAddNewCliente()" ></sx-pedido-toolbar>
-    <md-divider></md-divider>
-    <sx-pedido-header></sx-pedido-header>
+<form novalidate [formGroup]="form" layout="row" class="pedido-form" (ngSubmit)="onSave()" >
+
+  <md-card flex="80" >
+    <sx-pedido-header
+      (addCliente)="onAddNewCliente()" [parent]="form"
+      (insertar)="onInsertPartida()"
+      (descuento)="onDescuento()"
+      (cambiarCfdi)="onCambioDeCfdi($event)"
+      (maniobra)="onManiobra()">
+    </sx-pedido-header>
     <md-divider></md-divider>
 
     <div layout="row" layout-margin>
-      <md-select placeholder="Tipo" formControlName="tipo" flex="10">
-        <md-option *ngFor="let tipo of ['CONTADO','CREDITO','COD','ANTICIPO','DOLARES','ACTIVOS']" 
-            [value]="tipo">{{ tipo }}
-        </md-option>
-      </md-select>
-      <md-select placeholder="Modo" formControlName="modo" flex="15">
-          <md-option *ngFor="let modo of ['MOSTRADOR','TELEFONICA']" 
-            [value]="modo">{{ modo }}</md-option>
-      </md-select>
-      <div layout layout-align="center center" flex="30">
-        <md-input-container flex>
-          <input type="text" mdInput placeholder="Comprador" fomControlName="comprador">
-        </md-input-container>
-        <md-checkbox>Mismo</md-checkbox>
-      </div>
-      <md-input-container flex>
-        <input type="text" mdInput placeholder="Facturista" [disabled]="'true'">
-      </md-input-container>
+      <sx-tipo-field [parent]="form"  ></sx-tipo-field>
+      <span layout ="column" layout-align="center center" class="pad">
+          <md-checkbox  labelPosition="before" formControlName="cod" mdTooltip="Contra entrega">COD</md-checkbox>
+      </span>
+      <sx-modo-field [parent]="form" flex="15"></sx-modo-field>
+      <sx-forma-de-pago [parent]="form" flex="15"></sx-forma-de-pago>
+      <sx-uso-cfdi [parent]="form" flex></sx-uso-cfdi>
+      <sx-comprador-field [parent]="form" flex></sx-comprador-field>
+      <section  flex>
+        <md-checkbox class="text-md"  (change)="onPuesto($event)" formControlName="isPuesto">Puesto</md-checkbox>
+      </section>
+
     </div>
     <md-divider></md-divider>
-    <md-card-content >
-      <div layout="column">
-        <sx-pedido-partidas-grid flex (insert)="onInsertPartida()" ></sx-pedido-partidas-grid>
-      </div>
-    </md-card-content>
-    
+
+    <sx-pedido-partidas-grid flex
+      [partidas]="partidas.value"
+      [parent]="form"
+      (delete)="onDelete($event)"
+      (edit)="onEditPartida($event)"
+      (cambioDePrecio)="onCambioDePrecio($event)">
+    </sx-pedido-partidas-grid>
+    <sx-validation-panel [parent]="form"></sx-validation-panel>
   </md-card>
 
-  <div flex="30">
+  <div flex="20">
     <md-card >
       <td-expansion-panel-group>
+        <sx-pedido-totales-panel [parent]="form"></sx-pedido-totales-panel>
         <sx-pedido-envio-panel [parent]="form"></sx-pedido-envio-panel>
+        <sx-configuracion-vale [parent]="form"></sx-configuracion-vale>
         <sx-pedido-comentario-panel [parent]="form" ></sx-pedido-comentario-panel>
         <sx-pedido-cargos-panel [parent]="form"></sx-pedido-cargos-panel>
-        <sx-pedido-totales-panel [parent]="form"></sx-pedido-totales-panel>
-        
+
+
       </td-expansion-panel-group>
+      <md-divider></md-divider>
+      <md-card-actions>
+        <a  md-button [routerLink]="['/ventas/pedidos/pendientes']"> Cancelar </a>
+        <button type="submit" md-button [disabled]="form.invalid" > Salvar </button>
+
+        <button type="button" md-button  *ngIf="id"
+          mdTooltip="Eliminar pedido" color="warn" (click)="delete.emit(pedido)">
+            <md-icon>delete</md-icon> Eliminar
+        </button>
+        <!-- <button *ngIf="id" type="button" md-icon-button (click)="print.emit(id)"> <md-icon>print</md-icon></button> -->
+      </md-card-actions>
     </md-card>
   </div>
 
 </form>
+
+<!--
+<td-json-formatter [data]="form.getRawValue()"></td-json-formatter>
+-->
+
 

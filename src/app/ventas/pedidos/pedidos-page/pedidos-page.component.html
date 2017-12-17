@@ -1,30 +1,21 @@
-<td-layout-nav logo="assets:siipap-rx2"  navigationRoute="/" toolbarTitle="SX-POS">
-  
-  <button md-icon-button td-menu-button  tdLayoutToggle> 
-    <md-icon>menu</md-icon>
-  </button>
-
-  <div td-toolbar-content layout="row" layout-align="start center" flex>
-    <span flex></span>
-    <span> Pedidos </span>
-    <span flex></span>
-    <span> SX-POS (PEDIDOS)</span>
-    
-    <sx-prod-selector-btn></sx-prod-selector-btn>
-    <button md-icon-button><md-icon >settings</md-icon></button>
-    <sx-module-selector></sx-module-selector>
-  </div>
-
-  <div layout-gt-sm="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']">
-    
-    <!-- <sx-pedidos-pendientes flex-gt-sm="60">  </sx-pedidos-pendientes> -->
-    <div flex-gt-sm>
-        <router-outlet></router-outlet>
+<sx-nav-list-layout header="Pedidos" modulo="Ventas" headerIcon="shopping_cart"
+  [navigation]="navigation" >
+    <div toolbar flex layout>
+      <span flex></span>
+      <sx-factura-search></sx-factura-search>
     </div>
     
-  </div>
+    <router-outlet></router-outlet>
+<div class="reportes">
+  <h2 matSubheader>Reportes</h2>
 
-  <a md-fab color="accent" class="mat-fab-bottom-right" [routerLink]="['create']" style="bottom:20px; position: fixed;">
-    <md-icon>add</md-icon>
-  </a>
-</td-layout-nav>
+  <ng-template let-item let-last="last" ngFor [ngForOf]="reportes">
+    <md-list-item (click)="runReport(item.name)">
+      <md-icon md-list-icon>blur_linear</md-icon>
+      <h3 md-line> {{item.title}} </h3>
+    </md-list-item>
+    <md-divider md-inset *ngIf="!last"></md-divider>
+  </ng-template>
+</div>
+
+</sx-nav-list-layout>

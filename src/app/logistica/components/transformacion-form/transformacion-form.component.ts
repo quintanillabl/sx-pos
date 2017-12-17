@@ -1,9 +1,11 @@
-import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import {MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 
 import { TransformaciondetDialogComponent } from "./transformaciondet-dialog/transformaciondet-dialog.component";
+
+import { Sucursal } from 'app/models';
 
 @Component({
   selector: 'sx-transformacion-form',
@@ -21,6 +23,8 @@ export class TransformacionFormComponent implements OnInit {
   @Output() save = new EventEmitter();
   
   @Output() cancel = new EventEmitter();
+
+  @Input() sucursal: Sucursal
 
   constructor(
     private fb: FormBuilder,
@@ -49,12 +53,6 @@ export class TransformacionFormComponent implements OnInit {
     });
   }
   
-  get sucursal() {
-    return {
-      id: '402880fc5e4ec411015e4ec64e70012e',
-      nombre: 'TACUBA'
-    }
-  }
   
   get fecha() {
     return new Date()

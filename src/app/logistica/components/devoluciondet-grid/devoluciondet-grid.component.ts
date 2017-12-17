@@ -19,9 +19,9 @@ export class DevolucionDetGridComponent implements OnInit {
 
   columns: ITdDataTableColumn[] = [
     { name: 'producto.clave',  label: 'Producto', width: 50 },
-    { name: 'producto.descripcion', label: 'Descripcion', width: { min: 300, max: 450 }},
+    { name: 'producto.descripcion', label: 'Descripcion', width: { min: 300, max: 400 }},
     { name: 'cantidad', label: 'Cantidad', numeric: true, format: DECIMAL_FORMAT},
-    { name: 'comentario', label: 'Comentario', width: { min: 300, max: 450 }},
+    { name: 'comentario', label: 'Comentario', width: { min: 200, max: 450 }},
   ];
 
   @Input() partidas = [];

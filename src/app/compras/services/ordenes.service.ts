@@ -2,20 +2,25 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 
-import { Compra } from '../../models/compra';
-import { environment} from '../../../environments/environment';
+import { Compra, Proveedor, Sucursal } from 'app/models';
+import { ConfigService } from 'app/core/services/config.service';
+
+
+import { environment} from 'environments/environment';
 
 @Injectable()
 export class OrdenesService {
 
   readonly apiUrl = environment.apiUrl + '/compras';
 
-  sucursal = {
-    id: '402880fc5e4ec411015e4ec64e70012e',
-    nombre: 'TACUBA'
-  }
+  sucursal: Sucursal;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService
+  ) { 
+    this.sucursal = configService.getCurrentSucursal();
+  }
 
   buscarPendientes(folio?: string) {
     return this.list({pendientes: true, folio: folio})
@@ -41,6 +46,17 @@ export class OrdenesService {
   save(compra: Compra) {
     compra.folio = 0;
     return this.http.post(this.apiUrl, compra);
+  }
+
+  buscarProductos(proveedor: Proveedor){
+    let params = new HttpParams()
+      .set('activos','activos');
+    const url = `${environment.apiUrl}/proveedores/${proveedor.id}/productos`;
+    return this.http.get<Array<any>>(url, {params: params});
+  }
+
+  delete(id: string) {
+    return this.http.delete(this.apiUrl+'/'+id);
   }
 
 }

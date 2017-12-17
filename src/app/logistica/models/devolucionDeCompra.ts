@@ -1,11 +1,13 @@
 import { Sucursal, Proveedor } from 'app/models';
 import { DevolucionDeCompraDet } from './devolucionDeCompraDet';
+import { RecepcionDeCompra } from './recepcionDeCompra';
 
 export interface DevolucionDeCompra {
   id: string;
   sucursal: Sucursal;
   proveedor: Proveedor;
   documento: number;
+  recepcionDeCompra: RecepcionDeCompra
   notaCxp?: {};
   fecha: string;
   referencia?: string;

@@ -1,5 +1,3 @@
-
-
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
@@ -16,7 +14,6 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private store: Store<fromAuth.State>) {
 
     this.authentication$ = store.select(fromAuth.getAuthentication);
-
     this.authentication$.subscribe(auth => {
       this.token = auth.access_token;
     });
@@ -25,7 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>,
             next: HttpHandler): Observable<HttpEvent<any>> {
     const cloneRequest = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${this.token}`)
+      headers: req.headers.set('Authorization', `Bearer ${this.token}`),
     });
     return next.handle(cloneRequest);
   }

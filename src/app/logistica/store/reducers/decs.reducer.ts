@@ -17,13 +17,13 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: decs.Actions): State {
   switch (action.type) {
-    case decs.LOAD: {
+    case decs.SEARCH: {
       return {
         ...state,
         loading: true
       }
     }
-    case decs.LOAD_SUCCESS: {
+    case decs.SEARCH_SUCCESS: {
       return {
         ...state,
         entities: action.payload,

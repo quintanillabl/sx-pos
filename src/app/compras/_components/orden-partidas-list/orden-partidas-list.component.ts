@@ -1,27 +1,60 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { TdDialogService } from '@covalent/core';
+import * as _ from 'lodash'; 
+
+import { CompraDet } from 'app/models/compraDet';
 
 @Component({
   selector: 'sx-orden-partidas-list',
   templateUrl: './orden-partidas-list.component.html',
-  styles: []
+  styles: [''],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrdenPartidasListComponent implements OnInit {
 
-
   @Input() parent: FormGroup;
 
-  @Input() partidas = [];
+  @Input() partidas: CompraDet[];
 
-  @Output() remove = new EventEmitter<number>();
+  @Output() delete = new EventEmitter<number>();
 
-  constructor() { }
+  @Output() edit = new EventEmitter<any>();
+
+  
+  constructor(
+    private _dialogService: TdDialogService,
+  ) { }
 
   ngOnInit() {
+    
   }
 
-  doRemove(index: number) {
+  onDelete(index){
+    this.delete.emit(index);
+  }
 
+  onEdit(index) {
+    this.edit.emit(index);
+  }
+
+  editar(index, row) {
+    //this.edit.emit(row);
+    this._dialogService.openPrompt({
+      message: `Registre la cantidad a solicitar `,
+      value: row.cantidad,
+    }).afterClosed().subscribe((value: any) => {
+      
+      if (value !== undefined ) {
+        let cantidad = _.toSafeInteger(value);
+        if(cantidad > row.cantidad || cantidad <= 0){
+          cantidad = row.cantidad;
+        }
+        const e = { row: index, cantidad: cantidad};
+        this.edit.emit(e);
+      }
+    });
+    
   }
 
 }

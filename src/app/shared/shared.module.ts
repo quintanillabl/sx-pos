@@ -27,6 +27,12 @@ import { ConsultasRapidasComponent } from './_components/consultas-rapidas/consu
 import * as Layout from './layout';
 import { QvProductosBtnComponent } from './quick-views';
 import { DireccionFormComponent } from './_components/direccion-form/direccion-form.component';
+import { ClienteFieldComponent } from './_fields/cliente-field/cliente-field.component';
+import { OnlyNumbersDirective } from './directives/only-numbers.directive';
+import { FormaDePagoComponent } from './_fields/forma-de-pago/forma-de-pago.component';
+import { BancoFieldComponent } from './_fields/banco-field/banco-field.component';
+import { AlmacenesFieldComponent } from './_fields/almacenes-field/almacenes-field.component';
+import { SucursalLabelComponent } from './sucursal-label/sucursal-label.component';
 
 
 const FLEX_LAYOUT_MODULES: any[] = [
@@ -34,7 +40,7 @@ const FLEX_LAYOUT_MODULES: any[] = [
 ];
 
 const ANGULAR_MODULES: any[] = [
-  FormsModule, 
+  FormsModule,
   ReactiveFormsModule,
 ];
 
@@ -51,6 +57,7 @@ const COMPONENTS: any[] = [
   MonedaFieldComponent,
   DireccionFormComponent,
   QvProductosBtnComponent,
+  ClienteFieldComponent,
 ]
 
 @NgModule({
@@ -78,6 +85,11 @@ const COMPONENTS: any[] = [
     Layout.NavListLayoutComponent,
     Layout.ManageListLayoutComponent,
     DireccionFormComponent,
+    OnlyNumbersDirective,
+    FormaDePagoComponent,
+    BancoFieldComponent,
+    AlmacenesFieldComponent,
+    SucursalLabelComponent,
   ],
   exports: [
     ANGULAR_MODULES,
@@ -99,6 +111,10 @@ const COMPONENTS: any[] = [
     ExistenciaFieldComponent,
     GlobalUserNavListComponent,
     ConsultasRapidasComponent,
+    OnlyNumbersDirective,
+    FormaDePagoComponent,
+    BancoFieldComponent,
+    AlmacenesFieldComponent
   ],
 })
 export class SharedModule { }

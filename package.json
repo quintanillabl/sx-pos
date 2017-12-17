@@ -4,27 +4,28 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config proxy.conf.json",
+    "start": "ng serve ",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "server": "./node_modules/.bin/json-server  --watch  ./server/db.json"
+    "server": "./node_modules/.bin/json-server  --watch  ./server/db.json",
+    "build-prod": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --prod --aot"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "^4.3.6",
+    "@angular/cdk": "^2.0.0-beta.10",
     "@angular/common": "^4.3.6",
     "@angular/compiler": "^4.3.6",
     "@angular/core": "^4.3.6",
+    "@angular/flex-layout": "^2.0.0-beta.9",
     "@angular/forms": "^4.3.6",
     "@angular/http": "^4.3.6",
+    "@angular/material": "^2.0.0-beta.10",
     "@angular/platform-browser": "^4.3.6",
     "@angular/platform-browser-dynamic": "^4.3.6",
     "@angular/router": "^4.3.6",
-    "@angular/cdk": "^2.0.0-beta.10",
-    "@angular/material": "^2.0.0-beta.10",
-    "@angular/flex-layout": "^2.0.0-beta.9",
     "@covalent/core": "1.0.0-beta.7",
     "@covalent/dynamic-forms": "1.0.0-beta.7",
     "@covalent/highlight": "1.0.0-beta.7",
@@ -38,13 +39,14 @@
     "angular2-moment": "^1.7.0",
     "core-js": "^2.5.1",
     "d3": "^4.10.2",
+    "file-saver": "^1.3.3",
     "lodash": "^4.17.4",
     "ng-socket-io": "^0.1.11",
     "rxjs": "^5.4.3",
     "zone.js": "^0.8.17"
   },
   "devDependencies": {
-    "@angular/cli": "^1.4.1",
+    "@angular/cli": "1.4.4",
     "@angular/compiler-cli": "^4.3.6",
     "@angular/language-service": "^4.3.6",
     "@types/jasmine": "^2.5.54",
@@ -65,7 +67,7 @@
     "protractor": "~5.1.2",
     "ts-node": "^3.3.0",
     "tslint": "^5.7.0",
-    "typescript": "^2.4.2"
+    "typescript": "2.3.4"
   },
   "ngrxGen": {
     "seperateDirectory": "true"

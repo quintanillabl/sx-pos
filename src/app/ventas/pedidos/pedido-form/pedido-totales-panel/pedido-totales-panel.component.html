@@ -1,24 +1,44 @@
 <td-expansion-panel label="Totales" [expand]="'true'"  [formGroup]="parent" >
-  
+
   <ng-template td-expansion-panel-header>
-    <md-toolbar color="accent">
+    <md-toolbar color="accent" layout>
         <span>Totales</span>
+        <span flex></span>
+        <span *ngIf="isDolares()" > USD </span>
     </md-toolbar>
   </ng-template>
   <md-list class="md-padding">
     <md-list-item>
-        <h3 mdLine> Importe bruto: </h3>
+        <h3 mdLine> Importe: </h3>
         <span flex></span>
-        <h3>10,000.00</h3>
+        <h3>{{ importe | currency:'USD': true: '1.2-2'}}</h3>
     </md-list-item>
-    <md-divider md-inset></md-divider>
-    <md-list-item>Descuento:</md-list-item>
-    <md-divider md-inset></md-divider>
-    <md-list-item>Sub total:</md-list-item>
-    <md-divider md-inset></md-divider>
-    <md-list-item>Impuesto:</md-list-item>
-    <md-divider md-inset></md-divider>
-    <md-list-item>Total:</md-list-item>
-    <md-divider md-inset></md-divider>
+
+    <md-list-item>
+      <h3 mdLine> Descuento <span class="span-left"> ({{ descuento | percent }}):</span></h3>
+      <span flex></span>
+      <h3>{{ parent.get('descuentoImporte').value | currency:'USD': true: '1.2-2'}}</h3>
+    </md-list-item>
+
+    <md-list-item>
+        <h3 mdLine> Sub Total: </h3>
+        <span flex></span>
+        <h3>{{ parent.get('subtotal').value | currency:'USD': true: '1.2-2'}}</h3>
+      </md-list-item>
+
+    <md-list-item>
+      <h3 mdLine> Impuesto: </h3>
+      <span flex></span>
+      <h3>{{ parent.get('impuesto').value | currency:'USD': true: '1.2-2'}}</h3>
+    </md-list-item>
+
+    <md-list-item>
+      <h3 mdLine> Total: </h3>
+      <span flex></span>
+      <h3>{{ parent.get('total').value | currency:'USD': true: '1.2-2'}}</h3>
+    </md-list-item>
+
+
+
   </md-list>
 </td-expansion-panel>

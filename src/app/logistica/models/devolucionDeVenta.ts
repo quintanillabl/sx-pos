@@ -20,3 +20,4 @@ export interface DevolucionDeVenta {
   updateUser: string;
   fechaInventario: string;
 }
+

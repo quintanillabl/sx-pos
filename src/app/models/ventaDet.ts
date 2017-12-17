@@ -1,26 +1,33 @@
-import { Producto } from "app/models";
+import { Producto, Sucursal, InstruccionDeCorte } from 'app/models';
+
 
 export interface VentaDet {
-  id: string
+  id?: string
+  sucursal: Sucursal
   producto: Producto
+  // Manejo de importes
   cantidad: number
-  precioLista: number
-  precioOriginal: number
   precio: number
   importe: number
-  desctoOriginal: number
   descuento: number
-  importeDescuento: number
-  importeNeto: number
+  descuentoImporte: number
   subtotal: number
-  nacional: boolean
-  kilos: number
+  impuesto: number
+  impuestoTasa: number
+  total: number
+  // End importes
+  nacional?: boolean
+  kilos?: number
   comentario?: string
-  conVale: boolean
-  cortado: boolean
-  importeCortes: number
-  dateCreated: string
-  lastUpdated: string
+  conVale?: boolean
+  importeCortes?: number
+  corte?: InstruccionDeCorte
+  precioLista: number
+  precioOriginal: number
+  descuentoOriginal: number
+  dateCreated?: string
+  lastUpdated?: string
   devuelto?: number
   disponibleParaDevolucion?: number
+  enviado?: number,
 }

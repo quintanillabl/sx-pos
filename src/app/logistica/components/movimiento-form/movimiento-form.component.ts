@@ -48,11 +48,10 @@ export class MovimientoFormComponent implements OnInit, OnDestroy {
 
   buildForm(){
     this.form = this.fb.group({
-      sucursal: [{value: this.sucursal, disabled: 'true' }],
       fecha: [{ value: new Date(), disabled: 'true'}],
       tipo: [null,Validators.required],
       porInventario: [false, Validators.required],
-      comentario: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(100)]],
+      comentario: ['', [Validators.maxLength(100)]],
       partidas: this.fb.array([])
     }, {
       validator: PartidasValidator
@@ -74,13 +73,6 @@ export class MovimientoFormComponent implements OnInit, OnDestroy {
     if( this.form.valid) {
       const entity = this.preparEntity();
       this.save.emit(entity);
-    }
-  }
-
-  get sucursal() {
-    return {
-      id: '402880fc5e4ec411015e4ec64e70012e',
-      nombre: 'TACUBA'
     }
   }
 

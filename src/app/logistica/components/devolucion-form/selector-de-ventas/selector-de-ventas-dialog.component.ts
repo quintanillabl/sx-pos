@@ -75,6 +75,7 @@ export class SelectorDeVentasDialogComponent implements OnInit {
 
   selectVenta(venta) {
     this.venta = venta;
+    console.log('Venta seleccionada: ', this.venta);
     this.error = null;
     this.loading = false;
   }

@@ -1,0 +1,30 @@
+<div layout="row" >
+  <md-card flex >
+    
+    <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+      <span  class="push-left-sm" flex>
+          <span class="md-title">Movimientos de fondo fijo </span>
+      </span>
+      <span >
+        <button md-icon-button [md-menu-trigger-for]="menu"  >
+          <md-icon >more_vert</md-icon>
+        </button>
+        <md-menu x-position="before" #menu="mdMenu">
+          <button   md-menu-item (click)="load()" ><md-icon>refresh</md-icon> Refrescar</button>
+          <button   md-menu-item (click)="rembolso()"><md-icon>attach_money</md-icon> Rembolso</button>
+          <button   md-menu-item (click)="gasto()"><md-icon>account_balance_wallet</md-icon> Gasto</button>
+        </md-menu>
+      </span>
+    </div>
+    
+    <md-divider></md-divider>
+    <md-card-content class="facturas-panel">
+      <sx-fondo-fijo-list [movimientos]="movimientos" ></sx-fondo-fijo-list>
+      <!-- <sx-corte-cobranza-list [cortes]="cortes"></sx-corte-cobranza-list> -->
+    </md-card-content>
+  </md-card>
+</div>
+    
+  
+    
+    

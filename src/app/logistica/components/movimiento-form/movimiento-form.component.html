@@ -7,9 +7,6 @@
 
       <div layout layout-margin layout-align="center start">
         
-        <md-form-field flex="10">
-            <input type="text" mdInput [value]="sucursal.nombre" placeholder="Sucursal" [disabled]="true">
-        </md-form-field>
         
         <md-form-field flex="10">
           <input type="text" mdInput placeholder="Fecha" [disabled]="true" [value]=" form.get('fecha').value | date:'dd/MM/yyyy'">
@@ -38,7 +35,7 @@
     <md-card-actions>
       <button type="submit" md-button color="primary" [disabled]="form.invalid"> Salvar</button>
       <button type="button" md-button (click)="cancel()"> Cancelar</button>
-      <button type="button" md-button (click)="reset()"> Limpar</button>
+      <!-- <button type="button" md-button (click)="reset()"> Limpar</button> -->
     </md-card-actions>
   </md-card>
 

@@ -19,8 +19,10 @@ export class SucursalFieldComponent implements OnInit, OnDestroy {
 
   @Input() sucursalProperty = 'sucursal';
 
+  @Input() placeholder = 'Sucursal';
+
   sucursales: Sucursal[];
-  
+
   private subscription: Subscription;
 
   constructor(private http: HttpClient) { }
@@ -28,7 +30,7 @@ export class SucursalFieldComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.buscarSucursales()
     .subscribe( sucursales => this.sucursales = sucursales)
-    
+
   }
 
   ngOnDestroy(){
@@ -44,4 +46,4 @@ export class SucursalFieldComponent implements OnInit, OnDestroy {
 
 
 
-  
+

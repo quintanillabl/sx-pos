@@ -1,0 +1,34 @@
+
+<ng-template tdLoading [tdLoadingUntil]="!loading" tdLoadingStrategy="overlay">
+
+
+<div class="disponible-form" >
+
+  <h3 md-dialog-title>Disponibles de : {{cliente.nombre}}</h3>
+  <md-divider></md-divider>
+  <md-dialog-content>
+
+    <td-data-table
+      #dataTable
+      [data]="filteredData"
+      [columns]="columns"
+      selectable="true"
+      multiple="false"
+      sortable="false"
+      [(ngModel)]="selectedRows"
+      [style.height.px]="400">
+      <!--<ng-template tdDataTableTemplate="fecha" let-value="value">
+        {{value | date: 'dd/MM/yyyy'}}
+      </ng-template>-->
+    </td-data-table>
+
+
+  </md-dialog-content>
+
+  <md-dialog-actions>
+    <button md-button type="button" (click)="cancelar()"  >Cancelar</button>
+    <button md-button type="button" (click)="aceptar()" [disabled]="selectedRows.length === 0" >Aceptar</button>
+  </md-dialog-actions>
+</div>
+
+</ng-template>

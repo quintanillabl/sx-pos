@@ -5,7 +5,7 @@ export const MODULOS: Modulo[] = [
     id: 1,
     nombre: 'Ventas',
     path: '/ventas',
-    descripcion: 'Pedidos, cotizaciónes y facturación', 
+    descripcion: 'Pedidos, cotizaciónes y facturación',
     icon: 'shopping_basket'
   },
   {
@@ -28,6 +28,13 @@ export const MODULOS: Modulo[] = [
     nombre: 'Logistica',
     descripcion: 'Sistema de distribución, inventarios y embarques',
     icon: 'traffic'
+  },
+  {
+    id: 5,
+    path: '/traslados',
+    nombre: 'Traslados',
+    descripcion: 'Sub sistema de traslados de material',
+    icon:  'local_shipping'
   },
 ];
 

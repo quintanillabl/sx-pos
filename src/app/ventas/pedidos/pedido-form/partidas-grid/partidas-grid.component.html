@@ -1,12 +1,109 @@
-<td-data-table
+<div [formGroup]="parent" layout layout-align="center" layout-margin class="partidas-grid-container">
+  <div formArrayName="partidas">
+    <div *ngIf="invalid" class="text-center">
+      <h3 class="tc-pink-700">Debe registrar al menos una partida</h3>
+    </div>
+    <table td-data-table class="table" #dataTable>
+      <thead>
+        <tr td-data-table-column-row>
+          <th td-data-table-column [style.width.px]="50">Rng</th>
+          <th td-data-table-column  [style.width.px]="650" class="text-center">Producto</th>
+          <th td-data-table-column class="text-right">Cantidad</th>
+          <th td-data-table-column class="text-center">Precio</th>
+          <th td-data-table-column class="text-center">Importe</th>
+          <th td-data-table-column class="text-center">Descuento</th>
+          <th td-data-table-column class="text-center">Sub Total</th>
+          <th td-data-table-column class="text-right">
+            <md-icon>more_vert</md-icon>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr td-data-table-row *ngFor="let row of partidas; index as i" [formGroupName]="i">
+          <td td-data-table-cell   class="text-left">{{i + 1}}</td>
+          <td td-data-table-cell  class="text-left">
+            <span  class="pad-right-sm">{{row.producto.clave}}</span>
+            <span flex layout="column">
+              <span>{{row.producto.descripcion}}</span>
+              <span class="tc-pink-800" *ngIf="row.corte">
+                  {{row.corte.cantidad}} * {{row.corte.precio}} = {{row.corte.cantidad * row.corte.precio}}
+                  /{{row.corte.tipo}}  / {{row.corte.instruccion}}
+              </span>
+            </span>
+
+            <span mdTooltip="Precio {{row.producto.modoVenta === 'B' ? 'Bruto': 'Neto'}}" clsss="pad-right"
+              [ngClass]="{'tc-pink-700': row.producto.modoVenta === 'B', 'tc-indigo-700': row.producto.modoVenta === 'N'}">
+              {{row.producto.modoVenta}}
+            </span>
+            <span class="pad-left">
+              <md-icon *ngIf="row.corte">content_cut</md-icon>
+            </span>
+          </td>
+          <td td-data-table-cell numeric="true" [style.width.px]="70">{{row.cantidad}}</td>
+          <td td-data-table-cell numeric="true">
+            <ng-container *ngIf="isEditable(row)">
+                {{row.precio | currency: 'USD': 1.2-2}}
+            </ng-container>
+          </td>
+          <td td-data-table-cell numeric="true"> {{row.importe | currency: 'USD': 1.2-2}}</td>
+          <td td-data-table-cell numeric="true"> {{row.descuentoImporte | currency: 'USD': 1.2-2}}</td>
+          <td td-data-table-cell numeric="false" class="text-center"> {{row.subtotal | currency: 'USD': 1.2-2}}</td>
+          <td td-data-table-cell numeric="false">
+            <ng-container >
+              <button md-icon-button type="button" (click)="edit.emit(i)" *ngIf="isEditable(row)">
+                <md-icon md-icon-button color="accent" >edit</md-icon>
+              </button>
+              <button md-icon-button type="button" (click)="delete.emit(i)" *ngIf="isEliminable(row)">
+                <md-icon md-icon-button color="accent" >delete</md-icon>
+              </button>
+            </ng-container>
+          </td>
+          <!--<td td-data-table-cell numeric="false">
+            <button md-icon-button type="button" (click)="edit.emit(i)">
+              <md-icon md-icon-button color="accent" >edit</md-icon>
+            </button>
+          </td>
+          <td td-data-table-cell numeric="false">
+            <button md-icon-button type="button" (click)="delete.emit(i)">
+              <md-icon md-icon-button color="accent" >delete</md-icon>
+            </button>
+          </td>-->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+
+<!-- <td-data-table
   #dataTable
-  [data]="basicData"
-  [columns]="configWidthColumns"
-  selectable="true"
-  clickable="false"
-  sortable="false"
-  [style.height.px]="400">
-</td-data-table> 
-<button md-mini-fab class="example-fab" (click)="insert.emit()">
-  <md-icon>add</md-icon>
-</button>
+  [data]="partidas"
+  [columns]="columns"
+  [style.height.px]="320">
+  <ng-template tdDataTableTemplate="producto" let-value="value" let-row="row">
+    <span flex="15">({{value.clave}}) </span>
+    <span flex> {{value.descripcion}}</span>
+    <span mdTooltip="Precio {{row.producto.modoVenta === 'B' ? 'Bruto': 'Neto'}}"
+      [ngClass]="{'tc-pink-700': row.producto.modoVenta === 'B', 'tc-indigo-700': row.producto.modoVenta === 'N'}">
+      {{row.producto.modoVenta}}
+    </span>
+  </ng-template>
+  <ng-template tdDataTableTemplate="precio" let-value="value" let-row="row">
+      {{value | currency: 'USD': 1.2-2}}
+  </ng-template>
+  <ng-template tdDataTableTemplate="importe" let-value="value" let-row="row">
+      {{value | currency: 'USD': 1.2-2}}
+  </ng-template>
+  <ng-template tdDataTableTemplate="descuentoImporte" let-value="value" let-row="row">
+      <span mdTooltip="{{row.descuento | percent:'1.1'}}">
+        {{value | currency: 'USD': 1.2-2}}
+      </span>
+  </ng-template>
+  <ng-template tdDataTableTemplate="subtotal" let-value="value" let-row="row">
+      {{value | currency: 'USD': 1.2-2}}
+  </ng-template>
+</td-data-table>
+<div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">
+  <h3>Registre los productos para la venta.</h3>
+</div> -->

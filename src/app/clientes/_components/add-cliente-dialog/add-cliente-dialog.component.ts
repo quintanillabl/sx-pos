@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {Component, HostListener, Inject, OnInit} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 
@@ -19,8 +19,10 @@ export class AddClienteDialogComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      nombre: [null, [Validators.required, Validators.maxLength(20)]],
+      nombre: [null, [Validators.required, Validators.maxLength(255)]],
       rfc: [null, [Validators.required, Validators.minLength(12), Validators.maxLength(13)]],
+      clave: ['', Validators.required],
+      email: [null],
       direccion: this.fb.group({
         calle: [null, Validators.required],
         numeroExterior: [null, Validators.required],
@@ -28,7 +30,7 @@ export class AddClienteDialogComponent implements OnInit {
         colonia: [null, Validators.required],
         municipio: [null, Validators.required],
         estado: [null, Validators.required],
-        pais: [null, Validators.required],
+        pais: [{value: 'MEXICO', disabled: true}, Validators.required],
         codigoPostal: [null, Validators.required],
       })
     });
@@ -40,7 +42,10 @@ export class AddClienteDialogComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      this.dialogRef.close(this.form.value);
+      const cliente = {
+        ... this.form.getRawValue()
+      }
+      this.dialogRef.close(cliente);
     }
   }
 
@@ -56,6 +61,14 @@ export class AddClienteDialogComponent implements OnInit {
     this.form.reset();
   }
 
-  
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    console.log(event);
+    if (event.code === 'F7') {
+      console.log('Interceptando F7');
+    }
+  }
+
+
 
 }

@@ -1,0 +1,30 @@
+<div layout-gt-sm="row" tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']">
+
+  <md-card flex-gt-sm >
+    <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+      <span  class="push-left-sm" flex>
+          <span class="md-title">Solicitudes </span>
+      </span>
+      <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm"
+                     placeholder="Pedidos " (searchDebounce)="search($event)" flex>
+      </td-search-box>
+      <span>
+        <a type="button" md-icon-button [routerLink]="['create']"
+           mdTooltip="Registrar una nueva solicitud">
+          <md-icon>add</md-icon>
+        </a>
+        <button md-icon-button (click)="load()"><md-icon>refresh</md-icon></button>
+      </span>
+
+    </div>
+
+    <md-divider></md-divider>
+    <md-card-content class="page-grid">
+      <sx-solicitudes-list [solicitudes]="pendientes$ | async"></sx-solicitudes-list>
+      <!--<sx-pedidos-pendientes-list [pedidos]="pedidos$ | async">
+      </sx-pedidos-pendientes-list>-->
+    </md-card-content>
+  </md-card>
+</div>
+
+

@@ -1,8 +1,5 @@
 import { Action } from '@ngrx/store';
-import { DevolucionDeCompra } from "app/logistica/models/devolucionDeCompra";
-
-export const LOAD = '[Decs] Load';
-export const LOAD_SUCCESS = '[Decs] Load Success';
+import { DevolucionDeCompra } from 'app/logistica/models/devolucionDeCompra';
 
 export const SEARCH = '[Decs] Search';
 export const SEARCH_SUCCESS = '[Decs] Search Success';
@@ -13,18 +10,8 @@ export const SELECT_SUCCESS = '[Decs] Select succes';
 export const SELECT_ERROR = '[Decs] Select error';
 
 export const DELETE = '[Decs] Delete';
-export const DELETE_SUCCESS ='[Decs] Delete succcess';
+export const DELETE_SUCCESS = '[Decs] Delete succcess';
 export const DELETE_ERROR = '[Decs] Delete error';
-
-export class LoadAction implements Action{
-  readonly type = LOAD;
-}
-export class LoadSuccess implements Action {
-  readonly type = LOAD_SUCCESS;
-
-  constructor(public payload: Array<DevolucionDeCompra>) {}
-}
-
 
 export class SearchAction implements Action {
   readonly type = SEARCH;
@@ -46,7 +33,7 @@ export class SearchError implements Action {
 
 export class SelectAction  implements Action {
   readonly type = SELECT;
-  
+
   constructor(public payload: string) {}
 }
 
@@ -58,13 +45,13 @@ export class SelectSuccessAction implements Action {
 
 export class SelectErrorAction implements Action {
   readonly type = SELECT_ERROR;
-  
+
   constructor(public payload: any) {}
 }
 
 export class DeleteAction implements Action {
   readonly type = DELETE;
-  
+
   constructor(public payload: string) {}
 }
 
@@ -76,7 +63,7 @@ export class DeleteSuccessAction implements Action {
 
 export class DeleteErrorAction implements Action {
   readonly type = DELETE_ERROR;
-  
+
   constructor(public payload: any) {}
 }
 
@@ -86,8 +73,6 @@ export class DeleteErrorAction implements Action {
  * so that reducers can easily compose action types
  */
 export type Actions =
-| LoadAction
-| LoadSuccess
 | SearchAction
 | SearchSuccessAction
 | SearchError

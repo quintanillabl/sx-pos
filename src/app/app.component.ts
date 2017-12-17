@@ -1,16 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MdIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { DateAdapter, NativeDateAdapter } from '@angular/material';
+import {Store} from '@ngrx/store';
+
+import * as moment from 'moment';
+
+import * as fromRoot from './reducers';
+import { SetSucursalAction } from './core/store/config/config.actions';
+
 
 @Component({
   selector: 'sx-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements  OnInit {
 
   constructor(private iconRegistry: MdIconRegistry,
               private domSanitizer: DomSanitizer,
+              dateAdapter: DateAdapter<NativeDateAdapter>,
+              private store: Store<fromRoot.State>,
               ) {
     this.iconRegistry.addSvgIconInNamespace('assets', 'teradata',
       this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/teradata.svg'));
@@ -37,7 +47,13 @@ export class AppComponent {
     this.iconRegistry.addSvgIconInNamespace('assets', 'logo',
       this.domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/logo.svg'));
 
+    moment.locale('es');
+    dateAdapter.setLocale('es_MX');
+
   }
+
+  ngOnInit(): void {}
+
 
 
 }

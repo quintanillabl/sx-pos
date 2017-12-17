@@ -6,9 +6,7 @@ import { MainComponent } from './main/main.component';
 import { HomeComponent } from './home/home.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { PageNotFoundComponent } from './_pages/page-not-found/page-not-found.component';
-
-
-
+import { ConfigService } from 'app/core/services/config.service';
 
 
 @NgModule({
@@ -18,5 +16,7 @@ import { PageNotFoundComponent } from './_pages/page-not-found/page-not-found.co
   ],
   declarations: [MainComponent, HomeComponent, SidenavComponent, PageNotFoundComponent],
   exports: [MainComponent, HomeComponent],
+  providers: [ConfigService]
 })
 export class CoreModule { }
+

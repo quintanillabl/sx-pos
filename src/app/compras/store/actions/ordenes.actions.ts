@@ -9,6 +9,10 @@ export const SELECT = '[Ordenes de Compras] Select';
 export const SELECT_SUCCESS = '[Ordenes de Compras] Select succes';
 export const SELECT_ERROR = '[Ordenes de Compras] Select error';
 
+export const DELETE = '[Ordenes de Compras] DELETE';
+export const DELETE_SUCCESS = '[Ordenes de Compras] DELETE succes';
+export const DELETE_ERROR = '[Ordenes de Compras] Select error';
+
 /**
  * Every action is comprised of at least a type and an optional
  * payload. Expressing actions as classes enables powerful
@@ -49,6 +53,24 @@ export class SelectErrorAction implements Action {
   constructor(public payload: any) {}
 }
 
+export class DeleteAction implements Action {
+  readonly type = DELETE;
+
+  constructor(public payload: string) {}
+}
+
+export class DeleteSuccessAction implements Action {
+  readonly type = DELETE_SUCCESS;
+
+  constructor(public payload: Compra[]) {}
+}
+export class DeleteError implements Action {
+  readonly type = DELETE_ERROR;
+
+  constructor(public payload: any) {}
+}
+
+
 /**
  * Export a type alias of all actions in this action group
  * so that reducers can easily compose action types
@@ -60,3 +82,6 @@ export type Actions =
 | SelectAction
 | SelectSuccessAction
 | SelectErrorAction
+| DeleteAction
+| DeleteSuccessAction
+| DeleteError

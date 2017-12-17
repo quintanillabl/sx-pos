@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 
 import { MovimientosService } from "app/logistica/services/movimientos/movimientos.service";
-import { Movimiento } from "@siipapx/logistica/models/movimiento";
+import { Movimiento } from "app/logistica/models/movimiento";
 
 
 @Component({

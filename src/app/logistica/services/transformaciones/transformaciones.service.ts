@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 
 import { environment } from 'environments/environment';
 import { Transformacion } from "app/logistica/models/transformacion";
+import { Sucursal } from 'app/models';
+import { ConfigService } from 'app/core/services/config.service';
 
 
 @Injectable()
@@ -11,24 +13,32 @@ export class TransformacionesService {
 
   readonly apiUrl = environment.apiUrl + '/inventario/transformaciones';
 
-  constructor(private http: HttpClient) { }
+  sucursal: Sucursal;
+  
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService) 
+  {
+    this.sucursal = configService.getCurrentSucursal();
+  }
 
   get(id: string): Observable<Transformacion> {
-    let url = `${this.apiUrl}/${id}`;
+    const url = `${this.apiUrl}/${id}`;
     return this.http.get<Transformacion>(url)
     .shareReplay();
   }
 
   list(documento = null, comentario = null): Observable<Transformacion[]> {
-    let params = new HttpParams();
+    let params = new HttpParams().set('sucursal', this.sucursal.id);
     if (documento) {
       params = params.set('documento', documento)
-    } 
+    }
     return this.http.get<Transformacion[]>(this.apiUrl, {params: params})
       .shareReplay();
   }
-  
+
   save(transformacion: Transformacion) {
+    transformacion.sucursal = this.sucursal;
     return this.http.post(this.apiUrl, transformacion);
   }
 
@@ -45,6 +55,20 @@ export class TransformacionesService {
     return this.http.put(url, trs, {
       params: new HttpParams().set('inventariar','inventariar')
     });
+  }
+
+  print(id: string){
+    const url = `${this.apiUrl}/print`;
+    let params = new HttpParams()
+      .set('ID', id);
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        params: params,
+        responseType: 'blob'
+      }
+    );
   }
 
 }
