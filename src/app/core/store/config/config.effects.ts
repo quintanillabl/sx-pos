@@ -11,18 +11,16 @@ import {AppConfig} from 'app/models/appConfig';
 @Injectable()
 export class ConfigEffects {
 
+  /*
   @Effect() fetchSucursal$ = this.actions$
     .ofType<Auth.LoginSuccess>(Auth.LOGIN_SUCCESS)
-    .do((action: Auth.LoginSuccess) => {
-      // console.log('Looking up configuration data for:', action.payload.username);
-    })
     .switchMap( () =>
       this.service.get()
         .do(appConfig => this.storeConfig(appConfig))
         .map(appConfig => new config.SetSucursalSuccessAction(appConfig))
         .catch(error => Observable.of({type: 'HTTP_ERROR', payload: error}))
     );
-
+  */
 
   constructor(
     private actions$: Actions,
@@ -30,7 +28,7 @@ export class ConfigEffects {
   ) {}
 
   private storeConfig(appConfig: AppConfig) {
-    // console.log('Saving in local storage ', appConfig)
+    console.log('Saving in local storage ', appConfig)
     localStorage.setItem('appConfig', JSON.stringify(appConfig));
   }
 }

@@ -114,7 +114,8 @@ const COMPONENTS: any[] = [
     OnlyNumbersDirective,
     FormaDePagoComponent,
     BancoFieldComponent,
-    AlmacenesFieldComponent
+    AlmacenesFieldComponent,
+    SucursalLabelComponent
   ],
 })
 export class SharedModule { }

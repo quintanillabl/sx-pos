@@ -12,7 +12,9 @@ import * as fromRoot from 'app/reducers';
 @Injectable()
 export class PedidosService {
 
-  apiUrl = environment.apiUrl + '/ventas';
+  // apiUrl = environment.apiUrl + '/ventas';
+
+  apiUrl: string;
 
   sucursal: Sucursal;
 
@@ -23,6 +25,7 @@ export class PedidosService {
   ) {
     // configService.getUrl().then( value => this.apiUrl = `${value.apiUrl}/ventas`);
     this.sucursal = configService.getCurrentSucursal();
+    this.apiUrl = `${configService.getApiUrl()}/ventas`;
     // this.apiUrl = `${this.configService.getApiUrl()}/ventas`
   }
 

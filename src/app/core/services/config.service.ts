@@ -9,37 +9,70 @@ import { Sucursal } from 'app/models';
 @Injectable()
 export class ConfigService {
 
-  readonly apiUrl = environment.apiUrl + '/config';
+  private config: AppConfig;
 
-  private url = null;
+  private apiUrl: string;
+
+  private configurationUrl;
 
   constructor(
     private http: HttpClient,
-  ) {}
+  ) {
+    this.configurationUrl = 'assets/api-config.json';
+  }
 
   get(): Observable<AppConfig> {
-    const url = `${this.apiUrl}`;
-    return this.http.get<AppConfig>(url);
+    const url = `${this.getApiUrl()}/config`;
+    return this.http.get<AppConfig>(url).shareReplay();
+  }
+
+  getAppConfig() {
+    return this.config;
   }
 
   getCurrentSucursal(): Sucursal {
-    const appConfig: AppConfig = JSON.parse(localStorage.getItem('appConfig')) ;
-    return appConfig.sucursal;
+    return this.config.sucursal;
   }
 
   getApiUrl() {
-    return this.url;
+    return this.apiUrl;
   }
 
   load(): Promise<any> {
-    return this.http.get('assets/api-config.json')
+    console.log('Cargando configuracion en: ', this.configurationUrl);
+    const promise = this.http.get(this.configurationUrl)
       .pluck('apiUrl')
-      .toPromise()
-      .then(data => {
-        this.url = data;
-        console.log('POS ApiUrl: ', data);
-        return data;
+      .switchMap((apiUrl: string) => {
+        this.apiUrl = apiUrl;
+        return this.http.get<AppConfig>(apiUrl + '/config')
       })
+      .catch( error => {
+        console.error('Error al cargar AppConfig from ', error)
+        return Observable.of(error);
+      })
+      .toPromise();
+
+    promise.then(config => {
+      this.config = config;
+      // localStorage.setItem('appConfig', JSON.stringify(config));
+      console.log('Configuración: ', this.config);
+    });
+    return promise;
+  }
+
+  private getProperty(property: string): any {
+    //noinspection TsLint
+    if (!this.config) {
+      throw new Error(`Attempted to access configuration property before configuration data was loaded,
+      please double check that 'APP_INITIALIZER is properly implemented.`);
+    }
+
+    if (!this.config[property]) {
+      throw new Error(`
+      Required property ${property} was not defined within the configuration object. Please double check the
+      assets/config.json file`);
+    }
+    return this.config[property];
   }
 
 }

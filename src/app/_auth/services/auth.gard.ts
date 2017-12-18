@@ -6,20 +6,34 @@ import { Observable } from 'rxjs/Observable';
 import * as Auth from '../actions/auth.actions';
 import * as fromAuth from '../reducers';
 import { AppConfig } from 'app/models/appConfig';
+import {AuthService} from '@siipapx/_auth/services/auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private store: Store<fromAuth.State>) {}
+  constructor(
+    private store: Store<fromAuth.State>,
+    private authService: AuthService
+  ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+
+    /*
     const appConfig: AppConfig = JSON.parse(localStorage.getItem('appConfig')) ;
     if (appConfig == null) {
       console.log('Sin AppConfig...');
       this.store.dispatch(new Auth.LoginRedirect({ queryParams: { returnUrl: state.url }}));
       return Observable.of(false);
     }
-    
+    */
+
+    if (this.authService.isLoggedIn()) {
+      return Observable.of(true);
+    } else {
+      this.store.dispatch(new Auth.LoginRedirect({ queryParams: { returnUrl: state.url }}));
+      return Observable.of(false);
+    }
+    /*
     return this.store.select(fromAuth.getAuthentication)
       .take(1)
       .map(authed => {
@@ -29,5 +43,6 @@ export class AuthGuard implements CanActivate {
         }
         return true;
     });
+    */
   }
 }
