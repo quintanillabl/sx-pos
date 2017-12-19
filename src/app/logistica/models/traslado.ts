@@ -4,8 +4,10 @@ export interface Traslado {
   id: string;
   tipo: string
   fecha: string
+  documento: string
   comentario?: string
   partidas: Array<TrasladoDet>
+  solicitudDeTraslado: any
 }
 
 /**
