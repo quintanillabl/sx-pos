@@ -56,6 +56,16 @@ export class TrasladosService {
     );
   }
 
+  darSalida(tps: Traslado) {
+    const url = `${this.apiUrl}/salida/${tps.id}`;
+    return this.http.put(url, tps);
+  }
+
+  generarCfdi(tps: Traslado) {
+    const url = `${this.apiUrl}/generarCfdi/${tps.id}`;
+    return this.http.put(url, tps);
+  }
+
   choferes(): Observable<Array<any>> {
     const endpoint = 'embarques/choferes';
     const url = this.configService.buildApiUrl(endpoint);
