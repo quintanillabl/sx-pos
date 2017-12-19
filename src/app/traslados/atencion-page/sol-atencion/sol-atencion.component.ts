@@ -26,10 +26,10 @@ export class SolAtencionComponent implements OnInit {
 
   columns: ITdDataTableColumn[] = [
     { name: 'producto.clave',  label: 'Producto', width: 60 },
-    { name: 'producto.descripcion', label: 'Descripcion', width: 650},
-    { name: 'solicitado', label: 'Solicitado', format: DECIMAL_FORMAT, width: 150},
-    { name: 'recibido', label: 'Recibido', format: DECIMAL_FORMAT, width: 150},
-    { name: 'comentario', label: 'Comentario', width: 300},
+    { name: 'producto.descripcion', label: 'Descripcion', width: 450},
+    { name: 'solicitado', label: 'Solicitado', format: DECIMAL_FORMAT, width: 100},
+    { name: 'recibido', label: 'Recibido', format: DECIMAL_FORMAT, width: 100},
+    { name: 'comentario', label: 'Comentario', width: 200},
   ];
 
   constructor(

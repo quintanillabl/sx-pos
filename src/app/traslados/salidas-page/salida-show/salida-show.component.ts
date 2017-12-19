@@ -42,7 +42,7 @@ export class SalidaShowComponent implements OnInit {
   ngOnInit() {
     this.tps$ = this.route.paramMap.switchMap( params => {
       return this.service
-      .get(params.get('id')).do(tps => console.log('TPS: ', tps))
+      .get(params.get('id'))
     });
   }
 
@@ -65,7 +65,7 @@ export class SalidaShowComponent implements OnInit {
     this.service.darSalida(tps)
     .finally( () => this.procesando = false)
     .subscribe( res => {
-      console.log('Salida generada para: ', res);
+      // console.log('Salida generada para: ', res);
       this.router.navigate(['/traslados/salidas']);
     }, error2 => console.error(error2))
   }

@@ -2,18 +2,17 @@
   <md-list-item>
     <md-icon md-list-icon class="tc-pink-800" >vpn_key</md-icon>
     <span md-line >
-      <span layout layout-padding>
-        <span flex="20" class="tc-indigo-700 text-left"> TPS</span>
-        <span flex="10" class="tc-indigo-700 text-left"> SOL</span>
-        <span flex="20" >Fecha</span>
-        <span flex >Comentario</span>
+      <span layout >
+        <span  flex="10" class="tc-indigo-700 "> TPS</span>
+        <span  fled="10" class="tc-indigo-700 "> SOL</span>
+        <span  flex="20">Fecha</span>
+        <span  flex>Comentario</span>
+        <span flex class="tc-pink-500"  > Solicita</span>
+        <span flex>Enviado</span>
+        <span flex> CFDI</span>
       </span>
     </span>
     <span flex></span>
-    <span hide-xs hide-sm hide-md flex-gt-xs="60"  layout-gt-xs="row" >
-      <span flex class="tc-pink-500" flex-gt-xs > Solicita</span>
-      <span flex  flex-gt-xs> CFDI</span>
-    </span>
   </md-list-item>
   <md-divider></md-divider>
   <td-virtual-scroll-container #virtualScroll [style.height.px]="600" [data]="salidas">
@@ -21,21 +20,21 @@
       <md-list-item >
         <md-icon md-list-icon class="tc-pink-800" >apps</md-icon>
         <span md-line >
-          <span layout layout-padding>
-            <span flex="20" class="tc-indigo-700">
-              <button [routerLink]="['show', row.id]" md-button class="text-left">
-                  {{row.documento}} 
-              </button>
+          <span layout >
+            <span  flex="10" class="tc-indigo-700" [routerLink]="['show', row.id]">
+                {{row.documento}} 
             </span>
             <span flex="10" >{{ row.solicitudDeTraslado.documento}}</span>
             <span flex="20" >{{ row.fecha | date:'dd/MM/yyyy'}}</span>
-            <span flex >{{row.comentario}}</span>
+            <span flex>{{row.comentario}}</span>
+            <span class=" tc-blue-500" flex > 
+              {{row.solicitudDeTraslado?.sucursalSolicita?.nombre}}
+            </span>
+            <span flex>{{row.fechaInventario | date: 'dd/MM/yyyy'}}</span>
+            <span flex>SIN CFDI</span>
           </span>
         </span>
-        <span flex></span>
-        <span hide-xs hide-sm hide-md flex-gt-xs="60" flex-xs="20" layout-gt-xs="row">
-          <div class=" tc-blue-500" flex-gt-xs="50" > {{row.solicitudDeTraslado?.sucursalSolicita?.nombre}} </div>
-        </span>
+        
         <span>
           <button md-icon-button (click)="print.emit(row)"><md-icon>print</md-icon></button>
         </span>

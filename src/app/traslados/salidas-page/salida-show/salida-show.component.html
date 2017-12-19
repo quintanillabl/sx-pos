@@ -40,7 +40,7 @@
             <md-icon>print</md-icon>
           </button>
 
-          <button md-button (click)="registrarSalida(tps)" color="accent">
+          <button md-button (click)="registrarSalida(tps)" color="accent" *ngIf="!tps.fechaInventario">
                Dar salida <md-icon>flight_takeoff</md-icon>
             </button>
         </md-card-actions>

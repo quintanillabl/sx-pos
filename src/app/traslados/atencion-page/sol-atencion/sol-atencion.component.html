@@ -11,7 +11,7 @@
       <md-card-subtitle>
         <div layout >
           <span flex="40">{{sol.comentario}}</span>
-          <span *ngIf="sol.fechaInventario" class="tc-pink-500" >INVENTARIADO: {{sol.fechaInventario | date:'dd/MM/yyyy HH:mm'}}</span>
+          <span *ngIf="sol.atender"> Atendido: {{sol.atender | date:'dd/MM/yyyy HH:mm'}}</span>
 
           <span flex="20" class="push-right"> Clasificación vale: {{sol.clasificacionVale}}</span>
           <span flex></span>
@@ -32,7 +32,7 @@
           </ng-template>-->
 
           <ng-template tdDataTableTemplate="recibido" let-value="value" let-row="row" >
-            <div [style.min-width.px]="150">
+            <div [style.min-width.px]="100">
               <input type="text" value="{{value}}" (blur)="modificarRecibido(row, ifield.value)" #ifield sxOnlyNumbers [style.width.%]="90">
             </div>
           </ng-template>
