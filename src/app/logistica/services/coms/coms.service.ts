@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 import * as _ from 'lodash';
 
-import { environment } from 'environments/environment';
 import { RecepcionDeCompra } from 'app/logistica/models/recepcionDeCompra';
 import { Compra } from "app/models";
 import { Sucursal } from 'app/models';
@@ -14,7 +13,7 @@ import { ConfigService } from 'app/core/services/config.service';
 @Injectable()
 export class ComsService {
 
-  readonly apiUrl = environment.apiUrl + '/compras/recepciones';
+  private apiUrl: string;  // environment.apiUrl + '/compras/recepciones';
 
   sucursal: Sucursal;
   
@@ -23,6 +22,7 @@ export class ComsService {
     private configService: ConfigService) 
   {
     this.sucursal = configService.getCurrentSucursal();
+    this.apiUrl = configService.buildApiUrl('compras/recepciones');
   }
   
   get(id: string): Observable<RecepcionDeCompra> {

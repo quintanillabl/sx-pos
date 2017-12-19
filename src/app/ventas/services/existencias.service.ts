@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-
-import { environment } from 'environments/environment';
-import { Existencia, Producto, Sucursal } from '@siipapx/models';
+import { Existencia, Producto, Sucursal } from 'app/models';
+import { ConfigService } from 'app/core/services/config.service';
 
 @Injectable()
 export class ExistenciasService {
 
-  readonly apiUrl = environment.apiUrl + '/existencias';
+  private apiUrl: string;  // = environment.apiUrl + '/existencias';
 
   constructor(
-    private http: HttpClient
-  ) { }
+    private http: HttpClient, private config: ConfigService
+  ) { 
+    this.apiUrl = config.buildApiUrl('existencias');
+  }
 
   buscarExistencias(producto: Producto, fecha: Date = new Date()) {
     const year = fecha.getFullYear();

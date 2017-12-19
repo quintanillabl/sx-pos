@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import { environment } from 'environments/environment';
+
 import { Conteo } from 'app/logistica/models/conteo';
 import { Sucursal } from 'app/models';
 import { ConfigService } from 'app/core/services/config.service';
@@ -11,7 +11,7 @@ import { ConfigService } from 'app/core/services/config.service';
 @Injectable()
 export class ConteosService {
 
-  readonly apiUrl = environment.apiUrl + '/inventario/conteos';
+  private apiUrl: string;
 
   sucursal: Sucursal;
   
@@ -20,6 +20,7 @@ export class ConteosService {
     private configService: ConfigService) 
   {
     this.sucursal = configService.getCurrentSucursal();
+    this.apiUrl = configService.buildApiUrl('inventario/conteos');
   }
   
   get(id: string): Observable<Conteo> {

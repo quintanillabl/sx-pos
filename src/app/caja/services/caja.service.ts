@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import { environment } from 'environments/environment';
 import { Venta, Sucursal, Producto, Banco } from 'app/models';
 import {Store} from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
@@ -12,7 +11,7 @@ import { ConfigService } from 'app/core/services/config.service';
 @Injectable()
 export class CajaService {
 
-  readonly apiUrl = environment.apiUrl + '/ventas';
+  private apiUrl: string //= environment.apiUrl + '/ventas';
 
   sucursal: Sucursal;
 
@@ -22,6 +21,7 @@ export class CajaService {
     private configService: ConfigService
   ) {
     this.sucursal = configService.getCurrentSucursal();
+    this.apiUrl = configService.buildApiUrl('ventas');
   }
 
   pendientesDeFacturar(tipo: string) {
@@ -47,17 +47,20 @@ export class CajaService {
   }
 
   facturasPendientesCod() {
-    const url = `${environment.apiUrl}/cuentasPorCobrar/pendientesCod/${this.sucursal.id}`;
+    const endpoint = `cuentasPorCobrar/pendientesCod/${this.sucursal.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
     return this.http.get(url)
   }
 
   cuentaPorCobrar(id: string) {
-    const url = `${environment.apiUrl}/cuentasPorCobrar/${id}`;
+    const endpoint = `cuentasPorCobrar/${id}`;
+    const url = this.configService.buildApiUrl(endpoint);
     return this.http.get(url);
   }
 
   cobroContado(cobro) {
-    const url = `${environment.apiUrl}/cxc/cobro/cobroContado/`;
+    const endpoint = `cxc/cobro/cobroContado/`;
+    const url = this.configService.buildApiUrl(endpoint);
     const cob = {
       ... cobro,
       venta: cobro.venta.id
@@ -72,7 +75,8 @@ export class CajaService {
   }
 
   bancos(): Observable<Banco[]> {
-     const url = environment.apiUrl + '/tesoreria/bancos';
+     const endpoint = 'tesoreria/bancos';
+     const url = this.configService.buildApiUrl(endpoint);
      return this.http.get<Banco[]>(url);
   }
 
@@ -87,7 +91,8 @@ export class CajaService {
   }
 
   mostrarXml(venta: Venta): Observable<any> {
-    const url = `${environment.apiUrl}/cfdis/mostrarXml/${venta.cuentaPorCobrar.cfdi.id}`;
+    const endpoint = `cfdis/mostrarXml/${venta.cuentaPorCobrar.cfdi.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
     const headers = new HttpHeaders().set('Content-type' , 'text/xml');
     // return this.http.get(url)
     return this.http.get(
@@ -99,7 +104,8 @@ export class CajaService {
   }
 
   imprimirCfdi(cfdi: any) {
-    const url = `${environment.apiUrl}/cfdis/print/${cfdi.id}`;
+    const endpoint = `cfdis/print/${cfdi.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
     const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
     return this.http.get(
       url, {

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { MdDialog } from '@angular/material';
 
 import { KardexService } from '../../services/kardex.service';
 import { Inventario } from 'app/logistica/models/inventario';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { KardexFormComponent } from '@siipapx/logistica/_pages/kardex-page/kardex-form/kardex-form.component';
 
 @Component({
   selector: 'sx-kardex-page',
@@ -17,7 +19,8 @@ export class KardexPageComponent implements OnInit {
   procesando = false;
 
   constructor(
-    private service: KardexService
+    private service: KardexService,
+    public dialog: MdDialog,
   ) {
     this.movimientos$ = this.search$
     .debounceTime(400)
@@ -46,6 +49,26 @@ export class KardexPageComponent implements OnInit {
   handleError(error){
     this.procesando = false;
     console.debug('Error: ', error)
+  }
+
+  runKardex(){
+    const dialogRef = this.dialog.open(KardexFormComponent, {});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Karded: ', result);
+        this.procesando = true;
+        this.service.print(result)
+        .delay(1000)
+        .finally( () => this.procesando = false)
+        .subscribe(res => {
+          const blob = new Blob([res], {
+            type: 'application/pdf'
+          });
+          const fileURL = window.URL.createObjectURL(blob);
+          window.open(fileURL, '_blank');
+        }, error2 => this.handleError(error2));
+      }
+    });
   }
 
 }

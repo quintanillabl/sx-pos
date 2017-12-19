@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import { environment } from 'environments/environment';
 import { Transporte } from 'app/logistica/models/transporte';
+import { ConfigService } from 'app/core/services/config.service';
 
 @Injectable()
 export class TransportesService {
 
-  readonly apiUrl = environment.apiUrl + '/embarques/transportes';
+  private apiUrl: string; // = environment.apiUrl + '/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private config: ConfigService) {
+    this.apiUrl = config.buildApiUrl('embarques/transportes');
+   }
 
   get(id: string): Observable<Transporte> {
     const url = `${this.apiUrl}/${id}`;

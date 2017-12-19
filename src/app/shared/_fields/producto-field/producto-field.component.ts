@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 
 import { Producto } from 'app/models';
 import { environment} from 'environments/environment';
+import { ConfigService } from 'app/core/services/config.service';
 
 export const PRODUCTO_LOOKUPFIELD_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -24,7 +25,8 @@ export const PRODUCTO_LOOKUPFIELD_VALUE_ACCESSOR: any = {
 })
 export class ProductoFieldComponent implements OnInit, ControlValueAccessor, OnDestroy {
 
-  readonly apiUrl = environment.apiUrl + '/productos';
+  // readonly apiUrl = environment.apiUrl + '/productos';
+  private apiUrl: string;
 
   searchControl = new FormControl();
 
@@ -42,7 +44,9 @@ export class ProductoFieldComponent implements OnInit, ControlValueAccessor, OnD
 
   @ViewChild('inputField') inputField: ElementRef;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private config: ConfigService) {
+    this.apiUrl = config.buildApiUrl('productos');
+   }
 
   ngOnInit() {
     this.productos$ = this.searchControl

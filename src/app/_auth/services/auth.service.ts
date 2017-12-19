@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs/observable/of';
 import {HttpClient} from '@angular/common/http';
+import { Store } from '@ngrx/store';
 
 import * as fromAuth from '../reducers';
 import { User, Authenticate } from '../models/user';
-import {environment} from '../../../environments/environment';
-import {Store} from '@ngrx/store';
+import { ConfigService } from 'app/core/services/config.service';
 
 @Injectable()
 export class AuthService {
-
-  private readonly url = environment.apiUrl + '/login';
 
   private authentication;
 
   constructor(
     private http: HttpClient,
+    private config: ConfigService,
     private store: Store<fromAuth.State>) {}
 
   login(auth: Authenticate) {
-    return this.http.post(this.url, auth)
+    const url = this.config.buildApiUrl('login');
+    return this.http.post(url, auth)
   }
 
   logout() {

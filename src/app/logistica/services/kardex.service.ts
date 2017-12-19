@@ -3,7 +3,6 @@ import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 import * as _ from 'lodash';
 
-import { environment } from 'environments/environment';
 import { Inventario } from 'app/logistica/models/inventario';
 import { ConfigService } from 'app/core/services/config.service';
 import { Sucursal } from 'app/models';
@@ -11,7 +10,7 @@ import { Sucursal } from 'app/models';
 @Injectable()
 export class KardexService {
 
-  readonly apiUrl = environment.apiUrl + '/inventario';
+  readonly apiUrl: string;
 
   sucursal: Sucursal;
 
@@ -21,6 +20,7 @@ export class KardexService {
   ) 
   {
     this.sucursal = configService.getCurrentSucursal();
+    this.apiUrl = configService.buildApiUrl('inventario');
   }
   
   list(producto?: string ): Observable<Inventario[]> {
@@ -40,10 +40,21 @@ export class KardexService {
     return this.http.get<Inventario>(url, {params: params})
   }
 
-  print(id: string) {
+  print(reportParams: any) {
     const url = `${this.apiUrl}/printKardex`;
+    /*
     const params = new HttpParams()
-      .set('ID', id);
+      .set('FECHA_INI', reportParams.fechaInicial)
+      .set('FECHA_FIN', reportParams.fechaFinal)
+      .set('CLAVE', reportParams.producto.clave)
+      .set('SUCURSAL', this.sucursal.id);
+      */
+      const params = new HttpParams()
+      .set('fechaInicial', reportParams.fechaInicial)
+      .set('fechaFinal', reportParams.fechaFinal)
+      .set('producto', reportParams.producto.id)
+      .set('sucursal', this.sucursal.id);
+    
     const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
     return this.http.get(
       url, {

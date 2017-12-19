@@ -6,7 +6,8 @@ import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/fo
 import * as _ from 'lodash';
 
 import { Proveedor } from '../../../models';
-import { environment} from '../../../../environments/environment';
+import { ConfigService } from 'app/core/services/config.service';
+
 
 export const PROVEEDOR_LOOKUPFIELD_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -23,7 +24,7 @@ export const PROVEEDOR_LOOKUPFIELD_VALUE_ACCESSOR: any = {
 })
 export class ProveedorFieldComponent implements OnInit, ControlValueAccessor {
 
-  readonly apiUrl = environment.apiUrl + '/proveedores';
+  private apiUrl: string;
 
   searchControl = new FormControl();
 
@@ -35,7 +36,9 @@ export class ProveedorFieldComponent implements OnInit, ControlValueAccessor {
   onTouch;
   subscription: Subscription;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private config: ConfigService) {
+    this.apiUrl = config.buildApiUrl('proveedores')
+   }
 
   ngOnInit() {
     this.proveedores$ = this.searchControl

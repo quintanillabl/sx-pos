@@ -6,25 +6,27 @@ import { environment } from 'environments/environment';
 import { AppConfig } from 'app/models/appConfig';
 import { Sucursal } from 'app/models';
 
+import { SetSucursalSuccessAction }  from 'app/core/store/config/config.actions';
+import * as fromRoot from 'app/reducers';
+import { Store } from '@ngrx/store';
+
+
 @Injectable()
 export class ConfigService {
 
-  private config: AppConfig;
+  private config
 
   private apiUrl: string;
 
-  private configurationUrl;
+  private configurationUrl = 'assets/api-config.json';
 
   constructor(
     private http: HttpClient,
+    private store: Store<fromRoot.State>
   ) {
     this.configurationUrl = 'assets/api-config.json';
   }
-
-  get(): Observable<AppConfig> {
-    const url = `${this.getApiUrl()}/config`;
-    return this.http.get<AppConfig>(url).shareReplay();
-  }
+ 
 
   getAppConfig() {
     return this.config;
@@ -35,30 +37,24 @@ export class ConfigService {
   }
 
   getApiUrl() {
-    return this.apiUrl;
+    return this.getProperty('apiUrl');
+  }
+
+  buildApiUrl(endpoint: string) {
+    return `${this.getApiUrl()}/${endpoint}`;
   }
 
   load(): Promise<any> {
-    console.log('Cargando configuracion en: ', this.configurationUrl);
-    const promise = this.http.get(this.configurationUrl)
-      .pluck('apiUrl')
-      .switchMap((apiUrl: string) => {
-        this.apiUrl = apiUrl;
-        return this.http.get<AppConfig>(apiUrl + '/config')
-      })
-      .catch( error => {
-        console.error('Error al cargar AppConfig from ', error)
-        return Observable.of(error);
-      })
-      .toPromise();
-
+    // console.log('Cargando configuracion en: ', this.configurationUrl);
+    const promise = this.http.get(this.configurationUrl).toPromise();
     promise.then(config => {
-      this.config = config;
-      // localStorage.setItem('appConfig', JSON.stringify(config));
-      console.log('Configuración: ', this.config);
+      this.config = config;     // <--- THIS RESOLVES AFTER
+      this.store.dispatch(new SetSucursalSuccessAction(config));
+      // console.log(this.config);
     });
     return promise;
   }
+  
 
   private getProperty(property: string): any {
     //noinspection TsLint

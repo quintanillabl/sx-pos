@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 
 import { Cliente } from 'app/models';
 import { environment} from 'environments/environment';
+import { ConfigService } from '@siipapx/core/services/config.service';
 
 export const CLIENTE_LOOKUPFIELD_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -28,7 +29,7 @@ export const CLIENTE_LOOKUPFIELD_VALUE_ACCESSOR: any = {
 })
 export class ClienteFieldComponent implements OnInit, ControlValueAccessor, OnDestroy {
 
-  readonly apiUrl = environment.apiUrl + '/clientes';
+  apiUrl: string;
 
   searchControl = new FormControl();
 
@@ -46,7 +47,9 @@ export class ClienteFieldComponent implements OnInit, ControlValueAccessor, OnDe
 
   @ViewChild('inputField') inputField: ElementRef;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private config: ConfigService) { 
+    this.apiUrl = config.buildApiUrl('clientes');
+  }
 
   ngOnInit() {
     this.productos$ = this.searchControl

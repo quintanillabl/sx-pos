@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 
-import { environment } from 'environments/environment';
+
 import { SolicitudDeTraslado } from 'app/logistica/models/solicitudDeTraslado';
 import { Sucursal } from 'app/models';
 import { ConfigService } from 'app/core/services/config.service';
@@ -11,7 +11,9 @@ import { ConfigService } from 'app/core/services/config.service';
 @Injectable()
 export class SolicitudesService {
 
-  readonly apiUrl = environment.apiUrl + '/inventario/sols';
+  // readonly apiUrl = environment.apiUrl + '/inventario/sols';
+
+  private apiUrl: string;
 
   sucursal: Sucursal;
 
@@ -19,6 +21,7 @@ export class SolicitudesService {
     private http: HttpClient,
     private configService: ConfigService) {
     this.sucursal = configService.getCurrentSucursal();
+    this.apiUrl = configService.buildApiUrl('inventario/sols');
   }
 
   get(id: string): Observable<SolicitudDeTraslado> {
@@ -87,7 +90,8 @@ export class SolicitudesService {
   }
 
   choferes(): Observable<Array<any>> {
-    const url = environment.apiUrl + '/embarques/choferes';
+    // const url = environment.apiUrl + '/embarques/choferes';
+    const url = this.configService.buildApiUrl('embarques/choferes')
     return this.http.get<Array<any>>(url);
   }
 

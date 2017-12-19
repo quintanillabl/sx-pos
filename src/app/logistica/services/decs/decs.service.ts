@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 import * as _ from 'lodash';
 
-import { environment } from 'environments/environment';
 import { DevolucionDeCompra } from 'app/logistica/models/devolucionDeCompra';
 import { RecepcionDeCompra } from 'app/logistica/models/recepcionDeCompra';
 import { Sucursal } from 'app/models';
@@ -13,7 +12,7 @@ import { ConfigService } from 'app/core/services/config.service';
 @Injectable()
 export class DecsService {
 
-  readonly apiUrl = environment.apiUrl + '/inventario/decs';
+  private apiUrl: string //= environment.apiUrl + '/inventario/decs';
 
   sucursal: Sucursal;
   
@@ -22,6 +21,7 @@ export class DecsService {
     private configService: ConfigService) 
   {
     this.sucursal = configService.getCurrentSucursal();
+    this.apiUrl = configService.buildApiUrl('inventario/decs');
   }
 
   get(id: string): Observable<DevolucionDeCompra> {

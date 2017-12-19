@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import { environment } from 'environments/environment';
 import { Venta, Sucursal, Producto, Cliente } from 'app/models';
 import { ConfigService } from 'app/core/services/config.service';
 import { Store } from '@ngrx/store';
@@ -11,8 +10,6 @@ import * as fromRoot from 'app/reducers';
 
 @Injectable()
 export class PedidosService {
-
-  // apiUrl = environment.apiUrl + '/ventas';
 
   apiUrl: string;
 
@@ -147,9 +144,9 @@ export class PedidosService {
   }
 
   mostrarXml(venta: Venta): Observable<any> {
-    const url = `${environment.apiUrl}/cfdis/mostrarXml/${venta.cuentaPorCobrar.cfdi.id}`;
+    const endpoint = `cfdis/mostrarXml/${venta.cuentaPorCobrar.cfdi.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
     const headers = new HttpHeaders().set('Content-type' , 'text/xml');
-    // return this.http.get(url)
     return this.http.get(
       url, {
         headers: headers,
@@ -159,7 +156,8 @@ export class PedidosService {
   }
 
   imprimirCfdi(cfdi: any) {
-    const url = `${environment.apiUrl}/cfdis/print/${cfdi.id}`;
+    const endpoint = `cfdis/print/${cfdi.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
     const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
     return this.http.get(
       url, {
@@ -181,7 +179,8 @@ export class PedidosService {
   }
 
   actualizarCfdiEmail(cliente: Cliente, email: string) {
-    const url = `${environment.apiUrl}/clientes/actualizarCfdiMail/${cliente.id}`;
+    const endpoint = `clientes/actualizarCfdiMail/${cliente.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
     const params = new HttpParams()
     .set('email', email);
     return this.http.put(url, {}, {params: params});

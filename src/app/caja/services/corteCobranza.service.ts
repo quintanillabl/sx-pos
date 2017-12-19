@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 import * as _ from 'lodash';
 
-import { environment } from 'environments/environment';
 import { CorteCobranza } from 'app/caja/models/corteCobranza';
 import { Sucursal } from 'app/models';
 import { ConfigService } from 'app/core/services/config.service';
@@ -13,7 +12,7 @@ import { ConfigService } from 'app/core/services/config.service';
 @Injectable()
 export class CorteCobranzaService {
 
-  readonly apiUrl = environment.apiUrl + '/tesoreria/corteCobranza';
+  private apiUrl: string;
 
   sucursal: Sucursal;
 
@@ -22,6 +21,7 @@ export class CorteCobranzaService {
     private configService: ConfigService
   ) {
     this.sucursal = configService.getCurrentSucursal();
+    this.apiUrl = configService.buildApiUrl('tesoreria/corteCobranza');
   }
 
   get(id: string): Observable<CorteCobranza> {
@@ -49,7 +49,7 @@ export class CorteCobranzaService {
 
   cambioDeCheque(cambio: any) {
     cambio.sucursal = this.sucursal
-    const url =  `${environment.apiUrl}/cxc/cobro/cambioDeCheque`
+    const url = this.configService.buildApiUrl('cxc/cobro/cambioDeCheque');
     return this.http.post(url, cambio);
   }
 

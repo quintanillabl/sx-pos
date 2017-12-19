@@ -5,6 +5,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 
 import { Banco } from 'app/models/banco';
 import { environment} from 'environments/environment';
+import { ConfigService } from 'app/core/services/config.service';
 
 
 @Component({
@@ -34,7 +35,8 @@ export class BancoFieldComponent implements OnInit {
 
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private config: ConfigService
   ) { }
 
   ngOnInit() {
@@ -42,7 +44,8 @@ export class BancoFieldComponent implements OnInit {
   }
 
   bancos(): Observable<Banco[]> {
-    const url = environment.apiUrl + '/tesoreria/bancos';
+    // const url = environment.apiUrl + '/tesoreria/bancos';
+    const url = this.config.buildApiUrl('tesoreria/bancos');
     return this.http.get<Banco[]>(url);
  }
 

@@ -17,32 +17,11 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-
-    /*
-    const appConfig: AppConfig = JSON.parse(localStorage.getItem('appConfig')) ;
-    if (appConfig == null) {
-      console.log('Sin AppConfig...');
-      this.store.dispatch(new Auth.LoginRedirect({ queryParams: { returnUrl: state.url }}));
-      return Observable.of(false);
-    }
-    */
-
     if (this.authService.isLoggedIn()) {
       return Observable.of(true);
     } else {
       this.store.dispatch(new Auth.LoginRedirect({ queryParams: { returnUrl: state.url }}));
       return Observable.of(false);
     }
-    /*
-    return this.store.select(fromAuth.getAuthentication)
-      .take(1)
-      .map(authed => {
-        if (!authed) {
-          this.store.dispatch(new Auth.LoginRedirect({ queryParams: { returnUrl: state.url }}));
-          return false;
-        }
-        return true;
-    });
-    */
   }
 }

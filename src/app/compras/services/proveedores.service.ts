@@ -3,15 +3,17 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 
 import { Proveedor } from 'app/models';
-import { environment} from 'environments/environment';
+import { ConfigService } from 'app/core/services/config.service';
 
 @Injectable()
 export class ProveedoresService {
 
-  readonly apiUrl = environment.apiUrl + '/proveedores';
+  // readonly apiUrl = environment.apiUrl + '/proveedores'; 
+  private apiUrl: string;
 
-  constructor(private http: HttpClient) { }
-  
+  constructor(private http: HttpClient, private config: ConfigService) { 
+    this.apiUrl = config.buildApiUrl('proveedores');
+  }
 
   list(): Observable<Proveedor[]> {
     return this.http.get<Proveedor[]>(this.apiUrl);

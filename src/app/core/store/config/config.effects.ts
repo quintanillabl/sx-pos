@@ -11,16 +11,27 @@ import {AppConfig} from 'app/models/appConfig';
 @Injectable()
 export class ConfigEffects {
 
+    /*
+  @Effect() fetchSucursal$ = this.actions$
+  .ofType<Auth.LoginSuccess>(Auth.LOGIN_SUCCESS)
+  .map( () => {
+    const appConfig = this.service.getAppConfig();
+    console.log('Loggin success registrando configuracion: ', appConfig);
+    return new config.SetSucursalSuccessAction(appConfig)
+  })
+  */
   /*
   @Effect() fetchSucursal$ = this.actions$
     .ofType<Auth.LoginSuccess>(Auth.LOGIN_SUCCESS)
     .switchMap( () =>
       this.service.get()
-        .do(appConfig => this.storeConfig(appConfig))
+      .do( appConfig => console.log('Asinando AppConfig despues de loggin: ', appConfig))
+        // .do(appConfig => this.storeConfig(appConfig))
         .map(appConfig => new config.SetSucursalSuccessAction(appConfig))
         .catch(error => Observable.of({type: 'HTTP_ERROR', payload: error}))
     );
-  */
+    */
+  
 
   constructor(
     private actions$: Actions,
