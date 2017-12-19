@@ -97,9 +97,9 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       conVale: [{value: false, disabled: false}],
       conTrs: [{value: false, disabled: false}],
       corte: this.fb.group({
-        cantidad: [null, Validators.required],
+        cantidad: [0, Validators.required],
         tipo: [''],
-        precio: [null, Validators.required],
+        precio: [0, Validators.required],
         instruccion: [null]
       })
     });

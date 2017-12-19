@@ -10,8 +10,7 @@ import { SolShowPageComponent} from './solicitudes-page/sol-show-page.component'
 import { SolAtencionComponent } from './atencion-page/sol-atencion/sol-atencion.component';
 import { SalidasPageComponent } from './salidas-page/salidas-page.component';
 import { SalidaShowComponent } from './salidas-page/salida-show/salida-show.component';
-
-
+import { EntradaShowComponent } from './recepciones-page/entrada-show/entrada-show.component';
 
 
 const routes: Routes = [
@@ -47,6 +46,10 @@ const routes: Routes = [
       {
         path: 'recepciones',
         component: RecepcionesPageComponent
+      },
+      {
+        path: 'recepciones/show/:id',
+        component: EntradaShowComponent
       },
       {
         path: 'salidas',

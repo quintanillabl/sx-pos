@@ -20,6 +20,8 @@ import { TrasladosService } from 'app/traslados/services/traslados.service';
 import { TpsListComponent } from './salidas-page/tps-list/tps-list.component';
 import { AtenderSolComponent } from './atencion-page/atender-sol/atender-sol.component';
 import { SalidaShowComponent } from './salidas-page/salida-show/salida-show.component';
+import { EntradaShowComponent } from './recepciones-page/entrada-show/entrada-show.component';
+import { TpeListComponent } from './recepciones-page/tpe-list/tpe-list.component';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import { SalidaShowComponent } from './salidas-page/salida-show/salida-show.comp
     SalidasPageComponent,
     TpsListComponent,
     AtenderSolComponent,
-    SalidaShowComponent],
+    SalidaShowComponent,
+    EntradaShowComponent,
+    TpeListComponent],
   providers: [SolicitudesService, TrasladosService],
   entryComponents: [SoldetAddComponent, AtenderSolComponent]
 })
