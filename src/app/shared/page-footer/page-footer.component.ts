@@ -4,6 +4,7 @@ import {Store} from '@ngrx/store';
 import * as fromAuth from '../../_auth/reducers';
 // import * as fromAuth from '../reducers';
 import {Observable} from 'rxjs/Observable';
+import {ConfigService} from '@siipapx/core/services/config.service';
 
 @Component({
   selector: 'sx-page-footer',
@@ -14,10 +15,14 @@ export class PageFooterComponent implements OnInit {
 
   authentication$: Observable<any>
 
-  constructor(store: Store<fromAuth.State>) {
+  apiUrl: string;
+
+  constructor(store: Store<fromAuth.State>, private config: ConfigService) {
     this.authentication$ = store.select(fromAuth.getAuthentication);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.apiUrl = this.config.getApiUrl();
+  }
 
 }

@@ -6,9 +6,8 @@ import {Subscription} from 'rxjs/Subscription';
 import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as _ from 'lodash';
 
-
-import { environment} from 'environments/environment';
 import { Chofer } from 'app/logistica/models/chofer';
+import { ConfigService } from 'app/core/services/config.service';
 
 export const CHOFER_LOOKUPFIELD_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -25,7 +24,7 @@ export const CHOFER_LOOKUPFIELD_VALUE_ACCESSOR: any = {
 })
 export class ChoferFieldComponent implements OnInit, ControlValueAccessor, OnDestroy {
 
-  readonly apiUrl = environment.apiUrl + '/embarques/choferes';
+  private apiUrl: string; // + '/embarques/choferes';
 
   searchControl = new FormControl();
 
@@ -43,7 +42,9 @@ export class ChoferFieldComponent implements OnInit, ControlValueAccessor, OnDes
 
   @ViewChild('inputField') inputField: ElementRef;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private config: ConfigService) {
+    this.apiUrl = config.buildApiUrl('embarques/choferes');
+   }
 
   ngOnInit() {
     this.productos$ = this.searchControl

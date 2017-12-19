@@ -25,16 +25,18 @@
           <!-- <td-json-formatter [data]="orden.partidas"></td-json-formatter> -->
         </md-card-content>    
         <md-divider></md-divider>
-        <md-card-actions>
-          <a md-button [routerLink]="['../../']" ><md-icon>keyboard_backspace</md-icon> Regresar </a>
-          <button md-icon-button mdTooltip="Imprimir documento" (click)="print()">
-            <md-icon>print</md-icon>
-          </button>
-          <a md-button color="accent" [routerLink]="['../../edit',orden.id]" *ngIf="orden.pendiente">
-            <md-icon >edit</md-icon> Editar
-          </a>
-          <button md-button color="warn" (click)="onDelete(orden)"> <md-icon >delete</md-icon> Eliminar</button>
-        </md-card-actions>
+        <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
+          <md-card-actions>
+            <a md-button [routerLink]="['../../']" ><md-icon>keyboard_backspace</md-icon> Regresar </a>
+            <button md-icon-button mdTooltip="Imprimir documento" (click)="print(orden)">
+              <md-icon>print</md-icon>
+            </button>
+            <a md-button color="accent" [routerLink]="['../../edit',orden.id]" *ngIf="orden.pendiente">
+              <md-icon >edit</md-icon> Editar
+            </a>
+            <button md-button color="warn" (click)="onDelete(orden)"> <md-icon >delete</md-icon> Eliminar</button>
+          </md-card-actions>
+        </ng-template>
       </md-card>
       
     </ng-container>

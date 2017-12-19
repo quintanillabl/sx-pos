@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 import { Existencia } from 'app/models';
 import { environment} from 'environments/environment';
 import { Sucursal } from 'app/models/sucursal';
+import { ConfigService } from 'app/core/services/config.service';
 
 export const EXISTENCIA_LOOKUPFIELD_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -45,7 +46,7 @@ export const EXISTENCIA_LOOKUPFIELD_VALUE_ACCESSOR: any = {
 })
 export class ExistenciaFieldComponent implements OnInit, ControlValueAccessor, OnDestroy {
 
-  readonly apiUrl = environment.apiUrl + '/existencias';
+ private apiUrl: string; // = environment.apiUrl + '/existencias';
 
   searchControl: FormControl;
 
@@ -69,7 +70,9 @@ export class ExistenciaFieldComponent implements OnInit, ControlValueAccessor, O
 
   @ViewChild('inputField') inputField: ElementRef;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private config: ConfigService) {
+    this.apiUrl = config.buildApiUrl('existencias');
+   }
 
   ngOnInit() {
     this.searchControl = new FormControl(null, Validators.required);

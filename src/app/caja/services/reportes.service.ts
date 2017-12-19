@@ -4,14 +4,13 @@ import { Observable } from 'rxjs/Observable';
 
 import * as _ from 'lodash';
 
-import { environment } from 'environments/environment';
 import {Sucursal} from 'app/models';
 import { ConfigService } from 'app/core/services/config.service';
 
 @Injectable()
 export class ReportesService {
 
-  readonly apiUrl = environment.apiUrl;
+  private apiUrl: string // = environment.apiUrl;
 
   sucursal: Sucursal;
   
@@ -20,6 +19,7 @@ export class ReportesService {
     private configService: ConfigService
   ) {
     this.sucursal = configService.getCurrentSucursal();
+    this.apiUrl = configService.buildApiUrl('');
   }
 
 

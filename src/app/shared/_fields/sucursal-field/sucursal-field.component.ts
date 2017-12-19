@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 
 import { Sucursal } from '../../../models/sucursal';
-import { environment} from '../../../../environments/environment';
+import { ConfigService } from 'app/core/services/config.service';
 
 @Component({
   selector: 'sx-sucursal-field',
@@ -13,7 +13,8 @@ import { environment} from '../../../../environments/environment';
 })
 export class SucursalFieldComponent implements OnInit, OnDestroy {
 
-  readonly apiUrl = environment.apiUrl + '/sucursales';
+  // readonly apiUrl = environment.apiUrl + '/sucursales';
+  apiUrl: string;
 
   @Input() parent: FormGroup;
 
@@ -25,7 +26,9 @@ export class SucursalFieldComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private config: ConfigService) {
+    this.apiUrl = config.buildApiUrl('sucursales');
+   }
 
   ngOnInit() {
     this.subscription = this.buscarSucursales()

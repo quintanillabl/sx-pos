@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 import * as _ from 'lodash';
 
-import { environment } from 'environments/environment';
 import { FondoFijo } from 'app/caja/models/fondoFijo';
 import { Sucursal } from 'app/models';
 import { ConfigService } from 'app/core/services/config.service';
@@ -12,8 +11,7 @@ import { ConfigService } from 'app/core/services/config.service';
 @Injectable()
 export class FondoFijoService {
 
-  readonly apiUrl = environment.apiUrl + '/tesoreria/fondoFijo';
-
+  readonly apiUrl: string;
   sucursal: Sucursal;
   
   constructor(
@@ -21,6 +19,7 @@ export class FondoFijoService {
     private configService: ConfigService
   ) {
     this.sucursal = configService.getCurrentSucursal();
+    this.apiUrl = configService.buildApiUrl('tesoreria/fondoFijo');
   }
   
 

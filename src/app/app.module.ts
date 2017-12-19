@@ -87,14 +87,14 @@ export function onAppInit1(configService: ConfigService): () => Promise<any> {
 
   ],
   providers: [ ConfigService,
-    /*
+
     {
       provide: APP_INITIALIZER,
       useFactory: onAppInit1,
       multi: true,
       deps: [ConfigService]
     },
-    */
+
     { provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true

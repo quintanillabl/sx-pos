@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 
-import { environment } from 'environments/environment';
 import { Movimiento } from "@siipapx/logistica/models/movimiento";
 import { Sucursal } from 'app/models';
 import { ConfigService } from 'app/core/services/config.service';
@@ -11,7 +10,7 @@ import { ConfigService } from 'app/core/services/config.service';
 @Injectable()
 export class MovimientosService {
 
-  readonly apiUrl = environment.apiUrl + '/inventario/movimientos';
+  private apiUrl: string;
 
   sucursal: Sucursal;
 
@@ -20,6 +19,7 @@ export class MovimientosService {
     private configService: ConfigService) 
     {
       this.sucursal = configService.getCurrentSucursal();
+      this.apiUrl = configService.buildApiUrl('inventario/movimientos');
      }
 
   list(documento = null, comentario = null): Observable<Movimiento[]> {

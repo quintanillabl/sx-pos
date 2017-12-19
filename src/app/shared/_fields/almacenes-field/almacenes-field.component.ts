@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { Sucursal } from 'app/models/sucursal';
 import { environment} from 'environments/environment';
+import { ConfigService } from 'app/core/services/config.service';
 
 @Component({
   selector: 'sx-almacenes-field',
@@ -13,7 +14,10 @@ import { environment} from 'environments/environment';
 })
 export class AlmacenesFieldComponent implements OnInit , OnDestroy {
 
-  readonly apiUrl = environment.apiUrl + '/sucursales/otrosAlmacenes';
+  
+  readonly endpoint = 'sucursales/otrosAlmacenes';
+
+  private apiUrl
 
   @Input() parent: FormGroup;
 
@@ -25,12 +29,16 @@ export class AlmacenesFieldComponent implements OnInit , OnDestroy {
 
   private subscription: Subscription;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private config: ConfigService
+  ) { 
+    this.apiUrl = config.buildApiUrl(this.endpoint)
+  }
 
   ngOnInit() {
     this.subscription = this.buscarSucursales()
     .subscribe( sucursales => this.sucursales = sucursales)
-
   }
 
   ngOnDestroy() {

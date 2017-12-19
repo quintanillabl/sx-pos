@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 
 import { Compra, Proveedor, Sucursal } from 'app/models';
 import { ConfigService } from 'app/core/services/config.service';
 
 
-import { environment} from 'environments/environment';
-
 @Injectable()
 export class OrdenesService {
 
-  readonly apiUrl = environment.apiUrl + '/compras';
+  private apiUrl: string
 
   sucursal: Sucursal;
 
@@ -20,6 +18,7 @@ export class OrdenesService {
     private configService: ConfigService
   ) { 
     this.sucursal = configService.getCurrentSucursal();
+    this.apiUrl = configService.buildApiUrl('compras');
   }
 
   buscarPendientes(folio?: string) {
@@ -51,12 +50,26 @@ export class OrdenesService {
   buscarProductos(proveedor: Proveedor){
     let params = new HttpParams()
       .set('activos','activos');
-    const url = `${environment.apiUrl}/proveedores/${proveedor.id}/productos`;
+    const endpoint = `proveedores/${proveedor.id}/productos`;
+    const url = this.configService.buildApiUrl(endpoint);
     return this.http.get<Array<any>>(url, {params: params});
   }
 
   delete(id: string) {
     return this.http.delete(this.apiUrl+'/'+id);
+  }
+
+  print(compra: Compra) {
+    //const endpoint = `/print/${compra.id}`;
+    const endpoint = `compras/print/${compra.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        responseType: 'blob'
+      }
+    );
   }
 
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import { environment } from 'environments/environment';
+
 import { Morralla } from 'app/caja/models/morralla';
 import { Sucursal } from 'app/models';
 import { ConfigService } from 'app/core/services/config.service';
@@ -11,7 +11,7 @@ import { ConfigService } from 'app/core/services/config.service';
 @Injectable()
 export class MorrallaService {
 
-  readonly apiUrl = environment.apiUrl + '/tesoreria/morralla';
+  private apiUrl: string;
 
   sucursal: Sucursal;
   
@@ -20,6 +20,7 @@ export class MorrallaService {
     private configService: ConfigService
   ) {
     this.sucursal = configService.getCurrentSucursal();
+    this.apiUrl = configService.buildApiUrl('tesoreria/morralla');
   }
 
   get(id: string): Observable<Morralla> {

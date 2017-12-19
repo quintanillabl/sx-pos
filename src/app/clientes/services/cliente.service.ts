@@ -3,22 +3,26 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import * as _ from 'lodash';
 
-import { environment } from 'environments/environment';
 import {Cliente, Sucursal} from 'app/models';
 import {Observable} from 'rxjs/Observable';
+import { ConfigService } from 'app/core/services/config.service';
 
 
 
 @Injectable()
 export class ClienteService {
 
-  readonly apiUrl = environment.apiUrl + '/clientes';
+  private apiUrl: string //= environment.apiUrl + '/clientes';
 
-  sucursal = { id: '402880fc5e4ec411015e4ec64e70012e', nombre: 'TACUBA' };
+  private sucursal: Sucursal;
 
   constructor(
     private http: HttpClient,
-  ) { }
+    private config: ConfigService
+  ) {
+    this.apiUrl = config.buildApiUrl('clientes');
+    this.sucursal = config.getCurrentSucursal();
+   }
 
   get(id: string): Observable<Cliente> {
     const url = `${this.apiUrl}/${id}`;

@@ -2,21 +2,21 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 
-import { environment } from "environments/environment";
-import { Producto } from "@siipapx/models";
+import { Producto } from "app/models";
+import { ConfigService } from 'app/core/services/config.service';
 
 @Injectable()
 export class ProductoService {
 
-  readonly apiUrl = environment.apiUrl + '/productos';
+  private apiUrl: string //= environment.apiUrl + '/productos';
 
   constructor(
-    private http: HttpClient
-  ) { }
+    private http: HttpClient, private config: ConfigService
+  ) { 
+    this.apiUrl = this.config.buildApiUrl('productos');
+  }
 
   list(term: string, filter:{ [key:string]: any; } = {}): Observable<Producto[]> {
-    console.log('Buscando productos.....', term);
-    console.log('Usando filtro: ', filter);
     let params = new HttpParams()
       .set('term', term);
     if (filter.activos === true) {

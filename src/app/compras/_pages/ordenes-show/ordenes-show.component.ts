@@ -22,7 +22,9 @@ const NUMBER_FORMAT: (v: any) => any = (v: number) => v;
 })
 export class OrdenesShowComponent implements OnInit {
 
-  orden$: Observable<Compra>
+  orden$: Observable<Compra>;
+
+  procesando = false;
 
   columns: ITdDataTableColumn[] = [
     { name: 'producto.clave',  label: 'Producto', width: 70 },
@@ -87,13 +89,19 @@ export class OrdenesShowComponent implements OnInit {
     console.log('Error en compras: ', response);
   }
 
-  print() {
-    this._dialogService.openAlert({
-      message: 'La impresión de este documento está en desarrollo',
-      viewContainerRef: this._viewContainerRef, //OPTIONAL
-      title: 'Impresíon', //OPTIONAL, hides if not provided
-      closeButton: 'Cancelar', //OPTIONAL, defaults to 'CLOSE'
-    });
+  print(compra: Compra) {
+    this.procesando = true;
+    this.service.print(compra)
+      .delay(1000)
+      .finally( ()=> this.procesando = false)
+      .subscribe(res => {
+        const blob = new Blob([res], {
+          type: 'application/pdf'
+        });
+        this.procesando = false;
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      }, error2 => console.log(error2));
   }
 
 }

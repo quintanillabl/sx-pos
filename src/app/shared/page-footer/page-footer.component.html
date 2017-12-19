@@ -1,5 +1,5 @@
 <div layout="row" layout-align="start center" >
-  <span class="md-caption">Copyright &copy; 2017 Luxsoft Mex. All rights reserved</span>
+  <span class="md-caption" mdTooltip="Facturar">Copyright &copy; 2017 Luxsoft Mex. All rights reserved</span>
   <span flex></span>
-  <span>Usuario: {{(authentication$ | async).username}}</span>
+  <span mdTooltip="API: {{apiUrl}}" mdTooltipPosition="left">Usuario: {{(authentication$ | async).username}}</span>
 </div>

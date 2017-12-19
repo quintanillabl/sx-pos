@@ -12,7 +12,7 @@ export class SetSucursalAction implements Action {
 export class SetSucursalSuccessAction implements Action {
   readonly type = SET_SUCURSAL_SUCCESS;
 
-  constructor(public payload: AppConfig) {}
+  constructor(public payload: any) {}
 }
 export class SetSucursalErrorAction implements Action {
   readonly type = SET_SUCURSAL_ERROR;

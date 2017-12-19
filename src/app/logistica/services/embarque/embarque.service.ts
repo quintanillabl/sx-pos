@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 
-import { environment } from 'environments/environment';
+
 import { Embarque } from 'app/logistica/models/embarque';
 import { Venta } from 'app/models';
 import { Envio } from 'app/logistica/models/envio';
@@ -14,7 +14,7 @@ import { ConfigService } from 'app/core/services/config.service';
 @Injectable()
 export class EmbarqueService {
 
-  readonly apiUrl = environment.apiUrl + '/embarques/embarques';
+  private apiUrl: string;
 
   sucursal: Sucursal;
   
@@ -23,6 +23,7 @@ export class EmbarqueService {
     private configService: ConfigService) 
   {
     this.sucursal = configService.getCurrentSucursal();
+    this.apiUrl = configService.buildApiUrl('embarques/embarques');
   }
 
   get(id: string): Observable<Embarque> {
@@ -177,12 +178,14 @@ export class EmbarqueService {
 
   getEnvio(id: string): Observable<Envio> {
     // const url = environment.apiUrl + '/embarques/envios';
-    const url = `${environment.apiUrl}/embarques/envios/${id}`;
+    const endpoint = `embarques/envios/${id}`;
+    const url = this.configService.buildApiUrl(endpoint);
     return this.http.get<Envio>(url)
   }
 
   updateEnvio(envio) {
-    const url = `${environment.apiUrl}/embarques/envios/${envio.id}`;
+    const endpoint = `embarques/envios/${envio.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
     return this.http.put(url, envio);
   }
 

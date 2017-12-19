@@ -3,15 +3,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 
-import { environment } from 'environments/environment';
-import {SolicitudDeTraslado} from 'app/logistica/models/solicitudDeTraslado';
+import { SolicitudDeTraslado } from 'app/logistica/models/solicitudDeTraslado';
 import { Sucursal } from 'app/models';
 import { ConfigService } from 'app/core/services/config.service';
 
 @Injectable()
 export class SolsService {
 
-  readonly apiUrl = environment.apiUrl + '/inventario/sols';
+  private apiUrl: string;
 
   sucursal: Sucursal;
   
@@ -20,6 +19,7 @@ export class SolsService {
     private configService: ConfigService) 
   {
     this.sucursal = configService.getCurrentSucursal();
+    this.apiUrl = configService.buildApiUrl('inventario/sols');
   }
 
   get(id: string): Observable<SolicitudDeTraslado> {

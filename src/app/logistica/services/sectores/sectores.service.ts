@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import { environment } from 'environments/environment';
 import {Sector} from 'app/logistica/models/sector';
 import { Sucursal } from 'app/models';
 import { ConfigService } from 'app/core/services/config.service';
@@ -10,7 +9,7 @@ import { ConfigService } from 'app/core/services/config.service';
 @Injectable()
 export class SectoresService {
 
-  readonly apiUrl = environment.apiUrl + '/inventario/sectores';
+  private apiUrl: string;
 
   sucursal: Sucursal;
   
@@ -19,6 +18,7 @@ export class SectoresService {
     private configService: ConfigService) 
   {
     this.sucursal = configService.getCurrentSucursal();
+    this.apiUrl = configService.buildApiUrl('inventario/sectores');
   }
 
   get(id: string): Observable<Sector> {

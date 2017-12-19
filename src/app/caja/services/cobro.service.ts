@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import { environment } from 'environments/environment';
 import { Cobro } from 'app/models/cobro';
 import {Cliente, Sucursal} from 'app/models';
 
@@ -13,7 +12,7 @@ import { ConfigService } from 'app/core/services/config.service';
 @Injectable()
 export class CobroService {
 
-  readonly apiUrl = environment.apiUrl + '/cxc/cobro';
+  private apiUrl:string;
 
   sucursal: Sucursal;
 
@@ -23,6 +22,7 @@ export class CobroService {
     private configService: ConfigService
   ) {
     this.sucursal = configService.getCurrentSucursal();
+    this.apiUrl = configService.buildApiUrl('cxc/cobro');
   }
 
   get(id: string): Observable<Cobro> {
