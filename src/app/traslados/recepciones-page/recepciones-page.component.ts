@@ -57,7 +57,7 @@ export class RecepcionesPageComponent implements OnInit {
   
     print(tps: Traslado) {
       this.procesando = true;
-      this.service.print(tps.id)
+      this.service.print(tps)
         .finally( () => this.procesando = false)
         .subscribe(res => {
           const blob = new Blob([res], {

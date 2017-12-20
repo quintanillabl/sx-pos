@@ -16,9 +16,9 @@ export class KardexListComponent implements OnInit {
   columns: ITdDataTableColumn[] = [
     { name: 'clave',  label: 'Clave',width: 50},
     { name: 'descripcion',  label: 'Descripcion', width: 300},
-    { name: 'fecha',  label: 'Fecha', width: 150},
-    { name: 'documento',  label: 'Docto', width: 50},
-    { name: 'tipo',  label: 'Tipo', width: 50},
+    { name: 'fecha',  label: 'Fecha', width: 200},
+    { name: 'documento',  label: 'Docto', width: 40},
+    { name: 'tipo',  label: 'Tipo', width: 40},
     { name: 'cantidad',  label: 'Cantidad', width: 30},
   ];
 

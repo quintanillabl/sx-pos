@@ -7,7 +7,9 @@ export interface Traslado {
   documento: string
   comentario?: string
   partidas: Array<TrasladoDet>
-  solicitudDeTraslado: any
+  solicitudDeTraslado: any,
+  uuid?: string
+  cfdi?: any
 }
 
 /**

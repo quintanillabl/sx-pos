@@ -42,10 +42,11 @@ export class TrasladosService {
     return this.http.put(url, traslado);
   }
   
-  print(id: string) {
-    const url = `${this.apiUrl}/print`;
+  print(tps: Traslado) {
+    const endpoint = tps.uuid ? 'printCfdi' : 'print'
+    const url = `${this.apiUrl}/${endpoint}`;
     const params = new HttpParams()
-      .set('ID', id);
+      .set('ID', tps.id);
     const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
     return this.http.get(
       url, {
@@ -56,14 +57,27 @@ export class TrasladosService {
     );
   }
 
+  mostrarXml(tps: Traslado): Observable<any> {
+    const endpoint = `cfdis/mostrarXml/${tps.cfdi.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
+    const headers = new HttpHeaders().set('Content-type' , 'text/xml');
+    return this.http.get(
+      url, {
+        headers: headers,
+        responseType: 'blob'
+      }
+    );
+  }
+  
+
   darSalida(tps: Traslado) {
     const url = `${this.apiUrl}/salida/${tps.id}`;
     return this.http.put(url, tps);
   }
 
 
-  generarCfdi(tps: Traslado) {
-    const url = `${this.apiUrl}/generarCfdi/${tps.id}`;
+  timbrar(tps: Traslado) {
+    const url = `${this.apiUrl}/timbrar/${tps.id}`;
     return this.http.put(url, tps);
   }
 

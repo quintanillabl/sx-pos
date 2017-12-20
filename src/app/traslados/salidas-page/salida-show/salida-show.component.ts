@@ -60,6 +60,17 @@ export class SalidaShowComponent implements OnInit {
     });
   }
 
+  mostrarXml(tps: Traslado) {
+    this.service.mostrarXml(tps)
+      .subscribe(res => {
+        const blob = new Blob([res], {
+          type: 'text/xml'
+        });
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      });
+  }
+
   private doDarSalida(tps: Traslado) {
     this.procesando = true;
     this.service.darSalida(tps)
@@ -72,7 +83,7 @@ export class SalidaShowComponent implements OnInit {
   
   print(tps: Traslado) {
     this.procesando = true;
-    this.service.print(tps.id)
+    this.service.print(tps)
       .finally( () => this.procesando = false)
       .subscribe(res => {
         const blob = new Blob([res], {
@@ -82,6 +93,50 @@ export class SalidaShowComponent implements OnInit {
         window.open(fileURL, '_blank');
       }, error2 => console.error(error2));
   }
+
+  timbrar(tps: Traslado): void {
+    this._dialogService.openConfirm({
+      message: 'Timbrar el TPS ' + tps.documento,
+      disableClose: true,
+      viewContainerRef: this._viewContainerRef,
+      title: 'Timbrado de CFDI',
+      cancelButton: 'Cancelar',
+      acceptButton: 'Timbrar',
+    }).afterClosed().subscribe((newValue: string) => {
+      if (newValue) {
+        this.doTimbrar(tps);
+      }
+    });
+  }
+  
+  doTimbrar(tps: Traslado) {
+    if (!tps.uuid) {
+      this.procesando = true;
+      this.service.timbrar(tps)
+        .finally( () => this.procesando = false)
+        .catch( error2 => {
+          // console.log('Error de timbrado: ', error2)
+          this.handleError(error2, 'Error timbrando TPS: ' + tps.documento);
+          return Observable.of(error2)
+        })
+        .subscribe( res => {
+          console.log('Timbrado: ', res);
+          this.router.navigate(['/traslados/salidas']);
+        })
+    }
+  }
+
+  handleError(error, title: string = 'Advertencia') {
+    this._dialogService.openAlert({
+      message: JSON.stringify(error),
+      disableClose: true,
+      viewContainerRef: this._viewContainerRef,
+      title: title,
+      closeButton: 'Cerrar',
+    });
+  }
+
+  
 
 }
 

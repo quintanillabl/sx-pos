@@ -26,7 +26,7 @@ export class KardexService {
   list(producto?: string ): Observable<Inventario[]> {
     let params = new HttpParams().set('sucursal',this.sucursal.id);
     if(producto){
-      params =  params.set('producto', producto);
+      params =  params.set('term', producto);
     }
     return this.http.get<Inventario[]>(this.apiUrl, {params: params})
   }

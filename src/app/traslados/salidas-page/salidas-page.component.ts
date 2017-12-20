@@ -39,6 +39,7 @@ export class SalidasPageComponent implements OnInit {
       .list('TPS', documento)
       .do( () => this.procesando = true)
       .delay(300)
+      // .do( data => console.log('Rows: ', data))
       .finally( () => this.procesando = false));
   }
   
@@ -56,7 +57,7 @@ export class SalidasPageComponent implements OnInit {
   
     print(tps: Traslado) {
       this.procesando = true;
-      this.service.print(tps.id)
+      this.service.print(tps)
         .finally( () => this.procesando = false)
         .subscribe(res => {
           const blob = new Blob([res], {

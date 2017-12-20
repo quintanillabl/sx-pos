@@ -144,8 +144,8 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
             const blob = new Blob([res], {
               type: 'application/pdf'
             });
-            const filename = `VentasDiarias.pdf`;
-            FileSaver.saveAs(blob, filename);
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
           });
       }
     });
@@ -163,8 +163,8 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
             const blob = new Blob([res], {
               type: 'application/pdf'
             });
-            const filename = `AplicacionSaldos.pdf`;
-            FileSaver.saveAs(blob, filename);
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
           });
       }
     });
@@ -182,8 +182,8 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
             const blob = new Blob([res], {
               type: 'application/pdf'
             });
-            const filename = `CobranzaCamioneta.pdf`;
-            FileSaver.saveAs(blob, filename);
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
           });
       }
     });
@@ -199,8 +199,8 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
             const blob = new Blob([res], {
               type: 'application/pdf'
             });
-            const filename = `CobranzaEfectivo.pdf`;
-            FileSaver.saveAs(blob, filename);
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
           });
       }
     });
@@ -215,8 +215,8 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
             const blob = new Blob([res], {
               type: 'application/pdf'
             });
-            const filename = `facturasPendientesCod.pdf`;
-            FileSaver.saveAs(blob, filename);
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
           });
       }
     });
@@ -231,8 +231,8 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
             const blob = new Blob([res], {
               type: 'application/pdf'
             });
-            const filename = `facturasCobradas.pdf`;
-            FileSaver.saveAs(blob, filename);
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
           });
       }
     });
@@ -247,8 +247,8 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
             const blob = new Blob([res], {
               type: 'application/pdf'
             });
-            const filename = `facturasCanceladas.pdf`;
-            FileSaver.saveAs(blob, filename);
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
           });
       }
     });
@@ -263,8 +263,8 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
             const blob = new Blob([res], {
               type: 'application/pdf'
             });
-            const filename = `FacturasPendientesEmbarque.pdf`;
-            FileSaver.saveAs(blob, filename);
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
           });
       }
     });
@@ -279,8 +279,8 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
             const blob = new Blob([res], {
               type: 'application/pdf'
             });
-            const filename = `DisponiblesSucursal.pdf`;
-            FileSaver.saveAs(blob, filename);
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
           });
       }
     });
@@ -295,8 +295,8 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
             const blob = new Blob([res], {
               type: 'application/pdf'
             });
-            const filename = `VentasDiariaCHE.pdf`;
-            FileSaver.saveAs(blob, filename);
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
           });
       }
     });

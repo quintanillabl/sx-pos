@@ -72,7 +72,7 @@ export class EntradaShowComponent implements OnInit {
   
   print(tpe: Traslado) {
     this.procesando = true;
-    this.service.print(tpe.id)
+    this.service.print(tpe)
       .finally( () => this.procesando = false)
       .subscribe(res => {
         const blob = new Blob([res], {

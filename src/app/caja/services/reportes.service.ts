@@ -10,8 +10,6 @@ import { ConfigService } from 'app/core/services/config.service';
 @Injectable()
 export class ReportesService {
 
-  private apiUrl: string // = environment.apiUrl;
-
   sucursal: Sucursal;
   
   constructor(
@@ -19,7 +17,7 @@ export class ReportesService {
     private configService: ConfigService
   ) {
     this.sucursal = configService.getCurrentSucursal();
-    this.apiUrl = configService.buildApiUrl('');
+    
   }
 
 
@@ -29,7 +27,7 @@ export class ReportesService {
     // reportParams['CHOFER'] = '6f8b7d4a-aed7-11e7-b1f8-b4b52f67eab0';
     // reportParams['FECHA'] = new Date().toISOString()
     console.log('Ejecutando reporte de entragas por chofer con: ', reportParams);
-    const url = `${this.apiUrl}/${reportUrl}`;
+    const url = this.configService.buildApiUrl(reportUrl); //`${this.apiUrl}/${reportUrl}`;
     let params = new HttpParams()
     if (reportParams) {
       _.forIn(reportParams, (value, key) => {

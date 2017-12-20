@@ -10,11 +10,15 @@
       </md-card-title>
       <md-card-subtitle>
         <div layout >
-          <span flex="40">{{tps.comentario}}</span>
-          <span *ngIf="tps.fechaInventario" class="tc-pink-500" >
-            INVENTARIADO: {{tps.fechaInventario | date:'dd/MM/yyyy HH:mm'}}
+          <span flex="40" layout="column">
+            <span class="tc-indigo-500">{{tps.comentario}}</span>
+            <span >UUID: <span class="tc-pink-800">{{tps?.cfdi?.uuid}}</span> </span>
+            <span *ngIf="tps.fechaInventario" class="tc-pink-800">INVENTARIADO: {{tps.fechaInventario | date:'dd/MM/yyyy HH:mm'}}</span>
           </span>
-          <span flex="20" class="push-right"> Clasificación vale: {{tps.clasificacionVale}}</span>
+          <span  layout="column">
+            <span>Chofer: <span>{{tps?.chofer?.nombre}}</span> </span>
+            <span class="push-right"> Clasificación vale: {{tps.clasificacionVale}}</span>
+          </span>
           <span flex></span>
           <span>Usuario: {{tps.createUser}}</span>
         </div>
@@ -42,7 +46,16 @@
 
           <button md-button (click)="registrarSalida(tps)" color="accent" *ngIf="!tps.fechaInventario">
                Dar salida <md-icon>flight_takeoff</md-icon>
-            </button>
+          </button>
+          <ng-container *ngIf="!tps.cfdi && tps.fechaInventario">
+              <button type="button" md-button  mdTooltip="Timbrar"  (click)="timbrar(tps)" color="primary">
+                Timbrar <md-icon>cast</md-icon>
+              </button>
+          </ng-container>
+          <button   md-button type="button" (click)="mostrarXml(tps)" 
+                *ngIf="tps.cfdi">
+                <md-icon>dvr</md-icon>  Ver XML
+          </button>
         </md-card-actions>
       </ng-template>
 
