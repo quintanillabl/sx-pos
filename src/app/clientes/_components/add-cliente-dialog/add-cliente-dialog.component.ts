@@ -21,7 +21,7 @@ export class AddClienteDialogComponent implements OnInit {
     this.form = this.fb.group({
       nombre: [null, [Validators.required, Validators.maxLength(255)]],
       rfc: [null, [Validators.required, Validators.minLength(12), Validators.maxLength(13)]],
-      clave: ['', Validators.required],
+      clave: ['PENDIENTE', Validators.required],
       email: [null],
       direccion: this.fb.group({
         calle: [null, Validators.required],
@@ -63,7 +63,7 @@ export class AddClienteDialogComponent implements OnInit {
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
-    console.log(event);
+    // console.log(event);
     if (event.code === 'F7') {
       console.log('Interceptando F7');
     }
