@@ -8,6 +8,7 @@ import * as FileSaver from 'file-saver';
 
 import * as fromRoot from 'app/reducers';
 import { Sucursal } from 'app/models';
+import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-new-cliente.service';
 
 @Component({
   selector: 'sx-pedidos-page',
@@ -33,11 +34,16 @@ export class PedidosPageComponent implements OnInit {
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
     public dialog: MdDialog,
-    private store: Store<fromRoot.State>
+    private store: Store<fromRoot.State>,
+    private addNewClienteService: AddNewClienteService,
   ) { }
 
   ngOnInit() {
     this.sucursal$ = this.store.select(fromRoot.getSucursal);
+  }
+
+  addNewCliente() {
+    this.addNewClienteService.newCliente();
   }
 
 

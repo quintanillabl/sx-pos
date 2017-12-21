@@ -3,6 +3,9 @@
     <div toolbar flex layout>
       <span flex></span>
       <sx-factura-search></sx-factura-search>
+      <button md-icon-button (click)="addNewCliente()" type="button">
+        <md-icon>person_add</md-icon>
+      </button>
     </div>
     
     <router-outlet></router-outlet>
@@ -10,7 +13,7 @@
   <h2 matSubheader>Reportes</h2>
 
   <ng-template let-item let-last="last" ngFor [ngForOf]="reportes">
-    <md-list-item (click)="runReport(item.name)">
+    <md-list-item>
       <md-icon md-list-icon>blur_linear</md-icon>
       <h3 md-line> {{item.title}} </h3>
     </md-list-item>
