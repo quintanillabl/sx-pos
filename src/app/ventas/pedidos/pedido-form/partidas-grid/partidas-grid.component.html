@@ -1,4 +1,4 @@
-<div [formGroup]="parent" layout layout-align="center" layout-margin class="partidas-grid-container">
+<div [formGroup]="parent" class="partidas-grid-container" flex>
   <div formArrayName="partidas">
     <div *ngIf="invalid" class="text-center">
       <h3 class="tc-pink-700">Debe registrar al menos una partida</h3>
@@ -6,8 +6,8 @@
     <table td-data-table class="table" #dataTable>
       <thead>
         <tr td-data-table-column-row>
-          <th td-data-table-column [style.width.px]="50">Rng</th>
-          <th td-data-table-column  [style.width.px]="650" class="text-center">Producto</th>
+          <th td-data-table-column [style.width.px]="20">Rng</th>
+          <th td-data-table-column  [style.width.px]="600" class="text-center">Producto</th>
           <th td-data-table-column class="text-right">Cantidad</th>
           <th td-data-table-column class="text-center">Precio</th>
           <th td-data-table-column class="text-center">Importe</th>
@@ -76,34 +76,3 @@
 </div>
 
 
-<!-- <td-data-table
-  #dataTable
-  [data]="partidas"
-  [columns]="columns"
-  [style.height.px]="320">
-  <ng-template tdDataTableTemplate="producto" let-value="value" let-row="row">
-    <span flex="15">({{value.clave}}) </span>
-    <span flex> {{value.descripcion}}</span>
-    <span mdTooltip="Precio {{row.producto.modoVenta === 'B' ? 'Bruto': 'Neto'}}"
-      [ngClass]="{'tc-pink-700': row.producto.modoVenta === 'B', 'tc-indigo-700': row.producto.modoVenta === 'N'}">
-      {{row.producto.modoVenta}}
-    </span>
-  </ng-template>
-  <ng-template tdDataTableTemplate="precio" let-value="value" let-row="row">
-      {{value | currency: 'USD': 1.2-2}}
-  </ng-template>
-  <ng-template tdDataTableTemplate="importe" let-value="value" let-row="row">
-      {{value | currency: 'USD': 1.2-2}}
-  </ng-template>
-  <ng-template tdDataTableTemplate="descuentoImporte" let-value="value" let-row="row">
-      <span mdTooltip="{{row.descuento | percent:'1.1'}}">
-        {{value | currency: 'USD': 1.2-2}}
-      </span>
-  </ng-template>
-  <ng-template tdDataTableTemplate="subtotal" let-value="value" let-row="row">
-      {{value | currency: 'USD': 1.2-2}}
-  </ng-template>
-</td-data-table>
-<div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">
-  <h3>Registre los productos para la venta.</h3>
-</div> -->

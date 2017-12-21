@@ -130,7 +130,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
           this.existencias = exis
            // Fijar la existencia local
           const found =_.find(this.existencias, item => item.sucursal.id === this.sucursal.id);
-          console.log('Existencia local: ', found);
+          // console.log('Existencia local: ', found);
           this.form.get('existencia').setValue(found);
           // Calcular la existencia total
           this.disponibilidadTotal =  _.sumBy(this.existencias, 'disponible');
@@ -141,7 +141,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   private buildDisponibilidadTotal$() {
     this.disponibilidadTotal$ = this.existenciaRemota$.map( exis => _.sumBy(exis, 'disponible'));
   }
-  
+
   getExistenciaLocal(): Existencia {
     if (this.existencias) {
       return _.find(this.existencias, item => item.sucursal.id === this.sucursal.id);
@@ -176,7 +176,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  
+
 
   private buildCorte$() {
     this.corte$ = this.form.get('cortado').valueChanges;

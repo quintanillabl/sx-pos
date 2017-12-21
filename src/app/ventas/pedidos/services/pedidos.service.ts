@@ -53,7 +53,7 @@ export class PedidosService {
     return this.http.put(url, venta);
   }
 
-  asignarEnvio(venta: Venta, direccion: {}){
+  asignarEnvio(venta: Venta, direccion: {}) {
     console.log('Asignando direccion de envio: ', direccion)
     const url = `${this.apiUrl}/asignarEnvio/${venta.id}`;
     return this.http.put(url, direccion);

@@ -131,10 +131,10 @@ export class PendientesComponent implements OnInit {
     });
   }
 
-  doAsignarEnvio(pedido: Venta, direccion){
+  doAsignarEnvio(pedido: Venta, direccion) {
     this.service.asignarEnvio(pedido, direccion)
       .subscribe((res: Venta) => {
-        console.log('Direccion asignada exitosamente ', res);
+        // console.log('Direccion asignada exitosamente ', res);
         this.load();
         pedido = res;
       }, error =>  this.handleError(error));
