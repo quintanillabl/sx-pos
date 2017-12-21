@@ -11,9 +11,6 @@ export class CortesPageComponent implements OnInit {
     {route: 'fondoFijo', title: 'Fondo fijo', icon: 'storage'},
     {route: 'morralla', title: 'Morralla', icon: 'storage'},
     {route: 'facturacion', title: 'Fichas', icon: 'storage'},
-
-    
-    
   ];
 
   reportes = [];
@@ -24,7 +21,6 @@ export class CortesPageComponent implements OnInit {
   }
 
   runReport(name: string){
-    
   }
 
 }

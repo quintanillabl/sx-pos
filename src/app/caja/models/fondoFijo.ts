@@ -1,15 +1,14 @@
-import { Sucursal } from "@siipapx/models";
+import { Sucursal } from 'app/models';
 
 export interface FondoFijo {
-  id?:	string	
+  id?:	string
   rembolso?: boolean
-  fecha:	string	
+  fecha:	string
   documento: string
-  descripcion: string	
+  descripcion: string
   importe: number
   fondo?: FondoFijo
-  solicitud: string	
-  sucursal:	Sucursal	
-  comentario?:	string	
-  
+  solicitud: string
+  sucursal:	Sucursal
+  comentario?:	string
 }

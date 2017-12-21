@@ -14,16 +14,16 @@ import { FondoFijo } from 'app/caja/models/fondoFijo';
 export class CorteFondoFijoComponent implements OnInit {
 
   movimientos: FondoFijo[] = [];
-  
+
   constructor(
     public dialog: MdDialog,
     private service: FondoFijoService
   ) { }
-  
+
   ngOnInit() {
     this.load();
   }
-  
+
   load() {
     this.service.list().subscribe(movimientos => {
       this.movimientos = movimientos
