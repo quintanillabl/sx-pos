@@ -40,42 +40,42 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
       description: 'Aplicación saldos',
       icon: 'blur_linear',
     },
-    { 
+    {
       name: 'cobranzaCamioneta',
       title: 'Cobranza COD',
       icon: 'blur_linear',
     },
-    { 
+    {
       name: 'cobranzaEfectivo',
       title: 'Cobranza efectivo',
       icon: 'blur_linear',
     },
-    { 
+    {
       name: 'facturasPendientesCod',
       title: 'Facturas pendientes COD',
       icon: 'blur_linear',
     },
-    { 
+    {
       name: 'facturasCobradas',
       title: 'Facturas cobradas',
       icon: 'blur_linear',
     },
-    { 
+    {
       name: 'facturasCanceladas',
       title: 'Facturas Canceladas',
       icon: 'blur_linear',
     },
-    { 
+    {
       name: 'facturasPendientesEmbarque',
       title: 'Facturas por embarcar',
       icon: 'blur_linear',
     },
-    { 
+    {
       name: 'disponiblesPorSucursal',
       title: 'Disponibles por sucursal',
       icon: 'blur_linear',
     },
-    { 
+    {
       name: 'ventasDiariasChe',
       title: 'Ventas diarias (CHE)',
       icon: 'blur_linear',
@@ -105,7 +105,7 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
       this.reporteDeVentasDiarias();
     }
     if (report === 'reporteDeAplicacionSaldos') {
-      this.reporteDeVentasDiarias();
+      this.reporteDeAplicacionSaldos()
     }
     if (report === 'cobranzaCamioneta') {
       this.cobranzaCamioneta()
@@ -134,7 +134,7 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
   }
 
   reporteDeVentasDiarias() {
-    
+
     const dialogRef = this.dialog.open(VentasDiariasComponent, {});
 
     dialogRef.afterClosed().subscribe(result => {
@@ -149,15 +149,17 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
           });
       }
     });
-    
+
   }
 
   reporteDeAplicacionSaldos() {
-    
+
     const dialogRef = this.dialog.open(AplicacionSaldosComponent, {});
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        result.FECHA = result.fecha
+        // delete result.fecha
         this.service.runReport('report/aplicacionSaldos', result)
           .subscribe(res => {
             const blob = new Blob([res], {
@@ -168,11 +170,11 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
           });
       }
     });
-    
+
   }
 
   cobranzaCamioneta() {
-    
+
     const dialogRef = this.dialog.open(CobranzaCamionetaComponent, {});
 
     dialogRef.afterClosed().subscribe(result => {
@@ -187,7 +189,7 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
           });
       }
     });
-    
+
   }
 
   cobranzaEfectivo() {
@@ -258,7 +260,7 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(FacturasPendientesEmbarqueComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('report/facturasPendientesEmbarque', result)
+        this.service.runReport('report/facturasPendientesCodEmbarques', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -290,7 +292,7 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(VentasDiariasCheComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('report/ventasDiariasChe', result)
+        this.service.runReport('report/ventasDiariasCheques', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
