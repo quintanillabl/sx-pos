@@ -56,13 +56,14 @@
       </div>
 
       <div layout class="pad-left-sm pad-right-sm">
-        <md-form-field flex>
-          <input type="text" mdInput formControlName="solicita" placeholder="Solicita" >
-        </md-form-field>
-        <md-form-field flex>
-          <input type="text" mdInput  placeholder="Nombre" [disabled]="true">
-        </md-form-field>
+        <sx-usuario-sec-field flex (usuarioFound)="setAtendio($event)" placeholder="Solicita">
+        </sx-usuario-sec-field>
+        <span class="text-center tc-indigo-600" flex>
+          {{solicita?.nombre}}
+        </span>
       </div>
+
+
 
       <div layout class="pad-left-sm pad-right-sm">
         <sx-comentario-field flex [parent]="form" rows="1" ></sx-comentario-field>

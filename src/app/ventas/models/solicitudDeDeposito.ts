@@ -23,5 +23,5 @@ export interface SolicitudDeDeposito {
   dateCreated?: string
   lastUpdated?: string
   createUser?: string
-  updateUser?: string
+  updateUser: string
 }

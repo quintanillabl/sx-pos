@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 
 import { Sucursal } from 'app/models';
 import { SolicitudDeDeposito } from 'app/ventas/models/solicitudDeDeposito';
+import {Cliente} from 'app/models';
 
 export function ImporteValidator(): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {
@@ -56,7 +57,7 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
         ...this.solicitud,
         fecha: new Date(this.solicitud.fecha),
         fechaDeposito: new Date(this.solicitud.fechaDeposito),
-        solicita: solicitud.createUser
+        // solicita: solicitud.createUser
       }
       this.form.patchValue(sol);
     }
@@ -88,12 +89,18 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
   }
 
   private prepareEntity(): SolicitudDeDeposito {
-    return {
+    const res = {
       ...this.form.getRawValue(),
+      cliente: {
+        id: this.cliente.id
+      },
       fechaDeposito: this.form.get('fechaDeposito').value.toISOString(),
-      createUser: this.form.get('solicita').value,
-      updateUser: this.form.get('solicita').value
+      updateUser: this.form.get('solicita').value.username
     }
+    if (!this.id) {
+      res.createUser = res.updateUser
+    }
+    return res;
   }
 
   get id() {
@@ -112,6 +119,10 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
     return this.form.get('cuenta').value;
   }
 
+  get cliente(): Cliente {
+    return this.form.get('cliente').value;
+  }
+
   isEditable() {
     if (this.id !== null) {
 
@@ -124,6 +135,14 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
     }
 
     return true;
+  }
+
+  setAtendio(user) {
+    this.form.get('solicita').setValue(user);
+  }
+
+  get solicita() {
+    return this.form.get('solicita').value;
   }
 
 }

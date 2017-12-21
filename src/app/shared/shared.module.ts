@@ -33,6 +33,7 @@ import { FormaDePagoComponent } from './_fields/forma-de-pago/forma-de-pago.comp
 import { BancoFieldComponent } from './_fields/banco-field/banco-field.component';
 import { AlmacenesFieldComponent } from './_fields/almacenes-field/almacenes-field.component';
 import { SucursalLabelComponent } from './sucursal-label/sucursal-label.component';
+import { UsuarioSecFieldComponent } from './_fields/usuario-sec-field/usuario-sec-field.component';
 
 
 const FLEX_LAYOUT_MODULES: any[] = [
@@ -90,6 +91,7 @@ const COMPONENTS: any[] = [
     BancoFieldComponent,
     AlmacenesFieldComponent,
     SucursalLabelComponent,
+    UsuarioSecFieldComponent,
   ],
   exports: [
     ANGULAR_MODULES,
@@ -115,7 +117,8 @@ const COMPONENTS: any[] = [
     FormaDePagoComponent,
     BancoFieldComponent,
     AlmacenesFieldComponent,
-    SucursalLabelComponent
+    SucursalLabelComponent,
+    UsuarioSecFieldComponent,
   ],
 })
 export class SharedModule { }

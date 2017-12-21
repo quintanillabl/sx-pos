@@ -35,7 +35,7 @@ export class SolicitudCreateComponent implements OnInit {
   }
 
   onSave(solicitud: SolicitudDeDeposito) {
-    console.log('Salvando solicitud de deposito: ', solicitud);
+    // console.log('Salvando solicitud de deposito: ', solicitud);
     this.store.dispatch(new SaveAction(solicitud));
   }
 

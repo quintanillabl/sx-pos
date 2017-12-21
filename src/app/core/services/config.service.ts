@@ -6,7 +6,7 @@ import { environment } from 'environments/environment';
 import { AppConfig } from 'app/models/appConfig';
 import { Sucursal } from 'app/models';
 
-import { SetSucursalSuccessAction }  from 'app/core/store/config/config.actions';
+import { SetSucursalSuccessAction } from 'app/core/store/config/config.actions';
 import * as fromRoot from 'app/reducers';
 import { Store } from '@ngrx/store';
 
@@ -14,7 +14,7 @@ import { Store } from '@ngrx/store';
 @Injectable()
 export class ConfigService {
 
-  private config
+  private config: any
 
   private apiUrl: string;
 
@@ -26,7 +26,6 @@ export class ConfigService {
   ) {
     this.configurationUrl = 'assets/api-config.json';
   }
- 
 
   getAppConfig() {
     return this.config;
@@ -54,7 +53,6 @@ export class ConfigService {
     });
     return promise;
   }
-  
 
   private getProperty(property: string): any {
     //noinspection TsLint
