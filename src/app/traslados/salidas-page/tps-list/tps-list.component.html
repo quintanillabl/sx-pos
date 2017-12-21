@@ -1,7 +1,6 @@
 <md-list >
   <md-list-item>
     <span md-line >
-<<<<<<< HEAD
       <span layout >
         <span  flex class="tc-indigo-700 "> TPS/SOL</span>
         <span  flex="20">Fecha</span>
@@ -12,19 +11,6 @@
       </span>
     </span>
     
-=======
-        <span layout >
-          <span  flex="10" class="tc-indigo-700" >TPS</span>
-          <span flex="10" >SOL</span>
-          <span flex="10" >Fecha</span>
-          <span flex="30">Comentario</span>
-          <span flex="20"> Solicita</span>
-          <span flex="15">Inventariado</span>
-          <span flex="15" class="text-md tc-pink-500">CFDI</span>
-        </span>
-        <span flex></span>
-    </span>
->>>>>>> origin/master
   </md-list-item>
   <md-divider></md-divider>
   <td-virtual-scroll-container #virtualScroll [style.height.px]="600" [data]="salidas">
@@ -41,7 +27,6 @@
             <span class=" tc-blue-500" flex="20" > 
               {{row.solicitudDeTraslado?.sucursalSolicita?.nombre}}
             </span>
-<<<<<<< HEAD
             <span >{{row.fechaInventario | date: 'dd/MM/yyyy'}}</span>
             <span flex class="text-md ">
               <span *ngIf="row.cfdi">
@@ -49,10 +34,6 @@
               </span>
               <span class="tc-pink-500" *ngIf="!row.cfdi"> PENDIENTE </span>
             </span>
-=======
-            <span flex="10">{{row.fechaInventario | date: 'dd/MM/yyyy'}}</span>
-            <span flex="10" class="text-md tc-pink-500">PENDIENTE</span>
->>>>>>> origin/master
           </span>
         </span>
         <span flex></span>
