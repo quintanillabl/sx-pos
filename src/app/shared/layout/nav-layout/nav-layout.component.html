@@ -1,14 +1,14 @@
 <td-layout-nav logo="assets:siipap-rx2"  navigationRoute="/">
-  
-  <button md-icon-button td-menu-button  tdLayoutToggle> 
+
+  <button md-icon-button td-menu-button  tdLayoutToggle>
       <md-icon>menu</md-icon>
   </button>
-  
- 
+
   <div td-toolbar-content layout="row" layout-align="start center" flex>
     <span flex></span>
     <md-icon>{{headerIcon}}</md-icon>
     <span>{{header}} </span>
+    <sx-sucursal-label></sx-sucursal-label>
     <span flex></span>
     <span> SX-POS </span>
     <span> ({{modulo}})</span>
@@ -18,10 +18,9 @@
   </div>
 
   <ng-content></ng-content>
-    
+
   <td-layout-footer color="primary">
     <sx-page-footer></sx-page-footer>
   </td-layout-footer>
 
 </td-layout-nav>
-      

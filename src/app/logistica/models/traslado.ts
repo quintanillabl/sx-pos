@@ -1,4 +1,4 @@
-import { TrasladoDet } from "app/logistica/models/trasladoDet";
+import { TrasladoDet } from 'app/logistica/models/trasladoDet';
 
 export interface Traslado {
   id: string;

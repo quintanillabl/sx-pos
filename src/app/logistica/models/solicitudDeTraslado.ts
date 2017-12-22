@@ -1,4 +1,4 @@
-import {Sucursal, Venta} from 'app/models';
+import {Sucursal} from 'app/models';
 import {SolicitudDeTrasladoDet} from 'app/logistica/models/solicitudDeTrasladoDet';
 
 export interface SolicitudDeTraslado {
@@ -8,7 +8,7 @@ export interface SolicitudDeTraslado {
   documento: number;
   fecha: string;
   referencia?: string;
-  venta?: Venta;
+  venta?: string;
   clasificacionVale?: string;
   noAtender?: boolean;
   comentario?: string;
