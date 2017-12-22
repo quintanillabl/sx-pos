@@ -74,7 +74,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       this.pedidoFormService.registerForm(this.form, pedido);
       this.buildRecalcular$();
       this.buildFomraDePago$();
-      this.pedidoFormService.recalcular();
+      // this.pedidoFormService.recalcular();
 
     }
   }

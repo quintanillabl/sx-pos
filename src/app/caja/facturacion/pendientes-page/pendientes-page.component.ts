@@ -12,27 +12,15 @@ import { Venta } from 'app/models';
 export class PendientesPageComponent implements OnInit {
 
   columns: ITdDataTableColumn[] = [
-    { name: 'documento',  label: 'Folio', numeric: true, width: 15 },
-    { name: 'fecha',  label: 'Fecha', width: 10},
-    { name: 'nombre',  label: 'Cliente', width: 400},
-    { name: 'total',  label: 'Total', width: 20},
-    { name: 'formaDePago',  label: 'F.Pago', numeric: false, width: 10},
-    // { name: 'cuentaPorCobrar',  label: 'Factura', width: 10},
-    { name: 'regresar',  label: 'Regresar', width: 10},
+    { name: 'documento',  label: 'Folio', numeric: true, },
+    { name: 'fecha',  label: 'Fecha'},
+    { name: 'nombre',  label: 'Cliente', width: 500},
+    { name: 'total',  label: 'Total'},
+    { name: 'formaDePago',  label: 'F.Pago'},
+    { name: 'regresar',  label: 'Regresar'},
   ];
 
   data: any[] = [];
-
-  filteredData: any[] = this.data;
-  filteredTotal: number = this.data.length;
-
-  searchTerm: string = '';
-  fromRow: number = 1;
-  currentPage: number = 1;
-  pageSize: number = 50;
-  selectedRows: any[] = [];
-  sortBy: string = 'documento';
-  sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
   constructor(
     private _dataTableService: TdDataTableService,
@@ -49,7 +37,6 @@ export class PendientesPageComponent implements OnInit {
     this.service.pendientesDeFacturar('CON')
     .subscribe( pendientes => {
       this.data = pendientes;
-      this.filteredData = this.data;
       }, error => console.log('Error: ', error)
     );
   }
@@ -83,7 +70,7 @@ export class PendientesPageComponent implements OnInit {
   }
 
   getFormaDePago(row: Venta) {
-    switch(row.formaDePago) {
+    switch (row.formaDePago) {
       case 'TARJETA_DEBITO':
         return 'TAR_DEV'
       case 'TARJETA_CREDITO':

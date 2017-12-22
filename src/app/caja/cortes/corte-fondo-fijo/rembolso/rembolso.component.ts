@@ -27,10 +27,10 @@ export class RembolsoComponent implements OnInit {
     this.form = this.fb.group({
       fecha: [{value: new Date(), disabled: false}, Validators.required],
       documento: ['', Validators.required],
-      descripcion: ['FONDO FIJO', Validators.required],
+      descripcion: ['REMBOLSO', Validators.required],
       importe: [0, [Validators.required, this.validarImporte.bind(this)]],
       rembolso: true,
-      solicitud: ['TEST', Validators.required],
+      solicitud: ['PENDIENTE', Validators.required],
       comentario: ['']
     });
   }

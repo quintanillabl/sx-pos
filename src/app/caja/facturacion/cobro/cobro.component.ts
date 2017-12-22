@@ -41,7 +41,6 @@ export class CobroComponent implements OnInit {
   }
 
   onFacturar(pedido: Venta) {
-    console.log('Facturando ', pedido);
     if (pedido.facturar && pedido.tipo !== 'CRE') {
       this._dialogService.openConfirm({
         message: `Facturar el pedido ${pedido.tipo} - ${pedido.documento} (${pedido.total})` ,
@@ -124,5 +123,5 @@ export class CobroComponent implements OnInit {
       });
   }
 
-  
+
 }

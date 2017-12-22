@@ -11,7 +11,7 @@ import { CONTADO, CREDITO } from 'app/ventas/models/descuentos';
 import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
 import { DescuentoEspecialComponent } from './descuento-especial/descuento-especial.component';
 import { PrecioEspecialComponent } from './precio-especial/precio-especial.component';
-import {Venta} from '@siipapx/models';
+import {Venta} from 'app/models';
 
 export function mapPartidaToImporte( det: VentaDet) {
   const factor = det.producto.unidad === 'MIL' ? 1000 : 1;
@@ -74,7 +74,6 @@ export class PedidoFormService {
    */
   editarPartida(index: number, config: {sucursal: Sucursal}) {
     const det = this.partidas.value[index];
-    // console.log('Editando partida: ', det);
     const dialogRef = this.dialog.open(PedidoDetFormComponent, {
       data: {
         sucursal: config.sucursal,
@@ -233,8 +232,9 @@ export class PedidoFormService {
     }
 
     if (this.pedido.id) {
-      descuento = this.pedido.descuento;
+      // descuento = this.pedido.descuento;
     }
+    // console.log('Aplicando descuento por volumen : ', descuento);
     _.forEach(partidas, item => {
       if (item.producto.modoVenta === 'B') {
         item.descuento = descuento
@@ -280,6 +280,7 @@ export class PedidoFormService {
   }
 
   findDescuentoPorVolumen(importe: number) {
+    // console.log('Buscando descuento por volumen para ', importe)
     let found = null;
     for (let i = 0; i < CONTADO.length; i++) {
       const item = CONTADO[i];
@@ -297,7 +298,7 @@ export class PedidoFormService {
       }
     });*/
     // const found = _.findLast(CONTADO, item => item.importe < importe);
-    // console.log('Descuento localizado para el importe: ', importe, found);
+    // console.log('Descuento localizado: ', found);
     return  found
   }
 
@@ -461,7 +462,7 @@ export class PedidoFormService {
     const partidas: VentaDet[] = this.partidasActualizables;
     _.forEach(partidas, item => {
       if (item.producto.modoVenta === 'B') {
-        item.descuento = (descuento) 
+        item.descuento = (descuento)
         item.descuentoOriginal = item.descuento;
       } else if (item.producto.modoVenta === 'N' && item.producto.clave !== 'MANIOBRA') {
         item.descuento = 0
@@ -507,7 +508,7 @@ export class PedidoFormService {
         det.subtotal = flete;
         grid.refresh();
         this.actualizarTotales();
-        
+
       } else {
         this.service.findManiobraFlete().subscribe(producto => {
           const det = this.buildPartidaDeManiobra(producto, flete);

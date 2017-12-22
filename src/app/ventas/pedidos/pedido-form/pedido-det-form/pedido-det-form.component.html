@@ -4,17 +4,13 @@
   <md-dialog-content>
     <div class="form-content" layout="column">
 
-      <!--<sx-existencia-field
-        [sucursal]="sucursal" [conExistencia]="false" [activos]="true"
-        placeholder="Producto"
-        formControlName="existencia">
-      </sx-existencia-field>-->
-      <sx-producto-field formControlName="producto" *ngIf="!partida">
+
+      <sx-producto-field formControlName="producto" >
 
       </sx-producto-field>
 
-      <div *ngIf="partida" class="pad tc-indigo-700 md-title">
-        {{producto.descripcion}}
+      <div *ngIf="partida" class="pad-sm tc-indigo-700 md-title">
+        {{producto.descripcion}} ({{producto.clave}})
       </div>
 
 

@@ -36,10 +36,10 @@ export class CobroCodComponent implements OnInit {
   }
 
   onCancelar() {
-    this.router.navigate(['/caja/facturacion']);
+    this.router.navigate(['/caja/cobranzaCod']);
   }
 
-  
+
   onSave(cobroJob) {
     console.log('Generando cobro COD par: ', cobroJob);
     this.loadingService.register('saving');
@@ -53,7 +53,7 @@ export class CobroCodComponent implements OnInit {
       console.error(error);
       this.loadingService.resolve('saving');
     });
-    
+
   }
 }
 

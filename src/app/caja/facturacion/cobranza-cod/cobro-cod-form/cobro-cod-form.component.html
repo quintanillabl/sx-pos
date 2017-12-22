@@ -17,27 +17,27 @@
           <md-form-field flex>
               <input type="text" mdInput value="{{venta?.fecha | date: 'dd/MM/yyyy'}}" placeholder="Fecha" [disabled]="true">
           </md-form-field>
-  
+
         </div>
-  
+
         <div layout  layout-align="center center" layout-padding>
           <md-form-field flex>
             <input type="text" mdInput value="{{venta?.total | currency: 'USD': 1.2-2}}" placeholder="Total pedido" [disabled]="true">
           </md-form-field>
-  
+
           <md-form-field flex>
               <input type="text" mdInput value="{{totalParciales | currency: 'USD': 1.2-2}}" placeholder="Parciales" [disabled]="true">
           </md-form-field>
-  
+
           <md-form-field flex>
             <input type="text" mdInput value="{{pendiente | currency: 'USD': 1.2-2}}" placeholder="Por Cobrar" [disabled]="true">
             <md-error>Importe invalido</md-error>
           </md-form-field>
-  
-  
-  
+
+
+
         </div>
-  
+
         <div layout  layout-align="center center" layout-padding>
           <section>
             <button type="button" md-button color="accent" (click)="saldar()"
@@ -47,7 +47,7 @@
             <input type="text" mdInput  placeholder="Cobrado" formControlName="importe" sxOnlyNumbers>
             <md-error>Imorte incorrecto</md-error>
           </md-form-field>
-  
+
           <md-form-field flex>
             <input type="text" mdInput  placeholder="Diferencia" formControlName="cambio">
           </md-form-field>
@@ -56,7 +56,7 @@
               [disabled]="!permitirMasCobros"> Agregar otra F.P</button>
           </section>
         </div>
-  
+
       </md-card-content>
       <td-message *ngIf="form.hasError('permiteCheque') "
         label="Error!" sublabel="No se permite cheque a este cliente" color="warn" icon="error"></td-message>
@@ -66,10 +66,10 @@
           [disabled]="form.invalid">
           Cobrar
         </button>
-        <button md-button class="text-upper" (click)="cancelar.emit()">Cancelar</button>
+        <button md-button class="text-upper" (click)="cancelar.emit()" type="button">Cancelar</button>
       </md-card-actions>
     </md-card>
-  
+
     <md-card flex="30">
       <md-card-title class="md-title" >
         <span layout>
@@ -95,8 +95,7 @@
         </ng-template>
       </md-list>
     </md-card>
-  
+
   </form>
-  
-  
-  
+
+

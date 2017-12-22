@@ -22,7 +22,7 @@ export class CobranzaCodComponent implements OnInit {
     { name: 'saldo',  label: 'Saldo', width: 10},
   ];
 
-  data: any[] = []; 
+  data: any[] = [];
 
   constructor(
     private _dataTableService: TdDataTableService,
@@ -33,8 +33,7 @@ export class CobranzaCodComponent implements OnInit {
     this.service.facturasPendientesCod()
     .subscribe( (pendientes: any) => {
       this.data = pendientes;
-      console.log('Pendientes: ', pendientes);
-      },error => console.log('Error: ', error)
+      }, error => console.log('Error: ', error)
     );
   }
 

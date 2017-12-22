@@ -33,13 +33,13 @@ export class FacturaShowComponent implements OnInit {
   ngOnInit() {
     this.venta$ = this.route.paramMap
       .switchMap( params => this.service.getVenta(params.get('id')));
-    this.venta$.subscribe(v => console.log('Venta: ', v));
+    // this.venta$.subscribe(v => console.log('Venta: ', v));
   }
 
   load() {
     this.venta$ = this.route.paramMap
       .switchMap( params => this.service.getVenta(params.get('id')));
-    this.venta$.subscribe(v => console.log('Venta: ', v));
+    // this.venta$.subscribe(v => console.log('Venta: ', v));
   }
 
   cancelar(factura: Venta) {
