@@ -9,7 +9,6 @@ import { MdDialogRef } from '@angular/material';
       <h4 md-dialog-title>
         Reporte de Arqueo
       </h4>
-
       <div layout="column" class="selector-form" >
         <md-form-field flex>
           <input mdInput [mdDatepicker]="picker" placeholder="Fecha" formControlName="fecha">
