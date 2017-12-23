@@ -24,7 +24,8 @@ import { VentasDiariasCheComponent } from './reportes/ventas-diarias-che/ventas-
 import { CortesModule } from './cortes/cortes.module';
 import { CorteCobranzaService } from './services/corteCobranza.service';
 import { FondoFijoService } from './services/fondo-fijo.service';
-import {MorrallaService} from '@siipapx/caja/services/morralla.service';
+import { MorrallaService} from 'app/caja/services/morralla.service';
+import { ArqueoComponent } from './reportes/arqueo/arqueo.component';
 
 
 
@@ -48,6 +49,7 @@ import {MorrallaService} from '@siipapx/caja/services/morralla.service';
     FacturasPendientesEmbarqueComponent,
     DisponiblesSucursalComponent,
     VentasDiariasCheComponent,
+    ArqueoComponent,
   ],
   providers: [
     ReportesService,
@@ -68,6 +70,7 @@ import {MorrallaService} from '@siipapx/caja/services/morralla.service';
     FacturasPendientesEmbarqueComponent,
     DisponiblesSucursalComponent,
     VentasDiariasCheComponent,
+    ArqueoComponent
   ]
 })
 export class CajaModule { }

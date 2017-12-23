@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { Cobro } from 'app/models/cobro';
@@ -12,7 +12,7 @@ import { ConfigService } from 'app/core/services/config.service';
 @Injectable()
 export class CobroService {
 
-  private apiUrl:string;
+  private apiUrl: string;
 
   sucursal: Sucursal;
 
@@ -58,6 +58,21 @@ export class CobroService {
   buscarDisponibles(cliente: Cliente): Observable<Cobro[]> {
     const url = `${this.apiUrl}/buscarDisponibles/${cliente.id}`;
     return this.http.get<Cobro[]>(url);
+  }
+
+  reporteDeArque(fecha) {
+    const url = this.configService.buildApiUrl('tesoreria/reporteDeAarqueoCaja');
+    const params = new HttpParams()
+      .set('SUCURSAL', this.sucursal.id)
+      .set('FECHA', fecha);
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        params: params,
+        responseType: 'blob'
+      }
+    );
   }
 
 }
