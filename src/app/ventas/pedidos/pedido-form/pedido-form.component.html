@@ -1,7 +1,7 @@
 <form novalidate [formGroup]="form" layout="row" class="pedido-form" (ngSubmit)="onSave()" >
 
   <md-card flex="80" >
-    <sx-pedido-header
+    <sx-pedido-header [editable]="editable"
       (addCliente)="onAddNewCliente()" [parent]="form"
       (insertar)="onInsertPartida()"
       (descuento)="onDescuento()"
@@ -50,13 +50,17 @@
       <md-divider></md-divider>
       <md-card-actions>
         <a  md-button [routerLink]="['/ventas/pedidos/pendientes']"> Cancelar </a>
-        <button type="submit" md-button [disabled]="form.invalid" > Salvar </button>
 
-        <button type="button" md-button  *ngIf="id"
-          mdTooltip="Eliminar pedido" color="warn" (click)="delete.emit(pedido)">
+        <ng-container *ngIf="editable">
+          <button type="submit" md-button [disabled]="form.invalid" >
+            Salvar
+          </button>
+
+          <button type="button" md-button  *ngIf="id"
+                  mdTooltip="Eliminar pedido" color="warn" (click)="delete.emit(pedido)">
             <md-icon>delete</md-icon> Eliminar
-        </button>
-        <!-- <button *ngIf="id" type="button" md-icon-button (click)="print.emit(id)"> <md-icon>print</md-icon></button> -->
+          </button>
+        </ng-container>
       </md-card-actions>
     </md-card>
   </div>

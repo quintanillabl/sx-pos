@@ -22,7 +22,7 @@ export class AddClienteDialogComponent implements OnInit {
       nombre: [null, [Validators.required, Validators.maxLength(255)]],
       rfc: [null, [Validators.required, Validators.minLength(12), Validators.maxLength(13)]],
       clave: ['PENDIENTE', Validators.required],
-      email: [null],
+      email: [null, Validators.required],
       direccion: this.fb.group({
         calle: [null, Validators.required],
         numeroExterior: [null, Validators.required],
@@ -32,9 +32,17 @@ export class AddClienteDialogComponent implements OnInit {
         estado: [null, Validators.required],
         pais: [{value: 'MEXICO', disabled: true}, Validators.required],
         codigoPostal: [null, Validators.required],
-      })
+      }),
+      telefono1: [null],
+      telefono2: [null],
+      celular: [null],
+      fax: [null],
+      mail: [null],
+      www: [null]
     });
   }
+
+
 
   cancelar() {
     this.dialogRef.close('CANCELADO');
@@ -43,10 +51,29 @@ export class AddClienteDialogComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       const cliente = {
+        medios: this.buildMediosObject(),
         ... this.form.getRawValue()
       }
+      // console.log('Cliente: ', cliente);
       this.dialogRef.close(cliente);
     }
+  }
+
+  private buildMediosObject(): Array<any> {
+    const medios = [];
+    const telefono1 = this.form.get('telefono1').value;
+    const telefono2 = this.form.get('telefono2').value;
+    const cfdiMail = this.form.get('email').value;
+    if (telefono1 ) {
+      medios.push({tipo: 'TEL', descripcion: telefono1, comentario: 'TELEFONO 1'})
+    }
+    if (telefono2 ) {
+      medios.push({tipo: 'TEL', descripcion: telefono2, comentario: 'TELEFONO 2'})
+    }
+    if (cfdiMail ) {
+      medios.push({tipo: 'MAIL', descripcion: cfdiMail, comentario: 'CFDI Mail', cfdi: true})
+    }
+    return medios;
   }
 
   get generalesLabel(){

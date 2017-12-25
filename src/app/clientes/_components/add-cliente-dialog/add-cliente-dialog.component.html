@@ -8,11 +8,11 @@
         <div layout="column">
           <ng-template td-step-label><span>{{generalesLabel}}</span></ng-template>
           <md-form-field mdLine class="cliente-full-width">
-            <input type="text" mdInput placeholder="Nombre" formControlName="nombre">
+            <input type="text" mdInput placeholder="Nombre" formControlName="nombre" sxToUpperCase>
             <md-error>Nombre invalido</md-error>
           </md-form-field>
           <md-form-field class="cliente-full-width">
-            <input type="text" mdInput placeholder="RFC" formControlName="rfc">
+            <input type="text" mdInput placeholder="RFC" formControlName="rfc" sxToUpperCase>
             <md-error>RFC Invalido</md-error>
           </md-form-field>
           <md-form-field class="cliente-full-width">

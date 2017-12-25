@@ -43,6 +43,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   formaDePago$: Observable<any>;
   formaDePagoSubscription: Subscription;
 
+  editable = true;
 
   @ViewChild(PartidasGridComponent) grid: PartidasGridComponent;
 
@@ -60,7 +61,10 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.pedido && changes.pedido.currentValue) {
       const pedido: Venta = changes.pedido.currentValue;
-      // console.log('Editando pedido: ', pedido);
+      console.log('Editando pedido: ', pedido);
+      if (pedido.id && pedido.puesto) {
+        this.editable = false;
+      }
       _.forEach(pedido.partidas, item => this.partidas.push(new FormControl(item)));
       this.form.get('isPuesto').setValue(pedido.puesto !== undefined);
 
@@ -174,7 +178,9 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onInsertPartida() {
-    this.pedidoFormService.agregarPartida({sucursal: this.sucursal});
+    if (this.editable) {
+      this.pedidoFormService.agregarPartida({sucursal: this.sucursal});
+    }
   }
 
   onEditPartida(index: number) {
@@ -205,15 +211,17 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onSave() {
-    const pedido: Venta = {
-      ...this.form.getRawValue(),
-      sucursal: this.sucursal,
-      vendedor: this.cliente.vendedor,
-    };
-    this.fixPedidoToApi(pedido);
+    if (this.form.valid) {
+      const pedido: Venta = {
+        ...this.form.getRawValue(),
+        sucursal: this.sucursal,
+        vendedor: this.cliente.vendedor,
+      };
+      this.fixPedidoToApi(pedido);
 
-    _.forEach(pedido.partidas, item => item.sucursal = this.sucursal)
-    this.save.emit(pedido);
+      _.forEach(pedido.partidas, item => item.sucursal = this.sucursal)
+      this.save.emit(pedido);
+    }
   }
 
   /**
@@ -277,6 +285,8 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
 
+
+
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
     // console.log(event);
@@ -288,6 +298,15 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     }
     if (event.code === 'F7') {
       this.onAddNewCliente();
+    }
+    if (event.code === 'F10') {
+      console.log('Salvando con tecla F10')
+      this.onSave();
+    }
+    if (event.code === 'F8') {
+      if (this.cliente) {
+        this.onCambioDeCfdi(this.cliente);
+      }
     }
   }
 

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
 import { Router } from '@angular/router';
-import {TdLoadingService} from '@covalent/core';
+import { TdDialogService, TdLoadingService } from '@covalent/core';
 
 import * as fromRoot from 'app/reducers';
 import { Sucursal, Venta } from 'app/models';
@@ -38,6 +38,8 @@ export class PedidoCreateComponent implements OnInit {
     private service: PedidosService,
     private loadingService: TdLoadingService,
     private router: Router,
+    private _dialogService: TdDialogService,
+    private _viewContainerRef: ViewContainerRef,
   ) { }
 
   ngOnInit() {
@@ -72,7 +74,34 @@ export class PedidoCreateComponent implements OnInit {
   }
 
   onCambioDeCfdiMail(cliente) {
+    if (cliente) {
+      this.doCambioDeCfdiMail(cliente);
+    }
+  }
+
+  doCambioDeCfdiMail(cliente) {
     console.log('Actualizando el CFDI del cliente');
+    this._dialogService.openPrompt({
+      message: 'Digite el nuevo email para envio del CFDI',
+      viewContainerRef: this._viewContainerRef,
+      title: 'Cambio de CFDI',
+      value: cliente.cfdiMail,
+      cancelButton: 'Cancelar',
+      acceptButton: 'Aceptar',
+    }).afterClosed().subscribe((newValue: string) => {
+      if (newValue) {
+        console.log('Actualizando cfdi Mail: ', newValue);
+        this.loadingService.register('saving');
+        this.service.actualizarCfdiEmail(cliente, newValue)
+          .subscribe(
+            cli => {
+              console.log('correo actualizado: ', cliente);
+              this.loadingService.resolve('saving');
+            },
+            error => this.handlePostError(error)
+          );
+      }
+    });
   }
 
   onSave(pedido: Venta) {

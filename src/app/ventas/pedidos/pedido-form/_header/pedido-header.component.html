@@ -13,7 +13,7 @@
 
     <span flex></span>
 
-    <span>
+    <span *ngIf="editable">
       <button md-icon-button  (click)="insertar.emit()"  type="button" mdTooltip="Agregar partida" >
         <md-icon>add</md-icon>
       </button>

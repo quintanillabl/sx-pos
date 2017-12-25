@@ -26,7 +26,7 @@ export class AddNewClienteService {
     });
   }
 
-  showConfigmation(cliente){
+  showConfigmation(cliente) {
     console.log('Cliente registrado: ', cliente);
     this._dialogService.openAlert({
       message: 'Cliente registrado ' + cliente.nombre,
@@ -37,7 +37,7 @@ export class AddNewClienteService {
   }
 
   handleError(error){
-    
+
   }
 
 }

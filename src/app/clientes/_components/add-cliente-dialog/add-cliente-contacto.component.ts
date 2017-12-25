@@ -6,25 +6,22 @@ import { FormGroup } from '@angular/forms';
   template: `
     <div [formGroup]="parent" layout="column" layout-align="center strech">
       <md-form-field flex class="full-width">
-        <input type="text" mdInput placeholder="Nombre">
+        <input type="text" mdInput placeholder="Telefono 1" formControlName="telefono1">
       </md-form-field>
       <md-form-field flex class="full-width">
-        <input type="text" mdInput placeholder="Telefono">
+        <input type="text" mdInput placeholder="Telefono 2" formControlName="telefono2">
       </md-form-field>
       <md-form-field flex class="full-width">
-        <input type="text" mdInput placeholder="Celular">
+        <input type="text" mdInput placeholder="Celular" formControlName="celular">
       </md-form-field>
       <md-form-field flex class="full-width">
-        <input type="text" mdInput placeholder="Fax">
+        <input type="text" mdInput placeholder="Fax" formControlName="fax">
       </md-form-field>
       <md-form-field flex class="full-width">
-        <input type="email" mdInput placeholder="Email CFDI">
+        <input type="email" mdInput placeholder="Email Empresa" formControlName="mail">
       </md-form-field>
       <md-form-field flex class="full-width">
-        <input type="email" mdInput placeholder="Email Empresa">
-      </md-form-field>
-      <md-form-field flex class="full-width">
-        <input type="text" mdInput placeholder="Página web">
+        <input type="text" mdInput placeholder="Página web" formControlName="www">
       </md-form-field>
     </div>
   `,
@@ -34,7 +31,7 @@ import { FormGroup } from '@angular/forms';
 export class AddClienteContactoComponent implements OnInit {
 
   @Input() parent: FormGroup;
-  
+
   constructor() { }
 
   ngOnInit() { }

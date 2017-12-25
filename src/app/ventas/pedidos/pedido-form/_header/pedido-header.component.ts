@@ -25,14 +25,19 @@ export class PedidoHeaderComponent implements OnInit, OnDestroy {
 
   subscription: Subscription
 
+  @Input() editable =  true;
+
   constructor() { }
 
   ngOnInit() {
-    this.subscription = this.parent.get('cliente').valueChanges.subscribe( cliente => {
+    this.subscription = this.parent.get('cliente').valueChanges
+      // .do( cliente => console.log('Cliente seleccionado para el pedido: ', cliente))
+      .subscribe( cliente => {
       if (cliente !== null) {
         this.parent.get('cfdiMail').setValue(cliente.email);
       }
     });
+
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -57,7 +62,7 @@ export class PedidoHeaderComponent implements OnInit, OnDestroy {
     } else {
       return false;
     }
-    
+
   }
 
   get descuentoNormal() {
@@ -65,7 +70,7 @@ export class PedidoHeaderComponent implements OnInit, OnDestroy {
   }
 
   get descuentoOriginal() {
-    return this.parent.get('descuentoOriginal').value /100;
+    return this.parent.get('descuentoOriginal').value / 100;
   }
 
 

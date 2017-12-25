@@ -1,6 +1,6 @@
 <div layout="column" [formGroup]="parent">
   <md-form-field class="full-width">
-    <input type="text" mdInput placeholder="Calle" formControlName="calle">
+    <input type="text" mdInput placeholder="Calle" formControlName="calle" sxToUpperCase>
   </md-form-field>
   <div flex layout>
     <md-form-field flex>
@@ -11,21 +11,21 @@
     </md-form-field>
   </div>
   <md-form-field class="full-width">
-    <input type="text" mdInput placeholder="Colonia" formControlName="colonia">
+    <input type="text" mdInput placeholder="Colonia" formControlName="colonia" sxToUpperCase>
   </md-form-field>
   <md-form-field class="full-width">
-    <input type="text" mdInput placeholder="Delegación / Municipio" formControlName="municipio">
+    <input type="text" mdInput placeholder="Delegación / Municipio" formControlName="municipio" sxToUpperCase>
   </md-form-field>
   <div layout>
     <md-form-field flex>
-      <input type="text" mdInput placeholder="Estado" formControlName="estado">
+      <input type="text" mdInput placeholder="Estado" formControlName="estado" sxToUpperCase>
     </md-form-field >
     <md-form-field flex>
-      <input type="text" mdInput placeholder="Pais" formControlName="pais">
+      <input type="text" mdInput placeholder="Pais" formControlName="pais" sxToUpperCase>
     </md-form-field>
   </div>
   <md-form-field flex>
     <input type="text" mdInput placeholder="Código Postal" formControlName="codigoPostal">
   </md-form-field >
- 
+
 </div>
