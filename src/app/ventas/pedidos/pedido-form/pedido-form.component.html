@@ -18,8 +18,9 @@
       <sx-modo-field [parent]="form" flex="15"></sx-modo-field>
       <sx-forma-de-pago [parent]="form" flex="15"></sx-forma-de-pago>
       <sx-uso-cfdi [parent]="form" flex></sx-uso-cfdi>
-      <sx-comprador-field [parent]="form" flex></sx-comprador-field>
-      <section  flex>
+      <sx-usuario-sec-field flex placeholder="Atiende" (usuarioFound)="setUsuario($event)"></sx-usuario-sec-field>
+      <section  flex layout="column">
+        <sx-comprador-field [parent]="form" flex></sx-comprador-field>
         <md-checkbox class="text-md"  (change)="onPuesto($event)" formControlName="isPuesto">Puesto</md-checkbox>
       </section>
 
@@ -33,7 +34,13 @@
       (edit)="onEditPartida($event)"
       (cambioDePrecio)="onCambioDePrecio($event)">
     </sx-pedido-partidas-grid>
-    <sx-validation-panel [parent]="form"></sx-validation-panel>
+    <div layout>
+      <sx-validation-panel [parent]="form" flex="80"></sx-validation-panel>
+      <td-message #message label="Se requiere clave para salvar" icon="warning" *ngIf="usuario === null"
+                  color="accent" opened="true">
+      </td-message>
+    </div>
+
   </md-card>
 
   <div flex="20">

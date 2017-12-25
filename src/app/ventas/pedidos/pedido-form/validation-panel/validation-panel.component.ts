@@ -41,7 +41,6 @@ export class ValidationPanelComponent implements OnInit {
     if (this.parent.hasError('sinConfiguracionDeVale')) {
       return 'Debe registrar la configuración del vale de traslado';
     }
-    
     return null;
   }
 

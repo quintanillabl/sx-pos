@@ -85,7 +85,7 @@ export class ProductoFieldComponent implements OnInit, ControlValueAccessor, OnD
   }
 
   displayFn(producto: Producto) {
-    return producto ? producto.descripcion : '';
+    return producto ? `${producto.descripcion} (${producto.clave})` : '';
   }
 
   writeValue(obj: any): void {

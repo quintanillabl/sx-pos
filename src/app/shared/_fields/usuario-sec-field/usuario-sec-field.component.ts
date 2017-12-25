@@ -41,7 +41,7 @@ export class UsuarioSecFieldComponent implements OnInit {
   }
 
   search(val) {
-    console.log('Localizando usuario: ', val);
+    // console.log('Localizando usuario: ', val);
     const url = this.config.buildApiUrl('security/users/findByNip/');
     const params = new HttpParams()
       .set('nip', val)

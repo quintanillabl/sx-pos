@@ -22,6 +22,7 @@ export interface VentaDet {
   conVale?: boolean
   importeCortes?: number
   corte?: InstruccionDeCorte
+  sinExistencia?: false;
   precioLista: number
   precioOriginal: number
   descuentoOriginal: number

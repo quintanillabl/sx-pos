@@ -39,7 +39,14 @@
               <md-icon *ngIf="row.corte">content_cut</md-icon>
             </span>
           </td>
-          <td td-data-table-cell numeric="true" [style.width.px]="70">{{row.cantidad}}</td>
+          <td td-data-table-cell numeric="true" [style.width.px]="70">
+            <span class="pad-left" >
+              {{row.cantidad}}
+            </span>
+            <md-icon class="tc-pink-700" *ngIf="row.sinExistencia"
+                     mdTooltip="Producto sin existencia requiere autorización">warning
+            </md-icon>
+          </td>
           <td td-data-table-cell numeric="true">
             <ng-container *ngIf="isEditable(row)">
                 {{row.precio | currency: 'USD': 1.2-2}}

@@ -129,7 +129,8 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       kilos: [{value: 0, disabled: true}],
       envio: null,
       isPuesto: false,
-      puesto: null
+      puesto: null,
+      usuario: [null, Validators.required],
     }, { validator: PedidoValidator});
   }
 
@@ -235,6 +236,11 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     pedido.cliente = pedido.cliente.id
     const data = [...pedido.partidas];
     _.forEach(data, item => item.producto = item.producto.id);
+
+    pedido.updateUser = this.form.get('usuario').value.username;
+    if (!this.id) {
+      pedido.createUser = this.form.get('usuario').value.username;
+    }
     return pedido;
   }
 
@@ -308,6 +314,14 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
         this.onCambioDeCfdi(this.cliente);
       }
     }
+  }
+
+  setUsuario(usuario) {
+    this.form.get('usuario').setValue(usuario);
+  }
+
+  get usuario() {
+    return this.form.get('usuario').value;
   }
 
 

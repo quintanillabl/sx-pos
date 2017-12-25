@@ -22,7 +22,7 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
     return { sinPartidas: true };
   }
   // Valida que el importe del pedido sea mayor o igual a $10
-  
+
   if (total < 1) {
     return { importeMuyBajo: true };
   }
@@ -68,7 +68,12 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
     if ( clasificacionVale === 'SIN_VALE' || sucursalVale === null) {
       return { sinConfiguracionDeVale: true}
     }
-    
+  }
+
+  // Validacion de usuario
+  const user = control.get('usuario').value;
+  if (!user) {
+    return  { sinUsuario: true}
   }
 
   return null;

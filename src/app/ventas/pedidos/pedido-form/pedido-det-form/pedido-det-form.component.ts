@@ -69,6 +69,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     this.buildProducto$();
     // this.buildImporteBruto$();
     this.buildCorte$();
+    // this.buildSinExistencia()
   }
 
   private edicion() {
@@ -93,7 +94,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       importe: [{value: 0, disabled: true}],
       importeConIva: [{value: 0, disabled: true}],
       cortado: [{value: false, disabled: false}],
-      sinExistencia: [{value: false, disabled: true}],
+      sinExistencia: [{value: false, disabled: false}],
       conVale: [{value: false, disabled: false}],
       conTrs: [{value: false, disabled: false}],
       corte: this.fb.group({
@@ -193,7 +194,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subs1.unsubscribe();
     this.corteSubscription.unsubscribe();
-    if(this.subs2) {
+    if (this.subs2) {
       this.subs2.unsubscribe();
     }
     if (this.existenciaRemotaSubs) {
@@ -233,7 +234,8 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       comentario: rawData.comentario,
       conVale: rawData.conVale,
       importeCortes: rawData.importeCortes,
-      sucursal: this.sucursal
+      sucursal: this.sucursal,
+      sinExistencia: rawData.sinExistencia
     }
     if (this.form.get('cortado').value) {
       det.corte = this.form.get('corte').value;
