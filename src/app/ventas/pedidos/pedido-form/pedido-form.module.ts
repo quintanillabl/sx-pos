@@ -26,6 +26,7 @@ import { PrecioEspecialComponent } from './precio-especial/precio-especial.compo
 import { EnvioDireccionComponent } from './envio-direccion/envio-direccion.component';
 import { ValidationPanelComponent } from './validation-panel/validation-panel.component';
 import { ConfiguracionValeComponent } from './configuracion-vale/configuracion-vale.component';
+import { SocioFieldComponent } from './socio-field/socio-field.component';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { ConfiguracionValeComponent } from './configuracion-vale/configuracion-v
     PrecioEspecialComponent,
     EnvioDireccionComponent,
     ValidationPanelComponent,
-    ConfiguracionValeComponent
+    ConfiguracionValeComponent,
+    SocioFieldComponent
   ],
   entryComponents: [
     PedidoDetFormComponent,

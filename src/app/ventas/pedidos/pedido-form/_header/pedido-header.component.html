@@ -44,6 +44,17 @@
     <md-form-field flex="50" class="pad-right">
       <input type="text" mdInput placeholder="Nombre" formControlName="nombre">
     </md-form-field>
+    <md-form-field flex="50" class="pad-right">
+      <input type="text" mdInput placeholder="Socio" formControlName="socio">
+    </md-form-field>
+    <span flex></span>
+  </div>
+
+  <div class="row2" layout *ngIf="cliente?.clave === 'U050008' ">
+    <!--<md-form-field flex="50" class="pad-right">
+      <input type="text" mdInput placeholder="Socio" formControlName="socio">
+    </md-form-field>-->
+    <sx-socio-field formControlName="socio" flex="50"></sx-socio-field>
     <span flex></span>
   </div>
 

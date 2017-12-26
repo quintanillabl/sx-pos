@@ -70,6 +70,15 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
     }
   }
 
+  // Validar el socio de la union
+  if (cliente !== null && cliente.clave === 'U050008') {
+   console.log('Validando cliente de la union');
+   const socio = control.get('socio').value;
+   if (socio === null) {
+     return { seRequiereSocio: true};
+   }
+  }
+
   // Validacion de usuario
   const user = control.get('usuario').value;
   if (!user) {

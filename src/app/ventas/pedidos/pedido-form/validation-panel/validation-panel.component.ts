@@ -41,6 +41,9 @@ export class ValidationPanelComponent implements OnInit {
     if (this.parent.hasError('sinConfiguracionDeVale')) {
       return 'Debe registrar la configuración del vale de traslado';
     }
+    if (this.parent.hasError('seRequiereSocio')) {
+      return 'Se requiere registrar el socio de la union de credito';
+    }
     return null;
   }
 

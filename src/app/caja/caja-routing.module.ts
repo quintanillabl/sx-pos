@@ -9,10 +9,11 @@ import { GeneradasPageComponent } from './facturacion/generadas-page/generadas-p
 import { CobranzaCodComponent } from './facturacion/cobranza-cod/cobranza-cod.component';
 import { CobroCodComponent } from './facturacion/cobranza-cod/cobro-cod/cobro-cod.component';
 import { CortesPageComponent } from './cortes/cortes-page/cortes-page.component';
-import { FacturaShowComponent } from '@siipapx/caja/facturacion/factura-show/factura-show.component';
-import { CorteCobranzaComponent } from '@siipapx/caja/cortes/corte-cobranza/corte-cobranza.component';
-import { CorteMorrallaComponent } from '@siipapx/caja/cortes/corte-morralla/corte-morralla.component';
-import { CorteFondoFijoComponent } from '@siipapx/caja/cortes/corte-fondo-fijo/corte-fondo-fijo.component';
+import { FacturaShowComponent } from 'app/caja/facturacion/factura-show/factura-show.component';
+import { CorteCobranzaComponent } from 'app/caja/cortes/corte-cobranza/corte-cobranza.component';
+import { CorteMorrallaComponent } from 'app/caja/cortes/corte-morralla/corte-morralla.component';
+import { CorteFondoFijoComponent } from './cortes/corte-fondo-fijo/corte-fondo-fijo.component';
+import { FichasPageComponent } from './cortes/fichas-page/fichas-page.component';
 
 const routes: Routes = [
   {
@@ -50,12 +51,13 @@ const routes: Routes = [
         ]
       },
       {
-        path:'cortes',
+        path: 'cortes',
         component: CortesPageComponent,
         children: [
           {path: 'cobranza', component: CorteCobranzaComponent},
           {path: 'fondoFijo', component: CorteFondoFijoComponent},
-          {path: 'morralla', component: CorteMorrallaComponent}
+          {path: 'morralla', component: CorteMorrallaComponent},
+          {path: 'fichas', component: FichasPageComponent}
         ]
       }
     ]

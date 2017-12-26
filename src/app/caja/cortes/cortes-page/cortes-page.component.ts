@@ -15,7 +15,7 @@ export class CortesPageComponent implements OnInit {
     {route: 'cobranza', title: 'Corte cobranza', icon: 'storage'},
     {route: 'fondoFijo', title: 'Fondo fijo', icon: 'storage'},
     {route: 'morralla', title: 'Morralla', icon: 'storage'},
-    {route: 'facturacion', title: 'Fichas', icon: 'storage'},
+    {route: 'fichas', title: 'Fichas', icon: 'storage'},
   ];
 
   reportes = [

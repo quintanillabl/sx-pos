@@ -43,6 +43,8 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   formaDePago$: Observable<any>;
   formaDePagoSubscription: Subscription;
 
+  tipoSubscription: Subscription;
+
   editable = true;
 
   @ViewChild(PartidasGridComponent) grid: PartidasGridComponent;
@@ -61,7 +63,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.pedido && changes.pedido.currentValue) {
       const pedido: Venta = changes.pedido.currentValue;
-      console.log('Editando pedido: ', pedido);
+      // console.log('Editando pedido: ', pedido);
       if (pedido.id && pedido.puesto) {
         this.editable = false;
       }
@@ -83,11 +85,22 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.tipoSubscription = this.form.get('tipo').valueChanges.subscribe( tipo => {
+      if (tipo === 'CRE') {
+        this.form.get('cod').setValue(false);
+        this.form.get('cod').disable();
+      } else {
+        this.form.get('cod').setValue(false);
+        this.form.get('cod').enable();
+      }
+    });
+  }
 
   ngOnDestroy() {
     this.recalcularSubscription.unsubscribe();
     this.formaDePagoSubscription.unsubscribe();
+    this.tipoSubscription.unsubscribe();
   }
 
   private buildForm() {
@@ -131,6 +144,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       isPuesto: false,
       puesto: null,
       usuario: [null, Validators.required],
+      socio: [null]
     }, { validator: PedidoValidator});
   }
 

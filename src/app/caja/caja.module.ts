@@ -9,6 +9,7 @@ import { VentasDiariasComponent } from './reportes/ventas-diarias/ventas-diarias
 import { FacturacionModule } from './facturacion/facturacion.module';
 import { CajaService } from './services/caja.service';
 import { CobroService } from './services/cobro.service';
+import { FichaService} from './services/ficha.service';
 
 
 // Reportes
@@ -57,7 +58,8 @@ import { ArqueoComponent } from './reportes/arqueo/arqueo.component';
     CobroService,
     CorteCobranzaService,
     FondoFijoService,
-    MorrallaService
+    MorrallaService,
+    FichaService
   ],
   entryComponents: [
     VentasDiariasComponent,
