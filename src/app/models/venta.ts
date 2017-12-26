@@ -39,6 +39,7 @@ export interface Venta {
   usoDeCfdi?: string;
   puesto?: string;
   envio?: any
+  sinExistencia?: false;
   createUser?: string;
   updateUser?: string;
 }

@@ -13,6 +13,8 @@ import { EnvioDireccionComponent } from '../pedido-form/envio-direccion/envio-di
 import * as FileSaver from 'file-saver';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import * as _ from 'lodash';
+import { AutorizacionDeVentaComponent } from '../autorizacion-de-venta/autorizacion-de-venta.component';
+
 
 
 @Component({
@@ -93,26 +95,58 @@ export class PendientesComponent implements OnInit {
   }
 
   mandarFacturar(pedido: Venta) {
-
-    if (!pedido.facturar) {
-      this._dialogService.openConfirm({
-        message: `Mandar a facturar el pedido ${pedido.tipo} - ${pedido.documento} (${pedido.total})` ,
-        viewContainerRef: this._viewContainerRef,
-        title: 'Ventas',
-        cancelButton: 'Cancelar',
-        acceptButton: 'Aceptar',
-      }).afterClosed().subscribe((accept: boolean) => {
-        if (accept) {
-          this.service
-            .mandarFacturar(pedido)
-            .subscribe( res => {
-              console.log('Pedido listo para facturación', res);
-              this.load();
-              // this.router.navigate(['/ventas/pedidos/facturacionCredito']);
-            }, error => this.handleError(error));
-        }
-      });
+    if (pedido.facturar) {
+      return
     }
+    if (pedido.sinExistencia) {
+      this.mandarFacturarConAntorizacion(pedido);
+    } else {
+      this.mandarFacturarNormal(pedido);
+    }
+  }
+
+  mandarFacturarNormal(pedido: Venta) {
+    this._dialogService.openConfirm({
+      message: `Mandar a facturar el pedido ${pedido.tipo} - ${pedido.documento} (${pedido.total})` ,
+      viewContainerRef: this._viewContainerRef,
+      title: 'Ventas',
+      cancelButton: 'Cancelar',
+      acceptButton: 'Aceptar',
+    }).afterClosed().subscribe((accept: boolean) => {
+      if (accept) {
+        this.service
+          .mandarFacturar(pedido)
+          .subscribe( res => {
+            console.log('Pedido listo para facturación', res);
+            this.load();
+            // this.router.navigate(['/ventas/pedidos/facturacionCredito']);
+          }, error => this.handleError(error));
+      }
+    });
+  }
+
+  mandarFacturarConAntorizacion( pedido: Venta) {
+    const params = {
+      tipo: 'SIN_EXISTENCIA',
+      title: 'Este pedido tiene partidas sin existencia requiere autorización',
+      solicito: pedido.updateUser
+    };
+    const dialogRef = this.dialog.open(AutorizacionDeVentaComponent, {
+      data: params
+    });
+    dialogRef.afterClosed().subscribe(auth => {
+      if (auth) {
+        auth.venta = pedido;
+        console.log('Facturacion: ', auth);
+        this.service
+          .mandarFacturarConAutorizacion(auth)
+          .subscribe( res => {
+            console.log('Pedido listo para facturación', res);
+            this.load();
+            // this.router.navigate(['/ventas/pedidos/facturacionCredito']);
+          }, error => this.handleError(error));
+      }
+    });
   }
 
   asignarEnvio(pedido: Venta) {

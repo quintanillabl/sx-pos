@@ -87,6 +87,11 @@ export class PedidosService {
     return this.http.put(url, {});
   }
 
+  mandarFacturarConAutorizacion(autorizacion: any) {
+    const url = `${this.apiUrl}/mandarFacturarConAutorizacion`;
+    return this.http.post(url, autorizacion);
+  }
+
   generarValeAutomatico(venta: Venta) {
     const url = `${this.apiUrl}/generarValeAutomatico/${venta.id}`;
     return this.http.put(url, {});
