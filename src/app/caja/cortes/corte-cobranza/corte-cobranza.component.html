@@ -1,6 +1,6 @@
 <div layout="row" >
   <md-card flex >
-    
+
     <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
       <span  class="push-left-sm" flex>
           <span class="md-title">Cortes de caja (COBRANZA) </span>
@@ -19,14 +19,16 @@
         </md-menu>
       </span>
     </div>
-    
+
     <md-divider></md-divider>
     <md-card-content class="facturas-panel">
-      <sx-corte-cobranza-list [cortes]="cortes"></sx-corte-cobranza-list>
+      <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
+        <sx-corte-cobranza-list [cortes]="cortes"></sx-corte-cobranza-list>
+      </ng-template>
+
     </md-card-content>
   </md-card>
 </div>
-    
-  
-    
-    
+
+
+

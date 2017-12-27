@@ -17,6 +17,8 @@ export class CorteCobranzaComponent implements OnInit {
 
   cortes: CorteCobranza[] = [];
 
+  procesando = false;
+
   constructor(
     public dialog: MdDialog,
     private service: CorteCobranzaService
@@ -33,39 +35,72 @@ export class CorteCobranzaComponent implements OnInit {
   }
 
   efectivo() {
-    const params = {
-      pagosRegistrados: 17000.00,
-      cortesAcumulados: 0.0,
-      cambiosDeCheques: 0.0,
-    }
-    this.openDialog(EfectivoDialogComponent, params);
+    this.service
+      .prepararCorte('EFECTIVO', 'CON')
+      .do( () => this.procesando = true)
+      .delay(1000)
+      .finally( () => this.procesando = false)
+      .subscribe( corte => {
+        console.log('Corte preparado: ', corte)
+        this.openDialog(EfectivoDialogComponent, corte);
+      } );
   }
 
   cheques() {
+    /*
     const params = {
       pagosRegistrados: 300000.00,
       cortesAcumulados: 0.0,
       cambiosDeCheques: 0.0,
     }
-    this.openDialog(ChequeDialogComponent, params);
+    */
+    this.service
+      .prepararCorte('CHEQUE', 'CON')
+      .do( () => this.procesando = true)
+      .delay(1000)
+      .finally( () => this.procesando = false)
+      .subscribe( corte => {
+        console.log('Corte preparado: ', corte)
+        this.openDialog(ChequeDialogComponent, corte);
+      } );
   }
 
   tarjeta() {
+    /*
     const params = {
       pagosRegistrados: 10000.00,
       cortesAcumulados: 0.0,
       cambiosDeCheques: 0.0,
     }
-   this.openDialog(TarjetaDialogComponent, params)
+    */
+    this.service
+      .prepararCorte('TARJETA', 'CON')
+      .do( () => this.procesando = true)
+      .delay(1000)
+      .finally( () => this.procesando = false)
+      .subscribe( corte => {
+        console.log('Corte preparado: ', corte)
+        this.openDialog(TarjetaDialogComponent, corte)
+      } );
   }
 
   depositos() {
+    /*
     const params = {
       pagosRegistrados: 17000.00,
       cortesAcumulados: 0.0,
       cambiosDeCheques: 0.0,
     }
-   this.openDialog(DepositoDialogComponent, params);
+    */
+    this.service
+      .prepararCorte('TARJETA', 'CON')
+      .do( () => this.procesando = true)
+      .delay(1000)
+      .finally( () => this.procesando = false)
+      .subscribe( corte => {
+        console.log('Corte preparado: ', corte)
+        this.openDialog(DepositoDialogComponent, corte);
+      } );
   }
 
   openDialog(component, params: {} = {}) {

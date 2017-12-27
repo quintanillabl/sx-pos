@@ -30,8 +30,17 @@ export class CorteCobranzaService {
   }
 
   list(): Observable<CorteCobranza[]> {
-    const params = new HttpParams().set('sucursal',this.sucursal.id);
+    const params = new HttpParams().set('sucursal', this.sucursal.id);
     return this.http.get<CorteCobranza[]>(this.apiUrl, {params: params})
+  }
+
+  prepararCorte(formaDePago: string, tipo: string) {
+    const params = new HttpParams()
+      .set('sucursal', this.sucursal.id)
+      .set('formaDePago', formaDePago)
+      .set('tipo', tipo)
+    const url = `${this.apiUrl}/preparar`;
+    return this.http.get<CorteCobranza>(url, {params: params});
   }
 
   save(corte: CorteCobranza) {
