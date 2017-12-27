@@ -96,9 +96,21 @@
       </span>
     </div>
 
-    <span *ngIf="comprador" class="pad-left pad-right" flex>
-      <span>Comprador: </span>
-      <span class="tc-pink-700">{{comprador}}</span>
+    <span  class="pad-left pad-right" flex layout="column">
+      <div layout *ngIf="comprador">
+          <span>Comprador: </span>
+          <span class="tc-pink-700">{{comprador}}</span>
+      </div>
+      <div layout>
+        <span class="pad-left pad-right">Creado: </span>
+        <span>{{parent.get('usuario').value?.username}}</span>
+      </div>
+      
+      <div layout>
+        <span class="pad-left pad-right">Modificado: </span>
+        <span>{{parent.get('usuario').value?.username}}</span>
+      </div>
+      
     </span>
 
 
