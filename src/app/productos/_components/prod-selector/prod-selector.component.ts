@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Producto } from "@siipapx/models";
 
 @Component({
-  selector: 'app-prod-selector',
+  selector: 'sx-prod-selector',
   templateUrl: './prod-selector.component.html',
   styleUrls: ['./prod-selector.component.scss']
 })
