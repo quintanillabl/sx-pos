@@ -7,6 +7,7 @@ import { TarjetaDialogComponent } from './tarjeta-dialog/tarjeta-dialog.componen
 import { ChequeDialogComponent } from './cheque-dialog/cheque-dialog.component';
 import { CorteCobranzaService } from 'app/caja/services/corteCobranza.service';
 import { CorteCobranza } from 'app/caja/models/corteCobranza';
+import { SelectorFechaComponent } from '@siipapx/shared/_components/selector-fecha/selector-fecha.component';
 
 @Component({
   selector: 'sx-corte-cobranza',
@@ -17,26 +18,30 @@ export class CorteCobranzaComponent implements OnInit {
 
   cortes: CorteCobranza[] = [];
 
+  fecha = new Date();
+
   procesando = false;
 
   constructor(
     public dialog: MdDialog,
     private service: CorteCobranzaService
-  ) { }
+  ) {
+    
+   }
 
   ngOnInit() {
     this.load();
   }
 
   load() {
-    this.service.list().subscribe(cortes => {
+    this.service.list(this.fecha).subscribe(cortes => {
       this.cortes = cortes
     } , error => console.error(error));
   }
 
   efectivo() {
     this.service
-      .prepararCorte('EFECTIVO', 'CON')
+      .prepararCorte('EFECTIVO', 'CON', this.fecha)
       .do( () => this.procesando = true)
       .delay(1000)
       .finally( () => this.procesando = false)
@@ -47,15 +52,9 @@ export class CorteCobranzaComponent implements OnInit {
   }
 
   cheques() {
-    /*
-    const params = {
-      pagosRegistrados: 300000.00,
-      cortesAcumulados: 0.0,
-      cambiosDeCheques: 0.0,
-    }
-    */
+    
     this.service
-      .prepararCorte('CHEQUE', 'CON')
+      .prepararCorte('CHEQUE', 'CON', this.fecha)
       .do( () => this.procesando = true)
       .delay(1000)
       .finally( () => this.procesando = false)
@@ -66,15 +65,8 @@ export class CorteCobranzaComponent implements OnInit {
   }
 
   tarjeta() {
-    /*
-    const params = {
-      pagosRegistrados: 10000.00,
-      cortesAcumulados: 0.0,
-      cambiosDeCheques: 0.0,
-    }
-    */
     this.service
-      .prepararCorte('TARJETA', 'CON')
+      .prepararCorte('TARJETA', 'CON', this.fecha)
       .do( () => this.procesando = true)
       .delay(1000)
       .finally( () => this.procesando = false)
@@ -84,25 +76,29 @@ export class CorteCobranzaComponent implements OnInit {
       } );
   }
 
-  depositos() {
-    /*
-    const params = {
-      pagosRegistrados: 17000.00,
-      cortesAcumulados: 0.0,
-      cambiosDeCheques: 0.0,
-    }
-    */
+  depositos(tipo: string) {
     this.service
-      .prepararCorte('TARJETA', 'CON')
+      .prepararCorte('DEPOSITO', tipo, this.fecha)
       .do( () => this.procesando = true)
       .delay(1000)
       .finally( () => this.procesando = false)
       .subscribe( corte => {
-        console.log('Corte preparado: ', corte)
+        console.log('Corte preparado: ', corte);
         this.openDialog(DepositoDialogComponent, corte);
       } );
   }
 
+  transferencia(tipo: string) {
+    this.service
+      .prepararCorte('TRANSFERENCIA', tipo, this.fecha)
+      .do( () => this.procesando = true)
+      .delay(1000)
+      .finally( () => this.procesando = false)
+      .subscribe( corte => {
+        this.openDialog(DepositoDialogComponent, corte);
+      } );
+  }
+  
   openDialog(component, params: {} = {}) {
     const dialogRef = this.dialog.open(component, {
       data: params
@@ -115,6 +111,7 @@ export class CorteCobranzaComponent implements OnInit {
   }
 
   save(corte) {
+    corte.fecha = this.fecha.toISOString()
     console.log('Salvando corte de caja: ', corte);
     this.service.save(corte).subscribe( corte => {
       console.log('Corte exitosamente salvado: ', corte);
@@ -137,6 +134,19 @@ export class CorteCobranzaComponent implements OnInit {
     this.service.cambioDeCheque(cambio).subscribe( cobro => {
       console.log('Cambio de cheque exitosamente salvado: ', cobro);
     }, error => console.error('Error salvando cambio de cheque ', error));
+  }
+
+  cambiarFecha(fecha) {
+    const dialogRef = this.dialog.open(SelectorFechaComponent, {
+      data: this.fecha
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fecha = result;
+        console.log('Nueva fecha: ', result);
+        this.load();
+      }
+    });
   }
 
 

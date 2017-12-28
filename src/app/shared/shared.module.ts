@@ -35,7 +35,10 @@ import { AlmacenesFieldComponent } from './_fields/almacenes-field/almacenes-fie
 import { SucursalLabelComponent } from './sucursal-label/sucursal-label.component';
 import { UsuarioSecFieldComponent } from './_fields/usuario-sec-field/usuario-sec-field.component';
 import { ToUpperCaseDirective } from './directives/to-upper-case.directive';
+
 import { LogoutComponent } from './_components/logout/logout.component';
+import { SelectorFechaComponent } from './_components/selector-fecha/selector-fecha.component';
+
 
 
 const FLEX_LAYOUT_MODULES: any[] = [
@@ -96,6 +99,7 @@ const COMPONENTS: any[] = [
     UsuarioSecFieldComponent,
     ToUpperCaseDirective,
     LogoutComponent,
+    SelectorFechaComponent,
   ],
   exports: [
     ANGULAR_MODULES,
@@ -124,6 +128,9 @@ const COMPONENTS: any[] = [
     SucursalLabelComponent,
     UsuarioSecFieldComponent,
     ToUpperCaseDirective,
+    SelectorFechaComponent,
+    LogoutComponent
   ],
+  entryComponents: [SelectorFechaComponent]
 })
 export class SharedModule { }

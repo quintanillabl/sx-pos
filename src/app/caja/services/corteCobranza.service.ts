@@ -29,16 +29,20 @@ export class CorteCobranzaService {
     return this.http.get<CorteCobranza>(url)
   }
 
-  list(): Observable<CorteCobranza[]> {
-    const params = new HttpParams().set('sucursal', this.sucursal.id);
-    return this.http.get<CorteCobranza[]>(this.apiUrl, {params: params})
+  list(fecha: Date): Observable<CorteCobranza[]> {
+    const params = new HttpParams()
+      .set('sucursal', this.sucursal.id)
+      .set('fecha', fecha.toISOString());
+      const url = `${this.apiUrl}/cortes`;
+    return this.http.get<CorteCobranza[]>(url, {params: params})
   }
 
-  prepararCorte(formaDePago: string, tipo: string) {
+  prepararCorte(formaDePago: string, tipo: string, fecha: Date) {
     const params = new HttpParams()
       .set('sucursal', this.sucursal.id)
       .set('formaDePago', formaDePago)
       .set('tipo', tipo)
+      .set('fecha', fecha.toISOString())
     const url = `${this.apiUrl}/preparar`;
     return this.http.get<CorteCobranza>(url, {params: params});
   }

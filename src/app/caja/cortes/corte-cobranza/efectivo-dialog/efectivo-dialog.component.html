@@ -5,29 +5,27 @@
     
     <div layout="row">
       <md-form-field flex>
-        <input mdInput [mdDatepicker]="picker" placeholder="Fecha" formControlName="fecha">
-        <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
-        <md-datepicker #picker></md-datepicker>
+        <input mdInput placeholder="Fecha" value="{{corte.fecha | date: 'dd/MM/yyyy'}}" [disabled]="true">
       </md-form-field>
-      <md-form-field>
-        <input type="text" mdInput value="{{corte | date:'HH:mm'}}" placeholder="Corte" [disabled]="true">
+      <md-form-field flex>
+        <input type="text" mdInput value="{{corte.corte | date:'dd/MM/yyyy HH:mm'}}" placeholder="Corte" [disabled]="true">
       </md-form-field>
     </div>
 
     <div layout="row">
       <md-form-field>
-        <input type="text" mdInput value="{{form.get('pagosRegistrados').value | currency: 'USD': 1.2-2}}" 
+        <input type="text" mdInput value="{{corte.pagosRegistrados | currency: 'USD': 1.2-2}}" 
           placeholder="Pagos registrados" [disabled]="true">
       </md-form-field>
       <md-form-field>
-        <input type="text" mdInput value="{{form.get('cortesAcumulados').value | currency: 'USD': 1.2-2}}" 
+        <input type="text" mdInput value="{{corte.cortesAcumulado | currency: 'USD': 1.2-2}}" 
             placeholder="Cortes acumulados" [disabled]="true">
       </md-form-field>
     </div>
 
     <div layout="row">
       <md-form-field>
-        <input type="text" mdInput value="{{form.get('cambiosDeCheques').value | currency: 'USD': 1.2-2}}" 
+        <input type="text" mdInput value="{{corte.cambiosDeCheques | currency: 'USD': 1.2-2}}" 
           placeholder="Cambios de cheques" [disabled]="true">
       </md-form-field>
       <md-form-field>
@@ -38,7 +36,7 @@
 
     <div layout>
       <md-form-field flex>
-        <input type="text" mdInput  placeholder="Importe" formControlName="importe">
+        <input type="text" mdInput  placeholder="Deposito" formControlName="deposito" sxOnlyNumbers>
       </md-form-field>
     </div>
 

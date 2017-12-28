@@ -5,22 +5,20 @@
       
       <div layout="row">
         <md-form-field flex>
-          <input mdInput [mdDatepicker]="picker" placeholder="Fecha" formControlName="fecha">
-          <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
-          <md-datepicker #picker></md-datepicker>
+          <input mdInput placeholder="Fecha" value="{{corte.fecha | date: 'dd/MM/yyyy'}}" [disabled]="true">
         </md-form-field>
         <md-form-field>
-          <input type="text" mdInput value="{{corte | date:'HH:mm'}}" placeholder="Corte" [disabled]="true">
+          <input type="text" mdInput value="{{corte.corte | date:'dd/MM/yyyy HH:mm'}}" placeholder="Corte" [disabled]="true">
         </md-form-field>
       </div>
   
       <div layout="row">
         <md-form-field>
-          <input type="text" mdInput value="{{form.get('pagosRegistrados').value | currency: 'USD': 1.2-2}}" 
+          <input type="text" mdInput value="{{corte.pagosRegistrados | currency: 'USD': 1.2-2}}" 
             placeholder="Pagos registrados" [disabled]="true">
         </md-form-field>
         <md-form-field>
-          <input type="text" mdInput value="{{form.get('cortesAcumulados').value | currency: 'USD': 1.2-2}}" 
+          <input type="text" mdInput value="{{corte.cortesAcumulado | currency: 'USD': 1.2-2}}" 
               placeholder="Cortes acumulados" [disabled]="true">
         </md-form-field>
       </div>
@@ -39,8 +37,8 @@
   
       <div layout>
         <md-form-field flex>
-            <input type="text" mdInput value="{{form.get('importe').value | currency: 'USD': 1.2-2}}" 
-            placeholder="Importe" [disabled]="true">
+            <input type="text" mdInput value="{{form.get('deposito').value | currency: 'USD': 1.2-2}}" 
+            placeholder="Deposito" [disabled]="true">
         </md-form-field>
       </div>
   

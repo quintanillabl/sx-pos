@@ -2,6 +2,9 @@ import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder, AbstractControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
+import { CorteCobranza } from 'app/caja/models/corteCobranza';
+
+import * as _ from 'lodash';
 
 @Component({
   selector: 'sx-efectivo-dialog',
@@ -14,27 +17,20 @@ export class EfectivoDialogComponent implements OnInit, OnDestroy{
 
   subscription: Subscription
 
+  corte: CorteCobranza;
+
   constructor(
     @Inject(MD_DIALOG_DATA) public data: any,
     public dialogRef: MdDialogRef<EfectivoDialogComponent>,
     private fb: FormBuilder
   ) { 
+    this.corte = data;
     this.buildForm();
-    this.form.patchValue({
-      pagosRegistrados: data.pagosRegistrados,
-      cortesAcumulados: data.cortesAcumulados,
-      cambiosDeCheques: data.cambiosDeCheques,
-    });
   }
 
   private buildForm() {
     this.form = this.fb.group({
-      fecha: [{value: new Date(), disabled: false}, Validators.required],
-      corte: [{value: new Date(), disabled: true}, Validators.required],
-      pagosRegistrados: [{value: 0, disabled: true}, Validators.required],
-      cortesAcumulados: [{value: 0, disabled: true}, Validators.required],
-      cambiosDeCheques: [{valude: 0, disabled:true}, Validators.required],
-      importe: [0, [Validators.required, this.validarImporte.bind(this)]],
+      deposito: [this.corte.deposito, [Validators.required, this.validarImporte.bind(this)]],
       cierre: false,
       anticipoCorte: false,
       comentario: ['']
@@ -42,13 +38,13 @@ export class EfectivoDialogComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit() {
-    this.form.get('importe').setValue(this.disponible);
+    this.form.get('deposito').setValue(this.disponible);
     this.subscription = this.form.get('cierre').valueChanges.subscribe( checked => {
       if(checked) {
-        this.form.get('importe').setValue(this.disponible);
-        this.form.get('importe').disable();
+        this.form.get('deposito').setValue(this.disponible);
+        this.form.get('deposito').disable();
       } else {
-        this.form.get('importe').enable();
+        this.form.get('deposito').enable();
       }
     });
   }
@@ -63,39 +59,19 @@ export class EfectivoDialogComponent implements OnInit, OnDestroy{
 
   onSubmit() {
     if (this.form.valid) {
-      const fecha: Date = this.form.get('fecha').value;
-      const corteF: Date = this.form.get('corte').value;
-      const corte = {
-        ... this.form.getRawValue(),
-        fechaDeposito: this.calcularFechaDeposito(),
-        deposito: this.form.get('importe').value,
-        formaDePago: 'EFECTIVO',
-        corte: fecha.toISOString(),
-        fecha: corteF.toISOString(),
-        tipoDeVenta: 'CON'
-      }
-      this.dialogRef.close(corte);
+      this.corte.deposito = this.form.get('deposito').value;
+      this.corte.comentario = this.form.get('comentario').value;
+      this.corte.cierre = this.form.get('cierre').value;
+      this.corte.anticipoCorte = this.form.get('anticipoCorte').value;
+      this.dialogRef.close(this.corte);
     }
   }
 
-  get corte() {
-    return this.form.get('corte').value;
-  }
-
-  get pagosRegistrados() {
-    return this.form.get('pagosRegistrados').value;
-  }
-
-  get cortesAcumulados() {
-    return this.form.get('cortesAcumulados').value;
-  }
-
-  get cambiosDeCheques() {
-    return this.form.get('cambiosDeCheques').value;
-  }
 
   get disponible() {
-    return this.pagosRegistrados - this.cortesAcumulados - this.cambiosDeCheques;
+    return _.round( 
+      (this.corte.pagosRegistrados - this.corte.cortesAcumulado - this.corte.cambiosDeCheques), 2);
+    
   }
 
   calcularFechaDeposito() {
