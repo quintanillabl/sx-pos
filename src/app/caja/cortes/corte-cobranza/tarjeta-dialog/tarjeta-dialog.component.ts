@@ -2,7 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder, AbstractControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
-
+import { CorteCobranza } from 'app/caja/models/corteCobranza';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'sx-tarjeta-dialog',
@@ -13,44 +14,38 @@ export class TarjetaDialogComponent implements OnInit {
 
   form: FormGroup;
   
-    subscription: Subscription
+  subscription: Subscription
+
+  corte: CorteCobranza;
   
     constructor(
       @Inject(MD_DIALOG_DATA) public data: any,
       public dialogRef: MdDialogRef<TarjetaDialogComponent>,
       private fb: FormBuilder
     ) { 
+      this.corte = data;
       this.buildForm();
-      this.form.patchValue({
-        pagosRegistrados: data.pagosRegistrados,
-        cortesAcumulados: data.cortesAcumulados,
-        cambiosDeCheques: data.cambiosDeCheques,
-      });
     }
-  
+
     private buildForm() {
       this.form = this.fb.group({
-        fecha: [{value: new Date(), disabled: false}, Validators.required],
-        corte: [{value: new Date(), disabled: true}, Validators.required],
-        pagosRegistrados: [{value: 0, disabled: true}, Validators.required],
-        cortesAcumulados: [{value: 0, disabled: true}, Validators.required],
-        cambiosDeCheques: [{valude: 0, disabled:true}, Validators.required],
-        importe: [{value: 0, disable: true}, [Validators.required, this.validarImporte.bind(this)]],
-        tipoDeVenta: ['CON', Validators.required],
+        deposito: [this.corte.deposito, [Validators.required, this.validarImporte.bind(this)]],
         cierre: false,
         anticipoCorte: false,
+        tipoDeVenta: [{value:'CON', disabled: true}, Validators.required],
+        cambiosDeCheques: [{valude: 0, disabled: true}, Validators.required],
         comentario: ['']
       });
     }
   
     ngOnInit() {
-      this.form.get('importe').setValue(this.disponible);
+      this.form.get('deposito').setValue(this.disponible);
       this.subscription = this.form.get('cierre').valueChanges.subscribe( checked => {
         if(checked) {
-          this.form.get('importe').setValue(this.disponible);
-          this.form.get('importe').disable();
+          this.form.get('deposito').setValue(this.disponible);
+          this.form.get('deposito').disable();
         } else {
-          this.form.get('importe').enable();
+          this.form.get('deposito').enable();
         }
       });
     }
@@ -62,57 +57,45 @@ export class TarjetaDialogComponent implements OnInit {
     cancelar() {
       this.dialogRef.close(null);
     }
-  
+
     onSubmit() {
       if (this.form.valid) {
-        const fecha: Date = this.form.get('fecha').value;
-        const corteF: Date = this.form.get('corte').value;
-        const corte = {
-          ... this.form.getRawValue(),
-          fechaDeposito: this.calcularFechaDeposito(),
-          deposito: this.form.get('importe').value,
-          formaDePago: 'TARJETA',
-          corte: fecha.toISOString(),
-          fecha: corteF.toISOString(),
-        }
-        this.dialogRef.close(corte);
+        this.corte.deposito = this.form.get('deposito').value;
+        this.corte.comentario = this.form.get('comentario').value;
+        this.corte.cierre = this.form.get('cierre').value;
+        this.corte.anticipoCorte = this.form.get('anticipoCorte').value;
+        this.corte.cambiosDeCheques = this.form.get('cambiosDeCheques').value;
+        this.corte.tipoDeVenta = this.form.get('tipoDeVenta').value;
+        this.dialogRef.close(this.corte);
       }
     }
   
-    get corte() {
-      return this.form.get('corte').value;
-    }
+   
   
-    get pagosRegistrados() {
-      return this.form.get('pagosRegistrados').value;
-    }
+  get cambiosDeCheques() {
+    return this.form.get('cambiosDeCheques').value;
+  }
   
-    get cortesAcumulados() {
-      return this.form.get('cortesAcumulados').value;
-    }
+  get disponible() {
+    return _.round( 
+      (this.corte.pagosRegistrados - this.corte.cortesAcumulado - this.corte.cambiosDeCheques), 2);
+    
+  }
   
-    get cambiosDeCheques() {
-      return this.form.get('cambiosDeCheques').value;
+  calcularFechaDeposito() {
+    const today = new Date();
+    if(this.form.get('anticipoCorte').value) {
+      return new Date().setDate(today.getDate() - 1);
     }
+    return today;
+  }
   
-    get disponible() {
-      return this.pagosRegistrados - this.cortesAcumulados - this.cambiosDeCheques;
+  validarImporte(control: AbstractControl) {
+    const importe = control.value;
+    if( importe <= 0 ){
+      return {importeInvalido: true};
     }
-  
-    calcularFechaDeposito() {
-      const today = new Date();
-      if(this.form.get('anticipoCorte').value) {
-        return new Date().setDate(today.getDate() - 1);
-      }
-      return today;
-    }
-  
-    validarImporte(control: AbstractControl) {
-      const importe = control.value;
-      if( importe <= 0 ){
-        return {importeInvalido: true};
-      }
-      return null;
-    }
+    return null;
+  }
 
 }
