@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 
-import { Producto } from "@siipapx/models";
+import { Producto } from 'app/models';
 import { MdDialog } from '@angular/material';
 
-import { ProdSelectorComponent } from "../_components/prod-selector/prod-selector.component";
+import { ProdSelectorComponent } from '../_components/prod-selector/prod-selector.component';
 
 @Injectable()
 export class ProductUtils {
@@ -20,8 +20,8 @@ export class ProductUtils {
     const dialogRef = this.dialog.open(ProdSelectorComponent, {
     });
     dialogRef.afterClosed().subscribe( result => {
-      if( result ) {
-        console.log('Producto seleccionado: ', result); 
+      if ( result ) {
+        console.log('Producto seleccionado: ', result);
       }
     });
   }

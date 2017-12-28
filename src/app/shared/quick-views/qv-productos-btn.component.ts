@@ -1,19 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { ProductUtils } from "@siipapx/productos/services";
-
+import { ProductUtils } from 'app/productos/services';
 
 @Component({
   selector: 'sx-qv-productos-btn',
   template: `
     <button type="button" md-icon-button (click)="openSelector()" mdTooltip="Consulta rápida de productos">
-      <md-icon>layers</md-icon> 
+      <md-icon>layers</md-icon>
     </button>
   `,
   styles: []
 })
 export class QvProductosBtnComponent implements OnInit, OnDestroy {
-  
+
   constructor(
     private prodUtils: ProductUtils
   ) { }
