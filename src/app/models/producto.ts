@@ -18,12 +18,14 @@ export interface Producto {
   largo: number
   lastUpdated: string
   linea: {
-    id: string
-  }
+    id: string,
+    linea?: string
+  };
   m2XMillar: number
   marca: {
-    id: string
-  }
+    id: string,
+    marca?: string
+  };
   modoVenta: string
   nacional: boolean
   precioContado: number

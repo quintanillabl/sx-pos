@@ -3,16 +3,16 @@ import { FormControl } from '@angular/forms';
 import { Producto } from "@siipapx/models";
 
 @Component({
-  selector: 'app-prod-selector',
+  selector: 'sx-prod-selector',
   templateUrl: './prod-selector.component.html',
   styleUrls: ['./prod-selector.component.scss']
 })
 export class ProdSelectorComponent implements OnInit, OnDestroy {
 
-  producto: Producto = undefined;
+  producto: Producto;
   activos = new FormControl(true);
   deLinea = new FormControl(true);
-  
+
   private storeKey = 'sx.product-selector.state';
 
   constructor() { }
@@ -26,8 +26,7 @@ export class ProdSelectorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    
-    localStorage.setItem(this.storeKey, JSON.stringify(this.stateObject()))
+    // localStorage.setItem(this.storeKey, JSON.stringify(this.stateObject()))
   }
 
   onSelection(producto) {
@@ -41,6 +40,8 @@ export class ProdSelectorComponent implements OnInit, OnDestroy {
     };
   }
 
-  
+  get title() {
+    return this.producto ? `${this.producto.descripcion} (${this.producto.clave})` : 'Catálogo de productos'
+  }
 
 }
