@@ -51,10 +51,11 @@ export class CorteCobranzaComponent implements OnInit {
       } );
   }
 
-  cheques() {
+  cheques(tipo: string) {
     
     this.service
-      .prepararCorte('CHEQUE', 'CON', this.fecha)
+      .prepararCorte('CHEQUE', tipo, this.fecha)
+      .combineLatest( this.service.corteChequeInfo('CHEQUE', tipo, this.fecha))
       .do( () => this.procesando = true)
       .delay(1000)
       .finally( () => this.procesando = false)
@@ -63,6 +64,7 @@ export class CorteCobranzaComponent implements OnInit {
         this.openDialog(ChequeDialogComponent, corte);
       } );
   }
+
 
   tarjeta() {
     this.service

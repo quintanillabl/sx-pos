@@ -11,7 +11,12 @@
         <md-datepicker #picker></md-datepicker>
       </md-form-field>
       
-  
+      <md-select placeholder="Tipo" formControlName="tipo" >
+        <md-option *ngFor="let tipo of tipos"
+            [value]="tipo">{{ tipo }}
+        </md-option>
+      </md-select>
+
     </div>
   
     <md-dialog-actions>

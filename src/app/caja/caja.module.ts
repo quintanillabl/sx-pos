@@ -27,6 +27,7 @@ import { CorteCobranzaService } from './services/corteCobranza.service';
 import { FondoFijoService } from './services/fondo-fijo.service';
 import { MorrallaService} from 'app/caja/services/morralla.service';
 import { ArqueoComponent } from './reportes/arqueo/arqueo.component';
+import { RelacionFichasComponent } from './reportes/relacion-fichas/relacion-fichas.component';
 
 
 
@@ -51,6 +52,7 @@ import { ArqueoComponent } from './reportes/arqueo/arqueo.component';
     DisponiblesSucursalComponent,
     VentasDiariasCheComponent,
     ArqueoComponent,
+    RelacionFichasComponent,
   ],
   providers: [
     ReportesService,
@@ -72,7 +74,8 @@ import { ArqueoComponent } from './reportes/arqueo/arqueo.component';
     FacturasPendientesEmbarqueComponent,
     DisponiblesSucursalComponent,
     VentasDiariasCheComponent,
-    ArqueoComponent
+    ArqueoComponent,
+    RelacionFichasComponent,
   ]
 })
 export class CajaModule { }

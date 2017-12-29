@@ -7,7 +7,8 @@ export interface Producto {
   calibre: number
   caras: number
   clase: {
-    id: string
+    id: string;
+    nombre?: string;
   }
   dateCreated: string
   deLinea: boolean

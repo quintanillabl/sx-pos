@@ -28,8 +28,10 @@ export class FichaService {
     return this.http.get<Ficha>(url)
   }
 
-  list(): Observable<Ficha[]> {
-    const params = new HttpParams().set('sucursal', this.sucursal.id);
+  list(fecha: Date): Observable<Ficha[]> {
+    const params = new HttpParams()
+      .set('sucursal', this.sucursal.id)
+      .set('fecha',fecha.toISOString());
     return this.http.get<Ficha[]>(this.apiUrl, {params: params})
   }
 

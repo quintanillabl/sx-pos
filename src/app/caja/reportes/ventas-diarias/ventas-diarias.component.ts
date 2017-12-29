@@ -7,7 +7,10 @@ import { MdDialogRef } from '@angular/material';
   templateUrl: './ventas-diarias.component.html'
 })
 export class VentasDiariasComponent implements OnInit {
+  
   form: FormGroup;
+
+  tipos = ['CON','COD'];
 
 
   constructor(
@@ -18,6 +21,7 @@ export class VentasDiariasComponent implements OnInit {
   ngOnInit() {
     this.form = this.fb.group({
       fecha: [new Date(), Validators.required],
+      tipo: [null, Validators.required]
     });
   }
 
@@ -29,7 +33,7 @@ export class VentasDiariasComponent implements OnInit {
     const fecha: Date = this.form.get('fecha').value;
     const res = {
       ... this.form.value,
-      fecha: fecha.toISOString().slice(0, 10),
+      fecha: fecha.toISOString(),
     };
     this.dialogRef.close(res);
   }

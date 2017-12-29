@@ -115,10 +115,9 @@ export class PedidoFormService {
     // console.log('Recalcuando el pedido....');
     this.quitarCargosEspeciales();
     if (this.partidasActualizables.length > 0) {
-
+      console.log('Actualizando precios descuentos en partidas')
       this.actualizarPrecios();
       this.actualizarImportesEnPartidas();
-      // console.log('Actualizar descuentos');
       this.calcularDescuentos();
       this.actualizarImportesEnPartidas(); // Segunda pasada para actualizar sub total en partidas
     }
@@ -135,8 +134,8 @@ export class PedidoFormService {
       // console.log('Actualizando precios....')
       partidas
         .forEach(item => {
-          // const precio = contado ? item.producto.precioContado : item.producto.precioCredito;
-          // item.precio = precio;
+          const precio = contado ? item.producto.precioContado : item.producto.precioCredito;
+          item.precio = precio;
           this.actualizarPartida(item);
         });
     }

@@ -34,7 +34,7 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
     if (entrega === 'LOCAL') {
       return { codSinEnvio: true}
     }
-    if (formaDePago !== 'EFECTIVO' && formaDePago !== 'CHEQUE' ) {
+    if (formaDePago === 'TARJETA_CREDITO' || formaDePago === 'TARJETA_DEBITO' ) {
       return { codConFormaDePagoIncorrecta: true}
     }
   }

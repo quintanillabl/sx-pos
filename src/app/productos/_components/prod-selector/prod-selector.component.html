@@ -5,12 +5,10 @@
 </md-toolbar>
 
 <div layout="column">
-
   <div layout>
       <sx-prod-field flex (selection)="onSelection($event)" [activos]="activos.value" [deLinea]="deLinea.value">
       </sx-prod-field>
   </div>
-
   <td-message *ngIf="producto && producto.activo===false"
   label="Producto suspendido o descontinuado"  color="warn" icon="error"></td-message>
 </div>
@@ -20,8 +18,7 @@
 
 
   <md-dialog-content layout="row">
-
-    <md-list  *ngIf="producto" flex="50" >
+    <md-list  *ngIf="producto" flex="50" dense>
 
       <md-list-item>
         <h3>Contado:</h3>
@@ -75,14 +72,14 @@
       <md-list-item>
         <span>Línea: </span>
         <span flex></span>
-        <span>{{producto.linea}}</span>
+        <span>{{producto.linea.linea}}</span>
       </md-list-item>
       <md-divider ></md-divider>
 
       <md-list-item>
           <span>Clase: </span>
           <span flex></span>
-          <span>{{producto.clase}}</span>
+          <span>{{producto.clase.clase}}</span>
         </md-list-item>
         <md-divider ></md-divider>
 
@@ -91,10 +88,7 @@
           <span flex></span>
           <span>{{producto.marca.marca}}</span>
         </md-list-item>
-        <md-divider></md-divider>
-
-
-
+      <md-divider></md-divider>
     </md-list>
 
     <md-list  *ngIf="producto" flex>

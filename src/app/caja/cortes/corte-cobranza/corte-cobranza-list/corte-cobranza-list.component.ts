@@ -21,7 +21,7 @@ export class CorteCobranzaListComponent implements OnInit {
   }
 
   porDepositar(row) {
-    const res = row.pagosRegistrados - row.cortesAcumulado - row.deposito;
+    const res = row.pagosRegistrados - row.cortesAcumulado - row.deposito + row.cambiosDeCheques;
     return _.round(res, 2);
   }
 

@@ -48,7 +48,7 @@ export class ArqueoComponent implements OnInit {
 
   doAccept() {
     const fecha: Date = this.form.get('fecha').value;
-    const res = fecha.toISOString().slice(0, 10)
+    const res = fecha.toISOString()
     this.dialogRef.close(res);
   }
 

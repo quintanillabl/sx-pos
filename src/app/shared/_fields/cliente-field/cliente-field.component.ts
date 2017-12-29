@@ -8,7 +8,7 @@ import * as _ from 'lodash';
 
 import { Cliente } from 'app/models';
 import { environment} from 'environments/environment';
-import { ConfigService } from '@siipapx/core/services/config.service';
+import { ConfigService } from 'app/core/services/config.service';
 
 export const CLIENTE_LOOKUPFIELD_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,

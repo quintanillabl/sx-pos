@@ -156,7 +156,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     this.recalcular$ = Observable.merge(cliente$, tipo$, formaDePago$);
 
     this.recalcularSubscription = this.recalcular$.subscribe( data => {
-      // console.log('Recalculando importes : ', data);
+      console.log('Recalculando importes : ', data);
       this.pedidoFormService.recalcular();
       this.cd.detectChanges();
       this.grid.refresh();
@@ -174,7 +174,6 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
     this.formaDePagoSubscription = this.formaDePago$
       .subscribe( value =>  {
-        // console.log('Activar/desactivar froma de pato', value);
         const cliente = value[0];
         const tipo = value[1];
         if ( tipo === 'CRE') {

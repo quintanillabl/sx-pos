@@ -64,7 +64,24 @@ export class CobroService {
     const url = this.configService.buildApiUrl('tesoreria/reporteDeAarqueoCaja');
     const params = new HttpParams()
       .set('SUCURSAL', this.sucursal.id)
-      .set('FECHA', fecha);
+      .set('fecha', fecha);
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        params: params,
+        responseType: 'blob'
+      }
+    );
+  }
+
+  relacionDeFichasCaja(result) {
+    console.log('Fichas: ', result)
+    const url = this.configService.buildApiUrl('tesoreria/reporteDeFichas');
+    const params = new HttpParams()
+      .set('SUCURSAL', this.sucursal.id)
+      .set('origen', result.tipo)
+      .set('fecha', result.fecha);
     const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
     return this.http.get(
       url, {

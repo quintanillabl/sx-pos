@@ -47,6 +47,16 @@ export class CorteCobranzaService {
     return this.http.get<CorteCobranza>(url, {params: params});
   }
 
+  corteChequeInfo(formaDePago: string, tipo: string, fecha: Date) {
+    const params = new HttpParams()
+      .set('sucursal', this.sucursal.id)
+      .set('formaDePago', formaDePago)
+      .set('tipo', tipo)
+      .set('fecha', fecha.toISOString())
+    const url = `${this.apiUrl}/corteChequeInfo`;
+    return this.http.get<CorteCobranza>(url, {params: params});
+  }
+
   save(corte: CorteCobranza) {
     corte.sucursal = this.sucursal
     return this.http.post(this.apiUrl, corte);

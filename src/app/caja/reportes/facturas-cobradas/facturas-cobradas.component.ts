@@ -29,7 +29,7 @@ export class FacturasCobradasComponent implements OnInit {
     const fecha: Date = this.form.get('fecha').value;
     const res = {
       ... this.form.value,
-      FECHA: fecha.toISOString().slice(0, 10),
+      fecha: fecha.toISOString(),
     };
     this.dialogRef.close(res);
   }

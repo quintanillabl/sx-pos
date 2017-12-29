@@ -113,3 +113,18 @@ ngx-charts-line-chart {
         }
     }
 }
+md-option.mat-option.mat-active {
+    background-color: mat-color($primary);
+    color: white;
+}
+/*
+md-autocomplete {
+    md-option.mat-active {
+        background-color: mat-color($accent);
+    }
+}
+*/
+// .mat-active {
+//     background-color: mat-color($accent);
+// }
+
