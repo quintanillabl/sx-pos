@@ -65,7 +65,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       const pedido: Venta = changes.pedido.currentValue;
       // console.log('Editando pedido: ', pedido);
       if (pedido.id && pedido.puesto) {
-        this.editable = false;
+        // this.editable = false;
       }
       _.forEach(pedido.partidas, item => this.partidas.push(new FormControl(item)));
       this.form.get('isPuesto').setValue(pedido.puesto !== undefined);
