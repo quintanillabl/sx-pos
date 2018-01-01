@@ -112,6 +112,7 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
   onSubmit() {
     if (this.form.valid) {
       const entity = this.prepareEntity();
+      // console.log('Salvando: ', entity);
       this.save.emit(entity);
     }
   }

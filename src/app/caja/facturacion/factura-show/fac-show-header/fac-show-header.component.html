@@ -47,15 +47,31 @@
   </div>
 
   <div layout class="row2">
-    <address *ngIf="cliente?.direccion; let direccion" class="text-sm">
-      {{direccion.calle}} {{direccion.numeroExterior}}<br>
-      {{direccion.colonia}}<br>
-      {{direccion.estado}} / {{direccion.pais}}<br>
-      {{direccion.codigoPostal}}<br>
-    </address>
-    <span flex class="pad-sm"></span>
-    <span fldex="15">CFDI:
-      <span class="pad-left tc-indigo-700">{{venta?.cuentaPorCobrar?.cfdi?.uuid}}</span>
-    </span>
+
+    <div #col1 layout="column" flex>
+      <address *ngIf="cliente?.direccion; let direccion" class="text-sm">
+        {{direccion.calle}} {{direccion.numeroExterior}}<br>
+        {{direccion.colonia}}<br>
+        {{direccion.estado}} / {{direccion.pais}}<br>
+        {{direccion.codigoPostal}}<br>
+      </address>
+    </div>
+
+    <div #col2 layout="column"  >
+
+    </div>
+
+    <div #col3 layout="column" flex>
+      <span layout>
+        <span>RFC:</span>
+        <span class=" pad-left">{{venta?.cliente?.rfc}}</span>
+      </span>
+      <span>CFDI: <span class="pad-left tc-indigo-700">{{venta?.cuentaPorCobrar?.cfdi?.uuid}}</span> </span>
+    </div>
+  </div>
+
+  <div layout class="row2" *ngIf="venta?.comentario">
+    <span class="">Comentario: </span>
+    <span class="pad-left tc-indigo-800">{{venta?.comentario}}</span>
   </div>
 </div>

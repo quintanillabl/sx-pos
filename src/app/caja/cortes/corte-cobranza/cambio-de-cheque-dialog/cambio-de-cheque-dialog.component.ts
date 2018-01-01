@@ -12,12 +12,12 @@ export class CambioDeChequeDialogComponent implements OnInit {
 
   form: FormGroup;
   bancos: Banco[] = [];
-  
+
   constructor(
     @Inject(MD_DIALOG_DATA) public data: any,
     public dialogRef: MdDialogRef<CambioDeChequeDialogComponent>,
     private fb: FormBuilder
-  ) { 
+  ) {
     this.buildForm();
   }
 
@@ -46,11 +46,12 @@ export class CambioDeChequeDialogComponent implements OnInit {
       const tfecha: Date = this.form.get('fecha').value;
       const corte = {
         ... this.form.getRawValue(),
-        fecha:tfecha.toISOString()
+        fecha: tfecha.toISOString()
       }
+      // console.log('Salvando entidad: ', corte);
       this.dialogRef.close(corte);
     }
   }
-  
+
 
 }

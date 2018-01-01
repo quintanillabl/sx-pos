@@ -6,7 +6,7 @@
       <span layout layout-padding>
         <span flex="5" class="tc-indigo-700"> Folio</span>
         <span flex="30">Cliente</span>
-        <span flex="10" >Fecha</span>
+        <span flex="10" >Modificado</span>
         <span flex="10" >F. Depósito</span>
         <span flex="10" >Importe</span>
         <span flex="10" >Solicita</span>
@@ -27,14 +27,22 @@
               <a  md-button [routerLink]="['edit', row.id]" class="text-left">{{row.folio}} </a>
             </span>
             <span flex="30">{{row.cliente.nombre}}</span>
-            <span flex="10" >{{row.fecha | date: 'dd/MM/yyyy'}}</span>
+            <span flex="10" >{{row.lastUpdated | date: 'dd/MM/yyyy HH:mm'}}</span>
             <span flex="10" >{{row.fechaDeposito | date: 'dd/MM/yyyy'}}</span>
             <span flex="10" >{{row.total}}</span>
-            <span flex="10" >{{row.createUser}}</span>
+            <span flex="10" layout="column">
+              <span class="tc-indigo-600">{{row.updateUser}}</span>
+            </span>
             <span flex="10" >{{row.banco.nombre}}</span>
             <span flex >{{row.comentario}}</span>
           </span>
         </span>
+        <!--<span md-line>
+          <span layout>
+            <span> Solicita: {{row.updateUser}}</span>
+            <span> Ultima modificacion: {{row.lastUpdated | date: 'dd/MM/yyyy HH:mm'}}</span>
+          </span>
+        </span>-->
         <span flex></span>
       </md-list-item>
       <md-divider *ngIf="!last" ></md-divider>

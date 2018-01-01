@@ -11,7 +11,7 @@ import { ConfigService } from 'app/core/services/config.service';
 @Injectable()
 export class CajaService {
 
-  private apiUrl: string //= environment.apiUrl + '/ventas';
+  private apiUrl: string
 
   sucursal: Sucursal;
 
@@ -24,11 +24,22 @@ export class CajaService {
     this.apiUrl = configService.buildApiUrl('ventas');
   }
 
+  /*
   pendientesDeFacturar(tipo: string) {
     const params = new HttpParams()
       .set('facturables', tipo)
       .set('sucursal', this.sucursal.id);
     return this.http.get<Venta[]>(this.apiUrl, {params: params})
+  }
+  */
+
+  pendientesDeFacturar(tipo: string) {
+    const endpoint = `cxc/cobro/ventasFacturables`;
+    const url = this.configService.buildApiUrl(endpoint);
+    const params = new HttpParams()
+      .set('tipo', tipo)
+      .set('sucursal', this.sucursal.id);
+    return this.http.get<Venta[]>(url, {params: params})
   }
 
   cobradas() {

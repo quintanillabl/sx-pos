@@ -42,6 +42,10 @@ export interface Venta {
   sinExistencia?: false;
   createUser?: string;
   updateUser?: string;
+  comentario?: string;
+  lastUdated?: string;
+  dateCreated?: string;
+  statusInfo?: string;
 }
 
 export interface TipoDeVenta {

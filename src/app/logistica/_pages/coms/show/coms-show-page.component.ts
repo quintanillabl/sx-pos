@@ -20,6 +20,8 @@ export class ComsShowPageComponent implements OnInit {
   com$: Observable<RecepcionDeCompra>;
   loading$: Observable<boolean>;
 
+  procesando = false;
+
   constructor(
     private store: Store<fromLogistica.LogisticaState>,
     private router: Router,
@@ -48,8 +50,6 @@ export class ComsShowPageComponent implements OnInit {
       if (accept) {
         this.store.dispatch(new DeleteAction(com.id));
         this.router.navigate(['/logistica/inventarios/coms']);
-      } else {
-        
       }
     });
   }
@@ -57,41 +57,65 @@ export class ComsShowPageComponent implements OnInit {
   print() {
     this._dialogService.openAlert({
       message: 'La impresión de este documento está en desarrollo',
-      viewContainerRef: this._viewContainerRef, //OPTIONAL
-      title: 'Impresíon', //OPTIONAL, hides if not provided
-      closeButton: 'Cancelar', //OPTIONAL, defaults to 'CLOSE'
+      viewContainerRef: this._viewContainerRef,
+      title: 'Impresíon',
+      closeButton: 'Cancelar',
     });
 
   }
 
-  inventariar(com){
-    if(com.fechaInventario) {
+  inventariar(com) {
+    if (com.fechaInventario) {
       return
     } else {
       this._dialogService.openConfirm({
-        message: `Mandar al inventario  
+        message: `Mandar al inventario
         recepción de compra: ${com.documento}?`,
-        viewContainerRef: this._viewContainerRef, 
-        title: 'Inventariar (Operación irreversible)', 
-        cancelButton: 'Cancelar', 
+        viewContainerRef: this._viewContainerRef,
+        title: 'Inventariar (Operación irreversible)',
+        cancelButton: 'Cancelar',
         acceptButton: 'Aceptar',
       }).afterClosed().subscribe((accept: boolean) => {
         if (accept) {
           this.doInventariar(com);
-        } 
+        }
       });
     }
   }
 
   doInventariar(com) {
-    this.service
-    .inventariar(com)
-    .catch( error => {
-      console.log('Http error', error);
-      return Observable.of({description: "Error al generar el movimiento de inventario"});
-    }).subscribe( val => {
-      console.log('Generacion de inventario: ', val);
-      this.router.navigate(['/logistica/inventarios/coms']);
+    this.procesando = true;
+    this.service.inventariar(com)
+      .delay(2000)
+      .finally( () => this.procesando = false)
+      .catch( error => {
+        this.handleError(error);
+        console.error('Http error', error);
+        return Observable.empty() // Never completes
+      }).subscribe( val => {
+        console.log('Res de generacion de inventario: ', val);
+        this.alert('Recepcion inventariada exitosamente, existencias actualizadas', 'Recepcion de compra')
+          .afterClosed().subscribe( res => {
+           console.log('OK');
+          this.router.navigate(['/logistica/inventarios/coms']);
+        });
+      });
+  }
+
+  handleError(error) {
+    if (error.error) {
+
+    } else {
+      this.alert(' Error: ' + error.message, 'Server error: ' + error.status );
+    }
+  }
+
+  alert(msg: string, titulo: string = 'Error') {
+    return  this._dialogService.openAlert({
+      message: msg,
+      viewContainerRef: this._viewContainerRef,
+      title: titulo,
+      closeButton: 'Cerrar',
     });
   }
 

@@ -12,12 +12,14 @@ import { Venta } from 'app/models';
 export class PendientesPageComponent implements OnInit {
 
   columns: ITdDataTableColumn[] = [
-    { name: 'documento',  label: 'Folio', numeric: true, },
-    { name: 'fecha',  label: 'Fecha'},
-    { name: 'nombre',  label: 'Cliente', width: 500},
-    { name: 'total',  label: 'Total'},
-    { name: 'formaDePago',  label: 'F.Pago'},
-    { name: 'regresar',  label: 'Regresar'},
+    { name: 'documento',  label: 'Folio', numeric: true, width: 20},
+    { name: 'fecha',  label: 'Fecha', width: 50},
+    { name: 'nombre',  label: 'Cliente', width: 400},
+    { name: 'formaDePago',  label: 'F.Pago', width: 30},
+    { name: 'total',  label: 'Total', width: 20},
+    { name: 'updateUser', label: 'Vendedor', width: 20},
+    { name: 'facturar', label: 'Solicitado', width: 100},
+    { name: 'regresar',  label: 'Regresar', width: 20},
   ];
 
   data: any[] = [];
@@ -75,6 +77,8 @@ export class PendientesPageComponent implements OnInit {
         return 'TAR_DEV'
       case 'TARJETA_CREDITO':
         return 'TAR_CRE'
+      case 'TRANSFERENCIA':
+        return 'TRANS'
       default:
         return row.formaDePago;
 
