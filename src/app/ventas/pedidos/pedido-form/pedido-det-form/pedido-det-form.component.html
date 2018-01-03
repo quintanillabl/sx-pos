@@ -54,7 +54,7 @@
           <input type="text" mdInput placeholder="Unidad" value="{{existencia?.producto?.unidad}}" [disabled]="true">
         </md-form-field> -->
         <md-form-field *ngIf="dolares">
-          <input type="text" mdInput placeholder="{{dolares ? 'Precio USD' : 'Precio'}}" sxOnlyIntegers
+          <input type="text" mdInput placeholder="{{dolares ? 'Precio USD' : 'Precio'}}" sxOnlyNumbers
                  formControlName="precio">
         </md-form-field>
         <md-form-field >

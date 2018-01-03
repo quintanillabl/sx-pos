@@ -1,6 +1,6 @@
 import {
   Component, OnInit, OnDestroy, OnChanges,
-  Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges, ViewChild
+  Input, Output, EventEmitter, ChangeDetectorRef, SimpleChanges, ViewChild, HostListener
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -11,7 +11,7 @@ import { Sucursal, Venta } from 'app/models';
 
 import { PartidasGridComponent } from '../partidas-grid/partidas-grid.component';
 import { PedidoDolaresFormServiceService } from './pedido-dolares-form-service.service';
-
+import { PedidoValidator } from '../pedido.validator';
 
 @Component({
   selector: 'sx-dolares-form',
@@ -67,6 +67,53 @@ export class DolaresFormComponent implements OnInit, OnDestroy, OnChanges {
   private buildForm() {
     this.form = this.fb.group({
       id: [null],
+      documento: [0],
+      sucursal: [this.sucursal],
+      fecha: [{value: new Date(), disabled: true}, Validators.required],
+      cliente: [null, Validators.required],
+      nombre: [null],
+      tipo: [{value: 'CON', disabled: true}, Validators.required],
+      formaDePago: ['EFECTIVO', Validators.required],
+      atencion: ['', Validators.required],
+      entrega: ['LOCAL', Validators.required],
+      vale: [{value: false, disabled: true}, Validators.required],
+      clasificacionVale: [{value: 'SIN_VALE', disabled: false}, Validators.required],
+      sucursalVale: [{value: null, disabled: false}],
+      almacen: [{value: null, disabled: true}],
+      mismaDireccion: [{value: true, disabled: true}, Validators.required],
+      entregaParcial: [{value: false, disabled: true}, Validators.required],
+      direccion: [null],
+      comprador: [null],
+      comentario: [null],
+      tipoDeCambio: [{value: 1}, [Validators.required, Validators.min(2)]],
+      importe: [{value: 0, disabled: true}],
+      descuento: [{value: 0, disabled: true}],
+      descuentoImporte: [{value: 0, disabled: true}],
+      descuentoOriginal: [{value: 0, disabled: true}],
+      subtotal:  [{value: 0, disabled: true}],
+      impuesto: [{value: 0, disabled: true}],
+      total: [{value: 0, disabled: true}],
+      partidas: this.fb.array([]),
+      cod: [false],
+      cargosPorManiobra: [{value: 0, disabled: true}],
+      comisionTarjeta: [{value: 0, disabled: true}],
+      comisionTarjetaImporte: [{value: 0, disabled: true}],
+      corteImporte: [{value: 0, disabled: true}],
+      cfdiMail: [{value: null, disabled: true}],
+      usoDeCfdi: ['', Validators.required],
+      kilos: [{value: 0, disabled: true}],
+      envio: null,
+      isPuesto: false,
+      puesto: null,
+      usuario: [null, Validators.required],
+      socio: [null],
+      moneda: ['USD']
+    }, { validator: PedidoValidator});
+  }
+
+  private buildForm2() {
+    this.form = this.fb.group({
+      id: [null],
       sucursal: [this.sucursal],
       fecha: [{value: new Date(), disabled: true}, Validators.required],
       cliente: [null, Validators.required],
@@ -77,6 +124,7 @@ export class DolaresFormComponent implements OnInit, OnDestroy, OnChanges {
       formaDePago: ['EFECTIVO', Validators.required],
       sucursalVale: [null],
       almacen: [null],
+      mismaDireccion: [{value: true, disabled: true}, Validators.required],
       direccion: [null],
       comprador: [null],
       comentario: [null],
@@ -84,6 +132,7 @@ export class DolaresFormComponent implements OnInit, OnDestroy, OnChanges {
       importe: [{value: 0, disabled: true}],
       descuento: [{value: 0, disabled: true}],
       descuentoImporte: [{value: 0, disabled: true}],
+      descuentoOriginal: [{value: 0, disabled: true}],
       subTotal:  [{value: 0, disabled: true}],
       impuesto: [{value: 0, disabled: true}],
       total: [{value: 0, disabled: true}],
@@ -95,6 +144,7 @@ export class DolaresFormComponent implements OnInit, OnDestroy, OnChanges {
       corteImporte: [{value: 0, disabled: true}],
       moneda: ['USD']
     });
+    
   }
 
   private  buildRecalcular$() {
@@ -165,11 +215,75 @@ export class DolaresFormComponent implements OnInit, OnDestroy, OnChanges {
       const pedido: Venta = {
         ...this.form.getRawValue(),
         sucursal: this.sucursal,
+        vendedor: this.cliente.vendedor,
+      };
+      this.fixPedidoToApi(pedido);
+
+      _.forEach(pedido.partidas, item => item.sucursal = this.sucursal)
+      this.save.emit(pedido);
+    }
+  }
+
+  /**
+   * Ajuste requerido para que Grails genere un update inecesario al producto. Cuando Grails recibe en
+   * el payload de un HttpRequest mas propiedades aparte del ID genera un update a estas. Lo que ocaciona que
+   * se registre un cambio inecesario en cada producto y en el cliente
+   * @param pedido
+   * @returns {any[]}
+   */
+  private fixPedidoToApi(pedido) {
+    pedido.cliente = pedido.cliente.id
+    const data = [...pedido.partidas];
+    _.forEach(data, item => item.producto = item.producto.id);
+
+    pedido.updateUser = this.form.get('usuario').value.username;
+    if (!this.id) {
+      pedido.createUser = this.form.get('usuario').value.username;
+    }
+    return pedido;
+  }
+
+  onSave2() {
+    if (this.form.valid) {
+      const pedido: Venta = {
+        ...this.form.getRawValue(),
+        sucursal: this.sucursal,
         vendedor: this.cliente.vendedor
       };
       _.forEach(pedido.partidas, item => item.sucursal = this.sucursal)
       this.save.emit(pedido);
     }
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    // console.log(event);
+    if (event.ctrlKey && event.code === 'KeyI' ) {
+      this.onInsertPartida();
+    }
+    if (event.code === 'Insert') {
+      this.onInsertPartida();
+    }
+    if (event.code === 'F7') {
+      this.onAddNewCliente();
+    }
+    if (event.code === 'F10') {
+      console.log('Salvando con tecla F10')
+      this.onSave();
+    }
+    if (event.code === 'F8') {
+      if (this.cliente) {
+        // this.onCambioDeCfdi(this.cliente);
+      }
+    }
+  }
+
+  setUsuario(usuario) {
+    this.form.get('usuario').setValue(usuario);
+  }
+
+  get usuario() {
+    return this.form.get('usuario').value;
   }
 
 }

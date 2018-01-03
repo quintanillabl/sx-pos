@@ -1,7 +1,7 @@
 <form novalidate [formGroup]="form" layout="row" class="pedido-form" (ngSubmit)="onSave()"
       (keydown.enter)="$event.preventDefault()">
 
-  <md-card flex="70" >
+  <md-card flex="80" >
     <sx-pedido-header (addCliente)="onAddNewCliente()" [parent]="form" (insertar)="onInsertPartida()">
     </sx-pedido-header>
     <md-divider></md-divider>
@@ -10,6 +10,8 @@
       <sx-tipo-field [parent]="form" flex="10"></sx-tipo-field>
       <sx-modo-field [parent]="form" flex="15"></sx-modo-field>
       <sx-forma-de-pago [parent]="form" flex="15"></sx-forma-de-pago>
+      <sx-uso-cfdi [parent]="form" flex></sx-uso-cfdi>
+      <sx-usuario-sec-field flex placeholder="Atiende" (usuarioFound)="setUsuario($event)"></sx-usuario-sec-field>
       <md-form-field flex="10">
         <input type="text" mdInput placeholder="Tipo de cambio" formControlName="tipoDeCambio" sxOnlyNumbers>
       </md-form-field>
@@ -18,15 +20,15 @@
     <md-divider></md-divider>
 
     <sx-pedido-partidas-grid flex
-                             [partidas]="partidas.value"
-                             [parent]="form"
-                             (delete)="onDelete($event)"
-                             (edit)="onEditPartida($event)" >
+      [partidas]="partidas.value"
+      [parent]="form"
+      (delete)="onDelete($event)"
+      (edit)="onEditPartida($event)" >
     </sx-pedido-partidas-grid>
 
   </md-card>
 
-  <div flex="30">
+  <div flex="20">
     <md-card >
       <td-expansion-panel-group>
         <sx-pedido-totales-panel [parent]="form"></sx-pedido-totales-panel>

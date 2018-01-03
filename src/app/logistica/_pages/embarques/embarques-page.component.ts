@@ -67,15 +67,24 @@ export class EmbarquesPageComponent implements OnInit {
       if (result) {
         this.service.reporteDeEntregasPorChofer(result)
           .subscribe(res => {
+            /*
             const blob = new Blob([res], {
               type: 'application/pdf'
             });
             const filename = `EntregasPorChofer.pdf`;
             FileSaver.saveAs(blob, filename);
+            */
+            const blob = new Blob([res], {
+              type: 'application/pdf'
+            });
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
           });
       }
     });
   }
+
+  
 
 
 
