@@ -46,7 +46,7 @@
 
       <div layout>
         <md-form-field >
-          <input type="text" mdInput sxOnlyNumbers
+          <input type="text" mdInput sxOnlyIntegers 
                  placeholder="Cantidad" formControlName="cantidad" autocomplete="off">
           <md-error> Cantidad incorrecta</md-error>
         </md-form-field>
@@ -54,7 +54,7 @@
           <input type="text" mdInput placeholder="Unidad" value="{{existencia?.producto?.unidad}}" [disabled]="true">
         </md-form-field> -->
         <md-form-field *ngIf="dolares">
-          <input type="text" mdInput placeholder="{{dolares ? 'Precio USD' : 'Precio'}}" sxOnlyNumbers
+          <input type="text" mdInput placeholder="{{dolares ? 'Precio USD' : 'Precio'}}" sxOnlyIntegers
                  formControlName="precio">
         </md-form-field>
         <md-form-field >

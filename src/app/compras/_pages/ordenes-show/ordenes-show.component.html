@@ -31,9 +31,9 @@
             <button md-icon-button mdTooltip="Imprimir documento" (click)="print(orden)">
               <md-icon>print</md-icon>
             </button>
-            <a md-button color="accent" [routerLink]="['../../edit',orden.id]" *ngIf="orden.pendiente">
+            <!-- <a md-button color="accent" [routerLink]="['../../edit',orden.id]" *ngIf="orden.pendiente">
               <md-icon >edit</md-icon> Editar
-            </a>
+            </a> -->
             <button md-button color="warn" (click)="onDelete(orden)"> <md-icon >delete</md-icon> Eliminar</button>
           </md-card-actions>
         </ng-template>

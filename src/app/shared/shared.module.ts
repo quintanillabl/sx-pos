@@ -38,6 +38,7 @@ import { ToUpperCaseDirective } from './directives/to-upper-case.directive';
 
 import { LogoutComponent } from './_components/logout/logout.component';
 import { SelectorFechaComponent } from './_components/selector-fecha/selector-fecha.component';
+import { OnlyIntegersDirective } from './directives/only-integers.directive';
 
 
 
@@ -100,6 +101,7 @@ const COMPONENTS: any[] = [
     ToUpperCaseDirective,
     LogoutComponent,
     SelectorFechaComponent,
+    OnlyIntegersDirective,
   ],
   exports: [
     ANGULAR_MODULES,
@@ -129,7 +131,8 @@ const COMPONENTS: any[] = [
     UsuarioSecFieldComponent,
     ToUpperCaseDirective,
     SelectorFechaComponent,
-    LogoutComponent
+    LogoutComponent,
+    OnlyIntegersDirective
   ],
   entryComponents: [SelectorFechaComponent]
 })
