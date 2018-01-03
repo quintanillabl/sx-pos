@@ -72,8 +72,8 @@ export class DolaresFormComponent implements OnInit, OnDestroy, OnChanges {
       fecha: [{value: new Date(), disabled: true}, Validators.required],
       cliente: [null, Validators.required],
       nombre: [null],
-      tipo: [{value: 'CON', disabled: true}, Validators.required],
-      formaDePago: ['EFECTIVO', Validators.required],
+      tipo: [{value: 'CRE', disabled: true}, Validators.required],
+      formaDePago: ['CHEQUE', Validators.required],
       atencion: ['', Validators.required],
       entrega: ['LOCAL', Validators.required],
       vale: [{value: false, disabled: true}, Validators.required],
@@ -234,12 +234,17 @@ export class DolaresFormComponent implements OnInit, OnDestroy, OnChanges {
   private fixPedidoToApi(pedido) {
     pedido.cliente = pedido.cliente.id
     const data = [...pedido.partidas];
-    _.forEach(data, item => item.producto = item.producto.id);
+    _.forEach(data, item => {
+      item.producto = item.producto.id
+      item.precio = _.toNumber(item.precio)
+    } );
 
     pedido.updateUser = this.form.get('usuario').value.username;
     if (!this.id) {
       pedido.createUser = this.form.get('usuario').value.username;
     }
+    pedido.tipoDeCambio = _.toNumber(this.form.get('tipoDeCambio').value)
+    
     return pedido;
   }
 

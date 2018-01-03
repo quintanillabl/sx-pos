@@ -38,13 +38,16 @@ export class PedidoEnvioPanelComponent implements OnInit, OnDestroy {
 
     this.subscription2 = this.parent.get('mismaDireccion')
       .valueChanges.subscribe( value => {
-      if (value === false ) {
-        // this.limpiarEnvio();
-        this.registrarDireccion();
-      } else {
-        this.fijarDireccionDelCliente();
 
-      }
+        const socio = this.parent.get('socio').value;
+
+        if ( (value === false) && (socio === null) ) {
+          // this.limpiarEnvio();
+          this.registrarDireccion();
+        } else {
+          this.fijarDireccionDelCliente();
+
+        }
     });
   }
 
@@ -74,12 +77,32 @@ export class PedidoEnvioPanelComponent implements OnInit, OnDestroy {
 
   fijarDireccionDelCliente() {
     const cliente = this.parent.get('cliente').value;
-    if (cliente !== null) {
+    const socio = this.parent.get('socio').value;
+    if (socio) {
+      this.fijarDireccionDeSocio()
+    } else {
+      if (cliente !== null) {
+        this.parent.get('envio').setValue({
+          direccion: cliente.direccion,
+          condiciones: this.entrega
+        });
+      }
+    }
+  }
+
+  fijarDireccionDeSocio() { 
+    const socio = this.parent.get('socio').value;
+    /*
+    
+    console.log('Detectando socio de la union', socio);
+    if (socio.direccion) {
       this.parent.get('envio').setValue({
-        direccion: cliente.direccion,
+        direccion: socio.direccion,
         condiciones: this.entrega
       });
     }
+    */
+    console.log('Fijando direccion de socio: ', socio)
   }
 
   get disabled() {
