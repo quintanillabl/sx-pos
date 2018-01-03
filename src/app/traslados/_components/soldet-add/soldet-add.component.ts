@@ -36,7 +36,7 @@ export class SoldetAddComponent implements OnInit, OnDestroy {
     this.form = this.fb.group({
       sucursalAtiende: [{ value: this.sucursal, disabled: true}, Validators.required],
       existencia: [null, Validators.required],
-      cantidad: [null, [Validators.required, this.validateCantidad()]]
+      cantidad: [0.0, [Validators.required, this.validateCantidad()]]
     });
     this.subscription = this.form.get('existencia').valueChanges.subscribe( exis => {
       if (exis) {

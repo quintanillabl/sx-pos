@@ -24,10 +24,10 @@
           [data]="sol.partidas"
           [columns]="columns">
           <ng-template tdDataTableTemplate="solicitado" let-value="value" let-row="row">
-            <span>{{value | number:'1.0-0'}}</span>
+            <span>{{value | number:'1.0-3'}}</span>
           </ng-template>
           <ng-template tdDataTableTemplate="recibido" let-value="value" let-row="row">
-            <span>{{value | number:'1.0-0'}}</span>
+            <span>{{value | number:'1.0-3'}}</span>
           </ng-template>
         </td-data-table>
       <md-divider></md-divider>

@@ -29,7 +29,7 @@
       <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
         <md-card-actions>
           <a md-button [routerLink]="['/logistica/inventarios/coms']" ><md-icon>keyboard_backspace</md-icon> Regresar </a>
-          <button md-icon-button (click)="print()" mdTooltip="Imprimir documento"><md-icon>print</md-icon></button>
+          <button md-icon-button (click)="print(com)" mdTooltip="Imprimir documento"><md-icon>print</md-icon></button>
           <button md-button color="accent" *ngIf="com.fechaInventario === undefined"
             mdTooltip="Mandar al inventario" (click)="inventariar(com)">
           <md-icon >send</md-icon> Mandar al inventario</button>

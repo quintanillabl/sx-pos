@@ -48,7 +48,7 @@ export class UsuarioSecFieldComponent implements OnInit {
     return this.http.get<User>(url, {params: params})
       .finally( () => this.procesando = false)
       .subscribe( res => {
-        console.log('Found: ', res);
+        //console.log('Found: ', res);
         this.usuarioFound.emit(res)
       }, error2 => this.handleError(error2))
   }

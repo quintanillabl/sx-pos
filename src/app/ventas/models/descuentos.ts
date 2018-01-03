@@ -15,7 +15,7 @@ export const CONTADO: Array<DescuentoPorVolumen> = [
   {tipo: "CONTADO", descuento: 17,importe: 150000.00},
   {tipo: "CONTADO", descuento: 18,importe: 300000.00},
   {tipo: "CONTADO", descuento: 19,importe: 500000.00},
-  {tipo: "CONTADO", descuento: 20,importe: 500000.01},
+  {tipo: "CONTADO", descuento: 20,importe: 50000000.01},
 ];
 
 export const CREDITO: Array<DescuentoPorVolumen> = [

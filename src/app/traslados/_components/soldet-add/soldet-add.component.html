@@ -15,7 +15,7 @@
         <input type="text" mdInput placeholder="Disponible" [disabled]="true" [value]="disponible">
       </md-form-field>
       <md-form-field flex>
-        <input type="text" mdInput placeholder="Cantidad" formControlName="cantidad">
+        <input type="number" mdInput placeholder="Cantidad" formControlName="cantidad" sxOnlyNumbers>
         <md-error>
           Existencia insuficiente
         </md-error>

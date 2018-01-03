@@ -16,6 +16,30 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
   const formaDePago = control.get('formaDePago').value;
   const total = (control.get('total').value);
 
+  // Reglas de validacion de cliente
+  if (cliente) {
+    if (!cliente.activo) {
+      return { clienteSuspendido: true};
+    }
+  
+    if (cliente.credito && tipo === 'CRE') {
+      
+      if(!cliente.credito.creditoActivo){
+        return { creditoSuspendido: true};
+      } 
+
+      if (cliente.credito.atrasoMaximo > 7 ){
+        return { atrasoMaximo: true};
+      }
+
+      const nvoTotal = total + cliente.credito.saldo;
+      if ( cliente.credito.lineaDeCredito < nvoTotal ) {
+        return { lineaSaturada: true};
+      }
+    }
+  }
+  
+
   // Valida que existan partidas
   const partidas = (control.get('partidas') as FormArray).value;
   if (partidas.length === 0) {
@@ -70,14 +94,14 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
     }
   }
 
-  // Validar el socio de la union
+  /* Validar el socio de la union
   if (cliente !== null && cliente.clave === 'U050008') {
-   console.log('Validando cliente de la union');
    const socio = control.get('socio').value;
    if (socio === null) {
      return { seRequiereSocio: true};
    }
   }
+  */
 
   // Validacion de usuario
   const user = control.get('usuario').value;

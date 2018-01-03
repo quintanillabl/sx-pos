@@ -22,7 +22,7 @@
         <md-form-field *ngIf="tipoDePrecio ==='CRE'">
           <input type="text"
             mdInput placeholder="Precio Crédito" [disabled]="true"
-            value="{{producto.precioCredito | currency:'USD': true: '1.2-2'}}">
+            value="{{precio | currency:'USD': true: '1.2-2'}}">
         </md-form-field>
         <md-form-field>
           <input type="text" mdInput placeholder="Ancho" [disabled]="true" value="{{producto.ancho}}">

@@ -71,7 +71,7 @@ export class FacturasPendientesPageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    
+    console.log('Inicializando facturas pendientes-------')
     this.store.dispatch(new SearchAction());
 
     this.subscription1 = this.store
@@ -127,6 +127,7 @@ export class FacturasPendientesPageComponent implements OnInit, OnDestroy {
     newData = this._dataTableService.pageData(newData, this.fromRow, this.currentPage * this.pageSize);
     this.filteredData = newData;
     this.kilos = _.reduce(this.filteredData, (sum, n) => sum + n.venta.kilos, 0);
+    this.kilos = _.round(this.kilos, 3)
     // this.kilos = _.reduce(this.filteredData, (sum, n) => {
     //   console.log('Acumulando valor: ', sum);
     //   console.log('Dato: ', n);

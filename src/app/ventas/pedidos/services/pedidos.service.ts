@@ -191,5 +191,26 @@ export class PedidosService {
     return this.http.put(url, {}, {params: params});
   }
 
+  buscarPreciosPorCliente(cliente: Cliente, producto: Producto): Observable<any> {
+    const url = this.configService.buildApiUrl('preciosPorCliente/buscarPrecio');
+    // const url = this.configService.buildApiUrl('preciosPorCliente/buscarPrecio')
+    const params = new HttpParams()
+      .set('cliente', cliente.id)
+      .set('producto',producto.id)
+      return this.http.get<any>(url, {params: params});
+  }
+
+  preciosPorCliente(cliente: Cliente){
+    const url = this.configService.buildApiUrl('preciosPorCliente/preciosPorCliente');
+    const params = new HttpParams()
+      .set('cliente', cliente.id)
+      return this.http.get<any>(url, {params: params});
+  }
+
+  descuentosPorVolumen(): Observable<any> {
+    const url = this.configService.buildApiUrl('descuentoPorVolumen');
+    return this.http.get<any>(url);
+  }
+
 }
 

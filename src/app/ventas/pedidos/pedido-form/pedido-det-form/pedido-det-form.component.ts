@@ -3,10 +3,11 @@ import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import * as _ from 'lodash';
 
-import {Existencia, Producto, Sucursal, VentaDet} from 'app/models';
+import {Existencia, Producto, Sucursal, VentaDet, Cliente} from 'app/models';
 import {ExistenciasService} from 'app/ventas/services/existencias.service';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
+import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
 
 export function onlyNumber(): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {
@@ -47,7 +48,11 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   // subs4: Subscription;
 
   corte$: Observable<boolean>;
-  corteSubscription: Subscription
+  corteSubscription: Subscription;
+
+  preciosPorCliente = [];
+  
+  
 
   constructor(
     public dialogRef: MdDialogRef<PedidoDetFormComponent>,
@@ -59,6 +64,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     this.tipoDePrecio = data.tipo;
     this.partida = data.partida;
     this.dolares = data.dolares || false;
+    this.preciosPorCliente = data.preciosPorCliente;
   }
 
   ngOnInit() {
@@ -89,7 +95,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     this.form = this.fb.group({
       existencia: [null],
       producto: [null, Validators.required],
-      cantidad: [0, [Validators.required, Validators.min(1), onlyNumber()]],
+      cantidad: [0.0, [Validators.required]],
       precio: [{value: 0, disabled: !this.asignarPrecio()}, [Validators.required, , Validators.min(1)]],
       importe: [{value: 0, disabled: true}],
       importeConIva: [{value: 0, disabled: true}],
@@ -114,6 +120,10 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       .do( producto => {
           if (! this.asignarPrecio()) {
             this.form.get('precio').setValue(this.tipoDePrecio === 'CON' ? producto.precioContado : producto.precioCredito)
+            const pe = this.buscarPrecioEspecial(producto);
+            if (pe) {
+              this.form.get('precio').setValue(pe);
+            }
           }
         })
       .switchMap( producto => {
@@ -218,7 +228,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     const kilos = (rawData.cantidad * producto.kilos) / factor;
     const det: VentaDet = {
       producto: producto,
-      cantidad: rawData.cantidad,
+      cantidad: _.toNumber(rawData.cantidad),
       precio: rawData.precio,
       importe: rawData.importe,
       descuentoOriginal: 0,
@@ -286,5 +296,35 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   get precio(): number {
     return this.form.get('precio').value
   }
+
+  buscarPrecioEspecial(producto: Producto) {
+    // console.log('Buscando precio especial producto: ', producto);
+    const found =  this.preciosPorCliente.find( item => item.clave === producto.clave);
+    // console.log('Precio por cliente: ', found);
+    if ( found ) {
+      const precioList = producto.precioCredito;
+      const descuento = 100 - found.descuento;
+      const pr = _.round(  (precioList * descuento) /100 , 2)
+      // console.log('Precio especial encongrado: ', pr);
+      return pr
+    }
+    return null
+    
+  }
+  /*
+  buscarPrecioEspecial(producto: Producto){
+    if(this.cliente && this.cliente.credito) {
+      
+      this.service.buscarPreciosPorCliente(this.cliente, producto).subscribe( res => {
+        console.log('Precio encontrado: ', res);
+        const precioList = this.producto.precioCredito;
+        const descuento = 100 - res.descuento;
+        const pr = _.round(  (precioList * descuento) /100 , 2)
+        
+        this.form.get('precio').setValue(pr);
+      });
+    }
+  }
+  */
 
 }

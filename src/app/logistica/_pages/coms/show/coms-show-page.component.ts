@@ -54,13 +54,19 @@ export class ComsShowPageComponent implements OnInit {
     });
   }
 
-  print() {
-    this._dialogService.openAlert({
-      message: 'La impresión de este documento está en desarrollo',
-      viewContainerRef: this._viewContainerRef,
-      title: 'Impresíon',
-      closeButton: 'Cancelar',
-    });
+  print(com: RecepcionDeCompra) {
+    console.log('Imprimiendo COM: ', com.documento);
+    this.procesando = true;
+    this.service.print(com)
+      .delay(1000)
+      .subscribe(res => {
+        const blob = new Blob([res], {
+          type: 'application/pdf'
+        });
+        this.procesando = false;
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      }, error2 => this.handleError(error2));
 
   }
 
@@ -103,6 +109,7 @@ export class ComsShowPageComponent implements OnInit {
   }
 
   handleError(error) {
+    this.procesando = false;
     if (error.error) {
 
     } else {

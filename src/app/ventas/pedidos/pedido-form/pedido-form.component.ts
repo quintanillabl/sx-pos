@@ -14,6 +14,7 @@ import { TdDialogService } from '@covalent/core';
 import { PedidoValidator } from './pedido.validator';
 
 
+
 @Component({
   selector: 'sx-pedido-form',
   templateUrl: './pedido-form.component.html',
@@ -71,7 +72,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       this.form.get('isPuesto').setValue(pedido.puesto !== undefined);
 
       if (pedido.envio) {
-        console.log('Pedido con envio: ', pedido.envio)
+        // console.log('Pedido con envio: ', pedido.envio)
         this.form.get('mismaDireccion').setValue(false);
         this.form.get('mismaDireccion').enable();
         this.form.get('entrega').setValue('ENVIO');
@@ -95,6 +96,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
         this.form.get('cod').enable();
       }
     });
+    
   }
 
   ngOnDestroy() {
@@ -156,7 +158,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     this.recalcular$ = Observable.merge(cliente$, tipo$, formaDePago$);
 
     this.recalcularSubscription = this.recalcular$.subscribe( data => {
-      console.log('Recalculando importes : ', data);
+      // console.log('Recalculando importes : ', data);
       this.pedidoFormService.recalcular();
       this.cd.detectChanges();
       this.grid.refresh();
@@ -200,6 +202,9 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   onEditPartida(index: number) {
     this.pedidoFormService.editarPartida(index, {sucursal: this.sucursal});
   }
+  
+
+  
 
   onDelete(index: number) {
     this.pedidoFormService.elimiarPartida(index);

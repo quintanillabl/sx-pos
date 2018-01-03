@@ -44,6 +44,23 @@ export class ValidationPanelComponent implements OnInit {
     if (this.parent.hasError('seRequiereSocio')) {
       return 'Se requiere registrar el socio de la union de credito';
     }
+    // Validaciones del cliente
+    if (this.parent.hasError('clienteSuspendido')) {
+      return 'Cliente suspendido';
+    }
+
+    if (this.parent.hasError('creditoSuspendido')) {
+      return 'Credito suspendido, llamar al departamento de crédito';
+    }
+
+    if (this.parent.hasError('atrasoMaximo')) {
+      return 'Cliente con atraso superior a 7 días';
+    }
+
+    if (this.parent.hasError('lineaSaturada')) {
+      return 'Línea de crédito saturada';
+    }
+
     return null;
   }
 

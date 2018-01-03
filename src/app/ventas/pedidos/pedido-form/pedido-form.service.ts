@@ -12,6 +12,8 @@ import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
 import { DescuentoEspecialComponent } from './descuento-especial/descuento-especial.component';
 import { PrecioEspecialComponent } from './precio-especial/precio-especial.component';
 import {Venta} from 'app/models';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
 export function mapPartidaToImporte( det: VentaDet) {
   const factor = det.producto.unidad === 'MIL' ? 1000 : 1;
@@ -33,6 +35,10 @@ export class PedidoFormService {
   registerForm(parentForm: FormGroup, pedido: Venta) {
     this.form = parentForm;
     this.pedido = pedido;
+    this.form.get('cliente').valueChanges.subscribe( cliente => {
+      this.cargarPreciosPorCliente(cliente);
+    });
+    this.cargarDescuentosPorVolumen();
   }
 
   get tipo() {
@@ -58,7 +64,8 @@ export class PedidoFormService {
     const dialogRef = this.dialog.open(PedidoDetFormComponent, {
       data: {
         sucursal: config.sucursal,
-        tipo: this.tipo
+        tipo: this.tipo,
+        preciosPorCliente: this.preciosPorCliente
       }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -78,12 +85,13 @@ export class PedidoFormService {
       data: {
         sucursal: config.sucursal,
         tipo: this.tipo,
-        partida: det
+        partida: det,
+        preciosPorCliente: this.preciosPorCliente
       }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Partida editada: ', result);
+        // console.log('Partida editada: ', result);
         this.partidas.removeAt(index);
         this.partidas.insert(index, new FormControl(result));
         // this.partidas.push(new FormControl(result));
@@ -98,10 +106,6 @@ export class PedidoFormService {
     this.recalcular();
   }
 
-
-
-
-
   get partidas() {
     return this.form.get('partidas') as FormArray;
   }
@@ -115,7 +119,7 @@ export class PedidoFormService {
     // console.log('Recalcuando el pedido....');
     this.quitarCargosEspeciales();
     if (this.partidasActualizables.length > 0) {
-      console.log('Actualizando precios descuentos en partidas')
+      // console.log('Actualizando precios descuentos en partidas')
       this.actualizarPrecios();
       this.actualizarImportesEnPartidas();
       this.calcularDescuentos();
@@ -136,6 +140,13 @@ export class PedidoFormService {
         .forEach(item => {
           const precio = contado ? item.producto.precioContado : item.producto.precioCredito;
           item.precio = precio;
+          const precioEspecial = this.buscarPrecioEspecial(item.producto);
+          // console.log('Precio asignado: ', precioEspecial);
+          
+          if (precioEspecial !== null ) {
+            item.precio = precioEspecial
+          }
+          
           this.actualizarPartida(item);
         });
     }
@@ -176,7 +187,9 @@ export class PedidoFormService {
     let total = 0;
     let kilos = 0;
 
-    partidas.forEach(row => {
+    partidas.forEach( (row: any) => {
+      // console.log('Actuaizando partida: ', row.producto.clave);
+      // console.log('ROW: ', row);
       this.actualizarPartida(row);
       importe += row.importe;
       descuento = descuento < row.descuento ? row.descuento : descuento;
@@ -186,6 +199,7 @@ export class PedidoFormService {
       total += row.total;
       kilos += row.kilos
     });
+    
 
     this.form.get('importe').setValue(importe);
     this.form.get('descuento').setValue(descuento);
@@ -225,7 +239,6 @@ export class PedidoFormService {
     const descuentoOriginal = descRow ? descRow.descuento : 0
     let descuento = descRow ? descRow.descuento : 0
 
-
     if (descuento > pena ) {
       descuento = descuento - pena
     }
@@ -237,10 +250,10 @@ export class PedidoFormService {
     _.forEach(partidas, item => {
       if (item.producto.modoVenta === 'B') {
         item.descuento = descuento
-        item.descuentoOriginal = item.descuento;
-      } else if (item.producto.modoVenta === 'N' && item.producto.clave !== 'MANIOBRA') {
+        item.descuentoOriginal = descuentoOriginal;
+      } else if (item.producto.modoVenta === 'N' ) {
         item.descuento = 0
-        item.descuentoOriginal = item.descuento;
+        item.descuentoOriginal = 0;
       }
     });
     this.form.get('descuentoOriginal').setValue(_.round((descuentoOriginal ), 2));
@@ -278,6 +291,7 @@ export class PedidoFormService {
     }
   }
 
+  /*
   findDescuentoPorVolumen(importe: number) {
     // console.log('Buscando descuento por volumen para ', importe)
     let found = null;
@@ -288,16 +302,19 @@ export class PedidoFormService {
         break
       }
     }
-    /*_.forEach(CONTADO, item => {
+    return  found
+  }
+  */
 
+  findDescuentoPorVolumen(importe: number) {
+    let found = null;
+    for (let i = 0; i < this.descuentosPorVolumen.length; i++) {
+      const item = this.descuentosPorVolumen[i];
       if ( importe <= item.importe ) {
-        console.log('Asignando: ', item)
         found = item;
         break
       }
-    });*/
-    // const found = _.findLast(CONTADO, item => item.importe < importe);
-    // console.log('Descuento localizado: ', found);
+    }
     return  found
   }
 
@@ -520,5 +537,40 @@ export class PedidoFormService {
     }
   }
 
+  preciosPorCliente = [];
 
+  cargarPreciosPorCliente(cliente: Cliente) {
+    if (cliente && cliente.credito) {
+      this.service.preciosPorCliente(cliente)
+        .subscribe( precios => {
+          this.preciosPorCliente = precios;
+          //console.log('Precios por cliente: ', precios); 
+        });
+    } else {
+      this.preciosPorCliente = [];
+    }
+  }
+
+  buscarPrecioEspecial(producto: Producto) {
+    // console.log('Buscando precio especial producto: ', producto);
+    const found =  this.preciosPorCliente.find( item => item.clave === producto.clave);
+    // console.log('Precio por cliente: ', found);
+    if ( found ) {
+      const precioList = producto.precioCredito;
+      const descuento = 100 - found.descuento;
+      const pr = _.round(  (precioList * descuento) /100 , 2)
+      // console.log('Precio especial encongrado: ', pr);
+      return pr
+    }
+    return null
+  }
+
+  descuentosPorVolumen = []
+
+  cargarDescuentosPorVolumen() {
+    this.service.descuentosPorVolumen()
+    // .do( res => console.log('Descuentos por volumen: ', res))
+    .subscribe(res => this.descuentosPorVolumen = res)
+  }
+  
 }

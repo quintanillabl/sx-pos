@@ -55,7 +55,8 @@ export class PedidoHeaderComponent implements OnInit, OnDestroy {
 
   isDescuentoEspecial() {
     const tipo = this.parent.get('tipo').value;
-    if(tipo === 'CON') {
+    const fp: string = this.parent.get('formaDePago').value;
+    if(tipo === 'CON' && !fp.startsWith('TAR')) {
       const descuento = this.parent.get('descuento').value;
       const descuentoOriginal = this.parent.get('descuentoOriginal').value;
       return descuento !== descuentoOriginal;
