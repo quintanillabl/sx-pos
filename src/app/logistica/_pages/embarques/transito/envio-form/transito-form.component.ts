@@ -1,11 +1,12 @@
 import {
   Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef,
-  OnChanges, SimpleChanges
+  OnChanges, SimpleChanges, ViewContainerRef
 } from '@angular/core';
 import {FormGroup, FormBuilder, FormArray, Validators, FormControl} from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
+import {TdDialogService} from '@covalent/core';
 import * as _ from 'lodash';
 
 import { Sucursal } from 'app/models';
@@ -32,7 +33,9 @@ export class TransitoFormComponent implements OnInit, OnChanges {
   constructor(
     private fb: FormBuilder,
     public dialog: MdDialog,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private _dialogService: TdDialogService,
+    private _viewContainerRef: ViewContainerRef,
   ) {}
 
   ngOnInit() {
@@ -88,9 +91,26 @@ export class TransitoFormComponent implements OnInit, OnChanges {
 
   onRecepcion(index: number) {
     const envio = this.partidas.at(index).value;
-    envio.recepcion = new Date().toISOString()
-    this.cd.detectChanges()
-    console.log('Registrando recepcion de envio: ', envio);
+    // envio.recepcion = new Date().toISOString()
+    
+    this.cd.detectChanges();
+    const dialogRef = this._dialogService.openPrompt({
+      message: 'Nombre:',
+      title: 'Recpetor del material',
+      value: '',
+      viewContainerRef: this._viewContainerRef,
+      acceptButton: 'Aceptar',
+      cancelButton: 'Cancelar'
+    });
+
+    dialogRef.afterClosed().delay(500).subscribe( (message: string) => {
+      envio.recepcion = new Date().toISOString()
+      envio.recibio = message;
+      this.cd.detectChanges();
+      // console.log('Registrando recepcion de envio: ', envio);
+    }, () => {}, ()=> this.cd.detectChanges());
+    
+    
   }
    
   agregarEnvio(envio: Envio) {

@@ -34,6 +34,7 @@ export class FacturasPendientesPageComponent implements OnInit, OnDestroy {
     { name: 'venta.tipo',  label: 'Tipo', sortable: true, width: 5 },
     { name: 'venta.nombre', label: 'Cliente', filter: true, width: 350 },
     { name: 'documento', label: 'Factura', hidden: false, width: 10},
+    { name: 'venta.documento', label: 'Pedido', hidden: false, width: 10},
     { name: 'venta.fecha', label: 'Fecha', hidden: false, width: 10},
     { name: 'zona', label: 'Zona', hidden: false, width: 15},
     { name: 'municipio', label: 'Mpo', hidden: false, width: 15},
@@ -71,7 +72,6 @@ export class FacturasPendientesPageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    console.log('Inicializando facturas pendientes-------')
     this.store.dispatch(new SearchAction());
 
     this.subscription1 = this.store
