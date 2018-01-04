@@ -22,7 +22,8 @@
     <md-card-content class="facturas-panel"
       *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
       <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
-          <sx-facturados-list [facturas]="facturas$ | async" (print)="print($event)">
+          <sx-facturados-list [facturas]="facturas$ | async" (print)="print($event)" 
+            (envio)="asignarEnvio($event)" (cancelarEnvio)="cancelarEnvio($event)">
           </sx-facturados-list>
       </ng-template>
     </md-card-content>

@@ -3,11 +3,14 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import {Router} from '@angular/router';
 import {TdDialogService, TdLoadingService} from '@covalent/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { MdDialog } from '@angular/material';
 
 import * as fromPedidos from 'app/ventas/pedidos/store/reducers';
 import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
 import { Venta, Sucursal } from 'app/models';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { EnvioDireccionComponent } from '../pedido-form/envio-direccion/envio-direccion.component';
+
 
 
 
@@ -30,39 +33,32 @@ export class FacturadosComponent implements OnInit {
     private loadingService: TdLoadingService,
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
+    public dialog: MdDialog,
+    
   ) { 
     this.facturas$ = this.search$
       .debounceTime(400)
-      .distinctUntilChanged()
+      // .distinctUntilChanged()
       .switchMap(term => {
         this.loadingService.register('saving');
         return this.service
         .facturados(term)
         //.delay(200)
         .catch( err => Observable.of(err))
-        .finally( ()=> this.loadingService.resolve('saving'));
+        .finally( ()=> {
+          this.loadingService.resolve('saving');
+          this.procesando = false;
+        });
       })
       
   }
 
   ngOnInit() {
-    // this.facturas$.sub
   }
 
   load() {
-    // this.loadingService.register('saving');
-    // this.service.facturados()
-    //   .delay(200)
-    //   .subscribe(
-    //     pedidos => {
-    //       this.loadingService.resolve('saving');
-    //       this.pedidos = pedidos
-    //     },
-    //     error2 => {
-    //       this.loadingService.resolve('saving');
-    //       console.error('Error al cargar pendienetes ', error2)
-    //     });
-    this.search('');
+    this.procesando = true;
+    this.search('%');
   }
 
   search(term: string) {
@@ -106,6 +102,66 @@ export class FacturadosComponent implements OnInit {
   handleError(error) {
     this.procesando = false;
     console.error('Error: ', error);
+  }
+
+  asignarEnvio(pedido: Venta) {
+    const params = {direccion: null};
+    if (pedido.envio) {
+      params.direccion = pedido.envio.direccion;
+    }
+    const dialogRef = this.dialog.open(EnvioDireccionComponent, {
+      data: params
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+       console.log('Asignando direccion de envío: ', result);
+       this.doAsignarEnvio(pedido, result);
+      }
+    });
+  }
+
+  doAsignarEnvio(pedido: Venta, direccion) {
+    this.procesando = true;
+    this.service.asignarEnvio(pedido, direccion)
+      .delay(2000)
+      .finally( () => this.procesando = false)
+      .subscribe((res: Venta) => {
+        console.log('Envio registrado para: ', res);
+        this.load();
+        pedido = res;
+      }, error =>  console.error(error));
+  }
+
+
+  //////
+
+  cancelarEnvio(pedido: Venta) {
+    const params = {direccion: null};
+    if (pedido.envio) {
+      const dialogRef = this._dialogService.openConfirm({
+        message: 'Cancelar envio de la factura ' + pedido.cuentaPorCobrar.documento,
+        title: 'Cancelación de envío',
+        viewContainerRef: this._viewContainerRef,
+        acceptButton: 'Aceptar',
+        cancelButton: 'Cancelar'
+      }).afterClosed().subscribe( res => {
+        if(res) {
+          this.doCancelarEnvio(pedido);
+        }
+      });
+    }
+  }
+
+  doCancelarEnvio(pedido: Venta) {
+    this.procesando = true;
+    this.service.cancelarEnvio(pedido)
+      .delay(2000)
+      .finally( () => this.procesando = false)
+      .subscribe((res: Venta) => {
+        console.log('Envio cancelado para: ', res);
+        this.load();
+        pedido = res;
+      }, error =>  console.error(error));
   }
 
 }

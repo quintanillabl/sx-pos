@@ -20,10 +20,9 @@ export class PedidosService {
     private store: Store<fromRoot.State>,
     private configService: ConfigService
   ) {
-    // configService.getUrl().then( value => this.apiUrl = `${value.apiUrl}/ventas`);
     this.sucursal = configService.getCurrentSucursal();
     this.apiUrl = `${configService.getApiUrl()}/ventas`;
-    // this.apiUrl = `${this.configService.getApiUrl()}/ventas`
+    
   }
 
   get(id: string): Observable<Venta> {
@@ -57,6 +56,12 @@ export class PedidosService {
     console.log('Asignando direccion de envio: ', direccion)
     const url = `${this.apiUrl}/asignarEnvio/${venta.id}`;
     return this.http.put(url, direccion);
+  }
+
+  cancelarEnvio(venta: Venta) {
+    console.log('Cancleando envio de: ', venta)
+    const url = `${this.apiUrl}/cancelarEnvio/${venta.id}`;
+    return this.http.put(url, {});
   }
 
   delete(id: string) {
