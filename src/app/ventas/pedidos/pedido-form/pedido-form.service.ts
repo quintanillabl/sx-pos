@@ -267,7 +267,7 @@ export class PedidoFormService {
         this.aplicarDescuentCreditoDescuentoFijo(cliente.credito.descuentoFijo);
         this.form.get('descuentoOriginal').setValue(cliente.credito.descuentoFijo);
       } else {
-        this.aplicarDescuentoContado(2);
+        this.aplicarDescuentoContado(4);
       }
     }
 
