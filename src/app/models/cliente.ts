@@ -9,6 +9,8 @@ export class Cliente {
   direccion?: {};
   telefonos?: Array<any>
   cfdiMail?: string
+  juridico?: boolean;
+  chequeDevuelto?: number;
 }
 
 export class ClienteCredito {

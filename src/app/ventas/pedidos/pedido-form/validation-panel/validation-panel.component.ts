@@ -61,6 +61,14 @@ export class ValidationPanelComponent implements OnInit {
       return 'Línea de crédito saturada';
     }
 
+    if (this.parent.hasError('clienteEnJuridico')) {
+      return 'Cliente en tramite jurídico';
+    }
+
+    if (this.parent.hasError('clienteConChequesDevueltos')) {
+      return 'Cliente con cheque(s) devueltos';
+    }
+
     return null;
   }
 

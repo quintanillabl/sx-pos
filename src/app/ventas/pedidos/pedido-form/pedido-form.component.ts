@@ -96,6 +96,8 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
         this.form.get('cod').enable();
       }
     });
+
+    
     
   }
 

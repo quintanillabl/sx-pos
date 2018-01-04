@@ -18,8 +18,16 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
 
   // Reglas de validacion de cliente
   if (cliente) {
+    
     if (!cliente.activo) {
       return { clienteSuspendido: true};
+    }
+
+    if(cliente.juridico){
+      return { clienteEnJuridico: true}
+    }
+    if(cliente.chequeDevuelto > 0){
+      return { clienteConChequesDevueltos: true}
     }
   
     if (cliente.credito && tipo === 'CRE') {
