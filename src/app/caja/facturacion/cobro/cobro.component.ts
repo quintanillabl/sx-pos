@@ -60,7 +60,7 @@ export class CobroComponent implements OnInit {
     this.loadingService.register('saving');
     this.service
       .facturar(pedido)
-      .delay(1000)
+      .delay(200)
       .subscribe( res => {
         console.log('Pedido facturado', res);
         this.loadingService.resolve('saving');
