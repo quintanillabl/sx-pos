@@ -13,7 +13,7 @@
       <sx-uso-cfdi [parent]="form" flex></sx-uso-cfdi>
       <sx-usuario-sec-field flex placeholder="Atiende" (usuarioFound)="setUsuario($event)"></sx-usuario-sec-field>
       <md-form-field flex="10">
-        <input type="text" mdInput placeholder="Tipo de cambio" formControlName="tipoDeCambio" sxOnlyNumbers>
+        <input type="text" mdInput placeholder="Tipo de cambio" formControlName="tipoDeCambio" sxIntegerOnly>
       </md-form-field>
       <sx-comprador-field [parent]="form" fle></sx-comprador-field>
     </div>
