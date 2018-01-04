@@ -89,11 +89,11 @@ export class EnvioEditPageComponent implements OnInit {
   onPrint(embarque) {
     this.service.print(embarque.id)
     .subscribe(res => {
-      let blob = new Blob([res], {
+      const blob = new Blob([res], {
         type: 'application/pdf'
       });
-      let filename = `embarque_${embarque.documento}.pdf`;
-      FileSaver.saveAs(blob, filename);
+      const fileURL = window.URL.createObjectURL(blob);
+      window.open(fileURL, '_blank');
     });
   }
 

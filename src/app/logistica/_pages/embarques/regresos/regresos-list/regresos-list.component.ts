@@ -13,6 +13,8 @@ export class RegresosListComponent implements OnInit {
 
   @Output() regreso = new EventEmitter();
 
+  @Output() print = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {

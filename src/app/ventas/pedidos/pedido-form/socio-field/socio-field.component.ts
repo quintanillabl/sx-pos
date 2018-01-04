@@ -81,7 +81,7 @@ export class SocioFieldComponent implements OnInit, ControlValueAccessor, OnDest
   }
 
   displayFn(socio: Socio) {
-    return socio ? `${socio.nombre} (${socio.clave})` : '';
+    return socio ? `${socio.nombre}` : '';
   }
 
   writeValue(obj: any): void {

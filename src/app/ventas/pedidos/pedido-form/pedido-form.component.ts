@@ -64,7 +64,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.pedido && changes.pedido.currentValue) {
       const pedido: Venta = changes.pedido.currentValue;
-      // console.log('Editando pedido: ', pedido);
+      console.log('Editando pedido: ', pedido);
       if (pedido.id && pedido.puesto) {
         // this.editable = false;
       }

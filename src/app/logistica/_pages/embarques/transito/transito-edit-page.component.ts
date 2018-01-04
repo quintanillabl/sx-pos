@@ -79,8 +79,8 @@ export class TransitoEditPageComponent implements OnInit {
       const blob = new Blob([res], {
         type: 'application/pdf'
       });
-      const filename = `embarque_${embarque.documento}.pdf`;
-      FileSaver.saveAs(blob, filename);
+      const fileURL = window.URL.createObjectURL(blob);
+      window.open(fileURL, '_blank');
     });
   }
 

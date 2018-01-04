@@ -28,7 +28,7 @@ export class SolAtencionComponent implements OnInit {
     { name: 'producto.clave',  label: 'Producto', width: 60 },
     { name: 'producto.descripcion', label: 'Descripcion', width: 450},
     { name: 'solicitado', label: 'Solicitado', format: DECIMAL_FORMAT, width: 100},
-    { name: 'recibido', label: 'Recibido', format: DECIMAL_FORMAT, width: 100},
+    { name: 'recibido', label: 'Por Enviar', format: DECIMAL_FORMAT, width: 100},
     { name: 'comentario', label: 'Comentario', width: 200},
   ];
 

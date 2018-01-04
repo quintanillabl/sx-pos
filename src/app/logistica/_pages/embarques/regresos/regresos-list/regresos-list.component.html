@@ -7,7 +7,8 @@
             <span flex="10" class="tc-indigo-700"> Embarque</span>
             <span flex>Chofer </span>
             <span flex></span>
-            <span flex>Regreso </span>
+            <span >Regreso </span>
+            <span flex></span>
           </span>
         </span>
       </md-list-item>
@@ -20,8 +21,14 @@
               <span layout layout-padding>
                 <a md-button [routerLink]="['edit', row.id]"  class="tc-indigo-700">{{row.documento}} </a>
                 <span flex>{{row.chofer.nombre}} </span>
-                <span flex></span>
-                <span flex md-tooltip="{{row.regreso | date:'short'}}">{{ row.regreso | date: 'dd/MM/yyyy hh:mm' }} </span>
+                
+                <span layout flex>
+                    <span >{{ row.regreso | date: 'dd/MM/yyyy hh:mm' }}</span>
+                    <span flex></span>
+                    <button type="button" md-icon-button (click)="print.emit(row)">
+                        <md-icon>print</md-icon>
+                    </button>
+                </span>
               </span>
             </span>
             
