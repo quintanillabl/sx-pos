@@ -8,7 +8,7 @@ export interface FondoFijo {
   descripcion: string
   importe: number
   fondo?: FondoFijo
-  solicitud: string
+  solicitud?: string
   sucursal:	Sucursal
   comentario?:	string
 }

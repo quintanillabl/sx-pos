@@ -20,7 +20,8 @@ export const MODULOS: Modulo[] = [
     nombre: 'Caja',
     path: '/caja',
     descripcion: 'Sistema de cobranza y administración de caja',
-    icon: 'attach_money'
+    icon: 'attach_money',
+    role: 'ROLE_CAJEROX'
   },
   {
     id: 4,

@@ -3,6 +3,7 @@ import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder, AbstractControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { FondoFijo } from '@siipapx/caja/models/fondoFijo';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -28,9 +29,9 @@ export class GastoComponent implements OnInit {
       fecha: [{value: new Date(), disabled: false}, Validators.required],
       documento: ['', Validators.required],
       descripcion: ['', Validators.required],
-      importe: [0, [Validators.required, this.validarImporte.bind(this)]],
+      importe: [0.0, [Validators.required, this.validarImporte.bind(this)]],
       rembolso: false,
-      solicitud: ['', Validators.required],
+      solicitud: [''],
       comentario: ['']
     });
   }
@@ -51,9 +52,11 @@ export class GastoComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       const fecha: Date = this.form.get('fecha').value;
+      const importe = this.form.get('importe').value;
       const fondoFijo: FondoFijo = {
         ... this.form.getRawValue(),
       }
+      fondoFijo.importe = _.toNumber(importe);
       this.dialogRef.close(fondoFijo);
     }
   }

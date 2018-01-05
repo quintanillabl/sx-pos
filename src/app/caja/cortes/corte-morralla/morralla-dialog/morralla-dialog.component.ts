@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder, AbstractControl, Validators } from '@angular/forms';
-
+import * as _ from 'lodash';
 import {Morralla} from 'app/caja/models/morralla';
 
 
@@ -26,7 +26,7 @@ export class MorrallaDialogComponent implements OnInit {
     this.form = this.fb.group({
       fecha: [{value: new Date(), disabled: false}, Validators.required],
       tipo: ['', Validators.required],
-      importe: [0, [Validators.required, this.validarImporte.bind(this)]],
+      importe: [0.0, [Validators.required, this.validarImporte.bind(this)]],
       comentario: ['']
     });
   }
@@ -45,9 +45,11 @@ export class MorrallaDialogComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       const fecha: Date = this.form.get('fecha').value;
+      const importe = this.form.get('importe').value;
       const fondoFijo: Morralla = {
         ... this.form.getRawValue(),
       }
+      fondoFijo.importe = _.toNumber(importe);
       this.dialogRef.close(fondoFijo);
     }
   }

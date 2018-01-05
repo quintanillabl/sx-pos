@@ -10,7 +10,7 @@ export class VentasDiariasComponent implements OnInit {
   
   form: FormGroup;
 
-  tipos = ['CON','COD'];
+  tipos = ['CON','COD','CRE'];
 
 
   constructor(

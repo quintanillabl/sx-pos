@@ -5,5 +5,6 @@ export interface Modulo {
   path: string;
   icon?: string;
   routes?: Array<any>;
-  roles?: string[]
+  roles?: string[];
+  role?: string;
 }
