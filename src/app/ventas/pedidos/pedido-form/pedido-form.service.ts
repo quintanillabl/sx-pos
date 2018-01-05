@@ -146,6 +146,13 @@ export class PedidoFormService {
           if (precioEspecial !== null ) {
             item.precio = precioEspecial
           }
+          if (this.tipo === 'CRE' ) {
+            if( this.cliente.credito) {
+              if (this.cliente.credito.postfechado) {
+                item.precio = item.producto.precioContado
+              }
+            }
+          }
           
           this.actualizarPartida(item);
         });

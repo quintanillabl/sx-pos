@@ -3,6 +3,7 @@ import { TdDataTableService, ITdDataTableColumn } from '@covalent/core';
 
 import { CajaService } from 'app/caja/services/caja.service';
 import { Venta } from 'app/models';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'sx-generadas-page',
@@ -23,6 +24,8 @@ export class GeneradasPageComponent implements OnInit {
 
   data: any[] = [];
 
+  search$ = new BehaviorSubject<string>(null);
+
   constructor(
     private _dataTableService: TdDataTableService,
     private service: CajaService
@@ -36,7 +39,9 @@ export class GeneradasPageComponent implements OnInit {
     );
   }
 
-  search(searchTerm: string): void {}
+  search(searchTerm: string): void {
+    // this.search$.next()
+  }
 
   cobrar(pedido: Venta) {
     console.log('Cobrando venta: ', pedido);

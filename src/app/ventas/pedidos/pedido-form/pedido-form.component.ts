@@ -97,7 +97,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       }
     });
 
-    
+    // this.form.get('cliente').valueChanges.subscribe(cliente => console.log(cliente));
     
   }
 
