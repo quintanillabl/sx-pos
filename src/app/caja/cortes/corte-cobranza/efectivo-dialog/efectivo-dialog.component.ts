@@ -59,7 +59,7 @@ export class EfectivoDialogComponent implements OnInit, OnDestroy{
 
   onSubmit() {
     if (this.form.valid) {
-      this.corte.deposito = this.form.get('deposito').value;
+      this.corte.deposito = _.toNumber(this.form.get('deposito').value);
       this.corte.comentario = this.form.get('comentario').value;
       this.corte.cierre = this.form.get('cierre').value;
       this.corte.anticipoCorte = this.form.get('anticipoCorte').value;
@@ -70,7 +70,7 @@ export class EfectivoDialogComponent implements OnInit, OnDestroy{
 
   get disponible() {
     return _.round( 
-      (this.corte.pagosRegistrados - this.corte.cortesAcumulado - this.corte.cambiosDeCheques), 2);
+      (this.corte.pagosRegistrados - this.corte.cortesAcumulado + this.corte.cambiosDeCheques), 2);
     
   }
 

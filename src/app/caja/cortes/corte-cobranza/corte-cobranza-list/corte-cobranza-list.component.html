@@ -4,10 +4,11 @@
           <span layout >
             <span flex="10">F. Pago </span>
             <span flex="5">Vta </span>
-            <span flex="20" class="tc-indigo-700">Corte </span>
+            <span flex="10" class="tc-indigo-700">Corte </span>
             <span flex="10">Acumulado</span>
             <span flex="10" >Depósito</span>
             <span flex="10" >Pagos</span>
+            <span flex="10" >Cam Cheq</span>
             <span flex="10" class="tc-pink-700">
               Por Depositar
             </span>
@@ -27,12 +28,13 @@
           <span layout >
             <span flex="10">{{ getFormaDePago(row)}} </span>
             <span flex="5">{{ row.tipoDeVenta}} </span>
-            <span flex="20" class="tc-indigo-700">
-                {{ row.corte | date: 'dd/MM/yyyy HH:mm:ss' }}
+            <span flex="10" class="tc-indigo-700">
+                {{ row.corte | date: 'HH:mm:ss' }}
             </span>
             <span flex="10">{{row.cortesAcumulado | currency: 'USD': 1.2-2 }}</span>
             <span flex="10" >{{ row.deposito | currency: 'USD': 1.2-2 }}</span>
             <span flex="10" >{{ row.pagosRegistrados | currency: 'USD': 1.2-2 }}</span>
+            <span flex="10" >{{ row.cambiosDeCheques | currency: 'USD': 1.2-2 }}</span>
             <span flex="10" class="tc-pink-700">
               {{ (porDepositar(row)) | currency: 'USD': 1.2-2 }}
             </span>
