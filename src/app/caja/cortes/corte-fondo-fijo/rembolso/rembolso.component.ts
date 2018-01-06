@@ -14,24 +14,25 @@ import * as _ from 'lodash';
 export class RembolsoComponent implements OnInit {
 
   form: FormGroup;
-
+  rembolso = null;
   constructor(
     @Inject(MD_DIALOG_DATA) public data: any,
     public dialogRef: MdDialogRef<RembolsoComponent>,
     private fb: FormBuilder
   ) {
+    this.rembolso = data.rembolso
     this.buildForm();
+    
   }
 
     // fondo?: FondoFijo
   private buildForm() {
     this.form = this.fb.group({
       fecha: [{value: new Date(), disabled: false}, Validators.required],
-      documento: ['', Validators.required],
+      documento: [''],
       descripcion: ['REMBOLSO', Validators.required],
-      importe: [0.0, [Validators.required, this.validarImporte.bind(this)]],
+      importe: [this.rembolso.importe, [Validators.required, this.validarImporte.bind(this)]],
       rembolso: true,
-      solicitud: ['PENDIENTE'],
       comentario: ['']
     });
   }

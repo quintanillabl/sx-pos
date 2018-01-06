@@ -5,6 +5,8 @@ import { GastoComponent } from './gasto/gasto.component';
 import { RembolsoComponent } from './rembolso/rembolso.component';
 import { FondoFijoService } from 'app/caja/services/fondo-fijo.service';
 import { FondoFijo } from 'app/caja/models/fondoFijo';
+import { TdDialogService } from '@covalent/core';
+import { SelectorFechaComponent } from 'app/shared/_components/selector-fecha/selector-fecha.component';
 
 @Component({
   selector: 'sx-corte-fondo-fijo',
@@ -15,9 +17,16 @@ export class CorteFondoFijoComponent implements OnInit {
 
   movimientos: FondoFijo[] = [];
 
+  selected: FondoFijo[] = [];
+
+  procesando = false;
+
+  fecha = new Date()
+
   constructor(
     public dialog: MdDialog,
-    private service: FondoFijoService
+    private service: FondoFijoService,
+    private dialogService: TdDialogService
   ) { }
 
   ngOnInit() {
@@ -25,8 +34,12 @@ export class CorteFondoFijoComponent implements OnInit {
   }
 
   load() {
-    this.service.list().subscribe(movimientos => {
+    this.procesando = true;
+    this.service.list(this.fecha)
+    .finally( () => this.procesando = false)
+    .subscribe(movimientos => {
       this.movimientos = movimientos
+      this.selected = [];
     } , error => console.error(error));
   }
 
@@ -36,8 +49,13 @@ export class CorteFondoFijoComponent implements OnInit {
   }
 
   rembolso() {
-    const params = {}
-    this.openDialog(RembolsoComponent, params);
+    
+    this.service
+      .prepararRembolso()
+      .subscribe( r => {
+        const params = {rembolso: r}
+        this.openDialog(RembolsoComponent, params);
+      });
   }
 
   openDialog(component, params: {} = {}) {
@@ -57,6 +75,58 @@ export class CorteFondoFijoComponent implements OnInit {
       console.log('Registro de movimiento en fondo fijo exitosamente salvado: ', fondo);
       this.load();
     }, error => console.error('Error salvando fondo ', error));
+  }
+
+  solicitar() {
+    console.log('Solicitando rembolso de: ', this.selectedGastos);
+    if (this.selectedGastos.length === 0) {
+      return;
+    }
+    this.dialogService.openConfirm({
+      message: 'Solicitar rembolso de ' + this.selectedGastos.length + ' gastos',
+      title: 'Rembolso de fondo fijo',
+      cancelButton: 'Cancelar',
+      acceptButton: 'Aceptar'
+    }).afterClosed().subscribe( val => {
+      if (val) {
+        this.doSolicitarRembolso();
+      }
+    });
+  }
+
+  private doSolicitarRembolso() {
+    this.procesando = true;
+    this.service
+    .solicitarRembolso(this.selectedGastos)
+    .delay(1000)
+    .finally( () => this.procesando = false)
+    .subscribe( res => {
+      this.load();
+      console.log("Rembolso solicitado...");
+    });
+  }
+
+  cambiarFecha(fecha) {
+    const dialogRef = this.dialog.open(SelectorFechaComponent, {
+      data: this.fecha
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fecha = result;
+        console.log('Nueva fecha: ', result);
+        this.load();
+      }
+    });
+  }
+
+  hasSelection() {
+    return this.selected.length == 0
+  }
+  
+  get selectedGastos() {
+    return this.selected
+    .filter( item =>  (!item.rembolso && !item.solicitado) );
+    
   }
 
 }

@@ -1,30 +1,39 @@
-<div layout="row" >
-  <md-card flex >
+<md-card >
+  <!-- <md-card-title>
+    Movimientos de fondo fijo
+  </md-card-title> -->
+  <div layout="row" layout-align="start center" layout-margin >
+    <span class="md-title ">Movimientos de fondo fijo </span>
+    <button md-button (click)="cambiarFecha(fecha)" color="primary"> {{fecha | date: 'dd/MM/yyyy'}}</button>
+    <span flex></span>
+    <button md-button type="button" color="primary" (click)="solicitar()"
+      [disabled]="hasSelection()">Solicitar
+    </button>
+
     
-    <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
-      <span  class="push-left-sm" flex>
-          <span class="md-title">Movimientos de fondo fijo </span>
-      </span>
-      <span >
-        <button md-icon-button [md-menu-trigger-for]="menu"  >
-          <md-icon >more_vert</md-icon>
-        </button>
-        <md-menu x-position="before" #menu="mdMenu">
-          <button   md-menu-item (click)="load()" ><md-icon>refresh</md-icon> Refrescar</button>
-          <button   md-menu-item (click)="rembolso()"><md-icon>attach_money</md-icon> Rembolso</button>
-          <button   md-menu-item (click)="gasto()"><md-icon>account_balance_wallet</md-icon> Gasto</button>
-        </md-menu>
-      </span>
-    </div>
+    <span >
+      <button md-icon-button [md-menu-trigger-for]="menu"  >
+        <md-icon >more_vert</md-icon>
+      </button>
+      <md-menu x-position="before" #menu="mdMenu">
+        <button   md-menu-item (click)="load()" ><md-icon>refresh</md-icon> Refrescar</button>
+        <button   md-menu-item (click)="rembolso()"><md-icon>attach_money</md-icon> Rembolso</button>
+        <button   md-menu-item (click)="gasto()"><md-icon>account_balance_wallet</md-icon> Gasto</button>
+      </md-menu>
+    </span>
+  </div>
     
-    <md-divider></md-divider>
-    <md-card-content class="facturas-panel">
-      <sx-fondo-fijo-list [movimientos]="movimientos" ></sx-fondo-fijo-list>
-      <!-- <sx-corte-cobranza-list [cortes]="cortes"></sx-corte-cobranza-list> -->
-    </md-card-content>
-  </md-card>
-</div>
-    
+  <md-divider></md-divider>
+  <md-card-content class="facturas-panel">
+      <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">  
+        <sx-fondo-fijo-list [movimientos]="movimientos" [selectedRows]="selected">
+        </sx-fondo-fijo-list>
+      </ng-template>
+  </md-card-content>
+
+  
+</md-card>
+  
   
     
     

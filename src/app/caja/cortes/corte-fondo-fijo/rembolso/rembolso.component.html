@@ -17,7 +17,7 @@
         <input type="text" mdInput placeholder="Importe" formControlName="importe" sxOnlyNumbers>
       </md-form-field>
       <md-form-field flex>
-        <input type="text" mdInput placeholder="Número" formControlName="documento">
+        <input type="text" mdInput placeholder="Calculado" [disabled]="true" value="{{rembolso.importe | currency: 'USD': 1.2-2}}">
       </md-form-field>
       <!--<button md-button color="accent" flex> Asignar gasto</button>-->
     </div>

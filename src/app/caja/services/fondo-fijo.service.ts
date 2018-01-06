@@ -28,15 +28,32 @@ export class FondoFijoService {
     return this.http.get<FondoFijo>(url)
   }
 
-  list(): Observable<FondoFijo[]> {
-    let params = new HttpParams().set('sucursal',this.sucursal.id);
-    return this.http.get<FondoFijo[]>(this.apiUrl, {params: params})
+  list(fecha: Date): Observable<FondoFijo[]> {
+    const params = new HttpParams()
+    .set('sucursal', this.sucursal.id)
+    .set('fecha', fecha.toISOString());
+    let url = `${this.apiUrl}/fondos`;
+    return this.http.get<FondoFijo[]>(url, {params: params})
+  }
+
+  prepararRembolso(): Observable<FondoFijo> {
+    let url = `${this.apiUrl}/prepararRembolso`;
+    return this.http.get<FondoFijo>(url)
   }
 
   save(corte: FondoFijo) {
     corte.sucursal = this.sucursal
     return this.http.post(this.apiUrl, corte);
   }
+
+  solicitarRembolso(gastos) {
+    const data = {
+      gastos: gastos,
+    };
+    const url = `${this.apiUrl}/solicitarRembolso`;
+    return this.http.put(url, data);    
+  }
+  
 
   update(corte: FondoFijo) {
     return this.http.put(this.apiUrl+'/'+corte.id, corte);
