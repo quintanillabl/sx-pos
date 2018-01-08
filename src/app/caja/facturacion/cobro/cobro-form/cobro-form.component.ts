@@ -73,6 +73,9 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
       this.formasDePago.push('CHEQUE');
       _.pull(this.formasDePago, 'TRANSFERENCIA');
     }
+    if (this.venta.formaDePago === 'TRANSFERENCIA'){
+      // this.formasDePago = ['TRANSFERENCIA'];
+    }
     if (this.venta.formaDePago === 'TARJETA_DEBITO') {
       _.pull(this.formasDePago, 'TARJETA_CREDITO');
       _.pull(this.formasDePago, 'TRANSFERENCIA');
@@ -87,6 +90,11 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
       _.pull(this.formasDePago, 'TARJETA_DEBITO');
       _.pull(this.formasDePago, 'TRANSFERENCIA');
     }
+
+    if(this.formaDePago === 'TRANSFERENCIA' || this.formaDePago.startsWith('DEPOSITO')){
+      this.form.get('importe').setValue(0);
+    }
+    
   }
 
   ngOnDestroy() {
@@ -158,6 +166,10 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
   get permitirMasCobros() {
     // return this.porCobrar > 0 && this.importe > 0 && (this.venta.formaDePago !== 'EFECTIVO')
     return (this.porCobrar > 0 && this.importe > 0 )
+  }
+
+  get formaDePago() {
+    return this.venta.formaDePago;
   }
 
   agregarCobro() {
@@ -317,6 +329,10 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
         this.pushCobro(result);
       }
     });
+  }
+
+  disponiblesDisabled() {
+    return this.porCobrar <= 0
   }
 
   saldar() {

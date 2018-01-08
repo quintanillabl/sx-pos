@@ -68,7 +68,11 @@
 
     </md-card-content>
     <td-message *ngIf="form.hasError('permiteCheque') "
-      label="Error!" sublabel="No se permite cheque a este cliente" color="warn" icon="error"></td-message>
+      label="Error!" 
+      sublabel="No se permite cheque a este cliente" 
+      color="warn" 
+      icon="error">
+    </td-message>
     <md-divider></md-divider>
     <md-card-actions>
       <ng-container *ngIf="venta?.cod !==true " >
@@ -77,7 +81,8 @@
           Cobrar
         </button>
 
-        <button md-button type="button" (click)="buscarDisponible()" [disabled]="porCobrar <= 0"
+        <button md-button type="button" (click)="buscarDisponible()" 
+          [disabled]="porCobrar <= 0"
           color="primary"
           class="text-upper">Disponibles
         </button>
