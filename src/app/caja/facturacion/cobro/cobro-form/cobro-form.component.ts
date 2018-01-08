@@ -90,6 +90,9 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
       _.pull(this.formasDePago, 'TARJETA_DEBITO');
       _.pull(this.formasDePago, 'TRANSFERENCIA');
     }
+    if( this.venta.formaDePago.startsWith("DEPOSITO")) {
+      this.formasDePago.push(this.venta.formaDePago);
+    }
 
     if(this.formaDePago === 'TRANSFERENCIA' || this.formaDePago.startsWith('DEPOSITO')){
       this.form.get('importe').setValue(0);

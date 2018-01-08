@@ -6,17 +6,15 @@
     </span>
     <span layout="column">
       <span layout>
-        <span flex>Factura:</span>
+        <span >Factura:</span>
         <span class="pad-left tc-pink-800" flex>
         {{venta.cuentaPorCobrar.tipo}} {{venta.cuentaPorCobrar.documento}}
         </span>
       </span>
       <span layout>
-          <span flex>Pedido:</span>
-          <span class="pad-left tc-pink-800" flex>
-          {{venta.documento}}
-          </span>
-        </span>
+        <span >Pedido:</span>
+        <span class="pad-left tc-pink-800" flex>{{venta.documento}}</span>
+      </span>
     </span>
     <span layout class="pad-left">
       <span flex>Fecha:</span>
@@ -47,7 +45,6 @@
   </div>
 
   <div layout class="row2">
-
     <div #col1 layout="column" flex>
       <address *ngIf="cliente?.direccion; let direccion" class="text-sm">
         {{direccion.calle}} {{direccion.numeroExterior}}<br>
@@ -58,13 +55,17 @@
     </div>
 
     <div #col2 layout="column"  >
-
+      
     </div>
 
     <div #col3 layout="column" flex>
       <span layout>
         <span>RFC:</span>
-        <span class=" pad-left">{{venta?.cliente?.rfc}}</span>
+        <span class=" pad-left" flex>{{venta?.cliente?.rfc}}</span>
+      </span>
+      <span layout class="pad-top-sm pad-bottom-sm">
+        <span> F.Pago: </span>
+        <span class="pad-left tc-indigo-800" flex> {{venta.formaDePago}}</span>
       </span>
       <span>CFDI: <span class="pad-left tc-indigo-700">{{venta?.cuentaPorCobrar?.cfdi?.uuid}}</span> </span>
     </div>

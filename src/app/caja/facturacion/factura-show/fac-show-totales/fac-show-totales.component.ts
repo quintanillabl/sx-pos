@@ -15,4 +15,18 @@ export class FacShowTotalesComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  get formaDePago() {
+    switch (this.venta.formaDePago) {
+      case 'TARJETA_DEBITO':
+        return 'TAR_DEV'
+      case 'TARJETA_CREDITO':
+        return 'TAR_CRE'
+      case 'TRANSFERENCIA':
+        return 'TRANS'
+      default:
+        return this.venta.formaDePago;
+
+    }
+  }
 }

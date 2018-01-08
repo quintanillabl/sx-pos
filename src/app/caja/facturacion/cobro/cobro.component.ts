@@ -72,7 +72,11 @@ export class CobroComponent implements OnInit {
   }
 
   onSave(cobroJob) {
+    
+    cobroJob.cobros = cobroJob.cobros.filter (item => item.importe > 0);
+    cobroJob.cobros.forEach (item => item.tipo = cobroJob.venta.tipo)
     console.log('Generando facturacion y cobro: ', cobroJob);
+    
     this.loadingService.register('saving');
     this.service
     .cobroContado(cobroJob)
@@ -85,6 +89,8 @@ export class CobroComponent implements OnInit {
       console.error(error);
       this.loadingService.resolve('saving');
     });
+   
+    
   }
 
   timbrar(venta) {
