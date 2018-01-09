@@ -4,7 +4,7 @@ export interface SolicitudDeDeposito {
   id: string
   sucursal: Sucursal
   cliente: Cliente
-  cobro: {},
+  cobro?: {},
   banco: {},
   cuenta: {},
   tipo: string,
@@ -23,5 +23,5 @@ export interface SolicitudDeDeposito {
   dateCreated?: string
   lastUpdated?: string
   createUser?: string
-  updateUser: string
+  updateUser: string;
 }

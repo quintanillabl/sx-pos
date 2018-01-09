@@ -34,10 +34,13 @@ export class SolicitudesService {
     return this.http.get<SolicitudDeDeposito[]>(url, {params: params})
   }
 
-  list(documento?: string ): Observable<SolicitudDeDeposito[]> {
+  list(documento?: string, autorizadas?: boolean ): Observable<SolicitudDeDeposito[]> {
     let params = new HttpParams().set('sucursal', this.sucursal.id);
     if (documento) {
       params =  params.set('documento', documento);
+    }
+    if (autorizadas) {
+      params = params.set('autorizadas', 'true');
     }
     return this.http.get<SolicitudDeDeposito[]>(this.apiUrl, {params: params})
   }
