@@ -118,13 +118,20 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
   }
 
   private prepareEntity(): SolicitudDeDeposito {
+    const efectivo = this.form.get('efectivo').value || 0.0;
+    const cheque = this.form.get('cheque').value || 0.0;
+    const transferencia = this.form.get('transferencia').value || 0.0
     const res = {
       ...this.form.getRawValue(),
       cliente: {
-        id: this.cliente.id
+        id: this.cliente.id,
       },
+      efectivo: _.toNumber(efectivo),
+      cheque: _.toNumber(cheque),
+      transferencia: _.toNumber(transferencia),
       fechaDeposito: this.form.get('fechaDeposito').value.toISOString(),
-      updateUser: this.form.get('solicita').value.username
+      updateUser: this.form.get('solicita').value.username,
+      referencia: this.form.get('referencia').value || 'ND'
     }
     if (!this.id) {
       res.createUser = res.updateUser

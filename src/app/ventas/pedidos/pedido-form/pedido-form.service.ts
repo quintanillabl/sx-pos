@@ -232,6 +232,7 @@ export class PedidoFormService {
         pena = 1;
       }
       this.aplicarDescuentoContado(pena);
+      this.form.get('chequePostFechado').setValue(false);
     }
   }
 
@@ -273,8 +274,10 @@ export class PedidoFormService {
       if (!cliente.credito.postfechado) {
         this.aplicarDescuentCreditoDescuentoFijo(cliente.credito.descuentoFijo);
         this.form.get('descuentoOriginal').setValue(cliente.credito.descuentoFijo);
+        this.form.get('chequePostFechado').setValue(false);
       } else {
         this.aplicarDescuentoContado(4);
+        this.form.get('chequePostFechado').setValue(true);
       }
     }
 
@@ -290,11 +293,14 @@ export class PedidoFormService {
   }
 
   aplicarDescuentoCreditoPostfechado() {
-    // console.log('Calculando descuento de credito POST FECHADO...');
+    console.log('Calculando descuento de credito POST FECHADO...');
     const tipo = this.form.get('tipo').value;
     const cliente: Cliente = this.form.get('cliente').value;
     if (tipo === 'CRE' && cliente && cliente.credito && cliente.credito.postfechado) {
       this.aplicarDescuentoContado(4);
+      this.form.get('chequePostFechado').setValue(true);
+    } else {
+      // this.form.get('chequePostFechado').setValue(false);
     }
   }
 

@@ -46,6 +46,7 @@ export interface Venta {
   lastUdated?: string;
   dateCreated?: string;
   statusInfo?: string;
+  chequePostFechado?: boolean;
 }
 
 export interface TipoDeVenta {

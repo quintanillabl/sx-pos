@@ -43,6 +43,7 @@ export class SolicitudesEffects {
     .ofType<Sectores.SaveSuccess>(Sectores.SAVE_SUCCESS)
     .map( action => action.payload)
     .do(sol => {
+      console.log('Sol generada: ', sol);
       this.router.navigate(['/ventas/pedidos/solicitudes']);
     });
 

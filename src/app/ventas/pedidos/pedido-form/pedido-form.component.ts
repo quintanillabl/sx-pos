@@ -148,7 +148,8 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       isPuesto: false,
       puesto: null,
       usuario: [null, Validators.required],
-      socio: [null]
+      socio: [null],
+      chequePostFechado: [false]
     }, { validator: PedidoValidator});
   }
 
