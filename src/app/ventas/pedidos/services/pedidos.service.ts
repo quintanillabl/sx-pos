@@ -219,5 +219,11 @@ export class PedidosService {
     return this.http.get<any>(url);
   }
 
+  enviarPorEmail(venta: Venta, target: string): Observable<Venta> {
+    const endpoint = `cfdis/enviarFacturaEmail`;
+    const url = this.configService.buildApiUrl(endpoint);
+    return this.http.put<Venta>(url, {factura: venta.id, target: target});
+  }
+
 }
 

@@ -64,22 +64,23 @@ export class FacturaViewComponent implements OnInit {
       message: 'Mandar la factura (PDF y XML) al clente',
       disableClose: true,
       viewContainerRef: this._viewContainerRef,
-      title: 'Email',
+      title: 'Envio por correo',
       value: factura.cliente.email,
       cancelButton: 'Cancelar',
       acceptButton: 'Enviar',
     }).afterClosed().subscribe((newValue: string) => {
       if (newValue) {
-        this.doEmil(factura);
+        this.doEmil(factura, newValue);
       }
     });
   }
 
-  doEmil(factura: Venta) {
-    Observable
-      .of(true)
-      .delay(1000)
-      .subscribe( val => this.openAlert('Factura enviada', 'Envio de facturas'));
+  doEmil(factura: Venta, target: string) {
+    this.service.enviarPorEmail(factura, target)
+      .subscribe( (val: any) => {
+        console.log('Val: ', val);
+        this.openAlert('Factura enviada a: ' + val.target, 'Envio de facturas')
+      });
   }
 
   timbrar(venta: Venta) {

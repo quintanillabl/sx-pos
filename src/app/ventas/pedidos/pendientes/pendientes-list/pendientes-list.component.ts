@@ -27,23 +27,14 @@ export class PendientesListComponent implements OnInit {
     //{ name: 'tipo',  label: 'Tipo', width: 10 },
     { name: 'documento',  label: 'Docto', width: 10 },
     { name: 'fecha', label: 'Fecha', width: 10},
-    { name: 'nombre', label: 'Cliente', width: 350 },
-    { name: 'formaDePago', label: 'F.P', width: 50},
+    { name: 'nombre', label: 'Cliente', width: 300 },
+    { name: 'formaDePago', label: 'F.P', width: 30},
     { name: 'total', label: 'Total', width: 30},
     { name: 'createUser', label: 'Creado', width: 15},
-    { name: 'updateUser', label: 'Modificado', width: 15},
-    { name: 'comentario', label: 'Comentario', width: 200},
+    { name: 'updateUser', label: 'Modificado', width: {min: 10, max: 10}},
+    { name: 'comentario', label: 'Comentario', width: 100},
     { name: 'operaciones', label: 'Opc'},
     
-    
-    
-    // { name: 'zona', label: 'Zona', hidden: false, width: 15},
-    // { name: 'municipio', label: 'Mpo', hidden: false, width: 15},
-    // { name: 'grupo', label: 'Gpo', hidden: false, width: 15},
-    // { name: 'venta.kilos', label: 'Kilos', hidden: false, width: 15 },
-    // { name: 'parcial', label: 'Parcial', hidden: false },
-    // { name: 'venta.lastUpdated', label: 'Creada', hidden: false },
-    // { name: 'retraso', label: 'Retraso', hidden: false },
   ];
 
 

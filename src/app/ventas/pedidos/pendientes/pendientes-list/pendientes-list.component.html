@@ -81,7 +81,7 @@
   </ng-template>
 
   <ng-template tdDataTableTemplate="comentario" let-value="value" let-row="row">
-    <span layout="column" class="text-md tc-pink-700">
+    <span layout="column" class="text-sm tc-pink-700">
       <span >{{value}}</span>
       <span *ngIf="row.tipo === 'ANT'"> ANT {{row.comentario}}</span>
       <span *ngIf="row.tipoDeCambio > 1"> (USD T.C: {{row.tipoDeCambio | number: '1.4-4'}})</span>
@@ -98,8 +98,9 @@
     {{ value | date: 'dd/MM/yyyy HH:mm'}}
   </ng-template>
 
-  <ng-template tdDataTableTemplate="formaDePago" let-value="value" let-row="row">
-    {{getFormaDePago(row)}}
+  <ng-template tdDataTableTemplate="formaDePago" let-value="value" let-row="row"> 
+    <span class="text-sm tc-pink-700">{{getFormaDePago(row)}}</span>
+    
   </ng-template>
   
   <ng-template tdDataTableTemplate="clasificacionVale" let-value="value" let-row="row">
