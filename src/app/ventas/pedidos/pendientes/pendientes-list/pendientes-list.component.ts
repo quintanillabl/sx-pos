@@ -29,12 +29,11 @@ export class PendientesListComponent implements OnInit {
     { name: 'fecha', label: 'Fecha', width: 10},
     { name: 'nombre', label: 'Cliente', width: 350 },
     { name: 'formaDePago', label: 'F.P', width: 50},
-    //{ name: 'clasificacionVale', label: 'Vale',width: 20},
     { name: 'total', label: 'Total', width: 30},
     { name: 'createUser', label: 'Creado', width: 15},
     { name: 'updateUser', label: 'Modificado', width: 15},
     { name: 'comentario', label: 'Comentario', width: 200},
-    { name: 'operaciones', label: 'Opc', width: 200},
+    { name: 'operaciones', label: 'Opc'},
     
     
     

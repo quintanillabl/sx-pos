@@ -73,7 +73,7 @@ export class DepositoDialogComponent implements OnInit {
     
     get disponible() {
       return _.round( 
-        (this.corte.pagosRegistrados - this.corte.cortesAcumulado - this.corte.cambiosDeCheques), 2);
+        (this.corte.pagosRegistrados - this.corte.cortesAcumulado ), 2);
       
     }
     
