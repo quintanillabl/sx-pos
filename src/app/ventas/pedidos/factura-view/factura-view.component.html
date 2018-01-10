@@ -2,7 +2,10 @@
 
   <md-card flex="70" class="main-view">
 
-    <sx-fac-view-header [venta]="venta" (mostrarXml)="mostrarXml($event)" (cancelar)="cancelar($event)">
+    <sx-fac-view-header 
+      [venta]="venta" 
+      (mostrarXml)="mostrarXml($event)" 
+      (cancelar)="cancelar($event)">
     </sx-fac-view-header>
     <md-divider></md-divider>
     <sx-fac-view-partidas [partidas]="venta.partidas"></sx-fac-view-partidas>

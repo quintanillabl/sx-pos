@@ -12,6 +12,8 @@ export class FacViewHeaderComponent implements OnInit {
   @Input() venta: Venta;
   @Output() mostrarXml = new EventEmitter();
   @Output() cancelar = new EventEmitter();
+  @Output() cambiarCfdi = new EventEmitter();
+  
 
   constructor() { }
 

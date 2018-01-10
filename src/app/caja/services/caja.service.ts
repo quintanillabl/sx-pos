@@ -43,9 +43,13 @@ export class CajaService {
     return this.http.get<Venta[]>(url, {params: params})
   }
 
-  cobradas() {
+  cobradas(tipo?: string ) {
+    let params = new HttpParams();
+    if (tipo !== null) {
+      params = params.set('tipo', tipo);
+    }
     const url = `${this.apiUrl}/cobradas/${this.sucursal.id}`;
-    return this.http.get<Venta[]>(url)
+    return this.http.get<Venta[]>(url, {params: params})
   }
 
   getVenta(id: string): Observable<Venta> {

@@ -110,7 +110,7 @@ export class FacturaShowComponent implements OnInit {
       disableClose: true,
       viewContainerRef: this._viewContainerRef,
       title: 'Email',
-      value: factura.cliente.email,
+      value: factura.cliente.cfdiMail,
       cancelButton: 'Cancelar',
       acceptButton: 'Enviar',
     }).afterClosed().subscribe((newValue: string) => {

@@ -32,7 +32,7 @@ export class GeneradasPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.service.cobradas()
+    this.service.cobradas('CONTADO')
     .subscribe( pendientes => {
       this.data = pendientes;
       }, error => console.log('Error: ', error)

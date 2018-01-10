@@ -100,7 +100,7 @@ export class FacturaViewComponent implements OnInit {
       disableClose: true,
       viewContainerRef: this._viewContainerRef,
       title: 'Envio por correo',
-      value: factura.cliente.email,
+      value: factura.cliente.cfdiMail,
       cancelButton: 'Cancelar',
       acceptButton: 'Enviar',
     }).afterClosed().subscribe((newValue: string) => {
@@ -181,6 +181,31 @@ export class FacturaViewComponent implements OnInit {
       viewContainerRef: this._viewContainerRef,
       title: titulo,
       closeButton: 'Cerrar',
+    });
+  }
+
+  onCambioDeCfdiMail(cliente) {
+    // console.log('Actualizando el CFDI del cliente', cliente);
+    this._dialogService.openPrompt({
+      message: 'Digite el nuevo email para envio del CFDI',
+      viewContainerRef: this._viewContainerRef, 
+      title: 'Cambio de CFDI', 
+      value: cliente.cfdiMail,
+      cancelButton: 'Cancelar', 
+      acceptButton: 'Aceptar', 
+    }).afterClosed().subscribe((newValue: string) => {
+      if (newValue) {
+        console.log('Actualizando cfdi Mail: ', newValue);
+        this.procesando = true;
+        this.service.actualizarCfdiEmail(cliente, newValue)
+          .finally(()=> this.procesando = false)
+          .subscribe(
+            cli => {
+              console.log('correo actualizado: ', cliente);
+            },
+            error => console.error(error)
+          );
+      } 
     });
   }
 
