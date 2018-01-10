@@ -7,7 +7,7 @@ export interface Authenticate {
 export class User {
 
   constructor(
-    public userName: string,
+    public username: string,
     public roles: Array<string>
   ) {}
 

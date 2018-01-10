@@ -10,6 +10,7 @@ import { SolicitudesModule } from 'app/ventas/solicitudes/solicitudes.module';
 import {BancoService} from 'app/ventas/services/banco.service';
 import {ProductosModule} from 'app/productos/productos.module';
 import { CanceladasModule } from './canceladas/canceladas.module';
+import { CancelacionDialogComponent } from './_components/cancelacion-dialog/cancelacion-dialog.component';
 
 
 
@@ -27,10 +28,14 @@ import { CanceladasModule } from './canceladas/canceladas.module';
   declarations: [
     MainPageComponent,
     MainDashboardComponent,
+    CancelacionDialogComponent,
   ],
   providers: [
     ExistenciasService,
     BancoService,
+  ],
+  entryComponents: [
+    CancelacionDialogComponent
   ]
 })
 export class VentasModule { }

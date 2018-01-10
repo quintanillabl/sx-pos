@@ -6,6 +6,7 @@ import { Venta, Sucursal, Producto, Banco } from 'app/models';
 import {Store} from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
 import { ConfigService } from 'app/core/services/config.service';
+import { User } from 'app/_auth/models/user';
 
 
 @Injectable()
@@ -96,9 +97,13 @@ export class CajaService {
     return this.http.put<Venta>(url, venta);
   }
 
-  cancelar(venta: Venta): Observable<Venta> {
-    const url = `${this.apiUrl}/cancelar/${venta.id}`;
-    return this.http.put<Venta>(url, venta);
+  cancelar(factura: Venta, user: User, motivo: string): Observable<Venta> {
+    console.log('Cancelando en el sistema la factura: ', factura);
+    const params = new HttpParams()
+    .set('usuario', user.username)
+    .set('motivo', motivo);
+    const url = `${this.apiUrl}/cancelar/${factura.id}`;
+    return this.http.put<Venta>(url, factura, {params: params});
   }
 
   mostrarXml(venta: Venta): Observable<any> {

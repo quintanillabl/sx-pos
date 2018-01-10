@@ -11,14 +11,14 @@
       </div>
   
       <md-divider></md-divider>
-      <md-card-content class="facturas-panel"
+      <div class="facturas-panel"
         *tdLoading="'loading'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
         <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
             <sx-canceladas-list [facturas]="facturas$ | async">
 
             </sx-canceladas-list>
         </ng-template>
-      </md-card-content>
+      </div>
     </md-card>
   </div>
   

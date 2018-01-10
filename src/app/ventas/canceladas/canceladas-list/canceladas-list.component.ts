@@ -16,11 +16,14 @@ export class CanceladasListComponent implements OnInit {
   @Input() facturas: Venta[];
 
   columns: ITdDataTableColumn[] = [
-    { name: 'documento',  label: 'Factura',width: 50},
+    { name: 'tipo',  label: 'Tipo', width: 50},
+    { name: 'documento',  label: 'Factura', width: 50},
     { name: 'fecha',  label: 'Fecha', width: 50},
-    { name: 'nombre',  label: 'Cliente', width: 350},
-    { name: 'total',  label: 'Total',width: 50},
-    { name: 'cuentaPorCobrar',  label: 'CFDI',width: 50},
+    { name: 'cliente.nombre',  label: 'Cliente', width: 350},
+    { name: 'cancelacionUsuario',  label: 'Canceló', width: 70},
+    { name: 'cancelacionMotivo',  label: 'Motivo', width: 200},
+    { name: 'comentario',  label: 'Comentario'},
+    //{ name: 'total',  label: 'Total', width: 100},
   ];
 
   constructor() { }

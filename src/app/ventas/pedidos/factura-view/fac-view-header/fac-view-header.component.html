@@ -31,7 +31,9 @@
          *ngIf="venta?.cuentaPorCobrar?.cfdi">
           <md-icon>dvr</md-icon>  Ver XML
         </button>
-        <button md-menu-item type="button" color="warn" (click)="cancelar.emit(venta)" mdTooltip="Cancelar factura">
+        <button md-menu-item 
+          type="button" color="warn" (click)="cancelar.emit(venta)" 
+          mdTooltip="Cancelar factura" *ngIf="venta.tipo === 'CRE'">
           <md-icon>cancel</md-icon> Cancelar
         </button>
       </md-menu>

@@ -7,14 +7,8 @@
 [multiple]="false"
 [sortable]="false" class="fill">
 <ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
-  <a md-button [routerLink]="['show', row.id]"  [ngClass]="{'tc-pink-700':row.cod,'tc-indigo-700':!row.cod}">
-    <span flex>{{row.cod ? 'COD': row.tipo}}</span>
-    <span flex>{{row.cuentaPorCobrar.documento}} </span>
-  </a>
+  <span flex>{{value}} </span>
 </ng-template>
-<ng-template tdDataTableTemplate="pedido" let-value="value" let-row="row">
-    <span flex>{{row.documento}}</span>
-  </ng-template>
 <ng-template tdDataTableTemplate="fecha" let-value="value" let-row="row">
   {{value | date: 'dd/MM/yyyy'}}
 </ng-template>

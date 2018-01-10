@@ -2,13 +2,14 @@ import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
-import {TdDialogService} from '@covalent/core';
-
+import { TdDialogService } from '@covalent/core';
+import { MdDialog } from '@angular/material';
 
 
 import * as fromRoot from 'app/reducers';
 import {Sucursal, Venta} from 'app/models';
 import { CajaService } from '../../services/caja.service';
+import { CancelacionDialogComponent } from 'app/shared/_components/cancelacion-dialog/cancelacion-dialog.component';
 
 @Component({
   selector: 'sx-factura-show',
@@ -29,6 +30,7 @@ export class FacturaShowComponent implements OnInit {
     private _viewContainerRef: ViewContainerRef,
     private route: ActivatedRoute,
     private router: Router,
+    public dialog: MdDialog,
   ) { }
 
   ngOnInit() {
@@ -44,25 +46,26 @@ export class FacturaShowComponent implements OnInit {
   }
 
   cancelar(factura: Venta) {
-    this._dialogService.openConfirm({
-      message: `Este proceso es IRREVERSIBLE se cancela EL CFDI asociado, su cuenta por cobrar sus aplicaciones
-        . El Cobro NO SE ELIMINA es necesario hacerlo el en la seccion de Cobros registrados`,
-      viewContainerRef: this._viewContainerRef,
-      title: `Cancelación de factura: ${factura.tipo}-${factura.cuentaPorCobrar.documento} Total: ${factura.total}`,
-      cancelButton: 'Cancelar',
-      acceptButton: 'Aceptar',
-    }).afterClosed().subscribe((accept: boolean) => {
-      console.log('Cancelando factura: ', factura.cuentaPorCobrar.documento);
-      if (accept) {
-        this.doCancelar(factura);
+    const msg = `Este proceso es IRREVERSIBLE se cancelará EL CFDI asociado, 
+     su cuenta por cobrar sus aplicaciones
+    . El Cobro NO SE ELIMINA si tiene más aplicaciones`
+    const dialogRef = this.dialog.open(CancelacionDialogComponent, {
+      data: {
+        title: msg
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(' Cancelando: ', result);
+        this.doCancelar(factura, result.usuario, result.motivo)
       }
     });
   }
-
-  private doCancelar(factura: Venta) {
+  
+  private doCancelar(factura: Venta, usuario, motivo) {
     this.procesando = true;
     this.service
-      .cancelar(factura)
+      .cancelar(factura, usuario, motivo)
       .finally( () => this.procesando = false)
       .subscribe( res => {
         const dialogRef = this.alert( 'Venta: ' + res.documento, 'Cancelación exitosa');
@@ -71,6 +74,25 @@ export class FacturaShowComponent implements OnInit {
         });
       }, error2 => this.openAlert(error2.error.message, 'Error al cancelar factura')  );
   }
+  
+
+  cancelarCredito(factura: Venta) {
+    const msg = `Este proceso es IRREVERSIBLE se cancelará EL CFDI asociado, 
+     su cuenta por cobrar sus aplicaciones
+    . El Cobro NO SE ELIMINA si tiene más aplicaciones`
+    const dialogRef = this.dialog.open(CancelacionDialogComponent, {
+      data: {
+        title: msg
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(' Cancelando: ', result);
+        this.doCancelar(factura, result.usuario, result.motivo)
+      }
+    });
+  }
+  
 
   openAlert(message: string, title: string = 'Advertencia'): void {
     this._dialogService.openAlert({
@@ -93,16 +115,19 @@ export class FacturaShowComponent implements OnInit {
       acceptButton: 'Enviar',
     }).afterClosed().subscribe((newValue: string) => {
       if (newValue) {
-        this.doEmil(factura);
+        this.doEmil(factura, newValue);
       }
     });
   }
 
-  doEmil(factura: Venta) {
-    Observable
-      .of(true)
-      .delay(1000)
-      .subscribe( val => this.openAlert('Factura enviada', 'Envio de facturas'));
+  doEmil(factura: Venta, target: string) {
+    this.procesando = true;
+    this.service.enviarPorEmail(factura, target)
+      .finally( () => this.procesando = false)
+      .subscribe( (val: any) => {
+        console.log('Val: ', val);
+        this.openAlert('Factura enviada a: ' + val.target, 'Envio de facturas')
+      });
   }
 
   timbrar(venta: Venta) {

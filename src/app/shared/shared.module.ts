@@ -39,6 +39,7 @@ import { ToUpperCaseDirective } from './directives/to-upper-case.directive';
 import { LogoutComponent } from './_components/logout/logout.component';
 import { SelectorFechaComponent } from './_components/selector-fecha/selector-fecha.component';
 import { OnlyIntegersDirective } from './directives/only-integers.directive';
+import { CancelacionDialogComponent } from 'app/shared/_components/cancelacion-dialog/cancelacion-dialog.component';
 
 
 
@@ -102,6 +103,7 @@ const COMPONENTS: any[] = [
     LogoutComponent,
     SelectorFechaComponent,
     OnlyIntegersDirective,
+    CancelacionDialogComponent
   ],
   exports: [
     ANGULAR_MODULES,
@@ -132,8 +134,9 @@ const COMPONENTS: any[] = [
     ToUpperCaseDirective,
     SelectorFechaComponent,
     LogoutComponent,
-    OnlyIntegersDirective
+    OnlyIntegersDirective,
+    CancelacionDialogComponent
   ],
-  entryComponents: [SelectorFechaComponent]
+  entryComponents: [SelectorFechaComponent, CancelacionDialogComponent]
 })
 export class SharedModule { }

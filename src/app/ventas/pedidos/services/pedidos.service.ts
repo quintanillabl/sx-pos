@@ -7,6 +7,7 @@ import { ConfigService } from 'app/core/services/config.service';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from 'app/reducers';
+import { User } from 'app/_auth/models/user';
 
 @Injectable()
 export class PedidosService {
@@ -118,10 +119,16 @@ export class PedidosService {
     return this.http.get<Venta[]>(url, {params: params})
   }
 
-  canceladas(term = '') {
-    const params = new HttpParams()
-      .set('term', term);
-    const url = `${this.apiUrl}/canceladas/${this.sucursal.id}`;
+  canceladas(term?) {
+    let params = new HttpParams();
+      // .set('sucursal', this.sucursal.id);
+    if (term) {
+      params = params.set('term', term);
+    } 
+    // const url = this.configService.buildApiUrl('cxc/canceladas');
+    const url = `${this.configService.getApiUrl()}/cxc/canceladas/${this.sucursal.id}`;
+    // http://localhost:9090/siipapx/api/cxc/canceladas?term=
+    // http://localhost:9090/siipapx/api/ventas/facturados/402880fc5e4ec411015e4ec64e70012e?term=
     return this.http.get<Venta[]>(url, {params: params})
   }
 
@@ -144,10 +151,13 @@ export class PedidosService {
     );
   }
 
-  cancelar(factura: Venta): Observable<Venta> {
+  cancelar(factura: Venta, user: User, motivo: string): Observable<Venta> {
     console.log('Cancelando en el sistema la factura: ', factura);
+    const params = new HttpParams()
+    .set('usuario', user.username)
+    .set('motivo', motivo);
     const url = `${this.apiUrl}/cancelar/${factura.id}`;
-    return this.http.put<Venta>(url, factura);
+    return this.http.put<Venta>(url, factura, {params: params});
   }
 
   timbrar(venta: Venta): Observable<Venta> {

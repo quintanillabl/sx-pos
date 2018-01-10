@@ -3,12 +3,14 @@ import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import {TdLoadingService, TdDialogService} from '@covalent/core';
+import { MdDialog } from '@angular/material';
 import * as FileSaver from 'file-saver';
 
 
 import * as fromRoot from 'app/reducers';
 import {Sucursal, Venta} from 'app/models';
 import {PedidosService} from 'app/ventas/pedidos/services/pedidos.service';
+import { CancelacionDialogComponent } from 'app/ventas/_components/cancelacion-dialog/cancelacion-dialog.component';
 
 @Component({
   selector: 'sx-factura-view',
@@ -29,6 +31,7 @@ export class FacturaViewComponent implements OnInit {
     private _viewContainerRef: ViewContainerRef,
     private route: ActivatedRoute,
     private router: Router,
+    public dialog: MdDialog,
   ) { }
 
   ngOnInit() {
@@ -45,8 +48,40 @@ export class FacturaViewComponent implements OnInit {
   }
 
   cancelar(factura: Venta) {
-    if(factura.tipo === 'CRE')
-      console.log('Cancelando factura: ', factura);
+    if(factura.tipo === 'CRE'){
+      // console.log('Cancelando credito...');
+      this.cancelarCredito(factura);
+    }
+  }
+
+  cancelarCredito(factura: Venta) {
+    const msg = `Este proceso es IRREVERSIBLE se cancelará EL CFDI asociado, 
+     su cuenta por cobrar sus aplicaciones
+    . El Cobro NO SE ELIMINA si tiene más aplicaciones`
+    const dialogRef = this.dialog.open(CancelacionDialogComponent, {
+      data: {
+        title: msg
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(' Cancelando: ', result);
+        this.doCancelar(factura, result.usuario, result.motivo)
+      }
+    });
+  }
+
+  private doCancelar(factura: Venta, usuario, motivo) {
+    this.procesando = true;
+    this.service
+      .cancelar(factura, usuario, motivo)
+      .finally( () => this.procesando = false)
+      .subscribe( res => {
+        const dialogRef = this.alert( 'Venta: ' + res.documento, 'Cancelación exitosa');
+        dialogRef.afterClosed().subscribe( data => {
+          this.router.navigate(['/ventas/pedidos/canceladas']);
+        });
+      }, error2 => this.openAlert(error2.error.message, 'Error al cancelar factura')  );
   }
 
   openAlert(message: string, title: string = 'Advertencia'): void {
@@ -76,7 +111,9 @@ export class FacturaViewComponent implements OnInit {
   }
 
   doEmil(factura: Venta, target: string) {
+    this.procesando = true;
     this.service.enviarPorEmail(factura, target)
+      .finally( () => this.procesando = false)
       .subscribe( (val: any) => {
         console.log('Val: ', val);
         this.openAlert('Factura enviada a: ' + val.target, 'Envio de facturas')
@@ -136,6 +173,15 @@ export class FacturaViewComponent implements OnInit {
   handleError(error) {
     this.procesando = false;
     console.error('Error: ', error);
+  }
+
+  alert(msg: string, titulo: string = 'Error') {
+    return this._dialogService.openAlert({
+      message: msg,
+      viewContainerRef: this._viewContainerRef,
+      title: titulo,
+      closeButton: 'Cerrar',
+    });
   }
 
 }

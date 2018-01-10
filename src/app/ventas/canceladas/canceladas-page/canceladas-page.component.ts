@@ -14,32 +14,28 @@ import { Venta } from 'app/models';
 export class CanceladasPageComponent implements OnInit {
 
   facturas$: Observable<Venta[]>;
+  
   procesando = false;
+  
   search$ = new BehaviorSubject<string>('');
 
   constructor(
     private service: PedidosService,
     private loadingService: TdLoadingService,
   ) {
+
     this.facturas$ = this.search$
     .debounceTime(400)
     .distinctUntilChanged()
     .switchMap(term => {
-      this.loadingService.register('loading');
-      return Observable.of([])
-        .delay(1000)
-        .catch( err => Observable.of(err))
-        .finally( () => this.loadingService.resolve('loading'));
-      /*
-      return this.service
-      .canceladas(term)
-      .catch( err => Observable.of(err))
-      .finally( () => this.loadingService.resolve('loading'));
-      */
+      return this.service.canceladas(term)
+        .do( () => this.procesando = true)
+        .finally( () => this.procesando = false)
     });
   }
 
   ngOnInit() {
+    this.load();
   }
 
   load() {
