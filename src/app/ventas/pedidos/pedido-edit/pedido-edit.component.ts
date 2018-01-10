@@ -16,15 +16,20 @@ import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-
   template: `
     <sx-nav-layout header="Pedidos" modulo="Ventas">
       <div layout="column">
-        <sx-pedido-form
-          *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'"
-          (save)="onUpdate($event)"
-          (delete)="onDelete($event)"
-          (cambiarCfdiMail)="onCambioDeCfdiMail($event)"
-          [pedido]="pedido$ | async"
-          [sucursal]="sucursal$ | async"
-          (print)="print($event)">
-        </sx-pedido-form>
+        <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
+        <div >
+          <sx-pedido-form
+            (save)="onUpdate($event)"
+            (delete)="onDelete($event)"
+            (cambiarCfdiMail)="onCambioDeCfdiMail($event)"
+            [pedido]="pedido$ | async"
+            [sucursal]="sucursal$ | async"
+            (print)="print($event)">
+          </sx-pedido-form>
+        </div>
+
+        </ng-template>
+        
       </div>
     </sx-nav-layout>
   `
@@ -34,6 +39,7 @@ export class PedidoEditComponent implements OnInit {
   sucursal$: Observable<Sucursal>;
   pedido$: Observable<Venta>;
   
+  procesando = false;
 
   constructor(
     private addNewClienteService: AddNewClienteService,
@@ -48,11 +54,16 @@ export class PedidoEditComponent implements OnInit {
 
   ngOnInit() {
     this.sucursal$ = this.store.select(fromRoot.getSucursal);
-    this.pedido$ = this.route.paramMap.switchMap( params => this.service.get(params.get('id')));
+    this.reload();
   }
 
   reload() {
-    this.pedido$ = this.route.paramMap.switchMap( params => this.service.get(params.get('id')));
+    // this.pedido$ = this.route.paramMap.switchMap( params => this.service.get(params.get('id')));
+    this.pedido$ = this.route.paramMap
+    .switchMap( params => 
+      this.service
+      .get(params.get('id')).finally( () => this.procesando = false)
+    );
   }
 
   onAddNewCliente() {

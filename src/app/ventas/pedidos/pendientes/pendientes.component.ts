@@ -1,21 +1,18 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import {Router} from '@angular/router';
-import {TdDialogService} from '@covalent/core';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Router } from '@angular/router';
+import { MdDialog } from '@angular/material';
+import { TdDialogService } from '@covalent/core';
+import * as _ from 'lodash';
 
 import * as fromPedidos from 'app/ventas/pedidos/store/reducers';
 import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
-import { Venta, Sucursal } from 'app/models';
-import { MdDialog } from '@angular/material';
 import { EnvioDireccionComponent } from '../pedido-form/envio-direccion/envio-direccion.component';
-
-import * as FileSaver from 'file-saver';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import * as _ from 'lodash';
+import { Venta, Sucursal } from 'app/models';
 import { AutorizacionDeVentaComponent } from '../autorizacion-de-venta/autorizacion-de-venta.component';
-
-
 
 @Component({
   selector: 'sx-pedidos-pendientes',
@@ -28,11 +25,9 @@ export class PendientesComponent implements OnInit {
 
   procesando = false;
 
-  pedidos: Venta[] = [];
-
   search$ = new BehaviorSubject<string>('');
 
-  reload$ = new BehaviorSubject<boolean>(true);
+  reload$ = new Subject<boolean>();
 
   loading = false;
 
@@ -44,38 +39,27 @@ export class PendientesComponent implements OnInit {
     private _viewContainerRef: ViewContainerRef,
     public dialog: MdDialog
   ) {
-    this.pedidos$ = this.reload$.combineLatest(this.search$, (val, term) => {
-      return term;
-    }).switchMap(term => {
-      return this.service
-        .pendientes(term)
-        .delay(1000)
-        .catch( err => Observable.of(err))
-        .finally( () => this.procesando = false);
-    });
-    /*
-    this.pedidos$ = this.search$
-    .debounceTime(400)
-    // .distinctUntilChanged()
-    .switchMap(term => {
-      this.procesando = true;
-      return this.service
+    
+    const obs1 = this.search$.asObservable()
+    .distinctUntilChanged()
+    .debounceTime(300);
+
+    const obs2 = this.reload$.asObservable().startWith(true);
+
+    this.pedidos$ = Observable.combineLatest(obs1, obs2, (term, reload) => {
+      return term ? term : null;
+    }).switchMap( term => this.service
       .pendientes(term)
-      // .delay(200)
-      .catch( err => Observable.of(err))
-      .finally( () => this.procesando = false);
-    });
-    */
+      .do( () => this.procesando = true)
+      .delay(300)
+      .finally( () => this.procesando = false));
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.load();
+  }
 
   load() {
-    this.procesando = true;
-    this.search('%');
-  }
-
-  reload() {
     this.reload$.next(true);
   }
 

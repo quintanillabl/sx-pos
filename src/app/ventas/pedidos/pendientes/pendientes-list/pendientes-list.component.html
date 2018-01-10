@@ -1,30 +1,25 @@
-
-<md-list dense>
-
+<!-- <md-list dense>
   <td-virtual-scroll-container #virtualScroll [style.height.px]="550" [data]="pedidos">
     <ng-template let-row="row" let-last="last" tdVirtualScrollRow>
       <md-list-item >
         <span md-line >
-          <span layout layout-margin>
-            <span>
-                <button md-button (click)="onEdit(row)"  class="tc-indigo-700" flex>
+          <span layout >
+            <span flex="15">
+              <button md-button (click)="onEdit(row)"  class="tc-indigo-700" >
                   {{row.tipo}} {{row.documento}}
-                </button>
+              </button>
             </span>
-            <span layout="column" flex="30">
-              <span >
+            <span layout="column" flex>
+              <span class="text-left">
                 {{ row.nombre}}
               </span>
               <span *ngIf="row.descuento !== row.descuentoOriginal" class="tc-pink-800 pad-bottom-sm ">
                 Descuento especial del {{row.descuentoOriginal/100 | percent}} al {{row.descuento/100 | percent}}
               </span>
             </span>
-
             <span flex="5" class="tc-indigo-500">{{ row.cod ? 'COD' : ''  }} </span>
             <span flex="10">{{ row.fecha | date: 'dd/MM/yyyy' }} </span>
-            <!-- <span flex="10">{{ row.dateCreated | amTimeAgo }} </span> -->
             <span flex="10">{{ row.formaDePago}} </span>
-
             <span flex="10">
                 {{ row.total | currency: 'USD': 1.2-2 }}
             </span>
@@ -66,12 +61,79 @@
             </span>
           </span>
         </span>
-
-        <span flex></span>
-
       </md-list-item>
       <md-divider *ngIf="!last" md-inset></md-divider>
     </ng-template>
   </td-virtual-scroll-container>
+</md-list> -->
 
-</md-list>
+<td-data-table
+  #dataTable
+  [data]="pedidos"
+  [columns]="columns"
+  selectable="false"
+  [style.height.px]="600">
+  
+  <ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
+    <a md-button (click)="onEdit(row)"  class="tc-indigo-700" >
+       <span>{{row.tipo}}</span> {{row.documento}}
+    </a>
+  </ng-template>
+
+  <ng-template tdDataTableTemplate="comentario" let-value="value" let-row="row">
+    <span layout="column" class="text-md tc-pink-700">
+      <span >{{value}}</span>
+      <span *ngIf="row.tipo === 'ANT'"> ANT {{row.comentario}}</span>
+      <span *ngIf="row.tipoDeCambio > 1"> (USD T.C: {{row.tipoDeCambio | number: '1.4-4'}})</span>
+      <span *ngIf="row.puesto">PUESTO</span>
+      <span *ngIf="row.clasificacionVale !== 'SIN_VALE'">{{row.clasificacionVale}}</span>
+    </span>
+  </ng-template>
+  
+  <ng-template tdDataTableTemplate="fecha" let-value="value">
+    {{ value | date: 'dd/MM/yyyy'}}
+  </ng-template>
+
+  <ng-template tdDataTableTemplate="lastUpdated" let-value="value">
+    {{ value | date: 'dd/MM/yyyy HH:mm'}}
+  </ng-template>
+
+  <ng-template tdDataTableTemplate="formaDePago" let-value="value" let-row="row">
+    {{getFormaDePago(row)}}
+  </ng-template>
+  
+  <ng-template tdDataTableTemplate="clasificacionVale" let-value="value" let-row="row">
+    <span *ngIf="value != 'SIN_VALE'">{{value}}</span>
+  </ng-template>
+  
+
+  <ng-template tdDataTableTemplate="total" let-value="value" let-row="row">
+    <span class="tc-indigo-800">{{value | currency: 'USD': 1.2-2}}</span>
+  </ng-template>
+
+  <ng-template tdDataTableTemplate="operaciones" let-value="value" let-row="row">
+    <span layout>
+      <button  md-icon-button (click)="generarVale.emit(row)"
+         mdTooltip="Generar vale tipo: {{row.clasificacionVale}}"
+         *ngIf="row.clasificacionVale !== 'SIN_VALE'">
+        <md-icon >swap_horiz</md-icon>
+      </button>
+      <button  md-icon-button
+               (click)="onFacturar(row)"
+        mdTooltip="Mandar facturar" >
+        <md-icon >assignment</md-icon>
+      </button>
+      <button  md-icon-button type="button"
+               mdTooltip="Configurar envío"
+               (click)="envio.emit(row)" >
+        <md-icon [ngClass]="{'tc-green-500': (row.envio)}">flight_takeoff</md-icon>
+      </button>
+      <button  md-icon-button type="button" mdTooltip="Imprimir pedido"
+        (click)="print.emit(row.id)" >
+        <md-icon>print</md-icon>
+      </button>
+    </span>
+  </ng-template>
+  
+</td-data-table>
+  
