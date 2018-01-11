@@ -43,11 +43,8 @@ export class CajaService {
     return this.http.get<Venta[]>(url, {params: params})
   }
 
-  cobradas(tipo?: string ) {
-    let params = new HttpParams();
-    if (tipo !== null) {
-      params = params.set('tipo', tipo);
-    }
+  cobradas(term: string ) {
+    const params = new HttpParams().set('term', term);
     const url = `${this.apiUrl}/cobradas/${this.sucursal.id}`;
     return this.http.get<Venta[]>(url, {params: params})
   }

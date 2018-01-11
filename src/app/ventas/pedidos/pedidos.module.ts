@@ -27,6 +27,8 @@ import { FacViewPartidasComponent } from './factura-view/fac-view-partidas/fac-v
 import { FacturaSearchComponent } from './factura-search/factura-search.component';
 import { FacturaSearchDialogComponent } from './factura-search/factura-search-dialog.component';
 import { AutorizacionDeVentaComponent } from './autorizacion-de-venta/autorizacion-de-venta.component';
+import { CambioDeClienteComponent } from './cambio-de-cliente/cambio-de-cliente.component';
+
 
 
 @NgModule({
@@ -60,9 +62,10 @@ import { AutorizacionDeVentaComponent } from './autorizacion-de-venta/autorizaci
     FacturaSearchComponent,
     FacturaSearchDialogComponent,
     AutorizacionDeVentaComponent,
+    CambioDeClienteComponent,
   ],
   providers: [ PedidosService],
   exports: [RouterModule],
-  entryComponents: [FacturaSearchDialogComponent, AutorizacionDeVentaComponent]
+  entryComponents: [FacturaSearchDialogComponent, AutorizacionDeVentaComponent, CambioDeClienteComponent]
 })
 export class PedidosModule { }

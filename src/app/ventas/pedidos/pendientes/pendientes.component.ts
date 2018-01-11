@@ -13,6 +13,7 @@ import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
 import { EnvioDireccionComponent } from '../pedido-form/envio-direccion/envio-direccion.component';
 import { Venta, Sucursal } from 'app/models';
 import { AutorizacionDeVentaComponent } from '../autorizacion-de-venta/autorizacion-de-venta.component';
+import { CambioDeClienteComponent } from 'app/ventas/pedidos/cambio-de-cliente/cambio-de-cliente.component';
 
 @Component({
   selector: 'sx-pedidos-pendientes',
@@ -50,7 +51,7 @@ export class PendientesComponent implements OnInit {
       return term ? term : null;
     }).switchMap( term => this.service
       .pendientes(term)
-      .do( () => this.procesando = true)
+      //.do( () => this.procesando = true)
       .delay(300)
       .finally( () => this.procesando = false));
   }
@@ -60,6 +61,7 @@ export class PendientesComponent implements OnInit {
   }
 
   load() {
+    this.procesando = true;
     this.reload$.next(true);
   }
 
@@ -197,6 +199,26 @@ export class PendientesComponent implements OnInit {
         }
       });
     }
+  }
+
+  onCambioDeCliente(venta: Venta) {
+    const dialogRef = this.dialog.open(CambioDeClienteComponent, {
+      data: {
+        documento: venta.documento,
+        tipo: venta.tipo
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // console.log(' Aplicando cambio: ', result);
+        this.procesando = true
+        this.service.cambioDeCliente(venta,result.usuario, result.cliente)
+        .finally( () => this.procesando = false)
+        .subscribe( res => {
+          this.load();
+        }, error => this.handleError(error));
+      }
+    });
   }
 
 

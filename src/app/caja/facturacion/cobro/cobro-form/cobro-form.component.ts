@@ -16,12 +16,12 @@ import {ChequeFormComponent} from '../cheque-form/cheque-form.component';
 import {TarjetaFormComponent} from '../tarjeta-form/tarjeta-form.component';
 import {DisponibleFormComponent} from '../disponible-form/disponible-form.component';
 
-
+/*
 export const CobradoValidator = (control: AbstractControl): {[key: string]: boolean} => {
   const cobrado = control.value;
   return cobrado > 0 ? null : { importeInvalido: true };
 };
-
+*/
 
 @Component({
   selector: 'sx-cobro-form',
@@ -40,7 +40,7 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() facturar = new EventEmitter();
 
-  formasDePago = ['EFECTIVO', 'TRANSFERENCIA', 'TARJETA_DEBITO', 'TARJETA_CREDITO'];
+  formasDePago = ['EFECTIVO', 'CHEQUE', 'TARJETA_DEBITO', 'TARJETA_CREDITO'];
 
   parciales: Cobro[] = [];
 
@@ -68,13 +68,10 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    // console.log('Cobro de venta: ', this.venta);
+    /*
     if (this.venta.cliente.permiteCheque || this.venta.formaDePago === 'CHEQUE') {
       this.formasDePago.push('CHEQUE');
       _.pull(this.formasDePago, 'TRANSFERENCIA');
-    }
-    if (this.venta.formaDePago === 'TRANSFERENCIA'){
-      // this.formasDePago = ['TRANSFERENCIA'];
     }
     if (this.venta.formaDePago === 'TARJETA_DEBITO') {
       _.pull(this.formasDePago, 'TARJETA_CREDITO');
@@ -90,10 +87,12 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
       _.pull(this.formasDePago, 'TARJETA_DEBITO');
       _.pull(this.formasDePago, 'TRANSFERENCIA');
     }
-    if( this.venta.formaDePago.startsWith("DEPOSITO")) {
+    */
+
+    if( this.venta.formaDePago.startsWith("DEPOSITO") || this.venta.formaDePago.startsWith("TRANSFERENCIA")) {
       this.formasDePago.push(this.venta.formaDePago);
     }
-
+  
     if(this.formaDePago === 'TRANSFERENCIA' || this.formaDePago.startsWith('DEPOSITO')){
       this.form.get('importe').setValue(0);
     }
@@ -126,7 +125,6 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   validarPorCobrar(control: AbstractControl) {
-
     if (this.venta) {
       const pendiente = this.porCobrar
       return pendiente <= 0 ? null : {importeInvalido: true};
@@ -140,6 +138,9 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
       const cliente = this.venta.cliente;
       const result = cliente.permiteCheque ? null : {permiteCheque: false};
       return cliente.permiteCheque ? null : {permiteCheque: false};
+    }
+    if (fp === 'TRANSFERENCIA') {
+      return this.parciales.length > 0 ? null: {requiereDisponible: true};
     }
     return null;
   }

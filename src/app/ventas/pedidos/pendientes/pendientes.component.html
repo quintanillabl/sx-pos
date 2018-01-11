@@ -1,4 +1,4 @@
-<md-card flex-gt-sm >
+<md-card  >
   <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
     <span  class="push-left-sm" flex>
         <span class="md-title">Pedidos pendientes</span>
@@ -27,12 +27,13 @@
   </div>
   <md-divider></md-divider>
   <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">  
-    <sx-pedidos-pendientes-list 
-      [pedidos]="pedidos$ | async" 
+      <sx-pedidos-pendientes-list 
+      [pedidos]="pedidos$ | async " 
       (edit)="onEdit($event)" 
       (facturar)="mandarFacturar($event)"
       (print)="print($event)"
       (generarVale)="OnGenerarVale($event)"
+      (cambioDeCliente)="onCambioDeCliente($event)"
       (envio)="asignarEnvio($event)">
     </sx-pedidos-pendientes-list>
   </ng-template>

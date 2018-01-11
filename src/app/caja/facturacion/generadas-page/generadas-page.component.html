@@ -12,7 +12,8 @@
 
     </div>
     <md-divider></md-divider>
-    <md-card-content class="facturas-panel">
+    <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
+
       <td-data-table
         #dataTable
         [data]="data"
@@ -21,11 +22,9 @@
         [clickable]="false"
         [multiple]="false"
         [sortable]="false"
-        [style.height.px]="400">
+        [style.height.px]="550">
         <ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
             <a md-button [routerLink]="['show', row.id]"  [ngClass]="{'tc-pink-700':row.cod,'tc-indigo-700':!row.cod}">
-                <!-- <span flex>{{row.cod ? 'COD': row.tipo}}</span>
-                <span flex>{{value}} </span> -->
                 <span flex>{{row.cuentaPorCobrar.tipo}}</span> 
                 <span flex>{{row.cuentaPorCobrar.documento}} </span>
             </a>
@@ -49,11 +48,9 @@
           <md-icon class="tc-green-700" mdTooltip="{{value.cfdi.uuid}}" *ngIf="value?.cfdi?.uuid">verified_user</md-icon>
         </ng-template>
 
-
-
       </td-data-table>
 
-    </md-card-content>
+    </ng-template>
     </md-card>
 </div>
 

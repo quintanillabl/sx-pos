@@ -1,72 +1,3 @@
-<!-- <md-list dense>
-  <td-virtual-scroll-container #virtualScroll [style.height.px]="550" [data]="pedidos">
-    <ng-template let-row="row" let-last="last" tdVirtualScrollRow>
-      <md-list-item >
-        <span md-line >
-          <span layout >
-            <span flex="15">
-              <button md-button (click)="onEdit(row)"  class="tc-indigo-700" >
-                  {{row.tipo}} {{row.documento}}
-              </button>
-            </span>
-            <span layout="column" flex>
-              <span class="text-left">
-                {{ row.nombre}}
-              </span>
-              <span *ngIf="row.descuento !== row.descuentoOriginal" class="tc-pink-800 pad-bottom-sm ">
-                Descuento especial del {{row.descuentoOriginal/100 | percent}} al {{row.descuento/100 | percent}}
-              </span>
-            </span>
-            <span flex="5" class="tc-indigo-500">{{ row.cod ? 'COD' : ''  }} </span>
-            <span flex="10">{{ row.fecha | date: 'dd/MM/yyyy' }} </span>
-            <span flex="10">{{ row.formaDePago}} </span>
-            <span flex="10">
-                {{ row.total | currency: 'USD': 1.2-2 }}
-            </span>
-            <span flex="10">
-              <span  class="tc-pink-700" *ngIf="row.tipoDeCambio > 1"> (USD T.C: {{row.tipoDeCambio | number: '1.4-4'}})</span>
-              <span  class="tc-indigo-700" *ngIf="row.tipo === 'ANT'"> ANT {{row.comentario}}</span>
-              <span  class="tc-indigo-700" *ngIf="row.puesto">
-                  PUESTO
-              </span>
-            </span>
-
-            <span flex layout>
-              <span class="pad-left-sm ">{{row.createUser}}</span>
-              <span class="pad-left-sm ">{{row.updateUser}}</span>
-            </span>
-            <span layout>
-
-            </span>
-            <span layout>
-              <button  md-icon-button (click)="generarVale.emit(row)"
-                 mdTooltip="Generar vale tipo: {{row.clasificacionVale}}"
-                 *ngIf="row.clasificacionVale !== 'SIN_VALE'">
-                <md-icon >swap_horiz</md-icon>
-              </button>
-              <button  md-icon-button
-                       (click)="onFacturar(row)"
-                mdTooltip="Mandar facturar" >
-                <md-icon >assignment</md-icon>
-              </button>
-              <button  md-icon-button type="button"
-                       mdTooltip="Configurar envío"
-                       (click)="envio.emit(row)" >
-                <md-icon [ngClass]="{'tc-green-500': (row.envio)}">flight_takeoff</md-icon>
-              </button>
-              <button  md-icon-button type="button" mdTooltip="Imprimir pedido"
-                (click)="print.emit(row.id)" >
-                <md-icon>print</md-icon>
-              </button>
-            </span>
-          </span>
-        </span>
-      </md-list-item>
-      <md-divider *ngIf="!last" md-inset></md-divider>
-    </ng-template>
-  </td-virtual-scroll-container>
-</md-list> -->
-
 <td-data-table
   #dataTable
   [data]="pedidos"
@@ -93,6 +24,14 @@
   <ng-template tdDataTableTemplate="fecha" let-value="value">
     {{ value | date: 'dd/MM/yyyy'}}
   </ng-template>
+
+  <ng-template tdDataTableTemplate="nombre" let-value="value" let-row="row">
+      <span>{{value}}</span>
+      <a (click)="cambioDeCliente.emit(row)" *ngIf="permitirCambioDeCliente(row)"
+        class="tc-pink-800" md-icon-button>
+        <md-icon>edit</md-icon>
+      </a>
+    </ng-template>
 
   <ng-template tdDataTableTemplate="lastUpdated" let-value="value">
     {{ value | date: 'dd/MM/yyyy HH:mm'}}

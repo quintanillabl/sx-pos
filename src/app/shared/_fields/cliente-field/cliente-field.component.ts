@@ -69,7 +69,7 @@ export class ClienteFieldComponent implements OnInit, ControlValueAccessor, OnDe
         if ( _.isObject(value)) {
           this.onChange(value);
         } else {
-          this.onChange(null);
+          // this.onChange(null);
         }
       });
   }

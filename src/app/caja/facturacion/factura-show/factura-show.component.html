@@ -28,7 +28,7 @@
             <md-icon>email</md-icon>
           </button>
         </ng-container>
-        <ng-container *ngIf="!venta.cuentaPorCobrar?.cfdi?.uuid">
+        <ng-container *ngIf="!venta?.cuentaPorCobrar?.cfdi?.uuid">
           <button type="button" md-button  mdTooltip="Timbrar"  (click)="timbrar(venta)" color="primary">
             Timbrar <md-icon>cast</md-icon>
           </button>

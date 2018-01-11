@@ -165,6 +165,14 @@ export class PedidosService {
     return this.http.put<Venta>(url, venta);
   }
 
+  cambioDeCliente(venta: Venta, usuario: User, cliente: Cliente): Observable<Venta> {
+    const url = `${this.apiUrl}/cambioDeCliente/${venta.id}`;
+    const params = new HttpParams()
+    .set('usuario', usuario.username)
+    .set('cliente', cliente.id);
+    return this.http.put<Venta>(url, {}, {params: params});
+  }
+
   mostrarXml(venta: Venta): Observable<any> {
     const endpoint = `cfdis/mostrarXml/${venta.cuentaPorCobrar.cfdi.id}`;
     const url = this.configService.buildApiUrl(endpoint);

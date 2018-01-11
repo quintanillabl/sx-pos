@@ -23,6 +23,8 @@ export class PendientesListComponent implements OnInit {
 
   @Output() generarVale = new EventEmitter<any>();
 
+  @Output() cambioDeCliente= new EventEmitter<any>();
+
   columns: ITdDataTableColumn[] = [
     //{ name: 'tipo',  label: 'Tipo', width: 10 },
     { name: 'documento',  label: 'Docto', width: 10 },
@@ -73,6 +75,15 @@ export class PendientesListComponent implements OnInit {
         break;
     }
     return fp
+  }
+
+  permitirCambioDeCliente(venta: Venta){
+    if (venta.tipo !== 'CRE'){
+      if (venta.descuento <=  venta.descuentoOriginal) {
+        return true
+      }
+    }
+    return false;
   }
 
   

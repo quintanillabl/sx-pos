@@ -26,13 +26,14 @@ import { ProductosModule } from 'app/productos/productos.module';
 import { ConfigService} from './core/services/config.service';
 import { TrasladosModule} from '@siipapx/traslados/traslados.module';
 
+
 export function onAppInit1(configService: ConfigService): () => Promise<any> {
   return () => configService.load()
 }
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

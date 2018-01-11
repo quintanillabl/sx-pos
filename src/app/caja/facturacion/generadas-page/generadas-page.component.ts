@@ -4,6 +4,7 @@ import { TdDataTableService, ITdDataTableColumn } from '@covalent/core';
 import { CajaService } from 'app/caja/services/caja.service';
 import { Venta } from 'app/models';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'sx-generadas-page',
@@ -24,27 +25,44 @@ export class GeneradasPageComponent implements OnInit {
 
   data: any[] = [];
 
-  search$ = new BehaviorSubject<string>(null);
+  search$ = new BehaviorSubject<string>('');
+
+  procesando = false;
+
+  facturas$: Observable<Venta[]>;
 
   constructor(
     private _dataTableService: TdDataTableService,
     private service: CajaService
-  ) {}
+  ) {
 
-  ngOnInit(): void {
-    this.service.cobradas('CONTADO')
-    .subscribe( pendientes => {
-      this.data = pendientes;
+    this.facturas$ = this.search$
+      .debounceTime(400)
+      .distinctUntilChanged()
+      .switchMap( term => {
+        this.procesando = true
+        return this.service
+          .cobradas(term)
+          .finally( () => this.procesando = false)
+      });
+
+    this.facturas$
+    .subscribe( facturas => {
+      this.data = facturas;
       }, error => console.log('Error: ', error)
     );
   }
-
-  search(searchTerm: string): void {
-    // this.search$.next()
+ 
+  ngOnInit(): void {
+    
   }
 
-  cobrar(pedido: Venta) {
-    console.log('Cobrando venta: ', pedido);
+  load() {
+    this.search$.next(null);
+  }
+
+  search(term: string): void {
+    this.search$.next(term);
   }
 
 }
