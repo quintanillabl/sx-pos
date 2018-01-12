@@ -1,8 +1,8 @@
 <td-data-table
 #dataTable
-[data]="compras"
+[data]="coms"
 [columns]="columns"
-selectable="true"
+selectable="false"
 multiple="false"
 [(ngModel)]="selectedRows"
 [style.height.px]="600">
@@ -17,6 +17,10 @@ multiple="false"
   <span>{{ value | date: 'dd/MM/yyyy'}}</span>
 </ng-template>
 
+<ng-template tdDataTableTemplate="fechaRemision" let-value="value">
+    <span>{{ value | date: 'dd/MM/yyyy'}}</span>
+  </ng-template>
+
 <ng-template tdDataTableTemplate="proveedor" let-value="value" let-row="row">
   <span class="tc-indigo-700">{{row.proveedor}}</span>
 </ng-template>
@@ -27,7 +31,10 @@ multiple="false"
 
 <ng-template tdDataTableTemplate="lastUpdated" let-value="value" let-row="row">
     <span class="text-md">{{ value | date: 'dd/MM/yyyy HH:mm'}}</span>
-    <span class="text-md" flex>{{ row.updateUser}}</span>
+</ng-template>
+
+<ng-template tdDataTableTemplate="updateUser" let-value="value" let-row="row">
+    <span class="text-md" flex>{{ value}}</span>
 </ng-template>
 
 <ng-template tdDataTableTemplate="total" let-value="value" let-row="row">

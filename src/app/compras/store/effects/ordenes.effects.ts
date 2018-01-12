@@ -12,6 +12,7 @@ import { OrdenesService } from "app/compras/services/ordenes.service";
 @Injectable()
 export class OrdenesEffects {
 
+  /*
   @Effect()
   navigateToOrdenes = this.actions$.ofType<RouterNavigationAction>(ROUTER_NAVIGATION)
   .map(r => r.payload.routerState.url)
@@ -24,7 +25,7 @@ export class OrdenesEffects {
     .map(ordenes => new Compras.SearchCompleteAction(ordenes))
     .catch(error => Observable.of(new Compras.SearchError(error))) 
   );
-  
+  */
   
   /**
    * Side effect to make an async call to the backend api server to lookup orders

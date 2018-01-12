@@ -16,14 +16,14 @@ import { ProveedoresService } from '@siipapx/compras/services/proveedores.servic
 
 // Presentational components
 import { OrdenesListComponent } from './_components/ordenes-list/ordenes-list.component';
-import { RecepcionesPendientesComponent } from './_components/recepciones-pendientes/recepciones-pendientes.component';
-import { RecepcionesRegistradasComponent } from './_components/recepciones-registradas/recepciones-registradas.component';
-import { DevolucionesComponent } from './_components/devoluciones/devoluciones.component';
+
 
 // Presentational components
 import * as components from './_components';
 // Container components
 import * as pages from './_pages';
+import { ComsListComponent } from './_components/coms-list/coms-list.component';
+import { ComsService } from './services/coms.service';
 
 const PAGES  = [
   pages.MainPageComponent,
@@ -60,12 +60,10 @@ const COMPONENTS  = [
   declarations: [
     ...COMPONENTS,
     ...PAGES,
-    RecepcionesPendientesComponent,
-    RecepcionesRegistradasComponent,
-    DevolucionesComponent
+    ComsListComponent,
   ],
   entryComponents: [components.OrdendetAddDialogComponent],
   // Services
-  providers: [OrdenesService, ProveedoresService]
+  providers: [OrdenesService, ProveedoresService, ComsService]
 })
 export class ComprasModule { }

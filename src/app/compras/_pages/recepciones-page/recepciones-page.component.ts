@@ -1,21 +1,62 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable } from "rxjs/Observable";
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription } from 'rxjs/Subscription';
+
+import { RecepcionDeCompra } from 'app/logistica/models/recepcionDeCompra';
+import { ComsService } from 'app/compras/services/coms.service';
 
 @Component({
   selector: 'sx-recepciones-page',
   templateUrl: './recepciones-page.component.html',
   styleUrls: ['./recepciones-page.component.scss']
 })
-export class RecepcionesPageComponent implements OnInit {
+export class RecepcionesPageComponent implements OnInit, OnDestroy {
 
-  navigation = [
-    {route: 'pendientes', title: 'Pendientes', description: 'Compras pendientes de ingresar', icon: 'watch'},
-    {route: 'entradas', title: 'Entradas', description: 'Recepciones de compra registradas', icon: 'done'},
-    {route: 'devoluciones', title: 'Devoluciones', description: 'Devoluciones de mercancía', icon: 'assignment_return'},
-  ]
+  
+  coms$: Observable<RecepcionDeCompra[]>;
+  coms: RecepcionDeCompra[] = [];
+  search$ = new BehaviorSubject<string>('');
+  procesando = false;
+  subs: Subscription;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(
+    private service: ComsService,
+  ) { 
+    
+    this.coms$ = this.search$.debounceTime(300)
+      .switchMap( term => {
+        return this.service.list({term: term})
+        .do( () => this.procesando = true)
+        .delay(100)
+        .catch( error2=> this.handleError(error2))
+        .finally( () => this.procesando = false)
+      });
+      
+    // this.coms$.subscribe( coms  =>  this.coms = coms);
   }
 
+  ngOnInit() {
+    this.load();
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
+
+  search(term: string){
+    this.search$.next(term);
+  }
+
+  load() {
+    this.search$.next('');
+  }
+
+  handleError(ex) {
+    console.error(ex)
+    return Observable.of(ex);
+  }
+  
+
 }
+
