@@ -4,11 +4,12 @@ import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from "rxjs/Observable";
 
-import { ComsService } from "app/logistica/services/coms/coms.service";
+
 
 import * as _ from 'lodash';
 import { Compra } from "app/models";
 import { CompraDet } from 'app/models/compraDet';
+import { ComsService } from 'app/compras/services/coms.service';
 
 @Component({
   selector: 'sx-selector-de-compra-dialog',

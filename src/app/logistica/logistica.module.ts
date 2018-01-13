@@ -56,9 +56,7 @@ const PAGES =  [
   pages.DevolucionesVentaPageComponent,
   pages.DevolucionesShowPageComponent,
   pages.DevolucionCreatePageComponent,
-  pages.ComsPageComponent,
-  pages.ComsShowPageComponent,
-  pages.ComCreatePageComponent,
+  
   // DECS
   pages.DecsPageComponent,
   pages.DecCreatePageComponent,
@@ -148,12 +146,7 @@ const COMPONENTS = [
   components.SelectorDeVentasDialogComponent,
   components.DevolucionPartidasComponent,
   components.RmdVentadetGridComponent,
-  components.ComsGridComponent,
-  components.ComdetGridComponent,
-  components.ComFormComponent,
-  components.SelectorDeCompraDialogComponent,
-  components.ComCompradetGridComponent,
-  components.ComPartidasComponent,
+  
   // Decs
   components.DecsGridComponent,
   components.DecdetGridComponent,
@@ -195,7 +188,6 @@ const COMPONENTS = [
   entryComponents: [
     components.TransformaciondetDialogComponent,
     components.SelectorDeVentasDialogComponent,
-    components.SelectorDeCompraDialogComponent,
     components.SelectorDeComDialogComponent,
     pages.SectorDetDialogComponent,
     pages.ConteoDetDialogComponent,

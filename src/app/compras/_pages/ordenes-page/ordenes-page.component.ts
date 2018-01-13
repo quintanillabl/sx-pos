@@ -1,10 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 
 import { OrdenesService } from "../../services/ordenes.service";
 import { Compra } from "app/models";
+import { TdDialogService } from '@covalent/core';
+
 
 @Component({
   selector: 'sx-ordenes-page',
@@ -25,6 +28,8 @@ export class OrdenesPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private service: OrdenesService,
+    private dialogService: TdDialogService,
+    private router: Router
   ) { 
 
     this.ordenes$ = this.search$.debounceTime(300)
@@ -36,7 +41,7 @@ export class OrdenesPageComponent implements OnInit, OnDestroy {
         .finally( () => this.procesando = false)
       });
 
-    this.ordenes$
+    this.subs = this.ordenes$
     .subscribe( ordenes =>  this.ordenes = ordenes);
   }
 
@@ -74,11 +79,30 @@ export class OrdenesPageComponent implements OnInit, OnDestroy {
     return this._pendientes
   }
 
-  
-
-
   recibir() {
     console.log('Generar recepcion de: ', this.pendienteSelected);
+    const selected = this.pendienteSelected
+    if(selected){
+      const dialotRef = this.dialogService.openConfirm({
+        message: 'Generar la recepción automática de la compra: ' + selected.folio,
+        title: 'Recepción de compra',
+        acceptButton: 'Aceptar',
+        cancelButton: 'Cancelar'
+      });
+      dialotRef.afterClosed().subscribe(val => {
+        if (val) {
+          this.procesando = true;
+          console.log('Validar')
+          this.service.recibir(selected)
+          .delay(2000)
+          .finally( () => this.procesando = false)
+          .subscribe( 
+            (res:any) => this.router.navigate(['/compras/recepciones/show', res.id]),
+            err => console.error(err)
+          )
+        }
+      });
+    }
   }
 
   get pendienteSelected() {

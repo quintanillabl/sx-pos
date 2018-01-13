@@ -7,10 +7,10 @@ multiple="false"
 [(ngModel)]="selectedRows"
 [style.height.px]="600">
 
-<ng-template tdDataTableTemplate="folio" let-value="value" let-row="row">
-    <a [routerLink]="['show', row.id]" md-button class="tc-pink-800">
-        {{value}}
-      </a>
+<ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
+  <a [routerLink]="['show', row.id]" md-button class="tc-pink-800">
+    {{value}}
+  </a>
 </ng-template>
 
 <ng-template tdDataTableTemplate="fecha" let-value="value">

@@ -1,14 +1,10 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Observable } from "rxjs/Observable";
-import { Store } from '@ngrx/store';
-import { Router } from "@angular/router";
+
+import { Router, ActivatedRoute } from "@angular/router";
 import { TdDialogService } from '@covalent/core';
-
-import * as fromLogistica from 'app/logistica/store/reducers';
-import { DeleteAction } from 'app/logistica/store/actions/coms.actions';
-import { RecepcionDeCompra } from "app/logistica/models/recepcionDeCompra";
-import { ComsService } from 'app/logistica/services/coms/coms.service';
-
+import { ComsService } from 'app/compras/services/coms.service';
+import { RecepcionDeCompra } from 'app/logistica/models/recepcionDeCompra';
 
 @Component({
   selector: 'sx-coms-show-page',
@@ -17,41 +13,29 @@ import { ComsService } from 'app/logistica/services/coms/coms.service';
 })
 export class ComsShowPageComponent implements OnInit {
 
-  com$: Observable<RecepcionDeCompra>;
-  loading$: Observable<boolean>;
-
   procesando = false;
 
+  com$: Observable<RecepcionDeCompra>;
+
   constructor(
-    private store: Store<fromLogistica.LogisticaState>,
     private router: Router,
+    private route: ActivatedRoute,
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
     private service: ComsService
-  ) { }
-
-  ngOnInit() {
-    this.com$ = this.store
-      .select(fromLogistica.getSelectedCom)
-      .shareReplay();
-
-    this.loading$ = this.store
-      .select(fromLogistica.getComsLoading);
+  ) { 
+    this.com$ = this.route.paramMap
+    .switchMap( params => 
+      this.service
+      .get(params.get('id'))
+      .delay(1000)
+      .do( () => this.procesando = true)
+      .finally( () => this.procesando = false)
+    );
   }
 
-  onDelete(com: RecepcionDeCompra) {
-    this._dialogService.openConfirm({
-      message: `COM ${com.documento}`,
-      viewContainerRef: this._viewContainerRef,
-      title: 'Eliminar recepcion de compra',
-      cancelButton: 'Cancelar',
-      acceptButton: 'Aceptar',
-    }).afterClosed().subscribe((accept: boolean) => {
-      if (accept) {
-        this.store.dispatch(new DeleteAction(com.id));
-        this.router.navigate(['/logistica/inventarios/coms']);
-      }
-    });
+  ngOnInit() {
+    
   }
 
   print(com: RecepcionDeCompra) {
@@ -67,7 +51,6 @@ export class ComsShowPageComponent implements OnInit {
         const fileURL = window.URL.createObjectURL(blob);
         window.open(fileURL, '_blank');
       }, error2 => this.handleError(error2));
-
   }
 
   inventariar(com) {
@@ -103,7 +86,7 @@ export class ComsShowPageComponent implements OnInit {
         this.alert('Recepcion inventariada exitosamente, existencias actualizadas', 'Recepcion de compra')
           .afterClosed().subscribe( res => {
            console.log('OK');
-          this.router.navigate(['/logistica/inventarios/coms']);
+          this.router.navigate(['/compras/recepciones']);
         });
       });
   }

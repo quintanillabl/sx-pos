@@ -33,7 +33,7 @@ export class RecepcionesPageComponent implements OnInit, OnDestroy {
         .finally( () => this.procesando = false)
       });
       
-    // this.coms$.subscribe( coms  =>  this.coms = coms);
+    this.subs = this.coms$.subscribe( coms  =>  this.coms = coms);
   }
 
   ngOnInit() {

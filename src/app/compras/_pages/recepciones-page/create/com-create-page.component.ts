@@ -9,18 +9,19 @@ import * as coms from 'app/logistica/store/actions/coms.actions';
 
 import { RecepcionDeCompra } from "app/logistica/models/recepcionDeCompra";
 import { Sucursal } from 'app/models';
+import { ComsService } from 'app/compras/services/coms.service';
 
-import { ComsService } from "app/logistica/services/coms/coms.service";
 
 @Component({
   selector: 'sx-com-create-page',
   template: `
-    <div layout 
-      *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
-      <sx-com-form flex="80" 
-        [sucursal]="sucursal$ | async" (save)="onSave($event)">
-      </sx-com-form>
-    </div>
+    <sx-nav-layout [header]="'Recepciones de comras (COMS)'" [modulo]="'Compras'">
+      <div layout >
+        <sx-com-form flex 
+          [sucursal]="sucursal$ | async" (save)="onSave($event)">
+        </sx-com-form>
+      </div>
+    </sx-nav-layout>
   `,
   styles: ['']
 })
@@ -48,7 +49,7 @@ export class ComCreatePageComponent implements OnInit {
         (com) => {
           console.log('RMD salvado: ', com);
           this.loadingService.resolve('saving');
-          this.router.navigate(['/logistica/inventarios/coms'])
+          this.router.navigate(['/compras/recepciones'])
         },
         response => {
           this.handlePostError(response);

@@ -4,8 +4,6 @@ import { Observable } from "rxjs/Observable";
 import { Router } from '@angular/router';
 import { ITdDataTableColumn, TdDialogService, TdLoadingService } from "@covalent/core";
 
-import * as formOrdenes from 'app/compras/store/reducers';
-import * as Compras from 'app/compras/store/actions/ordenes.actions';
 
 import { Compra } from "app/models";
 import { OrdenesService } from 'app/compras/services/ordenes.service';
@@ -35,7 +33,6 @@ export class OrdenesShowComponent implements OnInit {
   ];
 
   constructor(
-    private store: Store<formOrdenes.ComprasState>,
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
     private loadingService: TdLoadingService,
@@ -45,7 +42,7 @@ export class OrdenesShowComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.orden$ = this.store.select(formOrdenes.getSelectedOrden);
+    
   }
 
   onDelete(compra: Compra) {

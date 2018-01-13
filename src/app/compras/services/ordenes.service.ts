@@ -44,6 +44,11 @@ export class OrdenesService {
     return this.http.post(this.apiUrl, compra);
   }
 
+  recibir(compra: Compra) {
+    const url = this.configService.buildApiUrl('compras/recibir/' + compra.id);
+    return this.http.put(url, {});
+  }
+
   buscarProductos(proveedor: Proveedor){
     let params = new HttpParams()
       .set('activos','activos');

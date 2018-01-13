@@ -9,11 +9,6 @@ import { Compra, CompraDet, Sucursal } from 'app/models';
 import { ProveedoresService } from 'app/compras/services/proveedores.service';
 import { OrdendetAddDialogComponent } from '../ordendet-add-dialog/ordendet-add-dialog.component';
 
-//ngrx
-import { Store } from '@ngrx/store';
-import * as fromCompras from 'app/compras/store/reducers';
-import { SelectProveedorAction } from 'app/compras/store/actions/ocompra-form.actions';
-
 export const PartidasValidator = (control: AbstractControl): {[key: string]: boolean} => {
   const partidas = (control.get('partidas') as FormArray).value;
   return partidas.length ? null : { noPartidas: true };
@@ -44,7 +39,6 @@ export class OrdenFormComponent implements OnInit, OnDestroy {
     private service: ProveedoresService,
     public dialog: MdDialog,
     private cd: ChangeDetectorRef,
-    private store: Store<fromCompras.ComprasState>
   ) { }
 
   ngOnInit() {
