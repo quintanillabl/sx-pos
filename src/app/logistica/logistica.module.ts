@@ -36,6 +36,7 @@ import { EmbarqueService } from 'app/logistica/services/embarque/embarque.servic
 import { EmbarquesEffects } from 'app/logistica/store/effects/embarques.effects';
 import { KardexService } from 'app/logistica/services/kardex.service';
 import { KardexFormComponent } from './_pages/kardex-page/kardex-form/kardex-form.component';
+import { RecalculoFormComponent } from './_pages/kardex-page/recalculo-form/recalculo-form.component';
 
 
 
@@ -184,6 +185,7 @@ const COMPONENTS = [
     ...PAGES,
     ...COMPONENTS,
     KardexFormComponent,
+    RecalculoFormComponent,
   ],
   entryComponents: [
     components.TransformaciondetDialogComponent,
@@ -197,7 +199,8 @@ const COMPONENTS = [
     pages.EnviodetSelectorDialogComponent,
     pages.EntregaPorChoferComponent,
     pages.SelectorDeEmbarqueComponent,
-    KardexFormComponent
+    KardexFormComponent,
+    RecalculoFormComponent
   ],
   providers: [MovimientosService, TransformacionesService,
     DevolucionesService,

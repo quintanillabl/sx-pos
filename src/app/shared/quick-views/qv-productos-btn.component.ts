@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { ProductUtils } from 'app/productos/services';
+import { ProductUtils } from 'app/productos/services/productUtils';
+
+
 
 @Component({
   selector: 'sx-qv-productos-btn',

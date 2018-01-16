@@ -40,6 +40,15 @@ export class KardexService {
     return this.http.get<Inventario>(url, {params: params})
   }
 
+  recalcular(producto: any){
+    let params = new HttpParams();
+    if (producto) {
+      params = params.set('producto', producto.id);
+    }
+    const url = `${this.apiUrl}/recalcular`;
+    return this.http.get(url, {params: params})
+  }
+
   print(reportParams: any) {
     const url = `${this.apiUrl}/printKardex`;
     /*

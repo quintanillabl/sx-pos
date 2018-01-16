@@ -3,8 +3,9 @@ import { Observable } from "rxjs/Observable";
 import { FormControl } from "@angular/forms";
 import * as _ from 'lodash';
 
-import { ProductoService } from "app/productos/services";
-import { Producto } from "@siipapx/models";
+
+import { Producto } from "app/models";
+import { ProductoService } from 'app/productos/services/producto.service';
 
 @Component({
   selector: 'sx-prod-field',
