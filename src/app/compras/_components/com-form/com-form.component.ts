@@ -25,6 +25,8 @@ export class ComFormComponent implements OnInit, OnDestroy {
 
   @Input() sucursal: Sucursal;
 
+  @Input() com: RecepcionDeCompra;
+
   @Output() save = new EventEmitter<RecepcionDeCompra>();
 
   selected: CompraDet[];
@@ -38,6 +40,9 @@ export class ComFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.buildForm();
+    if (this.com) {
+      this.form.patchValue(this.com);
+    }
   }
   
   ngOnDestroy() {

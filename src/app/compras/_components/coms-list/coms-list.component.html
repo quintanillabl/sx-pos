@@ -17,6 +17,10 @@ multiple="false"
   <span>{{ value | date: 'dd/MM/yyyy'}}</span>
 </ng-template>
 
+<ng-template tdDataTableTemplate="compra" let-value="value" let-row="row">
+  <span>{{ value.folio}}</span>
+</ng-template>
+
 <ng-template tdDataTableTemplate="fechaRemision" let-value="value">
     <span>{{ value | date: 'dd/MM/yyyy'}}</span>
   </ng-template>

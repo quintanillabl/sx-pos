@@ -27,6 +27,7 @@ import { ComCompradetGridComponent } from './_components/com-form/selector-de-co
 import { ComPartidasComponent } from './_components/com-form/partidas/com-partidas.component';
 import { ComCreatePageComponent } from './_pages/recepciones-page/create/com-create-page.component';
 import { ComEditPageComponent } from './_pages/recepciones-page/edit/com-edit-page.component';
+import { ComEditFormComponent } from './_components/com-edit-form/com-edit-form.component';
 
 
 
@@ -65,6 +66,7 @@ const COMPONENTS  = [
     ComCompradetGridComponent,
     ComCreatePageComponent,
     ComEditPageComponent,
+    ComEditFormComponent,
   ],
   entryComponents: [components.OrdendetAddDialogComponent, SelectorDeCompraDialogComponent],
   // Services

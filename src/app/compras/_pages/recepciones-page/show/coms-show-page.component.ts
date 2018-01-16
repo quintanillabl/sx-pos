@@ -32,6 +32,7 @@ export class ComsShowPageComponent implements OnInit {
       .do( () => this.procesando = true)
       .finally( () => this.procesando = false)
     );
+    this.com$.subscribe( com => console.log('Mostrando COM: ', com))
   }
 
   ngOnInit() {

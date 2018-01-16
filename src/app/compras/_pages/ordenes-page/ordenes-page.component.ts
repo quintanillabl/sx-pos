@@ -65,7 +65,7 @@ export class OrdenesPageComponent implements OnInit, OnDestroy {
 
   handleError(ex) {
     console.error(ex)
-    return Observable.of(ex);
+    return Observable.of([]);
   }
 
   set pendientes(value) {
@@ -97,7 +97,13 @@ export class OrdenesPageComponent implements OnInit, OnDestroy {
           .delay(2000)
           .finally( () => this.procesando = false)
           .subscribe( 
-            (res:any) => this.router.navigate(['/compras/recepciones/show', res.id]),
+            (res:any) => {
+              if (res === null) {
+                this.load();
+              } else {
+                this.router.navigate(['/compras/recepciones/show', res.id])
+              }
+            },
             err => console.error(err)
           )
         }

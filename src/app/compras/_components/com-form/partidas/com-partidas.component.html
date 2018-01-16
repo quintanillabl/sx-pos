@@ -1,8 +1,8 @@
-<div [formGroup]="parent" [style.height.%]="100"
+<div [formGroup]="parent" 
   layout layout-align="center" layout-margin class="partidas-grid-container">
   <div formArrayName="partidas">
     
-    <table td-data-table>
+    <table td-data-table >
       <thead>
         <tr td-data-table-column-row>
           <th td-data-table-column>Rng</th>
@@ -19,10 +19,10 @@
           <td td-data-table-cell >{{i + 1}}</td>
           <td td-data-table-cell >{{row.producto.clave}}</td>
           <td td-data-table-cell >{{row.producto.descripcion}}</td>
-          <td td-data-table-cell numeric="true">{{row.compraDet.solicitado}}</td>
-          <td td-data-table-cell numeric="true">{{row.compraDet.recibido}}</td>
+          <td td-data-table-cell numeric="true">{{row.compraDet.solicitado | number}}</td>
+          <td td-data-table-cell numeric="true">{{row.compraDet.recibido | number}}</td>
           <td td-data-table-cell numeric="true" >
-            <a  md-button class="mat-accent" (click)="editar(i, row)" >{{row.cantidad}}</a>
+            <a  md-button class="mat-accent" (click)="editar(i, row)" >{{row.cantidad | number}}</a>
           </td>
           <td td-data-table-cell numeric="false"> 
             <button md-icon-button type="button" (click)="delete(i)">
