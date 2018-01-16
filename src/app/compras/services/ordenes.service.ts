@@ -40,7 +40,10 @@ export class OrdenesService {
   }
 
   save(compra: Compra) {
+    compra.sucursal = this.sucursal
     compra.folio = 0;
+    console.log('Salvando compra: ', compra);
+    compra.partidas.forEach( item=> item.sucursal = this.sucursal)
     return this.http.post(this.apiUrl, compra);
   }
 
