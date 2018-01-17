@@ -49,7 +49,7 @@
     </ng-template>
 
     <ng-template tdDataTableTemplate="editar" let-value="value" let-row="row" >
-      <button type="button" (click)="edit.emit(row)" md-icon-button>
+      <button type="button" (click)="edit.emit(row)" md-icon-button *ngIf="!row.rembolso && !row.solicitado">
         <md-icon color="accent">edit</md-icon>
       </button>
     </ng-template>

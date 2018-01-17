@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MdDialog } from '@angular/material';
 
@@ -10,12 +10,13 @@ import { TdDialogService } from '@covalent/core';
 import { SelectorFechaComponent } from 'app/shared/_components/selector-fecha/selector-fecha.component';
 
 
+
 @Component({
   selector: 'sx-corte-fondo-fijo',
   templateUrl: './corte-fondo-fijo.component.html',
   styleUrls: ['./corte-fondo-fijo.component.scss']
 })
-export class CorteFondoFijoComponent implements OnInit {
+export class CorteFondoFijoComponent implements OnInit, OnDestroy {
 
   movimientos: FondoFijo[] = [];
 
@@ -35,7 +36,14 @@ export class CorteFondoFijoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    const params =  JSON.parse(localStorage.getItem('caja_fondo_fijo')) || {pendientes: false};
+    this._pendientes = params.pendientes;
     this.load();
+  }
+  
+  ngOnDestroy() {
+    const params = {pendientes: this._pendientes};
+    localStorage.setItem('caja_fondo_fijo', JSON.stringify(params));
   }
 
   load() {

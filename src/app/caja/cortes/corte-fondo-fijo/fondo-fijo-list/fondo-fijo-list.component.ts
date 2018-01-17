@@ -32,10 +32,7 @@ export class FondoFijoListComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-    console.log('Data: ', this.movimientos);
-    // this.filteredData = this.movimientos;
-  }
+  ngOnInit(): void {}
 
   search(searchTerm: string): void {
   }
