@@ -36,6 +36,13 @@ export class FondoFijoService {
     return this.http.get<FondoFijo[]>(url, {params: params})
   }
 
+  pendientes(): Observable<FondoFijo[]> {
+    const params = new HttpParams()
+    .set('sucursal', this.sucursal.id)
+    let url = `${this.apiUrl}/pendientes`;
+    return this.http.get<FondoFijo[]>(url, {params: params})
+  }
+
   prepararRembolso(): Observable<FondoFijo> {
     let url = `${this.apiUrl}/prepararRembolso`;
     return this.http.get<FondoFijo>(url)

@@ -14,6 +14,7 @@ import { CorteCobranzaComponent } from 'app/caja/cortes/corte-cobranza/corte-cob
 import { CorteMorrallaComponent } from 'app/caja/cortes/corte-morralla/corte-morralla.component';
 import { CorteFondoFijoComponent } from './cortes/corte-fondo-fijo/corte-fondo-fijo.component';
 import { FichasPageComponent } from './cortes/fichas-page/fichas-page.component';
+import { FondoFijoEditComponent } from './cortes/corte-fondo-fijo/fondo-fijo-edit/fondo-fijo-edit.component';
 
 const routes: Routes = [
   {
@@ -56,6 +57,7 @@ const routes: Routes = [
         children: [
           {path: 'cobranza', component: CorteCobranzaComponent},
           {path: 'fondoFijo', component: CorteFondoFijoComponent},
+          {path: 'fondoFijo/edit/:id', component: FondoFijoEditComponent},
           {path: 'morralla', component: CorteMorrallaComponent},
           {path: 'fichas', component: FichasPageComponent}
         ]

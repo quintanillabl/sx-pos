@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MdDialog } from '@angular/material';
 
 import { GastoComponent } from './gasto/gasto.component';
@@ -7,6 +8,7 @@ import { FondoFijoService } from 'app/caja/services/fondo-fijo.service';
 import { FondoFijo } from 'app/caja/models/fondoFijo';
 import { TdDialogService } from '@covalent/core';
 import { SelectorFechaComponent } from 'app/shared/_components/selector-fecha/selector-fecha.component';
+
 
 @Component({
   selector: 'sx-corte-fondo-fijo',
@@ -23,10 +25,13 @@ export class CorteFondoFijoComponent implements OnInit {
 
   fecha = new Date()
 
+  private _pendientes = false;
+
   constructor(
     public dialog: MdDialog,
     private service: FondoFijoService,
-    private dialogService: TdDialogService
+    private dialogService: TdDialogService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -35,12 +40,22 @@ export class CorteFondoFijoComponent implements OnInit {
 
   load() {
     this.procesando = true;
-    this.service.list(this.fecha)
-    .finally( () => this.procesando = false)
-    .subscribe(movimientos => {
-      this.movimientos = movimientos
-      this.selected = [];
-    } , error => console.error(error));
+    if (this._pendientes) {
+      this.service.pendientes()
+      .finally( () => this.procesando = false)
+      .subscribe(movimientos => {
+        this.movimientos = movimientos
+        this.selected = [];
+      } , error => console.error(error));
+
+    } else {
+      this.service.list(this.fecha)
+      .finally( () => this.procesando = false)
+      .subscribe(movimientos => {
+        this.movimientos = movimientos
+        this.selected = [];
+      } , error => console.error(error));
+    }
   }
 
   gasto() {
@@ -127,6 +142,19 @@ export class CorteFondoFijoComponent implements OnInit {
     return this.selected
     .filter( item =>  (!item.rembolso && !item.solicitado) );
     
+  }
+
+  get pendientes() {
+    return this._pendientes;
+  }
+  set pendientes(val) {
+    this._pendientes = val;
+    this.load();
+  }
+
+  onEdit(fondo: FondoFijo){
+    console.log('Editando fondo fijo: ', fondo);
+    this.router.navigate(['/caja/cortes/fondoFijo/edit/', fondo.id]);
   }
 
 }
