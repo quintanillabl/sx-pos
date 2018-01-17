@@ -33,7 +33,6 @@ export class KardexPageComponent implements OnInit {
       this.procesando = true;
       return this.service
       .list(term)
-      .delay(200)
       .catch( err => {
         this.handleError(err)
         return Observable.of([])

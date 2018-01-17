@@ -78,6 +78,7 @@ export class CajaService {
       ... cobro,
       venta: cobro.venta.id
     }
+    console.log('Registrando cobro de contado: ', cob);
     return this.http.post(url, cob);
   }
 
@@ -99,6 +100,10 @@ export class CajaService {
   }
 
   cancelar(factura: Venta, user: User, motivo: string): Observable<Venta> {
+    // Fix para simplificar audig_log
+    factura.cliente = {
+      id: factura.cliente.id
+    }
     console.log('Cancelando en el sistema la factura: ', factura);
     const params = new HttpParams()
     .set('usuario', user.username)

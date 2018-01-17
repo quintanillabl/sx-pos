@@ -1,9 +1,9 @@
 export class Cliente {
   id: string;
-  nombre: string;
-  clave: string;
-  rfc: string;
-  credito: ClienteCredito
+  nombre?: string;
+  clave?: string;
+  rfc?: string;
+  credito?: ClienteCredito
   email?: string
   permiteCheque?: boolean
   direccion?: {};
