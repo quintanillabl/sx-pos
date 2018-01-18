@@ -86,4 +86,17 @@ export class ComsService {
     );
   }
 
+  recepcionDeMercancia(fecha: Date) {
+    const url = `${this.apiUrl}/recepcionDeMercancia/`;
+    const params = new HttpParams().set('fecha', fecha.toISOString())
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        responseType: 'blob',
+        params: params
+      },
+    );
+  }
+
 }

@@ -46,6 +46,9 @@
             <a [routerLink]="['edit', row.id]" md-menu-item [disabled]="false">
                 <md-icon>edit</md-icon> Editar
             </a>
+            <a  md-menu-item [disabled]="false" (click)="print.emit(row)">
+                <md-icon>print</md-icon> Imprimir
+            </a>
           </md-menu>
         </span>
       </md-list-item>

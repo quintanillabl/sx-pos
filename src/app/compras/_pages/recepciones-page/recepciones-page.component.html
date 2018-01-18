@@ -12,6 +12,9 @@
             <button md-icon-button [mdMenuTriggerFor]="toolbarMenu"><md-icon>more_vert</md-icon></button>
             <md-menu #toolbarMenu="mdMenu">
               <button  (click)="load()" md-menu-item><md-icon>refresh</md-icon> Refrescar</button>
+              <button  (click)="recepcionDeMercancia()" md-menu-item>
+                <md-icon>blur_linear</md-icon> Rec Mercancía
+              </button>
             </md-menu>
           </span>
       </div>

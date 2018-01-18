@@ -13,7 +13,7 @@
   <h2 matSubheader>Reportes</h2>
 
   <ng-template let-item let-last="last" ngFor [ngForOf]="reportes">
-    <md-list-item>
+    <md-list-item (click)="runReport(item.name)" mdTooltip="{{item.title}}">
       <md-icon md-list-icon>blur_linear</md-icon>
       <h3 md-line> {{item.title}} </h3>
     </md-list-item>

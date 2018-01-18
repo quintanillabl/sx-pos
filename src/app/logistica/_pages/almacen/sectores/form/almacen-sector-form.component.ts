@@ -12,6 +12,7 @@ import { Sucursal } from 'app/models';
 import { SectorDetDialogComponent } from './sector-det-dialog.component';
 import { Sector } from 'app/logistica/models/sector';
 import { SectorDet } from 'app/logistica/models/sectorDet';
+import { SectoresService } from 'app/logistica/services/sectores/sectores.service';
 
 
 @Component({
@@ -37,10 +38,13 @@ export class AlmacenSectorFormComponent implements OnInit, OnChanges {
 
   subscription1: Subscription;
 
+  procesando = false;
+
   constructor(
     private fb: FormBuilder,
     public dialog: MdDialog,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private service: SectoresService
   ) {}
 
   ngOnInit() {
@@ -149,8 +153,18 @@ export class AlmacenSectorFormComponent implements OnInit, OnChanges {
     return this.form.get('id').value;
   }
 
-  print() {
-
+  print(id: string) {
+    console.log('Imprimiendo sector: ', id);
+    this.service.print(id)
+      .do( () => this.procesando = true)
+      .finally( () => this.procesando = false)
+      .subscribe(res => {
+        const blob = new Blob([res], {
+          type: 'application/pdf'
+        });
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      }, error2 => console.log(error2));
   }
 
 
