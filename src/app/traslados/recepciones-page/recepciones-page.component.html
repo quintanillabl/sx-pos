@@ -19,11 +19,11 @@
 
     <md-divider></md-divider>
 
-    <md-card-content>
-      <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
-        <sx-tpe-list [entradas]="traslados$ | async" (print)="print($event)">
+    <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
+      <ng-container *ngIf="traslados$ | async as traslados"> 
+        <sx-tpe-list [data]="traslados" (print)="print($event)">
         </sx-tpe-list>
-      </ng-template>
-    </md-card-content>
+      </ng-container>
+    </ng-template>
   </md-card>
 </div>

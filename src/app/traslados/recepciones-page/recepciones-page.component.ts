@@ -22,13 +22,15 @@ export class RecepcionesPageComponent implements OnInit {
   reload$ = new Subject<boolean>();
 
   procesando = false;
+
+  traslados: Traslado[] = [];
   
   constructor(
     private service: TrasladosService
   ) {
       
     const obs1 = this.search$.asObservable()
-      .map( term => _.toInteger(term))
+      //.map( term => _.toInteger(term))
       .distinctUntilChanged()
       .debounceTime(300);
 
@@ -41,6 +43,7 @@ export class RecepcionesPageComponent implements OnInit {
       .do( () => this.procesando = true)
       .delay(300)
       .finally( () => this.procesando = false));
+    // this.traslados$.subscribe(data => console.log('Data:', data), err=> console.log(err))
   }
   
     ngOnInit() {
@@ -52,6 +55,7 @@ export class RecepcionesPageComponent implements OnInit {
     }
   
     search(term: string) {
+      
       this.search$.next(term);
     }
   

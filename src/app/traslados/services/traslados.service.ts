@@ -26,10 +26,10 @@ export class TrasladosService {
     return this.http.get<Traslado>(url)
   }
 
-  list(tipo?: string, documento: number = 0 ): Observable<Traslado[]> {
+  list(tipo?: string, documento?: string  ): Observable<Traslado[]> {
     let params = new HttpParams().set('sucursal', this.sucursal.id);
-    if (documento > 0) {
-      params =  params.set('documento', documento.toString());
+    if (documento) {
+      params =  params.set('term', documento.toString());
     }
     if( tipo ){
       params = params.set('tipo', tipo);
