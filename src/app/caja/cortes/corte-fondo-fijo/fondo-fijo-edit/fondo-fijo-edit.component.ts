@@ -54,7 +54,7 @@ export class FondoFijoEditComponent implements OnInit {
     });
   }
 
-  onSubmit(gasto: FondoFijo) {
+  onSubmit() {
     this.service.update(this.preparEntity())
       .do( ()=> this.procesando = true)
       .catch( error => this.handleError(error))
