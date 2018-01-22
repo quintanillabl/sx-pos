@@ -72,10 +72,11 @@ export class MovimientoDetFormComponent implements OnInit, OnDestroy {
        entity.cantidad = Math.abs(entity.cantidad);
     }else if(this.parent.get('tipo').value === 'CIM') {
       entity.cantidad = entity.cantidad;
-   } else {
+    } else if(this.parent.get('tipo').value === 'VIR') {
+        entity.cantidad = Math.abs(entity.cantidad);
+    }else {
       entity.cantidad = entity.cantidad * -1;
     }
-    
     return entity;
   }
 
