@@ -26,13 +26,13 @@ export class ComCompradetGridComponent implements OnInit {
   fromRow: number = 1;
   currentPage: number = 1;
   pageSize: number = 10;
-  sortBy: string = 'producto.clave';
+  sortBy: string = 'clave';
   
   sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
   columns: ITdDataTableColumn[] = [
-    { name: 'producto.clave',  label: 'Clave', sortable: true, width: 40, numeric: false },
-    { name: 'producto.descripcion',  label: 'Descripcion', sortable: true, width: 300, numeric: false },
+    { name: 'clave',  label: 'Clave', sortable: true, width: 40, numeric: false, nested: false },
+    { name: 'descripcion',  label: 'Descripcion', sortable: true, width: 300, numeric: false },
     { name: 'solicitado',  label: 'Solicitado', sortable: true, width: 40, numeric: true, format: NUMBER_FORMAT },
     { name: 'recibido',  label: 'Recibido', sortable: true, width: 40, numeric: true, format: NUMBER_FORMAT },
     { name: 'pendiente',  label: 'Por recibir', sortable: false, width: 40, numeric: true, format: NUMBER_FORMAT },
@@ -53,6 +53,7 @@ export class ComCompradetGridComponent implements OnInit {
   }
 
   search(searchTerm: string): void {
+    console.log('Filtrando: ', searchTerm);
     this.searchTerm = searchTerm;
     this.filter();
   }
@@ -66,11 +67,13 @@ export class ComCompradetGridComponent implements OnInit {
 
   filter(): void {
     let newData: any[] = this.data;
-    let excludedColumns: ['cantidad']
-    newData = this._dataTableService.filterData(newData, this.searchTerm, true, excludedColumns);
+    let excludedColumns = [];
+    console.log('Data: ', this.searchTerm);
+    newData = this._dataTableService.filterData(newData, this.searchTerm, true);
     this.filteredTotal = newData.length;
     newData = this._dataTableService.sortData(newData, this.sortBy, this.sortOrder);
     newData = this._dataTableService.pageData(newData, this.fromRow, this.currentPage * this.pageSize);
+    console.log('Filtered data: ', newData);
     this.filteredData = newData;
   }
 }

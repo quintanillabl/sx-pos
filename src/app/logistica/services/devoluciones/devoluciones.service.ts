@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 
@@ -65,6 +65,20 @@ export class DevolucionesService {
     });
     const url = `${this.apiUrl}/buscarVenta`;
     return this.http.get<Venta[]>(url, {params: params})
+  }
+
+  print(id: string) {
+    const url = `${this.apiUrl}/print`;
+    const params = new HttpParams()
+      .set('ID', id);
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        params: params,
+        responseType: 'blob'
+      }
+    );
   }
   
 
