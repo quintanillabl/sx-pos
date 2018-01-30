@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, HostListener 
+} from '@angular/core';
 import { FormBuilder, AbstractControl, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs';
@@ -133,6 +134,17 @@ export class OrdenFormComponent implements OnInit, OnDestroy {
   
   disableAddPartidas() {
     return this.proveedor === null
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    // console.log(event);
+    if (event.ctrlKey && event.code === 'KeyI' ) {
+      this.insertar();
+    }
+    if (event.code === 'Insert') {
+      this.insertar();
+    }
   }
 
 }

@@ -26,8 +26,8 @@
             <span flex layout="column">
               <span>{{row.producto.descripcion}}</span>
               <span class="tc-pink-800" *ngIf="row.corte">
-                  {{row.corte.cantidad}} * {{row.corte.precio}} = {{row.corte.cantidad * row.corte.precio}}
-                  /{{row.corte.tipo}}  / {{row.corte.instruccion}}
+                  {{row.corte.tipo}}  / {{row.corte.instruccion}}
+                  / {{row.corte.cantidad}} * {{row.corte.precio}} = {{row.corte.cantidad * row.corte.precio}}
               </span>
             </span>
 
