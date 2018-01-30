@@ -20,6 +20,7 @@ export class KardexListComponent implements OnInit {
     { name: 'documento',  label: 'Docto', width: 40},
     { name: 'tipo',  label: 'Tipo', width: 40},
     { name: 'cantidad',  label: 'Cantidad', width: 30},
+    { name: 'kilos',  label: 'Kilos', width: 30},
   ];
 
   constructor() { }
