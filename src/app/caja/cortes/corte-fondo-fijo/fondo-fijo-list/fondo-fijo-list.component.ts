@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TdDataTableService, TdDataTableSortingOrder, ITdDataTableSortChangeEvent, ITdDataTableColumn } from '@covalent/core';
 import { IPageChangeEvent } from '@covalent/core';
 
@@ -16,23 +16,23 @@ export class FondoFijoListComponent implements OnInit {
 
   @Input() selectedRows: any[] = [];
 
+  @Output() edit = new EventEmitter<FondoFijo>();
+
   columns: ITdDataTableColumn[] = [
-    { name: 'fecha',  label: 'Hora', width: 50 },
+    { name: 'fecha',  label: 'Fecha', width: 200 },
     { name: 'documento', label: 'Documento', width: 200 },
     { name: 'rembolso', label: 'Rembolso', width: 20},
     { name: 'solicitado', label: 'Solicitado', width:100 },
     { name: 'importe', label: 'Importe', width:100},
-    { name: 'comentario', label: 'Comentario'},
+    { name: 'comentario', label: 'Comentario', width: 300},
+    { name: 'editar', label: 'Editar', width: 50},
   ];
 
   // filteredData: any[] = this.movimientos;
 
   constructor() {}
 
-  ngOnInit(): void {
-    console.log('Data: ', this.movimientos);
-    // this.filteredData = this.movimientos;
-  }
+  ngOnInit(): void {}
 
   search(searchTerm: string): void {
   }

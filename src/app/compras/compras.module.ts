@@ -5,29 +5,34 @@ import { EffectsModule } from "@ngrx/effects";
 import { ComprasRoutingModule } from './compras-routing.module';
 import { SharedModule } from "../shared/shared.module";
 
-//ngrx stuff 
-import { reducers } from './store/reducers';
-import { OrdenesEffects } from './store/effects/ordenes.effects';
-import { CompraFormEffects } from './store/effects/compra-form.effects';
-
 //Services
 import { OrdenesService } from "./services/ordenes.service";
-import { ProveedoresService } from '@siipapx/compras/services/proveedores.service';
+import { ProveedoresService } from 'app/compras/services/proveedores.service';
 
 // Presentational components
 import { OrdenesListComponent } from './_components/ordenes-list/ordenes-list.component';
-import { RecepcionesPendientesComponent } from './_components/recepciones-pendientes/recepciones-pendientes.component';
-import { RecepcionesRegistradasComponent } from './_components/recepciones-registradas/recepciones-registradas.component';
-import { DevolucionesComponent } from './_components/devoluciones/devoluciones.component';
+
 
 // Presentational components
 import * as components from './_components';
 // Container components
 import * as pages from './_pages';
+import { ComsListComponent } from './_components/coms-list/coms-list.component';
+import { ComsService } from './services/coms.service';
+import { ComsShowPageComponent } from './_pages/recepciones-page/show/coms-show-page.component';
+import { ComdetGridComponent } from './_components/comdet-grid/comdet-grid.component';
+import { ComFormComponent } from './_components/com-form/com-form.component';
+import { SelectorDeCompraDialogComponent } from './_components/com-form/selector-de-compra/selector-de-compra-dialog.component';
+import { ComCompradetGridComponent } from './_components/com-form/selector-de-compra/compradet-gid/comCompradet-grid.component';
+import { ComPartidasComponent } from './_components/com-form/partidas/com-partidas.component';
+import { ComCreatePageComponent } from './_pages/recepciones-page/create/com-create-page.component';
+import { ComEditPageComponent } from './_pages/recepciones-page/edit/com-edit-page.component';
+import { ComEditFormComponent } from './_components/com-edit-form/com-edit-form.component';
+
+
 
 const PAGES  = [
   pages.MainPageComponent,
-  pages.MainDashboardComponent,
   pages.OrdenesPageComponent, 
   pages.OrdenesCreatePageComponent, 
   pages.RecepcionesPageComponent,
@@ -48,24 +53,23 @@ const COMPONENTS  = [
   imports: [
     SharedModule,
     ComprasRoutingModule,
-    /**
-     * Feature store module for the state of this module
-     */
-    StoreModule.forFeature('compras', reducers),
-    /**
-     * Side Effects for the module
-     */
-    EffectsModule.forFeature([OrdenesEffects, CompraFormEffects])
   ],
   declarations: [
     ...COMPONENTS,
     ...PAGES,
-    RecepcionesPendientesComponent,
-    RecepcionesRegistradasComponent,
-    DevolucionesComponent
+    ComsListComponent,
+    ComsShowPageComponent,
+    ComPartidasComponent,
+    ComdetGridComponent,
+    ComFormComponent,
+    SelectorDeCompraDialogComponent,
+    ComCompradetGridComponent,
+    ComCreatePageComponent,
+    ComEditPageComponent,
+    ComEditFormComponent,
   ],
-  entryComponents: [components.OrdendetAddDialogComponent],
+  entryComponents: [components.OrdendetAddDialogComponent, SelectorDeCompraDialogComponent],
   // Services
-  providers: [OrdenesService, ProveedoresService]
+  providers: [OrdenesService, ProveedoresService, ComsService]
 })
 export class ComprasModule { }

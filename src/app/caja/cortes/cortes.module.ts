@@ -17,6 +17,7 @@ import { GastoComponent } from './corte-fondo-fijo/gasto/gasto.component';
 import { MorrallaDialogComponent } from './corte-morralla/morralla-dialog/morralla-dialog.component';
 import { MorrallaListComponent } from './corte-morralla/morralla-list/morralla-list.component';
 import { FichasPageComponent } from './fichas-page/fichas-page.component';
+import { FondoFijoEditComponent } from './corte-fondo-fijo/fondo-fijo-edit/fondo-fijo-edit.component';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { FichasPageComponent } from './fichas-page/fichas-page.component';
     MorrallaDialogComponent,
     MorrallaListComponent,
     FichasPageComponent,
+    FondoFijoEditComponent,
   ],
   entryComponents: [
     EfectivoDialogComponent,

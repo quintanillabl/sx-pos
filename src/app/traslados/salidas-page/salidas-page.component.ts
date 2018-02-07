@@ -27,7 +27,7 @@ export class SalidasPageComponent implements OnInit {
   ) {
       
     const obs1 = this.search$.asObservable()
-      .map( term => _.toInteger(term))
+      // .map( term => _.toInteger(term))
       .distinctUntilChanged()
       .debounceTime(300);
 

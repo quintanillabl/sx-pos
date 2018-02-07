@@ -1,6 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Producto } from "@siipapx/models";
+import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+
+import { Producto, Existencia } from "app/models";
+import { ProductoService } from 'app/productos/services/producto.service';
 
 @Component({
   selector: 'sx-prod-selector',
@@ -13,9 +16,17 @@ export class ProdSelectorComponent implements OnInit, OnDestroy {
   activos = new FormControl(true);
   deLinea = new FormControl(true);
 
-  private storeKey = 'sx.product-selector.state';
+  existencias: Existencia[] = [];
 
-  constructor() { }
+  private storeKey = 'sx.product-selector.state';
+  private service: ProductoService
+  
+  constructor(
+    public dialogRef: MdDialogRef<ProdSelectorComponent>,
+    @Inject(MD_DIALOG_DATA) public data: any,
+  ) { 
+    this.service = data.service
+  }
 
   ngOnInit() {
     /*
@@ -31,6 +42,7 @@ export class ProdSelectorComponent implements OnInit, OnDestroy {
 
   onSelection(producto) {
     this.producto = producto;
+    this.buildExistencias();
   }
 
   private stateObject(){
@@ -43,5 +55,25 @@ export class ProdSelectorComponent implements OnInit, OnDestroy {
   get title() {
     return this.producto ? `${this.producto.descripcion} (${this.producto.clave})` : 'Catálogo de productos'
   }
+
+  buildExistencias() {
+    if (this.producto) {
+      this.service
+        .buscarExistencias(this.producto)
+        .subscribe(exis => {
+          this.existencias = exis
+          // this.disponibilidadTotal =  _.sumBy(this.existencias, 'disponible');
+        });
+    }
+  }
+
+  close() {
+    this.dialogRef.close();
+  }
+
+  doAccept() {
+    this.dialogRef.close({});
+  }
+
 
 }

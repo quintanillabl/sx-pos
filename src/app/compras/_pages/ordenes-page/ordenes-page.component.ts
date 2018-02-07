@@ -1,37 +1,119 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from "rxjs/Observable";
-import { Store } from '@ngrx/store';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription } from 'rxjs/Subscription';
 
 import { OrdenesService } from "../../services/ordenes.service";
 import { Compra } from "app/models";
-import * as fromCompras from 'app/compras/store/reducers';
-import { SearchAction } from 'app/compras/store/actions/ordenes.actions';
+import { TdDialogService } from '@covalent/core';
+
 
 @Component({
   selector: 'sx-ordenes-page',
   templateUrl: './ordenes-page.component.html',
   styleUrls: ['./ordenes-page.component.scss']
 })
-export class OrdenesPageComponent implements OnInit {
+export class OrdenesPageComponent implements OnInit, OnDestroy {
 
   ordenes$: Observable<Compra[]>;
-  searchTerm$: Observable<string>;
-  loading$: Observable<boolean>;
-  selected$: Observable<Compra>;
+  ordenes: Compra[] = [];
+  search$ = new BehaviorSubject<string>('');
+  procesando = false;
+  subs: Subscription;
+
+  selectedRows: any[] = [];
+
+  private _pendientes = true;
 
   constructor(
-    private ordenesService: OrdenesService,
-    private store: Store<fromCompras.ComprasState>
-  ) { }
+    private service: OrdenesService,
+    private dialogService: TdDialogService,
+    private router: Router
+  ) { 
+
+    this.ordenes$ = this.search$.debounceTime(300)
+      .switchMap( term => {
+        return this.service.list({term: term, pendientes: this.pendientes})
+        .do( () => this.procesando = true)
+        .delay(100)
+        .catch( error2=> this.handleError(error2))
+        .finally( () => this.procesando = false)
+      });
+
+    this.subs = this.ordenes$
+    .subscribe( ordenes =>  this.ordenes = ordenes);
+  }
 
   ngOnInit() {
-    this.ordenes$ = this.store.select(fromCompras.getPendientes);
-    this.searchTerm$ = this.store.select(fromCompras.getSearchTerm);
-    this.loading$ = this.store.select(fromCompras.getOrdenesLoading);
+    const params =  JSON.parse(localStorage.getItem('ocompra_params')) || {pendientes: true};
+    this._pendientes = params.pendientes;
+    this.load();
   }
 
-  search(folio: string){
-    this.store.dispatch(new SearchAction(folio));
+  ngOnDestroy() {
+    this.subs.unsubscribe();
   }
+
+  search(term: string){
+    this.search$.next(term);
+  }
+
+  load() {
+    this.search$.next('');
+  }
+
+  handleError(ex) {
+    console.error(ex)
+    return Observable.of([]);
+  }
+
+  set pendientes(value) {
+    this._pendientes = value;
+    const params = {pendientes: this._pendientes};
+    localStorage.setItem('ocompra_params', JSON.stringify(params));
+    this.load();
+  }
+
+  get pendientes() {
+    return this._pendientes
+  }
+
+  recibir() {
+    console.log('Generar recepcion de: ', this.pendienteSelected);
+    const selected = this.pendienteSelected
+    if(selected){
+      const dialotRef = this.dialogService.openConfirm({
+        message: 'Generar la recepción automática de la compra: ' + selected.folio,
+        title: 'Recepción de compra',
+        acceptButton: 'Aceptar',
+        cancelButton: 'Cancelar'
+      });
+      dialotRef.afterClosed().subscribe(val => {
+        if (val) {
+          this.procesando = true;
+          console.log('Validar')
+          this.service.recibir(selected)
+          .delay(2000)
+          .finally( () => this.procesando = false)
+          .subscribe( 
+            (res:any) => {
+              if (res === null) {
+                this.load();
+              } else {
+                this.router.navigate(['/compras/recepciones/show', res.id])
+              }
+            },
+            err => console.error(err)
+          )
+        }
+      });
+    }
+  }
+
+  get pendienteSelected() {
+    return this.selectedRows.find( item => item.pendiente);
+  }
+  
 
 }

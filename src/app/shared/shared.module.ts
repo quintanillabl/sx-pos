@@ -40,6 +40,9 @@ import { LogoutComponent } from './_components/logout/logout.component';
 import { SelectorFechaComponent } from './_components/selector-fecha/selector-fecha.component';
 import { OnlyIntegersDirective } from './directives/only-integers.directive';
 import { CancelacionDialogComponent } from 'app/shared/_components/cancelacion-dialog/cancelacion-dialog.component';
+import { ProveedorFieldComponent } from './_fields/proveedor-field/proveedor-field.component';
+import { ProductoProvFieldComponent } from './_fields/producto-prov-field/producto-prov-field.component';
+
 
 
 
@@ -103,7 +106,9 @@ const COMPONENTS: any[] = [
     LogoutComponent,
     SelectorFechaComponent,
     OnlyIntegersDirective,
-    CancelacionDialogComponent
+    CancelacionDialogComponent,
+    ProveedorFieldComponent,
+    ProductoProvFieldComponent
   ],
   exports: [
     ANGULAR_MODULES,
@@ -135,7 +140,9 @@ const COMPONENTS: any[] = [
     SelectorFechaComponent,
     LogoutComponent,
     OnlyIntegersDirective,
-    CancelacionDialogComponent
+    CancelacionDialogComponent,
+    ProveedorFieldComponent,
+    ProductoProvFieldComponent,
   ],
   entryComponents: [SelectorFechaComponent, CancelacionDialogComponent]
 })

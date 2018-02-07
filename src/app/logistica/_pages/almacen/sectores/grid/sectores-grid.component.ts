@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import {Sector} from 'app/logistica/models/sector';
 
@@ -11,9 +11,12 @@ export class SectoresGridComponent implements OnInit {
 
   @Input() sectores: Sector[] = [];
 
+  @Output() print = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
   }
+
 
 }

@@ -4,8 +4,8 @@
 
         <span class="md-title">Alta de devolución de compra</span>
         <span flex></span>
-        <span class="md-title tc-pink-700" *ngIf="recepcionDeCompra">
-            COM: {{recepcionDeCompra.documento }} ({{recepcionDeCompra.proveedor?.nombre}}) 
+        <span class="md-title tc-pink-700">
+           {{form.get('sucursal').value?.nombre}} ({{form.get('fecha').value | date: 'dd/MM/yyyy'}})
         </span>
         <span flex></span> 
         <span>
@@ -19,24 +19,8 @@
     <md-divider></md-divider>
 
     <div  layout layout-margin>
-
-      <md-form-field flex="10">
-        <input type="text" mdInput [value]="sucursal?.nombre" placeholder="Sucursal" [disabled]="true">
-      </md-form-field>
       
-      <md-form-field flex="10">
-        <input type="text" mdInput placeholder="Fecha COM" [disabled]="true" [value]=" fecha | date:'dd/MM/yyyy'">
-      </md-form-field>
-
-      <!-- <md-form-field flex="10">
-        <input type="text" mdInput formControlName="referencia" placeholder="Referencia">
-      </md-form-field>
-
-      <md-form-field flex="10">
-        <input mdInput [mdDatepicker]="picker" placeholder="R. Fecha" formControlName="fechaRemision">
-        <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
-        <md-datepicker #picker></md-datepicker>
-      </md-form-field> -->
+      <sx-proveedor-field formControlName="proveedor" flex></sx-proveedor-field>
 
       <sx-comentario-field flex ="50" [parent]="form" rows="1" ></sx-comentario-field>
     </div>

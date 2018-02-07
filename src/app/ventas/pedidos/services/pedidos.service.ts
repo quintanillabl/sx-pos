@@ -208,6 +208,19 @@ export class PedidosService {
     );
   }
 
+  clientesNuevos(fecha: Date) {
+    const url = this.configService.buildApiUrl('report/clientesNuevos');
+    const params = new HttpParams().set('fecha', fecha.toISOString());
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        responseType: 'blob',
+        params: params
+      }
+    );
+  }
+
   actualizarCfdiEmail(cliente: Cliente, email: string) {
     const endpoint = `clientes/actualizarCfdiMail/${cliente.id}`;
     const url = this.configService.buildApiUrl(endpoint);

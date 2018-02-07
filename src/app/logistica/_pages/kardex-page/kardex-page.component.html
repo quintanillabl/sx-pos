@@ -13,12 +13,12 @@
           <button md-icon-button [mdMenuTriggerFor]="toolbarMenu"><md-icon>more_vert</md-icon></button>
           <md-menu #toolbarMenu="mdMenu">
             <button md-menu-item (click)="runKardex()">
-                <md-icon>format_list_numbered</md-icon>
-                <span>Kardex</span>
+              <md-icon>format_list_numbered</md-icon>
+              <span>Kardex</span>
             </button>
-            <button md-menu-item>
+            <button md-menu-item (click)="recalcular()">
               <md-icon>settings</md-icon>
-              <span>Filtro avanzado</span>
+              <span>Recalcular</span>
             </button>
           </md-menu>
         </span>

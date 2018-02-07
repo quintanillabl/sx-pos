@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
+import * as _ from 'lodash';
 
 import { Compra, Proveedor, Sucursal } from 'app/models';
 import { ConfigService } from 'app/core/services/config.service';
@@ -25,15 +26,11 @@ export class OrdenesService {
     return this.list({pendientes: true, folio: folio})
   }
 
-  list(filtro: {pendientes: boolean, folio?: string} ): Observable<Compra[]> {
-    let params = new HttpParams()
-      .set('sucursal', this.sucursal.id);
-    if (filtro.pendientes) {
-      params = params.set('pendientes','pendientes');
-    }
-    if(filtro.folio) {
-      params = params.set('folio',filtro.folio);
-    }
+  list(filtro): Observable<Compra[]> {
+    let params = new HttpParams().set('sucursal', this.sucursal.id);
+    _.forIn(filtro, (value, key) =>{
+      params = params.set(key,value);
+    });
     return this.http.get<Compra[]>(this.apiUrl,{params: params});
   }
 
@@ -43,8 +40,21 @@ export class OrdenesService {
   }
 
   save(compra: Compra) {
+    compra.sucursal = this.sucursal
     compra.folio = 0;
+    console.log('Salvando compra: ', compra);
+    compra.partidas.forEach( item=> item.sucursal = this.sucursal)
     return this.http.post(this.apiUrl, compra);
+  }
+
+  recibir(compra: Compra) {
+    const url = this.configService.buildApiUrl('compras/recibir/' + compra.id);
+    return this.http.put(url, {});
+  }
+
+  depurar(compra: Compra) {
+    const url = this.configService.buildApiUrl('compras/depurar/' + compra.id);
+    return this.http.put(url, {});
   }
 
   buscarProductos(proveedor: Proveedor){

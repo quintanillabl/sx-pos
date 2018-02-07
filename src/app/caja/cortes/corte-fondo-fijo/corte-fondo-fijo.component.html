@@ -4,8 +4,11 @@
   </md-card-title> -->
   <div layout="row" layout-align="start center" layout-margin >
     <span class="md-title ">Movimientos de fondo fijo </span>
-    <button md-button (click)="cambiarFecha(fecha)" color="primary"> {{fecha | date: 'dd/MM/yyyy'}}</button>
+    <button md-button (click)="cambiarFecha(fecha)" color="primary" [disabled]="pendienteBox.checked"> 
+      {{fecha | date: 'dd/MM/yyyy'}}
+    </button>
     <span flex></span>
+    <md-checkbox [(ngModel)]="pendientes" #pendienteBox>Pendientes</md-checkbox>
     <button md-button type="button" color="primary" (click)="solicitar()"
       [disabled]="hasSelection()">Solicitar
     </button>
@@ -26,14 +29,12 @@
   <md-divider></md-divider>
   <md-card-content class="facturas-panel">
       <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">  
-        <sx-fondo-fijo-list [movimientos]="movimientos" [selectedRows]="selected">
+        <sx-fondo-fijo-list [movimientos]="movimientos" [selectedRows]="selected" (edit)="onEdit($event)">
         </sx-fondo-fijo-list>
       </ng-template>
   </md-card-content>
 
   
 </md-card>
-  
-  
-    
+ 
     

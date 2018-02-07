@@ -19,16 +19,9 @@ import { RecepcionDeCompraDet } from 'app/logistica/models/recepcionDeCompraDet'
 export class SelectorDeComDialogComponent implements OnInit {
 
   sucursal;
+  proveedor;
   form: FormGroup;
-  loading = false;
-  error: any;
-  com: RecepcionDeCompra;
-
-  selected: RecepcionDeCompraDet[] = [];
-
   
-  selectedRows: any[] = [];
-
   constructor(
     public dialogRef: MdDialogRef<SelectorDeComDialogComponent>,
     @Inject(MD_DIALOG_DATA) public data: any,
@@ -36,14 +29,14 @@ export class SelectorDeComDialogComponent implements OnInit {
     private service: DecsService
   ) { 
     this.sucursal = data.sucursal;
-    this.com = data.com;
-    this.selected = data.selected;
+    this.proveedor = data.proveedor;
   }
 
   ngOnInit() {
     this.form = this.fb.group({
-      documento: [null, Validators.required],
       sucursal: [{ value: this.sucursal.id, disabled: true}, Validators.required],
+      producto: [null, Validators.required],
+      cantidad: [null, Validators.required],
     });
   }
 
@@ -52,43 +45,21 @@ export class SelectorDeComDialogComponent implements OnInit {
   }
 
   doAccept() {
+    const provProducto = this.form.get('producto').value;
+    const producto = provProducto.producto;
     const res = {
-      com: this.com,
-      partidas: this.selectedRows
+      cantidad: this.form.get('cantidad').value,
+      producto: {
+        id: producto.id,
+        clave: producto.clave,
+        descripcion: producto.descripcion
+      }
     }
     this.dialogRef.close(res);
   }
-
-  buscarCom() {
-    if(this.form.valid) {
-      this.loading = true;
-      const filtro = Object.assign({}, this.form.getRawValue());
-      this.service.buscarCom(filtro)
-      //.delay(2000)
-      .subscribe(
-        com => this.selectCom(com),
-        response => this.handleError(response));
-    }
-  }
-
-  selectCom(com) {
-    this.com = com;
-    _.each(this.com.partidas, item => {
-      item.disponible = item.cantidad - item.devuelto 
-    })
-    this.error = null;
-    this.loading = false;
-  }
-
-  handleError(response) {
-    console.error('Error buscando COM ', response);
-    if(response.status === 404) {
-      this.error = 'COM  no localizado';
-    } else if (response.message !== null) {
-      this.error = response.message;
-    }
-    this.loading = false;
-  }
+  
+  /*
+  Util para descriminar colecciones
 
   get disponibles() {
     if(this.com === null) return [];
@@ -102,6 +73,6 @@ export class SelectorDeComDialogComponent implements OnInit {
     // console.log('Filtrando con excludes', filtrados);
     return filtrados
   }
-  
+  */
 
 }

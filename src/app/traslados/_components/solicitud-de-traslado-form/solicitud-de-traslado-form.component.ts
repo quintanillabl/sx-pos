@@ -8,7 +8,7 @@ import {SolicitudDeTrasladoDet} from 'app/logistica/models/solicitudDeTrasladoDe
 import {Sucursal} from 'app/models';
 
 import * as _ from 'lodash';
-import {SoldetAddComponent} from '@siipapx/traslados/_components/soldet-add/soldet-add.component';
+import {SoldetAddComponent} from 'app/traslados/_components/soldet-add/soldet-add.component';
 
 export const PartidasValidator = (control: AbstractControl): {[key: string]: boolean} => {
   const partidas = (control.get('partidas') as FormArray).value;

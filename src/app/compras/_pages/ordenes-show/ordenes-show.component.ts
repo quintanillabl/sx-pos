@@ -1,19 +1,15 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from "rxjs/Observable";
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ITdDataTableColumn, TdDialogService, TdLoadingService } from "@covalent/core";
 
-import * as formOrdenes from 'app/compras/store/reducers';
-import * as Compras from 'app/compras/store/actions/ordenes.actions';
 
 import { Compra } from "app/models";
 import { OrdenesService } from 'app/compras/services/ordenes.service';
 
 
-
-const DECIMAL_FORMAT: (v: any) => any = (v: number) => v.toFixed(3);
-const NUMBER_FORMAT: (v: any) => any = (v: number) => v;
+const NUMBER_FORMAT: (v: any) => any = (v: number) => v.toLocaleString('en-us');
 
 @Component({
   selector: 'sx-ordenes-show',
@@ -29,23 +25,29 @@ export class OrdenesShowComponent implements OnInit {
   columns: ITdDataTableColumn[] = [
     { name: 'producto.clave',  label: 'Producto', width: 70 },
     { name: 'producto.descripcion', label: 'Descripcion', width:350},
-    { name: 'solicitado', label: 'Solicitado', width: 70, numeric: true, format: DECIMAL_FORMAT},
-    { name: 'recibido', label: 'Recibido', width: 70, numeric: true, format: DECIMAL_FORMAT},
-    { name: 'comentario', label: 'Comentario', width: 400},
+    { name: 'solicitado', label: 'Solicitado', width: 70, numeric: true, format: NUMBER_FORMAT},
+    { name: 'depurado', label: 'Depurado', width: 70, numeric: true, format: NUMBER_FORMAT},
+    { name: 'recibido', label: 'Recibido', width: 70, numeric: true, format: NUMBER_FORMAT},
+    { name: 'pendiente', label: 'Pendiente', width: 70, numeric: true, format: NUMBER_FORMAT},
+    { name: 'comentario', label: 'Comentario', width: 200},
   ];
 
   constructor(
-    private store: Store<formOrdenes.ComprasState>,
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
     private loadingService: TdLoadingService,
     private router: Router,
+    private route: ActivatedRoute,
     private service: OrdenesService,
     
   ) { }
 
   ngOnInit() {
-    this.orden$ = this.store.select(formOrdenes.getSelectedOrden);
+    this.orden$ = this.route.paramMap
+    .switchMap( params => 
+      this.service
+      .get(params.get('id')).finally( () => this.procesando = false)
+    );
   }
 
   onDelete(compra: Compra) {
@@ -63,6 +65,24 @@ export class OrdenesShowComponent implements OnInit {
       } else {
         
       }
+    });
+  }
+
+  onDepurar(compra: Compra) {
+    this._dialogService.openConfirm({
+      message: 'Depurar toda la compra?',
+      title: 'Depuración ',
+      acceptButton: 'Aceptar',
+      cancelButton: 'Cancelar'
+    }).afterClosed().subscribe( val => {
+      this.service
+        .depurar(compra)
+        .finally( ()=> this.procesando = false)
+        .subscribe( 
+          res => console.log('Compra deuprada: ', res),
+          error => console.error(error)
+        );
+        
     });
   }
 

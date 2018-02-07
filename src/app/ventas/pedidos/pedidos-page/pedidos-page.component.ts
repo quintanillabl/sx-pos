@@ -9,6 +9,8 @@ import * as FileSaver from 'file-saver';
 import * as fromRoot from 'app/reducers';
 import { Sucursal } from 'app/models';
 import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-new-cliente.service';
+import { SelectorFechaComponent } from 'app/shared/_components/selector-fecha/selector-fecha.component';
+import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
 
 @Component({
   selector: 'sx-pedidos-page',
@@ -28,7 +30,14 @@ export class PedidosPageComponent implements OnInit {
     {route: 'traslados', title: 'Traslados', descripcion: 'Devolución de facturas', icon: ''},*/
   ];
 
-  reportes = [];
+  reportes = [
+    {
+      name: 'clientesNuevos',
+      title: 'Clientes nuevos',
+      description: 'Alta de nuevos clientes',
+      icon: 'blur_linear',
+    },
+  ];
 
   constructor(
     private _dialogService: TdDialogService,
@@ -36,6 +45,7 @@ export class PedidosPageComponent implements OnInit {
     public dialog: MdDialog,
     private store: Store<fromRoot.State>,
     private addNewClienteService: AddNewClienteService,
+    private service: PedidosService
   ) { }
 
   ngOnInit() {
@@ -44,6 +54,34 @@ export class PedidosPageComponent implements OnInit {
 
   addNewCliente() {
     this.addNewClienteService.newCliente();
+  }
+
+  runReport(report) {
+    console.log('Ejecutando reporte: ', report);
+    if (report === 'clientesNuevos') {
+      this.clientesNuevos();
+    }
+  }
+
+  
+  clientesNuevos() {
+    const dialogRef = this.dialog.open(SelectorFechaComponent, {
+      data: {}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      if (result) {
+        this.service.clientesNuevos(result)
+          .subscribe(res => {
+            const blob = new Blob([res], {
+              type: 'application/pdf'
+            });
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
+          });
+      }
+    });
+    
   }
 
 

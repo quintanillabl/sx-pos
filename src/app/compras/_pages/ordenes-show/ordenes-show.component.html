@@ -1,5 +1,7 @@
 <sx-nav-layout header="Consulta de compra" modulo="Compras">
-  <div layout *tdLoading="'processing'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
+  <div layout layout-align="center center"
+    *tdLoading="'processing'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
+    
     <ng-container *ngIf="orden$ | async; let orden ">
       <md-card flex="70" >
         <md-card-title>
@@ -20,9 +22,8 @@
         <md-divider></md-divider>
         
         <md-card-content >
-          <td-data-table [data]="orden.partidas" [columns]="columns" [style.height.px]="400">
+          <td-data-table [data]="orden.partidas" [columns]="columns" [style.height.px]="550">
           </td-data-table>
-          <!-- <td-json-formatter [data]="orden.partidas"></td-json-formatter> -->
         </md-card-content>    
         <md-divider></md-divider>
         <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
@@ -31,15 +32,13 @@
             <button md-icon-button mdTooltip="Imprimir documento" (click)="print(orden)">
               <md-icon>print</md-icon>
             </button>
-            <!-- <a md-button color="accent" [routerLink]="['../../edit',orden.id]" *ngIf="orden.pendiente">
-              <md-icon >edit</md-icon> Editar
-            </a> -->
-            <button md-button color="warn" (click)="onDelete(orden)"> <md-icon >delete</md-icon> Eliminar</button>
+
+            <!-- <button md-button color="warn" (click)="onDelete(orden)"> <md-icon >delete</md-icon> Eliminar</button> -->
           </md-card-actions>
         </ng-template>
       </md-card>
       
     </ng-container>
+
   </div>
-  
 </sx-nav-layout>

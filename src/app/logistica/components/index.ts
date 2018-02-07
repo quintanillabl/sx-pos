@@ -15,13 +15,6 @@ export { DevolucionPartidasComponent } from './devolucion-form/partidas/devoluci
 export { SelectorDeVentasDialogComponent } from './devolucion-form/selector-de-ventas/selector-de-ventas-dialog.component';
 export { RmdVentadetGridComponent } from './devolucion-form/selector-de-ventas/venta-det-list/rmdVentadet-grid.component';
 
-// Recepciondes de compra
-export { ComsGridComponent } from './coms-grid/coms-grid.component';
-export { ComdetGridComponent } from './comdet-grid/comdet-grid.component';
-export { ComFormComponent } from './com-form/com-form.component';
-export { SelectorDeCompraDialogComponent } from './com-form/selector-de-compra/selector-de-compra-dialog.component';
-export { ComCompradetGridComponent } from './com-form/selector-de-compra/compradet-gid/comCompradet-grid.component';
-export { ComPartidasComponent } from './com-form/partidas/com-partidas.component';
 
 // Decs
 export { DecsGridComponent } from './decs-grid/decs-grid.component';

@@ -25,7 +25,7 @@
       (delete)="onDelete($event)"
       (edit)="onEditPartida($event)" >
     </sx-pedido-partidas-grid>
-
+    <sx-validation-panel [parent]="form" flex="80"></sx-validation-panel>
   </md-card>
 
   <div flex="20">
@@ -50,4 +50,6 @@
   </div>
 
 </form>
-
+<pre>
+  {{form.errors | json}}
+</pre>

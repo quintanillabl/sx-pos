@@ -1,36 +1,30 @@
-<md-list dense>
+<md-list >
     
     <md-list-item>
       <md-icon md-list-icon>vpn_key</md-icon>
-      <span mdLine>Devolución (DEC)</span>
+      <span mdLine>Proveedor </span>
       
-      <span layout="row" flex="90">
-        <div class=" tc-grey-500" flex="30">Compra </div>
-        <div class=" tc-grey-500" flex="40">Referencia </div>
-        <div class=" tc-grey-500" flex="20">Estatus </div>
-        <div class=" tc-grey-500" flex="10"> <md-icon>more_vert</md-icon></div>
-      </span>
+        <div class=" tc-grey-500" hide-xs hide-sm hide-md flex-gt-xs="60" flex-xs="30" layout-gt-xs="row">
+          Estatus 
+        </div>
+      
     </md-list-item>
     <md-divider></md-divider>
     <td-virtual-scroll-container #virtualScroll [style.height.px]="350" [data]="decs">
       <ng-template let-row="row" let-last="last" tdVirtualScrollRow>
         <md-list-item >
             <button md-icon-button md-list-avatar color="accent"  [routerLink]="['show', row.id]">
-                {{row.documento}}
+              {{row.documento}}
             </button>
-
-            <!-- <md-icon md-list-avatar>apps</md-icon> -->
             <span md-line layout>
-                <span>{{ row.fecha | date:'dd/MM/yyyy'}} {{row.proveedor.nombre}}</span>
+              <span>{{ row.fecha | date:'dd/MM/yyyy'}} {{row.proveedor.nombre}}</span>
             </span>
-            <span md-line> {{row.comentario}} 
-              <!-- <span class="text-sm tc-pink-800">{{row.sucursal.nombre}}</span> -->
-            </span>
+            <span md-line> {{row.comentario}} </span>
             <span flex></span>
-            
             <span hide-xs hide-sm hide-md flex-gt-xs="60" flex-xs="30" layout-gt-xs="row">
-                <div class=" tc-blue-500" flex-gt-xs="50"> {{row.referencia}} ({{row.fechaReferencia | date:'dd/MM/yyyy'}}) </div>
-                <div  [ngClass]="{'tc-pink-500': !row.fechaInventario }" flex-gt-xs="50"> {{ row.fechaInventario ? 'INVENTARIADO' : 'PENDIENTE'}} </div>
+              <div  [ngClass]="{'tc-pink-500': !row.fechaInventario }" flex-gt-xs="50">
+                {{ row.fechaInventario ? 'INVENTARIADO' : 'PENDIENTE'}} 
+              </div>
             </span>
             <span >
               <button md-icon-button [md-menu-trigger-for]="menu"  >

@@ -72,7 +72,7 @@ export class DolaresFormComponent implements OnInit, OnDestroy, OnChanges {
       fecha: [{value: new Date(), disabled: true}, Validators.required],
       cliente: [null, Validators.required],
       nombre: [null],
-      tipo: [{value: 'CRE', disabled: true}, Validators.required],
+      tipo: [{value: 'CRE', disabled: false}, Validators.required],
       formaDePago: ['CHEQUE', Validators.required],
       atencion: ['', Validators.required],
       entrega: ['LOCAL', Validators.required],
@@ -117,7 +117,7 @@ export class DolaresFormComponent implements OnInit, OnDestroy, OnChanges {
       sucursal: [this.sucursal],
       fecha: [{value: new Date(), disabled: true}, Validators.required],
       cliente: [null, Validators.required],
-      tipo: [{value: 'CON', disabled: true}, Validators.required],
+      tipo: [{value: 'CON', disabled: false}, Validators.required],
       atencion: ['MOSTRADOR', Validators.required],
       entrega: ['LOCAL', Validators.required],
       vale: [false, Validators.required],
@@ -169,18 +169,18 @@ export class DolaresFormComponent implements OnInit, OnDestroy, OnChanges {
     this.formaDePagoSubscription = tipo$
       .subscribe( tipo =>  {
         if ( tipo === 'CRE') {
-          this.form.get('formaDePago').disable();
-          this.form.get('formaDePago').setValue('CHEQUE');
+          // this.form.get('formaDePago').disable();
+          // this.form.get('formaDePago').setValue('CHEQUE');
         }
         if ( tipo === 'CON') {
-          this.form.get('formaDePago').enable();
-          this.form.get('formaDePago').setValue('EFECTIVO');
+          // this.form.get('formaDePago').enable();
+          // this.form.get('formaDePago').setValue('EFECTIVO');
         }
       });
   }
 
   onAddNewCliente() {
-    this.addNewCliente.emit();
+    // this.addNewCliente.emit();
   }
 
   onInsertPartida() {

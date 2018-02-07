@@ -93,7 +93,7 @@
       <span class="text-right pad-left text-md" *ngIf="cliente?.credito && cliente?.credito?.postfechado" >
        Cliente con  Postfechado 
       </span>
-      <span *ngIf="parent.get('chequePostFechado').value"> VTA POSFECHADO</span>
+      <span *ngIf="parent.get('chequePostFechado')?.value"> VTA POSFECHADO</span>
       <span class="pad-top-sm pad-bottom-sm tc-pink-800 text-md " *ngIf="isDescuentoEspecial()">
         DESCTO ESPECIAL DEL {{descuentoOriginal | percent}} al {{descuentoNormal | percent}}
       </span>
@@ -106,7 +106,7 @@
       </div>
       <div layout>
         <span class="pad-left pad-right">Creado: </span>
-        <span>{{parent.get('createUser').value}}</span>
+        <span>{{parent.get('createUser')?.value}}</span>
       </div>
       
       <div layout>

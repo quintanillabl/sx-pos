@@ -1,0 +1,54 @@
+<td-data-table
+#dataTable
+[data]="coms"
+[columns]="columns"
+selectable="false"
+multiple="false"
+[(ngModel)]="selectedRows"
+[style.height.px]="600">
+
+<ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
+  <a [routerLink]="['show', row.id]" md-button class="tc-pink-800">
+    {{value}}
+  </a>
+</ng-template>
+
+<ng-template tdDataTableTemplate="fecha" let-value="value">
+  <span>{{ value | date: 'dd/MM/yyyy'}}</span>
+</ng-template>
+
+<ng-template tdDataTableTemplate="compra" let-value="value" let-row="row">
+  <span>{{ value.folio}}</span>
+</ng-template>
+
+<ng-template tdDataTableTemplate="fechaRemision" let-value="value">
+    <span>{{ value | date: 'dd/MM/yyyy'}}</span>
+  </ng-template>
+
+<ng-template tdDataTableTemplate="proveedor" let-value="value" let-row="row">
+  <span class="tc-indigo-700">{{row.proveedor}}</span>
+</ng-template>
+
+<ng-template tdDataTableTemplate="comentario" let-value="value" let-row="row">
+    <span class="">{{value}}</span>
+  </ng-template>
+
+<ng-template tdDataTableTemplate="lastUpdated" let-value="value" let-row="row">
+    <span class="text-md">{{ value | date: 'dd/MM/yyyy HH:mm'}}</span>
+</ng-template>
+
+<ng-template tdDataTableTemplate="updateUser" let-value="value" let-row="row">
+    <span class="text-md" flex>{{ value}}</span>
+</ng-template>
+
+<ng-template tdDataTableTemplate="total" let-value="value" let-row="row">
+  <span class="tc-indigo-800">{{value | currency: 'USD': 1.2-2}}</span>
+</ng-template>
+
+<ng-template tdDataTableTemplate="pendiente" let-value="value" let-row="row">
+  <span class="tc-indigo-800">{{value ? 'P': 'E'}}</span>
+</ng-template>
+
+
+</td-data-table>
+

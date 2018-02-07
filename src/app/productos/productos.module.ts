@@ -2,10 +2,13 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 
 import { SharedModule } from "app/shared/shared.module";
 import { ProductosRoutingModule } from './productos-routing.module';
-import { ProductoService, ProductUtils } from "./services";
+
 import { ProdSelectorButtonComponent } from './_components/prod-selector/prod-selector-button.component';
 import { ProdSelectorComponent } from './_components/prod-selector/prod-selector.component';
 import { ProdFieldComponent } from './_components/prod-field/prod-field.component';
+import { ProductoService } from 'app/productos/services/producto.service';
+import { ProductUtils } from 'app/productos/services/productUtils';
+
 
 
 @NgModule({
@@ -15,6 +18,7 @@ import { ProdFieldComponent } from './_components/prod-field/prod-field.componen
   ],
   declarations: [ProdSelectorButtonComponent, ProdSelectorComponent, ProdFieldComponent],
   exports: [ProdSelectorButtonComponent],
+  providers: [ProductoService, ProductUtils],
   entryComponents: [
     ProdSelectorComponent
   ],

@@ -36,6 +36,7 @@ import { EmbarqueService } from 'app/logistica/services/embarque/embarque.servic
 import { EmbarquesEffects } from 'app/logistica/store/effects/embarques.effects';
 import { KardexService } from 'app/logistica/services/kardex.service';
 import { KardexFormComponent } from './_pages/kardex-page/kardex-form/kardex-form.component';
+import { RecalculoFormComponent } from './_pages/kardex-page/recalculo-form/recalculo-form.component';
 
 
 
@@ -56,9 +57,7 @@ const PAGES =  [
   pages.DevolucionesVentaPageComponent,
   pages.DevolucionesShowPageComponent,
   pages.DevolucionCreatePageComponent,
-  pages.ComsPageComponent,
-  pages.ComsShowPageComponent,
-  pages.ComCreatePageComponent,
+  
   // DECS
   pages.DecsPageComponent,
   pages.DecCreatePageComponent,
@@ -148,12 +147,7 @@ const COMPONENTS = [
   components.SelectorDeVentasDialogComponent,
   components.DevolucionPartidasComponent,
   components.RmdVentadetGridComponent,
-  components.ComsGridComponent,
-  components.ComdetGridComponent,
-  components.ComFormComponent,
-  components.SelectorDeCompraDialogComponent,
-  components.ComCompradetGridComponent,
-  components.ComPartidasComponent,
+  
   // Decs
   components.DecsGridComponent,
   components.DecdetGridComponent,
@@ -191,11 +185,11 @@ const COMPONENTS = [
     ...PAGES,
     ...COMPONENTS,
     KardexFormComponent,
+    RecalculoFormComponent,
   ],
   entryComponents: [
     components.TransformaciondetDialogComponent,
     components.SelectorDeVentasDialogComponent,
-    components.SelectorDeCompraDialogComponent,
     components.SelectorDeComDialogComponent,
     pages.SectorDetDialogComponent,
     pages.ConteoDetDialogComponent,
@@ -205,7 +199,8 @@ const COMPONENTS = [
     pages.EnviodetSelectorDialogComponent,
     pages.EntregaPorChoferComponent,
     pages.SelectorDeEmbarqueComponent,
-    KardexFormComponent
+    KardexFormComponent,
+    RecalculoFormComponent
   ],
   providers: [MovimientosService, TransformacionesService,
     DevolucionesService,

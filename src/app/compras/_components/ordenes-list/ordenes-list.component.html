@@ -1,89 +1,43 @@
-<md-list>  
-  <md-list-item>
-    <md-icon md-list-avatar>apps</md-icon>
-    <span md-line >Compra </span>
-    <span flex></span>
-    <span hide-xs flex="10">Fecha</span>
-    <span hide-xs flex="10">Entrega</span>
-    <span hide-xs flex="10">
-      Modificado
-    </span>
-    <span ><md-icon></md-icon></span>
-  </md-list-item>
-  <td-virtual-scroll-container [style.height.px]="350" [data]="compras" >
-    <ng-template let-compra="row"
-                  let-index="index"
-                  let-first="first"
-                  let-last="last"
-                  let-odd="odd"
-                  let-even="even"
-                  tdVirtualScrollRow>
-      <md-list-item>
-        <md-icon md-list-avatar>apps</md-icon>
-        <span md-line layout>
-          <span flex class="tc-pink-500">{{compra.folio}}</span>
-          <span flex></span>
-          <span flex>{{compra.proveedor}}</span>
-          <span > ({{compra.sucursal}})</span>
-          <span *ngIf="compra.pendiente" class="tc-blue-800"> PENDIENTE </span>
-        </span>
-        <span md-line> {{compra.comentario}}</span>
-        <span flex></span>
-        
-        <span hide-xs flex="10">
-          {{compra.fecha | date: 'dd/MM/yyyy'}}
-        </span>
-        <span hide-xs flex="10" class="text-right md-body-1 tc-grey-500 pad-right">
-          {{compra.entrega | date: 'dd/MM/yyyy'}}
-        </span>
-        <span hide-xs flex="10" class="text-right md-body-1 tc-grey-500 pad-right">
-           {{compra.creadoPor}}
-          </span>
-          <span >
-            <button md-icon-button [md-menu-trigger-for]="menu"  >
-            <md-icon >more_vert</md-icon>
-            </button>
-            <md-menu x-position="before" #menu="mdMenu">
-                <a [routerLink]="['show', compra.id]" md-menu-item [disabled]="false">
-                  <md-icon>info</md-icon> Consultar
-                </a>
-                <a [routerLink]="['edit', compra.id]" md-menu-item [disabled]="true">
-                    <md-icon>edit</md-icon> Editar
-                  </a>
-                <button md-menu-item  [disabled]="true" >
-                  <md-icon >delete</md-icon> Eliminar
-                </button>
-            </md-menu>
-          </span>
-      </md-list-item>
-      <md-divider md-inset *ngIf="!last"></md-divider>
+<td-data-table
+#dataTable
+[data]="compras"
+[columns]="columns"
+selectable="true"
+multiple="false"
+[(ngModel)]="selectedRows"
+[style.height.px]="600">
 
-    </ng-template>
-  </td-virtual-scroll-container>
-</md-list>
-<!--
-<md-list dense>
-  <ng-template let-compra let-last="last" ngFor [ngForOf]="compras">
-    <md-list-item>
-      <md-icon md-list-avatar>apps</md-icon>
-      <h3 md-line>{{compra.proveedor}}</h3>
-      <p md-line>
-        <span class="tc-blue-A700">{{compra.sucursal}}</span>
-        <span> Fecha: {{compra.fecha | date:'dd/MM/yyyy'}}</span>
-        <span> Entrega: {{compra.entrega | date:'dd/MM/yyyy'}}</span>
-      </p>
-
-      <span flex></span>
-      <span>Usuario: {{compra.creadoPor}}</span>
-      <span flex></span>
-      <a md-icon-button [routerLink]="['edit', compra.id]"
-        mdTooltip="Editar compra">
-        <md-icon md-list-icon class="tc-green-700">edit</md-icon>
+<ng-template tdDataTableTemplate="folio" let-value="value" let-row="row">
+    <a [routerLink]="['show', row.id]" md-button class="tc-pink-800">
+        {{value}}
       </a>
-      <span flex></span>
-    </md-list-item>
-    <md-divider md-inset *ngIf="!last"></md-divider>
+</ng-template>
+
+<ng-template tdDataTableTemplate="fecha" let-value="value">
+  <span>{{ value | date: 'dd/MM/yyyy'}}</span>
+</ng-template>
+
+<ng-template tdDataTableTemplate="proveedor" let-value="value" let-row="row">
+  <span class="tc-indigo-700">{{row.proveedor}}</span>
+</ng-template>
+
+<ng-template tdDataTableTemplate="comentario" let-value="value" let-row="row">
+    <span class="">{{value}}</span>
   </ng-template>
 
-</md-list>
--->
+<ng-template tdDataTableTemplate="lastUpdated" let-value="value" let-row="row">
+    <span class="text-md">{{ value | date: 'dd/MM/yyyy HH:mm'}}</span>
+    <span class="text-md" flex>{{ row.updateUser}}</span>
+</ng-template>
+
+<ng-template tdDataTableTemplate="total" let-value="value" let-row="row">
+  <span class="tc-indigo-800">{{value | currency: 'USD': 1.2-2}}</span>
+</ng-template>
+
+<ng-template tdDataTableTemplate="pendiente" let-value="value" let-row="row">
+  <span class="tc-indigo-800">{{value ? 'P': 'E'}}</span>
+</ng-template>
+
+
+</td-data-table>
+

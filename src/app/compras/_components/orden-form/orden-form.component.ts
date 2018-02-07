@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, HostListener 
+} from '@angular/core';
 import { FormBuilder, AbstractControl, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs';
@@ -8,11 +9,6 @@ import * as _ from 'lodash';
 import { Compra, CompraDet, Sucursal } from 'app/models';
 import { ProveedoresService } from 'app/compras/services/proveedores.service';
 import { OrdendetAddDialogComponent } from '../ordendet-add-dialog/ordendet-add-dialog.component';
-
-//ngrx
-import { Store } from '@ngrx/store';
-import * as fromCompras from 'app/compras/store/reducers';
-import { SelectProveedorAction } from 'app/compras/store/actions/ocompra-form.actions';
 
 export const PartidasValidator = (control: AbstractControl): {[key: string]: boolean} => {
   const partidas = (control.get('partidas') as FormArray).value;
@@ -44,7 +40,6 @@ export class OrdenFormComponent implements OnInit, OnDestroy {
     private service: ProveedoresService,
     public dialog: MdDialog,
     private cd: ChangeDetectorRef,
-    private store: Store<fromCompras.ComprasState>
   ) { }
 
   ngOnInit() {
@@ -139,6 +134,17 @@ export class OrdenFormComponent implements OnInit, OnDestroy {
   
   disableAddPartidas() {
     return this.proveedor === null
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    // console.log(event);
+    if (event.ctrlKey && event.code === 'KeyI' ) {
+      this.insertar();
+    }
+    if (event.code === 'Insert') {
+      this.insertar();
+    }
   }
 
 }

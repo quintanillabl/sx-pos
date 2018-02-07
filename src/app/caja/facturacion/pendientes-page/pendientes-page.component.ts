@@ -15,7 +15,7 @@ export class PendientesPageComponent implements OnInit {
     { name: 'documento',  label: 'Folio', numeric: true, width: 20},
     { name: 'fecha',  label: 'Fecha', width: 50},
     { name: 'nombre',  label: 'Cliente', width: 400},
-    { name: 'formaDePago',  label: 'F.Pago', width: 30},
+    { name: 'formaDePago',  label: 'F.Pago', width: 100},
     { name: 'total',  label: 'Total', width: 20},
     { name: 'updateUser', label: 'Vendedor', width: 20},
     { name: 'facturar', label: 'Solicitado', width: 100},
@@ -79,6 +79,10 @@ export class PendientesPageComponent implements OnInit {
         return 'TAR_CRE'
       case 'TRANSFERENCIA':
         return 'TRANS'
+      case 'DEPOSITO_EFECTIVO':
+        return 'DEP_EFE'
+      case 'DEPOSITO_CHEQUE':
+        return 'DEP_CHE'
       default:
         return row.formaDePago;
 
