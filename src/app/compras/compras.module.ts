@@ -42,10 +42,9 @@ const PAGES  = [
 const COMPONENTS  = [
   components.OrdenFormComponent,
   components.OrdenPartidasListComponent,
-  components.ProveedorFieldComponent,
   components.OrdenAddPartidaBtnComponent,
   components.OrdendetAddDialogComponent,
-  components.ProductoProvFieldComponent,
+  // components.ProductoProvFieldComponent,
   OrdenesListComponent,
 ];
 

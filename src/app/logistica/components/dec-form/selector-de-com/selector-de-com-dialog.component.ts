@@ -19,8 +19,12 @@ import { RecepcionDeCompraDet } from 'app/logistica/models/recepcionDeCompraDet'
 export class SelectorDeComDialogComponent implements OnInit {
 
   sucursal;
+
   proveedor;
+
   form: FormGroup;
+
+  selected = [];
   
   constructor(
     public dialogRef: MdDialogRef<SelectorDeComDialogComponent>,
