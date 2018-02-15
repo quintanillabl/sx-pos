@@ -16,8 +16,8 @@ export  class GlobalErrorHandler implements ErrorHandler {
 
     const store = this.injector.get(Store);
     if (error instanceof HttpErrorResponse && error.status === 401) {
-      console.log('SX-Error handler HttpErrorResponse: ', error.status);
-      console.log('Store: ', store);
+      console.log('SX HttpErrorResponse: ', error.status);
+      // console.log('Store: ', store);
       store.dispatch(new auth.LoginRedirect({}))
     } else {
       console.log('SX-Error handler:', error);

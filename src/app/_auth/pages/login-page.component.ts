@@ -46,7 +46,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   onLogin($event: Authenticate) {
-    $event.returnUrl = this.returnUrl;
+    // $event.returnUrl = this.returnUrl;
     this.store.dispatch(new Auth.Login($event));
   }
 

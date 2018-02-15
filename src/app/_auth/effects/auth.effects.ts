@@ -63,7 +63,8 @@ export class AuthEffects {
     .do(authed => {
       const state = this.router.routerState.snapshot;
       localStorage.removeItem('auth');
-      this.router.navigate(['/login'],  { queryParams: { returnUrl: state.url }});
+      // this.router.navigate(['/login'],  { queryParams: { returnUrl: state.url }});
+      this.router.navigate(['/login']);
     });
 
   /**
