@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import { Existencia, Producto, Sucursal } from 'app/models';
 import { ConfigService } from 'app/core/services/config.service';
@@ -22,6 +22,20 @@ export class ExistenciasService {
     // console.log(`Buscando existencias del producto ${producto.clave} para el ${month} - ${year}`);
     // console.log('URL: ', url);
     return this.http.get<Existencia[]>(url);
+  }
+
+  reporteDeDiscrepancias() {
+    const url = `${this.apiUrl}/reporteDeDiscrepancias`;
+    const params = new HttpParams()
+      .set('SUCURSAL', this.config.getCurrentSucursal().id);
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        params: params,
+        responseType: 'blob'
+      }
+    );
   }
 
 

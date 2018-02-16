@@ -19,15 +19,8 @@
             <span md-line layout>
                 <span>{{ row.fecha | date:'dd/MM/yyyy'}}</span>
             </span>
-            <span md-line> {{row.comentario}} 
-                <span class="text-sm tc-pink-800">{{row.sucursal.nombre}}</span>
-            </span>
-
-            <!-- <md-icon md-list-avatar>apps</md-icon>
-            <h3 md-line> {{row.tipo}} - {{row.documento}}
-              <span class="text-md tc-pink-800"> {{row.sucursal.nombre}}</span>
-            </h3>
-            <p md-line> {{row.comentario}} <span *ngIf="row.porInventario"> INVENTARIO </span></p> -->
+            <span md-line> {{row.comentario}} </span>
+           
             <span flex></span>
             <span flex="60" layout-gt-xs="row">
                 <div class=" tc-grey-500" flex-gt-xs="50"> {{ row.fecha | date:'dd/MM/yyyy'}} </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'sx-sector-form-partidas',
@@ -27,6 +28,6 @@ export class SectorFormPartidasComponent implements OnInit {
 
   modificar( row, value) {
     console.log(`Aignando ${value} a ${row.producto.clave}`)
-    row.indice = value;
+    row.indice = _.toNumber(value);
   }
 }

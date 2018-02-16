@@ -78,11 +78,13 @@ export class TransformacionFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
 
       if(result) {
+        
         let index = this.partidas.length + 1;
         const salida = Object.assign({} , result.salida);
         salida.cantidad = salida.cantidad * - 1;
         salida.cortes = result.cortes;
         salida.cortesInstruccion = result.instruccion;
+        salida.comentario = result.comentario;
         salida.index = index;
         salida.sw2 = index;
   
@@ -90,6 +92,7 @@ export class TransformacionFormComponent implements OnInit {
         salida.cantidad = salida.cantidad * 1;
         entrada.index = index;
         entrada.sw2 = index;
+        entrada.comentario = result.comentario;
   
         this.partidas.push(new FormControl(salida));
         this.partidas.push(new FormControl(entrada));

@@ -22,13 +22,12 @@ export class MovimientosService {
       this.apiUrl = configService.buildApiUrl('inventario/movimientos');
      }
 
-  list(documento = null, comentario = null): Observable<Movimiento[]> {
-    let params = new HttpParams().set('sucursal', this.sucursal.id);
-    if (documento) {
-      params = params.set('documento', documento)
-    } if(comentario) {
-      params = params.set('comentario', comentario)
-    }
+  list(term = null, comentario = null): Observable<Movimiento[]> {
+    let params = new HttpParams()
+    .set('sucursal', this.sucursal.id);
+    if (term) {
+      params = params.set('term', term)
+    } 
     return this.http.get<Movimiento[]>(this.apiUrl, {params: params});
   }
 
@@ -62,6 +61,20 @@ export class MovimientosService {
     const url = `${this.apiUrl}/print`;
     const params = new HttpParams()
       .set('ID', id);
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        params: params,
+        responseType: 'blob'
+      }
+    );
+  }
+
+  reporteDeDiscrepancias() {
+    const url = this.configService.buildApiUrl(`existencias/reporteDeDiscrepancias`);
+    const params = new HttpParams()
+      .set('SUCURSAL', this.configService.getCurrentSucursal().id);
     const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
     return this.http.get(
       url, {

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
+import { MovimientosService } from 'app/logistica/services/movimientos/movimientos.service';
+
 @Component({
   selector: 'sx-inventarios-page',
   templateUrl: './inventarios-page.component.html',
-  styleUrls: ['./inventarios-page.component.scss']
+  styles: ['']
 })
 export class InventariosPageComponent implements OnInit {
 
@@ -15,10 +17,35 @@ export class InventariosPageComponent implements OnInit {
     {route: 'kardex', title: 'Kardex', descripcion: 'Kardex de productos', icon: 'layers'},
     {route: 'existencias', title: 'Existencias', icon: 'layers'},
   ];
+  reportes = [
+    {
+      name: 'discrepancias',
+      title: 'Discrepancias',
+      description: 'Discrepancias',
+      icon: 'blur_linear',
+    },
+  ]
 
-  constructor() { }
+  constructor(private service: MovimientosService) { }
 
   ngOnInit() {
+  }
+
+  runReport(report) {
+    if (report === 'discrepancias') {
+      this.reporteDeDiscrepancias();
+    }
+  }
+
+  reporteDeDiscrepancias() {
+    this.service.reporteDeDiscrepancias()
+      .subscribe(res => {
+        const blob = new Blob([res], {
+          type: 'application/pdf'
+        });
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      });
   }
 
 }

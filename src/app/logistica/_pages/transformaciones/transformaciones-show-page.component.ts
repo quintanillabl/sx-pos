@@ -6,7 +6,6 @@ import { TdDialogService } from '@covalent/core';
 import { Transformacion } from "app/logistica/models/transformacion";
 import { TransformacionesService } from "app/logistica/services/transformaciones/transformaciones.service";
 import { ITdDataTableColumn } from "@covalent/core";
-import * as FileSaver from 'file-saver'; 
 
 const DECIMAL_FORMAT: (v: any) => any = (v: number) => v.toFixed(3);
 const NUMBER_FORMAT: (v: any) => any = (v: number) => v;
@@ -41,16 +40,18 @@ const NUMBER_FORMAT: (v: any) => any = (v: number) => v;
           <md-divider></md-divider>
           <td-data-table [data]="trs.partidas" [columns]="columns">
           </td-data-table>
-          <md-card-actions>
-            <a md-button [routerLink]="['../../']" ><md-icon>keyboard_backspace</md-icon> Regresar </a>
-            <button md-icon-button mdTooltip="Imprimir documento" (click)="print(trs)"><md-icon>print</md-icon></button>
-            <button md-button color="accent" *ngIf="trs.fechaInventario === undefined"
-              mdTooltip="Mandar al inventario" (click)="inventariar(trs)">  
-            <md-icon >send</md-icon> Mandar al inventario</button>
-            <button md-button color="warn" 
-              *ngIf="trs.fechaInventario == null"
-              mdTooltip="Eliminar documento" (click)="onDelete(trs)" >  <md-icon >delete</md-icon> Eliminar</button>
-          </md-card-actions>
+          <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
+            <md-card-actions >
+              <a md-button [routerLink]="['../../']" ><md-icon>keyboard_backspace</md-icon> Regresar </a>
+              <button md-icon-button mdTooltip="Imprimir documento" (click)="print(trs)"><md-icon>print</md-icon></button>
+              <button md-button color="accent" *ngIf="trs.fechaInventario === undefined"
+                mdTooltip="Mandar al inventario" (click)="inventariar(trs)">  
+              <md-icon >send</md-icon> Mandar al inventario</button>
+              <button md-button color="warn" 
+                *ngIf="trs.fechaInventario == null"
+                mdTooltip="Eliminar documento" (click)="onDelete(trs)" >  <md-icon >delete</md-icon> Eliminar</button>
+            </md-card-actions>
+          </ng-template>
         </md-card>
       </ng-container>
       
@@ -61,6 +62,8 @@ const NUMBER_FORMAT: (v: any) => any = (v: number) => v;
 export class TransformacionesShowPageComponent implements OnInit {
 
   transformacion$: Observable<Transformacion>;
+
+  procesando = false;
 
   columns: ITdDataTableColumn[] = [
     { name: 'producto.clave',  label: 'Producto', width: 50 },
@@ -109,19 +112,21 @@ export class TransformacionesShowPageComponent implements OnInit {
 
   print(trs: Transformacion) {
     this.service.print(trs.id)
+    .finally (() => this.procesando = false)
     .subscribe(res => {
-      let blob = new Blob([res], { 
-        type: 'application/pdf' 
+      const blob = new Blob([res], {
+        type: 'application/pdf'
       });
-      let filename = `trs_${trs.tipo}_${trs.documento}.pdf`;
-      FileSaver.saveAs(blob, filename);
-    });
+      const fileURL = window.URL.createObjectURL(blob);
+      window.open(fileURL, '_blank');
+    }, error2 => console.error(error2));
   }
 
 
   doDelete(trs: Transformacion) {
     this.service
     .delete(trs.id)
+    .finally (() => this.procesando = false)
     .subscribe(() => {
       console.log('Delete success');
       this.router.navigate(['/logistica/inventarios/transformaciones']);

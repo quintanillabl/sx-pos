@@ -33,7 +33,8 @@ export class SectorDetDialogComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.form = this.fb.group({
       sucursal: [{ value: this.sucursal, disabled: true}, Validators.required],
-      existencia: [null, Validators.required],
+      // existencia: [null, Validators.required],
+      producto: [null, Validators.required],
       indice: [0, Validators.required],
       comentario: [null, [ Validators.maxLength(100)]]
     });

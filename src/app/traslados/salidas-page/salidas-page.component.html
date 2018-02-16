@@ -2,11 +2,12 @@
   <md-card flex>
     <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
       <span  class="push-left-sm" flex>
-          <span class="md-title">Salidas de traslados (TPSs)</span>
+          <span class="md-title">Salidas de traslados (TPS)</span>
       </span>
       <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" 
         placeholder="Documento " (searchDebounce)="search($event)" flex>
       </td-search-box>
+      <md-checkbox [(ngModel)]="pendientes">Pendientes</md-checkbox>
       <span >
         <button md-icon-button [md-menu-trigger-for]="menu"  >
         <md-icon >more_vert</md-icon>
@@ -21,8 +22,10 @@
 
     <md-card-content>
       <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
-        <sx-tps-list [salidas]="traslados$ | async" (print)="print($event)">
-        </sx-tps-list>
+        <ng-container *ngIf="traslados$ | async as traslados"> 
+            <sx-tps-list [data]="traslados" (print)="print($event)">
+              </sx-tps-list>
+        </ng-container>
       </ng-template>
     </md-card-content>
   </md-card>

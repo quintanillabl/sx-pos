@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { Transformacion } from "app/logistica/models/transformacion";
 import { TransformacionesService } from "app/logistica/services/transformaciones/transformaciones.service";
@@ -9,29 +8,38 @@ import { TransformacionesService } from "app/logistica/services/transformaciones
 @Component({
   selector: 'sx-transformaciones-page',
   templateUrl: './transformaciones-page.component.html',
-  styleUrls: ['./transformaciones-page.component.scss']
+  styles: []
 })
 export class TransformacionesPageComponent implements OnInit {
-
-  selected: Transformacion = undefined;
-  search$ = new BehaviorSubject('');
-  movimientos$: Observable<Transformacion[]>;
+  
+  transformaciones$: Observable<any>;
+  term = '';
+  processing = false;
 
   constructor(
     private service: TransformacionesService
   ) { }
 
   ngOnInit() {
-    this.movimientos$ = this.search$
-      .debounceTime(300)
-      .startWith('%')
-      .do( term => console.log('Buscando transformaciones', term))
-      .distinctUntilChanged()
-      .switchMap( term => this.service.list(term))
+    this.load();
   }
 
-  onSelect(row) {
-    this.selected = row;
+  load(){
+    this.processing = true;
+    this.transformaciones$ = this.service
+    .list(this.term)
+    .catch(error => this.handleError(error))
+    .finally( () => this.processing = false);
+  }
+
+  search(term){
+    this.term = term;
+    this.load();
+  }
+
+  handleError(err) {
+    console.log(err);
+    return Observable.empty();
   }
 
 }

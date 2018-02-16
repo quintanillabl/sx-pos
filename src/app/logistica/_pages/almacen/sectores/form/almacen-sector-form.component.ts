@@ -117,7 +117,7 @@ export class AlmacenSectorFormComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         const det = {
-          producto: result.existencia.producto,
+          producto: result.producto,
           comentario: result.comentario,
           cantidad: 0,
           indice: result.indice,

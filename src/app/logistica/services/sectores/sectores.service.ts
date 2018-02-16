@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import * as _ from 'lodash';
 
 import {Sector} from 'app/logistica/models/sector';
 import { Sucursal } from 'app/models';
@@ -34,12 +35,13 @@ export class SectoresService {
     return this.http.get<Sector[]>(this.apiUrl, {params: params})
   }
 
-  list(documento?: string ): Observable<Sector[]> {
-    let params = new HttpParams().set('sucursal', this.sucursal.id);
-    if (documento) {
-      params =  params.set('documento', documento);
-    }
-    return this.http.get<Sector[]>(this.apiUrl, {params: params})
+  list(filtro: any = {} ): Observable<Sector[]> {
+    let params = new HttpParams()
+      .set('sucursal', this.sucursal.id);
+    _.forIn(filtro, (value, key) => {
+      params = params.set(key, value);
+    });
+    return this.http.get<Sector[]>(this.apiUrl, {params: params}).shareReplay();
   }
 
   save(sol: Sector) {
@@ -58,6 +60,17 @@ export class SectoresService {
 
   print(sectorId: string) {
     const url = `${this.apiUrl}/print/${sectorId}`;
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        responseType: 'blob'
+      }
+    );
+  }
+
+  productosSinSector() {
+    const url = `${this.apiUrl}/productosSinSector`;
     const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
     return this.http.get(
       url, {

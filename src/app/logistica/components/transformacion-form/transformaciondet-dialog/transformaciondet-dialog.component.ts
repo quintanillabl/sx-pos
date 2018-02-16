@@ -62,6 +62,7 @@ export class TransformaciondetDialogComponent implements OnInit, OnChanges, OnDe
       entrada: [null, [Validators.required, Validators.min(1)]],
       cortes: [0],
       instruccion: ['', Validators.maxLength(100)],
+      comentario: [null],
       autorizacion: this.fb.group({
         clave: [{value:'', disabled: true}],
         usuario: [{value:'', disabled: true}],
@@ -90,12 +91,13 @@ export class TransformaciondetDialogComponent implements OnInit, OnChanges, OnDe
 
   private prepareEntity() {
     const data = this.form.getRawValue();
-    // console.log('Partida: ', data);
+    console.log('Partida: ', data);
     const trs = {
       salida: {producto: data.origen.producto,  cantidad: data.salida},
       entrada: {producto: data.destino.producto,  cantidad: data.entrada},
       cortes: data.cortes,
-      instruccion: data.instruccion
+      instruccion: data.instruccion,
+      comentario: data.comentario
     };
     return trs;
   }
@@ -116,7 +118,7 @@ export class TransformaciondetDialogComponent implements OnInit, OnChanges, OnDe
         if(salen && entran) {
           
           if(salen !== entran){
-            console.log(`Salen: ${salen}  Entran:${entran}  ERROR`);
+            // console.log(`Salen: ${salen}  Entran:${entran}  ERROR`);
             control.get('entrada').setErrors({cantidadRecIncorrecta: true});
           }
         }
@@ -125,9 +127,8 @@ export class TransformaciondetDialogComponent implements OnInit, OnChanges, OnDe
       const disponible = control.get('disponible').value;
       if(salida && disponible) {
         if(salida > disponible){
-          console.log(`Salida: ${salida}  Disponible:${disponible}  ERROR`);
-          control.get('salida').setErrors({sinDisponibleSuficiente: true});
-          // return {sinDisponibleSuficiente: true};
+          // console.log(`Salida: ${salida}  Disponible:${disponible}  ERROR`);
+          // control.get('salida').setErrors({sinDisponibleSuficiente: true});
         }
       }
       return null;

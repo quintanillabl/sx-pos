@@ -28,11 +28,10 @@ export class TransformacionesService {
     .shareReplay();
   }
 
-  list(documento = null, comentario = null): Observable<Transformacion[]> {
-    let params = new HttpParams().set('sucursal', this.sucursal.id);
-    if (documento) {
-      params = params.set('documento', documento)
-    }
+  list(term: string = ''): Observable<Transformacion[]> {
+    const params = new HttpParams()
+    .set('sucursal', this.sucursal.id)
+    .set('term', term);
     return this.http.get<Transformacion[]>(this.apiUrl, {params: params})
       .shareReplay();
   }

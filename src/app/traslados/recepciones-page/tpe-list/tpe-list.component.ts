@@ -11,6 +11,7 @@ export class TpeListComponent implements OnInit {
 
   columns: ITdDataTableColumn[] = [
     { name: 'documento',  label: 'TPE', sortable: true, width: 20 },
+    // { name: 'tipo',  label: 'TPE', sortable: true, width: 20 },
     { name: 'fecha', label: 'Fecha', filter: true, width: 100 },
     { name: 'comentario', label: 'Comentario', hidden: false, width: 300},
     { name: 'solicitudDeTraslado.sucursalAtiende.nombre', label: 'Atiende', hidden: false, width: 150, numeric: false, nested: true},
@@ -28,7 +29,7 @@ export class TpeListComponent implements OnInit {
   fromRow: number = 1;
   currentPage: number = 1;
   pageSize: number = 50;
-  sortBy: string = 'documento';
+  sortBy: string = '';
   selectable = false;
   selectedRows: any[] = [];
   sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;

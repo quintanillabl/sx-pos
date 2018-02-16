@@ -37,6 +37,11 @@ import { EmbarquesEffects } from 'app/logistica/store/effects/embarques.effects'
 import { KardexService } from 'app/logistica/services/kardex.service';
 import { KardexFormComponent } from './_pages/kardex-page/kardex-form/kardex-form.component';
 import { RecalculoFormComponent } from './_pages/kardex-page/recalculo-form/recalculo-form.component';
+import { Existencia2Service } from './services/existencias2.service';
+import { ExistenciasListComponent } from './components/existencias-list/existencias-list.component';
+import { ExistenciaEditComponent } from './_pages/existencia-edit/existencia-edit.component';
+import { ExistenciaResolve } from '@siipapx/logistica/_pages/existencia-edit/existencia.resover';
+import { ExistenciaFormComponent } from './components/existencia-form/existencia-form.component';
 
 
 
@@ -186,6 +191,9 @@ const COMPONENTS = [
     ...COMPONENTS,
     KardexFormComponent,
     RecalculoFormComponent,
+    ExistenciasListComponent,
+    ExistenciaEditComponent,
+    ExistenciaFormComponent,
   ],
   entryComponents: [
     components.TransformaciondetDialogComponent,
@@ -200,7 +208,8 @@ const COMPONENTS = [
     pages.EntregaPorChoferComponent,
     pages.SelectorDeEmbarqueComponent,
     KardexFormComponent,
-    RecalculoFormComponent
+    RecalculoFormComponent,
+    ExistenciaFormComponent
   ],
   providers: [MovimientosService, TransformacionesService,
     DevolucionesService,
@@ -214,6 +223,8 @@ const COMPONENTS = [
     TransportesService,
     EmbarqueService,
     KardexService,
+    Existencia2Service,
+    ExistenciaResolve
   ]
 })
 export class LogisticaModule { }

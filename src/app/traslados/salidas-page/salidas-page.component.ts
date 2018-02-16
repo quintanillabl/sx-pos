@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subject } from 'rxjs/Subject';
+
 import * as _ from 'lodash';
 
 import { Traslado } from 'app/logistica/models/traslado';
@@ -14,58 +13,56 @@ import { TrasladosService } from 'app/traslados/services/traslados.service';
 })
 export class SalidasPageComponent implements OnInit {
 
-  traslados$: Observable<Traslado[]>;
-  
-  search$ = new BehaviorSubject<string>('');
-  
-  reload$ = new Subject<boolean>();
-
+  traslados$: Observable<any>;
   procesando = false;
+  term = ''
+  _pendientes = false;
   
   constructor(
     private service: TrasladosService
-  ) {
-      
-    const obs1 = this.search$.asObservable()
-      // .map( term => _.toInteger(term))
-      .distinctUntilChanged()
-      .debounceTime(300);
-
-    const obs2 = this.reload$.asObservable().startWith(true)
-    
-    this.traslados$ = Observable.combineLatest(obs1, obs2, (term, reload) => {
-      return term ? term : null;
-    }).switchMap( documento => this.service
-      .list('TPS', documento)
-      .do( () => this.procesando = true)
-      .delay(300)
-      // .do( data => console.log('Rows: ', data))
-      .finally( () => this.procesando = false));
+  ) {}
+  
+  ngOnInit() {
+    this.load();
   }
   
-    ngOnInit() {
-      this.load();
-    }
+  load() {
+    this.traslados$ = this.service
+    .list({tipo: 'TPS', term: this.term, pendientes: this.pendientes})
+    .finally( () => this.procesando = false)
+    .catch( err => this.handleError(err))
+  }
+
+  search(term: string) {
+    this.term = term;
+    this.load();
+  }
   
-    load() {
-      this.reload$.next(true);
-    }
-  
-    search(term: string) {
-      this.search$.next(term);
-    }
-  
-    print(tps: Traslado) {
-      this.procesando = true;
-      this.service.print(tps)
-        .finally( () => this.procesando = false)
-        .subscribe(res => {
-          const blob = new Blob([res], {
-            type: 'application/pdf'
-          });
-          const fileURL = window.URL.createObjectURL(blob);
-          window.open(fileURL, '_blank');
-        }, error2 => console.error(error2));
-    }
+  print(tps: Traslado) {
+    this.procesando = true;
+    this.service.print(tps)
+      .finally( () => this.procesando = false)
+      .subscribe(res => {
+        const blob = new Blob([res], {
+          type: 'application/pdf'
+        });
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      }, error2 => console.error(error2));
+  }
+
+  handleError(err) {
+    console.log(err)
+    return Observable.empty();
+  }
+
+  set pendientes(val) {
+    this._pendientes = val;
+    this.load();
+  }
+
+  get pendientes() {
+    return this._pendientes
+  }
 
 }

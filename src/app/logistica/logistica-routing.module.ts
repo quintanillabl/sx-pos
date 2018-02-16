@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import * as pages from './_pages/';
+import { ExistenciaEditComponent } from './_pages/existencia-edit/existencia-edit.component';
+import { ExistenciaResolve } from './_pages/existencia-edit/existencia.resover';
 
 const routes: Routes = [
   {
@@ -18,6 +20,7 @@ const routes: Routes = [
           { path: 'movimientos/create', component: pages.MovimientosCreateComponent},
           { path: 'movimientos/show/:id', component: pages.MovimientosShowComponent},
           { path: 'existencias', component: pages.ExistenciasPageComponent},
+          { path: 'existencias/edit/:id', component: ExistenciaEditComponent, resolve: {existencia: ExistenciaResolve}},
           { path: 'transformaciones', component: pages.TransformacionesPageComponent},
           { path: 'transformaciones/create', component: pages.TransformacionesCreatePageComponent},
           { path: 'transformaciones/show/:id', component: pages.TransformacionesShowPageComponent},

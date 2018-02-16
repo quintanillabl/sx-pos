@@ -9,15 +9,15 @@
       </span>
       
       <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" 
-        placeholder="Documento " (searchDebounce)="search$.next($event)" flex>
+        placeholder="Documento " (searchDebounce)="search($event)" flex>
       </td-search-box>
 
       <span>
         <button md-icon-button [mdMenuTriggerFor]="toolbarMenu"><md-icon>more_vert</md-icon></button>
         <md-menu #toolbarMenu="mdMenu">
-          <button md-menu-item>
-            <md-icon>settings</md-icon>
-            <span>Filtro avanzado</span>
+          <button md-menu-item (click)="load()">
+            <md-icon>refresh</md-icon>
+            <span>Cargar</span>
           </button>
         </md-menu>
       </span>
@@ -26,8 +26,9 @@
 
     <md-divider></md-divider>
     <md-card-content class="will-load">
-      <sx-movimientos-list [movimientos]="movimientos$ | async" (selection)="onSelect($event)">
-      </sx-movimientos-list>
+      <ng-container *ngIf="movimientos$ | async as movimientos">
+          <sx-movimientos-list [movimientos]="movimientos" (selection)="onSelect($event)"></sx-movimientos-list>
+      </ng-container>
     </md-card-content>
   </md-card>
     

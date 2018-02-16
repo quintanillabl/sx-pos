@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { TdDialogService } from '@covalent/core';
+import { SectoresService } from '@siipapx/logistica/services/sectores/sectores.service';
 
 @Component({
   selector: 'sx-almacen-page',
@@ -41,12 +42,20 @@ export class AlmacenPageComponent implements OnInit {
       description: '',
       icon: 'blur_linear',
       action: 'reporteDeValidacion()'
+    },
+    {
+      name: 'productosSinSector',
+      title: 'Prods sin sector',
+      description: '',
+      icon: 'blur_linear',
+      action: 'reporteProductosSinSector()'
     }
   ];
 
   constructor(
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
+    private service: SectoresService,
   ) { }
 
   ngOnInit() {
@@ -57,11 +66,19 @@ export class AlmacenPageComponent implements OnInit {
   }
 
   runReport(report) {
-    this._dialogService.openAlert({
-      message: 'La impresión de este documento está en desarrollo',
-      viewContainerRef: this._viewContainerRef, 
-      title: 'Impresíon de reporte: ' + report, 
-      closeButton: 'Cancelar', 
+    if (report === 'productosSinSector') {
+      this.reporteProductosSinSector();
+    }
+  }
+
+  reporteProductosSinSector() {
+    this.service.productosSinSector()
+    .subscribe(res => {
+      const blob = new Blob([res], {
+        type: 'application/pdf'
+      });
+      const fileURL = window.URL.createObjectURL(blob);
+      window.open(fileURL, '_blank');
     });
   }
 

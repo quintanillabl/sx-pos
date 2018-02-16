@@ -3,7 +3,8 @@
   <h3 md-dialog-title>Partida de  {{tipo}} {{sucursal.nombre}}</h3>
   <md-dialog-content layout="column" class="det-form">
     <div layout >
-      <sx-existencia-field formControlName="origen" flex  placeholder="Origen" [sucursal]="sucursal"></sx-existencia-field>
+      <sx-existencia-field [conExistencia]="false"
+        formControlName="origen" flex  placeholder="Origen" [sucursal]="sucursal"></sx-existencia-field>
     </div>
     <div layout >
       <md-form-field hintLabel="Esistencia actual del producto a transformar" flex>
@@ -52,6 +53,9 @@
       <md-form-field flex>
         <input type="text" mdInput placeholder="Usuario" formControlName="usuario">
       </md-form-field>
+    </div>
+    <div layout>
+      <sx-comentario-field [parent]="form" flex></sx-comentario-field>
     </div>
 
   </md-dialog-content>

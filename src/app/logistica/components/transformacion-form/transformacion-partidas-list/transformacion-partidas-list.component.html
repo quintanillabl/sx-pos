@@ -13,7 +13,7 @@
             <p mdLine *ngIf="item.cortes">Cortes: {{item.cortes}} Instrucción: {{item.cortesInstruccion}}</p>
             <span hide-xs hide-sm hide-md flex-gt-xs="80" flex-xs="40" layout-gt-xs="row">
               <div class="" flex-gt-xs="20" [ngClass]="{'tc-pink-600':item.cantidad < 0 }"> {{item.cantidad | number: '1.3-3'}} </div>
-              <abbr class="" flex-gt-xs="60"> Comentario </abbr>
+              <abbr class="" flex-gt-xs="60"> {{item.comentario}} </abbr>
               <button md-icon-button color="primary" *ngIf="item.cortes>0" (click)="mostrarCortes(item)">
                 <md-icon>content_cut</md-icon>
               </button>

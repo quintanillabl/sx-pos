@@ -17,8 +17,6 @@ export class SectoresPageComponent implements OnInit {
 
   sectores$: Observable<Sector[]>;
 
-  loading$: Observable<boolean>;
-
   procesando = false;
 
   constructor(
@@ -29,19 +27,18 @@ export class SectoresPageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.sectores$ = this.store
-      .select(fromRoot.getSectores)
-      .shareReplay();
-    this.loading$ = this.store.select(fromRoot.getSectoresLoading);
     this.load();
   }
 
-  search(folio: string) {
-    this.store.dispatch(new SearchAction({'documento': folio}));
+  term = '';
+
+  search(term: string) {
+    this.term = term;
+    this.load();
   }
 
   load() {
-    this.store.dispatch(new SearchAction());
+    this.sectores$ = this.service.list({term: this.term});
   }
 
   print(row: any) {

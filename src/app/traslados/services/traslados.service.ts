@@ -26,14 +26,11 @@ export class TrasladosService {
     return this.http.get<Traslado>(url)
   }
 
-  list(tipo?: string, documento?: string  ): Observable<Traslado[]> {
+  list(filtro: any = {} ): Observable<Traslado[]> {
     let params = new HttpParams().set('sucursal', this.sucursal.id);
-    if (documento) {
-      params =  params.set('term', documento.toString());
-    }
-    if( tipo ){
-      params = params.set('tipo', tipo);
-    }
+    _.forIn(filtro, (value, key) => {
+      params = params.set(key, value);
+    });
     return this.http.get<Traslado[]>(this.apiUrl, {params: params})
   }
 
