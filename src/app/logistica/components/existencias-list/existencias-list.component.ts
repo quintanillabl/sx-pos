@@ -13,12 +13,14 @@ export class ExistenciasListComponent implements OnInit {
   columns: ITdDataTableColumn[] = [
     { name: 'producto.clave',  label: 'Clave', sortable: true, width: 100 },
     { name: 'producto.descripcion', label: 'Descripción', filter: true, width: 400 },
-    { name: 'anio', label: 'Ejercicio', width: 100},
-    { name: 'mes', label: 'Mes', width: 100},
-    { name: 'cantidad', label: 'Cantidad', width: 150},
-    { name: 'recorte', label: 'Recorte', width: 150},
-    { name: 'disponible', label: 'Disponible', width: 150},
-    { name: 'lastUpdated', label: 'Modificado', width: 150},
+    // { name: 'anio', label: 'Ejercicio', width: 100},
+    // { name: 'mes', label: 'Mes', width: 100},
+    { name: 'cantidad', label: 'Cantidad', width: 100},
+    { name: 'recorte', label: 'Recorte', width: 100},
+    { name: 'disponible', label: 'Disponible', width: 100},
+    { name: 'recorteFecha', label: 'Recorte F', width: 120},
+    { name: 'recorteComentario', label: 'Rec Com'},
+    { name: 'lastUpdated', label: 'Modificado', width: 130},
   ];
 
   constructor() { }

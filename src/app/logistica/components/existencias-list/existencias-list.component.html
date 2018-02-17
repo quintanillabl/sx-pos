@@ -12,6 +12,9 @@
   <ng-template tdDataTableTemplate="lastUpdated" let-value="value">
     <span class="text-md">{{ value | date: 'dd/MM/yyyy: hh:mm'}}</span>
   </ng-template>
+  <ng-template tdDataTableTemplate="recorteFecha" let-value="value">
+    <span class="text-md">{{ value | date: 'dd/MM/yyyy'}}</span>
+  </ng-template>
   <ng-template tdDataTableTemplate="cantidad" let-value="value">
     <span [ngClass]="{'tc-indigo-800':value >0, 'tc-pink-800': value<0}">{{ value | number}}</span>
   </ng-template>

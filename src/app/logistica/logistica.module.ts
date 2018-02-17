@@ -42,6 +42,7 @@ import { ExistenciasListComponent } from './components/existencias-list/existenc
 import { ExistenciaEditComponent } from './_pages/existencia-edit/existencia-edit.component';
 import { ExistenciaResolve } from '@siipapx/logistica/_pages/existencia-edit/existencia.resover';
 import { ExistenciaFormComponent } from './components/existencia-form/existencia-form.component';
+import { InvFacturasPageComponent } from './_pages/inv-facturas-page/inv-facturas-page.component';
 
 
 
@@ -194,6 +195,7 @@ const COMPONENTS = [
     ExistenciasListComponent,
     ExistenciaEditComponent,
     ExistenciaFormComponent,
+    InvFacturasPageComponent,
   ],
   entryComponents: [
     components.TransformaciondetDialogComponent,

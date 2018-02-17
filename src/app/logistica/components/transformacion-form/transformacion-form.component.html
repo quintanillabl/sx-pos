@@ -24,11 +24,6 @@
 
     <div>
       <button type="button" md-button (click)="insertar()" [disabled]="form.get('tipo').value===null"> <md-icon>add</md-icon> Agregar partidas</button>
-      <ng-container *ngIf="partidas.length > 0">
-          <button type="button" md-icon-button (click)="partidasList.scrollToStart()" > <md-icon>skip_previous</md-icon></button>
-          <button type="button" md-icon-button (click)="partidasList.scrollToLast()" > <md-icon>skip_next</md-icon></button>
-      </ng-container>
-      
     </div>
 
     <div *ngIf=" partidas.value.length === 0" class="empty-partidas text-center">

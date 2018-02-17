@@ -16,7 +16,7 @@ export const PartidasValidator = (control: AbstractControl): {[key: string]: boo
 @Component({
   selector: 'sx-movimiento-form',
   templateUrl: './movimiento-form.component.html',
-  styleUrls: ['./movimiento-form.component.scss']
+  styles: ['']
 })
 export class MovimientoFormComponent implements OnInit, OnDestroy {
   
@@ -51,7 +51,7 @@ export class MovimientoFormComponent implements OnInit, OnDestroy {
       fecha: [{ value: new Date(), disabled: 'true'}],
       tipo: [null,Validators.required],
       porInventario: [false, Validators.required],
-      comentario: ['', [Validators.maxLength(100)]],
+      comentario: ['', [Validators.required, Validators.maxLength(100)]],
       partidas: this.fb.array([])
     }, {
       validator: PartidasValidator

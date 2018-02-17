@@ -50,7 +50,6 @@ export class ExistenciasPageComponent implements OnInit {
 
   
   recortePorDetalle() {
-    
     this.service.recortePorDetalle()
       .do( () => this.procesando = true)
       .finally( () => this.procesando = false)

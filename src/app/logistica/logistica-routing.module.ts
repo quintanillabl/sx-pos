@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import * as pages from './_pages/';
 import { ExistenciaEditComponent } from './_pages/existencia-edit/existencia-edit.component';
 import { ExistenciaResolve } from './_pages/existencia-edit/existencia.resover';
+import { InvFacturasPageComponent } from 'app/logistica/_pages/inv-facturas-page/inv-facturas-page.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,7 @@ const routes: Routes = [
           // Kardex
           { path: 'kardex', component: pages.KardexPageComponent},
           { path: 'kardex/show/:id', component: pages.KardexViewPageComponent},
+          { path: 'facturas', component: InvFacturasPageComponent}
         ]
       },
       {

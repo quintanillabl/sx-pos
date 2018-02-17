@@ -73,7 +73,7 @@ export class AlmacenSectorFormComponent implements OnInit, OnChanges {
       sucursal: [{value: this.sucursal, disabled: true}, Validators.required],
       sectorFolio: [null, Validators.required],
       responsable1: ['', [Validators.required, Validators.maxLength(100)]],
-      responsable2: ['', [Validators.required, Validators.maxLength(100)]],
+      responsable2: [''],
       comentario: ['', [Validators.maxLength(100)]],
       partidas: this.fb.array([])
     });

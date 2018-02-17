@@ -33,7 +33,7 @@ export class TransformacionPartidasListComponent implements OnInit {
 
   mostrarCortes(row) {
     this._dialogService.openAlert({
-      message: `Cortes: ${row.cortes}  Instrucción: ${row.instrucion}`,
+      message: `Cortes: ${row.cortes}  Instrucción: ${row.cortesInstruccion ? row.cortesInstruccion : ''}`,
       viewContainerRef: this._viewContainerRef, //OPTIONAL
       title: 'Cortes', //OPTIONAL, hides if not provided
       closeButton: 'Cerrar', //OPTIONAL, defaults to 'CLOSE'

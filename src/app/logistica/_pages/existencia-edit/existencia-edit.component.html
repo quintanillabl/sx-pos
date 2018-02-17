@@ -22,7 +22,7 @@
         <input mdInput placeholder="Largo" [disabled]="true" [value]="existencia.producto.ancho" >
       </md-form-field> -->
       <md-form-field >
-        <input mdInput placeholder="T.Precio" [disabled]="true" [value]="existencia.precioBruto ? 'Bruto': 'Neto'">
+        <input mdInput placeholder="T.Precio" [disabled]="true" [value]="existencia.producto.modoVenta === 'B' ? 'Bruto': 'Neto'">
       </md-form-field>
       <md-form-field >
         <input mdInput placeholder="Presentación" [disabled]="true" [value]="existencia.producto.presentacion">
@@ -36,22 +36,22 @@
         <input mdInput placeholder="Recorte comentario" [disabled]="true" [value]="existencia.recorteComentario">
       </md-form-field>
       <md-form-field >
-        <input mdInput placeholder="Recorte fecha" [disabled]="true" [value]="existencia.recorteFecha">
+        <input mdInput placeholder="Recorte fecha" [disabled]="true" [value]="existencia.recorteFecha | date:'dd/MM/yyyy'">
       </md-form-field>
     </div>
     <md-divider></md-divider>
     <div layout layout-padding layout-align="center center">
       <span layout flex>
-        <span>Cantidad: </span>
+        <span>Disponibilidad: </span>
         <span  [ngClass]="{'tc-indigo-800':existencia.cantidad >0, 'tc-pink-800': existencia.cantidad<0}" class="text-center" flex>
-          {{existencia.cantidad | number}} 
+          {{existencia.disponible | number}} 
         </span>
       </span>
       
       <span layout flex>
-        <span>Disponibilidad: </span>
+        <span>Total: </span>
         <span  [ngClass]="{'tc-indigo-800':existencia.disponible >0, 'tc-pink-800': existencia.disponible<0}" class="text-center" flex> 
-          {{existencia.disponible | number}} </span>
+          {{total | number}} </span>
       </span>
     </div>
     <div layout layout-align="center" layout-margin>
@@ -62,7 +62,7 @@
       <td-data-table
         #dataTable
         [data]="existencias"
-        [columns]="columns">
+        [columns]="columns"[style.height.px]="250">
         <ng-template tdDataTableTemplate="lastUpdated" let-value="value">
           <span class="text-md">{{ value | date: 'dd/MM/yyyy: hh:mm'}}</span>
         </ng-template>

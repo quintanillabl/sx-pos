@@ -4,6 +4,7 @@
       <span mdLine>Descripcion</span>
       <span flex></span>
       <span hide-xs hide-sm hide-md flex-gt-xs="60" flex-xs="40" layout-gt-xs="row">
+            <div class=" tc-grey-500" flex-gt-xs="50">Tipo </div>
           <div class=" tc-grey-500" flex-gt-xs="50">Fecha </div>
           <div class=" tc-grey-500" flex-gt-xs="50">Estado </div>
       </span>
@@ -23,6 +24,7 @@
            
             <span flex></span>
             <span flex="60" layout-gt-xs="row">
+                <div  flex-gt-xs="50"> {{ row.tipo}} </div>
                 <div class=" tc-grey-500" flex-gt-xs="50"> {{ row.fecha | date:'dd/MM/yyyy'}} </div>
                 <div  [ngClass]="{'tc-pink-500': !row.fechaInventario }" flex-gt-xs="50"> {{ row.fechaInventario ? 'INVENTARIADO' : 'PENDIENTE'}} </div>
             </span>

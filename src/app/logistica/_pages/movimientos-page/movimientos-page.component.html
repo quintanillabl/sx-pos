@@ -27,15 +27,15 @@
     <md-divider></md-divider>
     <md-card-content class="will-load">
       <ng-container *ngIf="movimientos$ | async as movimientos">
-          <sx-movimientos-list [movimientos]="movimientos" (selection)="onSelect($event)"></sx-movimientos-list>
+          <sx-movimientos-list [movimientos]="movimientos" ></sx-movimientos-list>
       </ng-container>
     </md-card-content>
   </md-card>
     
-  <div flex-gt-sm="50" *ngIf=" selected !== undefined" class="will-load">
+  <!-- <div flex-gt-sm="50" *ngIf=" selected !== undefined" class="will-load">
     <sx-movimiento-view [movimiento]="selected" >
     </sx-movimiento-view>
-  </div>
+  </div> -->
       
 </div>
 <a md-fab color="accent" class="mat-fab-bottom-right" [routerLink]="['create']">

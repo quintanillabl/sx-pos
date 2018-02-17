@@ -1,11 +1,9 @@
 import { Component, Input, OnInit, Output, EventEmitter, ViewChild, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, AbstractControl, Validators, ValidatorFn } from '@angular/forms';
+import * as _ from 'lodash';
 
 import { MovimientoDet } from "@siipapx/logistica/models/movimientoDet";
 import { Subscription } from "rxjs/Subscription";
-
-
-
 
 @Component({
   selector: 'sx-movimiento-det-form',
@@ -13,7 +11,6 @@ import { Subscription } from "rxjs/Subscription";
   styleUrls: ['./movimiento-det-form.component.scss']
 })
 export class MovimientoDetFormComponent implements OnInit, OnDestroy {
-  
 
   form: FormGroup;
 
@@ -102,12 +99,13 @@ export class MovimientoDetFormComponent implements OnInit, OnDestroy {
   }
 
   validarCantidad(control: AbstractControl) {
-    const tipo = this.parent.get('tipo').value;
+    const tipo = this.parent.get('tipo').value;    
+    const cantidad = _.toNumber(control.value);
     if (tipo !== 'CIM') {
-      const cantidad = control.value;
-      return cantidad >= 0 ? null : {noPermiteNegativo: true};
+      return cantidad > 0 ? null : {noPermiteNegativo: true};
     }
-    return null;
+    return cantidad !== 0 ? null : {noPermiteEnCeros: true};
+    // return null;
   }
 
 }
