@@ -18,7 +18,7 @@ export  class GlobalErrorHandler implements ErrorHandler {
     if (error instanceof HttpErrorResponse && error.status === 401) {
       console.log('SX HttpErrorResponse: ', error.status);
       // console.log('Store: ', store);
-      store.dispatch(new auth.LoginRedirect({}))
+      // store.dispatch(new auth.LoginRedirect({}))
     } else {
       console.log('SX-Error handler:', error);
     }

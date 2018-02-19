@@ -40,9 +40,10 @@ import { RecalculoFormComponent } from './_pages/kardex-page/recalculo-form/reca
 import { Existencia2Service } from './services/existencias2.service';
 import { ExistenciasListComponent } from './components/existencias-list/existencias-list.component';
 import { ExistenciaEditComponent } from './_pages/existencia-edit/existencia-edit.component';
-import { ExistenciaResolve } from '@siipapx/logistica/_pages/existencia-edit/existencia.resover';
+import { ExistenciaResolve } from 'app/logistica/_pages/existencia-edit/existencia.resover';
 import { ExistenciaFormComponent } from './components/existencia-form/existencia-form.component';
 import { InvFacturasPageComponent } from './_pages/inv-facturas-page/inv-facturas-page.component';
+import { FacturasService } from 'app/logistica/services/facturas.service';
 
 
 
@@ -226,7 +227,8 @@ const COMPONENTS = [
     EmbarqueService,
     KardexService,
     Existencia2Service,
-    ExistenciaResolve
+    ExistenciaResolve,
+    FacturasService
   ]
 })
 export class LogisticaModule { }
