@@ -54,14 +54,16 @@ export class DecShowPageComponent implements OnInit {
     });
   }
 
-  print() {
-    this._dialogService.openAlert({
-      message: 'La impresión de este documento está en desarrollo',
-      viewContainerRef: this._viewContainerRef,
-      title: 'Impresíon',
-      closeButton: 'Cancelar',
-    });
-
+  print(mov) {
+    this.service.print(mov.id)
+      .subscribe(res => {
+        const blob = new Blob([res], {
+          type: 'application/pdf'
+        });
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      }, error2 => console.error(error2));
+      
   }
 
   inventariar(dec){

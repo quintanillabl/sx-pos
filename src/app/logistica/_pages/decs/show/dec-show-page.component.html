@@ -32,7 +32,7 @@
       <md-divider></md-divider>
       <md-card-actions>
         <a md-button [routerLink]="['/logistica/inventarios/decs']" ><md-icon>keyboard_backspace</md-icon> Regresar </a>
-        <button md-icon-button (click)="print()" mdTooltip="Imprimir documento"><md-icon>print</md-icon></button>
+        <button md-icon-button (click)="print(dec)" mdTooltip="Imprimir documento"><md-icon>print</md-icon></button>
         <button md-button color="accent" *ngIf="dec.fechaInventario === undefined"
           mdTooltip="Mandar al inventario" (click)="inventariar(dec)">  
         <md-icon >send</md-icon> Mandar al inventario</button>
