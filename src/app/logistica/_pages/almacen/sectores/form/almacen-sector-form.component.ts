@@ -34,6 +34,9 @@ export class AlmacenSectorFormComponent implements OnInit, OnChanges {
 
   @Input() disabled =  false;
 
+  @Output() delete = new EventEmitter<any>();
+  
+
   inserted: string[] = [];
 
   subscription1: Subscription;

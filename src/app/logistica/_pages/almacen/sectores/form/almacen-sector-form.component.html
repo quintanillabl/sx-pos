@@ -50,6 +50,9 @@
         <a md-button  *ngIf="id && disabled" [routerLink]="['../../edit', id]">
           Editar <md-icon>edit</md-icon>
         </a>
+        <button type="button" md-button (click)="delete.emit(sector)"  *ngIf="id" color="warn">
+            <md-icon>delete</md-icon> Eliminar
+          </button>
       </md-card-actions>
     </ng-template>
 

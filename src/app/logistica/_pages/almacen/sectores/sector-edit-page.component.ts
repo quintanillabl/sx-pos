@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import {ActivatedRoute, Router} from '@angular/router';
-import { TdLoadingService } from '@covalent/core';
+import { TdLoadingService, TdDialogService } from '@covalent/core';
 
 import * as fromRoot from 'app/reducers';
 import * as fromLogistica from 'app/logistica/store/reducers';
@@ -19,7 +19,7 @@ import * as Sectores from 'app/logistica/store/actions/sectores.actions';
   template: `
     <div layout
       *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
-      <sx-almacen-sector-form [sector]="sector$ | async" flex [disabled]="disabled$ | async"
+      <sx-almacen-sector-form [sector]="sector$ | async" flex [disabled]="disabled$ | async" (delete)="onDelete($event)"
         [sucursal]="sucursal$ | async" (save)="onSave($event)">
       </sx-almacen-sector-form>
     </div>
@@ -38,6 +38,7 @@ export class SectorEditPageComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private loadingService: TdLoadingService,
+    private dialogService: TdDialogService
   ) { }
 
   ngOnInit() {
@@ -61,6 +62,33 @@ export class SectorEditPageComponent implements OnInit {
         response => {
           this.handlePostError(response);
           this.loadingService.resolve('saving');
+        }
+      );
+  }
+
+  onDelete(sector) {
+    console.log('Eliminando sector: ', sector);
+    this.dialogService.openConfirm(
+      { title: 'Eliminar ', message: 'Eliminar sector?', acceptButton: 'Aceptar', cancelButton: 'Cancelar'}
+    ).afterClosed().subscribe( res => {
+      if (res) {
+        this.doDelete(sector.id);
+      }
+    });
+  }
+
+  doDelete(row) {
+    this.loadingService.register('saving');
+    this.service
+      .delete(row)
+      .finally( () => this.loadingService.resolve('saving'))
+      .subscribe(
+        (res) => {
+          this.loadingService.resolve('saving');
+          this.router.navigate(['/logistica/almacen/sectores'])
+        },
+        response => {
+          this.handlePostError(response);
         }
       );
   }
