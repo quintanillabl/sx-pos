@@ -26,7 +26,7 @@ export const CobradoValidator = (control: AbstractControl): {[key: string]: bool
 @Component({
   selector: 'sx-cobro-form',
   templateUrl: './cobro-form.component.html',
-  styleUrls: ['./cobro-form.component.scss'],
+  styles: [''],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
@@ -68,35 +68,12 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    /*
-    if (this.venta.cliente.permiteCheque || this.venta.formaDePago === 'CHEQUE') {
-      this.formasDePago.push('CHEQUE');
-      _.pull(this.formasDePago, 'TRANSFERENCIA');
-    }
-    if (this.venta.formaDePago === 'TARJETA_DEBITO') {
-      _.pull(this.formasDePago, 'TARJETA_CREDITO');
-      _.pull(this.formasDePago, 'TRANSFERENCIA');
-    }
-    if (this.venta.formaDePago === 'CHEQUE') {
-      _.pull(this.formasDePago, 'TARJETA_CREDITO');
-      _.pull(this.formasDePago, 'TARJETA_DEBITO');
-      _.pull(this.formasDePago, 'TRANSFERENCIA');
-    }
-    if (this.venta.formaDePago === 'EFECTIVO') {
-      _.pull(this.formasDePago, 'TARJETA_CREDITO');
-      _.pull(this.formasDePago, 'TARJETA_DEBITO');
-      _.pull(this.formasDePago, 'TRANSFERENCIA');
-    }
-    */
-
     if( this.venta.formaDePago.startsWith("DEPOSITO") || this.venta.formaDePago.startsWith("TRANSFERENCIA")) {
       this.formasDePago.push(this.venta.formaDePago);
     }
-  
     if(this.formaDePago === 'TRANSFERENCIA' || this.formaDePago.startsWith('DEPOSITO')){
       this.form.get('importe').setValue(0);
     }
-    
   }
 
   ngOnDestroy() {
@@ -127,7 +104,7 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
   validarPorCobrar(control: AbstractControl) {
     if (this.venta) {
       const pendiente = this.porCobrar
-      return pendiente <= 0 ? null : {importeInvalido: true};
+      return pendiente <= 1.0 ? null : {importeInvalido: true};
     }
     return null;
   }
