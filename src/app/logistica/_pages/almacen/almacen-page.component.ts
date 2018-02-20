@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { TdDialogService } from '@covalent/core';
+import {MdDialog} from '@angular/material';
 import { SectoresService } from '@siipapx/logistica/services/sectores/sectores.service';
+import { RecPorLineaComponent } from '@siipapx/logistica/_pages/almacen/reportes/rec-por-linea/rec-por-linea.component';
 
 @Component({
   selector: 'sx-almacen-page',
@@ -49,6 +51,12 @@ export class AlmacenPageComponent implements OnInit {
       description: '',
       icon: 'blur_linear',
       action: 'reporteProductosSinSector()'
+    },
+    {
+      name: 'recorridosPorLinea',
+      title: 'Recorridos x línea',
+      icon: 'blur_linear',
+      action: 'recorridosPorLinea()'
     }
   ];
 
@@ -56,6 +64,7 @@ export class AlmacenPageComponent implements OnInit {
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
     private service: SectoresService,
+    public dialog: MdDialog,
   ) { }
 
   ngOnInit() {
@@ -68,6 +77,9 @@ export class AlmacenPageComponent implements OnInit {
   runReport(report) {
     if (report === 'productosSinSector') {
       this.reporteProductosSinSector();
+    }
+    if (report === 'recorridosPorLinea') {
+      this.recorridosPorLinea();
     }
   }
 
@@ -82,6 +94,19 @@ export class AlmacenPageComponent implements OnInit {
     });
   }
 
-  
-
+  recorridosPorLinea() {
+    const dialogRef = this.dialog.open(RecPorLineaComponent, {});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.service.recorridosPorLinea(result)
+          .subscribe(res => {
+            const blob = new Blob([res], {
+              type: 'application/pdf'
+            });
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
+          });
+      }
+    });
+  }
 }

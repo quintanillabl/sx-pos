@@ -13,10 +13,10 @@ export class SectoresService {
   private apiUrl: string;
 
   sucursal: Sucursal;
-  
+
   constructor(
     private http: HttpClient,
-    private configService: ConfigService) 
+    private configService: ConfigService)
   {
     this.sucursal = configService.getCurrentSucursal();
     this.apiUrl = configService.buildApiUrl('inventario/sectores');
@@ -75,6 +75,24 @@ export class SectoresService {
     return this.http.get(
       url, {
         headers: headers,
+        responseType: 'blob'
+      }
+    );
+  }
+
+  recorridosPorLinea(reportParams = {}) {
+    const url = `${this.apiUrl}/recorridosPorLinea`;
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    let params = new HttpParams()
+    if (reportParams) {
+      _.forIn(reportParams, (value, key) => {
+        params = params.set(key, value.toString());
+      });
+    }
+    return this.http.get(
+      url, {
+        headers: headers,
+        params: params,
         responseType: 'blob'
       }
     );

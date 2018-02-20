@@ -44,6 +44,7 @@ import { ExistenciaResolve } from 'app/logistica/_pages/existencia-edit/existenc
 import { ExistenciaFormComponent } from './components/existencia-form/existencia-form.component';
 import { InvFacturasPageComponent } from './_pages/inv-facturas-page/inv-facturas-page.component';
 import { FacturasService } from 'app/logistica/services/facturas.service';
+import { RecPorLineaComponent } from './_pages/almacen/reportes/rec-por-linea/rec-por-linea.component';
 
 
 
@@ -64,7 +65,7 @@ const PAGES =  [
   pages.DevolucionesVentaPageComponent,
   pages.DevolucionesShowPageComponent,
   pages.DevolucionCreatePageComponent,
-  
+
   // DECS
   pages.DecsPageComponent,
   pages.DecCreatePageComponent,
@@ -154,7 +155,7 @@ const COMPONENTS = [
   components.SelectorDeVentasDialogComponent,
   components.DevolucionPartidasComponent,
   components.RmdVentadetGridComponent,
-  
+
   // Decs
   components.DecsGridComponent,
   components.DecdetGridComponent,
@@ -162,7 +163,7 @@ const COMPONENTS = [
   components.DecPartidasComponent,
   components.DecComdetGridComponent,
   components.SelectorDeComDialogComponent,
- 
+
   // Embarques
   components.ChoferFieldComponent,
 
@@ -197,6 +198,7 @@ const COMPONENTS = [
     ExistenciaEditComponent,
     ExistenciaFormComponent,
     InvFacturasPageComponent,
+    RecPorLineaComponent,
   ],
   entryComponents: [
     components.TransformaciondetDialogComponent,
@@ -212,7 +214,8 @@ const COMPONENTS = [
     pages.SelectorDeEmbarqueComponent,
     KardexFormComponent,
     RecalculoFormComponent,
-    ExistenciaFormComponent
+    ExistenciaFormComponent,
+    RecPorLineaComponent
   ],
   providers: [MovimientosService, TransformacionesService,
     DevolucionesService,

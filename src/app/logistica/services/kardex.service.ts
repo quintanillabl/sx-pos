@@ -17,12 +17,11 @@ export class KardexService {
   constructor(
     private http: HttpClient,
     private configService: ConfigService
-  ) 
-  {
+  ) {
     this.sucursal = configService.getCurrentSucursal();
     this.apiUrl = configService.buildApiUrl('inventario');
   }
-  
+
   list(producto?: string ): Observable<Inventario[]> {
     let params = new HttpParams().set('sucursal',this.sucursal.id);
     if(producto){
@@ -63,7 +62,7 @@ export class KardexService {
       .set('fechaFinal', reportParams.fechaFinal)
       .set('producto', reportParams.producto.id)
       .set('sucursal', this.sucursal.id);
-    
+
     const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
     return this.http.get(
       url, {
@@ -72,6 +71,15 @@ export class KardexService {
         responseType: 'blob'
       }
     );
+  }
+
+  getLineas(): Observable<any> {
+    const url = this.configService.buildApiUrl('lineas');
+    return this.http.get<Observable<any>>(url);
+  }
+  getClases(): Observable<any> {
+    const url = this.configService.buildApiUrl('clases');
+    return this.http.get<Observable<any>>(url);
   }
 
 }
