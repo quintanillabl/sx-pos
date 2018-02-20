@@ -36,7 +36,7 @@ export class RecPorLineaComponent implements OnInit {
       estado: ['ACTIVOS', Validators.required],
       existencia: ['TODOS', Validators.required],
       linea: [null, Validators.required],
-      clase: [null, Validators.required]
+      clase: [null]
     });
   }
 

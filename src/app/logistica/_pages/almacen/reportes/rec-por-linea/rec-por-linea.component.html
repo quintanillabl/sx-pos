@@ -36,6 +36,7 @@
 
   <div layout >
     <md-select placeholder="Clase" formControlName="clase" flex>
+      <md-option [value]="null">TODOS</md-option>
       <md-option *ngFor="let clase of clases"
           [value]="clase.clase">{{ clase.clase }}
       </md-option>

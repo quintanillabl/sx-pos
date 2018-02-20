@@ -13,6 +13,7 @@ import { Venta } from 'app/models';
 import { Cobro } from 'app/models/cobro';
 
 import { ChequeFormComponent } from 'app/caja/facturacion/cobro/cheque-form/cheque-form.component';
+import { DisponibleFormComponent } from 'app/caja/facturacion/cobro/disponible-form/disponible-form.component';
 
 
 export const CobradoValidator = (control: AbstractControl): {[key: string]: boolean} => {
@@ -24,7 +25,7 @@ export const CobradoValidator = (control: AbstractControl): {[key: string]: bool
 @Component({
   selector: 'sx-cobro-cod-form',
   templateUrl: './cobro-cod-form.component.html',
-  styleUrls: ['./cobro-cod-form.component.scss'],
+  styles: [''],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
@@ -252,6 +253,21 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
       default:
         return 'local_atm'
     }
+  }
+
+  buscarDisponible() {
+    
+    const dialogRef = this.dialog.open(DisponibleFormComponent, {
+      data: {cliente: this.venta.cliente}
+    });
+    dialogRef.afterClosed().subscribe( (result: Cobro) => {
+      if (result) {
+        const porAplicar = result.disponible > this.porCobrar ? this.porCobrar : result.disponible;
+        result.porAplicar = porAplicar;
+        this.pushCobro(result);
+      }
+    });
+    
   }
 
 }

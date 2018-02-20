@@ -86,7 +86,9 @@ export class SectoresService {
     let params = new HttpParams()
     if (reportParams) {
       _.forIn(reportParams, (value, key) => {
-        params = params.set(key, value.toString());
+        if (value) {
+          params = params.set(key, value.toString());
+        }
       });
     }
     return this.http.get(

@@ -33,7 +33,8 @@ export class DisponibleFormComponent implements OnInit {
   columns: ITdDataTableColumn[] = [
     { name: 'fecha',  label: 'Fecha', sortable: true, width: 15, format: (value => moment(value).format('DD/MM/YYYY')) },
     { name: 'tipo', label: 'Tipo', filter: true },
-    { name: 'referencia', label: 'Ref', hidden: false },
+    { name: 'referencia', label: 'Ref', hidden: false, width: 50, },
+    { name: 'formaDePago', label: 'F.Pago', filter: true, width: 150},
     { name: 'importe', label: 'Importe', numeric: true, format: DECIMAL_FORMAT },
     { name: 'aplicado', label: 'Aplicado', numeric: true, format: DECIMAL_FORMAT },
     { name: 'disponible', label: 'Disponible', numeric: true, format: DECIMAL_FORMAT },

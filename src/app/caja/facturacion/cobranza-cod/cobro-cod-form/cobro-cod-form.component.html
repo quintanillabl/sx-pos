@@ -66,6 +66,11 @@
           [disabled]="form.invalid">
           Cobrar
         </button>
+        <button md-button type="button" (click)="buscarDisponible()" 
+          [disabled]="porCobrar <= 0"
+          color="primary"
+          class="text-upper">Disponibles
+        </button>
         <button md-button class="text-upper" (click)="cancelar.emit()" type="button">Cancelar</button>
       </md-card-actions>
     </md-card>
