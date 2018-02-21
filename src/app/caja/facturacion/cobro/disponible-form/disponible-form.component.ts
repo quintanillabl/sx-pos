@@ -34,13 +34,15 @@ export class DisponibleFormComponent implements OnInit {
     { name: 'fecha',  label: 'Fecha', sortable: true, width: 15, format: (value => moment(value).format('DD/MM/YYYY')) },
     { name: 'tipo', label: 'Tipo', filter: true },
     { name: 'referencia', label: 'Ref', hidden: false, width: 50, },
+    { name: 'folio', label: 'Folio', hidden: false, width: 50, },
     { name: 'formaDePago', label: 'F.Pago', filter: true, width: 150},
-    { name: 'importe', label: 'Importe', numeric: true, format: DECIMAL_FORMAT },
+    { name: 'importe', label: 'Importe', numeric: true, width: 150 },
     { name: 'aplicado', label: 'Aplicado', numeric: true, format: DECIMAL_FORMAT },
     { name: 'disponible', label: 'Disponible', numeric: true, format: DECIMAL_FORMAT },
   ];
 
   loading = false;
+  porCobrar
 
   constructor(
     @Inject(MD_DIALOG_DATA) public data: any,
@@ -48,6 +50,8 @@ export class DisponibleFormComponent implements OnInit {
     private service: CobroService
   ) {
     this.cliente = data.cliente
+    this.porCobrar = data.porCobrar
+    console.log('DATA: ', data);
   }
 
   ngOnInit() {

@@ -18,7 +18,7 @@ import { PedidoValidator } from './pedido.validator';
 @Component({
   selector: 'sx-pedido-form',
   templateUrl: './pedido-form.component.html',
-  styleUrls: ['./pedido-form.component.scss']
+  styles: ['']
 })
 export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
@@ -58,7 +58,6 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     private _viewContainerRef: ViewContainerRef
   ) {
     this.buildForm();
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -81,14 +80,27 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       this.pedidoFormService.registerForm(this.form, pedido);
       this.buildRecalcular$();
       this.buildFomraDePago$();
+      this.tipoSubscription = this.form.get('tipo').valueChanges.subscribe( tipo => {
+        // this.pedidoFormService.recalcular();
+        if (tipo === 'CRE') {
+          console.log('Nuevo tipo de venta: ', tipo);
+          this.form.get('cod').setValue(false);
+          this.form.get('cod').disable();
+        } else {
+          this.form.get('cod').setValue(false);
+          this.form.get('cod').enable();
+        }
+      });
       // this.pedidoFormService.recalcular();
 
     }
   }
 
   ngOnInit() {
+    /*
     this.tipoSubscription = this.form.get('tipo').valueChanges.subscribe( tipo => {
       if (tipo === 'CRE') {
+        console.log('Detectando cambio de tipo de venta a : ', tipo);
         this.form.get('cod').setValue(false);
         this.form.get('cod').disable();
       } else {
@@ -96,9 +108,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
         this.form.get('cod').enable();
       }
     });
-
-    // this.form.get('cliente').valueChanges.subscribe(cliente => console.log(cliente));
-    
+    */
   }
 
   ngOnDestroy() {

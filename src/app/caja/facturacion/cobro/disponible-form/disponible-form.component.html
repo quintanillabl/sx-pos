@@ -3,8 +3,12 @@
 
 
 <div class="disponible-form" >
-
-  <h3 md-dialog-title>Disponibles de : {{cliente.nombre}}</h3>
+  <span layout md-dialog-title>
+      <h3>Disponibles de : {{cliente.nombre}}</h3>
+      <span flex></span>
+      <span>Por Cobrar: {{porCobrar | currency: 'USD': 1.2-2}}</span>
+  </span>
+  
   <md-divider></md-divider>
   <md-dialog-content>
 
@@ -17,9 +21,19 @@
       sortable="false"
       [(ngModel)]="selectedRows"
       [style.height.px]="400">
-      <!--<ng-template tdDataTableTemplate="fecha" let-value="value">
-        {{value | date: 'dd/MM/yyyy'}}
-      </ng-template>-->
+      <ng-template tdDataTableTemplate="folio" let-value="value" let-row="row">
+        <span *ngIf="row.transferencia">{{row.transferencia.folio}}</span>
+        <span *ngIf="row.deposito">{{row.deposito.folio}}</span>
+      </ng-template>
+      <ng-template tdDataTableTemplate="disponible" let-value="value" let-row="row">
+        {{value | currency: 'USD': 1.2-2}}
+      </ng-template>
+      <ng-template tdDataTableTemplate="importe" let-value="value" let-row="row">
+          {{value | currency: 'USD': 1.2-2}}
+        </ng-template>
+        <ng-template tdDataTableTemplate="aplicado" let-value="value" let-row="row">
+            {{value | currency: 'USD': 1.2-2}}
+          </ng-template>
     </td-data-table>
 
 

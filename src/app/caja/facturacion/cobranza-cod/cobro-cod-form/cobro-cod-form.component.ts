@@ -258,7 +258,7 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
   buscarDisponible() {
     
     const dialogRef = this.dialog.open(DisponibleFormComponent, {
-      data: {cliente: this.venta.cliente}
+      data: {cliente: this.venta.cliente, porCobrar: this.porCobrar}
     });
     dialogRef.afterClosed().subscribe( (result: Cobro) => {
       if (result) {

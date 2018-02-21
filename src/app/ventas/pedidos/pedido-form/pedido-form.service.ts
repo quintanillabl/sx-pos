@@ -38,6 +38,7 @@ export class PedidoFormService {
     this.form.get('cliente').valueChanges.subscribe( cliente => {
       this.cargarPreciosPorCliente(cliente);
     });
+    this.cargarPreciosPorCliente(pedido.cliente);
     this.cargarDescuentosPorVolumen();
   }
 
@@ -80,21 +81,22 @@ export class PedidoFormService {
    * Editar una partida del pedido
    */
   editarPartida(index: number, config: {sucursal: Sucursal}) {
-    const det = this.partidas.value[index];
+    // const det = this.partidas.value[index];
+    const control = this.partidas.at(index);
+    const clone = {... control.value};
     const dialogRef = this.dialog.open(PedidoDetFormComponent, {
       data: {
         sucursal: config.sucursal,
         tipo: this.tipo,
-        partida: det,
+        partida: clone,
         preciosPorCliente: this.preciosPorCliente
       }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // console.log('Partida editada: ', result);
-        this.partidas.removeAt(index);
-        this.partidas.insert(index, new FormControl(result));
-        // this.partidas.push(new FormControl(result));
+        control.patchValue(result);
+        // this.partidas.removeAt(index);
+        // this.partidas.insert(index, new FormControl(result));
         this.recalcular();
       }
     });
@@ -140,20 +142,22 @@ export class PedidoFormService {
         .forEach(item => {
           const precio = contado ? item.producto.precioContado : item.producto.precioCredito;
           item.precio = precio;
-          const precioEspecial = this.buscarPrecioEspecial(item.producto);
-          // console.log('Precio asignado: ', precioEspecial);
-          
-          if (precioEspecial !== null ) {
-            item.precio = precioEspecial
-          }
+          item.precioLista = precio
+          item.precioOriginal = item.precioLista;
           if (this.tipo === 'CRE' ) {
+            const precioEspecial = this.buscarPrecioEspecial(item.producto);
+            // console.log('Precio espeical detectado: ', precioEspecial);
+            if (precioEspecial !== null ) {
+              
+              item.precio = precioEspecial
+              item.precioOriginal = precioEspecial
+            }
             if( this.cliente.credito) {
               if (this.cliente.credito.postfechado) {
                 item.precio = item.producto.precioContado
               }
             }
           }
-          
           this.actualizarPartida(item);
         });
     }
@@ -250,10 +254,6 @@ export class PedidoFormService {
     if (descuento > pena ) {
       descuento = descuento - pena
     }
-
-    if (this.pedido.id) {
-      // descuento = this.pedido.descuento;
-    }
     // console.log('Aplicando descuento por volumen : ', descuento);
     _.forEach(partidas, item => {
       if (item.producto.modoVenta === 'B') {
@@ -265,7 +265,6 @@ export class PedidoFormService {
       }
     });
     this.form.get('descuentoOriginal').setValue(_.round((descuentoOriginal ), 2));
-
   }
 
   aplicarDescuentoCredito() {
@@ -293,7 +292,7 @@ export class PedidoFormService {
   }
 
   aplicarDescuentoCreditoPostfechado() {
-    console.log('Calculando descuento de credito POST FECHADO...');
+    // console.log('Calculando descuento de credito POST FECHADO...');
     const tipo = this.form.get('tipo').value;
     const cliente: Cliente = this.form.get('cliente').value;
     if (tipo === 'CRE' && cliente && cliente.credito && cliente.credito.postfechado) {
@@ -449,21 +448,7 @@ export class PedidoFormService {
       sucursal: this.form.get('sucursal').value
     }
   }
-
-  /*
-  aplicarDescuentoEspecial(){
-    const dialogRef = this.dialog.open(DescuentoEspecialComponent, {
-      data: {
-        descuento: this.form.get('descuento').value * 100
-      }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.doAplicarDescuentoEspecial(result);
-      }
-    });
-  }
-*/
+ 
   aplicarDescuentoEspecial(grid: any) {
     const contado = this.isContado();
     const cliente = this.cliente;
@@ -491,11 +476,11 @@ export class PedidoFormService {
     const partidas: VentaDet[] = this.partidasActualizables;
     _.forEach(partidas, item => {
       if (item.producto.modoVenta === 'B') {
-        item.descuento = (descuento)
         item.descuentoOriginal = item.descuento;
+        item.descuento = descuento
       } else if (item.producto.modoVenta === 'N' && item.producto.clave !== 'MANIOBRA') {
+        item.descuentoOriginal = 0;
         item.descuento = 0
-        item.descuentoOriginal = item.descuento;
       }
     });
     this.actualizarTotales();
@@ -557,7 +542,7 @@ export class PedidoFormService {
       this.service.preciosPorCliente(cliente)
         .subscribe( precios => {
           this.preciosPorCliente = precios;
-          //console.log('Precios por cliente: ', precios); 
+          // console.log('Precios por cliente: ', precios); 
         });
     } else {
       this.preciosPorCliente = [];
