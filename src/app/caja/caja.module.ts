@@ -28,6 +28,7 @@ import { FondoFijoService } from './services/fondo-fijo.service';
 import { MorrallaService} from 'app/caja/services/morralla.service';
 import { ArqueoComponent } from './reportes/arqueo/arqueo.component';
 import { RelacionFichasComponent } from './reportes/relacion-fichas/relacion-fichas.component';
+import { CajaGuard } from 'app/caja/services/caja.guard';
 
 
 
@@ -61,7 +62,8 @@ import { RelacionFichasComponent } from './reportes/relacion-fichas/relacion-fic
     CorteCobranzaService,
     FondoFijoService,
     MorrallaService,
-    FichaService
+    FichaService,
+    CajaGuard
   ],
   entryComponents: [
     VentasDiariasComponent,

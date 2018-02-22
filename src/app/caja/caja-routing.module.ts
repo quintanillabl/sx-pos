@@ -15,11 +15,13 @@ import { CorteMorrallaComponent } from 'app/caja/cortes/corte-morralla/corte-mor
 import { CorteFondoFijoComponent } from './cortes/corte-fondo-fijo/corte-fondo-fijo.component';
 import { FichasPageComponent } from './cortes/fichas-page/fichas-page.component';
 import { FondoFijoEditComponent } from './cortes/corte-fondo-fijo/fondo-fijo-edit/fondo-fijo-edit.component';
+import { CajaGuard } from 'app/caja/services/caja.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: MainPageComponent,
+    canActivate: [CajaGuard],
     children: [
       {
         path: '',
@@ -62,7 +64,7 @@ const routes: Routes = [
           {path: 'fichas', component: FichasPageComponent}
         ]
       }
-    ]
+    ],
   }
 ];
 
