@@ -1,8 +1,5 @@
-<td-layout-nav-list #navList
-[color]="color"
-[opened]="media.registerQuery('gt-sm') | async"
-[mode]="(media.registerQuery('gt-sm') | async) ? 'side' : 'over'"
-[sidenavWidth]="(media.registerQuery('gt-xs') | async) ? sideNavWidth : '100%'">
+<td-layout-nav-list #navList [color]="color" [opened]="media.registerQuery('gt-sm') | async" [mode]="(media.registerQuery('gt-sm') | async) ? 'side' : 'over'"
+  [sidenavWidth]="(media.registerQuery('gt-xs') | async) ? sideNavWidth : '100%'">
 
 
   <div td-sidenav-toolbar-content layout="row" layout-align="start center">
@@ -15,7 +12,7 @@
 
   <div td-toolbar-content layout="row" layout-align="start center" flex>
     <button md-icon-button [tdLayoutNavListToggle]="true" [hideWhenOpened]="true">
-        <md-icon>menu</md-icon>
+      <md-icon>menu</md-icon>
     </button>
     <span flex></span>
     <md-icon>{{headerIcon}}</md-icon>
@@ -26,22 +23,20 @@
     <span> ({{modulo}}) </span>
     <ng-content select="[toolbar]"></ng-content>
     <sx-qv-productos-btn></sx-qv-productos-btn>
-    <button md-icon-button><md-icon >settings</md-icon></button>
+    <button md-icon-button>
+      <md-icon>settings</md-icon>
+    </button>
     <sx-module-selector></sx-module-selector>
   </div>
 
 
 
-  <md-nav-list td-sidenav-content [tdLayoutNavListClose]="!media.query('gt-sm')" >
+  <md-nav-list td-sidenav-content [tdLayoutNavListClose]="!media.query('gt-sm')">
     <ng-template let-item let-last="last" ngFor [ngForOf]="navigation">
-      <md-list-item
-        [routerLinkActive]="['active']"
-        [routerLink]="item.route"
-        [queryParams]="item.params"
-        [routerLinkActiveOptions]="{exact:false}">
+      <md-list-item [routerLinkActive]="['active']" [routerLink]="item.route" [queryParams]="item.params" [routerLinkActiveOptions]="{exact:false}">
         <md-icon md-list-icon>{{item.icon}}</md-icon>
         <h3 md-line> {{item.title}} </h3>
-        <p md-line >{{item?.description}}</p>
+        <p md-line>{{item?.description}}</p>
       </md-list-item>
       <md-divider md-inset *ngIf="!last"></md-divider>
     </ng-template>

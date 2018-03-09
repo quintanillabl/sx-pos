@@ -1,4 +1,11 @@
-import {Component, OnInit, Input, EventEmitter, Output, ChangeDetectionStrategy} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  EventEmitter,
+  Output,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { ITdDataTableColumn } from '@covalent/core/data-table/data-table.component';
 
 import { Venta } from 'app/models';
@@ -6,11 +13,9 @@ import { Venta } from 'app/models';
 @Component({
   selector: 'sx-pedidos-pendientes-list',
   templateUrl: './pendientes-list.component.html',
-  styleUrls: ['./pendientes-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PendientesListComponent implements OnInit {
-
   @Input() pedidos: Venta[];
 
   @Output() edit = new EventEmitter<any>();
@@ -23,27 +28,24 @@ export class PendientesListComponent implements OnInit {
 
   @Output() generarVale = new EventEmitter<any>();
 
-  @Output() cambioDeCliente= new EventEmitter<any>();
+  @Output() cambioDeCliente = new EventEmitter<any>();
 
   columns: ITdDataTableColumn[] = [
     //{ name: 'tipo',  label: 'Tipo', width: 10 },
-    { name: 'documento',  label: 'Docto', width: 10 },
-    { name: 'fecha', label: 'Fecha', width: 10},
-    { name: 'nombre', label: 'Cliente', width: {min: 300, max: 400}},
-    { name: 'formaDePago', label: 'F.P', width: 30},
-    { name: 'total', label: 'Total', width: 30},
-    { name: 'createUser', label: 'Creado', width: 15},
-    { name: 'updateUser', label: 'Modificado', width: {min: 10, max: 10}},
-    { name: 'comentario', label: 'Comentario', width: {min: 100, max: 100}},
-    { name: 'operaciones', label: 'Opc'},
-    
+    { name: 'documento', label: 'Docto', width: 10 },
+    { name: 'fecha', label: 'Fecha', width: 10 },
+    { name: 'nombre', label: 'Cliente', width: 300 },
+    { name: 'formaDePago', label: 'F.P', width: 30 },
+    { name: 'total', label: 'Total', width: 30 },
+    { name: 'createUser', label: 'Creado', width: 15 },
+    { name: 'updateUser', label: 'Modificado', width: 50 },
+    { name: 'comentario', label: 'Comentario', width: 50 },
+    { name: 'operaciones', label: 'Opc', width: 170 }
   ];
 
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onEdit(pedido: Venta) {
     this.edit.emit(pedido);
@@ -63,7 +65,7 @@ export class PendientesListComponent implements OnInit {
         fp = 'TAR_CRE';
         break;
       case 'TRANSFERENCIA':
-        fp = 'TRANSF'
+        fp = 'TRANSF';
         break;
       case 'DEPOSITO_EFECTIVO':
         fp = 'DEP_EFE';
@@ -74,18 +76,15 @@ export class PendientesListComponent implements OnInit {
       default:
         break;
     }
-    return fp
+    return fp;
   }
 
-  permitirCambioDeCliente(venta: Venta){
-    if (venta.tipo !== 'CRE'){
-      if (venta.descuento <=  venta.descuentoOriginal) {
-        return true
+  permitirCambioDeCliente(venta: Venta) {
+    if (venta.tipo !== 'CRE') {
+      if (venta.descuento <= venta.descuentoOriginal) {
+        return true;
       }
     }
     return false;
   }
-
-  
-
 }

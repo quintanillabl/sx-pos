@@ -9,19 +9,21 @@ import * as _ from 'lodash';
   styleUrls: ['./descuento-especial.component.scss']
 })
 export class DescuentoEspecialComponent implements OnInit {
-
   descuento = 0.0;
   control: FormControl;
 
   constructor(
     public dialogRef: MdDialogRef<DescuentoEspecialComponent>,
-    @Inject(MD_DIALOG_DATA) public data: any,
+    @Inject(MD_DIALOG_DATA) public data: any
   ) {
     this.descuento = _.round(data.descuento, 2);
   }
 
   ngOnInit() {
-    this.control = new FormControl(this.descuento, [Validators.min(1), Validators.max(80)]);
+    this.control = new FormControl(this.descuento, [
+      Validators.min(1),
+      Validators.max(80)
+    ]);
   }
 
   close() {
@@ -30,8 +32,10 @@ export class DescuentoEspecialComponent implements OnInit {
 
   doAccept() {
     if (this.control.valid) {
-      this.dialogRef.close(this.control.value);
+      let descto = this.control.value;
+      descto = _.toNumber(descto);
+      console.log('Asignando descuento: ', descto);
+      this.dialogRef.close(descto);
     }
   }
-
 }

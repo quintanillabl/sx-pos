@@ -1,19 +1,31 @@
-import {Component, OnInit, Inject, ViewEncapsulation, OnDestroy} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  ViewEncapsulation,
+  OnDestroy
+} from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
-import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ValidatorFn,
+  AbstractControl
+} from '@angular/forms';
 import * as _ from 'lodash';
 
-import {Existencia, Producto, Sucursal, VentaDet, Cliente} from 'app/models';
-import {ExistenciasService} from 'app/ventas/services/existencias.service';
-import {Observable} from 'rxjs/Observable';
-import {Subscription} from 'rxjs/Subscription';
+import { Existencia, Producto, Sucursal, VentaDet, Cliente } from 'app/models';
+import { ExistenciasService } from 'app/ventas/services/existencias.service';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
 
 export function onlyNumber(): ValidatorFn {
-  return (control: AbstractControl): {[key: string]: any} => {
+  return (control: AbstractControl): { [key: string]: any } => {
     const value = _.toNumber(control.value);
     const ok = _.isFinite(value);
-    return ok ? null : {'notNumber': {value: value}};
+    return ok ? null : { notNumber: { value: value } };
   };
 }
 
@@ -24,12 +36,11 @@ export function onlyNumber(): ValidatorFn {
   encapsulation: ViewEncapsulation.None
 })
 export class PedidoDetFormComponent implements OnInit, OnDestroy {
-
   form: FormGroup;
   sucursal: Sucursal;
   producto$: Observable<Producto>;
   disponibilidadTotal$: Observable<number>;
-  disponibilidadTotal = 0
+  disponibilidadTotal = 0;
 
   existenciaRemota$: Observable<Existencia[]>;
   existencias: Existencia[] = [];
@@ -51,14 +62,12 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   corteSubscription: Subscription;
 
   preciosPorCliente = [];
-  
-  
 
   constructor(
     public dialogRef: MdDialogRef<PedidoDetFormComponent>,
     @Inject(MD_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
-    private existenciasService: ExistenciasService,
+    private existenciasService: ExistenciasService
   ) {
     this.sucursal = data.sucursal;
     this.tipoDePrecio = data.tipo;
@@ -96,13 +105,16 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       existencia: [null],
       producto: [null, Validators.required],
       cantidad: [0.0, [Validators.required]],
-      precio: [{value: 0, disabled: !this.asignarPrecio()}, [Validators.required, , Validators.min(1)]],
-      importe: [{value: 0, disabled: true}],
-      importeConIva: [{value: 0, disabled: true}],
-      cortado: [{value: false, disabled: false}],
-      sinExistencia: [{value: false, disabled: false}],
-      conVale: [{value: false, disabled: false}],
-      conTrs: [{value: false, disabled: false}],
+      precio: [
+        { value: 0, disabled: !this.asignarPrecio() },
+        [Validators.required, , Validators.min(1)]
+      ],
+      importe: [{ value: 0, disabled: true }],
+      importeConIva: [{ value: 0, disabled: true }],
+      cortado: [{ value: false, disabled: false }],
+      sinExistencia: [{ value: false, disabled: false }],
+      conVale: [{ value: false, disabled: false }],
+      conTrs: [{ value: false, disabled: false }],
       corte: this.fb.group({
         cantidad: [0, Validators.required],
         tipo: [''],
@@ -113,56 +125,70 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   }
 
   private buildExistenciaRemota$() {
-    this.existenciaRemota$ = this.form.get('producto')
-      .valueChanges
-      .filter(producto => producto !== null)
+    this.existenciaRemota$ = this.form
+      .get('producto')
+      .valueChanges.filter(producto => producto !== null)
       .distinctUntilChanged()
-      .do( producto => {
-          if (! this.asignarPrecio()) {
-            this.form.get('precio').setValue(this.tipoDePrecio === 'CON' ? producto.precioContado : producto.precioCredito)
-            const pe = this.buscarPrecioEspecial(producto);
-            if (pe) {
-              this.form.get('precio').setValue(pe);
-            }
+      .do(producto => {
+        if (!this.asignarPrecio()) {
+          this.form
+            .get('precio')
+            .setValue(
+              this.tipoDePrecio === 'CON'
+                ? producto.precioContado
+                : producto.precioCredito
+            );
+          const pe = this.buscarPrecioEspecial(producto);
+          if (pe) {
+            this.form.get('precio').setValue(pe);
           }
-        })
-      .switchMap( producto => {
+        }
+      })
+      .switchMap(producto => {
         return this.existenciasService.buscarExistencias(producto);
       });
-    this.existenciaRemotaSubs = this.existenciaRemota$.subscribe(exis => this.existencias = exis);
+    this.existenciaRemotaSubs = this.existenciaRemota$.subscribe(
+      exis => (this.existencias = exis)
+    );
   }
 
   buildExistencias() {
     const producto = this.form.get('producto').value;
     if (producto) {
-      this.existenciasService
-        .buscarExistencias(producto)
-        .subscribe(exis => {
-          this.existencias = exis
-           // Fijar la existencia local
-          const found =_.find(this.existencias, item => item.sucursal.id === this.sucursal.id);
-          // console.log('Existencia local: ', found);
-          this.form.get('existencia').setValue(found);
-          // Calcular la existencia total
-          this.disponibilidadTotal =  _.sumBy(this.existencias, 'disponible');
-        });
+      this.existenciasService.buscarExistencias(producto).subscribe(exis => {
+        this.existencias = exis;
+        // Fijar la existencia local
+        const found = _.find(
+          this.existencias,
+          item => item.sucursal.id === this.sucursal.id
+        );
+        // console.log('Existencia local: ', found);
+        this.form.get('existencia').setValue(found);
+        // Calcular la existencia total
+        this.disponibilidadTotal = _.sumBy(this.existencias, 'disponible');
+      });
     }
   }
 
   private buildDisponibilidadTotal$() {
-    this.disponibilidadTotal$ = this.existenciaRemota$.map( exis => _.sumBy(exis, 'disponible'));
+    this.disponibilidadTotal$ = this.existenciaRemota$.map(exis =>
+      _.sumBy(exis, 'disponible')
+    );
   }
 
   getExistenciaLocal(): Existencia {
     if (this.existencias) {
-      return _.find(this.existencias, item => item.sucursal.id === this.sucursal.id);
+      return _.find(
+        this.existencias,
+        item => item.sucursal.id === this.sucursal.id
+      );
     }
     return null;
   }
 
   private buildProducto$() {
     this.producto$ = this.form.get('producto').valueChanges;
-    this.subs1 = this.producto$.subscribe( p => {
+    this.subs1 = this.producto$.subscribe(p => {
       if (p !== null) {
         if (p.presentacion === 'EXTENDIDO') {
           this.form.get('cortado').enable();
@@ -174,11 +200,15 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   }
 
   private buildSinExistencia() {
-    this.sinExistencia$ = this.form.get('existencia').valueChanges
-      .combineLatest(this.form.get('cantidad').valueChanges, (exis, cantidad) => {
-        return exis.disponible - cantidad < 0;
-      });
-    this.subs2 = this.sinExistencia$.subscribe( val => {
+    this.sinExistencia$ = this.form
+      .get('existencia')
+      .valueChanges.combineLatest(
+        this.form.get('cantidad').valueChanges,
+        (exis, cantidad) => {
+          return exis.disponible - cantidad < 0;
+        }
+      );
+    this.subs2 = this.sinExistencia$.subscribe(val => {
       if (val) {
         this.form.get('sinExistencia').enable();
       } else {
@@ -187,18 +217,16 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     });
   }
 
-
-
   private buildCorte$() {
     this.corte$ = this.form.get('cortado').valueChanges;
-    this.corteSubscription = this.corte$.subscribe( val => {
+    this.corteSubscription = this.corte$.subscribe(val => {
       if (!val) {
         const instruccion = this.form.get('corte').value;
         instruccion.cantidad = 0;
         instruccion.precio = 0;
         instruccion.instruccion = null;
       }
-    })
+    });
   }
 
   ngOnDestroy() {
@@ -225,7 +253,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     const rawData = this.form.getRawValue();
     const producto = rawData.producto;
     const factor = producto.unidad === 'MIL' ? 1000 : 1;
-    const kilos = (rawData.cantidad * producto.kilos) / factor;
+    const kilos = rawData.cantidad * producto.kilos / factor;
     const det: VentaDet = {
       producto: producto,
       cantidad: _.toNumber(rawData.cantidad),
@@ -238,17 +266,29 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       impuesto: 0,
       impuestoTasa: 0.16,
       total: rawData.importe,
-      precioLista: this.tipoDePrecio === 'CON' ? producto.precioContado : producto.precioCredito,
-      precioOriginal: this.tipoDePrecio === 'CON' ? producto.precioContado : producto.precioCredito,
+      precioLista:
+        this.tipoDePrecio === 'CON'
+          ? producto.precioContado
+          : producto.precioCredito,
+      precioOriginal:
+        this.tipoDePrecio === 'CON'
+          ? producto.precioContado
+          : producto.precioCredito,
       kilos: kilos,
       comentario: rawData.comentario,
       conVale: rawData.conVale,
       importeCortes: rawData.importeCortes,
       sucursal: this.sucursal,
       sinExistencia: rawData.sinExistencia
-    }
+    };
     if (this.form.get('cortado').value) {
-      det.corte = this.form.get('corte').value;
+      const corte = { ...this.form.get('corte').value };
+      if (corte.ventaDet) {
+        corte.ventaDet = { id: corte.ventaDet.id };
+      }
+      console.log('Actualizando corte: ', corte);
+      // corte.ventaDet = { id: corte.ventaDet.id };
+      det.corte = corte;
       det.importeCortes = det.corte.cantidad * det.corte.precio;
     }
     return det;
@@ -263,21 +303,21 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   }
 
   validarPrecio(): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} => {
+    return (control: AbstractControl): { [key: string]: any } => {
       const precio = control.value;
-      return precio > 0.0 ? {'precioInvalido': {value: control.value}} : null;
+      return precio > 0.0 ? { precioInvalido: { value: control.value } } : null;
     };
   }
 
   get producto() {
-    return this.form.get('producto').value
+    return this.form.get('producto').value;
   }
 
   get importeConIva() {
-    return _.round(this.importeBruto * 1.1600);
+    return _.round(this.importeBruto * 1.16);
   }
   get importeBruto() {
-    const importeBruto = (this.cantidad * this.precio) / this.factor
+    const importeBruto = this.cantidad * this.precio / this.factor;
     return _.round(importeBruto, 2);
   }
 
@@ -290,26 +330,27 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   }
 
   get cantidad(): number {
-    return this.form.get('cantidad').value
+    return this.form.get('cantidad').value;
   }
 
   get precio(): number {
-    return this.form.get('precio').value
+    return this.form.get('precio').value;
   }
 
   buscarPrecioEspecial(producto: Producto) {
     // console.log('Buscando precio especial producto: ', producto);
-    const found =  this.preciosPorCliente.find( item => item.clave === producto.clave);
+    const found = this.preciosPorCliente.find(
+      item => item.clave === producto.clave
+    );
     // console.log('Precio por cliente: ', found);
-    if ( found ) {
+    if (found) {
       const precioList = producto.precioCredito;
       const descuento = 100 - found.descuento;
-      const pr = _.round(  (precioList * descuento) /100 , 2)
+      const pr = _.round(precioList * descuento / 100, 2);
       // console.log('Precio especial encongrado: ', pr);
-      return pr
+      return pr;
     }
-    return null
-    
+    return null;
   }
   /*
   buscarPrecioEspecial(producto: Producto){
@@ -326,5 +367,4 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     }
   }
   */
-
 }

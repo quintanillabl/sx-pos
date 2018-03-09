@@ -1,45 +1,43 @@
-<md-card  >
+<md-card>
   <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
-    <span  class="push-left-sm" flex>
-        <span class="md-title">Pedidos pendientes</span>
+    <span class="push-left-sm" flex>
+      <span class="md-title">Pedidos pendientes</span>
     </span>
-    <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm"
-      placeholder="Pedidos " (searchDebounce)="search($event)" flex>
+    <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Pedidos " (searchDebounce)="search($event)"
+      flex>
     </td-search-box>
-      <span >
-        <button md-icon-button [md-menu-trigger-for]="menu"  >
-        <md-icon >more_vert</md-icon>
-        </button>
-        <md-menu x-position="before" #menu="mdMenu">
-          <button  (click)="load()" md-menu-item><md-icon>refresh</md-icon> Refrescar</button>
-          <a type="button" md-menu-item [routerLink]="['../create']"
-              mdTooltip="Nuevo pedido">
-            <md-icon>add</md-icon> Nuevo pedido
-          </a>
-          <a type="button" md-menu-item [routerLink]="['../dolares/create']">
-            <md-icon>library_add</md-icon> Pedido en dólares
-          </a>
-          <a type="button" md-menu-item [routerLink]="['../anticipo/create']">
-            <md-icon>archive</md-icon> Anticipo
-          </a>
-        </md-menu>
-      </span>
+    <span>
+      <button md-icon-button [md-menu-trigger-for]="menu">
+        <md-icon>more_vert</md-icon>
+      </button>
+      <md-menu x-position="before" #menu="mdMenu">
+        <button (click)="load()" md-menu-item>
+          <md-icon>refresh</md-icon> Refrescar</button>
+        <a type="button" md-menu-item [routerLink]="['../create']" mdTooltip="Nuevo pedido">
+          <md-icon>add</md-icon> Nuevo pedido
+        </a>
+        <a type="button" md-menu-item [routerLink]="['../dolares/create']">
+          <md-icon>library_add</md-icon> Pedido en dólares
+        </a>
+        <a type="button" md-menu-item [routerLink]="['../anticipo/create']">
+          <md-icon>archive</md-icon> Anticipo
+        </a>
+      </md-menu>
+    </span>
   </div>
   <md-divider></md-divider>
-  <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">  
-      <sx-pedidos-pendientes-list 
-      [pedidos]="pedidos$ | async " 
-      (edit)="onEdit($event)" 
-      (facturar)="mandarFacturar($event)"
-      (print)="print($event)"
-      (generarVale)="OnGenerarVale($event)"
-      (cambioDeCliente)="onCambioDeCliente($event)"
-      (envio)="asignarEnvio($event)">
-    </sx-pedidos-pendientes-list>
+  <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
+    <div *ngIf="pedidos$ | async as pedidos" layout>
+      <sx-pedidos-pendientes-list [pedidos]="pedidos" (edit)="onEdit($event)" (facturar)="mandarFacturar($event)" (print)="print($event)"
+        (generarVale)="OnGenerarVale($event)" (cambioDeCliente)="onCambioDeCliente($event)" (envio)="asignarEnvio($event)"
+        flex>
+      </sx-pedidos-pendientes-list>
+
+    </div>
+
   </ng-template>
 </md-card>
 
 <a md-fab color="accent" class="mat-fab-bottom-right" [routerLink]="['../create']">
   <md-icon>add</md-icon>
 </a>
-
