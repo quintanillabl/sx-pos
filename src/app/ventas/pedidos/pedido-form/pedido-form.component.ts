@@ -294,10 +294,12 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.id) {
       pedido.createUser = this.form.get('usuario').value.username;
     }
-    if(!this.id) {
-      pedido.fecha = (new Date()).toISOString();
+    if (!this.id) {
+      pedido.fecha = new Date().toISOString();
     } else {
       pedido.fecha = this.pedido.fecha;
+      // delete pedido.lastUdated;
+      // delete pedido.dateCreated;
     }
     return pedido;
   }
