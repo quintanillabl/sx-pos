@@ -99,7 +99,7 @@
         </span>
         <span class="pad-right" flex>TOTAL:</span>
         <span [ngClass]="{'tc-indigo-700': existencia?.cantidad > 0, 'tc-pink-700': existencia?.cantidad <= 0} " flex>
-          {{ (disponibilidadTotal$ | async) | number:'3.0'}}
+          {{ (disponibilidadTotal) | number:'3.0'}}
         </span>
 
       </div>

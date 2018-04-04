@@ -81,11 +81,8 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     this.buildForm();
     this.edicion();
     this.buildExistenciaRemota$();
-    this.buildDisponibilidadTotal$();
     this.buildProducto$();
-    // this.buildImporteBruto$();
     this.buildCorte$();
-    // this.buildSinExistencia()
   }
 
   private edicion() {
@@ -160,6 +157,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       );
       console.log('Existencia LOCAL: ', found);
       this.form.get('existencia').setValue(found);
+      this.disponibilidadTotal = _.sumBy(this.existencias, 'disponible');
     });
   }
 
@@ -178,12 +176,6 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
         this.disponibilidadTotal = _.sumBy(this.existencias, 'disponible');
       });
     }
-  }
-
-  private buildDisponibilidadTotal$() {
-    this.disponibilidadTotal$ = this.existenciaRemota$.map(exis =>
-      _.sumBy(exis, 'disponible')
-    );
   }
 
   getExistenciaLocal(): Existencia {

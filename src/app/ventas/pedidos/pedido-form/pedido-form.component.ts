@@ -33,7 +33,15 @@ import { PedidoValidator } from './pedido.validator';
 @Component({
   selector: 'sx-pedido-form',
   templateUrl: './pedido-form.component.html',
-  styles: ['']
+  styles: [
+    `
+    .table-wrapper
+    {
+        max-height: 400px;
+        overflow: auto;
+    }
+  `
+  ]
 })
 export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   form: FormGroup;

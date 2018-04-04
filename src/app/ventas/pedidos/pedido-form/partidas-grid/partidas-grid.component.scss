@@ -5,7 +5,29 @@
 }
 .table {
   table-layout: fixed;
-  width: 100%;
-  overflow-y: auto;
-  // vertical-align: baseline
+  //width: 100%;
+  min-height: 300px;
+  overflow-y: scroll;
+  overflow-x: scroll;
+  vertical-align: baseline
+}
+th.renglon {
+  width: 40px;
+  font-size: 10px;
+}
+th.producto {
+  width: 450px; 
+}
+td.producto {
+  font-size: 12px;
+}
+th.cantidad, th.precio, th.importe, th.descuento, th.subtotal, th.operaciones {
+  min-width: 70px;
+}
+td {
+  ::ng-deep {
+    div.td-data-table-cell-content-wrapper {
+      padding-left: 0px;
+    }
+  }
 }

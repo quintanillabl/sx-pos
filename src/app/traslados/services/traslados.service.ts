@@ -9,69 +9,61 @@ import { ConfigService } from 'app/core/services/config.service';
 
 @Injectable()
 export class TrasladosService {
-
-  private apiUrl: string //= environment.apiUrl + '/inventario/traslados';
+  private apiUrl: string; //= environment.apiUrl + '/inventario/traslados';
 
   sucursal: Sucursal;
 
-  constructor(
-    private http: HttpClient,
-    private configService: ConfigService) {
+  constructor(private http: HttpClient, private configService: ConfigService) {
     this.sucursal = configService.getCurrentSucursal();
     this.apiUrl = configService.buildApiUrl('inventario/traslados');
   }
 
   get(id: string): Observable<Traslado> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<Traslado>(url)
+    return this.http.get<Traslado>(url);
   }
 
-  list(filtro: any = {} ): Observable<Traslado[]> {
+  list(filtro: any = {}): Observable<Traslado[]> {
     let params = new HttpParams().set('sucursal', this.sucursal.id);
     _.forIn(filtro, (value, key) => {
       params = params.set(key, value);
     });
-    return this.http.get<Traslado[]>(this.apiUrl, {params: params})
+    return this.http.get<Traslado[]>(this.apiUrl, { params: params });
   }
 
   update(traslado: Traslado) {
     const url = `${this.apiUrl}/${traslado.id}`;
     return this.http.put(url, traslado);
   }
-  
-  print(tps: Traslado) {
-    const endpoint = tps.uuid ? 'printCfdi' : 'print'
+
+  print(tps: Traslado, comentario: string = '') {
+    const endpoint = tps.uuid ? 'printCfdi' : 'print';
     const url = `${this.apiUrl}/${endpoint}`;
     const params = new HttpParams()
-      .set('ID', tps.id);
-    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
-    return this.http.get(
-      url, {
-        headers: headers,
-        params: params,
-        responseType: 'blob'
-      }
-    );
+      .set('ID', tps.id)
+      .set('COMENTARIO', comentario);
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http.get(url, {
+      headers: headers,
+      params: params,
+      responseType: 'blob'
+    });
   }
 
   mostrarXml(tps: Traslado): Observable<any> {
     const endpoint = `cfdis/mostrarXml/${tps.cfdi.id}`;
     const url = this.configService.buildApiUrl(endpoint);
-    const headers = new HttpHeaders().set('Content-type' , 'text/xml');
-    return this.http.get(
-      url, {
-        headers: headers,
-        responseType: 'blob'
-      }
-    );
+    const headers = new HttpHeaders().set('Content-type', 'text/xml');
+    return this.http.get(url, {
+      headers: headers,
+      responseType: 'blob'
+    });
   }
-  
 
   darSalida(tps: Traslado) {
     const url = `${this.apiUrl}/salida/${tps.id}`;
     return this.http.put(url, tps);
   }
-
 
   timbrar(tps: Traslado) {
     const url = `${this.apiUrl}/timbrar/${tps.id}`;
@@ -88,5 +80,4 @@ export class TrasladosService {
     const url = this.configService.buildApiUrl(endpoint);
     return this.http.get<Array<any>>(url);
   }
-
 }
