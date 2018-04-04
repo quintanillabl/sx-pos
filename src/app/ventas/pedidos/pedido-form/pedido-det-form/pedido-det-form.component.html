@@ -5,7 +5,7 @@
     <div class="form-content" layout="column">
 
 
-      <sx-producto-field formControlName="producto" >
+      <sx-producto-field formControlName="producto">
 
       </sx-producto-field>
 
@@ -16,13 +16,10 @@
 
       <div layout *ngIf="producto">
         <md-form-field *ngIf="tipoDePrecio ==='CON'">
-          <input type="text" mdInput placeholder="Precio Contado" [disabled]="true"
-                 value="{{producto.precioContado | currency:'USD': true: '1.2-2'}}">
+          <input type="text" mdInput placeholder="Precio Contado" [disabled]="true" value="{{producto.precioContado | currency:'USD': true: '1.2-2'}}">
         </md-form-field>
         <md-form-field *ngIf="tipoDePrecio ==='CRE'">
-          <input type="text"
-            mdInput placeholder="Precio Crédito" [disabled]="true"
-            value="{{precio | currency:'USD': true: '1.2-2'}}">
+          <input type="text" mdInput placeholder="Precio Crédito" [disabled]="true" value="{{precio | currency:'USD': true: '1.2-2'}}">
         </md-form-field>
         <md-form-field>
           <input type="text" mdInput placeholder="Ancho" [disabled]="true" value="{{producto.ancho}}">
@@ -45,28 +42,25 @@
       </ng-template>-->
 
       <div layout>
-        <md-form-field >
-          <input type="text" mdInput sxOnlyIntegers 
-                 placeholder="Cantidad" formControlName="cantidad" autocomplete="off">
+        <md-form-field>
+          <input type="text" mdInput sxOnlyIntegers placeholder="Cantidad" formControlName="cantidad" autocomplete="off">
           <md-error> Cantidad incorrecta</md-error>
+          <md-error *ngIf="form.hasError('sinExistencia')">No hay existencia suficiente</md-error>
         </md-form-field>
         <!-- <md-form-field >
           <input type="text" mdInput placeholder="Unidad" value="{{existencia?.producto?.unidad}}" [disabled]="true">
         </md-form-field> -->
         <md-form-field *ngIf="dolares">
-          <input type="text" mdInput placeholder="{{dolares ? 'Precio USD' : 'Precio'}}" sxOnlyNumbers
-                 formControlName="precio">
+          <input type="text" mdInput placeholder="{{dolares ? 'Precio USD' : 'Precio'}}" sxOnlyNumbers formControlName="precio">
         </md-form-field>
-        <md-form-field >
+        <md-form-field>
           <!-- <input type="text" mdInput placeholder="Importe Bruto" [disabled]="true"
             value="{{importeBruto$ | async | currency:'USD': true: '1.2-2' }}"> -->
-          <input type="text" mdInput placeholder="Importe Bruto" [disabled]="true"
-            value="{{importeBruto  | currency:'USD': true: '1.2-2' }}">
+          <input type="text" mdInput placeholder="Importe Bruto" [disabled]="true" value="{{importeBruto  | currency:'USD': true: '1.2-2' }}">
         </md-form-field>
 
-        <md-form-field >
-          <input type="text" mdInput placeholder="Importe con IVA" [disabled]="true"
-                   value="{{(importeConIva) * 1.16 | currency:'USD': true: '1.2-2' }}">
+        <md-form-field>
+          <input type="text" mdInput placeholder="Importe con IVA" [disabled]="true" value="{{(importeConIva) * 1.16 | currency:'USD': true: '1.2-2' }}">
         </md-form-field>
 
       </div>
@@ -78,18 +72,17 @@
         <md-checkbox flex formControlName="conTrs" mdTooltip="Transformación o reclasificacion">Con TRS</md-checkbox>
       </div>
 
-      <div layout  *ngIf="cortadoBox.checked" formGroupName="corte">
+      <div layout *ngIf="cortadoBox.checked" formGroupName="corte">
 
-        <md-select  placeholder="Tipo" formControlName="tipo"  flex formControlName="tipo">
+        <md-select placeholder="Tipo" formControlName="tipo" flex formControlName="tipo">
           <md-option></md-option>
           <md-option *ngFor="let
-           tipo of ['CALCULADO','CRUZ','CARTA','MITAD','1/8','CROQUIS','DOBLE_CARTA','MEDIA_CARTA','OFICIO']"
-                     [value]="tipo">{{ tipo }}</md-option>
+           tipo of ['CALCULADO','CRUZ','CARTA','MITAD','1/8','CROQUIS','DOBLE_CARTA','MEDIA_CARTA','OFICIO']" [value]="tipo">{{ tipo }}</md-option>
         </md-select>
         <md-form-field flex>
-            <input type="text" formControlName="instruccion" mdInput placeholder="Instrucción">
-          </md-form-field>
-        <md-form-field flex ="15">
+          <input type="text" formControlName="instruccion" mdInput placeholder="Instrucción">
+        </md-form-field>
+        <md-form-field flex="15">
           <input type="text" formControlName="cantidad" mdInput placeholder="Cantidad" sxOnlyNumbers>
         </md-form-field>
         <md-form-field flex="20">
@@ -102,7 +95,7 @@
         <span class="md-subhead pad-right"> Disponibilidad </span>
         <span class="pad-right" flex>{{sucursal.nombre}}:</span>
         <span [ngClass]="{'tc-indigo-700': existencia?.cantidad > 0, 'tc-pink-700': existencia?.cantidad <= 0} " flex>
-            {{getExistenciaLocal()?.cantidad | number:'3.0'}}
+          {{getExistenciaLocal()?.cantidad | number:'3.0'}}
         </span>
         <span class="pad-right" flex>TOTAL:</span>
         <span [ngClass]="{'tc-indigo-700': existencia?.cantidad > 0, 'tc-pink-700': existencia?.cantidad <= 0} " flex>
@@ -112,9 +105,9 @@
       </div>
 
       <div class="pad">
-        <table >
-          <thead >
-            <tr class="text-md" >
+        <table>
+          <thead>
+            <tr class="text-md">
               <th>Sucursal</th>
               <th>Existencia</th>
               <th>Recorte</th>
@@ -123,7 +116,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let exis of existencias" class="pad-md text-md " [ngClass]="{'tc-pink-700': exis.sucursal.id === sucursal.id}" >
+            <tr *ngFor="let exis of existencias" class="pad-md text-md " [ngClass]="{'tc-pink-700': exis.sucursal.id === sucursal.id}">
               <td>{{exis.sucursal.nombre}}</td>
               <td class="text-right">{{exis.cantidad | number}}</td>
               <td class="text-right">{{exis.recorte | number:'1.0'}}</td>
@@ -137,9 +130,13 @@
     </div>
   </md-dialog-content>
 
+  <td-message #message label="Producto sin existencia" icon="warning" color="red" [opened]="form.hasError('sinExistencia')">
+
+  </td-message>
+
   <md-dialog-actions>
-    <button md-button type="button"  (click)="doAccept()" class="accent" [disabled]="form.invalid" >Aceptar</button>
-    <button md-button type="button" (click)="close()" >Cancelar</button>
+    <button md-button type="button" (click)="doAccept()" class="accent" [disabled]="form.invalid">Aceptar</button>
+    <button md-button type="button" (click)="close()">Cancelar</button>
   </md-dialog-actions>
 
 

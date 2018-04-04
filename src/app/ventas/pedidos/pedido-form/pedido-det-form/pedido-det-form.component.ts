@@ -20,6 +20,7 @@ import { ExistenciasService } from 'app/ventas/services/existencias.service';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
+import { PedidodetValidator } from './pedidodet.validator';
 
 export function onlyNumber(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
@@ -101,27 +102,30 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   }
 
   private buildForm() {
-    this.form = this.fb.group({
-      existencia: [null],
-      producto: [null, Validators.required],
-      cantidad: [0.0, [Validators.required]],
-      precio: [
-        { value: 0, disabled: !this.asignarPrecio() },
-        [Validators.required, , Validators.min(1)]
-      ],
-      importe: [{ value: 0, disabled: true }],
-      importeConIva: [{ value: 0, disabled: true }],
-      cortado: [{ value: false, disabled: false }],
-      sinExistencia: [{ value: false, disabled: false }],
-      conVale: [{ value: false, disabled: false }],
-      conTrs: [{ value: false, disabled: false }],
-      corte: this.fb.group({
-        cantidad: [0, Validators.required],
-        tipo: [''],
-        precio: [0, Validators.required],
-        instruccion: [null]
-      })
-    });
+    this.form = this.fb.group(
+      {
+        existencia: [null],
+        producto: [null, Validators.required],
+        cantidad: [0.0, [Validators.required]],
+        precio: [
+          { value: 0, disabled: !this.asignarPrecio() },
+          [Validators.required, , Validators.min(1)]
+        ],
+        importe: [{ value: 0, disabled: true }],
+        importeConIva: [{ value: 0, disabled: true }],
+        cortado: [{ value: false, disabled: false }],
+        sinExistencia: [{ value: false, disabled: false }],
+        conVale: [{ value: false, disabled: false }],
+        conTrs: [{ value: false, disabled: false }],
+        corte: this.fb.group({
+          cantidad: [0, Validators.required],
+          tipo: [''],
+          precio: [0, Validators.required],
+          instruccion: [null]
+        })
+      },
+      { validator: PedidodetValidator }
+    );
   }
 
   private buildExistenciaRemota$() {
@@ -147,9 +151,16 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       .switchMap(producto => {
         return this.existenciasService.buscarExistencias(producto);
       });
-    this.existenciaRemotaSubs = this.existenciaRemota$.subscribe(
-      exis => (this.existencias = exis)
-    );
+    this.existenciaRemotaSubs = this.existenciaRemota$.subscribe(exis => {
+      this.existencias = exis;
+      // Fijar la existencia local
+      const found = _.find(
+        this.existencias,
+        item => item.sucursal.id === this.sucursal.id
+      );
+      console.log('Existencia LOCAL: ', found);
+      this.form.get('existencia').setValue(found);
+    });
   }
 
   buildExistencias() {
@@ -162,7 +173,6 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
           this.existencias,
           item => item.sucursal.id === this.sucursal.id
         );
-        // console.log('Existencia local: ', found);
         this.form.get('existencia').setValue(found);
         // Calcular la existencia total
         this.disponibilidadTotal = _.sumBy(this.existencias, 'disponible');
@@ -286,7 +296,6 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       if (corte.ventaDet) {
         corte.ventaDet = { id: corte.ventaDet.id };
       }
-      console.log('Actualizando corte: ', corte);
       // corte.ventaDet = { id: corte.ventaDet.id };
       det.corte = corte;
       det.importeCortes = det.corte.cantidad * det.corte.precio;
@@ -300,13 +309,6 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
 
   asignarPrecio() {
     return this.dolares;
-  }
-
-  validarPrecio(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } => {
-      const precio = control.value;
-      return precio > 0.0 ? { precioInvalido: { value: control.value } } : null;
-    };
   }
 
   get producto() {
@@ -355,13 +357,13 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
   /*
   buscarPrecioEspecial(producto: Producto){
     if(this.cliente && this.cliente.credito) {
-      
+
       this.service.buscarPreciosPorCliente(this.cliente, producto).subscribe( res => {
         console.log('Precio encontrado: ', res);
         const precioList = this.producto.precioCredito;
         const descuento = 100 - res.descuento;
         const pr = _.round(  (precioList * descuento) /100 , 2)
-        
+
         this.form.get('precio').setValue(pr);
       });
     }
