@@ -5,11 +5,28 @@
 }
 .table {
   table-layout: fixed;
-  //width: 100%;
-  min-height: 300px;
-  overflow-y: scroll;
-  overflow-x: scroll;
-  vertical-align: baseline
+  width: 100%;
+  overflow-y: auto;
+  // vertical-align: baseline
+}
+th.producto {
+  width: 450px; 
+}
+td.producto {
+  font-size: 12px;
+}
+th.cantidad, th.precio, th.importe, th.descuento, th.subtotal, th.operaciones {
+  min-width: 70px;
+}
+/*
+.example-fab {
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+}
+.table {
+  table-layout: fixed;
+  overflow: auto;
 }
 th.renglon {
   width: 40px;
@@ -31,3 +48,4 @@ td {
     }
   }
 }
+*/

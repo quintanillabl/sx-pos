@@ -37,7 +37,7 @@ import { PedidoValidator } from './pedido.validator';
     `
     .table-wrapper
     {
-        max-height: 400px;
+        height: 400px;
         overflow: auto;
     }
   `
