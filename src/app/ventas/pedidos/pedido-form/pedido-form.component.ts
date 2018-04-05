@@ -29,6 +29,7 @@ import { PedidoFormService } from './pedido-form.service';
 import { PartidasGridComponent } from './partidas-grid/partidas-grid.component';
 import { TdDialogService } from '@covalent/core';
 import { PedidoValidator } from './pedido.validator';
+import { ClienteService } from 'app/clientes/services/cliente.service';
 
 @Component({
   selector: 'sx-pedido-form',
@@ -77,7 +78,8 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     private pedidoFormService: PedidoFormService,
     private cd: ChangeDetectorRef,
     private _dialogService: TdDialogService,
-    private _viewContainerRef: ViewContainerRef
+    private _viewContainerRef: ViewContainerRef,
+    private clienteService: ClienteService
   ) {
     this.buildForm();
   }
@@ -274,15 +276,18 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
   onSave() {
     if (this.form.valid) {
-      const pedido: Venta = {
-        ...this.form.getRawValue(),
-        sucursal: this.sucursal,
-        vendedor: this.cliente.vendedor
-      };
-      this.fixPedidoToApi(pedido);
-
-      _.forEach(pedido.partidas, item => (item.sucursal = this.sucursal));
-      this.save.emit(pedido);
+      if (this.cliente.cfdiValidado) {
+        const pedido: Venta = {
+          ...this.form.getRawValue(),
+          sucursal: this.sucursal,
+          vendedor: this.cliente.vendedor
+        };
+        this.fixPedidoToApi(pedido);
+        _.forEach(pedido.partidas, item => (item.sucursal = this.sucursal));
+        this.save.emit(pedido);
+      } else {
+        this.validarCfdi();
+      }
     }
   }
 
@@ -310,6 +315,39 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       // delete pedido.dateCreated;
     }
     return pedido;
+  }
+
+  validarCfdi() {
+    if (!this.cliente.cfdiValidado) {
+      this._dialogService
+        .openPrompt({
+          message: 'Email para CFDI',
+          title: 'Confirmar correo para envío de CFDIs',
+          value: this.cliente.cfdiMail,
+          acceptButton: 'Aceptar',
+          cancelButton: 'Cancelar'
+        })
+        .afterClosed()
+        .subscribe(res => {
+          if (res !== null) {
+            this.clienteService
+              .confirmarCorreo(
+                this.cliente.id,
+                res,
+                this.form.get('usuario').value.username
+              )
+              .subscribe(cliente => {
+                this.form.get('cliente').setValue(cliente);
+                this._dialogService.openAlert({
+                  title: 'Actualización de correos',
+                  message:
+                    'Email para CFDI del cliente actualizado y/o confirmado',
+                  closeButton: 'Continuar'
+                });
+              });
+          }
+        });
+    }
   }
 
   /*

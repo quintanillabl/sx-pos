@@ -27,7 +27,7 @@ import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-
         </div>
 
         </ng-template>
-        
+
       </div>
     </sx-nav-layout>
   `
@@ -68,12 +68,11 @@ export class PedidoEditComponent implements OnInit {
   }
 
   onUpdate(pedido: Venta) {
-    console.log('Actualizando la venta: ', pedido);
     pedido.partidas.forEach(item => {
       if (item.corte) {
         if (item.corte.ventaDet) {
           item.corte.ventaDet = { id: item.corte.ventaDet.id };
-          console.log('Corte: ', item.corte);
+          // console.log('Corte: ', item.corte);
         }
       }
     });
