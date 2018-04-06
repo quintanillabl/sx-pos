@@ -12,6 +12,7 @@ export class Cliente {
   cfdiValidado?: boolean;
   juridico?: boolean;
   chequeDevuelto?: number;
+  folioRFC?: number;
 }
 
 export class ClienteCredito {

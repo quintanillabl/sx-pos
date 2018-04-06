@@ -55,4 +55,10 @@ export class ClienteService {
     const url = `${this.apiUrl}/actualizarCfdiMail/${clienteId}`;
     return this.http.put<Cliente>(url, {}, { params: params });
   }
+
+  validarRfc(rfc: string): Observable<Cliente> {
+    const params = new HttpParams().set('rfc', rfc);
+    const url = `${this.apiUrl}/validarRfc`;
+    return this.http.get<Cliente>(url, { params: params });
+  }
 }

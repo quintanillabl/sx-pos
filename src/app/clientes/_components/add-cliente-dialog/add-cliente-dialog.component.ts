@@ -1,6 +1,13 @@
-import {Component, HostListener, Inject, OnInit} from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  AbstractControl
+} from '@angular/forms';
+import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { ClienteService } from 'app/clientes/services/cliente.service';
+import { Cliente } from '@siipapx/models';
 
 @Component({
   selector: 'sx-add-cliente-dialog',
@@ -8,19 +15,27 @@ import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
   styleUrls: ['./add-cliente-dialog.component.css']
 })
 export class AddClienteDialogComponent implements OnInit {
-
   form: FormGroup;
 
   constructor(
     @Inject(MD_DIALOG_DATA) public data: any,
     public dialogRef: MdDialogRef<AddClienteDialogComponent>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private service: ClienteService
   ) {}
 
   ngOnInit() {
     this.form = this.fb.group({
       nombre: [null, [Validators.required, Validators.maxLength(255)]],
-      rfc: [null, [Validators.required, Validators.minLength(12), Validators.maxLength(13)]],
+      rfc: [
+        null,
+        [
+          Validators.required,
+          Validators.minLength(12),
+          Validators.maxLength(13)
+        ],
+        [this.validarRfc.bind(this)]
+      ],
       clave: ['PENDIENTE', Validators.required],
       email: [null, Validators.required],
       direccion: this.fb.group({
@@ -30,8 +45,8 @@ export class AddClienteDialogComponent implements OnInit {
         colonia: [null, Validators.required],
         municipio: [null, Validators.required],
         estado: [null, Validators.required],
-        pais: [{value: 'MEXICO', disabled: true}, Validators.required],
-        codigoPostal: [null, Validators.required],
+        pais: [{ value: 'MEXICO', disabled: true }, Validators.required],
+        codigoPostal: [null, Validators.required]
       }),
       telefono1: [null],
       telefono2: [null],
@@ -42,8 +57,6 @@ export class AddClienteDialogComponent implements OnInit {
     });
   }
 
-
-
   cancelar() {
     this.dialogRef.close('CANCELADO');
   }
@@ -52,8 +65,8 @@ export class AddClienteDialogComponent implements OnInit {
     if (this.form.valid) {
       const cliente = {
         medios: this.buildMediosObject(),
-        ... this.form.getRawValue()
-      }
+        ...this.form.getRawValue()
+      };
       // console.log('Cliente: ', cliente);
       this.dialogRef.close(cliente);
     }
@@ -64,20 +77,35 @@ export class AddClienteDialogComponent implements OnInit {
     const telefono1 = this.form.get('telefono1').value;
     const telefono2 = this.form.get('telefono2').value;
     const cfdiMail = this.form.get('email').value;
-    if (telefono1 ) {
-      medios.push({tipo: 'TEL', descripcion: telefono1, comentario: 'TELEFONO 1'})
+    if (telefono1) {
+      medios.push({
+        tipo: 'TEL',
+        descripcion: telefono1,
+        comentario: 'TELEFONO 1'
+      });
     }
-    if (telefono2 ) {
-      medios.push({tipo: 'TEL', descripcion: telefono2, comentario: 'TELEFONO 2'})
+    if (telefono2) {
+      medios.push({
+        tipo: 'TEL',
+        descripcion: telefono2,
+        comentario: 'TELEFONO 2'
+      });
     }
-    if (cfdiMail ) {
-      medios.push({tipo: 'MAIL', descripcion: cfdiMail, comentario: 'CFDI Mail', cfdi: true})
+    if (cfdiMail) {
+      medios.push({
+        tipo: 'MAIL',
+        descripcion: cfdiMail,
+        comentario: 'CFDI Mail',
+        cfdi: true
+      });
     }
     return medios;
   }
 
-  get generalesLabel(){
-    return this.form.get('nombre').value ? this.form.get('nombre').value : 'Datos generales'
+  get generalesLabel() {
+    return this.form.get('nombre').value
+      ? this.form.get('nombre').value
+      : 'Datos generales';
   }
 
   get direccion() {
@@ -96,6 +124,10 @@ export class AddClienteDialogComponent implements OnInit {
     }
   }
 
-
-
+  validarRfc(control: AbstractControl) {
+    return this.service.validarRfc(control.value).map((cliente: Cliente) => {
+      console.log('Cliente existente: ', cliente);
+      return cliente && cliente.folioRFC !== 1 ? null : { rfcDuplicado: true };
+    });
+  }
 }
