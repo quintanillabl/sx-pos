@@ -1,34 +1,41 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MD_DIALOG_DATA, MdDialogRef } from '@angular/material';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl
+} from '@angular/forms';
 
 @Component({
   selector: 'sx-autorizacion-de-venta',
-  templateUrl: './autorizacion-de-venta.component.html',
-  styleUrls: ['./autorizacion-de-venta.component.scss']
+  templateUrl: './autorizacion-de-venta.component.html'
 })
 export class AutorizacionDeVentaComponent implements OnInit {
+  form: FormGroup;
 
-
-  form: FormGroup
+  role: string;
 
   constructor(
     @Inject(MD_DIALOG_DATA) public data: any,
     public dialogRef: MdDialogRef<AutorizacionDeVentaComponent>,
-    private fb: FormBuilder,
+    private fb: FormBuilder
   ) {
     this.form = fb.group({
-      fecha: [{value: new Date(), disabled: true}, Validators.required],
-      tipo: [{value: data.tipo, disabled: true}, Validators.required],
-      solicito: [{value: data.solicito, disabled: true}, Validators.required],
-      autorizo: [null, Validators.required],
+      fecha: [{ value: new Date(), disabled: true }, Validators.required],
+      tipo: [{ value: data.tipo, disabled: true }, Validators.required],
+      solicito: [{ value: data.solicito, disabled: true }, Validators.required],
+      autorizo: [null, [Validators.required]],
       comentario: ['', Validators.required],
-      usuario: [null, Validators.required],
+      usuario: [
+        null,
+        [Validators.required, this.validarAutorizacion.bind(this)]
+      ]
     });
+    this.role = data.role;
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   close() {
     this.dialogRef.close();
@@ -37,10 +44,19 @@ export class AutorizacionDeVentaComponent implements OnInit {
   doAccept() {
     const fecha: Date = this.form.get('fecha').value;
     const res = {
-      ... this.form.getRawValue(),
-      fecha: fecha.toISOString(),
+      ...this.form.getRawValue(),
+      fecha: fecha.toISOString()
     };
     this.dialogRef.close(res);
+  }
+
+  validarAutorizacion(control: AbstractControl) {
+    if (control.value) {
+      const user: any = control.value;
+      console.log('Validando usuario: ', user);
+      return this.hasRole(user, this.role) ? null : { noAutorizado: false };
+    }
+    return null;
   }
 
   setUsuario(usuario: any) {
@@ -48,4 +64,7 @@ export class AutorizacionDeVentaComponent implements OnInit {
     this.form.get('autorizo').setValue(usuario.username);
   }
 
+  private hasRole(user: any, role: string) {
+    return user.roles.find(r => r === role) !== null;
+  }
 }

@@ -27,7 +27,7 @@
   </div>
   <md-divider></md-divider>
   <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
-    <div *ngIf="pedidos$ | async as pedidos" layout>
+    <div *ngIf="pedidos$ | async as pedidos" layout class="pendientes-list-panel">
       <sx-pedidos-pendientes-list [pedidos]="pedidos" (edit)="onEdit($event)" (facturar)="mandarFacturar($event)" (print)="print($event)"
         (generarVale)="OnGenerarVale($event)" (cambioDeCliente)="onCambioDeCliente($event)" (envio)="asignarEnvio($event)"
         flex>

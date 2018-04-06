@@ -66,6 +66,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
   formaDePago$: Observable<any>;
   formaDePagoSubscription: Subscription;
+  pedidosPendientesSubs: Subscription;
 
   tipoSubscription: Subscription;
 
@@ -124,24 +125,21 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit() {
-    /*
-    this.tipoSubscription = this.form.get('tipo').valueChanges.subscribe( tipo => {
-      if (tipo === 'CRE') {
-        console.log('Detectando cambio de tipo de venta a : ', tipo);
-        this.form.get('cod').setValue(false);
-        this.form.get('cod').disable();
-      } else {
-        this.form.get('cod').setValue(false);
-        this.form.get('cod').enable();
-      }
-    });
-    */
+    this.pedidosPendientesSubs = this.form
+      .get('cliente')
+      .valueChanges.subscribe(cliente => {
+        console.log(
+          'Cliente seleccionado buscando pedidos pendientes....',
+          cliente
+        );
+      });
   }
 
   ngOnDestroy() {
     this.recalcularSubscription.unsubscribe();
     this.formaDePagoSubscription.unsubscribe();
     this.tipoSubscription.unsubscribe();
+    this.pedidosPendientesSubs.unsubscribe();
   }
 
   private buildForm() {

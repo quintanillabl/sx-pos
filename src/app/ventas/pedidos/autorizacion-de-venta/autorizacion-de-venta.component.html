@@ -3,7 +3,7 @@
     {{data.title}}
   </h4>
 
-  <div layout >
+  <div layout>
 
     <md-form-field flex>
       <input type="text" mdInput placeholder="Tipo" formControlName="tipo">
@@ -25,6 +25,8 @@
       <input type="text" mdInput placeholder="" value="{{form.get('usuario').value?.username}}" [disabled]="true">
     </md-form-field>
   </div>
+  <td-message #message label="Derechis insuficientes" icon="warning" color="red" [opened]="form.get('usuario').hasError('noAutorizado')">
+  </td-message>
   <div layout>
     <md-form-field flex>
       <input type="text" mdInput placeholder="Comentario" formControlName="comentario">
@@ -32,8 +34,8 @@
   </div>
 
   <md-dialog-actions>
-    <button md-button class="accent" type="submit" [disabled]="form.invalid" >Aceptar</button>
-    <button md-button type="button" (click)="close()" >Cancelar</button>
+    <button md-button class="accent" type="submit" [disabled]="form.invalid">Aceptar</button>
+    <button md-button type="button" (click)="close()">Cancelar</button>
   </md-dialog-actions>
 
 </form>

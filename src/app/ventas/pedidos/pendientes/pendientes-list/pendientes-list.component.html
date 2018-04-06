@@ -1,19 +1,20 @@
-<td-data-table #dataTable [data]="pedidos" [columns]="columns" selectable="false" [style.height.px]="600">
+<td-data-table #dataTable [data]="pedidos" [columns]="columns" selectable="false">
 
   <ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
-    <a md-button (click)="onEdit(row)" class="tc-indigo-700">
+    <a (click)="onEdit(row)" class="tc-indigo-700 cursor-pointer">
       <span>{{row.tipo}}</span> {{row.documento}}
     </a>
   </ng-template>
 
   <ng-template tdDataTableTemplate="comentario" let-value="value" let-row="row">
-    <span layout="column" class="text-sm tc-pink-700">
+    <span layout="column">
       <span>{{value}}</span>
       <span *ngIf="row.tipo === 'ANT'"> ANT {{row.comentario}}</span>
       <span *ngIf="row.tipoDeCambio > 1"> (USD T.C: {{row.tipoDeCambio | number: '1.4-4'}})</span>
       <span *ngIf="row.puesto">PUESTO</span>
       <span *ngIf="row.clasificacionVale !== 'SIN_VALE'">{{row.clasificacionVale}}</span>
-      <span *ngIf="row.sinExistencia">Sin existencia</span>
+      <span *ngIf="row.sinExistencia" class=" tc-pink-700">SIN EXISTENCIA</span>
+      <span *ngIf="row.descuento > row.descuentoOriginal" class=" tc-pink-700">DESCTO {{row.descuento}}</span>
     </span>
   </ng-template>
 
@@ -23,9 +24,6 @@
 
   <ng-template tdDataTableTemplate="nombre" let-value="value" let-row="row">
     <span>{{value}}</span>
-    <a (click)="cambioDeCliente.emit(row)" *ngIf="permitirCambioDeCliente(row)" class="tc-pink-800" md-icon-button>
-      <md-icon>edit</md-icon>
-    </a>
   </ng-template>
 
   <ng-template tdDataTableTemplate="lastUpdated" let-value="value">
@@ -43,7 +41,17 @@
 
 
   <ng-template tdDataTableTemplate="total" let-value="value" let-row="row">
-    <span class="tc-indigo-800">{{value | currency: 'USD': 1.2-2}}</span>
+    <span layout="column">
+      <span class="tc-indigo-800">{{value | currency: 'USD': 1.2-2}}</span>
+      <span class="text-sm tc-pink-700">{{getFormaDePago(row)}}</span>
+    </span>
+  </ng-template>
+
+  <ng-template tdDataTableTemplate="createUser" let-value="value" let-row="row">
+    <span layout="column">
+      <span>{{value}}</span>
+      <span *ngIf="value != row.updateUser" class="tc-pink-700">{{row.updateUser}}</span>
+    </span>
   </ng-template>
 
   <ng-template tdDataTableTemplate="operaciones" let-value="value" let-row="row">
@@ -60,6 +68,9 @@
       <button md-icon-button type="button" mdTooltip="Imprimir pedido" (click)="print.emit(row.id)">
         <md-icon>print</md-icon>
       </button>
+      <a (click)="cambioDeCliente.emit(row)" *ngIf="permitirCambioDeCliente(row)" class="tc-pink-800" md-icon-button>
+        <md-icon>person_add</md-icon>
+      </a>
     </span>
   </ng-template>
 

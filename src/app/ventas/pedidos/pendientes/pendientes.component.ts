@@ -21,7 +21,6 @@ import { CambioDeClienteComponent } from 'app/ventas/pedidos/cambio-de-cliente/c
   styleUrls: ['./pendientes.component.scss']
 })
 export class PendientesComponent implements OnInit {
-
   pedidos$: Observable<Venta[]>;
 
   procesando = false;
@@ -40,20 +39,22 @@ export class PendientesComponent implements OnInit {
     private _viewContainerRef: ViewContainerRef,
     public dialog: MdDialog
   ) {
-    
-    const obs1 = this.search$.asObservable()
-    .distinctUntilChanged()
-    .debounceTime(300);
+    const obs1 = this.search$
+      .asObservable()
+      .distinctUntilChanged()
+      .debounceTime(300);
 
     const obs2 = this.reload$.asObservable().startWith(true);
 
     this.pedidos$ = Observable.combineLatest(obs1, obs2, (term, reload) => {
       return term ? term : null;
-    }).switchMap( term => this.service
-      .pendientes(term)
-      //.do( () => this.procesando = true)
-      .delay(300)
-      .finally( () => this.procesando = false));
+    }).switchMap(term =>
+      this.service
+        .pendientes(term)
+        //.do( () => this.procesando = true)
+        .delay(300)
+        .finally(() => (this.procesando = false))
+    );
   }
 
   ngOnInit() {
@@ -73,7 +74,7 @@ export class PendientesComponent implements OnInit {
     // console.log('Editando pedido: ', pedido);
     if (pedido.moneda === 'USD') {
       this.router.navigate(['/ventas/pedidos/dolares/edit', pedido.id]);
-    } else if ( pedido.tipo === 'ANT') {
+    } else if (pedido.tipo === 'ANT') {
       this.router.navigate(['/ventas/pedidos/anticipo/edit', pedido.id]);
     } else {
       this.router.navigate(['/ventas/pedidos/edit', pedido.id]);
@@ -82,40 +83,64 @@ export class PendientesComponent implements OnInit {
 
   mandarFacturar(pedido: Venta) {
     if (pedido.facturar) {
-      return
+      return;
     }
     if (pedido.sinExistencia) {
-      this.mandarFacturarConAntorizacion(pedido);
+      this.mandarFacturarConAntorizacion(
+        pedido,
+        'SIN_EXISTENCIA',
+        'Este pedido tiene partidas sin existencia requiere autorización',
+        'ROLE_GERENTE'
+      );
+    } else if (pedido.descuento > pedido.descuentoOriginal) {
+      this.mandarFacturarConAntorizacion(
+        pedido,
+        'DESCUENTO_ESPECIAL',
+        'Este pedido tiene partidas con descuento especial requiere de autorización',
+        'ROLE_SUPERVISOR'
+      );
     } else {
       this.mandarFacturarNormal(pedido);
     }
   }
 
   mandarFacturarNormal(pedido: Venta) {
-    this._dialogService.openConfirm({
-      message: `Mandar a facturar el pedido ${pedido.tipo} - ${pedido.documento} (${pedido.total})` ,
-      viewContainerRef: this._viewContainerRef,
-      title: 'Ventas',
-      cancelButton: 'Cancelar',
-      acceptButton: 'Aceptar',
-    }).afterClosed().subscribe((accept: boolean) => {
-      if (accept) {
-        this.service
-          .mandarFacturar(pedido)
-          .subscribe( res => {
-            console.log('Pedido listo para facturación', res);
-            this.load();
-            // this.router.navigate(['/ventas/pedidos/facturacionCredito']);
-          }, error => this.handleError(error));
-      }
-    });
+    this._dialogService
+      .openConfirm({
+        message: `Mandar a facturar el pedido ${pedido.tipo} - ${
+          pedido.documento
+        } (${pedido.total})`,
+        viewContainerRef: this._viewContainerRef,
+        title: 'Ventas',
+        cancelButton: 'Cancelar',
+        acceptButton: 'Aceptar'
+      })
+      .afterClosed()
+      .subscribe((accept: boolean) => {
+        if (accept) {
+          this.service.mandarFacturar(pedido).subscribe(
+            res => {
+              console.log('Pedido listo para facturación', res);
+              this.load();
+              // this.router.navigate(['/ventas/pedidos/facturacionCredito']);
+            },
+            error => this.handleError(error)
+          );
+        }
+      });
   }
 
-  mandarFacturarConAntorizacion( pedido: Venta) {
+  mandarFacturarConAntorizacion(
+    pedido: Venta,
+    tipo: string,
+    title: string,
+    role: string
+  ) {
     const params = {
-      tipo: 'SIN_EXISTENCIA',
-      title: 'Este pedido tiene partidas sin existencia requiere autorización',
-      solicito: pedido.updateUser
+      tipo: tipo,
+      title: title,
+      solicito: pedido.updateUser,
+      role: role
     };
     const dialogRef = this.dialog.open(AutorizacionDeVentaComponent, {
       data: params
@@ -124,19 +149,20 @@ export class PendientesComponent implements OnInit {
       if (auth) {
         auth.venta = pedido;
         console.log('Facturacion: ', auth);
-        this.service
-          .mandarFacturarConAutorizacion(auth)
-          .subscribe( res => {
+        this.service.mandarFacturarConAutorizacion(auth).subscribe(
+          res => {
             console.log('Pedido listo para facturación', res);
             this.load();
             // this.router.navigate(['/ventas/pedidos/facturacionCredito']);
-          }, error => this.handleError(error));
+          },
+          error => this.handleError(error)
+        );
       }
     });
   }
 
   asignarEnvio(pedido: Venta) {
-    const params = {direccion: null};
+    const params = { direccion: null };
     if (pedido.envio) {
       params.direccion = pedido.envio.direccion;
     }
@@ -145,34 +171,40 @@ export class PendientesComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-       console.log('Asignando direccion de envío: ', result);
-       this.doAsignarEnvio(pedido, result);
+        console.log('Asignando direccion de envío: ', result);
+        this.doAsignarEnvio(pedido, result);
       }
     });
   }
 
   doAsignarEnvio(pedido: Venta, direccion) {
-    this.service.asignarEnvio(pedido, direccion)
-      .subscribe((res: Venta) => {
+    this.service.asignarEnvio(pedido, direccion).subscribe(
+      (res: Venta) => {
         // console.log('Direccion asignada exitosamente ', res);
         this.load();
         pedido = res;
-      }, error =>  this.handleError(error));
+      },
+      error => this.handleError(error)
+    );
   }
 
   print(id: string) {
     // console.log('Imprimiendo pedido: ', id);
     this.procesando = true;
-    this.service.imprimirPedido(id)
+    this.service
+      .imprimirPedido(id)
       .delay(500)
-      .subscribe(res => {
-        const blob = new Blob([res], {
-          type: 'application/pdf'
-        });
-        this.procesando = false;
-        const fileURL = window.URL.createObjectURL(blob);
-        window.open(fileURL, '_blank');
-      }, error2 => this.handleError(error2));
+      .subscribe(
+        res => {
+          const blob = new Blob([res], {
+            type: 'application/pdf'
+          });
+          this.procesando = false;
+          const fileURL = window.URL.createObjectURL(blob);
+          window.open(fileURL, '_blank');
+        },
+        error2 => this.handleError(error2)
+      );
   }
 
   handleError(error) {
@@ -182,22 +214,28 @@ export class PendientesComponent implements OnInit {
 
   OnGenerarVale(pedido: Venta) {
     if (pedido.clasificacionVale === 'EXISTENCIA_VENTA') {
-      this._dialogService.openConfirm({
-        message: `Generar vale ${pedido.tipo} - ${pedido.documento} (${pedido.total})` ,
-        viewContainerRef: this._viewContainerRef,
-        title: 'Vale de traslado ',
-        cancelButton: 'Cancelar',
-        acceptButton: 'Aceptar',
-      }).afterClosed().subscribe((accept: boolean) => {
-        if (accept) {
-          this.service
-            .generarValeAutomatico(pedido)
-            .subscribe( res => {
-              // console.log('Vale para pedido generado exitosamente', res);
-              this.load();
-            }, error => this.handleError(error));
-        }
-      });
+      this._dialogService
+        .openConfirm({
+          message: `Generar vale ${pedido.tipo} - ${pedido.documento} (${
+            pedido.total
+          })`,
+          viewContainerRef: this._viewContainerRef,
+          title: 'Vale de traslado ',
+          cancelButton: 'Cancelar',
+          acceptButton: 'Aceptar'
+        })
+        .afterClosed()
+        .subscribe((accept: boolean) => {
+          if (accept) {
+            this.service.generarValeAutomatico(pedido).subscribe(
+              res => {
+                // console.log('Vale para pedido generado exitosamente', res);
+                this.load();
+              },
+              error => this.handleError(error)
+            );
+          }
+        });
     }
   }
 
@@ -211,15 +249,17 @@ export class PendientesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // console.log(' Aplicando cambio: ', result);
-        this.procesando = true
-        this.service.cambioDeCliente(venta,result.usuario, result.cliente)
-        .finally( () => this.procesando = false)
-        .subscribe( res => {
-          this.load();
-        }, error => this.handleError(error));
+        this.procesando = true;
+        this.service
+          .cambioDeCliente(venta, result.usuario, result.cliente)
+          .finally(() => (this.procesando = false))
+          .subscribe(
+            res => {
+              this.load();
+            },
+            error => this.handleError(error)
+          );
       }
     });
   }
-
-
 }
