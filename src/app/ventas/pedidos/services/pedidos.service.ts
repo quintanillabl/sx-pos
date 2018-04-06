@@ -251,4 +251,10 @@ export class PedidosService {
     const url = this.configService.buildApiUrl(endpoint);
     return this.http.put<Venta>(url, { factura: venta.id, target: target });
   }
+
+  buscarPedidosPendientes(cliente: Cliente): Observable<any> {
+    const url = `${this.apiUrl}/pedidosPendientes/${cliente.id}`;
+    const params = new HttpParams().set('cliente', cliente.id);
+    return this.http.get<any>(url, { params: params });
+  }
 }

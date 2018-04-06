@@ -30,6 +30,9 @@ import { PartidasGridComponent } from './partidas-grid/partidas-grid.component';
 import { TdDialogService } from '@covalent/core';
 import { PedidoValidator } from './pedido.validator';
 import { ClienteService } from 'app/clientes/services/cliente.service';
+import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
+import { PendientePorClienteDialogComponent } from './pendiente-por-cliente-dialog/pendiente-por-cliente-dialog.component';
+import { MdDialog } from '@angular/material';
 
 @Component({
   selector: 'sx-pedido-form',
@@ -80,7 +83,9 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     private cd: ChangeDetectorRef,
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
-    private clienteService: ClienteService
+    private clienteService: ClienteService,
+    private pedidoService: PedidosService,
+    private dialog: MdDialog
   ) {
     this.buildForm();
   }
@@ -121,25 +126,21 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
           }
         });
       // this.pedidoFormService.recalcular();
+      if (pedido.id === null) {
+        this.pedidosPendientesObserver();
+      }
     }
   }
 
-  ngOnInit() {
-    this.pedidosPendientesSubs = this.form
-      .get('cliente')
-      .valueChanges.subscribe(cliente => {
-        console.log(
-          'Cliente seleccionado buscando pedidos pendientes....',
-          cliente
-        );
-      });
-  }
+  ngOnInit() {}
 
   ngOnDestroy() {
     this.recalcularSubscription.unsubscribe();
     this.formaDePagoSubscription.unsubscribe();
     this.tipoSubscription.unsubscribe();
-    this.pedidosPendientesSubs.unsubscribe();
+    if (this.pedidosPendientesSubs) {
+      this.pedidosPendientesSubs.unsubscribe();
+    }
   }
 
   private buildForm() {
@@ -425,5 +426,34 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
   get usuario() {
     return this.form.get('usuario').value;
+  }
+
+  pedidosPendientesObserver() {
+    this.pedidosPendientesSubs = this.form
+      .get('cliente')
+      .valueChanges.distinctUntilChanged()
+      .subscribe(cliente => {
+        this.pedidoService
+          .buscarPedidosPendientes(cliente)
+          .catch(err => {
+            console.log('Error: ', err);
+            return Observable.of([]);
+          })
+          .subscribe((pendientes: any[]) => {
+            if (pendientes.length > 0) {
+              this.showPedidosPendientes(pendientes);
+            }
+          });
+      });
+  }
+
+  showPedidosPendientes(pedidos) {
+    console.log('PEdidos pendientes: ', pedidos);
+    this.dialog
+      .open(PendientePorClienteDialogComponent, {
+        data: { pedidos: pedidos, cliente: this.cliente.nombre }
+      })
+      .afterClosed()
+      .subscribe();
   }
 }
