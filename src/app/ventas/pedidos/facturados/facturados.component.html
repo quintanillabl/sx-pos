@@ -3,17 +3,20 @@
   <md-card flex-gt-sm class="facturas-card">
     <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
       <span class="push-left-sm">
-        <span class="md-title">Facturas registradas</span>
+        <span class="md-title">Facturas </span>
       </span>
-      <md-form-field class="pad-left">
-        <input mdInput type="text" placeholder="Cliente">
-      </md-form-field>
-      <md-form-field class="pad-left">
-        <input mdInput type="text" placeholder="Usuario">
-      </md-form-field>
-      <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Factura " (searchDebounce)="search($event)"
-        flex>
-      </td-search-box>
+
+      <span class="pad-left">
+        {{filtro.periodo}}
+      </span>
+      <!-- <sx-periodo-picker [periodo]="filtro.periodo" (change)="cambiarPeriodo($event)" #periodoPicker></sx-periodo-picker> -->
+      <span flex></span>
+      <div layout flex layout-padding>
+        <td-search-input placeholder="Factura" debounce="1000" showUnderline="true" (searchDebounce)="buscarPorFolio($event)" flex></td-search-input>
+        <td-search-input placeholder="Cliente" debounce="1000" showUnderline="true" (searchDebounce)="buscarPorCliente($event)" flex></td-search-input>
+        <td-search-input placeholder="Usuario" debounce="1000" showUnderline="true" (searchDebounce)="buscarPorUsuario($event)" flex></td-search-input>
+      </div>
+
       <span>
         <button md-icon-button [md-menu-trigger-for]="menu">
           <md-icon>more_vert</md-icon>
