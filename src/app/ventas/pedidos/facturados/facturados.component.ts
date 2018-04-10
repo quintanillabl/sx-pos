@@ -11,6 +11,7 @@ import * as fromPedidos from 'app/ventas/pedidos/store/reducers';
 import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
 import { Venta, Sucursal } from 'app/models';
 import { EnvioDireccionComponent } from '../pedido-form/envio-direccion/envio-direccion.component';
+import { Periodo } from 'app/models/periodo';
 
 @Component({
   selector: 'sx-facturados',
@@ -19,10 +20,10 @@ import { EnvioDireccionComponent } from '../pedido-form/envio-direccion/envio-di
 })
 export class FacturadosComponent implements OnInit {
   facturas$: Observable<Venta[]>;
-  pedidos: Venta[] = [];
   procesando = false;
   search$ = new BehaviorSubject<string>('');
   selectedRows: any[] = [];
+  filtro: any = { periodo: Periodo.fromNow(3) };
 
   constructor(
     private store: Store<fromPedidos.State>,
@@ -32,30 +33,18 @@ export class FacturadosComponent implements OnInit {
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
     public dialog: MdDialog
-  ) {
-    this.facturas$ = this.search$
-      .debounceTime(400)
-      // .distinctUntilChanged()
-      .switchMap(term => {
-        this.loadingService.register('saving');
-        return (
-          this.service
-            .facturados(term)
-            //.delay(200)
-            .catch(err => Observable.of(err))
-            .finally(() => {
-              this.loadingService.resolve('saving');
-              this.procesando = false;
-            })
-        );
-      });
-  }
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.load();
+  }
 
   load() {
     this.procesando = true;
-    this.search('%');
+    this.facturas$ = this.service
+      .facturados(this.filtro)
+      .catch(err => Observable.of(err))
+      .finally(() => (this.procesando = false));
   }
 
   search(term: string) {
@@ -175,6 +164,21 @@ export class FacturadosComponent implements OnInit {
       );
   }
 
+  buscarPorCliente(cliente: string) {
+    this.filtro.cliente = cliente;
+    this.load();
+  }
+
+  buscarPorFolio(folio: string) {
+    this.filtro.term = folio;
+    this.load();
+  }
+
+  buscarPorUsuario(usuario: string) {
+    this.filtro.usuario = usuario;
+    this.load();
+  }
+
   envioBatch() {
     const selected = this.selectedRows;
     const first = _.find(selected, item => item.nombre);
@@ -212,5 +216,10 @@ export class FacturadosComponent implements OnInit {
             });
         }
       });
+  }
+
+  cambiarPeriodo(periodo: Periodo) {
+    this.filtro.periodo = periodo;
+    this.load();
   }
 }
