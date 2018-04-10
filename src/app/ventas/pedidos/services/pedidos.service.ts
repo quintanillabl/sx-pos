@@ -251,4 +251,10 @@ export class PedidosService {
     const url = this.configService.buildApiUrl(endpoint);
     return this.http.put<Venta>(url, { factura: venta.id, target: target });
   }
+
+  envioBatch(facturas, target: string): Observable<any> {
+    const endpoint = `cfdis/enviarBatch`;
+    const url = this.configService.buildApiUrl(endpoint);
+    return this.http.put<any>(url, facturas);
+  }
 }
