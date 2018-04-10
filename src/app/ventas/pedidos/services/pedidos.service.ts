@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
+import * as _ from 'lodash';
+
 import { Venta, Sucursal, Producto, Cliente } from 'app/models';
 import { ConfigService } from 'app/core/services/config.service';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from 'app/reducers';
 import { User } from 'app/_auth/models/user';
+import { Periodo } from 'app/models/periodo';
 
 @Injectable()
 export class PedidosService {
@@ -109,8 +112,17 @@ export class PedidosService {
     return this.http.get<Venta[]>(this.apiUrl, { params: params });
   }
 
-  facturados(term = '') {
-    const params = new HttpParams().set('term', term);
+  facturados(filter: any) {
+    let params = new HttpParams();
+    _.forIn(filter, (value, key) => {
+      if (value instanceof Periodo) {
+        const periodo = value as Periodo;
+        params = params.set('fechaInicial', periodo.fechaInicial.toISOString());
+        params = params.set('fechaFinal', periodo.fechaFinal.toISOString());
+      } else {
+        params = params.set(key, value);
+      }
+    });
     const url = `${this.apiUrl}/facturados/${this.sucursal.id}`;
     return this.http.get<Venta[]>(url, { params: params });
   }
