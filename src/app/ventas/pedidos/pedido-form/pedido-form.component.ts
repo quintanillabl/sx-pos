@@ -88,7 +88,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.pedido && changes.pedido.currentValue) {
       const pedido: Venta = changes.pedido.currentValue;
-      console.log('Editando pedido: ', pedido);
+      // console.log('Editando pedido: ', pedido);
       if (pedido.id && pedido.puesto) {
         // this.editable = false;
       }
@@ -125,6 +125,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit() {
+    /*
     this.pedidosPendientesSubs = this.form
       .get('cliente')
       .valueChanges.subscribe(cliente => {
@@ -133,6 +134,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
           cliente
         );
       });
+      */
   }
 
   ngOnDestroy() {
@@ -327,7 +329,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
         })
         .afterClosed()
         .subscribe(res => {
-          if (res !== null) {
+          if (res) {
             this.clienteService
               .confirmarCorreo(
                 this.cliente.id,
@@ -343,6 +345,8 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
                   closeButton: 'Continuar'
                 });
               });
+          } else {
+            this.cliente.cfdiValidado = true;
           }
         });
     }
