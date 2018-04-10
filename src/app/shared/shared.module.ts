@@ -1,10 +1,10 @@
-import { NgModule, } from '@angular/core';
-import { CommonModule, } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
-import { FlexLayoutModule, } from '@angular/flex-layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { NgxChartsModule, } from '@swimlane/ngx-charts';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { MaterialModule } from './_material/material.module';
 import { CovalentModule } from './_covalent/covalent.module';
@@ -42,23 +42,14 @@ import { OnlyIntegersDirective } from './directives/only-integers.directive';
 import { CancelacionDialogComponent } from 'app/shared/_components/cancelacion-dialog/cancelacion-dialog.component';
 import { ProveedorFieldComponent } from './_fields/proveedor-field/proveedor-field.component';
 import { ProductoProvFieldComponent } from './_fields/producto-prov-field/producto-prov-field.component';
+import { PeriodoDialogComponent } from './_components/periodo-dialog/periodo-dialog.component';
+import { PeriodoPickerComponent } from './_components/periodo-picker/periodo-picker.component';
 
+const FLEX_LAYOUT_MODULES: any[] = [FlexLayoutModule];
 
+const ANGULAR_MODULES: any[] = [FormsModule, ReactiveFormsModule];
 
-
-const FLEX_LAYOUT_MODULES: any[] = [
-  FlexLayoutModule,
-];
-
-const ANGULAR_MODULES: any[] = [
-  FormsModule,
-  ReactiveFormsModule,
-];
-
-const OTHERS_MODULES: any[] = [
-  NgxChartsModule,
-  MomentModule
-];
+const OTHERS_MODULES: any[] = [NgxChartsModule, MomentModule];
 
 const COMPONENTS: any[] = [
   ModuleSelectorComponent,
@@ -68,8 +59,10 @@ const COMPONENTS: any[] = [
   MonedaFieldComponent,
   DireccionFormComponent,
   QvProductosBtnComponent,
-  ClienteFieldComponent,
-]
+  ClienteFieldComponent
+  // PeriodoDialogComponent
+  // PeriodoPickerComponent
+];
 
 @NgModule({
   imports: [
@@ -79,7 +72,7 @@ const COMPONENTS: any[] = [
     MaterialModule,
     CovalentModule,
     OTHERS_MODULES,
-    FLEX_LAYOUT_MODULES,
+    FLEX_LAYOUT_MODULES
   ],
   declarations: [
     ...COMPONENTS,
@@ -116,7 +109,7 @@ const COMPONENTS: any[] = [
     CovalentModule,
     OTHERS_MODULES,
     FLEX_LAYOUT_MODULES,
-    COMPONENTS,
+    ...COMPONENTS,
     PageFooterComponent,
     // Layout components
     Layout.MainLayoutComponent,
@@ -142,8 +135,12 @@ const COMPONENTS: any[] = [
     OnlyIntegersDirective,
     CancelacionDialogComponent,
     ProveedorFieldComponent,
-    ProductoProvFieldComponent,
+    ProductoProvFieldComponent
   ],
-  entryComponents: [SelectorFechaComponent, CancelacionDialogComponent]
+  entryComponents: [
+    SelectorFechaComponent,
+    CancelacionDialogComponent
+    // PeriodoDialogComponent
+  ]
 })
-export class SharedModule { }
+export class SharedModule {}
