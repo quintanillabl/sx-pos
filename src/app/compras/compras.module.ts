@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
-import { StoreModule } from "@ngrx/store";
-import { EffectsModule } from "@ngrx/effects";
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { ComprasRoutingModule } from './compras-routing.module';
-import { SharedModule } from "../shared/shared.module";
+import { SharedModule } from '../shared/shared.module';
 
 //Services
-import { OrdenesService } from "./services/ordenes.service";
+import { OrdenesService } from './services/ordenes.service';
 import { ProveedoresService } from 'app/compras/services/proveedores.service';
 
 // Presentational components
 import { OrdenesListComponent } from './_components/ordenes-list/ordenes-list.component';
-
 
 // Presentational components
 import * as components from './_components';
@@ -29,30 +28,26 @@ import { ComCreatePageComponent } from './_pages/recepciones-page/create/com-cre
 import { ComEditPageComponent } from './_pages/recepciones-page/edit/com-edit-page.component';
 import { ComEditFormComponent } from './_components/com-edit-form/com-edit-form.component';
 
-
-
-const PAGES  = [
+const PAGES = [
   pages.MainPageComponent,
-  pages.OrdenesPageComponent, 
-  pages.OrdenesCreatePageComponent, 
+  pages.OrdenesPageComponent,
+  pages.OrdenesCreatePageComponent,
   pages.RecepcionesPageComponent,
   pages.OrdenesShowComponent,
+  pages.AlcancesComponent
 ];
 
-const COMPONENTS  = [
+const COMPONENTS = [
   components.OrdenFormComponent,
   components.OrdenPartidasListComponent,
   components.OrdenAddPartidaBtnComponent,
   components.OrdendetAddDialogComponent,
   // components.ProductoProvFieldComponent,
-  OrdenesListComponent,
+  OrdenesListComponent
 ];
 
 @NgModule({
-  imports: [
-    SharedModule,
-    ComprasRoutingModule,
-  ],
+  imports: [SharedModule, ComprasRoutingModule],
   declarations: [
     ...COMPONENTS,
     ...PAGES,
@@ -65,10 +60,13 @@ const COMPONENTS  = [
     ComCompradetGridComponent,
     ComCreatePageComponent,
     ComEditPageComponent,
-    ComEditFormComponent,
+    ComEditFormComponent
   ],
-  entryComponents: [components.OrdendetAddDialogComponent, SelectorDeCompraDialogComponent],
+  entryComponents: [
+    components.OrdendetAddDialogComponent,
+    SelectorDeCompraDialogComponent
+  ],
   // Services
   providers: [OrdenesService, ProveedoresService, ComsService]
 })
-export class ComprasModule { }
+export class ComprasModule {}
