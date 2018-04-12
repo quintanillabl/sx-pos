@@ -5,7 +5,11 @@ import {
   Validators,
   AbstractControl
 } from '@angular/forms';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+
+import * as _ from 'lodash';
+
 import { ClienteService } from 'app/clientes/services/cliente.service';
 import { Cliente } from '@siipapx/models';
 
@@ -17,11 +21,14 @@ import { Cliente } from '@siipapx/models';
 export class AddClienteDialogComponent implements OnInit {
   form: FormGroup;
 
+  colonias: any[] = [];
+
   constructor(
     @Inject(MD_DIALOG_DATA) public data: any,
     public dialogRef: MdDialogRef<AddClienteDialogComponent>,
     private fb: FormBuilder,
-    private service: ClienteService
+    private service: ClienteService,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
@@ -55,6 +62,30 @@ export class AddClienteDialogComponent implements OnInit {
       mail: [null],
       www: [null]
     });
+    /*
+    const direccionGroup = this.form.get('direccion') as FormGroup;
+    console.log('Dirección: ', direccionGroup);
+
+    direccionGroup.get('codigoPostal').valueChanges.subscribe(cp => {
+      console.log('CP: ', cp);
+      const params = new HttpParams().set('zip_code', cp);
+      this.http
+        .get('http://sepomex.icalialabs.com/api/v1/zip_codes', {
+          params: params
+        })
+        .map((response: any) => response.zip_codes)
+        .subscribe((registros: any[]) => {
+          const estado = _.map(registros, item => item.d_estado)[0];
+          const municipio = _.map(registros, item => item.d_mnpio)[0];
+          direccionGroup.get('estado').setValue(estado);
+          direccionGroup.get('municipio').setValue(municipio);
+          const colonias = _.map(registros, item => item.d_asenta);
+          this.colonias = colonias;
+          // console.log('Registros: ', registros);
+          // console.log('Colonias: ', colonias);
+        });
+    });
+    */
   }
 
   cancelar() {

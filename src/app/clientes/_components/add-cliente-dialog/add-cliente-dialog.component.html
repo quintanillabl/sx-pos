@@ -34,7 +34,7 @@
           <span *ngIf="direccion.calle">: {{direccion.calle}}</span>
           <span *ngIf="direccion.numeroExterior"> / {{direccion.numeroExterior}}</span>
         </ng-template>
-        <sx-direccion-form [parent]="form.get('direccion')"></sx-direccion-form>
+        <sx-direccion-form [parent]="form.get('direccion')" [colonias]="colonias"></sx-direccion-form>
       </td-step>
 
       <td-step #step3 label="Información de contacto" [state]="['datosDeContacto']" [disabled]="['false']">
