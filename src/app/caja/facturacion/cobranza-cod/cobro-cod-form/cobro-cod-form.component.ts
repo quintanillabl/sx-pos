@@ -1,42 +1,54 @@
 import {
-  Component, OnInit, Input, Output, EventEmitter, OnChanges, OnDestroy,
-  SimpleChanges, ChangeDetectionStrategy, AfterViewInit
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+  ChangeDetectionStrategy,
+  AfterViewInit
 } from '@angular/core';
-import {MdDialog} from '@angular/material';
+import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { AbstractControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormGroup,
+  FormBuilder,
+  Validators
+} from '@angular/forms';
 import * as _ from 'lodash';
-
 
 import { Venta } from 'app/models';
 import { Cobro } from 'app/models/cobro';
 
 import { ChequeFormComponent } from 'app/caja/facturacion/cobro/cheque-form/cheque-form.component';
 import { DisponibleFormComponent } from 'app/caja/facturacion/cobro/disponible-form/disponible-form.component';
+import { TarjetaFormComponent } from 'app/caja/facturacion/cobro/tarjeta-form/tarjeta-form.component';
 
-
-export const CobradoValidator = (control: AbstractControl): {[key: string]: boolean} => {
+export const CobradoValidator = (
+  control: AbstractControl
+): { [key: string]: boolean } => {
   const cobrado = control.value;
   return cobrado > 0 ? null : { importeInvalido: true };
 };
-
 
 @Component({
   selector: 'sx-cobro-cod-form',
   templateUrl: './cobro-cod-form.component.html',
   styles: [''],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
-
   @Input() venta: Venta;
 
   @Output() save = new EventEmitter();
 
   @Output() cancelar = new EventEmitter();
 
-  formasDePago = ['EFECTIVO'];
+  formasDePago = ['EFECTIVO', 'CHEQUE', 'TARJETA_DEBITO', 'TARJETA_CREDITO'];
 
   parciales: Cobro[] = [];
 
@@ -44,15 +56,12 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
 
   form: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    public dialog: MdDialog,
-  ) {
+  constructor(private fb: FormBuilder, public dialog: MdDialog) {
     this.buildForm();
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.venta && changes.venta.currentValue !== null ) {
+    if (changes.venta && changes.venta.currentValue !== null) {
       this.form.patchValue({
         formaDePago: this.venta.formaDePago,
         importe: this.venta.total
@@ -60,42 +69,44 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  ngOnInit() {
-    // console.log('Cobro de venta: ', this.venta);
-    if (this.venta.cliente.permiteCheque || this.venta.formaDePago === 'CHEQUE') {
-      this.formasDePago.push('CHEQUE');
-    }
-  }
+  ngOnInit() {}
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
-
   private buildForm() {
-    this.form = this.fb.group({
-      importe: [0, [Validators.required]],
-      formaDePago: [null, [Validators.required, this.validarFormaDePago.bind(this)]],
-      cambio: [{value: 0, disabled: true}],
-    }, {
-      validator: this.validarPorCobrar.bind(this)
-    });
-
-    this.subscription = this.form.get('importe').valueChanges.subscribe(importe => {
-      if (this.porCobrar < 0) {
-        let cambio = Math.abs(this.porCobrar);
-        cambio = _.round(cambio,2);
-        this.form.get('cambio').setValue(cambio);
-      } else {
-        this.form.get('cambio').setValue(0);
+    this.form = this.fb.group(
+      {
+        importe: [0, [Validators.required]],
+        formaDePago: [
+          null,
+          [Validators.required, this.validarFormaDePago.bind(this)]
+        ],
+        cambio: [{ value: 0, disabled: true }]
+      },
+      {
+        validator: this.validarPorCobrar.bind(this)
       }
-    });
+    );
+
+    this.subscription = this.form
+      .get('importe')
+      .valueChanges.subscribe(importe => {
+        if (this.porCobrar < 0) {
+          let cambio = Math.abs(this.porCobrar);
+          cambio = _.round(cambio, 2);
+          this.form.get('cambio').setValue(cambio);
+        } else {
+          this.form.get('cambio').setValue(0);
+        }
+      });
   }
 
   validarPorCobrar(control: AbstractControl) {
     if (this.venta) {
-      const pendiente = this.porCobrar
-      return pendiente <= 0 ? null : {importeInvalido: true};
+      const pendiente = this.porCobrar;
+      return pendiente <= 0 ? null : { importeInvalido: true };
     }
     return null;
   }
@@ -104,8 +115,8 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
     const fp = control.value;
     if (fp === 'CHEQUE') {
       const cliente = this.venta.cliente;
-      const result = cliente.permiteCheque ? null : {permiteCheque: false};
-      return cliente.permiteCheque ? null : {permiteCheque: false};
+      const result = cliente.permiteCheque ? null : { permiteCheque: false };
+      return cliente.permiteCheque ? null : { permiteCheque: false };
     }
     return null;
   }
@@ -116,7 +127,7 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
 
   get totalParciales() {
     return _.sumBy(this.parciales, item => {
-      return item.id ? item.porAplicar : item.disponible
+      return item.id ? item.porAplicar : item.disponible;
     });
   }
 
@@ -125,15 +136,15 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   get porCobrar() {
-    return this.saldo - this.totalParciales - this.importe
+    return this.saldo - this.totalParciales - this.importe;
   }
 
   get pendiente() {
-    return this.saldo - this.totalParciales
+    return this.saldo - this.totalParciales;
   }
 
   get permitirMasCobros() {
-    return this.porCobrar > 0 && this.importe > 0 
+    return this.porCobrar > 0 && this.importe > 0;
   }
 
   agregarCobro() {
@@ -141,6 +152,12 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
     let cobro$: Observable<any> = null;
     if (cobro.formaDePago === 'CHEQUE') {
       cobro$ = this.agregarCheque(cobro);
+    }
+    if (
+      cobro.formaDePago === 'TARJETA_DEBITO' ||
+      cobro.formaDePago === 'TARJETA_CREDITO'
+    ) {
+      cobro$ = this.agregarTarjeta2(cobro);
     }
     if (cobro$) {
       cobro$.subscribe(res => {
@@ -167,7 +184,7 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private prepareEntity() {
-    const value = _.toNumber(this.form.get('importe').value)
+    const value = _.toNumber(this.form.get('importe').value);
     const cobro: Cobro = {
       cliente: this.venta.cliente,
       sucursal: this.venta.sucursal,
@@ -178,26 +195,33 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
       tipoDeCambio: this.venta.tipoDeCambio,
       importe: value,
       disponible: value
-    }
+    };
     console.log('Agregar datos de la forma de pago...');
     return cobro;
   }
 
   onSubmit() {
     if (this.form.valid) {
-      const cobros = [... this.parciales];
+      const cobros = [...this.parciales];
       const last = this.prepareEntity();
       let cobro$: Observable<any> = null;
+      if (
+        last.formaDePago === 'TARJETA_DEBITO' ||
+        last.formaDePago === 'TARJETA_CREDITO'
+      ) {
+        cobro$ = this.agregarTarjeta2(last);
+      }
       if (last.formaDePago === 'CHEQUE') {
         cobro$ = this.agregarCheque(last);
-      } if (cobro$) {
-        cobro$.subscribe( result => {
+      }
+      if (cobro$) {
+        cobro$.subscribe(result => {
           if (result) {
             cobros.push(result);
             const cobroJob = {
               venta: this.venta,
               cobros: cobros
-            }
+            };
             this.doSave(cobroJob);
           }
         });
@@ -206,7 +230,7 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
         const cobroJob = {
           venta: this.venta,
           cobros: cobros
-        }
+        };
         this.doSave(cobroJob);
       }
     }
@@ -214,29 +238,34 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
 
   /**
    * Fix requerido para pasar solo id's al API y evitar actualizaciones inecesarias
-   * 
-   * @param cobroJob 
+   *
+   * @param cobroJob
    */
   doSave(cobroJob: any) {
     const cobros = cobroJob.cobros;
     _.forEach(cobros, (item: any) => {
-      item.cliente = item.cliente.id
+      item.cliente = item.cliente.id;
     });
     const result = {
-      venta: {id: cobroJob.venta.id},
+      venta: { id: cobroJob.venta.id },
       cobros: cobros
-    }
+    };
     this.save.emit(result);
   }
-  
 
   agregarCheque(cobro: Cobro): Observable<any> {
     const dialogRef = this.dialog.open(ChequeFormComponent, {
-      data: {cobro: cobro}
+      data: { cobro: cobro }
     });
     return dialogRef.afterClosed();
   }
-  
+
+  agregarTarjeta2(cobro: Cobro): Observable<any> {
+    const dialogRef = this.dialog.open(TarjetaFormComponent, {
+      data: { cobro: cobro }
+    });
+    return dialogRef.afterClosed();
+  }
 
   saldar() {
     this.form.get('importe').setValue(_.round(this.pendiente, 2));
@@ -249,25 +278,25 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
         return 'credit_card';
       }
       case 'EFECTIVO':
-        return 'attach_money'
+        return 'attach_money';
       default:
-        return 'local_atm'
+        return 'local_atm';
     }
   }
 
   buscarDisponible() {
-    
     const dialogRef = this.dialog.open(DisponibleFormComponent, {
-      data: {cliente: this.venta.cliente, porCobrar: this.porCobrar}
+      data: { cliente: this.venta.cliente, porCobrar: this.porCobrar }
     });
-    dialogRef.afterClosed().subscribe( (result: Cobro) => {
+    dialogRef.afterClosed().subscribe((result: Cobro) => {
       if (result) {
-        const porAplicar = result.disponible > this.porCobrar ? this.porCobrar : result.disponible;
+        const porAplicar =
+          result.disponible > this.porCobrar
+            ? this.porCobrar
+            : result.disponible;
         result.porAplicar = porAplicar;
         this.pushCobro(result);
       }
     });
-    
   }
-
 }

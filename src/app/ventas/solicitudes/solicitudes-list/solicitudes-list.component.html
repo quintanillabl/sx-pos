@@ -1,4 +1,4 @@
-<md-list>
+<!-- <md-list>
   <md-list-item>
     <span md-line >
       <span layout layout-padding>
@@ -42,4 +42,37 @@
       <md-divider *ngIf="!last" ></md-divider>
     </ng-template>
   </td-virtual-scroll-container>
-</md-list>
+</md-list> -->
+<td-data-table #dataTable [data]="solicitudes" [columns]="columns" selectable="false">
+
+  <ng-template tdDataTableTemplate="folio" let-value="value" let-row="row">
+    <a [routerLink]="['edit', row.id]" class="tc-indigo-700 cursor-pointer">
+      <span>{{row.folio}}</span>
+    </a>
+  </ng-template>
+
+  <ng-template tdDataTableTemplate="total" let-value="value" let-row="row">
+    {{value | currency: 'USD': 1.2-2}}
+  </ng-template>
+
+  <ng-template tdDataTableTemplate="fechaDeposito" let-value="value">
+    {{ value | date: 'dd/MM/yyyy'}}
+  </ng-template>
+
+  <ng-template tdDataTableTemplate="nombre" let-value="value" let-row="row">
+    <span>{{value}}</span>
+  </ng-template>
+
+  <ng-template tdDataTableTemplate="lastUpdated" let-value="value">
+    {{ value | date: 'dd/MM/yyyy HH:mm'}}
+  </ng-template>
+
+  <ng-template tdDataTableTemplate="createUser" let-value="value" let-row="row">
+    <span layout="column">
+      <span>{{value}}</span>
+      <span *ngIf="value != row.updateUser" class="tc-pink-700">{{row.updateUser}}</span>
+    </span>
+  </ng-template>
+
+
+</td-data-table>

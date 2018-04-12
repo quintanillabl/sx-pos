@@ -1,7 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { TdDialogService } from '@covalent/core';
-import * as _ from 'lodash'; 
+import * as _ from 'lodash';
 
 import { CompraDet } from 'app/models/compraDet';
 
@@ -12,7 +19,6 @@ import { CompraDet } from 'app/models/compraDet';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrdenPartidasListComponent implements OnInit {
-
   @Input() parent: FormGroup;
 
   @Input() partidas: CompraDet[];
@@ -21,16 +27,11 @@ export class OrdenPartidasListComponent implements OnInit {
 
   @Output() edit = new EventEmitter<any>();
 
-  
-  constructor(
-    private _dialogService: TdDialogService,
-  ) { }
+  constructor(private _dialogService: TdDialogService) {}
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 
-  onDelete(index){
+  onDelete(index) {
     this.delete.emit(index);
   }
 
@@ -39,22 +40,22 @@ export class OrdenPartidasListComponent implements OnInit {
   }
 
   editar(index, row) {
-    //this.edit.emit(row);
-    this._dialogService.openPrompt({
-      message: `Registre la cantidad a solicitar `,
-      value: row.cantidad,
-    }).afterClosed().subscribe((value: any) => {
-      
-      if (value !== undefined ) {
-        let cantidad = _.toSafeInteger(value);
-        if(cantidad > row.cantidad || cantidad <= 0){
-          cantidad = row.cantidad;
+    this._dialogService
+      .openPrompt({
+        message: `Registre la cantidad a solicitar `,
+        value: row.cantidad
+      })
+      .afterClosed()
+      .subscribe((value: any) => {
+        if (value) {
+          let cantidad = _.toSafeInteger(value);
+          if (cantidad > row.cantidad || cantidad <= 0) {
+            cantidad = row.cantidad;
+          }
+          this.partidas[index].solicitado = cantidad;
+          const e = { row: index, cantidad: cantidad };
+          this.edit.emit(e);
         }
-        const e = { row: index, cantidad: cantidad};
-        this.edit.emit(e);
-      }
-    });
-    
+      });
   }
-
 }
