@@ -18,6 +18,8 @@ import { FondoFijoEditComponent } from './cortes/corte-fondo-fijo/fondo-fijo-edi
 import { CajaGuard } from 'app/caja/services/caja.guard';
 import { AnticiposComponent } from './anticipos/anticipos.component';
 import { AnticipoCreateComponent } from './anticipos/anticipo-create/anticipo-create.component';
+import { AnticipoShowComponent } from './anticipos/anticipo-show/anticipo-show.component';
+import { AnticipoResolver } from './anticipos/anticipo.resolver';
 
 const routes: Routes = [
   {
@@ -60,6 +62,11 @@ const routes: Routes = [
           {
             path: 'anticipos/create',
             component: AnticipoCreateComponent
+          },
+          {
+            path: 'anticipos/:id',
+            component: AnticipoShowComponent,
+            resolve: { anticipo: AnticipoResolver }
           }
         ]
       },
@@ -80,6 +87,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AnticipoResolver]
 })
 export class CajaRoutingModule {}

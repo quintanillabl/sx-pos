@@ -1,8 +1,9 @@
 <md-card>
   <md-card-title-group layout>
-    <md-card-title>Registro de cobro
+    <md-card-title>Anticipo
       <span class="pad-right pad-left" *ngIf="cobro" class="tc-indigo-800">
       </span>
+      <span flex></span>
       <span class="pad-right" *ngIf="cobro">({{cobro.fecha | date: 'dd/MM/yyyy'}})</span>
     </md-card-title>
     <span flex></span>
@@ -25,11 +26,12 @@
 
 
       <div layout flex>
-        <md-form-field flex>
+        <!-- <md-form-field flex>
+          <ng-container>
           <input mdInput [mdDatepicker]="datePicker" placeholder="Fecha" formControlName="fecha">
           <md-datepicker #datePicker></md-datepicker>
           <md-datepicker-toggle [for]="datePicker" mdSuffix></md-datepicker-toggle>
-        </md-form-field>
+        </md-form-field> -->
 
         <md-select placeholder="Fomra de pago" formControlName="formaDePago" flex class="pad-left pad-right">
           <md-option *ngFor="let tipo of ['EFECTIVO', 'CHEQUE',  'TARJETA_DEBITO', 'TARJETA_CREDITO']" [value]="tipo">
@@ -75,8 +77,12 @@
       <button md-button color="primary" *ngIf="isEditable()" [disabled]="form.invalid || form.pristine">Salvar
       </button>
       <button type="button" md-button (click)="cancel.emit('cancel')"> Cancelar</button>
-      <button type="button" md-button (click)="delete.emit(cobro)" *ngIf="cobro && isEditable()" color="warn">
+      <button type="button" md-button (click)="delete.emit(cobro)" *ngIf="canDelete()" color="warn">
         <md-icon>delete</md-icon>Eliminar
+      </button>
+
+      <button type="button" md-button (click)="print.emit(cobro)" *ngIf="cobro" color="primary">
+        <md-icon>print</md-icon>Imprimir
       </button>
     </md-card-actions>
   </form>

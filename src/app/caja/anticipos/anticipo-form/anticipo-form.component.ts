@@ -19,6 +19,7 @@ import {
 } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 
 import { MdDialog } from '@angular/material';
 
@@ -26,6 +27,7 @@ import { MdDialog } from '@angular/material';
 // import { CobrotarjetaFormComponent } from '../cobrotarjeta-form/cobrotarjeta-form.component';
 import { Cobro } from 'app/models/cobro';
 import { ChequeFormComponent } from 'app/caja/facturacion/cobro/cheque-form/cheque-form.component';
+import { TarjetaFormComponent } from 'app/caja/facturacion/cobro/tarjeta-form/tarjeta-form.component';
 
 @Component({
   selector: 'sx-anticipo-form',
@@ -39,6 +41,7 @@ export class AnticipoFormComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() save = new EventEmitter();
   @Output() delete = new EventEmitter();
+  @Output() print = new EventEmitter();
 
   @Input() cobro: Cobro;
 
@@ -61,6 +64,7 @@ export class AnticipoFormComponent implements OnInit, OnChanges, OnDestroy {
       this.form.patchValue(this.cobro);
       this.form.get('cliente').disable();
       this.form.get('formaDePago').disable();
+      this.form.disable();
     }
   }
 
@@ -113,41 +117,41 @@ export class AnticipoFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   isEditable() {
+    return !this.cobro;
+  }
+
+  canDelete() {
+    /*
     if (this.cobro) {
-      return this.cobro.aplicado <= 0.0;
+      const hoy = new Date();
+      const sameDay = moment(this.cobro.fecha).isSame(hoy, 'day');
+      return sameDay && this.cobro.aplicado <= 0.0;
     }
-    return true;
+    */
+    return false;
   }
 
   pagoConCheque(entity) {
     const ref = this.dialog.open(ChequeFormComponent, {
       data: { cobro: entity }
     });
-    ref.afterClosed().subscribe(cheque => {
-      if (cheque) {
-        entity.cheque = cheque;
-        this.save.emit(entity);
-        // console.log('Salvando cobro: ', entity);
-      } else {
-        console.log('Se requiere registrar el cheque...');
+    ref.afterClosed().subscribe(cobro => {
+      if (cobro) {
+        this.save.emit(cobro);
       }
     });
   }
 
   pagoConTarjeta(entity) {
-    /*
-    const ref = this.dialog.open(CobrotarjetaFormComponent, {});
-    ref.afterClosed().subscribe(tarjeta => {
-      if (tarjeta) {
-        const fp = this.form.get('formaDePago').value;
-        tarjeta.debitoCredito = fp === 'TARJETA_DEBITO';
-        entity.tarjeta = tarjeta;
-        this.save.emit(entity);
-        // console.log('Salvando cobro: ', entity);
+    const ref = this.dialog.open(TarjetaFormComponent, {
+      data: { cobro: entity }
+    });
+    ref.afterClosed().subscribe(cobro => {
+      if (cobro) {
+        this.save.emit(cobro);
       } else {
         console.log('Se requiere registrar datos de la tarjeta...');
       }
     });
-    */
   }
 }

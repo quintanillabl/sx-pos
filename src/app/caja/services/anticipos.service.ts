@@ -48,4 +48,15 @@ export class AnticiposService {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete(url);
   }
+
+  print(id: string) {
+    const url = `${this.apiUrl}/print`;
+    const params = new HttpParams().set('ID', id);
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http.get(url, {
+      headers: headers,
+      params: params,
+      responseType: 'blob'
+    });
+  }
 }

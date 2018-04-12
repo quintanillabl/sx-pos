@@ -33,6 +33,7 @@ import { AnticiposTableComponent } from './anticipos/anticipos-table/anticipos-t
 import { AnticiposService } from 'app/caja/services/anticipos.service';
 import { AnticipoCreateComponent } from './anticipos/anticipo-create/anticipo-create.component';
 import { AnticipoFormComponent } from './anticipos/anticipo-form/anticipo-form.component';
+import { AnticipoShowComponent } from './anticipos/anticipo-show/anticipo-show.component';
 
 @NgModule({
   imports: [SharedModule, CajaRoutingModule, FacturacionModule, CortesModule],
@@ -54,7 +55,8 @@ import { AnticipoFormComponent } from './anticipos/anticipo-form/anticipo-form.c
     AnticiposComponent,
     AnticiposTableComponent,
     AnticipoCreateComponent,
-    AnticipoFormComponent
+    AnticipoFormComponent,
+    AnticipoShowComponent
   ],
   providers: [
     ReportesService,

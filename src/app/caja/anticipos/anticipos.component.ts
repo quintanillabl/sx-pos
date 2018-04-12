@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Cobro } from '@siipapx/models/cobro';
 import { AnticiposService } from '@siipapx/caja/services/anticipos.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'sx-anticipos',
@@ -46,7 +47,7 @@ export class AnticiposComponent implements OnInit {
   _disponibles = true;
   term = '';
 
-  constructor(private service: AnticiposService) {}
+  constructor(private service: AnticiposService, private router: Router) {}
 
   ngOnInit() {
     this.load();
@@ -64,7 +65,9 @@ export class AnticiposComponent implements OnInit {
     });
   }
 
-  onSelect(row) {}
+  onSelect(row) {
+    this.router.navigate(['/caja/anticipos/', row.id]);
+  }
 
   set disponibles(val) {
     this._disponibles = val;

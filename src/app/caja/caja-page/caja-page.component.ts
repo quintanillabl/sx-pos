@@ -81,8 +81,11 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     {
       name: 'ventasDiariasChe',
       title: 'Ventas diarias (CHE)',
-      icon: 'blur_linear'
-    }
+    },
+    // {
+    //   name: 'anticipos',
+    //   title: 'Anticipos',
+    // }
   ];
 
   constructor(
@@ -132,6 +135,9 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     }
     if (report === 'ventasDiariasChe') {
       this.ventasDiariasChe();
+    }
+    if (report === 'anticipos') {
+      this.anticipos();
     }
   }
 
@@ -297,6 +303,23 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
       if (result) {
         this.service
           .runReport('report/ventasDiariasCheques', result)
+          .subscribe(res => {
+            const blob = new Blob([res], {
+              type: 'application/pdf'
+            });
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
+          });
+      }
+    });
+  }
+
+  anticipos() {
+    const dialogRef = this.dialog.open(VentasDiariasCheComponent, {});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.service
+          .runReport('report/anticiposPorPeriodo', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
