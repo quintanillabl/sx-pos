@@ -7,6 +7,7 @@ import { MainPageComponent, RecepcionesPageComponent, OrdenesShowComponent} from
 import { ComsShowPageComponent } from './_pages/recepciones-page/show/coms-show-page.component';
 import { ComCreatePageComponent } from './_pages/recepciones-page/create/com-create-page.component';
 import { ComEditPageComponent } from './_pages/recepciones-page/edit/com-edit-page.component';
+import { AlcancesComponent } from 'app/compras/_pages/alcances/alcances.component';
 
 const routes: Routes = [
   {
@@ -20,7 +21,8 @@ const routes: Routes = [
       { path: 'recepciones', component: RecepcionesPageComponent},
       { path: 'recepciones/create', component: ComCreatePageComponent},
       { path: 'recepciones/show/:id', component: ComsShowPageComponent},
-      { path: 'recepciones/edit/:id', component: ComEditPageComponent}
+      { path: 'recepciones/edit/:id', component: ComEditPageComponent},
+      { path: 'alcances', component: AlcancesComponent}
     ]
   },
 ];

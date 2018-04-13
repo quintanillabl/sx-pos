@@ -27,6 +27,8 @@ import { ComPartidasComponent } from './_components/com-form/partidas/com-partid
 import { ComCreatePageComponent } from './_pages/recepciones-page/create/com-create-page.component';
 import { ComEditPageComponent } from './_pages/recepciones-page/edit/com-edit-page.component';
 import { ComEditFormComponent } from './_components/com-edit-form/com-edit-form.component';
+import { AlcancesTableComponent } from './_pages/alcances/alcances-table/alcances-table.component';
+import { AlcancesService } from './services/alcances.service';
 
 const PAGES = [
   pages.MainPageComponent,
@@ -43,7 +45,8 @@ const COMPONENTS = [
   components.OrdenAddPartidaBtnComponent,
   components.OrdendetAddDialogComponent,
   // components.ProductoProvFieldComponent,
-  OrdenesListComponent
+  OrdenesListComponent,
+  AlcancesTableComponent
 ];
 
 @NgModule({
@@ -67,6 +70,6 @@ const COMPONENTS = [
     SelectorDeCompraDialogComponent
   ],
   // Services
-  providers: [OrdenesService, ProveedoresService, ComsService]
+  providers: [OrdenesService, ProveedoresService, ComsService, AlcancesService]
 })
 export class ComprasModule {}
