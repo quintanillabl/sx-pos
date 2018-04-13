@@ -1,27 +1,79 @@
-<sx-nav-layout header="Ordenes de compra" modulo="Compras">
+<!-- <sx-nav-layout header="Ordenes de compra" modulo="Compras">
   <div layout *tdLoading="'procesando'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
-    <md-card flex>
-      <div layout="row" layout-align="start center" layout-padding class="pad-left-sm pad-right-sm">
-        <span class="md-title">Reporte general de alcances</span>
-        <span flex></span>
-        <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Filtrar" (searchDebounce)="search($event)"
-          flex>
-        </td-search-box>
-        <span>
-          <button md-icon-button [mdMenuTriggerFor]="toolbarMenu">
-            <md-icon>more_vert</md-icon>
-          </button>
-          <md-menu #toolbarMenu="mdMenu">
-            <button (click)="ejecutar()" md-menu-item>
-              <md-icon>directions_run</md-icon> Ejecutar
-            </button>
-          </md-menu>
-        </span>
-      </div>
-      <md-divider></md-divider>
-      <div class="alcance-panel">
-        <sx-alcances-table [rows]="rows"></sx-alcances-table>
-      </div>
-    </md-card>
+    
   </div>
-</sx-nav-layout>
+</sx-nav-layout> -->
+<td-layout-nav-list #navList color="accent" [opened]="media.registerQuery('gt-sm') | async" [mode]="(media.registerQuery('gt-sm') | async) ? 'side' : 'over'"
+  [sidenavWidth]="(media.registerQuery('gt-xs') | async) ? sideNavWidth : '100%'">
+
+  <div td-sidenav-toolbar-content layout="row" layout-align="start center">
+    <button md-icon-button tdLayoutToggle>
+      <md-icon>menu</md-icon>
+    </button>
+    <md-icon [routerLink]="['/']" class="md-icon-logo cursor-pointer" svgIcon="assets:siipap-rx2"></md-icon>
+  </div>
+
+  <div td-toolbar-content layout="row" layout-align="start center" flex>
+    <button md-icon-button [tdLayoutNavListToggle]="true">
+      <md-icon>keyboard_hide</md-icon>
+    </button>
+    <span flex></span>
+    <md-icon>business</md-icon>
+    <span>Alcances de inventario </span>
+    <sx-sucursal-label></sx-sucursal-label>
+    <span flex></span>
+
+    <span> (SX Compras) </span>
+    <sx-qv-productos-btn></sx-qv-productos-btn>
+    <button md-icon-button>
+      <md-icon>settings</md-icon>
+    </button>
+    <sx-module-selector></sx-module-selector>
+  </div>
+
+  <md-nav-list td-sidenav-content [tdLayoutNavListClose]="!media.query('gt-sm')">
+    <h2 matSubheader>Filtros</h2>
+    <ng-template let-item let-last="last" ngFor [ngForOf]="filtros">
+      <form [formGroup]="searchForm">
+        <md-list-item>
+          <md-form-field>
+            <input mdInput placeholder="{{item.descripcion}}" md-line formControlName="{{item.nombre}}">
+          </md-form-field>
+        </md-list-item>
+      </form>
+    </ng-template>
+    <h2 matSubheader>Registros</h2>
+    <md-list-item>
+      Registros {{filteredData.length}}
+    </md-list-item>
+    <md-list-item>
+      Seleccionados {{selectedRows.length}}
+    </md-list-item>
+  </md-nav-list>
+
+  <md-card flex>
+    <div layout="row" layout-align="start center" layout-padding class="pad-left-sm pad-right-sm">
+      <span class="md-title">Reporte general de alcances</span>
+      <span flex></span>
+      <span>
+        <button md-icon-button [mdMenuTriggerFor]="toolbarMenu">
+          <md-icon>more_vert</md-icon>
+        </button>
+        <md-menu #toolbarMenu="mdMenu">
+          <button (click)="ejecutar()" md-menu-item>
+            <md-icon>directions_run</md-icon> Ejecutar
+          </button>
+        </md-menu>
+      </span>
+    </div>
+    <md-divider></md-divider>
+    <div class="alcance-panel">
+      <sx-alcances-table [rows]="filteredData" [selectedRows]="selectedRows"></sx-alcances-table>
+    </div>
+  </md-card>
+
+  <td-layout-footer [color]="color">
+    <sx-page-footer></sx-page-footer>
+  </td-layout-footer>
+
+</td-layout-nav-list>

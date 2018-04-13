@@ -4,6 +4,12 @@
   <ng-template tdDataTableTemplate="descripcion" let-value="value" let-row="row">
     <span class="text-md">{{value}}</span>
   </ng-template>
+  <ng-template tdDataTableTemplate="clave" let-value="value" let-row="row">
+    <span class="text-md">{{value}}</span>
+  </ng-template>
+  <ng-template tdDataTableTemplate="nombre" let-value="value" let-row="row">
+    <span class="text-md">{{value}}</span>
+  </ng-template>
 
   <ng-template tdDataTableTemplate="fecha" let-value="value" let-row="row">
     <span>{{value | date: 'dd/MM/yyyy'}}</span>
@@ -41,13 +47,13 @@
   </ng-template>
 
   <ng-template tdDataTableTemplate="linea" let-value="value" let-row="row">
-    <span class="text-md">{{value}}</span>>
+    <span class="text-sm">{{value}}</span>
   </ng-template>
   <ng-template tdDataTableTemplate="clase" let-value="value" let-row="row">
-    <span class="text-md">{{value}}</span>>
+    <span class="text-sm">{{value}}</span>
   </ng-template>
   <ng-template tdDataTableTemplate="proveedor" let-value="value" let-row="row">
-    <span class="text-md">{{value}}</span>>
+    <span class="text-md">{{value}}</span>
   </ng-template>
 </td-data-table>
 <td-paging-bar #pagingBar [pageSize]="pageSize" [total]="filteredTotal" (change)="page($event)">

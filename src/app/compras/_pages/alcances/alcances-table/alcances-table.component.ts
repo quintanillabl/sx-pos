@@ -21,17 +21,18 @@ export class AlcancesTableComponent implements OnInit, OnChanges {
   @Input() rows: any[] = [];
 
   columns: ITdDataTableColumn[] = [
-    { name: 'descripcion', label: 'Producto', width: 300 },
+    { name: 'clave', label: 'Clave', width: 20 },
+    { name: 'descripcion', label: 'Descripción', width: 260 },
     { name: 'existencia', label: 'Inventario' },
     { name: 'promVta', label: 'Prom Vta' },
-    { name: 'alcanceTotal', label: 'ALC Inv' },
+    { name: 'alcanceTotal', label: 'Alcance' },
     { name: 'pedidoCompraPendte', label: 'Com Pdte' },
-    { name: 'alcanceMasPedido', label: 'ALC  + P' },
+    { name: 'alcanceMasPedido', label: 'Alc Inv+P' },
     { name: 'porPedir', label: 'Por Pedir' },
-    { name: 'venta', label: 'Venta' },
+    { name: 'nombre', label: 'Proveedor', width: 250 },
     { name: 'linea', label: 'Línea' },
-    { name: 'clase', label: 'Clase', width: 50 },
-    { name: 'nombre', label: 'Proveedor', width: 250 }
+    { name: 'marca', label: 'Marca' },
+    { name: 'clase', label: 'Clase' }
   ];
 
   filteredData: any[] = this.rows;
@@ -42,7 +43,7 @@ export class AlcancesTableComponent implements OnInit, OnChanges {
   currentPage = 1;
   pageSize = 10;
   sortBy = '';
-  selectedRows: any[] = [];
+  @Input() selectedRows: any[] = [];
   sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 
   constructor(private _dataTableService: TdDataTableService) {}
