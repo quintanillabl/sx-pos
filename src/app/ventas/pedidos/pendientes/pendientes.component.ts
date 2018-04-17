@@ -187,6 +187,14 @@ export class PendientesComponent implements OnInit {
     });
   }
 
+  envio(pedido: Venta) {
+    if (pedido.envio) {
+      this.cancelarEnvio(pedido);
+    } else {
+      this.asignarEnvio(pedido);
+    }
+  }
+
   asignarEnvio(pedido: Venta) {
     const params = { direccion: null };
     if (pedido.envio) {
@@ -212,6 +220,40 @@ export class PendientesComponent implements OnInit {
       },
       error => this.handleError(error)
     );
+  }
+  cancelarEnvio(pedido: Venta) {
+    const params = { direccion: null };
+    if (pedido.envio) {
+      const dialogRef = this._dialogService
+        .openConfirm({
+          message: 'Cancelar envio del pedido ' + pedido.documento,
+          title: 'Cancelación de envío',
+          viewContainerRef: this._viewContainerRef,
+          acceptButton: 'Aceptar',
+          cancelButton: 'Cancelar'
+        })
+        .afterClosed()
+        .subscribe(res => {
+          if (res) {
+            this.doCancelarEnvio(pedido);
+          }
+        });
+    }
+  }
+
+  doCancelarEnvio(pedido: Venta) {
+    this.procesando = true;
+    this.service
+      .cancelarEnvio(pedido)
+      .finally(() => (this.procesando = false))
+      .subscribe(
+        (res: Venta) => {
+          console.log('Envio cancelado para: ', res);
+          this.load();
+          pedido = res;
+        },
+        error => console.error(error)
+      );
   }
 
   print(id: string) {

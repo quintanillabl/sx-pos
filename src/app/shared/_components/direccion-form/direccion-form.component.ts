@@ -45,8 +45,12 @@ export class DireccionFormComponent implements OnInit, OnDestroy {
       .subscribe((registros: any[]) => {
         const estado: string = _.map(registros, item => item.d_estado)[0];
         const municipio: string = _.map(registros, item => item.d_mnpio)[0];
-        this.parent.get('estado').setValue(estado.toUpperCase());
-        this.parent.get('municipio').setValue(municipio.toUpperCase());
+        if (estado) {
+          this.parent.get('estado').setValue(estado.toUpperCase());
+        }
+        if (municipio) {
+          this.parent.get('municipio').setValue(municipio.toUpperCase());
+        }
         const colonias = _.map(registros, item => item.d_asenta.toUpperCase());
         this.colonias = colonias;
       });
