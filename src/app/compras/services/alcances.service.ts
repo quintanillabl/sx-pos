@@ -14,12 +14,28 @@ export class AlcancesService {
   }
 
   list(filtro: any = {}): Observable<any[]> {
-    const url = `${this.apiUrl}/generar`;
+    const url = `${this.apiUrl}/list`;
     let params = new HttpParams();
     _.forIn(filtro, (value, key) => {
       params = params.set(key, value);
     });
     return this.http.get<any[]>(url, { params: params });
+  }
+
+  generar(command): Observable<any> {
+    console.log('Generando alcance: ', command);
+    const url = `${this.apiUrl}/generar`;
+    let params = new HttpParams();
+    _.forIn(command, (value, key) => {
+      params = params.set(key, value);
+    });
+    return this.http.post<Observable<any>>(url, command);
+  }
+
+  generarOrden(proveedor: string, partidas: any[]): Observable<any> {
+    const command = { proveedor, partidas };
+    const url = `${this.apiUrl}/generarOrden`;
+    return this.http.post<Observable<any>>(url, command);
   }
 
   print(filtro) {
@@ -34,5 +50,11 @@ export class AlcancesService {
       responseType: 'blob',
       params: params
     });
+  }
+
+  actualizarMeses(meses: number): Observable<any> {
+    const url = `${this.apiUrl}/actualizarMeses`;
+    let params = new HttpParams().set('meses', meses.toString());
+    return this.http.put<Observable<any>>(url, {}, { params: params });
   }
 }

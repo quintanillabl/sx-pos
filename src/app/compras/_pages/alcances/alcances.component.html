@@ -1,8 +1,3 @@
-<!-- <sx-nav-layout header="Ordenes de compra" modulo="Compras">
-  <div layout *tdLoading="'procesando'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
-    
-  </div>
-</sx-nav-layout> -->
 <td-layout-nav-list #navList color="accent" [opened]="media.registerQuery('gt-sm') | async" [mode]="(media.registerQuery('gt-sm') | async) ? 'side' : 'over'"
   [sidenavWidth]="(media.registerQuery('gt-xs') | async) ? sideNavWidth : '100%'">
 
@@ -31,7 +26,7 @@
     <sx-module-selector></sx-module-selector>
   </div>
 
-  <md-nav-list td-sidenav-content [tdLayoutNavListClose]="!media.query('gt-sm')">
+  <md-list td-sidenav-content [tdLayoutNavListClose]="!media.query('gt-sm')">
     <h2 matSubheader>Filtros</h2>
     <ng-template let-item let-last="last" ngFor [ngForOf]="filtros">
       <form [formGroup]="searchForm">
@@ -42,29 +37,44 @@
         </md-list-item>
       </form>
     </ng-template>
-    <h2 matSubheader>Registros</h2>
+    <h2 matSubheader>Totales</h2>
     <md-list-item>
-      Registros {{filteredData.length}}
+      Exis (TON) {{existenciaAcumulada | number:'1.1-1'}}
     </md-list-item>
     <md-list-item>
-      Seleccionados {{selectedRows.length}}
+      Prom Vta (TON) {{promVtaEnToneladas | number:'1.1-1'}}
     </md-list-item>
-  </md-nav-list>
+    <md-list-item>
+      Por pedir (TON) {{porPedirToneladas | number:'1.1-1'}}
+    </md-list-item>
+  </md-list>
 
-  <md-card flex>
+  <md-card flex *tdLoading="'procesando'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
     <div layout="row" layout-align="start center" layout-padding class="pad-left-sm pad-right-sm">
-      <span class="md-title">Reporte general de alcances</span>
+      <span class="md-title">Reporte general de alcances </span>
       <span flex></span>
       <span>
         <button md-icon-button [mdMenuTriggerFor]="toolbarMenu">
           <md-icon>more_vert</md-icon>
         </button>
         <md-menu #toolbarMenu="mdMenu">
+          <button (click)="load()" md-menu-item>
+            <md-icon>refresh</md-icon> Recargar
+          </button>
           <button (click)="ejecutar()" md-menu-item>
             <md-icon>directions_run</md-icon> Ejecutar
           </button>
+          <button (click)="generarOrden()" md-menu-item>
+            <md-icon>add_shopping_cart</md-icon> Generar O.Compra
+          </button>
         </md-menu>
       </span>
+    </div>
+    <div class="pad-sm" *ngIf="ultimaEjecucion">
+      <span class="pad-right">
+        Periodo: {{ultimaEjecucion?.fechaInicial | date: 'dd/MM/yyyy'}} - {{ultimaEjecucion?.fechaFinal | date: 'dd/MM/yyyy'}}
+      </span>
+      <span class="pad-right cursor-pointer" (click)="actualizarMeses()">Meses: {{ultimaEjecucion?.meses}}</span>
     </div>
     <md-divider></md-divider>
     <div class="alcance-panel">

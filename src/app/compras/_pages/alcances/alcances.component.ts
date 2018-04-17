@@ -4,14 +4,24 @@ import {
   ChangeDetectorRef,
   AfterViewInit
 } from '@angular/core';
-import { AlcancesService } from '@siipapx/compras/services/alcances.service';
-import { TdLoadingService, TdMediaService } from '@covalent/core';
+import { AlcancesService } from 'app/compras/services/alcances.service';
+import {
+  TdLoadingService,
+  TdMediaService,
+  TdDialogService
+} from '@covalent/core';
 import { Title } from '@angular/platform-browser';
+import { FormGroup, FormControl } from '@angular/forms';
 
-import * as _ from 'lodash';
 import { Subject } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
-import { FormGroup, FormControl } from '@angular/forms';
+
+import { MdDialog } from '@angular/material';
+
+import * as _ from 'lodash';
+
+import { AlcanceRunDialogComponent } from 'app/compras/_pages/alcances/alcance-run-dialog/alcance-run-dialog.component';
+import { Periodo } from 'app/models/periodo';
 
 @Component({
   selector: 'sx-alcances',
@@ -24,38 +34,49 @@ export class AlcancesComponent implements OnInit, AfterViewInit {
 
   sideNavWidth = '250px';
   filtros = [
+    { nombre: 'proveedor', descripcion: 'Proveedor' },
     { nombre: 'producto', descripcion: 'Producto' },
-    { nombre: 'nombre', descripcion: 'Proveedor' },
     { nombre: 'linea', descripcion: 'Línea' },
     { nombre: 'marca', descripcion: 'Marca' },
-    { nombre: 'clase', descripcion: 'Clase' }
+    { nombre: 'clase', descripcion: 'Clase' },
+    { nombre: 'alcanceMenor', descripcion: 'Alc menor igual a' },
+    { nombre: 'alcanceMayor', descripcion: 'Alc mayor a' }
   ];
 
   searchForm: FormGroup;
+
+  ultimaEjecucion;
 
   constructor(
     private service: AlcancesService,
     private loadingService: TdLoadingService,
     private _changeDetectorRef: ChangeDetectorRef,
     public media: TdMediaService,
-    private titleService: Title
+    private titleService: Title,
+    private dialogService: TdDialogService,
+    private dialog: MdDialog
   ) {
     this.searchForm = new FormGroup({
       producto: new FormControl(''),
-      nombre: new FormControl(''),
+      proveedor: new FormControl(''),
       linea: new FormControl(''),
       marca: new FormControl(''),
-      clase: new FormControl('')
+      clase: new FormControl(''),
+      alcanceMenor: new FormControl(''),
+      alcanceMayor: new FormControl('')
     });
     this.searchForm.valueChanges
       .debounceTime(500)
       .distinctUntilChanged()
       .subscribe(filtro => {
-        this.filtrar();
+        // this.filtrar();
+        this.load();
       });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.load();
+  }
 
   ngAfterViewInit(): void {
     this.media.broadcast();
@@ -63,57 +84,117 @@ export class AlcancesComponent implements OnInit, AfterViewInit {
     this.titleService.setTitle('SX Alcances');
   }
 
-  ejecutar() {
+  load() {
     this.loadingService.register('procesando');
-    this.searchForm.reset();
     this.service
-      .list()
+      .list(this.searchForm.value)
       .finally(() => this.loadingService.resolve('procesando'))
       .subscribe(data => {
-        this.rows = _.each(data, item => {
-          const alcanceMasPedido =
-            (_.toNumber(item.pedidoCompraPendte) +
-              _.toNumber(item.existencia)) /
-            _.toNumber(item.promVta);
-          item.alcanceMasPedido = alcanceMasPedido;
-          item.porPedir = alcanceMasPedido * _.toNumber(item.promVta);
-        });
+        this.rows = data;
+        this.filteredData = [...this.rows];
+        if (data.length > 0) {
+          const row = data[0];
+          this.ultimaEjecucion = {
+            fechaInicial: row.fechaInicial,
+            fechaFinal: row.fechaFinal,
+            meses: row.meses
+          };
+        }
+      });
+  }
+
+  ejecutar() {
+    const dialogRef = this.dialog
+      .open(AlcanceRunDialogComponent, {
+        data: { periodo: Periodo.monthsAgo(2) }
+      })
+      .afterClosed()
+      .subscribe(res => {
+        this.ultimaEjecucion = res;
+        this.doEjecutar(res);
+      });
+  }
+  private doEjecutar(command) {
+    this.loadingService.register('procesando');
+    this.service
+      .generar(command)
+      .finally(() => this.loadingService.resolve('procesando'))
+      .catch(err => Observable.of(err))
+      .subscribe(data => {
+        this.rows = data;
         this.filteredData = [...this.rows];
       });
   }
 
-  filtrar() {
-    let filterData = [...this.rows];
-    let filtro: any = _.pickBy(this.searchForm.value, item => !_.isEmpty(item));
-    if (filtro.producto) {
-      filtro = _.assign(
-        {
-          clave: filtro.producto,
-          descripcion: filtro.producto
-        },
-        filtro
+  generarOrden() {
+    const found = _.find(this.selectedRows, item => item.proveedor);
+    if (found) {
+      const partidas = _.filter(
+        this.selectedRows,
+        item => item.proveedor === found.proveedor
       );
-    }
-    const properties = _.keys(filtro);
-    let results = [];
-    if (properties.length > 0) {
-      _.forEach(properties, prop => {
-        const term = filtro[prop];
-        const filterByPropData = _.filter(filterData, item => {
-          const val: string = item[prop];
-          if (val) {
-            return val.toLowerCase().indexOf(term.toLowerCase()) >= 0;
+      this.dialogService
+        .openConfirm({
+          title: 'Generar orden de compra',
+          message: `${found.nombre}      Productos: ${partidas.length}`,
+          acceptButton: 'Aceptar',
+          cancelButton: 'Cancelar'
+        })
+        .updateSize('600px', '200px')
+        .afterClosed()
+        .subscribe(res => {
+          if (res) {
+            console.log('Proveedor: ', found.nombre);
+            console.log('Partidas ', partidas.length);
+            this.service
+              .generarOrden(found.proveedor, partidas)
+              .subscribe(oc => {
+                console.log('Orden generada: ', oc);
+                this.load();
+              });
           }
-          return false;
         });
-        console.log(`Res by ${prop}: ${filterByPropData.length}`);
-        results = [...results, ...filterByPropData];
-      });
-      console.log('Results: ', results);
-
-      this.filteredData = results;
-    } else {
-      this.filteredData = [...this.rows];
     }
+  }
+
+  actualizarMeses() {
+    this.dialogService
+      .openPrompt({
+        title: 'Meses para alcance',
+        message: 'Digite el numero de meses',
+        acceptButton: 'Aceptar',
+        cancelButton: 'Cancelar'
+      })
+      .afterClosed()
+      .subscribe(res => {
+        if (_.isNumber(_.toNumber(res))) {
+          this.loadingService.register('procesando');
+          this.service
+            .actualizarMeses(res)
+            .finally(() => this.loadingService.resolve('procesando'))
+            .subscribe(data => this.load());
+        }
+      });
+  }
+
+  get existenciaAcumulada() {
+    if (this.filteredData.length > 0) {
+      return _.sumBy(this.filteredData, item => item.existenciaEnToneladas);
+    }
+    return 0;
+  }
+
+  get promVtaEnToneladas() {
+    if (this.filteredData.length > 0) {
+      return _.sumBy(this.filteredData, item => item.promVtaEnToneladas);
+    }
+    return 0;
+  }
+
+  get porPedirToneladas() {
+    if (this.filteredData.length > 0) {
+      return _.sumBy(this.filteredData, item => item.porPedirKilos / 1000);
+    }
+    return 0;
   }
 }
