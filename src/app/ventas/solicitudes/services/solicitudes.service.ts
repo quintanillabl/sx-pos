@@ -2,47 +2,51 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import {SolicitudDeDeposito} from 'app/ventas/models/solicitudDeDeposito';
-import {Sucursal} from 'app/models';
-import {ConfigService} from '@siipapx/core/services/config.service';
-
+import { SolicitudDeDeposito } from 'app/ventas/models/solicitudDeDeposito';
+import { Sucursal } from 'app/models';
+import { ConfigService } from '@siipapx/core/services/config.service';
 
 @Injectable()
 export class SolicitudesService {
+  private apiUrl: string; // = environment.apiUrl + '/tesoreria/solicitudes';
+  sucursal: Sucursal;
 
-  private  apiUrl: string; // = environment.apiUrl + '/tesoreria/solicitudes';
-  sucursal: Sucursal
-
-  constructor(
-    private http: HttpClient,
-    private configService: ConfigService
-  ) {
+  constructor(private http: HttpClient, private configService: ConfigService) {
     this.sucursal = configService.getCurrentSucursal();
     this.apiUrl = configService.buildApiUrl('tesoreria/solicitudes');
   }
 
   get(id: string): Observable<SolicitudDeDeposito> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<SolicitudDeDeposito>(url)
+    return this.http.get<SolicitudDeDeposito>(url);
   }
 
   pendientes() {
     const params = new HttpParams()
       .set('sucursal', this.sucursal.id)
       .set('pendientes', 'pendientes');
-    const url = `${this.apiUrl}`
-    return this.http.get<SolicitudDeDeposito[]>(url, {params: params})
+    const url = `${this.apiUrl}`;
+    return this.http.get<SolicitudDeDeposito[]>(url, { params: params });
   }
 
-  list(documento?: string, autorizadas?: boolean ): Observable<SolicitudDeDeposito[]> {
+  list(
+    documento?: string,
+    autorizadas?: boolean
+  ): Observable<SolicitudDeDeposito[]> {
     let params = new HttpParams().set('sucursal', this.sucursal.id);
     if (documento) {
-      params =  params.set('documento', documento);
+      params = params.set('documento', documento);
     }
     if (autorizadas) {
       params = params.set('autorizadas', 'true');
+      // params = params.set('pendientes', 'false');
+    } else {
+      // params = params.set('autorizadas', 'false');
+      params = params.set('pendientes', 'true');
     }
-    return this.http.get<SolicitudDeDeposito[]>(this.apiUrl, {params: params})
+    return this.http.get<SolicitudDeDeposito[]>(this.apiUrl, {
+      params: params
+    });
   }
 
   save(sol: SolicitudDeDeposito): Observable<SolicitudDeDeposito> {
@@ -58,5 +62,4 @@ export class SolicitudesService {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete(url);
   }
-
 }

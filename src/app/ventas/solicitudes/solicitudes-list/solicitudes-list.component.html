@@ -67,6 +67,13 @@
     {{ value | date: 'dd/MM/yyyy HH:mm'}}
   </ng-template>
 
+  <ng-template tdDataTableTemplate="comentario" let-value="value" let-row="row">
+    <span flex *ngIf="!row.cobro">{{row.comentario}}</span>
+    <span flex *ngIf="row.cobro" class="tc-green-800">
+      Aut: {{row.cobro.fecha | date: 'dd/MM/yyyy'}}
+    </span>
+  </ng-template>
+
   <ng-template tdDataTableTemplate="createUser" let-value="value" let-row="row">
     <span layout="column">
       <span>{{value}}</span>
