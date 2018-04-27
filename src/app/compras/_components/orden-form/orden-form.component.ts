@@ -18,7 +18,7 @@ import {
   Validators
 } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import * as _ from 'lodash';
 
@@ -48,6 +48,8 @@ export class OrdenFormComponent implements OnInit, OnDestroy {
 
   @Input() fecha = new Date();
 
+  @Input() compra: Compra;
+
   subscription1: Subscription;
 
   selected: Array<string> = [];
@@ -61,6 +63,17 @@ export class OrdenFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.buildForm();
+    if (this.compra) {
+      this.form.patchValue({
+        proveedor: this.compra.proveedor,
+        comentario: this.compra.comentario,
+        fecha: this.compra.fecha
+      });
+      this.form.get('proveedor').disable();
+      _.forEach(this.compra.partidas, item => {
+        this.partidas.push(new FormControl(item));
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -125,8 +138,22 @@ export class OrdenFormComponent implements OnInit, OnDestroy {
   }
 
   onEdit(row) {
-    console.log('Editando: ', row);
-    // const partida = this.partidas.get(row.index);
+    const partida = this.partidas.controls[row].value;
+    const dialogRef = this.dialog.open(OrdendetAddDialogComponent, {
+      data: {
+        proveedor: this.proveedor,
+        selected: this.selected,
+        partida: partida
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        partida.producto = result.producto.producto;
+        partida.solicitado = result.solicitado;
+        partida.comentario = result.comentario;
+        this.cd.markForCheck();
+      }
+    });
   }
 
   onDelete(index: number) {
@@ -141,10 +168,16 @@ export class OrdenFormComponent implements OnInit, OnDestroy {
   }
 
   private prepareEntity() {
-    const res = this.form.getRawValue();
-    return {
-      ...res
-    };
+    if (!this.compra) {
+      return this.form.getRawValue();
+    } else {
+      const res = {
+        ...this.compra,
+        ...this.form.value,
+        partidas: this.partidas.value
+      };
+      return res;
+    }
   }
 
   get proveedor() {

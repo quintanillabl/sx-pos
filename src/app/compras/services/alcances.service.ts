@@ -38,9 +38,9 @@ export class AlcancesService {
     return this.http.post<Observable<any>>(url, command);
   }
 
-  print(filtro) {
+  reporte(data) {
     let params = new HttpParams();
-    _.forIn(filtro, (value, key) => {
+    _.forIn(data, (value, key) => {
       params = params.set(key, value);
     });
     const url = `${this.apiUrl}/print`;
@@ -54,7 +54,7 @@ export class AlcancesService {
 
   actualizarMeses(meses: number): Observable<any> {
     const url = `${this.apiUrl}/actualizarMeses`;
-    let params = new HttpParams().set('meses', meses.toString());
+    const params = new HttpParams().set('meses', meses.toString());
     return this.http.put<Observable<any>>(url, {}, { params: params });
   }
 }

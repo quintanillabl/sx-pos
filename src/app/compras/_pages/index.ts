@@ -8,3 +8,4 @@ export {
 } from './recepciones-page/recepciones-page.component';
 export { OrdenesShowComponent } from './ordenes-show/ordenes-show.component';
 export { AlcancesComponent } from './alcances/alcances.component';
+export { OrdenEditComponent } from './orden-edit/orden-edit.component';

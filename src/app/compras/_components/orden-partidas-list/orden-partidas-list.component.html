@@ -19,8 +19,8 @@
           <td td-data-table-cell>{{row.producto.clave}}</td>
           <td td-data-table-cell>{{row.producto.descripcion}}</td>
           <td td-data-table-cell numeric="true">
-            <!-- <a  md-button class="mat-accent" (click)="onEdit(i)" >{{row.solicitado}}</a> -->
-            <a md-button class="mat-accent" (click)="editar(i, row)">{{row.solicitado | number}}</a>
+            <a md-button class="mat-accent" (click)="onEdit(i)">{{row.solicitado | number}}</a>
+            <!-- <a md-button class="mat-accent" (click)="editar(i, row)">{{row.solicitado | number}}</a> -->
           </td>
           <td td-data-table-cell>{{row.comentario}}</td>
           <td td-data-table-cell numeric="false">

@@ -15,8 +15,8 @@ import { CompraDet } from 'app/models/compraDet';
 @Component({
   selector: 'sx-orden-partidas-list',
   templateUrl: './orden-partidas-list.component.html',
-  styles: [''],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styles: ['']
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrdenPartidasListComponent implements OnInit {
   @Input() parent: FormGroup;

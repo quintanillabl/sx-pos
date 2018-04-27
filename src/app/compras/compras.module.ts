@@ -29,6 +29,7 @@ import { ComEditPageComponent } from './_pages/recepciones-page/edit/com-edit-pa
 import { ComEditFormComponent } from './_components/com-edit-form/com-edit-form.component';
 import { AlcancesTableComponent } from './_pages/alcances/alcances-table/alcances-table.component';
 import { AlcanceRunDialogComponent } from './_pages/alcances/alcance-run-dialog/alcance-run-dialog.component';
+import { AlcanceReportDialogComponent } from './_pages/alcances/alcance-report-dialog/alcance-report-dialog.component';
 import { AlcancesService } from './services/alcances.service';
 
 const PAGES = [
@@ -37,7 +38,8 @@ const PAGES = [
   pages.OrdenesCreatePageComponent,
   pages.RecepcionesPageComponent,
   pages.OrdenesShowComponent,
-  pages.AlcancesComponent
+  pages.AlcancesComponent,
+  pages.OrdenEditComponent
 ];
 
 const COMPONENTS = [
@@ -48,7 +50,8 @@ const COMPONENTS = [
   // components.ProductoProvFieldComponent,
   OrdenesListComponent,
   AlcancesTableComponent,
-  AlcanceRunDialogComponent
+  AlcanceRunDialogComponent,
+  AlcanceReportDialogComponent
 ];
 
 @NgModule({
@@ -70,7 +73,8 @@ const COMPONENTS = [
   entryComponents: [
     components.OrdendetAddDialogComponent,
     SelectorDeCompraDialogComponent,
-    AlcanceRunDialogComponent
+    AlcanceRunDialogComponent,
+    AlcanceReportDialogComponent
   ],
   // Services
   providers: [OrdenesService, ProveedoresService, ComsService, AlcancesService]

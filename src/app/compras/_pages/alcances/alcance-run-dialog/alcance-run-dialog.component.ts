@@ -37,8 +37,6 @@ export class AlcanceRunDialogComponent implements OnInit {
 
   ngOnInit() {}
 
-  ngOnDestroy() {}
-
   cancelar() {
     this.dialogRef.close(null);
   }

@@ -1,7 +1,10 @@
 <form novalidate [formGroup]="form" (ngSubmit)="onSubmit()">
   <md-card>
     <div layout="row" layout-align="start center" layout-padding class="pad-left-sm pad-right-sm">
-      <span class="md-title">Alta de orden de compra</span>
+      <span class="md-title">
+        <span *ngIf="!compra">Alta de orden de compra</span>
+        <span *ngIf="compra">Compra {{compra.folio}}</span>
+      </span>
       <span flex></span>
       <span>
         <sx-orden-add-partida-btn [parent]="form" (add)="insertar()"></sx-orden-add-partida-btn>
@@ -33,10 +36,11 @@
 
     <md-divider></md-divider>
     <md-card-actions>
-      <button type="submit" md-button [disabled]="form.invalid"> Salvar </button>
+      <button type="submit" md-button [disabled]="form.invalid || form.pristine"> Salvar </button>
       <a md-button [routerLink]="['../']"> Cancelar </a>
     </md-card-actions>
 
   </md-card>
+
 
 </form>

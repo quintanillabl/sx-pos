@@ -13,7 +13,6 @@ import {
 import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl } from '@angular/forms';
 
-import { Subject } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 
 import { MdDialog } from '@angular/material';
@@ -21,6 +20,7 @@ import { MdDialog } from '@angular/material';
 import * as _ from 'lodash';
 
 import { AlcanceRunDialogComponent } from 'app/compras/_pages/alcances/alcance-run-dialog/alcance-run-dialog.component';
+import { AlcanceReportDialogComponent } from 'app/compras/_pages/alcances/alcance-report-dialog/alcance-report-dialog.component';
 import { Periodo } from 'app/models/periodo';
 
 @Component({
@@ -196,5 +196,35 @@ export class AlcancesComponent implements OnInit, AfterViewInit {
       return _.sumBy(this.filteredData, item => item.porPedirKilos / 1000);
     }
     return 0;
+  }
+
+  generarReporte() {
+    const dialogRef = this.dialog
+      .open(AlcanceReportDialogComponent, {
+        data: { periodo: Periodo.monthsAgo(2) }
+      })
+      .afterClosed()
+      .subscribe(res => {
+        if (res) {
+          this.doRunReport(res);
+        }
+      });
+  }
+
+  doRunReport(params) {
+    this.loadingService.register('procesando');
+    this.service
+      .reporte(params)
+      .finally(() => this.loadingService.resolve('procesando'))
+      .subscribe(
+        res => {
+          const blob = new Blob([res], {
+            type: 'application/pdf'
+          });
+          const fileURL = window.URL.createObjectURL(blob);
+          window.open(fileURL, '_blank');
+        },
+        error2 => console.error(error2)
+      );
   }
 }
