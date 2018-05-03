@@ -1,11 +1,24 @@
 import {
-  Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef,
-  OnChanges, SimpleChanges
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
-import {FormGroup, FormBuilder, FormArray, Validators, FormControl} from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  FormArray,
+  Validators,
+  FormControl
+} from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
+import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import * as _ from 'lodash';
 
 import { Sucursal } from 'app/models';
@@ -14,11 +27,10 @@ import { Embarque } from 'app/logistica/models/embarque';
 @Component({
   selector: 'sx-embarque-form',
   templateUrl: 'embarque-form.component.html',
-  styleUrls:['./embarque-form.component.scss'],
+  styleUrls: ['./embarque-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EmbarqueFormComponent implements OnInit, OnChanges {
-
   form: FormGroup;
 
   @Input() sucursal: Sucursal;
@@ -27,7 +39,7 @@ export class EmbarqueFormComponent implements OnInit, OnChanges {
 
   @Input() embarque: Embarque;
 
-  @Input() readonly = false;  
+  @Input() readonly = false;
 
   constructor(
     private fb: FormBuilder,
@@ -50,7 +62,7 @@ export class EmbarqueFormComponent implements OnInit, OnChanges {
   buildForm() {
     this.form = this.fb.group({
       id: [null],
-      sucursal: [{value: this.sucursal, disabled: true}, Validators.required],
+      sucursal: [{ value: this.sucursal, disabled: true }, Validators.required],
       fecha: [new Date(), Validators.required],
       chofer: [null, Validators.required],
       comentario: ['', [Validators.maxLength(100)]],
@@ -67,20 +79,19 @@ export class EmbarqueFormComponent implements OnInit, OnChanges {
 
   private prepareEntity() {
     return {
-      ...this.form.getRawValue(),
-    }
+      ...this.form.getRawValue()
+    };
   }
 
   get partidas() {
-    return this.form.get('partidas') as FormArray
+    return this.form.get('partidas') as FormArray;
   }
 
   removePartida(index: number) {
     this.partidas.removeAt(index);
   }
 
-  insertar() {
-  }
+  insertar() {}
 
   // insertarPartida(det: SectorDet) {
   //   this.partidas.push(new FormControl(det));
@@ -98,7 +109,7 @@ export class EmbarqueFormComponent implements OnInit, OnChanges {
   // }
 
   get title() {
-    return ' Alta de embarque'
+    return ' Alta de embarque';
   }
 
   get id() {
@@ -108,5 +119,4 @@ export class EmbarqueFormComponent implements OnInit, OnChanges {
   get fecha() {
     return this.form.get('fecha').value;
   }
-
 }

@@ -3,7 +3,6 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 
-
 import { Embarque } from 'app/logistica/models/embarque';
 import { Venta } from 'app/models';
 import { Envio } from 'app/logistica/models/envio';
@@ -13,61 +12,55 @@ import { ConfigService } from 'app/core/services/config.service';
 
 @Injectable()
 export class EmbarqueService {
-
   private apiUrl: string;
 
   sucursal: Sucursal;
-  
-  constructor(
-    private http: HttpClient,
-    private configService: ConfigService) 
-  {
+
+  constructor(private http: HttpClient, private configService: ConfigService) {
     this.sucursal = configService.getCurrentSucursal();
     this.apiUrl = configService.buildApiUrl('embarques/embarques');
   }
 
   get(id: string): Observable<Embarque> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<Embarque>(url)
+    return this.http.get<Embarque>(url);
   }
 
-  peidnetes(documento?: string ) {
+  peidnetes(documento?: string) {
     let params = new HttpParams().set('sucursal', this.sucursal.id);
     if (documento) {
-      params =  params.set('documento', documento);
+      params = params.set('documento', documento);
     }
-    return this.http.get<Embarque[]>(this.apiUrl, {params: params})
+    return this.http.get<Embarque[]>(this.apiUrl, { params: params });
   }
 
-  list(filter = {} ): Observable<Embarque[]> {
+  list(filter = {}): Observable<Embarque[]> {
     let params = new HttpParams().set('sucursal', this.sucursal.id);
     if (filter) {
-      _.forIn(filter, (value, key) =>{
+      _.forIn(filter, (value, key) => {
         params = params.set(key, value.toString());
       });
     }
-    return this.http.get<Embarque[]>(this.apiUrl, {params: params})
+    return this.http.get<Embarque[]>(this.apiUrl, { params: params });
   }
 
   transito(): Observable<Embarque[]> {
     let params = new HttpParams()
       .set('sucursal', this.sucursal.id)
-      .set('transito','transito');
-    return this.http.get<Embarque[]>(this.apiUrl, {params: params})
+      .set('transito', 'transito');
+    return this.http.get<Embarque[]>(this.apiUrl, { params: params });
   }
 
   documentosEnTransito() {
     const url = `${this.apiUrl}/documentosEnTransito`;
-    let params = new HttpParams()
-      .set('sucursal', this.sucursal.id)
-    return this.http.get<Array<any>>(url, {params: params})
+    let params = new HttpParams().set('sucursal', this.sucursal.id);
+    return this.http.get<Array<any>>(url, { params: params });
   }
 
   enviosPendientes() {
     const url = `${this.apiUrl}/enviosPendientes`;
-    let params = new HttpParams()
-      .set('sucursal', this.sucursal.id)
-    return this.http.get<Array<any>>(url, {params: params})
+    let params = new HttpParams().set('sucursal', this.sucursal.id);
+    return this.http.get<Array<any>>(url, { params: params });
   }
 
   save(embarque: Embarque) {
@@ -93,94 +86,94 @@ export class EmbarqueService {
     return this.http.delete(url);
   }
 
-  buscarDocumento( sucursal, tipo, documento, fecha ) {
+  deleteEnvio(id: string) {
+    const url = this.configService.buildApiUrl('embarques/envios') + '/' + id;
+    return this.http.delete(url);
+  }
+
+  buscarDocumento(sucursal, tipo, documento, fecha) {
     let params = new HttpParams()
       .set('sucursal', sucursal)
-      .set('fecha',fecha)
+      .set('fecha', fecha)
       .set('documento', documento)
-      .set('tipo',tipo);
-      // console.log('Buscando documento con: ', params);
+      .set('tipo', tipo);
+    // console.log('Buscando documento con: ', params);
     const url = `${this.apiUrl}/buscarDocumento`;
-    return this.http.get<any>(url, {params: params})
+    return this.http.get<any>(url, { params: params });
   }
 
-  buscarVenta( sucursal, tipo, documento, fecha ) {
+  buscarVenta(sucursal, tipo, documento, fecha) {
     let params = new HttpParams()
       .set('sucursal', sucursal)
-      .set('fecha',fecha)
+      .set('fecha', fecha)
       .set('documento', documento)
-      .set('tipo',tipo);
+      .set('tipo', tipo);
     const url = `${this.apiUrl}/buscarVenta`;
-    return this.http.get<Venta>(url, {params: params})
+    return this.http.get<Venta>(url, { params: params });
   }
 
-  buscarPartidasDeVenta( sucursal, tipo, documento, fecha ) {
+  buscarPartidasDeVenta(sucursal, tipo, documento, fecha) {
     let params = new HttpParams()
       .set('sucursal', sucursal)
-      .set('fecha',fecha)
+      .set('fecha', fecha)
       .set('documento', documento)
-      .set('tipo',tipo);
+      .set('tipo', tipo);
     const url = `${this.apiUrl}/buscarPartidasDeVenta`;
-    return this.http.get<VentaDet>(url, {params: params})
+    return this.http.get<VentaDet>(url, { params: params });
   }
 
   buscarTrasladosPendientes(): Observable<any> {
-    let params = new HttpParams()
-      .set('sucursal', this.sucursal.id);
+    let params = new HttpParams().set('sucursal', this.sucursal.id);
     const url = `${this.apiUrl}/buscarTrasladosPendientes`;
-    return this.http.get(url, {params: params})
+    return this.http.get(url, { params: params });
   }
 
   buscarDevolucionesPendientes(): Observable<any> {
-    let params = new HttpParams()
-      .set('sucursal', this.sucursal.id);
+    let params = new HttpParams().set('sucursal', this.sucursal.id);
     const url = `${this.apiUrl}/buscarDevolucionesPendientes`;
-    return this.http.get(url, {params: params})
+    return this.http.get(url, { params: params });
   }
 
-  print(id: string){
+  print(id: string) {
     console.log('Printing id: ', id);
     const url = `${this.apiUrl}/print`;
-    let params = new HttpParams()
-      .set('ID', id);
-    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
-    return this.http.get(
-      url, {
-        headers: headers,
-        params: params,
-        responseType: 'blob'
-      }
-    );
+    let params = new HttpParams().set('ID', id);
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http.get(url, {
+      headers: headers,
+      params: params,
+      responseType: 'blob'
+    });
   }
 
   reporteDeEntregasPorChofer(reportParams: {}) {
-
     reportParams['sucursal'] = this.sucursal.id;
     // reportParams['CHOFER'] = '6f8b7d4a-aed7-11e7-b1f8-b4b52f67eab0';
     // reportParams['FECHA'] = new Date().toISOString()
-    console.log('Ejecutando reporte de entragas por chofer con: ', reportParams);
+    console.log(
+      'Ejecutando reporte de entragas por chofer con: ',
+      reportParams
+    );
     const url = `${this.apiUrl}/reporteDeEntregasPorChofer`;
-    let params = new HttpParams()
+    let params = new HttpParams();
     if (reportParams) {
       _.forIn(reportParams, (value, key) => {
         params = params.set(key, value.toString());
       });
     }
-    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
-    return this.http.get(
-      url, {
-        headers: headers,
-        params: params,
-        responseType: 'blob'
-      }
-    );
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http.get(url, {
+      headers: headers,
+      params: params,
+      responseType: 'blob'
+    });
   }
 
   getEnvio(id: string): Observable<Envio> {
     // const url = environment.apiUrl + '/embarques/envios';
     const endpoint = `embarques/envios/${id}`;
     const url = this.configService.buildApiUrl(endpoint);
-    return this.http.get<Envio>(url)
+    return this.http.get<Envio>(url);
   }
 
   updateEnvio(envio) {
@@ -195,7 +188,6 @@ export class EmbarqueService {
       condiciones: condiciones
     };
     const url = `${this.apiUrl}/asignarFacturas`;
-    return this.http.put(url, data);    
+    return this.http.put(url, data);
   }
-
 }
