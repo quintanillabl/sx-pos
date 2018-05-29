@@ -58,7 +58,7 @@ export class FacturaViewComponent implements OnInit {
   }
   validarMismoDia(factura: Venta) {
     const hoy = new Date();
-    return moment(factura.fecha).isSame(hoy, 'day');
+    return moment(factura.cuentaPorCobrar.fecha).isSame(hoy, 'day');
   }
 
   showMessage(message: string, title: string) {
