@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TdLoadingService } from '@covalent/core';
 import * as FileSaver from 'file-saver';
 
@@ -13,7 +13,6 @@ import { Embarque } from 'app/logistica/models/embarque';
 import { Envio } from 'app/logistica/models/envio';
 import * as Embarques from 'app/logistica/store/actions/embarques.actions';
 import { EmbarqueService } from 'app/logistica/services/embarque/embarque.service';
-
 
 @Component({
   selector: 'sx-transito-edit-page',
@@ -27,7 +26,6 @@ import { EmbarqueService } from 'app/logistica/services/embarque/embarque.servic
   styles: ['']
 })
 export class TransitoEditPageComponent implements OnInit {
-
   sucursal$: Observable<Sucursal>;
   embarque$: Observable<Embarque>;
 
@@ -36,46 +34,41 @@ export class TransitoEditPageComponent implements OnInit {
     private service: EmbarqueService,
     private router: Router,
     private route: ActivatedRoute,
-    private loadingService: TdLoadingService,
-  ) { }
+    private loadingService: TdLoadingService
+  ) {}
 
   ngOnInit() {
     this.sucursal$ = this.store.select(fromRoot.getSucursal);
     this.embarque$ = this.store.select(fromLogistica.getSelectedEmbarque);
-
   }
 
   onSave(embarque: Embarque) {
-    console.log('Salvando embarque', embarque);
+    console.log('Actualizando embarque:', embarque);
     this.loadingService.register('saving');
-    this.service
-      .update(embarque)
-      .subscribe(
-        (res: any) => {
-          console.log('Embarque actualizado: ', res);
-          this.loadingService.resolve('saving');
-          // this.router.navigate(['/logistica/almacen/sectores/show', res.id], { queryParams: { tipo: 'show' } })
-          this.router.navigate(['/logistica/embarques/transito'])
-        },
-        response => {
-          this.handlePostError(response);
-          this.loadingService.resolve('saving');
-        }
-      );
+    this.service.update(embarque).subscribe(
+      (res: any) => {
+        console.log('Embarque actualizado: ', res);
+        this.loadingService.resolve('saving');
+        // this.router.navigate(['/logistica/almacen/sectores/show', res.id], { queryParams: { tipo: 'show' } })
+        this.router.navigate(['/logistica/embarques/transito']);
+      },
+      response => {
+        this.handlePostError(response);
+        this.loadingService.resolve('saving');
+      }
+    );
   }
 
   onSaveEnvio(envio: Envio) {
     console.log('Salvar envio: ', envio);
   }
 
-
   private handlePostError(response) {
     console.log('Error al salvar embarque: ', response);
   }
 
   onPrint(embarque) {
-    this.service.print(embarque.id)
-    .subscribe(res => {
+    this.service.print(embarque.id).subscribe(res => {
       const blob = new Blob([res], {
         type: 'application/pdf'
       });
@@ -83,7 +76,4 @@ export class TransitoEditPageComponent implements OnInit {
       window.open(fileURL, '_blank');
     });
   }
-
-
 }
-

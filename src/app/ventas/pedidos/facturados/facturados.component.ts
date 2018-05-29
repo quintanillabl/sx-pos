@@ -199,12 +199,11 @@ export class FacturadosComponent implements OnInit {
       .subscribe(res => {
         if (res) {
           this.loadingService.register('saving');
-          this.service.buscarPreciosPorCliente;
           this.service
             .envioBatch(filtered, res)
             .delay(3000)
             .finally(() => this.loadingService.resolve('saving'))
-            .subscribe(res => {
+            .subscribe( () => {
               this._dialogService
                 .openAlert({
                   title: 'Envio batch',

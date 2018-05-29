@@ -1,13 +1,29 @@
 import {
-  Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef,
-  OnChanges, SimpleChanges, ViewContainerRef
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  OnChanges,
+  SimpleChanges,
+  ViewContainerRef
 } from '@angular/core';
-import {FormGroup, FormBuilder, FormArray, Validators, FormControl} from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  FormArray,
+  Validators,
+  FormControl
+} from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
-import {TdDialogService} from '@covalent/core';
+import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { TdDialogService } from '@covalent/core';
+
 import * as _ from 'lodash';
+import * as moment from 'moment';
 
 import { Sucursal } from 'app/models';
 import { Embarque } from 'app/logistica/models/embarque';
@@ -19,14 +35,13 @@ import { Envio } from 'app/logistica/models/envio';
   styleUrls: ['./transito-form.component.scss']
 })
 export class TransitoFormComponent implements OnInit, OnChanges {
-
   form: FormGroup;
 
   @Output() save = new EventEmitter<any>();
 
   @Input() embarque: Embarque;
 
-  @Input() readonly = false;  
+  @Input() readonly = false;
 
   @Output() print = new EventEmitter<Embarque>();
 
@@ -35,7 +50,7 @@ export class TransitoFormComponent implements OnInit, OnChanges {
     public dialog: MdDialog,
     private cd: ChangeDetectorRef,
     private _dialogService: TdDialogService,
-    private _viewContainerRef: ViewContainerRef,
+    private _viewContainerRef: ViewContainerRef
   ) {}
 
   ngOnInit() {
@@ -46,7 +61,9 @@ export class TransitoFormComponent implements OnInit, OnChanges {
     if (changes.embarque && !changes.embarque.isFirstChange()) {
       const embarque: Embarque = changes.embarque.currentValue;
       this.form.patchValue(embarque);
-      embarque.partidas.forEach( item => this.agregarEnvio(item));
+      embarque.partidas.forEach(item => {
+        this.agregarEnvio(item);
+      });
     }
   }
 
@@ -69,13 +86,23 @@ export class TransitoFormComponent implements OnInit, OnChanges {
   }
 
   private prepareEntity() {
+    /** Ajusta las fechas al formato adecuado ISO */
+    const partidas = this.partidas.value.forEach(item => {
+      if (item.arribo) {
+        item.arribo = moment(item.arribo).toISOString();
+      }
+      if (item.recepcion) {
+        item.recepcion = moment(item.recepcion).toISOString();
+      }
+    });
+    /*** End fix */
     return {
-      ...this.form.getRawValue(),
-    }
+      ...this.form.getRawValue()
+    };
   }
 
   get partidas() {
-    return this.form.get('partidas') as FormArray
+    return this.form.get('partidas') as FormArray;
   }
 
   onDelete(index: number) {
@@ -84,15 +111,15 @@ export class TransitoFormComponent implements OnInit, OnChanges {
 
   onArribo(index: number) {
     const envio = this.partidas.at(index).value;
-    envio.arribo = new Date().toISOString()
-    this.cd.detectChanges()
+    envio.arribo = new Date().toISOString();
+    this.cd.detectChanges();
     console.log('Registrando arribo de envio: ', envio);
   }
 
   onRecepcion(index: number) {
     const envio = this.partidas.at(index).value;
     // envio.recepcion = new Date().toISOString()
-    
+
     this.cd.detectChanges();
     const dialogRef = this._dialogService.openPrompt({
       message: 'Nombre:',
@@ -103,23 +130,28 @@ export class TransitoFormComponent implements OnInit, OnChanges {
       cancelButton: 'Cancelar'
     });
 
-    dialogRef.afterClosed().delay(500).subscribe( (message: string) => {
-      envio.recepcion = new Date().toISOString()
-      envio.recibio = message;
-      this.cd.detectChanges();
-      // console.log('Registrando recepcion de envio: ', envio);
-    }, () => {}, ()=> this.cd.detectChanges());
-    
-    
+    dialogRef
+      .afterClosed()
+      .delay(500)
+      .subscribe(
+        (message: string) => {
+          envio.recepcion = new Date().toISOString();
+          envio.recibio = message;
+          this.cd.detectChanges();
+          // console.log('Registrando recepcion de envio: ', envio);
+        },
+        () => {},
+        () => this.cd.detectChanges()
+      );
   }
-   
+
   agregarEnvio(envio: Envio) {
     this.partidas.push(new FormControl(envio));
     this.cd.detectChanges();
   }
 
   get title() {
-    return ' Mantenimiento de embarque en transito'
+    return ' Mantenimiento de embarque en transito';
   }
 
   get id() {
@@ -133,7 +165,4 @@ export class TransitoFormComponent implements OnInit, OnChanges {
   onPrint() {
     this.print.emit(this.embarque);
   }
-
-  
 }
-
