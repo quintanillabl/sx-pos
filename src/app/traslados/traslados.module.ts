@@ -22,6 +22,10 @@ import { AtenderSolComponent } from './atencion-page/atender-sol/atender-sol.com
 import { SalidaShowComponent } from './salidas-page/salida-show/salida-show.component';
 import { EntradaShowComponent } from './recepciones-page/entrada-show/entrada-show.component';
 import { TpeListComponent } from './recepciones-page/tpe-list/tpe-list.component';
+import { RelacionTpsComponent } from './reportes/relacion-tps/relacion-tps.component';
+import { RelacionTpeComponent } from './reportes/relacion-tpe/relacion-tpe.component';
+import { SolesPendientesComponent } from './reportes/soles-pendientes/soles-pendientes.component';
+import { ValesPendientesComponent } from './reportes/vales-pendientes/vales-pendientes.component';
 
 
 @NgModule({
@@ -44,8 +48,12 @@ import { TpeListComponent } from './recepciones-page/tpe-list/tpe-list.component
     AtenderSolComponent,
     SalidaShowComponent,
     EntradaShowComponent,
-    TpeListComponent],
+    TpeListComponent,
+    RelacionTpsComponent,
+    RelacionTpeComponent,
+    SolesPendientesComponent,
+    ValesPendientesComponent],
   providers: [SolicitudesService, TrasladosService],
-  entryComponents: [SoldetAddComponent, AtenderSolComponent]
+  entryComponents: [SoldetAddComponent, AtenderSolComponent,RelacionTpsComponent,RelacionTpeComponent,SolesPendientesComponent,ValesPendientesComponent]
 })
 export class TrasladosModule { }
