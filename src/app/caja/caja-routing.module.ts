@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import {CajaPageComponent} from './caja-page/caja-page.component';
+import { CajaPageComponent } from './caja-page/caja-page.component';
 import { MainPageComponent } from './_main-page/main-page.component';
 import { PendientesPageComponent } from './facturacion/pendientes-page/pendientes-page.component';
 import { CobroComponent } from './facturacion/cobro/cobro.component';
@@ -16,6 +16,10 @@ import { CorteFondoFijoComponent } from './cortes/corte-fondo-fijo/corte-fondo-f
 import { FichasPageComponent } from './cortes/fichas-page/fichas-page.component';
 import { FondoFijoEditComponent } from './cortes/corte-fondo-fijo/fondo-fijo-edit/fondo-fijo-edit.component';
 import { CajaGuard } from 'app/caja/services/caja.guard';
+import { AnticiposComponent } from './anticipos/anticipos.component';
+import { AnticipoCreateComponent } from './anticipos/anticipo-create/anticipo-create.component';
+import { AnticipoShowComponent } from './anticipos/anticipo-show/anticipo-show.component';
+import { AnticipoResolver } from './anticipos/anticipo.resolver';
 
 const routes: Routes = [
   {
@@ -50,6 +54,19 @@ const routes: Routes = [
           {
             path: 'cobroCod/:id',
             component: CobroCodComponent
+          },
+          {
+            path: 'anticipos',
+            component: AnticiposComponent
+          },
+          {
+            path: 'anticipos/create',
+            component: AnticipoCreateComponent
+          },
+          {
+            path: 'anticipos/:id',
+            component: AnticipoShowComponent,
+            resolve: { anticipo: AnticipoResolver }
           }
         ]
       },
@@ -57,19 +74,20 @@ const routes: Routes = [
         path: 'cortes',
         component: CortesPageComponent,
         children: [
-          {path: 'cobranza', component: CorteCobranzaComponent},
-          {path: 'fondoFijo', component: CorteFondoFijoComponent},
-          {path: 'fondoFijo/edit/:id', component: FondoFijoEditComponent},
-          {path: 'morralla', component: CorteMorrallaComponent},
-          {path: 'fichas', component: FichasPageComponent}
+          { path: 'cobranza', component: CorteCobranzaComponent },
+          { path: 'fondoFijo', component: CorteFondoFijoComponent },
+          { path: 'fondoFijo/edit/:id', component: FondoFijoEditComponent },
+          { path: 'morralla', component: CorteMorrallaComponent },
+          { path: 'fichas', component: FichasPageComponent }
         ]
       }
-    ],
+    ]
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AnticipoResolver]
 })
-export class CajaRoutingModule { }
+export class CajaRoutingModule {}

@@ -44,6 +44,7 @@ import { ProveedorFieldComponent } from './_fields/proveedor-field/proveedor-fie
 import { ProductoProvFieldComponent } from './_fields/producto-prov-field/producto-prov-field.component';
 import { PeriodoDialogComponent } from './_components/periodo-dialog/periodo-dialog.component';
 import { PeriodoPickerComponent } from './_components/periodo-picker/periodo-picker.component';
+import { UsuarioDialogComponent } from '@siipapx/shared/_components/usuario-dialog/usuario-dialog.component';
 
 const FLEX_LAYOUT_MODULES: any[] = [FlexLayoutModule];
 
@@ -59,9 +60,10 @@ const COMPONENTS: any[] = [
   MonedaFieldComponent,
   DireccionFormComponent,
   QvProductosBtnComponent,
-  ClienteFieldComponent
-  // PeriodoDialogComponent
-  // PeriodoPickerComponent
+  ClienteFieldComponent,
+  PeriodoDialogComponent,
+  PeriodoPickerComponent,
+  UsuarioDialogComponent
 ];
 
 @NgModule({
@@ -139,8 +141,9 @@ const COMPONENTS: any[] = [
   ],
   entryComponents: [
     SelectorFechaComponent,
-    CancelacionDialogComponent
-    // PeriodoDialogComponent
+    CancelacionDialogComponent,
+    PeriodoDialogComponent,
+    UsuarioDialogComponent
   ]
 })
 export class SharedModule {}

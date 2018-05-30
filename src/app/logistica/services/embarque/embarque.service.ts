@@ -100,6 +100,11 @@ export class EmbarqueService {
     return this.http.delete(url);
   }
 
+  deleteEnvio(id: string) {
+    const url = this.configService.buildApiUrl('embarques/envios') + '/' + id;
+    return this.http.delete(url);
+  }
+
   buscarDocumento(sucursal, tipo, documento, fecha) {
     const params = new HttpParams()
       .set('sucursal', sucursal)

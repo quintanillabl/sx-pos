@@ -1,19 +1,23 @@
 <form novalidate [formGroup]="form" (ngSubmit)="doAccept()" class="det-form">
 
   <h4 md-dialog-title>
-    Agregando producto {{proveedor.nombre}}
+    <span *ngIf="!partida; else editando">
+      Agregando producto {{proveedor.nombre}}
+    </span>
+    <ng-template #editando>
+      Editando partida {{partida.producto.descripcion}}
+    </ng-template>
+
   </h4>
-  
+
   <div layout>
-    
-    <sx-producto-prov-field formControlName="producto" 
-      [proveedor]="proveedor" 
-      [excludes]="selected" flex>
+
+    <sx-producto-prov-field formControlName="producto" [proveedor]="proveedor" [excludes]="selected" flex>
     </sx-producto-prov-field>
-    
-    
+
+
   </div>
-  
+
   <div layout>
     <md-form-field>
       <input type="text" mdInput placeholder="Cantidad" formControlName="solicitado" sxOnlyIntegers>
@@ -23,7 +27,7 @@
 
   <md-dialog-actions>
     <button md-button class="accent" type="submit" [disabled]="form.invalid">Aceptar</button>
-    <button md-button type="button" (click)="close()" >Cancelar</button>
+    <button md-button type="button" (click)="close()">Cancelar</button>
   </md-dialog-actions>
-  
+
 </form>

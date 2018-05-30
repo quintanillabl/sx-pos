@@ -14,6 +14,7 @@ import { EnvioDireccionComponent } from '../pedido-form/envio-direccion/envio-di
 import { Venta, Sucursal } from 'app/models';
 import { AutorizacionDeVentaComponent } from '../autorizacion-de-venta/autorizacion-de-venta.component';
 import { CambioDeClienteComponent } from 'app/ventas/pedidos/cambio-de-cliente/cambio-de-cliente.component';
+import { UsuarioDialogComponent } from '@siipapx/shared/_components/usuario-dialog/usuario-dialog.component';
 
 @Component({
   selector: 'sx-pedidos-pendientes',
@@ -105,6 +106,31 @@ export class PendientesComponent implements OnInit {
   }
 
   mandarFacturarNormal(pedido: Venta) {
+    const message = `
+    Mandar a facturar pedido: ${pedido.tipo} ${pedido.documento}`;
+    const dialogRef = this.dialog
+      .open(UsuarioDialogComponent, {
+        data: {
+          title: message
+        }
+      })
+      .afterClosed()
+      .subscribe(user => {
+        if (user) {
+          pedido.facturarUsuario = user.username;
+          console.log('Mandando facturar: ', pedido);
+          this.service.mandarFacturar(pedido).subscribe(
+            res => {
+              console.log('Pedido listo para facturación', res);
+              this.load();
+            },
+            error => this.handleError(error)
+          );
+        }
+      });
+  }
+
+  mandarFacturarNormal2(pedido: Venta) {
     this._dialogService
       .openConfirm({
         message: `Mandar a facturar el pedido ${pedido.tipo} - ${
@@ -161,6 +187,14 @@ export class PendientesComponent implements OnInit {
     });
   }
 
+  envio(pedido: Venta) {
+    if (pedido.envio) {
+      this.cancelarEnvio(pedido);
+    } else {
+      this.asignarEnvio(pedido);
+    }
+  }
+
   asignarEnvio(pedido: Venta) {
     const params = { direccion: null };
     if (pedido.envio) {
@@ -186,6 +220,40 @@ export class PendientesComponent implements OnInit {
       },
       error => this.handleError(error)
     );
+  }
+  cancelarEnvio(pedido: Venta) {
+    const params = { direccion: null };
+    if (pedido.envio) {
+      const dialogRef = this._dialogService
+        .openConfirm({
+          message: 'Cancelar envio del pedido ' + pedido.documento,
+          title: 'Cancelación de envío',
+          viewContainerRef: this._viewContainerRef,
+          acceptButton: 'Aceptar',
+          cancelButton: 'Cancelar'
+        })
+        .afterClosed()
+        .subscribe(res => {
+          if (res) {
+            this.doCancelarEnvio(pedido);
+          }
+        });
+    }
+  }
+
+  doCancelarEnvio(pedido: Venta) {
+    this.procesando = true;
+    this.service
+      .cancelarEnvio(pedido)
+      .finally(() => (this.procesando = false))
+      .subscribe(
+        (res: Venta) => {
+          console.log('Envio cancelado para: ', res);
+          this.load();
+          pedido = res;
+        },
+        error => console.error(error)
+      );
   }
 
   print(id: string) {

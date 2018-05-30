@@ -9,8 +9,7 @@ import { VentasDiariasComponent } from './reportes/ventas-diarias/ventas-diarias
 import { FacturacionModule } from './facturacion/facturacion.module';
 import { CajaService } from './services/caja.service';
 import { CobroService } from './services/cobro.service';
-import { FichaService} from './services/ficha.service';
-
+import { FichaService } from './services/ficha.service';
 
 // Reportes
 import { AplicacionSaldosComponent } from './reportes/aplicacion-saldos/aplicacion-saldos.component';
@@ -25,20 +24,19 @@ import { VentasDiariasCheComponent } from './reportes/ventas-diarias-che/ventas-
 import { CortesModule } from './cortes/cortes.module';
 import { CorteCobranzaService } from './services/corteCobranza.service';
 import { FondoFijoService } from './services/fondo-fijo.service';
-import { MorrallaService} from 'app/caja/services/morralla.service';
+import { MorrallaService } from 'app/caja/services/morralla.service';
 import { ArqueoComponent } from './reportes/arqueo/arqueo.component';
 import { RelacionFichasComponent } from './reportes/relacion-fichas/relacion-fichas.component';
 import { CajaGuard } from 'app/caja/services/caja.guard';
-
-
+import { AnticiposComponent } from './anticipos/anticipos.component';
+import { AnticiposTableComponent } from './anticipos/anticipos-table/anticipos-table.component';
+import { AnticiposService } from 'app/caja/services/anticipos.service';
+import { AnticipoCreateComponent } from './anticipos/anticipo-create/anticipo-create.component';
+import { AnticipoFormComponent } from './anticipos/anticipo-form/anticipo-form.component';
+import { AnticipoShowComponent } from './anticipos/anticipo-show/anticipo-show.component';
 
 @NgModule({
-  imports: [
-    SharedModule,
-    CajaRoutingModule,
-    FacturacionModule,
-    CortesModule,
-  ],
+  imports: [SharedModule, CajaRoutingModule, FacturacionModule, CortesModule],
   declarations: [
     MainPageComponent,
     CajaPageComponent,
@@ -54,6 +52,11 @@ import { CajaGuard } from 'app/caja/services/caja.guard';
     VentasDiariasCheComponent,
     ArqueoComponent,
     RelacionFichasComponent,
+    AnticiposComponent,
+    AnticiposTableComponent,
+    AnticipoCreateComponent,
+    AnticipoFormComponent,
+    AnticipoShowComponent
   ],
   providers: [
     ReportesService,
@@ -63,7 +66,8 @@ import { CajaGuard } from 'app/caja/services/caja.guard';
     FondoFijoService,
     MorrallaService,
     FichaService,
-    CajaGuard
+    CajaGuard,
+    AnticiposService
   ],
   entryComponents: [
     VentasDiariasComponent,
@@ -77,7 +81,7 @@ import { CajaGuard } from 'app/caja/services/caja.guard';
     DisponiblesSucursalComponent,
     VentasDiariasCheComponent,
     ArqueoComponent,
-    RelacionFichasComponent,
+    RelacionFichasComponent
   ]
 })
-export class CajaModule { }
+export class CajaModule {}

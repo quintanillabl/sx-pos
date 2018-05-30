@@ -150,6 +150,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       });
     this.existenciaRemotaSubs = this.existenciaRemota$.subscribe(exis => {
       this.existencias = exis;
+      console.log('Exis: ', exis);
       // Fijar la existencia local
       const found = _.find(
         this.existencias,
