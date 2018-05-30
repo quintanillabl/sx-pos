@@ -13,6 +13,8 @@ export class TrasladosService {
 
   sucursal: Sucursal;
 
+  
+
   constructor(private http: HttpClient, private configService: ConfigService) {
     this.sucursal = configService.getCurrentSucursal();
     this.apiUrl = configService.buildApiUrl('inventario/traslados');
@@ -80,4 +82,89 @@ export class TrasladosService {
     const url = this.configService.buildApiUrl(endpoint);
     return this.http.get<Array<any>>(url);
   }
+
+  reporteRelacionTPS(reportParams: {}) {
+
+    reportParams['sucursal'] = this.sucursal.id;
+    console.log('Ejecutando reporte de Relacion de TPS con: ', reportParams);
+    const url = `${this.apiUrl}/reportes/relaciontps`;
+    let params = new HttpParams()
+    if (reportParams) {
+      _.forIn(reportParams, (value, key) => {
+        params = params.set(key, value.toString());
+      });
+    }
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        params: params,
+        responseType: 'blob'
+      }
+    );
+  }
+
+  reporteRelacionTPE(reportParams: {}) {
+
+    reportParams['sucursal'] = this.sucursal.id;
+    console.log('Ejecutando reporte de Relacion de TPS con: ', reportParams);
+    const url = `${this.apiUrl}/reportes/relaciontpe`;
+    let params = new HttpParams()
+    if (reportParams) {
+      _.forIn(reportParams, (value, key) => {
+        params = params.set(key, value.toString());
+      });
+    }
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        params: params,
+        responseType: 'blob'
+      }
+    );
+  }
+
+  reporteSolesPorAtender(reportParams: {}) {
+
+    reportParams['sucursal'] = this.sucursal.id;
+    console.log('Ejecutando reporte de Relacion de TPS con: ', reportParams);
+    const url = `${this.apiUrl}/reportes/solesxatender`;
+    let params = new HttpParams()
+    if (reportParams) {
+      _.forIn(reportParams, (value, key) => {
+        params = params.set(key, value.toString());
+      });
+    }
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        params: params,
+        responseType: 'blob'
+      }
+    );
+  }
+
+  reporteValesPorRecibir(reportParams: {}) {
+
+    reportParams['sucursal'] = this.sucursal.id;
+    console.log('Ejecutando reporte de Relacion de TPS con: ', reportParams);
+    const url = `${this.apiUrl}/reportes/valesxrecibir`;
+    let params = new HttpParams()
+    if (reportParams) {
+      _.forIn(reportParams, (value, key) => {
+        params = params.set(key, value.toString());
+      });
+    }
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        params: params,
+        responseType: 'blob'
+      }
+    );
+  }
+
 }

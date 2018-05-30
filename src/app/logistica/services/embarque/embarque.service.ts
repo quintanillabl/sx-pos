@@ -59,7 +59,7 @@ export class EmbarqueService {
 
   enviosPendientes() {
     const url = `${this.apiUrl}/enviosPendientes`;
-    let params = new HttpParams().set('sucursal', this.sucursal.id);
+    const params = new HttpParams().set('sucursal', this.sucursal.id);
     return this.http.get<Array<any>>(url, { params: params });
   }
 
@@ -68,17 +68,31 @@ export class EmbarqueService {
   }
 
   update(embarque: Embarque) {
-    const url = `${this.apiUrl}/${embarque.id}`;
-    return this.http.put(url, embarque);
+    const target = {
+      ...embarque
+    };
+    if (target.partidas) {
+      target.partidas.forEach((item: any) => {
+        delete item.dateCreated;
+        delete item.lastUpdated;
+        delete item.fechaDocumento;
+        delete item.embarque;
+      });
+    }
+    delete target.lastUpdated;
+    delete target.dateCreated;
+    const url = `${this.apiUrl}/${target.id}`;
+    return this.http.put(url, target);
   }
 
   registrarSalida(embarque: Embarque) {
     const url = `${this.apiUrl}/registrarSalida/${embarque.id}`;
-    return this.http.put(url, embarque);
+    return this.http.put(url, {});
   }
+
   registrarRegreso(embarque: Embarque): Observable<Embarque> {
     const url = `${this.apiUrl}/registrarRegreso/${embarque.id}`;
-    return this.http.put<Embarque>(url, embarque);
+    return this.http.put<Embarque>(url, {});
   }
 
   delete(id: string) {
@@ -92,7 +106,7 @@ export class EmbarqueService {
   }
 
   buscarDocumento(sucursal, tipo, documento, fecha) {
-    let params = new HttpParams()
+    const params = new HttpParams()
       .set('sucursal', sucursal)
       .set('fecha', fecha)
       .set('documento', documento)
@@ -177,14 +191,18 @@ export class EmbarqueService {
   }
 
   updateEnvio(envio) {
-    const endpoint = `embarques/envios/${envio.id}`;
+    console.log('Actualizando envio: ', envio);
+    const target = { ...envio };
+    delete target.dateCreated;
+    delete target.lastUpdated;
+    const endpoint = `embarques/envios/${target.id}`;
     const url = this.configService.buildApiUrl(endpoint);
-    return this.http.put(url, envio);
+    return this.http.put(url, target);
   }
 
   asignarFacturas(embarque, condiciones) {
     const data = {
-      embarque: embarque,
+      embarque: embarque.id,
       condiciones: condiciones
     };
     const url = `${this.apiUrl}/asignarFacturas`;
