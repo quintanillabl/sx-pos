@@ -14,7 +14,7 @@ import { EnvioDireccionComponent } from '../pedido-form/envio-direccion/envio-di
 import { Venta, Sucursal } from 'app/models';
 import { AutorizacionDeVentaComponent } from '../autorizacion-de-venta/autorizacion-de-venta.component';
 import { CambioDeClienteComponent } from 'app/ventas/pedidos/cambio-de-cliente/cambio-de-cliente.component';
-import { UsuarioDialogComponent } from '@siipapx/shared/_components/usuario-dialog/usuario-dialog.component';
+import { UsuarioDialogComponent } from 'app/shared/_components/usuario-dialog/usuario-dialog.component';
 
 @Component({
   selector: 'sx-pedidos-pendientes',
@@ -52,7 +52,6 @@ export class PendientesComponent implements OnInit {
     }).switchMap(term =>
       this.service
         .pendientes(term)
-        //.do( () => this.procesando = true)
         .delay(300)
         .finally(() => (this.procesando = false))
     );
@@ -84,6 +83,15 @@ export class PendientesComponent implements OnInit {
 
   mandarFacturar(pedido: Venta) {
     if (pedido.facturar) {
+      return;
+    }
+    if (pedido.ventaIne && pedido.complementoIne === null) {
+      this._dialogService.openAlert({
+        title: 'Venta de tipo INE',
+        message:
+          'Se requirere registrar el complemento INE antes de mandar a factura',
+        closeButton: 'Cerrar'
+      });
       return;
     }
     if (pedido.sinExistencia) {

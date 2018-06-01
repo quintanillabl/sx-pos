@@ -1,6 +1,13 @@
-import {Component, OnInit, Input, Output, EventEmitter, OnDestroy} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnDestroy
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import {Subscription} from 'rxjs/Subscription';
+import { Subscription } from 'rxjs/Subscription';
 import * as _ from 'lodash';
 
 @Component({
@@ -9,8 +16,6 @@ import * as _ from 'lodash';
   styleUrls: ['./pedido-header.component.scss']
 })
 export class PedidoHeaderComponent implements OnInit, OnDestroy {
-
-
   @Output() addCliente = new EventEmitter();
 
   @Output() insertar = new EventEmitter();
@@ -23,21 +28,21 @@ export class PedidoHeaderComponent implements OnInit, OnDestroy {
 
   @Input() parent: FormGroup;
 
-  subscription: Subscription
+  subscription: Subscription;
 
-  @Input() editable =  true;
+  @Input() editable = true;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
-    this.subscription = this.parent.get('cliente').valueChanges
-      // .do( cliente => console.log('Cliente seleccionado para el pedido: ', cliente))
-      .subscribe( cliente => {
-      if (cliente !== null) {
-        this.parent.get('cfdiMail').setValue(cliente.email);
-      }
-    });
-
+    this.subscription = this.parent
+      .get('cliente')
+      .valueChanges // .do( cliente => console.log('Cliente seleccionado para el pedido: ', cliente))
+      .subscribe(cliente => {
+        if (cliente !== null) {
+          this.parent.get('cfdiMail').setValue(cliente.email);
+        }
+      });
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -56,14 +61,13 @@ export class PedidoHeaderComponent implements OnInit, OnDestroy {
   isDescuentoEspecial() {
     const tipo = this.parent.get('tipo').value;
     const fp: string = this.parent.get('formaDePago').value;
-    if(tipo === 'CON' && !fp.startsWith('TAR')) {
+    if (tipo === 'CON' && !fp.startsWith('TAR')) {
       const descuento = this.parent.get('descuento').value;
       const descuentoOriginal = this.parent.get('descuentoOriginal').value;
       return descuento !== descuentoOriginal;
     } else {
       return false;
     }
-
   }
 
   get descuentoNormal() {
@@ -74,6 +78,8 @@ export class PedidoHeaderComponent implements OnInit, OnDestroy {
     return this.parent.get('descuentoOriginal').value / 100;
   }
 
-
-
+  toggleVentaIne() {
+    const val = this.parent.get('ventaIne').value;
+    this.parent.get('ventaIne').setValue(!val);
+  }
 }

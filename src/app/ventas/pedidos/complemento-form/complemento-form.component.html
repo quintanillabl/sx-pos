@@ -1,0 +1,59 @@
+<form novalidate [formGroup]="form" (ngSubmit)="onSubmit()">
+  <md-card>
+    <md-card-title>Complemento INE Venta: {{venta.tipo}} - {{venta.documento}}</md-card-title>
+    <md-divider></md-divider>
+    <md-card-content>
+
+      <div layout>
+        <md-form-field flex>
+          <input mdInput type="text" placeholder="Cliente" value="{{venta.nombre}}">
+        </md-form-field>
+      </div>
+
+      <div layout>
+        <md-form-field flex>
+          <input mdInput type="text" placeholder="Total" value="{{venta.total | currency:'USD':1.2-2}}">
+        </md-form-field>
+      </div>
+
+      <div layout>
+        <md-select placeholder="Tipo de proceso" formControlName="tipoDeProceso" flex>
+          <md-option *ngFor="let tipo of ['Ordinario', 'Precampaña', 'Campaña']" [value]="tipo">{{ tipo }}
+          </md-option>
+        </md-select>
+        <md-select placeholder="Tipo de comite" formControlName="tipoDeComite" flex class="pad-left">
+          <md-option *ngFor="let tipo of ['Ejecutivo Nacional','Ejecutivo Estatal','Directivo Estatal']" [value]="tipo">{{ tipo }}
+          </md-option>
+        </md-select>
+      </div>
+
+      <div layout class="pad-top">
+        <md-form-field flex="50">
+          <input mdInput placeholder="Contabilidad" type="number" formControlName="contabilidad">
+        </md-form-field>
+      </div>
+
+      <md-divider></md-divider>
+      <span layout class="text-center pad">Lista de entiddades</span>
+      <div layout [formGroup]="entidadForm">
+        <md-select placeholder="Entidad" class="pad-right" formControlName="entidad">
+          <md-option *ngFor="let entidad of entidades" [value]="entidad">{{ entidad }}
+          </md-option>
+        </md-select>
+        <md-select placeholder="Ambito" class="pad-right" formControlName="ambito">
+          <md-option *ngFor="let amb of ['LOCAL','FEDERAL']" [value]="amb">{{ amb }}
+          </md-option>
+        </md-select>
+        <span flex></span>
+        <button md-icon-button (click)="agregarEntidad()" [disabled]="entidadForm.invalid">
+          <md-icon>add</md-icon>
+        </button>
+      </div>
+
+    </md-card-content>
+    <md-card-actions>
+      <button md-button type="button">Cancelar</button>
+      <button md-button type="submit" [disabled]="form.invalid || form.pristine"> Salvar</button>
+    </md-card-actions>
+  </md-card>
+</form>
