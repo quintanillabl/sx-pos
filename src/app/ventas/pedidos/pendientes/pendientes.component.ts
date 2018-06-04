@@ -85,7 +85,7 @@ export class PendientesComponent implements OnInit {
     if (pedido.facturar) {
       return;
     }
-    if (pedido.ventaIne && pedido.complementoIne === null) {
+    if (pedido.ventaIne && !pedido.complementoIne) {
       this._dialogService.openAlert({
         title: 'Venta de tipo INE',
         message:
