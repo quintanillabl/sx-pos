@@ -9,7 +9,7 @@
       <span class="pad-left">
         {{filtro.periodo}}
       </span>
-      <!-- <sx-periodo-picker [periodo]="filtro.periodo" (change)="cambiarPeriodo($event)" #periodoPicker></sx-periodo-picker> -->
+      <sx-periodo-picker [periodo]="filtro.periodo" (change)="cambiarPeriodo($event)" #periodoPicker></sx-periodo-picker>
       <span flex></span>
       <div layout flex layout-padding>
         <td-search-input placeholder="Factura" debounce="1000" showUnderline="true" (searchDebounce)="buscarPorFolio($event)" flex></td-search-input>

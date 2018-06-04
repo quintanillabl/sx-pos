@@ -78,9 +78,11 @@ export class FacturadosListComponent implements OnInit {
 
   mailStatus(row) {
     if (row.enviado) {
-      return `Enviado el ${moment(row.enviado).format('dd/MM/yyyy')}  a: ${
+      return `Enviado el ${moment(row.enviado).format('DD/MM/YYYY')}  a: ${
         row.cfdiMail
       }`;
-    } else return '';
+    } else {
+      return '';
+    }
   }
 }

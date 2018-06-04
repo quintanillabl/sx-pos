@@ -1,7 +1,12 @@
-import {AfterViewInit, Component, OnInit, ViewContainerRef} from '@angular/core';
-import {Title} from '@angular/platform-browser';
-import {TdDialogService, TdMediaService} from '@covalent/core';
-import {MdDialog} from '@angular/material';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ViewContainerRef
+} from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { TdDialogService, TdMediaService } from '@covalent/core';
+import { MdDialog } from '@angular/material';
 import * as FileSaver from 'file-saver';
 import { ReportesService } from 'app/caja/services/reportes.service';
 import { VentasDiariasComponent } from '../reportes/ventas-diarias/ventas-diarias.component';
@@ -20,11 +25,11 @@ import { VentasDiariasCheComponent } from '../reportes/ventas-diarias-che/ventas
   templateUrl: './caja-page.component.html'
 })
 export class CajaPageComponent implements OnInit, AfterViewInit {
-
   navigation: Object[] = [
-    {route: 'facturacion', title: 'Pendientes', icon: 'storage'},
-    {route: 'generadas', title: 'Facturas', icon: 'my_library_books'},
-    {route: 'cobranzaCod', title: 'Cobranza COD', icon: 'repeat'},
+    { route: 'facturacion', title: 'Pendientes', icon: 'storage' },
+    { route: 'generadas', title: 'Facturas', icon: 'my_library_books' },
+    { route: 'cobranzaCod', title: 'Cobranza COD', icon: 'repeat' },
+    { route: 'anticipos', title: 'Anticipos', icon: 'repeat' }
   ];
 
   reportes = [
@@ -32,54 +37,55 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
       name: 'reporteDeVentasDiarias',
       title: 'Ventas diarias',
       description: 'Ventas diarias',
-      icon: 'blur_linear',
     },
     {
       name: 'reporteDeAplicacionSaldos',
       title: 'Aplicación saldos',
       description: 'Aplicación saldos',
-      icon: 'blur_linear',
     },
     {
       name: 'cobranzaCamioneta',
       title: 'Cobranza COD',
-      icon: 'blur_linear',
+      icon: 'blur_linear'
     },
     {
       name: 'cobranzaEfectivo',
       title: 'Cobranza efectivo',
-      icon: 'blur_linear',
+      icon: 'blur_linear'
     },
     {
       name: 'facturasPendientesCod',
       title: 'Facturas pendientes COD',
-      icon: 'blur_linear',
+      icon: 'blur_linear'
     },
     {
       name: 'facturasCobradas',
       title: 'Facturas cobradas',
-      icon: 'blur_linear',
+      icon: 'blur_linear'
     },
     {
       name: 'facturasCanceladas',
       title: 'Facturas Canceladas',
-      icon: 'blur_linear',
+      icon: 'blur_linear'
     },
     {
       name: 'facturasPendientesEmbarque',
       title: 'Facturas por embarcar',
-      icon: 'blur_linear',
+      icon: 'blur_linear'
     },
     {
       name: 'disponiblesPorSucursal',
       title: 'Disponibles por sucursal',
-      icon: 'blur_linear',
+      icon: 'blur_linear'
     },
     {
       name: 'ventasDiariasChe',
       title: 'Ventas diarias (CHE)',
-      icon: 'blur_linear',
-    }
+    },
+    // {
+    //   name: 'anticipos',
+    //   title: 'Anticipos',
+    // }
   ];
 
   constructor(
@@ -88,15 +94,14 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     private _dialogService: TdDialogService,
     public dialog: MdDialog,
     public service: ReportesService
-  ) { }
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngAfterViewInit(): void {
     // broadcast to all listener observables when loading the page
     this.media.broadcast();
-    this._titleService.setTitle( 'SX-CAJA' );
+    this._titleService.setTitle('SX-CAJA');
   }
 
   runReport(report) {
@@ -105,22 +110,22 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
       this.reporteDeVentasDiarias();
     }
     if (report === 'reporteDeAplicacionSaldos') {
-      this.reporteDeAplicacionSaldos()
+      this.reporteDeAplicacionSaldos();
     }
     if (report === 'cobranzaCamioneta') {
-      this.cobranzaCamioneta()
+      this.cobranzaCamioneta();
     }
     if (report === 'cobranzaEfectivo') {
-      this.cobranzaEfectivo()
+      this.cobranzaEfectivo();
     }
     if (report === 'facturasPendientesCod') {
-      this.facturasPendientesCod()
+      this.facturasPendientesCod();
     }
     if (report === 'facturasCobradas') {
-      this.facturasCobradas()
+      this.facturasCobradas();
     }
     if (report === 'facturasCanceladas') {
-      this.facturasCanceladas()
+      this.facturasCanceladas();
     }
     if (report === 'facturasPendientesEmbarque') {
       this.facturasPendientesEmbarque();
@@ -131,15 +136,18 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     if (report === 'ventasDiariasChe') {
       this.ventasDiariasChe();
     }
+    if (report === 'anticipos') {
+      this.anticipos();
+    }
   }
 
   reporteDeVentasDiarias() {
-
     const dialogRef = this.dialog.open(VentasDiariasComponent, {});
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('report/ventasDiarias', result)
+        this.service
+          .runReport('report/ventasDiarias', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -149,18 +157,17 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
           });
       }
     });
-
   }
 
   reporteDeAplicacionSaldos() {
-
     const dialogRef = this.dialog.open(AplicacionSaldosComponent, {});
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        result.FECHA = result.fecha
+        result.FECHA = result.fecha;
         // delete result.fecha
-        this.service.runReport('report/aplicacionSaldos', result)
+        this.service
+          .runReport('report/aplicacionSaldos', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -170,33 +177,30 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
           });
       }
     });
-
   }
 
   cobranzaCamioneta() {
-
     const dialogRef = this.dialog.open(CobranzaCamionetaComponent, {});
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('report/cobranzaCod', result)
-          .subscribe(res => {
-            const blob = new Blob([res], {
-              type: 'application/pdf'
-            });
-            const fileURL = window.URL.createObjectURL(blob);
-            window.open(fileURL, '_blank');
+        this.service.runReport('report/cobranzaCod', result).subscribe(res => {
+          const blob = new Blob([res], {
+            type: 'application/pdf'
           });
+          const fileURL = window.URL.createObjectURL(blob);
+          window.open(fileURL, '_blank');
+        });
       }
     });
-
   }
 
   cobranzaEfectivo() {
     const dialogRef = this.dialog.open(CobranzaEfectivoComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('report/cobranzaEfectivo', result)
+        this.service
+          .runReport('report/cobranzaEfectivo', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -212,7 +216,8 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(FacturasPendientesCODComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('report/facturasPendientesCod', result)
+        this.service
+          .runReport('report/facturasPendientesCod', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -228,7 +233,8 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(FacturasCobradasComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('report/cobranzaContado', result)
+        this.service
+          .runReport('report/cobranzaContado', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -244,7 +250,8 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(FacturasCanceladasComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('report/facturasCanceladas', result)
+        this.service
+          .runReport('report/facturasCanceladas', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -260,7 +267,8 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(FacturasPendientesEmbarqueComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('report/facturasPendientesCodEmbarques', result)
+        this.service
+          .runReport('report/facturasPendientesCodEmbarques', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -276,7 +284,8 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(DisponiblesSucursalComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('report/disponiblesSucursal', result)
+        this.service
+          .runReport('report/disponiblesSucursal', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -292,7 +301,8 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(VentasDiariasCheComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.runReport('report/ventasDiariasCheques', result)
+        this.service
+          .runReport('report/ventasDiariasCheques', result)
           .subscribe(res => {
             const blob = new Blob([res], {
               type: 'application/pdf'
@@ -304,4 +314,20 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     });
   }
 
+  anticipos() {
+    const dialogRef = this.dialog.open(VentasDiariasCheComponent, {});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.service
+          .runReport('report/anticiposPorPeriodo', result)
+          .subscribe(res => {
+            const blob = new Blob([res], {
+              type: 'application/pdf'
+            });
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
+          });
+      }
+    });
+  }
 }

@@ -9,8 +9,6 @@ import { Sucursal, Venta } from 'app/models';
 import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
 import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-new-cliente.service';
 
-
-
 @Component({
   selector: 'sx-pedido-anticipo-create',
   template: `

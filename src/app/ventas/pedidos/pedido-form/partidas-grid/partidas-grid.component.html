@@ -54,6 +54,7 @@
           <td td-data-table-cell numeric="false" class="text-center"> {{row.subtotal | currency: 'USD': 1.2-2}}</td>
           <td td-data-table-cell numeric="false">
             <ng-container>
+              <md-icon *ngIf="row.conVale">swap_horiz</md-icon>
               <button md-icon-button type="button" (click)="edit.emit(i)" *ngIf="isEditable(row)">
                 <md-icon md-icon-button color="accent">edit</md-icon>
               </button>

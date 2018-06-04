@@ -65,12 +65,16 @@
       <button md-icon-button type="button" mdTooltip="Configurar envío" (click)="envio.emit(row)">
         <md-icon [ngClass]="{'tc-green-500': (row.envio)}">flight_takeoff</md-icon>
       </button>
+      <!-- <button md-icon-button type="button" (click)="cancelarEnvio.emit(row)" mdTooltip="Cancelar envío" *ngIf="row.envio">
+        <md-icon [ngClass]="{'tc-red-500': (row.envio)}">flight_takeoff</md-icon>
+      </button> -->
       <button md-icon-button type="button" mdTooltip="Imprimir pedido" (click)="print.emit(row.id)">
         <md-icon>print</md-icon>
       </button>
       <a (click)="cambioDeCliente.emit(row)" *ngIf="permitirCambioDeCliente(row)" class="tc-pink-800" md-icon-button>
         <md-icon>person_add</md-icon>
       </a>
+
     </span>
   </ng-template>
 

@@ -9,7 +9,7 @@ import {
   PedidoTotalesPanelComponent,
   PedidoToolbarComponent,
   PedidoHeaderComponent,
-  PedidoComentarioPanelComponent,
+  PedidoComentarioPanelComponent
 } from '.';
 import { PartidasGridComponent } from './partidas-grid/partidas-grid.component';
 import { PedidoFormService } from './pedido-form.service';
@@ -18,7 +18,7 @@ import { ModoFieldComponent } from './modo-field/modo-field.component';
 import { CompradorFieldComponent } from './comprador-field/comprador-field.component';
 import { PedidoDetFormComponent } from './pedido-det-form/pedido-det-form.component';
 import { DolaresFormComponent } from './dolares-form/dolares-form.component';
-import {PedidoDolaresFormServiceService} from './dolares-form/pedido-dolares-form-service.service';
+import { PedidoDolaresFormServiceService } from './dolares-form/pedido-dolares-form-service.service';
 import { AnticipoFormComponent } from './anticipo-form/anticipo-form.component';
 import { UsoCfdiComponent } from './uso-cfdi/uso-cfdi.component';
 import { DescuentoEspecialComponent } from './descuento-especial/descuento-especial.component';
@@ -27,18 +27,11 @@ import { EnvioDireccionComponent } from './envio-direccion/envio-direccion.compo
 import { ValidationPanelComponent } from './validation-panel/validation-panel.component';
 import { ConfiguracionValeComponent } from './configuracion-vale/configuracion-vale.component';
 import { SocioFieldComponent } from './socio-field/socio-field.component';
-
+import { PendientePorClienteDialogComponent } from './pendiente-por-cliente-dialog/pendiente-por-cliente-dialog.component';
 
 @NgModule({
-  imports: [
-    SharedModule,
-    RouterModule.forChild([])
-  ],
-  exports: [
-    PedidoFormComponent,
-    DolaresFormComponent,
-    AnticipoFormComponent,
-  ],
+  imports: [SharedModule, RouterModule.forChild([])],
+  exports: [PedidoFormComponent, DolaresFormComponent, AnticipoFormComponent],
   declarations: [
     PedidoFormComponent,
     PedidoEnvioPanelComponent,
@@ -60,14 +53,16 @@ import { SocioFieldComponent } from './socio-field/socio-field.component';
     EnvioDireccionComponent,
     ValidationPanelComponent,
     ConfiguracionValeComponent,
-    SocioFieldComponent
+    SocioFieldComponent,
+    PendientePorClienteDialogComponent
   ],
   entryComponents: [
     PedidoDetFormComponent,
     DescuentoEspecialComponent,
     PrecioEspecialComponent,
     EnvioDireccionComponent,
+    PendientePorClienteDialogComponent
   ],
-  providers: [ PedidoFormService, PedidoDolaresFormServiceService],
+  providers: [PedidoFormService, PedidoDolaresFormServiceService]
 })
-export class PedidoFormModule { }
+export class PedidoFormModule {}

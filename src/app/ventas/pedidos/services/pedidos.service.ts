@@ -91,8 +91,9 @@ export class PedidosService {
   }
 
   mandarFacturar(venta: Venta) {
+    const params = new HttpParams().set('usuario', venta.facturarUsuario);
     const url = `${this.apiUrl}/mandarFacturar/${venta.id}`;
-    return this.http.put(url, {});
+    return this.http.put(url, {}, { params: params });
   }
 
   mandarFacturarConAutorizacion(autorizacion: any) {
@@ -264,9 +265,20 @@ export class PedidosService {
     return this.http.put<Venta>(url, { factura: venta.id, target: target });
   }
 
-  envioBatch(facturas, target: string): Observable<any> {
-    const endpoint = `cfdis/enviarBatch`;
+  buscarPedidosPendientes(cliente: Cliente): Observable<any> {
+    const url = `${this.apiUrl}/pedidosPendientes/${cliente.id}`;
+    const params = new HttpParams().set('cliente', cliente.id);
+    return this.http.get<any>(url, { params: params });
+  }
+
+  envioBatch(cliente, facturas: any[], target: string): Observable<any> {
+    const cfdis = {
+      cliente: cliente,
+      facturas: facturas.map(item => item.cuentaPorCobrar.cfdi.id),
+      target: target
+    };
+    const endpoint = `cfdis/envioBatch`;
     const url = this.configService.buildApiUrl(endpoint);
-    return this.http.put<any>(url, facturas);
+    return this.http.put<any>(url, cfdis);
   }
 }

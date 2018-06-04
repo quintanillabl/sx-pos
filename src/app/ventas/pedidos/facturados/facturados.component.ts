@@ -200,19 +200,21 @@ export class FacturadosComponent implements OnInit {
         if (res) {
           this.loadingService.register('saving');
           this.service
-            .envioBatch(filtered, res)
-            .delay(3000)
+            .envioBatch(cliente.id, selected, res)
             .finally(() => this.loadingService.resolve('saving'))
-            .subscribe( () => {
-              this._dialogService
-                .openAlert({
-                  title: 'Envio batch',
-                  message: 'Correo enviado satisfactoriamente',
-                  closeButton: 'Cerrar'
-                })
-                .afterClosed()
-                .subscribe(() => {});
-            });
+            .subscribe(
+              () => {
+                this._dialogService
+                  .openAlert({
+                    title: 'Envio batch',
+                    message: 'Correo enviado satisfactoriamente',
+                    closeButton: 'Cerrar'
+                  })
+                  .afterClosed()
+                  .subscribe(() => {});
+              },
+              err => this.handelHttpError(err)
+            );
         }
       });
   }
@@ -220,5 +222,16 @@ export class FacturadosComponent implements OnInit {
   cambiarPeriodo(periodo: Periodo) {
     this.filtro.periodo = periodo;
     this.load();
+  }
+
+  handelHttpError(response) {
+    console.error(response);
+    if (response.error) {
+      this._dialogService.openAlert({
+        title: 'Error de envio',
+        message: response.error.message,
+        closeButton: 'Cerrar'
+      });
+    }
   }
 }

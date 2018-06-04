@@ -24,6 +24,8 @@ export class PendientesListComponent implements OnInit {
 
   @Output() envio = new EventEmitter<any>();
 
+  @Output() cancelarEnvio = new EventEmitter<any>();
+
   @Output() print = new EventEmitter<any>();
 
   @Output() generarVale = new EventEmitter<any>();

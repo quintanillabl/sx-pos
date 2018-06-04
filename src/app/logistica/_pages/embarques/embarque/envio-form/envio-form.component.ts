@@ -1,17 +1,31 @@
 import {
-  Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef,
-  OnChanges, SimpleChanges
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
-import {FormGroup, FormBuilder, FormArray, Validators, FormControl} from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  FormArray,
+  Validators,
+  FormControl
+} from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { MdDialog, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
+import { MdDialog, MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import * as _ from 'lodash';
 
 import { Sucursal } from 'app/models';
 import { Embarque } from 'app/logistica/models/embarque';
 import { PartidasEnvioDialogComponent } from './selector/partidas-envio-dialog.component';
 import { Envio } from 'app/logistica/models/envio';
+import { TdDialogService } from '@covalent/core';
 
 @Component({
   selector: 'sx-envio-form',
@@ -19,21 +33,23 @@ import { Envio } from 'app/logistica/models/envio';
   styleUrls: ['./envio-form.component.scss']
 })
 export class EnvioFormComponent implements OnInit, OnChanges {
-
   form: FormGroup;
 
   @Output() save = new EventEmitter<any>();
 
   @Input() embarque: Embarque;
 
-  @Input() readonly = false;  
+  @Input() readonly = false;
 
   @Output() print = new EventEmitter<Embarque>();
+
+  @Output() deleteEnvio = new EventEmitter();
 
   constructor(
     private fb: FormBuilder,
     public dialog: MdDialog,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private dialogService: TdDialogService
   ) {}
 
   ngOnInit() {
@@ -44,7 +60,7 @@ export class EnvioFormComponent implements OnInit, OnChanges {
     if (changes.embarque && !changes.embarque.isFirstChange()) {
       const embarque: Embarque = changes.embarque.currentValue;
       this.form.patchValue(embarque);
-      embarque.partidas.forEach( item => this.agregarEnvio(item));
+      embarque.partidas.forEach(item => this.agregarEnvio(item));
     }
   }
 
@@ -68,35 +84,49 @@ export class EnvioFormComponent implements OnInit, OnChanges {
 
   private prepareEntity() {
     return {
-      ...this.form.getRawValue(),
-    }
+      ...this.form.getRawValue()
+    };
   }
 
   get partidas() {
-    return this.form.get('partidas') as FormArray
+    return this.form.get('partidas') as FormArray;
   }
 
-  onDelete(index: number) {
-    this.partidas.removeAt(index);
+  onDelete(index) {
+    // this.partidas.removeAt(index);
+    this.dialogService
+      .openConfirm({
+        title: 'Quitar partida',
+        message: 'Quitar la partida del embarque?',
+        acceptButton: 'Aceptar',
+        cancelButton: 'Cancelar'
+      })
+      .afterClosed()
+      .subscribe(res => {
+        if (res) {
+          // const item = this.partidas.controls[index].value;
+          // this.deleteEnvio.emit(item);
+          this.partidas.removeAt(index);
+        }
+      });
   }
 
   insertar() {
     let dialogRef = this.dialog.open(PartidasEnvioDialogComponent, {
-      data: {embarque: this.embarque}
+      data: { embarque: this.embarque }
     });
     dialogRef.afterClosed().subscribe(envio => {
-      if(envio) {
+      if (envio) {
         console.log('Agregando:....', envio);
         this.agregarEnvio(envio);
       }
     });
   }
-  
+
   agregarEnvio(envio: Envio) {
     this.partidas.push(new FormControl(envio));
     this.cd.detectChanges();
   }
-  
 
   // editarPartida($event) {
   //   const {row, cantidad} = $event;
@@ -109,7 +139,7 @@ export class EnvioFormComponent implements OnInit, OnChanges {
   // }
 
   get title() {
-    return ' Mantenimiento de embarque'
+    return ' Mantenimiento de embarque';
   }
 
   get id() {
@@ -123,7 +153,4 @@ export class EnvioFormComponent implements OnInit, OnChanges {
   onPrint() {
     this.print.emit(this.embarque);
   }
-
-  
 }
-

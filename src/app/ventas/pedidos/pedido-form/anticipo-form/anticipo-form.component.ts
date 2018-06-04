@@ -1,14 +1,24 @@
 import {
-  Component, OnInit, OnDestroy, OnChanges,
-  Input, Output, EventEmitter, SimpleChanges
+  Component,
+  OnInit,
+  OnDestroy,
+  OnChanges,
+  Input,
+  Output,
+  EventEmitter,
+  SimpleChanges
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import {FormGroup, FormBuilder, Validators, FormControl} from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl
+} from '@angular/forms';
 import * as _ from 'lodash';
 
 import { Sucursal, Venta } from 'app/models';
-
 
 @Component({
   selector: 'sx-anticipo-form',
@@ -16,7 +26,6 @@ import { Sucursal, Venta } from 'app/models';
   styleUrls: ['./anticipo-form.component.scss']
 })
 export class AnticipoFormComponent implements OnInit, OnDestroy, OnChanges {
-
   form: FormGroup;
 
   @Output() save = new EventEmitter();
@@ -25,31 +34,31 @@ export class AnticipoFormComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() pedido: Venta;
 
-  @Input() readonly  = false;
+  @Input() readonly = false;
 
   importeSubscription: Subscription;
 
-  constructor(
-    private fb: FormBuilder,
-  ) {
+  constructor(private fb: FormBuilder) {
     this.buildForm();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.pedido && changes.pedido.currentValue) {
       const pedido: Venta = changes.pedido.currentValue;
-      this.form.patchValue(pedido, {emitEvent: false});
+      this.form.patchValue(pedido, { emitEvent: false });
     }
   }
 
   ngOnInit() {
-    this.importeSubscription = this.form.get('importe').valueChanges.subscribe(importe => {
-      const impuesto = _.round((importe * 0.16), 2);
-      const total =  _.toNumber (importe) + impuesto;
-      this.form.get('impuesto').setValue(impuesto);
-      this.form.get('subTotal').setValue(importe);
-      this.form.get('total').setValue(total);
-    })
+    this.importeSubscription = this.form
+      .get('total')
+      .valueChanges.subscribe(total => {
+        const importe = _.round(total / 1.16, 2);
+        const impuesto = _.round(importe * 0.16, 2);
+        this.form.get('impuesto').setValue(impuesto);
+        this.form.get('subTotal').setValue(importe);
+        this.form.get('importe').setValue(importe);
+      });
   }
 
   ngOnDestroy() {
@@ -61,17 +70,19 @@ export class AnticipoFormComponent implements OnInit, OnDestroy, OnChanges {
       id: [null],
       documento: [null],
       sucursal: [this.sucursal],
-      fecha: [{value: new Date(), disabled: true}, Validators.required],
+      fecha: [{ value: new Date(), disabled: true }, Validators.required],
       cliente: [null, Validators.required],
-      tipo: [{value: 'ANT', disabled: true}, Validators.required],
+      tipo: [{ value: 'ANT', disabled: true }, Validators.required],
       atencion: ['MOSTRADOR', Validators.required],
       formaDePago: ['EFECTIVO', Validators.required],
       comentario: [null],
-      importe: [0, [Validators.required, Validators.min(1)]],
-      subTotal:  [{value: 0, disabled: true}],
-      impuesto: [{value: 0, disabled: true}],
-      total: [{value: 0, disabled: true}],
-      moneda: ['MXN']
+      importe: [{ value: 0, disabled: true }],
+      subTotal: [{ value: 0, disabled: true }],
+      impuesto: [{ value: 0, disabled: true }],
+      total: [0, [Validators.required, Validators.min(1)]],
+      moneda: ['MXN'],
+      usuario: [null, Validators.required],
+      usoDeCfdi: ['', Validators.required]
     });
   }
 
@@ -80,10 +91,10 @@ export class AnticipoFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   get fecha() {
-    return this.form.get('fecha').value
+    return this.form.get('fecha').value;
   }
 
-  get id () {
+  get id() {
     return this.form.get('id').value;
   }
 
@@ -94,14 +105,36 @@ export class AnticipoFormComponent implements OnInit, OnDestroy, OnChanges {
         sucursal: this.sucursal,
         vendedor: this.cliente.vendedor
       };
+      this.fixPedidoToApi(pedido);
       this.save.emit(pedido);
     }
   }
 
-  get title() {
-    return this.id ? 'Anticipo: ' + this.form.get('documento').value : 'Alta de anticipo';
+  private fixPedidoToApi(pedido) {
+    pedido.cliente = pedido.cliente.id;
+    pedido.updateUser = this.form.get('usuario').value.username;
+    if (!this.id) {
+      pedido.createUser = this.form.get('usuario').value.username;
+    }
+    if (!this.id) {
+      pedido.fecha = new Date().toISOString();
+    } else {
+      pedido.fecha = this.pedido.fecha;
+    }
+    return pedido;
   }
 
+  get title() {
+    return this.id
+      ? 'Anticipo: ' + this.form.get('documento').value
+      : 'Alta de anticipo';
+  }
 
+  setUsuario(usuario) {
+    this.form.get('usuario').setValue(usuario);
+  }
 
+  get usuario() {
+    return this.form.get('usuario').value;
+  }
 }
