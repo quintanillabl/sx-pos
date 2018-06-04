@@ -111,7 +111,7 @@ export class EmbarqueService {
       .set('fecha', fecha)
       .set('documento', documento)
       .set('tipo', tipo);
-    // console.log('Buscando documento con: ', params);
+     console.log('Buscando documento con: ', params);
     const url = `${this.apiUrl}/buscarDocumento`;
     return this.http.get<any>(url, { params: params });
   }
@@ -181,6 +181,32 @@ export class EmbarqueService {
       params: params,
       responseType: 'blob'
     });
+  }
+
+  reporteFacturaEnvio(reportParams: {}) {
+      console.log('Procedo a ejecutar el reporte');
+
+      console.log('Parametros recibidos',reportParams);
+
+      const url = `${this.apiUrl}/reporteFacturaEnvio`;
+
+      console.log("**********   "+url)
+      
+      let params = new HttpParams();
+
+      if (reportParams) {
+          params = params.set('id', reportParams['id'].toString());
+      }
+
+      const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+      return this.http.get(url, {
+        headers: headers,
+        params: params,
+        responseType: 'blob'
+      });
+
+
+
   }
 
   getEnvio(id: string): Observable<Envio> {
