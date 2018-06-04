@@ -45,6 +45,7 @@ import { ExistenciaFormComponent } from './components/existencia-form/existencia
 import { InvFacturasPageComponent } from './_pages/inv-facturas-page/inv-facturas-page.component';
 import { FacturasService } from 'app/logistica/services/facturas.service';
 import { RecPorLineaComponent } from './_pages/almacen/reportes/rec-por-linea/rec-por-linea.component';
+import { FacturaEnvioComponent } from './_pages/embarques/reportes/factura-envio/factura-envio.component';
 
 
 
@@ -199,6 +200,7 @@ const COMPONENTS = [
     ExistenciaFormComponent,
     InvFacturasPageComponent,
     RecPorLineaComponent,
+    FacturaEnvioComponent,
   ],
   entryComponents: [
     components.TransformaciondetDialogComponent,
@@ -215,7 +217,8 @@ const COMPONENTS = [
     KardexFormComponent,
     RecalculoFormComponent,
     ExistenciaFormComponent,
-    RecPorLineaComponent
+    RecPorLineaComponent,
+    FacturaEnvioComponent
   ],
   providers: [MovimientosService, TransformacionesService,
     DevolucionesService,

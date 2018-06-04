@@ -5,6 +5,9 @@ import * as FileSaver from 'file-saver';
 import { EmbarqueService } from 'app/logistica/services/embarque/embarque.service';
 import { EntregaPorChoferComponent } from './reportes/entrega-por-chofer/entrega-por-chofer.component';
 import {MdDialog} from '@angular/material';
+import { FacturaEnvioComponent } from './reportes/factura-envio/factura-envio.component';
+
+
 
 @Component({
   selector: 'sx-embarques-page',
@@ -34,6 +37,13 @@ export class EmbarquesPageComponent implements OnInit {
       icon: 'blur_linear',
       action: 'reporteDeEntregasPorChofer()'
     },
+    {
+      name: 'facturaDeEnvio',
+      title: 'Factura Para Envio',
+      description: 'Rastreo de factura de envio',
+      icon: 'blur_linear',
+      action: 'reporteFacturaEnvio()'
+    }
   ];
 
   constructor(
@@ -56,6 +66,9 @@ export class EmbarquesPageComponent implements OnInit {
     // });
     if (report === 'entregasPorChofer') {
       this.reporteDeEntregasPorChofer();
+    }
+    if (report === 'facturaDeEnvio') {
+      this.reporteFacturaEnvio();
     }
   }
 
@@ -84,9 +97,21 @@ export class EmbarquesPageComponent implements OnInit {
     });
   }
 
-  
+  reporteFacturaEnvio(){
+ 
+     const dialogRef = this.dialog.open(FacturaEnvioComponent, {});
 
-
-
-
+     dialogRef.afterClosed().subscribe(result =>{
+      if (result) {
+        this.service.reporteFacturaEnvio(result).subscribe(res =>{
+          const blob = new Blob([res], {
+            type: 'application/pdf'
+          });
+          const fileURL = window.URL.createObjectURL(blob);
+          window.open(fileURL, '_blank');
+        });
+      }
+     });
+    }
+   
 }
