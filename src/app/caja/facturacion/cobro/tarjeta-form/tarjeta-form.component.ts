@@ -14,6 +14,8 @@ export class TarjetaFormComponent implements OnInit {
   form: FormGroup;
   cobro: Cobro
 
+  tipos=['','CREDITO','DEBITO','AMEX']
+
   constructor(
     private fb: FormBuilder,
     @Inject(MD_DIALOG_DATA) public data: any,
@@ -24,7 +26,7 @@ export class TarjetaFormComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      visaMaster: [true, [Validators.required]],
+      visaMaster: ['', [Validators.required]],
       validacion: ['', Validators.required],
     });
   }
@@ -36,11 +38,12 @@ export class TarjetaFormComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       const cobroTarjeta: CobroTarjeta = {
-        debitoCredito: this.cobro.formaDePago === 'TARJETA_DEBITO',
-        visaMaster: this.form.get('visaMaster').value as boolean,
+        debitoCredito: this.form.get('visaMaster').value === 'DEBITO',
+        visaMaster: this.form.get('visaMaster').value !== 'AMEX' ,
         validacion: this.form.get('validacion').value
       }
       this.cobro.tarjeta = cobroTarjeta;
+      this.cobro.formaDePago = this.form.get('visaMaster').value === 'DEBITO' ? 'TARJETA_DEBITO' : 'TARJETA_CREDITO';
       this.dialogRef.close(this.cobro);
     }
   }
