@@ -281,4 +281,14 @@ export class PedidosService {
     const url = this.configService.buildApiUrl(endpoint);
     return this.http.put<any>(url, cfdis);
   }
+
+  imprimirRemision(cfdi: any) {
+    const endpoint = `cfdis/printRemision/${cfdi.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http.get(url, {
+      headers: headers,
+      responseType: 'blob'
+    });
+  }
 }

@@ -8,15 +8,16 @@ import { PedidoEditComponent } from './pedidos/pedido-edit/pedido-edit.component
 import { SolicitudesPageComponent } from './solicitudes/solicitudes-page/solicitudes-page.component';
 import { SolicitudCreateComponent } from './solicitudes/solicitud-create/solicitud-create.component';
 import { SolicitudEditComponent } from './solicitudes/solicitud-edit/solicitud-edit.component';
-import {PedidoDolaresCreateComponent} from './pedidos/pedido-create/pedido-dolares-create.component';
-import {PedidoDolaresEditComponent} from './pedidos/pedido-edit/pedido-dolares-edit.component';
-import {PedidoAnticipoEditComponent} from './pedidos/pedido-edit/pedido-anticipo-edit.component';
-import {PedidoAnticipoCreateComponent} from './pedidos/pedido-create/pedido-anticipo-create.component';
-import {FacturacionCreComponent} from './pedidos/facturacion-cre/facturacion-cre.component';
-import {FacturadosComponent} from './pedidos/facturados/facturados.component';
-import {FacturaViewComponent} from './pedidos/factura-view/factura-view.component';
+import { PedidoDolaresCreateComponent } from './pedidos/pedido-create/pedido-dolares-create.component';
+import { PedidoDolaresEditComponent } from './pedidos/pedido-edit/pedido-dolares-edit.component';
+import { PedidoAnticipoEditComponent } from './pedidos/pedido-edit/pedido-anticipo-edit.component';
+import { PedidoAnticipoCreateComponent } from './pedidos/pedido-create/pedido-anticipo-create.component';
+import { FacturacionCreComponent } from './pedidos/facturacion-cre/facturacion-cre.component';
+import { FacturadosComponent } from './pedidos/facturados/facturados.component';
+import { FacturaViewComponent } from './pedidos/factura-view/factura-view.component';
 import { CanceladasPageComponent } from 'app/ventas/canceladas/canceladas-page/canceladas-page.component';
-
+import { ComplementosComponent } from 'app/ventas/pedidos/complementos/complementos.component';
+import { ComplementoComponent } from 'app/ventas/pedidos/complemento/complemento.component';
 
 const routes: Routes = [
   {
@@ -38,7 +39,8 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            redirectTo: 'pendientes', pathMatch: 'full'
+            redirectTo: 'pendientes',
+            pathMatch: 'full'
           },
           {
             path: 'pendientes',
@@ -55,8 +57,7 @@ const routes: Routes = [
           {
             path: 'solicitudes/create',
             component: SolicitudCreateComponent
-          }
-          ,
+          },
           {
             path: 'solicitudes/edit/:id',
             component: SolicitudEditComponent
@@ -80,6 +81,14 @@ const routes: Routes = [
           {
             path: 'canceladas',
             component: CanceladasPageComponent
+          },
+          {
+            path: 'complementos',
+            component: ComplementosComponent
+          },
+          {
+            path: 'complementos/:id',
+            component: ComplementoComponent
           }
         ]
       },
@@ -98,7 +107,7 @@ const routes: Routes = [
       {
         path: 'pedidos/dolares/edit/:id',
         component: PedidoDolaresEditComponent
-      },
+      }
     ]
   }
 ];
@@ -107,4 +116,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class VentasRoutingModule { }
+export class VentasRoutingModule {}

@@ -15,6 +15,8 @@
       <span *ngIf="row.clasificacionVale !== 'SIN_VALE'">{{row.clasificacionVale}}</span>
       <span *ngIf="row.sinExistencia" class=" tc-pink-700">SIN EXISTENCIA</span>
       <span *ngIf="row.descuento > row.descuentoOriginal" class=" tc-pink-700">DESCTO {{row.descuento}}</span>
+      <span *ngIf="row.ventaIne && !row.complementoIne" class="text-sm tc-pink-700">INE (Falta Complemento)</span>
+      <span *ngIf="row.ventaIne && row.complementoIne" class="text-sm tc-green-700">INE (OK)</span>
     </span>
   </ng-template>
 

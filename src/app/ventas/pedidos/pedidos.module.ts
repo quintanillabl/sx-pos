@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {StoreModule} from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 
 import { SharedModule } from 'app/shared/shared.module';
 import { PedidosService } from './services/pedidos.service';
-import { PedidosPageComponent, PedidoCreateComponent} from '.';
+import { PedidosPageComponent, PedidoCreateComponent } from '.';
 import { PedidoFormModule } from './pedido-form/pedido-form.module';
 import { ClientesModule } from 'app/clientes/clientes.module';
 import { ProductosModule } from 'app/productos/productos.module';
@@ -28,8 +28,10 @@ import { FacturaSearchComponent } from './factura-search/factura-search.componen
 import { FacturaSearchDialogComponent } from './factura-search/factura-search-dialog.component';
 import { AutorizacionDeVentaComponent } from './autorizacion-de-venta/autorizacion-de-venta.component';
 import { CambioDeClienteComponent } from './cambio-de-cliente/cambio-de-cliente.component';
-
-
+import { ComplementosComponent } from 'app/ventas/pedidos/complementos/complementos.component';
+import { ComplementosService } from 'app/ventas/pedidos/services/complementos.service';
+import { ComplementoComponent } from 'app/ventas/pedidos/complemento/complemento.component';
+import { ComplementoFormComponent } from 'app/ventas/pedidos/complemento-form/complemento-form.component';
 
 @NgModule({
   imports: [
@@ -39,7 +41,6 @@ import { CambioDeClienteComponent } from './cambio-de-cliente/cambio-de-cliente.
     PedidoFormModule,
     RouterModule.forChild([]),
     StoreModule.forFeature('pedidos', reducers)
-
   ],
   declarations: [
     PedidosPageComponent,
@@ -63,9 +64,16 @@ import { CambioDeClienteComponent } from './cambio-de-cliente/cambio-de-cliente.
     FacturaSearchDialogComponent,
     AutorizacionDeVentaComponent,
     CambioDeClienteComponent,
+    ComplementosComponent,
+    ComplementoComponent,
+    ComplementoFormComponent
   ],
-  providers: [ PedidosService],
+  providers: [PedidosService, ComplementosService],
   exports: [RouterModule],
-  entryComponents: [FacturaSearchDialogComponent, AutorizacionDeVentaComponent, CambioDeClienteComponent]
+  entryComponents: [
+    FacturaSearchDialogComponent,
+    AutorizacionDeVentaComponent,
+    CambioDeClienteComponent
+  ]
 })
-export class PedidosModule { }
+export class PedidosModule {}

@@ -35,6 +35,11 @@
           <span>Agregar maniobra</span>
         </button>
 
+        <button md-menu-item (click)="toggleVentaIne()" type="button">
+          <md-icon>blur_on</md-icon>
+          <span>Venta INE</span>
+          <md-icon color="primary" *ngIf="parent.get('ventaIne').value">check</md-icon>
+        </button>
 
       </md-menu>
     </span>
