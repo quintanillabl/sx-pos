@@ -22,11 +22,12 @@ import { UsuarioDialogComponent } from '@siipapx/shared/_components/usuario-dial
   styleUrls: ['./pendientes.component.scss']
 })
 export class PendientesComponent implements OnInit {
+ 
   pedidos$: Observable<Venta[]>;
 
   procesando = false;
 
-  search$ = new BehaviorSubject<string>('');
+    search$ = new BehaviorSubject<string>('');
 
   reload$ = new Subject<boolean>();
 

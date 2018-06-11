@@ -47,7 +47,7 @@ export class ComCreatePageComponent implements OnInit {
       .save(com)
       .subscribe( 
         (com) => {
-          console.log('RMD salvado: ', com);
+          console.log('COM salvado: ', com);
           this.loadingService.resolve('saving');
           this.router.navigate(['/compras/recepciones'])
         },

@@ -238,3 +238,4 @@ const COMPONENTS = [
   ]
 })
 export class LogisticaModule { }
+  

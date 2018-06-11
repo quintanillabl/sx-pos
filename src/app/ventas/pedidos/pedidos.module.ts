@@ -64,7 +64,9 @@ import { CambioDeClienteComponent } from './cambio-de-cliente/cambio-de-cliente.
     AutorizacionDeVentaComponent,
     CambioDeClienteComponent,
   ],
-  providers: [ PedidosService],
+  providers: [ 
+    PedidosService
+  ],
   exports: [RouterModule],
   entryComponents: [FacturaSearchDialogComponent, AutorizacionDeVentaComponent, CambioDeClienteComponent]
 })

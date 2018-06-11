@@ -1,61 +1,63 @@
 <td-data-table #dataTable [data]="pedidos" [columns]="columns" selectable="false">
 
-  <ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
-    <a (click)="onEdit(row)" class="tc-indigo-700 cursor-pointer">
-      <span>{{row.tipo}}</span> {{row.documento}}
-    </a>
-  </ng-template>
+    <ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
+        <a (click)="onEdit(row)" class="tc-indigo-700 cursor-pointer">
+            <span>{{row.tipo}}</span> {{row.documento}}
+        </a>
+    </ng-template>
 
-  <ng-template tdDataTableTemplate="comentario" let-value="value" let-row="row">
-    <span layout="column">
+    <ng-template tdDataTableTemplate="comentario" let-value="value" let-row="row">
+        <span layout="column">
       <span>{{value}}</span>
-      <span *ngIf="row.tipo === 'ANT'"> ANT {{row.comentario}}</span>
-      <span *ngIf="row.tipoDeCambio > 1"> (USD T.C: {{row.tipoDeCambio | number: '1.4-4'}})</span>
-      <span *ngIf="row.puesto">PUESTO</span>
-      <span *ngIf="row.clasificacionVale !== 'SIN_VALE'">{{row.clasificacionVale}}</span>
-      <span *ngIf="row.sinExistencia" class=" tc-pink-700">SIN EXISTENCIA</span>
-      <span *ngIf="row.descuento > row.descuentoOriginal" class=" tc-pink-700">DESCTO {{row.descuento}}</span>
-    </span>
-  </ng-template>
+        <span *ngIf="row.tipo === 'ANT'"> ANT {{row.comentario}}</span>
+        <span *ngIf="row.tipoDeCambio > 1"> (USD T.C: {{row.tipoDeCambio | number: '1.4-4'}})</span>
+        <span *ngIf="row.puesto">PUESTO</span>
+        <span *ngIf="row.clasificacionVale !== 'SIN_VALE'">{{row.clasificacionVale}}</span>
+        <span *ngIf="row.sinExistencia" class=" tc-pink-700">SIN EXISTENCIA</span>
+        <span *ngIf="row.descuento > row.descuentoOriginal" class=" tc-pink-700">DESCTO {{row.descuento}}</span>
+        </span>
+    </ng-template>
 
-  <ng-template tdDataTableTemplate="fecha" let-value="value">
-    {{ value | date: 'dd/MM/yyyy'}}
-  </ng-template>
+    <ng-template tdDataTableTemplate="fecha" let-value="value">
+        {{ value | date: 'dd/MM/yyyy'}}
+    </ng-template>
 
-  <ng-template tdDataTableTemplate="nombre" let-value="value" let-row="row">
-    <span>{{value}}</span>
-  </ng-template>
+    <ng-template tdDataTableTemplate="nombre" let-value="value" let-row="row">
+        <a (click)="showDetails(row)" class="tc-indigo-700 cursor-pointer">
+            <span>{{value}}</span>
+        </a>
+    </ng-template>
 
-  <ng-template tdDataTableTemplate="lastUpdated" let-value="value">
-    {{ value | date: 'dd/MM/yyyy HH:mm'}}
-  </ng-template>
+    <ng-template tdDataTableTemplate="lastUpdated" let-value="value">
+        {{ value | date: 'dd/MM/yyyy HH:mm'}}
+    </ng-template>
 
-  <ng-template tdDataTableTemplate="formaDePago" let-value="value" let-row="row">
-    <span class="text-sm tc-pink-700">{{getFormaDePago(row)}}</span>
+    <ng-template tdDataTableTemplate="formaDePago" let-value="value" let-row="row">
+        <span class="text-sm tc-pink-700">{{getFormaDePago(row)}}</span>
 
-  </ng-template>
+    </ng-template>
 
-  <ng-template tdDataTableTemplate="clasificacionVale" let-value="value" let-row="row">
-    <span *ngIf="value != 'SIN_VALE'">{{value}}</span>
-  </ng-template>
+    <ng-template tdDataTableTemplate="clasificacionVale" let-value="value" let-row="row">
+        <span *ngIf="value != 'SIN_VALE'">{{value}}</span>
+    </ng-template>
 
 
-  <ng-template tdDataTableTemplate="total" let-value="value" let-row="row">
-    <span layout="column">
+    <ng-template tdDataTableTemplate="total" let-value="value" let-row="row">
+        <span layout="column">
       <span class="tc-indigo-800">{{value | currency: 'USD': 1.2-2}}</span>
-      <span class="text-sm tc-pink-700">{{getFormaDePago(row)}}</span>
-    </span>
-  </ng-template>
+        <span class="text-sm tc-pink-700">{{getFormaDePago(row)}}</span>
+        </span>
+    </ng-template>
 
-  <ng-template tdDataTableTemplate="createUser" let-value="value" let-row="row">
-    <span layout="column">
+    <ng-template tdDataTableTemplate="createUser" let-value="value" let-row="row">
+        <span layout="column">
       <span>{{value}}</span>
-      <span *ngIf="value != row.updateUser" class="tc-pink-700">{{row.updateUser}}</span>
-    </span>
-  </ng-template>
+        <span *ngIf="value != row.updateUser" class="tc-pink-700">{{row.updateUser}}</span>
+        </span>
+    </ng-template>
 
-  <ng-template tdDataTableTemplate="operaciones" let-value="value" let-row="row">
-    <span layout>
+    <ng-template tdDataTableTemplate="operaciones" let-value="value" let-row="row">
+        <span layout>
       <button md-icon-button (click)="generarVale.emit(row)" mdTooltip="Generar vale tipo: {{row.clasificacionVale}}" *ngIf="row.clasificacionVale !== 'SIN_VALE'">
         <md-icon>swap_horiz</md-icon>
       </button>
@@ -76,6 +78,6 @@
       </a>
 
     </span>
-  </ng-template>
+    </ng-template>
 
 </td-data-table>

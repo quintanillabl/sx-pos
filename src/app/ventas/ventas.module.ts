@@ -11,6 +11,7 @@ import {BancoService} from 'app/ventas/services/banco.service';
 import {ProductosModule} from 'app/productos/productos.module';
 import { CanceladasModule } from './canceladas/canceladas.module';
 import { CancelacionDialogComponent } from './_components/cancelacion-dialog/cancelacion-dialog.component';
+import { PartidasDialogComponent } from './_components/partidas-dialog/partidas-dialog.component';
 
 
 
@@ -29,13 +30,16 @@ import { CancelacionDialogComponent } from './_components/cancelacion-dialog/can
     MainPageComponent,
     MainDashboardComponent,
     CancelacionDialogComponent,
+    PartidasDialogComponent,
+
   ],
   providers: [
     ExistenciasService,
     BancoService,
   ],
   entryComponents: [
-    CancelacionDialogComponent
+    CancelacionDialogComponent,
+    PartidasDialogComponent
   ]
 })
 export class VentasModule { }

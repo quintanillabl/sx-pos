@@ -281,4 +281,10 @@ export class PedidosService {
     const url = this.configService.buildApiUrl(endpoint);
     return this.http.put<any>(url, cfdis);
   }
+
+  getPartidas(id: string){
+    const url = `${this.apiUrl}/getPartidas/${id}`;
+    console.log("******************"+url);
+    return this.http.get<any>(url);
+  }
 }
