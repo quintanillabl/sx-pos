@@ -47,6 +47,8 @@ export interface Venta {
   statusInfo?: string;
   chequePostFechado?: boolean;
   facturarUsuario?: string;
+  ventaIne?: boolean;
+  complementoIne?: any;
 }
 
 export interface TipoDeVenta {

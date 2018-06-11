@@ -17,15 +17,39 @@ import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
   templateUrl: './pedidos-page.component.html'
 })
 export class PedidosPageComponent implements OnInit {
-
   sucursal$: Observable<Sucursal>;
 
   navigation: Object[] = [
-    {route: 'pendientes', title: 'Pendientes', icon: 'alarm'},
-    {route: 'facturacionCredito', title: 'Facturación CRE', icon: 'event_note'},
-    {route: 'facturados', title: 'Facturas ', descripcion: 'Facturas generadas', icon: 'view_list'},
-    {route: 'canceladas', title: 'Canceladas', descripcion: 'Cancelación de facturas', icon: 'cancel'},
-    {route: 'solicitudes', title: 'Solicitud de deposito', descripcion: 'Solicitud de autorizacion de deposito', icon: 'verified_user'},
+    { route: 'pendientes', title: 'Pendientes', icon: 'alarm' },
+    {
+      route: 'facturacionCredito',
+      title: 'Facturación CRE',
+      icon: 'event_note'
+    },
+    {
+      route: 'facturados',
+      title: 'Facturas ',
+      descripcion: 'Facturas generadas',
+      icon: 'view_list'
+    },
+    {
+      route: 'canceladas',
+      title: 'Canceladas',
+      descripcion: 'Cancelación de facturas',
+      icon: 'cancel'
+    },
+    {
+      route: 'solicitudes',
+      title: 'Solicitud de deposito',
+      descripcion: 'Solicitud de autorizacion de deposito',
+      icon: 'verified_user'
+    },
+    {
+      route: 'complementos',
+      title: 'Complementos',
+      descripcion: 'Complementos de facturación',
+      icon: 'info'
+    }
     /*{route: 'devoluciones', title: 'Devoluciones', descripcion: 'Devolución de facturas', icon: ''},
     {route: 'traslados', title: 'Traslados', descripcion: 'Devolución de facturas', icon: ''},*/
   ];
@@ -35,8 +59,8 @@ export class PedidosPageComponent implements OnInit {
       name: 'clientesNuevos',
       title: 'Clientes nuevos',
       description: 'Alta de nuevos clientes',
-      icon: 'blur_linear',
-    },
+      icon: 'blur_linear'
+    }
   ];
 
   constructor(
@@ -46,7 +70,7 @@ export class PedidosPageComponent implements OnInit {
     private store: Store<fromRoot.State>,
     private addNewClienteService: AddNewClienteService,
     private service: PedidosService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.sucursal$ = this.store.select(fromRoot.getSucursal);
@@ -63,26 +87,21 @@ export class PedidosPageComponent implements OnInit {
     }
   }
 
-  
   clientesNuevos() {
     const dialogRef = this.dialog.open(SelectorFechaComponent, {
       data: {}
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
+      console.log(result);
       if (result) {
-        this.service.clientesNuevos(result)
-          .subscribe(res => {
-            const blob = new Blob([res], {
-              type: 'application/pdf'
-            });
-            const fileURL = window.URL.createObjectURL(blob);
-            window.open(fileURL, '_blank');
+        this.service.clientesNuevos(result).subscribe(res => {
+          const blob = new Blob([res], {
+            type: 'application/pdf'
           });
+          const fileURL = window.URL.createObjectURL(blob);
+          window.open(fileURL, '_blank');
+        });
       }
     });
-    
   }
-
-
 }

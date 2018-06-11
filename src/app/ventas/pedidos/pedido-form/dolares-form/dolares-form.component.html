@@ -1,7 +1,6 @@
-<form novalidate [formGroup]="form" layout="row" class="pedido-form" (ngSubmit)="onSave()"
-      (keydown.enter)="$event.preventDefault()">
+<form novalidate [formGroup]="form" layout="row" class="pedido-form" (ngSubmit)="onSave()" (keydown.enter)="$event.preventDefault()">
 
-  <md-card flex="80" >
+  <md-card flex="80">
     <sx-pedido-header (addCliente)="onAddNewCliente()" [parent]="form" (insertar)="onInsertPartida()">
     </sx-pedido-header>
     <md-divider></md-divider>
@@ -19,37 +18,29 @@
     </div>
     <md-divider></md-divider>
 
-    <sx-pedido-partidas-grid flex
-      [partidas]="partidas.value"
-      [parent]="form"
-      (delete)="onDelete($event)"
-      (edit)="onEditPartida($event)" >
+    <sx-pedido-partidas-grid flex [partidas]="partidas.value" [parent]="form" (delete)="onDelete($event)" (edit)="onEditPartida($event)">
     </sx-pedido-partidas-grid>
     <sx-validation-panel [parent]="form" flex="80"></sx-validation-panel>
   </md-card>
 
   <div flex="20">
-    <md-card >
+    <md-card>
       <td-expansion-panel-group>
         <sx-pedido-totales-panel [parent]="form"></sx-pedido-totales-panel>
         <sx-pedido-envio-panel [parent]="form"></sx-pedido-envio-panel>
-        <sx-pedido-comentario-panel [parent]="form" ></sx-pedido-comentario-panel>
+        <sx-pedido-comentario-panel [parent]="form"></sx-pedido-comentario-panel>
         <sx-pedido-cargos-panel [parent]="form"></sx-pedido-cargos-panel>
 
 
       </td-expansion-panel-group>
       <md-divider></md-divider>
       <md-card-actions>
-        <button type="submit" md-button [disabled]="form.invalid" > Salvar </button>
-        <a  md-button [routerLink]="['/ventas/pedidos/pendientes']"> Cancelar </a>
-        <button type="button" md-icon-button  mdTooltip="Imprimir documento" >
+        <button type="submit" md-button [disabled]="form.invalid"> Salvar </button>
+        <a md-button [routerLink]="['/ventas/pedidos/pendientes']"> Cancelar </a>
+        <button type="button" md-icon-button mdTooltip="Imprimir documento">
           <md-icon>print</md-icon>
         </button>
       </md-card-actions>
     </md-card>
   </div>
-
 </form>
-<pre>
-  {{form.errors | json}}
-</pre>

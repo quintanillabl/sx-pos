@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { Venta, Sucursal, Producto, Banco } from 'app/models';
-import {Store} from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import * as fromRoot from 'app/reducers';
 import { ConfigService } from 'app/core/services/config.service';
 import { User } from 'app/_auth/models/user';
 
-
 @Injectable()
 export class CajaService {
-
-  private apiUrl: string
+  private apiUrl: string;
 
   sucursal: Sucursal;
 
@@ -40,18 +38,18 @@ export class CajaService {
     const params = new HttpParams()
       .set('tipo', tipo)
       .set('sucursal', this.sucursal.id);
-    return this.http.get<Venta[]>(url, {params: params})
+    return this.http.get<Venta[]>(url, { params: params });
   }
 
-  cobradas(term: string ) {
+  cobradas(term: string) {
     const params = new HttpParams().set('term', term);
     const url = `${this.apiUrl}/cobradas/${this.sucursal.id}`;
-    return this.http.get<Venta[]>(url, {params: params})
+    return this.http.get<Venta[]>(url, { params: params });
   }
 
   getVenta(id: string): Observable<Venta> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<Venta>(url)
+    return this.http.get<Venta>(url);
   }
 
   facturar(venta: Venta): Observable<Venta> {
@@ -62,7 +60,7 @@ export class CajaService {
   facturasPendientesCod() {
     const endpoint = `cuentasPorCobrar/pendientesCod/${this.sucursal.id}`;
     const url = this.configService.buildApiUrl(endpoint);
-    return this.http.get(url)
+    return this.http.get(url);
   }
 
   cuentaPorCobrar(id: string) {
@@ -75,9 +73,9 @@ export class CajaService {
     const endpoint = `cxc/cobro/cobroContado/`;
     const url = this.configService.buildApiUrl(endpoint);
     const cob = {
-      ... cobro,
+      ...cobro,
       venta: cobro.venta.id
-    }
+    };
     console.log('Registrando cobro de contado: ', cob);
     return this.http.post(url, cob);
   }
@@ -89,9 +87,9 @@ export class CajaService {
   }
 
   bancos(): Observable<Banco[]> {
-     const endpoint = 'tesoreria/bancos';
-     const url = this.configService.buildApiUrl(endpoint);
-     return this.http.get<Banco[]>(url);
+    const endpoint = 'tesoreria/bancos';
+    const url = this.configService.buildApiUrl(endpoint);
+    return this.http.get<Banco[]>(url);
   }
 
   timbrar(venta: Venta): Observable<Venta> {
@@ -103,44 +101,49 @@ export class CajaService {
     // Fix para simplificar audig_log
     factura.cliente = {
       id: factura.cliente.id
-    }
+    };
     console.log('Cancelando en el sistema la factura: ', factura);
     const params = new HttpParams()
-    .set('usuario', user.username)
-    .set('motivo', motivo);
+      .set('usuario', user.username)
+      .set('motivo', motivo);
     const url = `${this.apiUrl}/cancelar/${factura.id}`;
-    return this.http.put<Venta>(url, factura, {params: params});
+    return this.http.put<Venta>(url, factura, { params: params });
   }
 
   mostrarXml(venta: Venta): Observable<any> {
     const endpoint = `cfdis/mostrarXml/${venta.cuentaPorCobrar.cfdi.id}`;
     const url = this.configService.buildApiUrl(endpoint);
-    const headers = new HttpHeaders().set('Content-type' , 'text/xml');
+    const headers = new HttpHeaders().set('Content-type', 'text/xml');
     // return this.http.get(url)
-    return this.http.get(
-      url, {
-        headers: headers,
-        responseType: 'blob'
-      }
-    );
+    return this.http.get(url, {
+      headers: headers,
+      responseType: 'blob'
+    });
   }
 
   imprimirCfdi(cfdi: any) {
     const endpoint = `cfdis/print/${cfdi.id}`;
     const url = this.configService.buildApiUrl(endpoint);
-    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
-    return this.http.get(
-      url, {
-        headers: headers,
-        responseType: 'blob'
-      }
-    );
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http.get(url, {
+      headers: headers,
+      responseType: 'blob'
+    });
+  }
+
+  imprimirRemision(cfdi: any) {
+    const endpoint = `cfdis/printRemision/${cfdi.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http.get(url, {
+      headers: headers,
+      responseType: 'blob'
+    });
   }
 
   enviarPorEmail(venta: Venta, target: string): Observable<Venta> {
     const endpoint = `cfdis/enviarFacturaEmail`;
     const url = this.configService.buildApiUrl(endpoint);
-    return this.http.put<Venta>(url, {factura: venta.id, target: target});
+    return this.http.put<Venta>(url, { factura: venta.id, target: target });
   }
-
 }

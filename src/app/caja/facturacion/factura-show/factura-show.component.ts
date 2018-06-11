@@ -252,4 +252,22 @@ export class FacturaShowComponent implements OnInit {
       closeButton: 'Cerrar'
     });
   }
+
+  printRemision(cfdi) {
+    console.log('Imprimiendo cfdi: ', cfdi);
+    this.procesando = true;
+    this.service
+      .imprimirRemision(cfdi)
+      .subscribe(
+        res => {
+          const blob = new Blob([res], {
+            type: 'application/pdf'
+          });
+          this.procesando = false;
+          const fileURL = window.URL.createObjectURL(blob);
+          window.open(fileURL, '_blank');
+        },
+        error2 => this.handleError(error2)
+      );
+  }
 }
