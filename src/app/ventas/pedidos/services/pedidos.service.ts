@@ -291,11 +291,14 @@ export class PedidosService {
     return this.http.put<any>(url, cfdis);
   }
 
-  getPartidas(id: string){
+  getPartidas(id: string) {
     const url = `${this.apiUrl}/getPartidas/${id}`;
-    console.log("******************"+url);
     return this.http.get<any>(url);
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 530eaa20316ba9ab3fa456c74b4d98b80bdd15c3
   imprimirRemision(cfdi: any) {
     const endpoint = `cfdis/printRemision/${cfdi.id}`;
     const url = this.configService.buildApiUrl(endpoint);
