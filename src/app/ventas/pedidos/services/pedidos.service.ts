@@ -32,11 +32,20 @@ export class PedidosService {
     return this.http.get<Venta>(url);
   }
 
-  pendientes(term): Observable<Venta[]> {
+  pendientes(term, filter: any): Observable<Venta[]> {
     let params = new HttpParams();
     if (term) {
       params = params.set('term', term);
     }
+    _.forIn(filter, (value, key) => {
+      if (value instanceof Periodo) {
+        const periodo = value as Periodo;
+        params = params.set('fechaInicial', periodo.fechaInicial.toISOString());
+        params = params.set('fechaFinal', periodo.fechaFinal.toISOString());
+      } else {
+        params = params.set(key, value);
+      }
+    });
     const url = `${this.apiUrl}/pendientes/${this.sucursal.id}`;
     return this.http.get<Venta[]>(url, { params: params });
   }
@@ -286,7 +295,7 @@ export class PedidosService {
     const url = `${this.apiUrl}/getPartidas/${id}`;
     console.log("******************"+url);
     return this.http.get<any>(url);
-    
+  }
   imprimirRemision(cfdi: any) {
     const endpoint = `cfdis/printRemision/${cfdi.id}`;
     const url = this.configService.buildApiUrl(endpoint);
@@ -295,5 +304,11 @@ export class PedidosService {
       headers: headers,
       responseType: 'blob'
     });
+  }
+
+  noFacturables(){
+    const url = `${this.apiUrl}/noFacturables`;
+    console.log("******************"+url);
+    return this.http.get<any>(url);
   }
 }
