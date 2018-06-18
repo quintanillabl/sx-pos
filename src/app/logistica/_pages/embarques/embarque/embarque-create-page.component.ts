@@ -19,21 +19,19 @@ import { EmbarqueService } from 'app/logistica/services/embarque/embarque.servic
       <sx-embarque-form flex
         [sucursal]="sucursal$ | async" (save)="onSave($event)">
       </sx-embarque-form>
-      
     </div>
   `,
   styles: ['']
 })
 export class EmbarqueCreatePageComponent implements OnInit {
-
   sucursal$: Observable<Sucursal>;
 
   constructor(
     private store: Store<fromRoot.State>,
     private service: EmbarqueService,
     private router: Router,
-    private loadingService: TdLoadingService,
-  ) { }
+    private loadingService: TdLoadingService
+  ) {}
 
   ngOnInit() {
     this.sucursal$ = this.store.select(fromRoot.getSucursal);
@@ -42,26 +40,19 @@ export class EmbarqueCreatePageComponent implements OnInit {
   onSave(embarque: Embarque) {
     this.loadingService.register('saving');
     console.log('Salvando embarque: ', embarque);
-    this.service
-      .save(embarque)
-      .subscribe(
-        (res: any) => {
-          console.log('Salvado sector: ', res);
-          this.loadingService.resolve('saving');
-          // this.router.navigate(['/logistica/almacen/sectores/show', res.id]);
-          this.router.navigate(['/logistica/embarques/embarques']);
-        },
-        response => {
-          this.handlePostError(response);
-          this.loadingService.resolve('saving');
-        }
-      );
+    this.service.save(embarque).subscribe(
+      (res: any) => {
+        this.loadingService.resolve('saving');
+        this.router.navigate(['/logistica/embarques/embarques']);
+      },
+      response => {
+        this.handlePostError(response);
+        this.loadingService.resolve('saving');
+      }
+    );
   }
 
   private handlePostError(response) {
     console.log('Error al salvar sector: ', response);
   }
-
-
 }
-
