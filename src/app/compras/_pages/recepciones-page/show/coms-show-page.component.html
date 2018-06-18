@@ -32,7 +32,7 @@
                     <md-card-actions>
                         <a md-button [routerLink]="['/compras/recepciones']">
                             <md-icon>keyboard_backspace</md-icon> Regresar </a>
-                        <a md-button [routerLink]="['/compras/recepciones/edit',com.id]">
+                        <a *ngIf="!com.fechaInventario " md-button [routerLink]="['/compras/recepciones/edit',com.id]">
                             <md-icon>edit</md-icon> Editar </a>
                         <button md-icon-button (click)="print(com)" mdTooltip="Imprimir documento"><md-icon>print</md-icon></button>
 
