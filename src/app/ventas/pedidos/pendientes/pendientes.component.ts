@@ -15,6 +15,8 @@ import { Venta, Sucursal } from 'app/models';
 import { AutorizacionDeVentaComponent } from '../autorizacion-de-venta/autorizacion-de-venta.component';
 import { CambioDeClienteComponent } from 'app/ventas/pedidos/cambio-de-cliente/cambio-de-cliente.component';
 import { UsuarioDialogComponent } from 'app/shared/_components/usuario-dialog/usuario-dialog.component';
+import { Periodo } from 'app/models/periodo';
+
 
 @Component({
   selector: 'sx-pedidos-pendientes',
@@ -32,6 +34,7 @@ export class PendientesComponent implements OnInit {
   reload$ = new Subject<boolean>();
 
   loading = false;
+  filtro: any = { periodo: Periodo.fromNow(3) };
 
   constructor(
     private store: Store<fromPedidos.State>,
@@ -52,7 +55,7 @@ export class PendientesComponent implements OnInit {
       return term ? term : null;
     }).switchMap(term =>
       this.service
-        .pendientes(term)
+        .pendientes(term, this.filtro)
         .delay(300)
         .finally(() => (this.procesando = false))
     );
@@ -339,4 +342,23 @@ export class PendientesComponent implements OnInit {
       }
     });
   }
+
+  cambiarPeriodo(periodo: Periodo) {
+    this.filtro.periodo = periodo;
+    this.load();
+  }
+
+  noFacturablesCambioPrecios(){
+    console.log("Cambio de precios");
+    this.procesando=true;
+    this.service.noFacturables()
+    .finally(() => (this.procesando = false))
+    .subscribe(
+      res => {
+        this.load();
+      },
+      error => this.handleError(error)
+    );
+  }
+
 }

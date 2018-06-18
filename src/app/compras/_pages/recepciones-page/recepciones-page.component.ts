@@ -19,7 +19,7 @@ export class RecepcionesPageComponent implements OnInit, OnDestroy {
   search$ = new BehaviorSubject<string>('');
   procesando = false;
   subs: Subscription;
-  _pendientes = true;
+  _pendientes = false;
 
   constructor(private service: ComsService, public dialog: MdDialog) {
     this.coms$ = this.search$.debounceTime(300).switchMap(term => {
@@ -72,6 +72,23 @@ export class RecepcionesPageComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+
+  printReport(com: RecepcionDeCompra){
+
+    console.log('Imprimiendo COM: ', com.documento);
+    this.procesando = true;
+    this.service.print(com)
+      .delay(1000)
+      .subscribe(res => {
+        const blob = new Blob([res], {
+          type: 'application/pdf'
+        });
+        this.procesando = false;
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      }, error2 => this.handleError(error2));
+
   }
 
   get pendientes() {

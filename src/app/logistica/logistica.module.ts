@@ -46,6 +46,7 @@ import { InvFacturasPageComponent } from './_pages/inv-facturas-page/inv-factura
 import { FacturasService } from 'app/logistica/services/facturas.service';
 import { RecPorLineaComponent } from './_pages/almacen/reportes/rec-por-linea/rec-por-linea.component';
 import { FacturaEnvioComponent } from './_pages/embarques/reportes/factura-envio/factura-envio.component';
+import { DiscrepanciasComponent } from './reportes/discrepancias/discrepancias.component';
 
 
 
@@ -201,6 +202,7 @@ const COMPONENTS = [
     InvFacturasPageComponent,
     RecPorLineaComponent,
     FacturaEnvioComponent,
+    DiscrepanciasComponent,
   ],
   entryComponents: [
     components.TransformaciondetDialogComponent,
@@ -218,7 +220,8 @@ const COMPONENTS = [
     RecalculoFormComponent,
     ExistenciaFormComponent,
     RecPorLineaComponent,
-    FacturaEnvioComponent
+    FacturaEnvioComponent,
+    DiscrepanciasComponent
   ],
   providers: [MovimientosService, TransformacionesService,
     DevolucionesService,

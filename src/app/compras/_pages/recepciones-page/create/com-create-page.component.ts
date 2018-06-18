@@ -50,6 +50,7 @@ export class ComCreatePageComponent implements OnInit {
           console.log('COM salvado: ', com);
           this.loadingService.resolve('saving');
           this.router.navigate(['/compras/recepciones'])
+          
         },
         response => {
           this.handlePostError(response);

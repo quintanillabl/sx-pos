@@ -1,50 +1,51 @@
 <sx-nav-layout [header]="'Recepciones de comras (COMS)'" [modulo]="'Compras'">
 
-  <div layout="row" layout-align="center stretch">
+    <div layout="row" layout-align="center stretch">
 
-    <md-card  flex="90">
-      <ng-container *ngIf="com$ | async as  com">
-        <md-card-title >
-          <span layout layout-padding>
+        <md-card flex>
+            <ng-container *ngIf="com$ | async as  com">
+                <md-card-title>
+                    <span layout layout-padding>
             <span>{{ com.tipo }}</span>
-            <span flex>COM: {{com.documento}} ({{com.fecha | date: 'dd/MM/yyyy'}})</span>
-            <span flex>{{com.proveedor.nombre}} </span>
-            <span >Compra: {{com.compra.folio}} ({{com.compra.fecha | date: 'dd/MM/yyyy'}})</span>
-          </span>
-        </md-card-title>
-        <md-card-subtitle>
-          <span layout layout-padding>
+                    <span flex>COM: {{com.documento}} ({{com.fecha | date: 'dd/MM/yyyy'}})</span>
+                    <span flex>{{com.proveedor.nombre}} </span>
+                    <span>Compra: {{com.compra.folio}} ({{com.compra.fecha | date: 'dd/MM/yyyy'}})</span>
+                    </span>
+                </md-card-title>
+                <md-card-subtitle>
+                    <span layout layout-padding>
             <span>{{com.comentario}}</span>
-            <span flex></span>
-            <span *ngIf="com.fechaInventario" class="tc-pink-500" >
+                    <span flex></span>
+                    <span *ngIf="com.fechaInventario" class="tc-pink-500">
               INVENTARIADO: {{com.fechaInventario | date:'dd/MM/yyyy HH:mm'}}
             </span>
-            <span flex></span>
-            <span>Usuario: {{com.createUser}}</span>
-          </span>
-        </md-card-subtitle>
+                    <span flex></span>
+                    <span>Usuario: {{com.createUser}}</span>
+                    </span>
+                </md-card-subtitle>
 
-        <md-divider></md-divider>
-          <sx-comdet-grid [partidas]="com.partidas"></sx-comdet-grid>
-        <md-divider></md-divider>
-        
-        <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
-          <md-card-actions>
-            <a md-button [routerLink]="['/compras/recepciones']" ><md-icon>keyboard_backspace</md-icon> Regresar </a>
-            <a md-button [routerLink]="['/compras/recepciones/edit',com.id]" ><md-icon>edit</md-icon> Editar </a>
-            <button md-icon-button (click)="print(com)" mdTooltip="Imprimir documento"><md-icon>print</md-icon></button>
-            
-            <button md-button color="accent" *ngIf="com.fechaInventario === undefined"
-              mdTooltip="Mandar al inventario" (click)="inventariar(com)">
+                <md-divider></md-divider>
+                <sx-comdet-grid [partidas]="com.partidas"></sx-comdet-grid>
+                <md-divider></md-divider>
+
+                <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
+                    <md-card-actions>
+                        <a md-button [routerLink]="['/compras/recepciones']">
+                            <md-icon>keyboard_backspace</md-icon> Regresar </a>
+                        <a md-button [routerLink]="['/compras/recepciones/edit',com.id]">
+                            <md-icon>edit</md-icon> Editar </a>
+                        <button md-icon-button (click)="print(com)" mdTooltip="Imprimir documento"><md-icon>print</md-icon></button>
+
+                        <button md-button color="accent" *ngIf="com.fechaInventario === undefined" mdTooltip="Mandar al inventario" (click)="inventariar(com)">
               <md-icon >send</md-icon> Mandar al inventario
             </button>
-            
-          </md-card-actions>
-        </ng-template>
-      </ng-container>
 
-    </md-card>
+                    </md-card-actions>
+                </ng-template>
+            </ng-container>
 
-  </div>
+        </md-card>
+
+    </div>
 
 </sx-nav-layout>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { MdDialogRef } from '@angular/material';
 import { KardexService } from '@siipapx/logistica/services/kardex.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'sx-rec-por-linea',
@@ -22,6 +23,8 @@ export class RecPorLineaComponent implements OnInit {
   clases: Array<any>;
   lineas: Array<any>;
 
+  filteredOptions: Observable<string>;
+
   constructor(
     private fb: FormBuilder,
     public dialogRef: MdDialogRef<RecPorLineaComponent>,
@@ -35,10 +38,13 @@ export class RecPorLineaComponent implements OnInit {
       tipo: ['TODOS', Validators.required],
       estado: ['ACTIVOS', Validators.required],
       existencia: ['TODOS', Validators.required],
-      linea: [null, Validators.required],
+      linea: [null],
       clase: [null]
     });
+  
   }
+
+  
 
   close() {
     this.dialogRef.close();

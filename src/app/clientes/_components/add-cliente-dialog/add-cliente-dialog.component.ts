@@ -49,7 +49,7 @@ export class AddClienteDialogComponent implements OnInit {
         calle: [null, Validators.required],
         numeroExterior: [null, Validators.required],
         numeroInterior: [null],
-        colonia: [null, Validators.required],
+        colonia: [null, ],
         municipio: [null, Validators.required],
         estado: [null, Validators.required],
         pais: [{ value: 'MEXICO', disabled: true }, Validators.required],

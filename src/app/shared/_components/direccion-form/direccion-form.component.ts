@@ -9,6 +9,7 @@ import {
 import { FormGroup } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
+import { ConfigService } from 'app/core/services/config.service';
 
 import * as _ from 'lodash';
 
@@ -23,8 +24,14 @@ export class DireccionFormComponent implements OnInit, OnDestroy {
   @Input() colonias: string[] = [];
 
   subscription: Subscription;
+  apiUrl: string;
 
-  constructor(private http: HttpClient) {}
+  url: string;
+
+  constructor(private http: HttpClient,
+    private configService: ConfigService) {
+      this.apiUrl = `${configService.getApiUrl()}`
+    }
 
   ngOnInit() {}
 
@@ -35,6 +42,28 @@ export class DireccionFormComponent implements OnInit, OnDestroy {
   }
 
   buscarDatos(event) {
+   
+    const zip = this.parent.get('codigoPostal').value;
+    const params = new HttpParams().set('zip_code', zip);
+    this.url=`${this.apiUrl}/embarques/codigos`
+    this.http
+      .get(this.url, {
+        params: params
+      }).subscribe(resultado =>{
+        const estado: string =resultado['estado'];
+        if (estado) {
+          this.parent.get('estado').setValue(estado.toUpperCase());
+        }
+        const municipio: string= resultado['municipio'];
+        if (municipio) {
+          this.parent.get('municipio').setValue(municipio.toUpperCase());
+        }
+        const colonias =resultado['colonias'];
+        this.colonias = colonias;
+      });
+  }
+
+  buscarDatos1(event) {
     const zip = this.parent.get('codigoPostal').value;
     const params = new HttpParams().set('zip_code', zip);
     this.http
@@ -55,4 +84,5 @@ export class DireccionFormComponent implements OnInit, OnDestroy {
         this.colonias = colonias;
       });
   }
+
 }

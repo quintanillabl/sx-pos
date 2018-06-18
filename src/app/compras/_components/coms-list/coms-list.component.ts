@@ -5,6 +5,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { ITdDataTableColumn } from '@covalent/core/data-table/data-table.component';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'sx-coms-list',
@@ -16,6 +17,8 @@ export class ComsListComponent implements OnInit {
 
   @Input() selectedRows: any[] = [];
 
+  @Output() printReport = new EventEmitter<any>();
+
   columns: ITdDataTableColumn[] = [
     { name: 'documento', label: 'Docto', width: { min: 10, max: 20 } },
     { name: 'fecha', label: 'Fecha', width: { min: 10, max: 20 } },
@@ -25,7 +28,8 @@ export class ComsListComponent implements OnInit {
     { name: 'proveedor.nombre', label: 'Proveedor', width: 250 },
     { name: 'comentario', label: 'Comentario', width: 200 },
     { name: 'fechaInventario', label: 'Inventariado', width: 40 },
-    { name: 'updateUser', label: 'Modificado', width: 20 }
+    { name: 'updateUser', label: 'Modificado', width: 20 },
+    { name: 'operaciones', label: 'Opc', width: 200 }
   ];
 
   constructor() {}

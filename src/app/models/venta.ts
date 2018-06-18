@@ -49,6 +49,7 @@ export interface Venta {
   facturarUsuario?: string;
   ventaIne?: boolean;
   complementoIne?: any;
+  noFacturable?: boolean;
 }
 
 export interface TipoDeVenta {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
+import * as _ from 'lodash';
 
 import { Movimiento } from "@siipapx/logistica/models/movimiento";
 import { Sucursal } from 'app/models';
@@ -70,11 +71,17 @@ export class MovimientosService {
       }
     );
   }
-
-  reporteDeDiscrepancias() {
+  
+  reporteDeDiscrepancias(reportParams: {}) {
     const url = this.configService.buildApiUrl(`existencias/reporteDeDiscrepancias`);
-    const params = new HttpParams()
-      .set('SUCURSAL', this.configService.getCurrentSucursal().id);
+    reportParams['SUCURSAL'] = this.configService.getCurrentSucursal().id;
+    console.log(`Params: `, reportParams);
+    let params = new HttpParams()
+    if (reportParams) {
+      _.forIn(reportParams, (value, key) => {
+        params = params.set(key, value.toString());
+      });
+    }
     const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
     return this.http.get(
       url, {
@@ -83,6 +90,10 @@ export class MovimientosService {
         responseType: 'blob'
       }
     );
+
+
   }
+
+
 
 }
