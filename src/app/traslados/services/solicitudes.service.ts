@@ -69,7 +69,7 @@ export class SolicitudesService {
   atender(sol: SolicitudDeTraslado, chofer, comentario: string) {
     // sol.atender = new Date().toISOString()
     let params = new HttpParams()
-    .set('chofer_id', chofer)
+    .set('chofer_id', chofer.id)
     .set('comentario',comentario);
     const url = `${this.apiUrl}/atender/${sol.id}`;
     return this.http.put(url, sol, { params: params});

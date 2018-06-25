@@ -94,7 +94,7 @@ export class PendientesListComponent implements OnInit {
   showDetails(pedido: Venta){
     
     let id=pedido.id
-    const dialogRef = this.dialog.open(PartidasDialogComponent, {data: { id: id }});
+    const dialogRef = this.dialog.open(PartidasDialogComponent, {data: {pedido: pedido }});
   }
 
 }

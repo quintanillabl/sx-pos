@@ -45,6 +45,9 @@ import { ProductoProvFieldComponent } from './_fields/producto-prov-field/produc
 import { PeriodoDialogComponent } from './_components/periodo-dialog/periodo-dialog.component';
 import { PeriodoPickerComponent } from './_components/periodo-picker/periodo-picker.component';
 import { UsuarioDialogComponent } from '@siipapx/shared/_components/usuario-dialog/usuario-dialog.component';
+import { LineasFieldComponent } from './_fields/lineas-field/lineas-field.component';
+import { ClasesFieldComponent } from './_fields/clases-field/clases-field.component';
+import { ChoferesFieldComponent } from './_fields/choferes-field/choferes-field.component';
 
 const FLEX_LAYOUT_MODULES: any[] = [FlexLayoutModule];
 
@@ -103,7 +106,10 @@ const COMPONENTS: any[] = [
     OnlyIntegersDirective,
     CancelacionDialogComponent,
     ProveedorFieldComponent,
-    ProductoProvFieldComponent
+    ProductoProvFieldComponent,
+    LineasFieldComponent,
+    ClasesFieldComponent,
+    ChoferesFieldComponent
   ],
   exports: [
     ANGULAR_MODULES,
@@ -137,7 +143,10 @@ const COMPONENTS: any[] = [
     OnlyIntegersDirective,
     CancelacionDialogComponent,
     ProveedorFieldComponent,
-    ProductoProvFieldComponent
+    ProductoProvFieldComponent,
+    LineasFieldComponent,
+    ClasesFieldComponent,
+    ChoferesFieldComponent
   ],
   entryComponents: [
     SelectorFechaComponent,

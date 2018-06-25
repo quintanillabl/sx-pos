@@ -52,6 +52,8 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
 
   parciales: Cobro[] = [];
 
+  parcialesApl;
+
   subscription: Subscription;
 
   form: FormGroup;
@@ -64,12 +66,19 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
     if (changes.venta && changes.venta.currentValue !== null) {
       this.form.patchValue({
         formaDePago: this.venta.formaDePago,
-        importe: this.venta.total
+        importe: _.round(this.venta.total-this.venta.cuentaPorCobrar.pagos, 2)
       });
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if( this.venta.formaDePago.startsWith("DEPOSITO") || this.venta.formaDePago.startsWith("TRANSFERENCIA")) {
+      this.formasDePago.push(this.venta.formaDePago);
+    }
+    if(this.venta.formaDePago === 'TRANSFERENCIA' || this.venta.formaDePago.startsWith('DEPOSITO')){
+      this.form.get('importe').setValue(0);
+    }
+  }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
@@ -106,7 +115,7 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
   validarPorCobrar(control: AbstractControl) {
     if (this.venta) {
       const pendiente = this.porCobrar;
-      return pendiente <= 0 ? null : { importeInvalido: true };
+     // return pendiente <= 0 ? null : { importeInvalido: true };
     }
     return null;
   }
@@ -118,17 +127,21 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
       const result = cliente.permiteCheque ? null : { permiteCheque: false };
       return cliente.permiteCheque ? null : { permiteCheque: false };
     }
+    if (fp === 'TRANSFERENCIA') {
+      return this.parciales.length > 0 ? null: {requiereDisponible: true};
+    }
     return null;
   }
 
   get saldo() {
-    return this.venta.total;
+    return this.venta.total- this.venta.cuentaPorCobrar.pagos;
   }
 
   get totalParciales() {
-    return _.sumBy(this.parciales, item => {
+    this.parcialesApl= _.sumBy(this.parciales, item => {
       return item.id ? item.porAplicar : item.disponible;
     });
+    return this.parcialesApl 
   }
 
   get importe() {
@@ -258,7 +271,7 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
       data: { cobro: cobro }
     });
     return dialogRef.afterClosed();
-  }
+  }  
 
   agregarTarjeta2(cobro: Cobro): Observable<any> {
     const dialogRef = this.dialog.open(TarjetaFormComponent, {

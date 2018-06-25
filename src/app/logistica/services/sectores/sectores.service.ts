@@ -81,6 +81,7 @@ export class SectoresService {
   }
 
   recorridosPorLinea(reportParams = {}) {
+    console.log(reportParams);
     const url = `${this.apiUrl}/recorridosPorLinea`;
     const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
     let params = new HttpParams()

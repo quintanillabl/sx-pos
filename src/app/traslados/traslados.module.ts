@@ -26,6 +26,7 @@ import { RelacionTpsComponent } from './reportes/relacion-tps/relacion-tps.compo
 import { RelacionTpeComponent } from './reportes/relacion-tpe/relacion-tpe.component';
 import { SolesPendientesComponent } from './reportes/soles-pendientes/soles-pendientes.component';
 import { ValesPendientesComponent } from './reportes/vales-pendientes/vales-pendientes.component';
+import { LogisticaModule } from '../logistica/logistica.module';
 
 
 @NgModule({

@@ -5,6 +5,8 @@ import * as _ from 'lodash';
 
 import { Traslado } from 'app/logistica/models/traslado';
 import { TrasladosService } from 'app/traslados/services/traslados.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'sx-salidas-page',
@@ -12,21 +14,38 @@ import { TrasladosService } from 'app/traslados/services/traslados.service';
 })
 export class SalidasPageComponent implements OnInit {
   traslados$: Observable<any>;
+  traslados: any[] = [];
   procesando = false;
+  search$ = new BehaviorSubject<string>('');
   term = '';
+  subs: Subscription;
   _pendientes = false;
 
-  constructor(private service: TrasladosService) {}
+  constructor(private service: TrasladosService) {
+   /* this.traslados$ = this.service
+    .list({ tipo: 'TPS', term: this.term, pendientes: this.pendientes })
+    .do(() => (this.procesando = true))
+    .delay(100)
+    .finally(() => (this.procesando = false))
+    .catch(err => this.handleError(err));*/
+    this.traslados$ = this.search$.debounceTime(1000).switchMap(term => {
+      return this.service
+        .list({ term: term, pendientes: this.pendientes })
+        .do(() => (this.procesando = true))
+        .delay(100)
+        .catch(error2 => this.handleError(error2))
+        .finally(() => (this.procesando = false));
+    });
+
+    this.subs = this.traslados$.subscribe(traslados => (this.traslados = traslados));
+  }
 
   ngOnInit() {
     this.load();
   }
 
   load() {
-    this.traslados$ = this.service
-      .list({ tipo: 'TPS', term: this.term, pendientes: this.pendientes })
-      .finally(() => (this.procesando = false))
-      .catch(err => this.handleError(err));
+    this.search$.next('');
   }
 
   search(term: string) {

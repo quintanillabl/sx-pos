@@ -17,16 +17,15 @@ export class PartidasDialogComponent implements OnInit {
 
   partidas$: Observable<any>;
 
+  pedido: any;
+
   partidasColumns: ITdDataTableColumn[] = [
     { name: 'noIdentificacion',  label: 'Clave', sortable: true, width: 30 },
     { name: 'descripcion', label: 'Producto', filter: true, width: 350 },
     { name: 'unidad', label: 'Unidad', filter: true, width: 20 },
     { name: 'cantidad', label: 'Cantidad', hidden: false, width: 70},
- //   { name: 'valorUnitario', label: 'Precio', width: 100},
- //   { name: 'importe', label: 'Importe', width: 100},
-  //  { name: 'descuento', label: 'Descuento', width: 100},
-    // { name: 'subtotal', label: 'Impuesto', width: 100},
-    // { name: 'comentario', label: 'Comentario'}
+    { name: 'comentario', label: 'Comentario', hidden: false, width: 70},
+    { name: 'instruccion', label: 'Corte', hidden: false, width: 70},
     
   ];
   form: FormGroup;
@@ -41,10 +40,16 @@ export class PartidasDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-   
+
+    this.pedido=this.data.pedido;
+    
     this.partidas$ = this.service
-    .getPartidas(this.data.id)
+    .getPartidas(this.data.pedido.id)
     .catch(err => Observable.of([]));
+      
+    this.partidas$.forEach(partida => console.log(partida));
+
+    
   }
 
   close() {

@@ -32,8 +32,8 @@ export class RecPorLineaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.service.getLineas().subscribe( data => this.lineas = data);
-    this.service.getClases().subscribe( data => this.clases = data);
+    //this.service.getLineas().subscribe( data => this.lineas = data);
+    //this.service.getClases().subscribe( data => this.clases = data);
     this.form = this.fb.group({
       tipo: ['TODOS', Validators.required],
       estado: ['ACTIVOS', Validators.required],
@@ -52,7 +52,11 @@ export class RecPorLineaComponent implements OnInit {
 
   doAccept() {
     const res = {
-      ... this.form.value,
+      tipo: this.form.value.tipo,
+      estado: this.form.value.estado,
+      existencia: this.form.value.existencia,
+      linea: this.form.value.linea? this.form.value.linea.linea : null,
+      clase: this.form.value.clase? this.form.value.clase.clase : null
     };
     this.dialogRef.close(res);
   }

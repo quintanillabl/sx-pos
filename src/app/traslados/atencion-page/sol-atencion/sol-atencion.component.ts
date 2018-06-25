@@ -76,7 +76,7 @@ export class SolAtencionComponent implements OnInit {
     this.service.atender(sol, chofer, comentario)
     .finally( () => this.procesando = false)
     .subscribe( () => {
-      this.router.navigate(['/traslados/atencion']);
+      this.router.navigate(['/traslados/salidas']);
     }, error2 => console.error(error2))
   }
 

@@ -31,7 +31,7 @@ export class RembolsoComponent implements OnInit {
       fecha: [{value: new Date(), disabled: false}, Validators.required],
       documento: [''],
       descripcion: ['REMBOLSO', Validators.required],
-      importe: [this.rembolso.importe, [Validators.required, this.validarImporte.bind(this)]],
+      importe: [-(this.rembolso.importe), [Validators.required, this.validarImporte.bind(this)]],
       rembolso: true,
       comentario: ['']
     });
