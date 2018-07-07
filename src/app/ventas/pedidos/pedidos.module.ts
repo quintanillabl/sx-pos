@@ -69,7 +69,7 @@ import { ComplementoFormComponent } from 'app/ventas/pedidos/complemento-form/co
     ComplementoFormComponent
   ],
   providers: [PedidosService, ComplementosService],
-  exports: [RouterModule],
+  exports: [RouterModule,PendientesListComponent],
   entryComponents: [
     FacturaSearchDialogComponent,
     AutorizacionDeVentaComponent,

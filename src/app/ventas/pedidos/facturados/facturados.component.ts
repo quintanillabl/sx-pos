@@ -156,7 +156,24 @@ export class FacturadosComponent implements OnInit {
       .finally(() => (this.procesando = false))
       .subscribe(
         (res: Venta) => {
-          console.log('Envio cancelado para: ', res);
+          
+          if(res.envio){
+             
+              this._dialogService.openAlert({
+                title:'Cancelacion de Envío',
+                message: 'Factura Asignada no se Cancelo el envio',
+                closeButton: 'Cerrar', //OPTIONAL, defaults to 'CLOSE'
+                
+              });
+          }else{
+          
+            this._dialogService.openAlert({
+              title:'Cancelacion de Envío',
+              message: 'Envio cancelado',
+              closeButton: 'Cerrar', //OPTIONAL, defaults to 'CLOSE'
+              
+            });
+          }
           this.load();
           pedido = res;
         },

@@ -46,9 +46,10 @@ export class OrdenesService {
     return this.http.put(url, compra);
   }
 
-  recibir(compra: Compra) {
+  recibir(compra: Compra,remision: any,fechaR: Date,comentario: string) {
+    const data = {compra: compra.id, remision: remision, fechaR: fechaR.toISOString(),comentario: comentario};
     const url = this.configService.buildApiUrl('compras/recibir/' + compra.id);
-    return this.http.put(url, {});
+    return this.http.put(url, data);
   }
 
   depurar(compra: Compra, partidas) {

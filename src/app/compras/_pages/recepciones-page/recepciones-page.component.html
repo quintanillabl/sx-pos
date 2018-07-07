@@ -1,4 +1,4 @@
-<sx-nav-layout [header]="'Recepciones de comras (COMS)'" [modulo]="'Compras'">
+<sx-nav-layout [header]="'Recepciones de compras (COMS)'" [modulo]="'Compras'">
 
     <md-card layout [style.height.%]="100">
         <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
@@ -26,7 +26,7 @@
         </div>
 
         <md-divider></md-divider>
-        <div class="coms-panel">
+        <div>
             <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
                 <sx-coms-list [coms]="coms" (printReport)="printReport($event)"></sx-coms-list>
             </ng-template>

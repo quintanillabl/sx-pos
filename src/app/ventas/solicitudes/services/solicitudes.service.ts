@@ -47,7 +47,7 @@ export class SolicitudesService {
     return this.http.get<SolicitudDeDeposito[]>(this.apiUrl, {
       params: params
     });
-  }
+  }    
 
   save(sol: SolicitudDeDeposito): Observable<SolicitudDeDeposito> {
     return this.http.post<SolicitudDeDeposito>(this.apiUrl, sol);

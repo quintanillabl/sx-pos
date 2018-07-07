@@ -8,6 +8,7 @@ export interface Traslado {
   comentario?: string
   partidas: Array<TrasladoDet>
   solicitudDeTraslado: any,
+  cancelado?: Date,
   uuid?: string
   cfdi?: any
 }

@@ -11,6 +11,7 @@ export interface Transformacion {
   fechaInventario?: string,
   comentario?: string,
   partidas?: Array<any>,
+  cancelado?: boolean,
   dateCreated?: string,
   lastUpdated?: string,
   createUser?: string,

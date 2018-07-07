@@ -71,7 +71,7 @@ export class PedidosService {
   }
 
   cancelarEnvio(venta: Venta) {
-    console.log('Cancleando envio de: ', venta);
+    console.log('Cancelando envio de: ', venta);
     const url = `${this.apiUrl}/cancelarEnvio/${venta.id}`;
     return this.http.put(url, {});
   }
@@ -307,7 +307,6 @@ export class PedidosService {
 
   noFacturables(){
     const url = `${this.apiUrl}/noFacturables`;
-    console.log("******************"+url);
     return this.http.get<any>(url);
   }
 }

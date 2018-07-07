@@ -29,7 +29,7 @@ const NUMBER_FORMAT: (v: any) => any = (v: number) => v;
             <md-card-subtitle>
               <span layout >
                 <span>{{trs.comentario}} </span>
-                <span *ngIf="trs.fechaInventario" class="tc-pink-600"> INVENTRIADO </span>
+                <span *ngIf="trs.fechaInventario" class="tc-pink-600"> INVENTARIADO </span>
                 <span flex></span>
                 <span>Creado: {{trs.updateUser}}</span>
                 <span>/ Modificado: {{trs.updateUser}}</span>
@@ -44,7 +44,7 @@ const NUMBER_FORMAT: (v: any) => any = (v: number) => v;
             <md-card-actions >
               <a md-button [routerLink]="['../../']" ><md-icon>keyboard_backspace</md-icon> Regresar </a>
               <button md-icon-button mdTooltip="Imprimir documento" (click)="print(trs)"><md-icon>print</md-icon></button>
-              <button md-button color="accent" *ngIf="trs.fechaInventario === undefined"
+              <button md-button color="accent" *ngIf="trs.fechaInventario === undefined && !trs.cancelado"
                 mdTooltip="Mandar al inventario" (click)="inventariar(trs)">
               <md-icon >send</md-icon> Mandar al inventario</button>
               <!--

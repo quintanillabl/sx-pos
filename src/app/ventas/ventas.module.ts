@@ -12,6 +12,9 @@ import {ProductosModule} from 'app/productos/productos.module';
 import { CanceladasModule } from './canceladas/canceladas.module';
 import { CancelacionDialogComponent } from './_components/cancelacion-dialog/cancelacion-dialog.component';
 import { PartidasDialogComponent } from './_components/partidas-dialog/partidas-dialog.component';
+import { PedidosPendientesComponent } from './_pages/_main-dashboard/pedidos-pendientes/pedidos-pendientes.component';
+import { SolicitudesPendientesComponent } from './_pages/_main-dashboard/solicitudes-pendientes/solicitudes-pendientes.component';
+import { PendientesListComponent } from './_pages/_main-dashboard/pedidos-pendientes/pendientes-list/pendientes-list.component';
 
 
 
@@ -31,6 +34,9 @@ import { PartidasDialogComponent } from './_components/partidas-dialog/partidas-
     MainDashboardComponent,
     CancelacionDialogComponent,
     PartidasDialogComponent,
+    PedidosPendientesComponent,
+    SolicitudesPendientesComponent,
+    PendientesListComponent,
 
   ],
   providers: [

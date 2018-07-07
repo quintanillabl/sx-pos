@@ -1,12 +1,13 @@
 <sx-nav-layout [header]="'Recepciones de comras (COMS)'" [modulo]="'Compras'">
 
-    <div layout="row" layout-align="center stretch">
+    <div layout layout-align="center center" *tdLoading="'processing'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
 
-        <md-card flex>
-            <ng-container *ngIf="com$ | async as  com">
+        <ng-container *ngIf="com$ | async as  com">
+            <md-card>
+
                 <md-card-title>
                     <span layout layout-padding>
-            <span>{{ com.tipo }}</span>
+                    <span>{{ com.tipo }}</span>
                     <span flex>COM: {{com.documento}} ({{com.fecha | date: 'dd/MM/yyyy'}})</span>
                     <span flex>{{com.proveedor.nombre}} </span>
                     <span>Compra: {{com.compra.folio}} ({{com.compra.fecha | date: 'dd/MM/yyyy'}})</span>
@@ -14,7 +15,7 @@
                 </md-card-title>
                 <md-card-subtitle>
                     <span layout layout-padding>
-            <span>{{com.comentario}}</span>
+                <span>{{com.comentario}}</span>
                     <span flex></span>
                     <span *ngIf="com.fechaInventario" class="tc-pink-500">
               INVENTARIADO: {{com.fechaInventario | date:'dd/MM/yyyy HH:mm'}}
@@ -25,7 +26,9 @@
                 </md-card-subtitle>
 
                 <md-divider></md-divider>
-                <sx-comdet-grid [partidas]="com.partidas"></sx-comdet-grid>
+                <md-card-content>
+                    <sx-comdet-grid [partidas]="com.partidas"></sx-comdet-grid>
+                </md-card-content>
                 <md-divider></md-divider>
 
                 <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
@@ -42,10 +45,10 @@
 
                     </md-card-actions>
                 </ng-template>
-            </ng-container>
 
-        </md-card>
 
+            </md-card>
+        </ng-container>
     </div>
 
 </sx-nav-layout>

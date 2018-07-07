@@ -7,6 +7,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { OrdenesService } from '../../services/ordenes.service';
 import { Compra } from 'app/models';
 import { TdDialogService } from '@covalent/core';
+import { OrdenRecepcionDialogComponent } from '../../_components/orden-recepcion-dialog/orden-recepcion-dialog.component';
+import { MdDialog, MdDialogRef} from '@angular/material';
 
 @Component({
   selector: 'sx-ordenes-page',
@@ -27,7 +29,8 @@ export class OrdenesPageComponent implements OnInit, OnDestroy {
   constructor(
     private service: OrdenesService,
     private dialogService: TdDialogService,
-    private router: Router
+    private router: Router,
+    public dialog: MdDialog
   ) {
     this.ordenes$ = this.search$.debounceTime(300).switchMap(term => {
       return this.service
@@ -79,6 +82,37 @@ export class OrdenesPageComponent implements OnInit, OnDestroy {
 
   recibir() {
     console.log('Generar recepcion de: ', this.pendienteSelected);
+
+    const selected = this.pendienteSelected;
+    if (selected) {
+      const dialotRef=this.dialog.open(OrdenRecepcionDialogComponent,{width: '600px',data:{compra: selected}});
+      dialotRef.afterClosed().subscribe(val => {
+        console.log(val)
+        if (val) {
+              console.log(val)
+              this.procesando = true;
+              this.service
+            .recibir(selected,val.remision,val.fechaRemision,val.comentario)
+            .delay(2000)
+            .finally(() => (this.procesando = false))
+            .subscribe(
+              (res: any) => {
+                if (res === null) {
+                  this.load();
+                } else {
+                  this.router.navigate(['/compras/recepciones/show', res.id]);
+                }
+              },
+              err => console.error(err)
+            );
+        }
+      });
+    }
+    
+
+
+    /*
+    console.log('Generar recepcion de: ', this.pendienteSelected);
     const selected = this.pendienteSelected;
     if (selected) {
       const dialotRef = this.dialogService.openConfirm({
@@ -109,6 +143,7 @@ export class OrdenesPageComponent implements OnInit, OnDestroy {
         }
       });
     }
+    */
   }
 
   get pendienteSelected() {

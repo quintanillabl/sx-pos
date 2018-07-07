@@ -31,6 +31,7 @@ import { AlcancesTableComponent } from './_pages/alcances/alcances-table/alcance
 import { AlcanceRunDialogComponent } from './_pages/alcances/alcance-run-dialog/alcance-run-dialog.component';
 import { AlcanceReportDialogComponent } from './_pages/alcances/alcance-report-dialog/alcance-report-dialog.component';
 import { AlcancesService } from './services/alcances.service';
+import { OrdenRecepcionDialogComponent } from './_components/orden-recepcion-dialog/orden-recepcion-dialog.component';
 
 const PAGES = [
   pages.MainPageComponent,
@@ -68,13 +69,15 @@ const COMPONENTS = [
     ComCompradetGridComponent,
     ComCreatePageComponent,
     ComEditPageComponent,
-    ComEditFormComponent
+    ComEditFormComponent,
+    OrdenRecepcionDialogComponent
   ],
   entryComponents: [
     components.OrdendetAddDialogComponent,
     SelectorDeCompraDialogComponent,
     AlcanceRunDialogComponent,
-    AlcanceReportDialogComponent
+    AlcanceReportDialogComponent,
+    OrdenRecepcionDialogComponent
   ],
   // Services
   providers: [OrdenesService, ProveedoresService, ComsService, AlcancesService]
