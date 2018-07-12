@@ -37,11 +37,13 @@ export class PendientesListComponent implements OnInit {
     //{ name: 'tipo',  label: 'Tipo', width: 10 },
     { name: 'documento', label: 'Docto', width: 10 },
     { name: 'fecha', label: 'Fecha', width: 10 },
-    { name: 'nombre', label: 'Cliente', width: 350 },
+    { name: 'nombre', label: 'Cliente', width: 320 },
+    { name: 'cod', label: 'COD', width: 5 },
+
     // { name: 'formaDePago', label: 'F.P', width: 30 },
     { name: 'total', label: 'Total', width: 30 },
     { name: 'createUser', label: 'Creado', width: 50 },
-    //{ name: 'updateUser', label: 'Modificado', width: 50 },
+    //{ name: 'updateUser', label: 'Modificado', width: 50 },ç
     { name: 'comentario', label: 'Comentario', width: 170 },
     { name: 'operaciones', label: 'Opc', width: 200 }
   ];

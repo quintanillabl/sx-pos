@@ -6,6 +6,7 @@
         <span hide-xs hide-sm hide-md flex-gt-xs="60" flex-xs="40" layout-gt-xs="row">
           <div class=" tc-grey-500" flex-gt-xs="50">Factura </div>
           <div class=" tc-grey-500" flex-gt-xs="50">Estado </div>
+          <div class="tc-grey-500" flex-gt-xs="50">Parcial</div>
       </span>
     </md-list-item>
     <md-divider></md-divider>
@@ -22,6 +23,9 @@
                     <span *ngIf="row.fechaInventario && !row.cancelado  ">INVENTARIADO</span>
                 <span *ngIf="!row.fechaInventario && !row.cancelado ">PENDIENTE</span>
                 <span *ngIf="row.cancelado ">CANCELADO</span>
+                </div>
+                <div *ngIf="row.parcial">
+                    <md-icon md-list-avatar>done</md-icon>
                 </div>
                 </span>
                 <span>

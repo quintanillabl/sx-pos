@@ -15,6 +15,7 @@ export class CobranzaCodComponent implements OnInit {
     { name: 'documento',  label: 'Documento', numeric: true, width: 15 },
     { name: 'fecha',  label: 'Fecha', width: 10},
     { name: 'cliente.nombre',  label: 'Cliente', width: 350},
+    { name: 'updateUser',  label: 'Fact.', width: 10},
     { name: 'formaDePago',  label: 'F.Pago', width: 20},
     { name: 'total',  label: 'Total', width: 10},
     { name: 'cuentaPorCobrar',  label: 'CFDI', width: 10},

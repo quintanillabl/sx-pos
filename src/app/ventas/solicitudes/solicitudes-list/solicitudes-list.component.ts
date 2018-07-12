@@ -18,7 +18,9 @@ export class SolicitudesListComponent implements OnInit {
     { name: 'total', label: 'Total', width: 100 },
     { name: 'updateUser', label: 'Solicita', width: 100 },
     // { name: 'lastUpdated', label: 'Modificado', width: 100 },
-    { name: 'comentario', label: 'Comentario' }
+    { name: 'comentario', label: 'Comentario',width:200 },
+    { name: 'cancelacion', label: 'Cancelado', width: 100 },
+    
   ];
 
   constructor() {}

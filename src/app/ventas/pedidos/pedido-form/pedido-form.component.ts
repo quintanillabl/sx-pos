@@ -288,7 +288,10 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
   onSave() {
     if (this.form.valid) {
-      if (this.cliente.cfdiValidado) {
+
+      /** Se desactiva la validacion de Cfdi clientes */
+
+      //if (this.cliente.cfdiValidado) {
         const pedido: Venta = {
           ...this.form.getRawValue(),
           sucursal: this.sucursal,
@@ -297,9 +300,9 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
         this.fixPedidoToApi(pedido);
         _.forEach(pedido.partidas, item => (item.sucursal = this.sucursal));
         this.save.emit(pedido);
-      } else {
+    /*  } else {
         this.validarCfdi();
-      }
+      }*/
     }
   }
 

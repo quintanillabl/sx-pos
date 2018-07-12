@@ -7,8 +7,12 @@
     </ng-template>
 
     <ng-template tdDataTableTemplate="comentario" let-value="value" let-row="row">
+        <span> <button md-icon-button *ngIf="row.comentario" [mdTooltip]="value">
+                    <md-icon>message</md-icon>
+                </button>
+            </span>
         <span layout="column">
-      <span>{{value}}</span>
+ 
         <span *ngIf="row.tipo === 'ANT'"> ANT {{row.comentario}}</span>
         <span *ngIf="row.tipoDeCambio > 1"> (USD T.C: {{row.tipoDeCambio | number: '1.4-4'}})</span>
         <span *ngIf="row.puesto">PUESTO</span>
@@ -20,6 +24,13 @@
         </span>
     </ng-template>
 
+    <!--   <ng-template tdDataTableTemplate="comentario" let-value="value" let-row="row">
+        <button md-icon-button *ngIf="!row.noFacturable" mdTooltip="{{row.comentario}}">
+                    <md-icon>assignment</md-icon>
+        </button>
+        <span flex *ngIf="row.cod"><md-icon >message</md-icon></span>
+    </ng-template>
+-->
     <ng-template tdDataTableTemplate="fecha" let-value="value">
         {{ value | date: 'dd/MM/yyyy'}}
     </ng-template>
@@ -28,6 +39,10 @@
         <a (click)="showDetails(row)" class="tc-indigo-700 cursor-pointer">
             <span>{{value}}</span>
         </a>
+    </ng-template>
+
+    <ng-template tdDataTableTemplate="cod" let-value="value" let-row="row">
+        <span flex *ngIf="row.cod"><md-icon class="tc-pink-700">done</md-icon></span>
     </ng-template>
 
     <ng-template tdDataTableTemplate="lastUpdated" let-value="value">

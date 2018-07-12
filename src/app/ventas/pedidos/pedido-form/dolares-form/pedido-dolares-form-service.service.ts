@@ -116,9 +116,11 @@ export class PedidoDolaresFormServiceService {
     det.impuestoTasa = 0.16;
     det.impuesto = _.round(det.subtotal * det.impuestoTasa , 2);
     det.total = det.subtotal + det.impuesto;
+    det.kilos = (cantidad * det.producto.kilos) / factor;
+   
 
   }
-
+  
   actualizarTotales() {
     const partidas: VentaDet[] = this.partidas.value;
     let importe = 0;
@@ -127,8 +129,10 @@ export class PedidoDolaresFormServiceService {
     let subtotal = 0;
     let impuesto = 0;
     let total = 0;
+    let kilos = 0;
 
     partidas.forEach(row => {
+      
       this.actualizarPartida(row);
       importe += row.importe;
       descuento = descuento < row.descuento ? row.descuento : descuento;
@@ -136,6 +140,8 @@ export class PedidoDolaresFormServiceService {
       subtotal += row.subtotal;
       impuesto += row.impuesto;
       total += row.total;
+      kilos += row.kilos
+
     });
 
     this.form.get('importe').setValue(importe);
@@ -144,6 +150,7 @@ export class PedidoDolaresFormServiceService {
     this.form.get('subtotal').setValue(subtotal);
     this.form.get('impuesto').setValue(impuesto);
     this.form.get('total').setValue(total);
+    this.form.get('kilos').setValue(kilos);
   }
 
 }
