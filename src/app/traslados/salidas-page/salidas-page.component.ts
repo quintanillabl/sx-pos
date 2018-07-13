@@ -20,7 +20,7 @@ export class SalidasPageComponent implements OnInit {
   term = '';
   subs: Subscription;
   _pendientes = false;
-
+  
   constructor(private service: TrasladosService) {
    /* this.traslados$ = this.service
     .list({ tipo: 'TPS', term: this.term, pendientes: this.pendientes })
@@ -30,7 +30,7 @@ export class SalidasPageComponent implements OnInit {
     .catch(err => this.handleError(err));*/
     this.traslados$ = this.search$.debounceTime(1000).switchMap(term => {
       return this.service
-        .list({ term: term, pendientes: this.pendientes })
+        .list({ tipo: 'TPS',term: term, pendientes: this.pendientes })
         .do(() => (this.procesando = true))
         .delay(100)
         .catch(error2 => this.handleError(error2))
