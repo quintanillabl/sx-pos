@@ -20,4 +20,5 @@ export interface Embarque {
     createUser?: string
     updateUser?: string
     numeroDePartidas?: number
+    empleado?: string
 }

@@ -112,6 +112,10 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       this.pedidoFormService.registerForm(this.form, pedido);
       this.buildRecalcular$();
       this.buildFomraDePago$();
+      if(this.form.get('tipo').value === 'CRE'){
+        this.form.get('cod').setValue(false);
+        this.form.get('cod').disable();
+      }
       this.tipoSubscription = this.form
         .get('tipo')
         .valueChanges.subscribe(tipo => {

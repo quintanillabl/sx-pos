@@ -98,14 +98,15 @@ export class SolicitudDeTrasladoFormComponent implements OnInit {
         descripcion: det.existencia.producto.descripcion
       },
       solicitado: det.cantidad,
+      cortesInstruccion: det.cortesInstruccion
     });
     this.partidas.push(fg);
     this.cd.detectChanges();
   }
 
   editarPartida($event) {
-    const {row, cantidad} = $event;
-    this.partidas.controls[row].patchValue({cantidad: cantidad});
+    const {row, solicitado} = $event;
+    this.partidas.controls[row].patchValue({solicitado: solicitado});
   }
 
   onDelete(index: number) {

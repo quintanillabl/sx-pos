@@ -16,6 +16,8 @@ import {ChequeFormComponent} from '../cheque-form/cheque-form.component';
 import {TarjetaFormComponent} from '../tarjeta-form/tarjeta-form.component';
 import {DisponibleFormComponent} from '../disponible-form/disponible-form.component';
 
+import {  TdDialogService } from '@covalent/core';
+
 /*
 export const CobradoValidator = (control: AbstractControl): {[key: string]: boolean} => {
   const cobrado = control.value;
@@ -51,6 +53,7 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private fb: FormBuilder,
     public dialog: MdDialog,
+    private _dialogService: TdDialogService,
   ) {
     this.buildForm();
   }
@@ -174,16 +177,30 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   pushCobro(cobro: Cobro) {
-    // console.log('Cobro generado: ', cobro);
-    this.parciales.push(cobro);
-    if (this.venta.formaDePago !== 'EFECTIVO') {
-      this.form.get('formaDePago').enable();
+     console.log('Cobro generado: ', cobro);
+     console.log(this.parciales);
+     console.log(this.parciales.some(e => e.id === cobro.id));
+
+    if(this.parciales.some(e => e.id === cobro.id)){
+      this._dialogService.openAlert({
+        message: 'Disponible ya registrado para pagar.',
+        title: 'Atencion',
+        closeButton: 'Cerrar'
+      });
+
+      return
     }
-    this.form.reset({
-      importe: 0,
-      formaDePago: this.venta.formaDePago,
-      cambio: 0
-    });
+    
+    this.parciales.push(cobro);
+        if (this.venta.formaDePago !== 'EFECTIVO') {
+          this.form.get('formaDePago').enable();
+        }
+        this.form.reset({
+          importe: 0,
+          formaDePago: this.venta.formaDePago,
+          cambio: 0
+        });
+    
   }
 
   quitarCobro(index: number) {

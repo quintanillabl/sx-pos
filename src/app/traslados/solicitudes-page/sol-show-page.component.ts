@@ -23,6 +23,7 @@ export class SolShowPageComponent implements OnInit {
     { name: 'producto.clave', label: 'Producto', width: 50 },
     { name: 'producto.descripcion', label: 'Descripcion', width: 450 },
     { name: 'solicitado', label: 'Solicitado', numeric: true, width: 100 },
+    {name:'cortesInstruccion', label: 'Corte'},
     {
       name: 'recibido',
       label: 'Recibido',

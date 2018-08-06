@@ -15,6 +15,7 @@ import { PartidasDialogComponent } from './_components/partidas-dialog/partidas-
 import { PedidosPendientesComponent } from './_pages/_main-dashboard/pedidos-pendientes/pedidos-pendientes.component';
 import { SolicitudesPendientesComponent } from './_pages/_main-dashboard/solicitudes-pendientes/solicitudes-pendientes.component';
 import { PendientesListComponent } from './_pages/_main-dashboard/pedidos-pendientes/pendientes-list/pendientes-list.component';
+import { VentasDiariasCheComponent } from './_components/ventas-diarias-che/ventas-diarias-che.component';
 
 
 
@@ -37,6 +38,7 @@ import { PendientesListComponent } from './_pages/_main-dashboard/pedidos-pendie
     PedidosPendientesComponent,
     SolicitudesPendientesComponent,
     PendientesListComponent,
+    VentasDiariasCheComponent,
 
   ],
   providers: [
@@ -45,7 +47,8 @@ import { PendientesListComponent } from './_pages/_main-dashboard/pedidos-pendie
   ],
   entryComponents: [
     CancelacionDialogComponent,
-    PartidasDialogComponent
+    PartidasDialogComponent,
+    VentasDiariasCheComponent
   ]
 })
 export class VentasModule { }

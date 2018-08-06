@@ -38,6 +38,8 @@ export class EmbarqueCreatePageComponent implements OnInit {
   }
 
   onSave(embarque: Embarque) {
+   
+    console.log(embarque)
     this.loadingService.register('saving');
     console.log('Salvando embarque: ', embarque);
     this.service.save(embarque).subscribe(
