@@ -53,6 +53,7 @@ export class SolicitudesService {
   }
 
   save(sol: SolicitudDeTraslado) {
+   
     return this.http.post(this.apiUrl, sol);
   }
 

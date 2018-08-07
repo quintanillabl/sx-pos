@@ -11,6 +11,8 @@ import { Sucursal } from 'app/models';
 import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-new-cliente.service';
 import { SelectorFechaComponent } from 'app/shared/_components/selector-fecha/selector-fecha.component';
 import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
+import { VentasDiariasCheComponent } from '../../_components/ventas-diarias-che/ventas-diarias-che.component';
+
 
 @Component({
   selector: 'sx-pedidos-page',
@@ -60,7 +62,14 @@ export class PedidosPageComponent implements OnInit {
       title: 'Clientes nuevos',
       description: 'Alta de nuevos clientes',
       icon: 'blur_linear'
+    },
+    {
+      name: 'ventasDiariasChe',
+      title: 'Ventas Che',
+      description: 'Ventas con Cheque ',
+      icon: 'blur_linear'
     }
+
   ];
 
   constructor(
@@ -85,6 +94,9 @@ export class PedidosPageComponent implements OnInit {
     if (report === 'clientesNuevos') {
       this.clientesNuevos();
     }
+    if (report === 'ventasDiariasChe') {
+      this.ventasDiariasChe();
+    }
   }
 
   clientesNuevos() {
@@ -104,4 +116,27 @@ export class PedidosPageComponent implements OnInit {
       }
     });
   }
+
+
+  ventasDiariasChe() {
+
+    console.log("Ejecutando Reporteeeeeeeeeeeee");
+    const dialogRef = this.dialog.open(VentasDiariasCheComponent, {});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.service
+          .runReport('report/ventasDiariasCheques', result)
+          .subscribe(res => {
+            const blob = new Blob([res], {
+              type: 'application/pdf'
+            });
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
+          });
+      }
+    });
+  }
+
+
+
 }

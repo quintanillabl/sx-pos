@@ -35,6 +35,13 @@ export const MODULOS: Modulo[] = [
     path: '/traslados',
     nombre: 'Traslados',
     descripcion: 'Sub sistema de traslados de material',
+    icon:  'import_export'
+  },
+  {
+    id: 6,
+    path: '/logistica/embarques',
+    nombre: 'Embarques',
+    descripcion: 'Sub sistema de Envio y entrega',
     icon:  'local_shipping'
   },
 ];

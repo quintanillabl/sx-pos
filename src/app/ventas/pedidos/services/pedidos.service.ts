@@ -234,6 +234,27 @@ export class PedidosService {
     });
   }
 
+  runReport(reportUrl: string, reportParams: {}) {
+
+    reportParams['SUCURSAL'] = this.sucursal.id;
+    console.log(`Reporte ${reportUrl} Params: `, reportParams);
+    const url = this.configService.buildApiUrl(reportUrl);
+    let params = new HttpParams()
+    if (reportParams) {
+      _.forIn(reportParams, (value, key) => {
+        params = params.set(key, value.toString());
+      });
+    }
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        params: params,
+        responseType: 'blob'
+      }
+    );
+  }
+
   actualizarCfdiEmail(cliente: Cliente, email: string) {
     const endpoint = `clientes/actualizarCfdiMail/${cliente.id}`;
     const url = this.configService.buildApiUrl(endpoint);

@@ -36,7 +36,7 @@ export class DevolucionPartidasComponent implements OnInit {
   }
 
   editar(index, row) {
-    //this.edit.emit(row);
+    //this.edit.emit(row); 
     this._dialogService.openPrompt({
       message: `Registre la cantidad a devolver (max: ${row.cantidad}) `,
       value: row.cantidad,

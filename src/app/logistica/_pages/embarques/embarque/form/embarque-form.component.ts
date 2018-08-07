@@ -32,6 +32,7 @@ import { Embarque } from 'app/logistica/models/embarque';
 })
 export class EmbarqueFormComponent implements OnInit, OnChanges {
   form: FormGroup;
+  isPatin: boolean;
 
   @Input() sucursal: Sucursal;
 
@@ -45,18 +46,27 @@ export class EmbarqueFormComponent implements OnInit, OnChanges {
     private fb: FormBuilder,
     public dialog: MdDialog,
     private cd: ChangeDetectorRef
-  ) {}
+  ) {
+
+  }
 
   ngOnInit() {
     this.buildForm();
+    this.form.valueChanges.subscribe(data => {
+      if(data.chofer ){
+          this.isPatin=data.chofer.id==='3ba15bf0-e40e-11e7-b1f8-b4b52f67eab0';
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+
     if (changes.embarque && !changes.embarque.isFirstChange()) {
       const embarque: Embarque = changes.embarque.currentValue;
       this.form.patchValue(embarque);
       // embarque.partidas.forEach( item => this.insertarPartida(item));
     }
+   
   }
 
   buildForm() {
@@ -66,11 +76,13 @@ export class EmbarqueFormComponent implements OnInit, OnChanges {
       fecha: [new Date(), Validators.required],
       chofer: [null, Validators.required],
       comentario: ['', [Validators.maxLength(100)]],
+      empleado:[null],
       partidas: this.fb.array([])
     });
   }
 
   onSubmit() {
+
     if (this.form.valid) {
       const entity = this.prepareEntity();
       this.save.emit(entity);
@@ -92,6 +104,8 @@ export class EmbarqueFormComponent implements OnInit, OnChanges {
   }
 
   insertar() {}
+
+  
 
   // insertarPartida(det: SectorDet) {
   //   this.partidas.push(new FormControl(det));

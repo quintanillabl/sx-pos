@@ -67,7 +67,7 @@
     <div layout class="row2">
 
         <address *ngIf="cliente?.direccion; let direccion" class="text-md">
-      {{direccion.calle}} {{direccion.numeroExterior}}
+      {{direccion.calle}} {{direccion.numeroExterior}} {{direccion.numeroInterior}}
       <br> {{direccion.colonia}}
       <br> {{direccion.estado}} / {{direccion.pais}}
       <br> {{direccion.codigoPostal}}
