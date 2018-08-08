@@ -34,6 +34,7 @@ import { AnticiposService } from 'app/caja/services/anticipos.service';
 import { AnticipoCreateComponent } from './anticipos/anticipo-create/anticipo-create.component';
 import { AnticipoFormComponent } from './anticipos/anticipo-form/anticipo-form.component';
 import { AnticipoShowComponent } from './anticipos/anticipo-show/anticipo-show.component';
+import { BonificacionesMCService } from './services/bonificacionesMC.service';
 
 @NgModule({
   imports: [SharedModule, CajaRoutingModule, FacturacionModule, CortesModule],
@@ -67,7 +68,8 @@ import { AnticipoShowComponent } from './anticipos/anticipo-show/anticipo-show.c
     MorrallaService,
     FichaService,
     CajaGuard,
-    AnticiposService
+    AnticiposService,
+    BonificacionesMCService
   ],
   entryComponents: [
     VentasDiariasComponent,

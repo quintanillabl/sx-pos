@@ -60,6 +60,11 @@ export class CobroService {
     return this.http.get<Cobro[]>(url);
   }
 
+  buscarDisponiblesMC(cliente: Cliente): Observable<Cobro[]> {
+    const url = `${this.apiUrl}/buscarDisponiblesMC/${cliente.id}`;
+    return this.http.get<Cobro[]>(url);
+  }
+
   reporteDeArque(fecha) {
     const url = this.configService.buildApiUrl('tesoreria/reporteDeAarqueoCaja');
     const params = new HttpParams()

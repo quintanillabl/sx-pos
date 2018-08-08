@@ -16,22 +16,31 @@ import { FacShowTotalesComponent } from './factura-show/fac-show-totales/fac-sho
 import { ChequeFormComponent } from './cobro/cheque-form/cheque-form.component';
 import { TarjetaFormComponent } from './cobro/tarjeta-form/tarjeta-form.component';
 import { DisponibleFormComponent } from './cobro/disponible-form/disponible-form.component';
-
+import { BonificacionesMCAddComponent } from './bonificaciones-mc-add/bonificaciones-mc-add.component';
 
 @NgModule({
-  imports: [
-    SharedModule,
-    RouterModule.forChild([]),
-  ],
+  imports: [SharedModule, RouterModule.forChild([])],
   declarations: [
-    PendientesPageComponent, CobroComponent, CobroFormComponent, GeneradasPageComponent, CobranzaCodComponent,
-    CobroCodFormComponent, CobroCodComponent, FacturaShowComponent, FacShowHeaderComponent, FacShowPartidasComponent,
-    FacShowTotalesComponent, ChequeFormComponent, TarjetaFormComponent, DisponibleFormComponent
+    PendientesPageComponent,
+    CobroComponent,
+    CobroFormComponent,
+    GeneradasPageComponent,
+    CobranzaCodComponent,
+    CobroCodFormComponent,
+    CobroCodComponent,
+    FacturaShowComponent,
+    FacShowHeaderComponent,
+    FacShowPartidasComponent,
+    FacShowTotalesComponent,
+    ChequeFormComponent,
+    TarjetaFormComponent,
+    DisponibleFormComponent,
+    BonificacionesMCAddComponent
   ],
   entryComponents: [
     ChequeFormComponent,
     TarjetaFormComponent,
-    DisponibleFormComponent,
+    DisponibleFormComponent
   ]
 })
-export class FacturacionModule { }
+export class FacturacionModule {}

@@ -1,6 +1,16 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="form" novalidate layout>
   <md-card flex="70">
-    <md-card-title class="md-title">Facturación y cobro</md-card-title>
+    <md-card-title class="md-title">
+
+      <div layout>
+        <span>Facturación y cobro</span>
+        <span flex></span>
+        <ng-container *ngIf="!venta.cod">
+          <sx-bonificacion-mc-add [bonificaciones]="bonificaciones" [importe]="porCobrar" (aplicar)="onAplicar($event)"></sx-bonificacion-mc-add>
+        </ng-container>
+      </div>
+
+    </md-card-title>
     <md-card-subtitle>Mandó facturar: {{venta.facturarUsuario}}</md-card-subtitle>
     <md-divider></md-divider>
     <md-card-content>
