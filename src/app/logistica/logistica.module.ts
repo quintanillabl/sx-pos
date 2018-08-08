@@ -48,6 +48,8 @@ import { RecPorLineaComponent } from './_pages/almacen/reportes/rec-por-linea/re
 import { FacturaEnvioComponent } from './_pages/embarques/reportes/factura-envio/factura-envio.component';
 import { DiscrepanciasComponent } from './reportes/discrepancias/discrepancias.component';
 import { ChoferFieldComponent } from './components/chofer-field/chofer-field.component';
+import { PuestosService } from './services/puestos.service';
+
 
 
 
@@ -139,6 +141,8 @@ const PAGES =  [
 
   // Almacen Registro
   pages.RegistroConteoPageComponent,
+  // Puestos
+  pages.PuestosPageComponent,
 
 ];
 const COMPONENTS = [
@@ -204,6 +208,7 @@ const COMPONENTS = [
     RecPorLineaComponent,
     FacturaEnvioComponent,
     DiscrepanciasComponent,
+    
   ], exports: [
     ChoferFieldComponent
   ],
@@ -240,7 +245,8 @@ const COMPONENTS = [
     KardexService,
     Existencia2Service,
     ExistenciaResolve,
-    FacturasService
+    FacturasService,
+    PuestosService
   ]
 })
 export class LogisticaModule { }

@@ -39,9 +39,7 @@ export class EmbarqueCreatePageComponent implements OnInit {
 
   onSave(embarque: Embarque) {
    
-    console.log(embarque)
-    this.loadingService.register('saving');
-    console.log('Salvando embarque: ', embarque);
+    this.loadingService.register('saving');  
     this.service.save(embarque).subscribe(
       (res: any) => {
         this.loadingService.resolve('saving');

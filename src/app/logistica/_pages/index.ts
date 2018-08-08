@@ -1,3 +1,4 @@
+
 export { MainPageComponent } from './_main-page/main-page.component';
 export { MainDashboardComponent } from './_main-dashboard/main-dashboard.component';
 export { InventariosPageComponent } from './inventarios-page/inventarios-page.component';
@@ -92,4 +93,7 @@ export { SelectorDeEmbarqueComponent } from './embarques/pendientes/selector-de-
  
 // Registro
 export { RegistroConteoPageComponent } from './almacen/registro/registro-conteo-page.component';
+
+//Puestos
+export { PuestosPageComponent } from './puestos-page/puestos-page.component'
 

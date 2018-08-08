@@ -19,7 +19,8 @@ export class InventariosPageComponent implements OnInit {
     {route: 'decs', title: 'Dev de compras', description: '(DECS)', icon: 'info'},
     {route: 'kardex', title: 'Kardex', descripcion: 'Kardex de productos', icon: 'layers'},
     {route: 'existencias', title: 'Existencias', icon: 'layers'},
-    {route: 'facturas', title: 'Facturas', icon: 'layers'},
+    {route: 'facturas', title: 'Facturas', icon: 'layers'}, 
+    {route: 'puestos',title: 'Puestos', icon: 'input'}
   ];
   reportes = [
     {

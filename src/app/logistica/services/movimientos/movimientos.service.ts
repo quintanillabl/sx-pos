@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import { Movimiento } from "@siipapx/logistica/models/movimiento";
 import { Sucursal } from 'app/models';
 import { ConfigService } from 'app/core/services/config.service';
+import { VentaDet } from '@siipapx/models';
 
 
 @Injectable()
@@ -71,6 +72,8 @@ export class MovimientosService {
       }
     );
   }
+
+ 
   
   reporteDeDiscrepancias(reportParams: {}) {
     const url = this.configService.buildApiUrl(`existencias/reporteDeDiscrepancias`);
