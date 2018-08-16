@@ -11,7 +11,7 @@
         <md-checkbox labelPosition="before" formControlName="cod" mdTooltip="Contra entrega">COD</md-checkbox>
       </span>
             <sx-modo-field [parent]="form" flex="15"></sx-modo-field>
-            <sx-forma-de-pago [parent]="form" flex="15"></sx-forma-de-pago>
+            <sx-forma-de-pago [parent]="form" [cod]="cod" flex="15"></sx-forma-de-pago>
             <sx-uso-cfdi [parent]="form" flex></sx-uso-cfdi>
             <sx-usuario-sec-field flex placeholder="Atiende" (usuarioFound)="setUsuario($event)"></sx-usuario-sec-field>
             <section flex layout="column">

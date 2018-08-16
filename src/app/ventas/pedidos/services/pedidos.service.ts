@@ -30,7 +30,7 @@ export class PedidosService {
   get(id: string): Observable<Venta> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.get<Venta>(url);
-  }
+  } 
 
   pendientes(term, filter: any): Observable<Venta[]> {
     let params = new HttpParams();

@@ -17,6 +17,7 @@ export class SelectorDeEmbarqueComponent implements OnInit {
   columns: ITdDataTableColumn[] = [
     { name: 'documento',  label: 'Documento', sortable: true, width: 50 },
     { name: 'chofer.nombre', label: 'Chofer', filter: true, width: 350 },
+    { name: 'empleado', label: 'Empleado', filter: true, width: 350 },
   ];
 
   sortBy = "documento";

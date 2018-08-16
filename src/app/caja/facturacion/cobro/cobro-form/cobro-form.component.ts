@@ -207,17 +207,13 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   pushCobro(cobro: Cobro) {
-     console.log('Cobro generado: ', cobro);
-     console.log(this.parciales);
-     console.log(this.parciales.some(e => e.id === cobro.id));
-
-    if(this.parciales.some(e => e.id === cobro.id)){
+    if(this.parciales.some(e => {
+      return (e.id === cobro.id && e.importe === cobro.importe && e.fecha === cobro.fecha)})){
       this._dialogService.openAlert({
         message: 'Disponible ya registrado para pagar.',
         title: 'Atencion',
         closeButton: 'Cerrar'
       });
-
       return
     }
     

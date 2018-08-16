@@ -52,7 +52,8 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() aplicarBonificaciones = new EventEmitter();
 
-  formasDePago = ['EFECTIVO', 'CHEQUE', 'TARJETA_DEBITO', 'TARJETA_CREDITO'];
+  //formasDePago = ['EFECTIVO', 'CHEQUE', 'TARJETA_DEBITO', 'TARJETA_CREDITO'];
+  formasDePago = ['EFECTIVO', 'CHEQUE'];
 
   parciales: Cobro[] = [];
 

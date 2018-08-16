@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import {FormGroup} from '@angular/forms';
 
 @Component({
@@ -6,18 +6,31 @@ import {FormGroup} from '@angular/forms';
   templateUrl: './forma-de-pago.component.html',
   styleUrls: ['./forma-de-pago.component.scss']
 })
-export class FormaDePagoComponent implements OnInit {
+export class FormaDePagoComponent implements OnInit, OnChanges{
 
   @Input() parent: FormGroup;
 
   @Input() propertyName = 'formaDePago';
 
+  @Input() cod: boolean;
+
   tipos = ['EFECTIVO', 'CHEQUE', 'TRANSFERENCIA', 'TARJETA_DEBITO', 'TARJETA_CREDITO',
     'DEPOSITO_CHEQUE', 'DEPOSITO_EFECTIVO', 'DEPOSITO_MIXTO'];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.cod && changes.cod.currentValue) {
+      this.tipos = ['EFECTIVO', 'CHEQUE'];
+    }else{
+      this.tipos = ['EFECTIVO', 'CHEQUE', 'TRANSFERENCIA', 'TARJETA_DEBITO', 'TARJETA_CREDITO',
+      'DEPOSITO_CHEQUE', 'DEPOSITO_EFECTIVO', 'DEPOSITO_MIXTO'];
+    }
+
   }
 
 }

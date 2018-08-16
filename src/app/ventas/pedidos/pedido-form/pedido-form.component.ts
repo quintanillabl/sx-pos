@@ -75,6 +75,10 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
   editable = true;
 
+  codSubscription: Subscription;
+
+  cod = false;
+
   @ViewChild(PartidasGridComponent) grid: PartidasGridComponent;
 
   constructor(
@@ -129,6 +133,11 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
             this.form.get('cod').enable();
           }
         });
+
+        this.codSubscription = this.form.get('cod').valueChanges.subscribe(cod =>{
+          this.cod = cod;
+        });
+
       // this.pedidoFormService.recalcular();
       if (pedido.id === null) {
         this.pedidosPendientesObserver();
@@ -154,6 +163,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     this.recalcularSubscription.unsubscribe();
     this.formaDePagoSubscription.unsubscribe();
     this.tipoSubscription.unsubscribe();
+    this.codSubscription.unsubscribe();
     if (this.pedidosPendientesSubs) {
       this.pedidosPendientesSubs.unsubscribe();
     }
