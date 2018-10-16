@@ -8,6 +8,7 @@ import { Sucursal } from 'app/models';
 import { SolicitudDeDeposito } from 'app/ventas/models/solicitudDeDeposito';
 import {Cliente} from 'app/models';
 import { Observable } from 'rxjs/Observable';
+import { SolicitudesService } from '../services/solicitudes.service';
 
 export function ImporteValidator(): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {
@@ -30,6 +31,13 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
 
   form: FormGroup;
 
+  duplicada: SolicitudDeDeposito ;
+
+  duplicate = false; 
+
+  obs$: Observable<any>;
+
+
   @Input() sucursal: Sucursal;
 
   @Output() save = new EventEmitter<any>();
@@ -39,7 +47,7 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
 
 
   constructor(
-    private fb: FormBuilder,
+    private fb: FormBuilder, private service: SolicitudesService
   ) {
 
   }
@@ -58,6 +66,41 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
         this.form.get('cheque').enable()
       }
     });
+
+
+    this.form.valueChanges.subscribe(
+      res => {
+        if ( this.form.valid) {
+          console.log('Evaluando  la form')
+          let  bancoOri = this.form.controls['banco'].value;
+          let  bancoDes = this.form.controls['cuenta'].value;
+          let  fechaDep = this.form.controls['fechaDeposito'].value;
+          let  importe = Number(this.form.controls['efectivo'].value) + Number(this.form.controls['cheque'].value);
+              importe = importe + Number(this.form.controls['transferencia'].value);
+
+          this.obs$ = this.service.buscarDupicada( bancoOri, bancoDes, fechaDep, importe)
+          this.obs$.subscribe(
+            res => {
+              
+              if ( res[0] !== 'OK' ) {
+
+                this.duplicada = res;
+                this.duplicate = true;
+
+              }else {
+
+                this.duplicate    = false;
+              }
+          },
+          );
+        }else {
+        
+          this.duplicate = false;
+        }
+        
+      }
+  );
+
     // Observable.combineLatest(
     //   this.form.get('efectivo').valueChanges.startWith(0),
     //   this.form.get('cheque').valueChanges.startWith(0), (cheque, efectivo) => {
@@ -76,8 +119,10 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+
     if (changes.solicitud && !changes.solicitud.isFirstChange()) {
-      // console.log('Editando solicitud: ', changes.solicitud.currentValue);
+
+       console.log('Editando solicitud: ', changes.solicitud.currentValue);
       const solicitud: SolicitudDeDeposito = _.clone(changes.solicitud.currentValue);
 
       const fecha = new Date(solicitud.fecha);
@@ -88,6 +133,7 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
         // solicita: solicitud.createUser
       }
       this.form.patchValue(sol);
+
     }
   }
 

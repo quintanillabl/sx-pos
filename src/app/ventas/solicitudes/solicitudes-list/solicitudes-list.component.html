@@ -73,6 +73,9 @@
         <span flex *ngIf="row.cobro" class="tc-green-800">
       Aut: {{row.cobro.fecha | date: 'dd/MM/yyyy'}}
     </span>
+        <span flex *ngIf="row.banco.nombre !== row.cuenta.descripcion && row.cheque " class="tc-green-800">
+     SBC
+    </span>
     </ng-template>
 
     <ng-template tdDataTableTemplate="cancelacion" let-value="value" let-row="row">

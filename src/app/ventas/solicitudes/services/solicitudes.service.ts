@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { SolicitudDeDeposito } from 'app/ventas/models/solicitudDeDeposito';
 import { Sucursal } from 'app/models';
 import { ConfigService } from '@siipapx/core/services/config.service';
+import { Params } from '@angular/router';
 
 @Injectable()
 export class SolicitudesService {
@@ -47,7 +48,7 @@ export class SolicitudesService {
     return this.http.get<SolicitudDeDeposito[]>(this.apiUrl, {
       params: params
     });
-  }    
+  }
 
   save(sol: SolicitudDeDeposito): Observable<SolicitudDeDeposito> {
     return this.http.post<SolicitudDeDeposito>(this.apiUrl, sol);
@@ -62,4 +63,18 @@ export class SolicitudesService {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete(url);
   }
+
+
+  buscarDupicada(bancoOri, bancoDes, fechaDep, importe)  : Observable<any> 
+  {
+    const params = new HttpParams()
+    .set('bancoOri', bancoOri.id)
+    .set('bancoDes', bancoDes.id)
+    .set('fechaDep', fechaDep)
+    .set('importe', importe);
+    const url = `${this.apiUrl}/buscarDuplicada`;
+    return this.http.get<any>(url, {params});
+  }
+
+
 }

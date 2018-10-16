@@ -25,5 +25,8 @@ export class SolicitudesListComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.solicitudes)
+
+  }
 }
