@@ -53,8 +53,18 @@ export class AutorizacionDeVentaComponent implements OnInit {
   validarAutorizacion(control: AbstractControl) {
     if (control.value) {
       const user: any = control.value;
-      console.log('Validando usuario: ', user);
-      return this.hasRole(user, this.role) ? null : { noAutorizado: false };
+      /*
+      console.log(
+        `Validando que el usuario: ${user.username} tenga el rol: ${this.role}`,
+        user
+      );
+      console.log('Has ROLE: ', user.roles.find(r => r === this.role));
+      */
+      const valid = this.hasRole(user, this.role)
+        ? null
+        : { noAutorizado: true };
+      // console.log('Is valid: ', valid);
+      return valid;
     }
     return null;
   }
@@ -65,6 +75,6 @@ export class AutorizacionDeVentaComponent implements OnInit {
   }
 
   private hasRole(user: any, role: string) {
-    return user.roles.find(r => r === role) !== null;
+    return !!user.roles.find(r => r === role);
   }
 }

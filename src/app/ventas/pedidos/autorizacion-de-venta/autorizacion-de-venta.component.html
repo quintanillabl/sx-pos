@@ -19,13 +19,14 @@
       <input type="text" mdInput placeholder="Solicita" formControlName="solicito">
     </md-form-field>
     <sx-usuario-sec-field placeholder="Autoriza" (usuarioFound)="setUsuario($event)"></sx-usuario-sec-field>
+    <!-- <span>{{form.get('usuario').errors | json}}</span> -->
   </div>
   <div layout>
     <md-form-field flex>
       <input type="text" mdInput placeholder="" value="{{form.get('usuario').value?.username}}" [disabled]="true">
     </md-form-field>
   </div>
-  <td-message #message label="Derechis insuficientes" icon="warning" color="red" [opened]="form.get('usuario').hasError('noAutorizado')">
+  <td-message #message label="Usuario no autorizado para esta operación" icon="warning" color="red" [opened]="form.get('usuario').hasError('noAutorizado')">
   </td-message>
   <div layout>
     <md-form-field flex>
