@@ -27,7 +27,7 @@ export class SalidasPageComponent implements OnInit {
     .do(() => (this.procesando = true))
     .delay(100)
     .finally(() => (this.procesando = false))
-    .catch(err => this.handleError(err));*/
+    .catch(err => this.handleError(err));
     this.traslados$ = this.search$.debounceTime(1000).switchMap(term => {
       return this.service
         .list({ tipo: 'TPS',term: term, pendientes: this.pendientes })
@@ -37,7 +37,7 @@ export class SalidasPageComponent implements OnInit {
         .finally(() => (this.procesando = false));
     });
 
-    this.subs = this.traslados$.subscribe(traslados => (this.traslados = traslados));
+    this.subs = this.traslados$.subscribe(traslados => (this.traslados = traslados));*/
   }
 
   ngOnInit() {
@@ -45,7 +45,12 @@ export class SalidasPageComponent implements OnInit {
   }
 
   load() {
-    this.search$.next('');
+    //this.search$.next('');
+
+    this.traslados$ = this.service
+    .list({tipo: 'TPS', term: this.term, pendientes: this.pendientes})
+      .finally( () => this.procesando = false)
+      .catch( err => this.handleError(err))
   }
 
   search(term: string) {

@@ -128,8 +128,8 @@ export class PedidoFormService {
       this.actualizarImportesEnPartidas(); // Segunda pasada para actualizar sub total en partidas
     }
     // Cargos y maniobras por tarjeta, felte y cortes
-    this.generarCargosPorPagoConTarjeta();
     this.generarCargoPorCorte();
+    this.generarCargosPorPagoConTarjeta();
     this.actualizarTotales();
   }
 
@@ -333,33 +333,35 @@ export class PedidoFormService {
   generarCargosPorPagoConTarjeta() {
     const fp = this.form.get('formaDePago').value;
     if (_.startsWith(fp, 'TARJETA') && this.tipo === 'CON') {
-      // console.log('Calculando cargos por pago con tarjeta de credito');
+       console.log('Calculando cargos por pago con tarjeta de credito');
       const pena = fp === 'TARJETA_DEBITO' ? 1 : 2;
       let totalNeto = this.getImporte('N');
-      // console.log(' Total neto: ', totalNeto);
+       console.log(' Total neto: ', totalNeto);
       // Posibles precios brutos sin descuento
       const totalBruto = this.getImporte('B');
-      // console.log(' .... Total bruto: ', totalBruto);
+      console.log(' .... Total bruto: ', totalBruto);
       const descuentoBruto = this.findDescuentoPorVolumen(totalBruto);
+      
+      console.log('Descuento Bruto: ', descuentoBruto);
 
-      if (!descuentoBruto) {
+      if (!descuentoBruto.descuento) {
         totalNeto += totalBruto;
       }
-      // console.log('Total para cargo: ', totalNeto);
+       console.log('Total para cargo: ', totalNeto);
       let importeT = totalNeto * (pena / 100);
       importeT = _.round(importeT, 2);
-      // console.log(' .... Total neto: ', totalNeto);
+       console.log(' .... Total neto: ', totalNeto);
       if (totalNeto > 0 ) {
-        /*console.log(`
+        console.log(`
           Generar un cargo por maniobra T por un importe de ${importeT} ( ${pena} %   de ${totalNeto} )
           en virtud de  pago con ${fp} en contado usando la clave MOANIOBRAT
-          `);*/
+          `);
 
         this.service.findManiobra().subscribe(producto => {
           this.form.get('comisionTarjeta').setValue( (pena / 100)) ;
           this.form.get('comisionTarjetaImporte').setValue(importeT);
           const det = this.buildPartidaDeManiobra(producto, importeT);
-          // console.log('Maniobra registrada: ', {...det});
+           console.log('Maniobra registrada: ', {...det});
           this.partidas.push(new FormControl(det));
           this.actualizarTotales();
           // this.doAgregarPartida(det);

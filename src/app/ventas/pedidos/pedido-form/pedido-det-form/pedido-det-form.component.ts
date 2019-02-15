@@ -103,7 +103,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       {
         existencia: [null],
         producto: [null, Validators.required],
-        cantidad: [0.0, [Validators.required]],
+        cantidad: [0.0, [Validators.required, Validators.min(1)]],
         precio: [
           { value: 0, disabled: !this.asignarPrecio() },
           [Validators.required, , Validators.min(1)]
