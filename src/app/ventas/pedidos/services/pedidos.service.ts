@@ -302,6 +302,7 @@ export class PedidosService {
   }
 
   envioBatch(cliente, facturas: any[], target: string): Observable<any> {
+    console.log("Enviando cfdis para cliente"+ cliente.nombre)
     const cfdis = {
       cliente: cliente,
       facturas: facturas.map(item => item.cuentaPorCobrar.cfdi.id),

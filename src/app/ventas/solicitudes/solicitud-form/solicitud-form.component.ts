@@ -33,7 +33,7 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
 
   duplicada: SolicitudDeDeposito ;
 
-  duplicate = false; 
+  duplicate = false;
 
   obs$: Observable<any>;
 
@@ -150,6 +150,9 @@ export class SolicitudFormComponent implements OnInit, OnChanges {
       referencia: [''],
       banco: [null, Validators.required],
       cuenta: [null, Validators.required],
+      dato1: [null, Validators.required],
+      dato2: [null, Validators.required],
+      dato3: [null, Validators.required],
       comentario: [{value: null, disabled: true}, [Validators.maxLength(100)]],
       solicita: [null, Validators.required]
     }, {validator: ImporteValidator()});
