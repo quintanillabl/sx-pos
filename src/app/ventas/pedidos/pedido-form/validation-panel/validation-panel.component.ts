@@ -10,66 +10,76 @@ export class ValidationPanelComponent implements OnInit {
 
   @Input() parent: FormGroup;
 
+  errors = new Set();
   constructor() { }
 
   ngOnInit() {
+
   }
 
   get invalid() {
-    return this.parent.hasError('importeMuyBajo');
+   this.errors.clear();
+   this.errors.add( this.parent.hasError('importeMuyBajo'));
+   return this.errors;
   }
 
   get invalidMessage() {
+
+    this.errors.clear();
+
+     console.log("---------",  this.parent.errors);
+
     if (this.parent.hasError('importeMuyBajo')) {
-      return 'Importe mínimo para venta es de $10.00';
+     this.errors.add( 'Importe mínimo para venta es de $10.00');
     }
     if (this.parent.hasError('codSinEnvio')) {
-      return 'Requiere configurar el envío si es pedido COD';
+     this.errors.add( 'Requiere configurar el envío si es pedido COD');
     }
     if (this.parent.hasError('codConFormaDePagoIncorrecta')) {
-      return 'Forma de pago no permitida en COD'
+     this.errors.add( 'Forma de pago no permitida en COD');
     }
     if (this.parent.hasError('entregaSinEnvio')) {
-      return 'Se requiere configurar la direccion de envío ';
+     this.errors.add( 'Se requiere configurar la direccion de envío ');
     }
     if (this.parent.hasError('noSePermiteFormaDeCheque')) {
-      return 'No se permite forma de pago CHEQUE para este cliente';
+     this.errors.add( 'No se permite forma de pago CHEQUE para este cliente');
     }
     if (this.parent.hasError('totalMaximoPermitido')) {
-      return 'Monto máxmo permitido para pago en efectivo es de $100,000';
+     this.errors.add( 'Monto máxmo permitido para pago en efectivo es de $100,000');
     }
     if (this.parent.hasError('sinConfiguracionDeVale')) {
-      return 'Debe registrar la configuración del vale de traslado';
+     this.errors.add( 'Debe registrar la configuración del vale de traslado');
     }
     if (this.parent.hasError('seRequiereSocio')) {
-      return 'Se requiere registrar el socio de la union de credito';
+     this.errors.add( 'Se requiere registrar el socio de la union de credito');
     }
     // Validaciones del cliente
     if (this.parent.hasError('clienteSuspendido')) {
-      return 'Cliente suspendido';
+     this.errors.add( 'Cliente suspendido');
     }
 
     if (this.parent.hasError('creditoSuspendido')) {
-      return 'Credito suspendido, llamar al departamento de crédito';
+        this.errors.add('Credito suspendido, llamar al departamento de crédito');
+
     }
 
     if (this.parent.hasError('atrasoMaximo')) {
-      return 'Cliente con atraso superior a 7 días';
+     this.errors.add( 'Cliente con atraso superior a 7 días');
     }
 
     if (this.parent.hasError('lineaSaturada')) {
-      return 'Línea de crédito saturada';
+     this.errors.add( 'Línea de crédito saturada');
     }
 
     if (this.parent.hasError('clienteEnJuridico')) {
-      return 'Cliente en tramite jurídico';
+     this.errors.add( 'Cliente en tramite jurídico');
     }
 
     if (this.parent.hasError('clienteConChequesDevueltos')) {
-      return 'Cliente con cheque(s) devueltos';
+     this.errors.add( 'Cliente con cheque(s) devueltos');
     }
 
-    return null;
-  }
+     return this.errors;
+    }
 
 }

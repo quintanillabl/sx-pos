@@ -1,5 +1,6 @@
 
 import {AbstractControl, FormArray, ValidatorFn} from '@angular/forms';
+import * as _ from 'lodash';
 
 /**
  * Valida algunos datos generales del pedido
@@ -16,47 +17,47 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
   const formaDePago = control.get('formaDePago').value;
   const total = (control.get('total').value);
 
+  let errors = {}
+
   // Reglas de validacion de cliente
   if (cliente) {
-    
     if (!cliente.activo) {
-      return { clienteSuspendido: true};
+      errors =  {...errors, clienteSuspendido: true};
     }
 
-    if(cliente.juridico){
-      return { clienteEnJuridico: true}
+    if (cliente.juridico) {
+      errors =  {...errors, clienteEnJuridico: true}
     }
-    if(cliente.chequeDevuelto > 0){
-      return { clienteConChequesDevueltos: true}
+    if (cliente.chequeDevuelto > 0) {
+      errors =  {...errors, clienteConChequesDevueltos: true}
     }
-  
+
     if (cliente.credito && tipo === 'CRE') {
-      
-      if(!cliente.credito.creditoActivo){
-        return { creditoSuspendido: true};
-      } 
 
-      if (cliente.credito.atrasoMaximo > 7 ){
-        return { atrasoMaximo: true};
+      if (!cliente.credito.creditoActivo) {
+        errors = { ...errors, creditoSuspendido: true};
+      }
+
+      if (cliente.credito.atrasoMaximo > 7 ) {
+        errors = { ...errors, atrasoMaximo: true};
       }
 
       const nvoTotal = total + cliente.credito.saldo;
       if ( cliente.credito.lineaDeCredito < nvoTotal ) {
-        return { lineaSaturada: true};
+        errors = { ...errors, lineaSaturada: true};
       }
     }
   }
-  
 
   // Valida que existan partidas
   const partidas = (control.get('partidas') as FormArray).value;
   if (partidas.length === 0) {
-    return { sinPartidas: true };
+    errors = { ...errors, sinPartidas: true };
   }
   // Valida que el importe del pedido sea mayor o igual a $10
 
   if (total < 1) {
-    return { importeMuyBajo: true };
+    errors = { ...errors, importeMuyBajo: true };
   }
 
   // Validar que si se selecciona COD se configure el envio
@@ -64,16 +65,16 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
   const entrega = (control.get('entrega').value);
   if (cod) {
     if (entrega === 'LOCAL') {
-      return { codSinEnvio: true}
+      errors = { ...errors, codSinEnvio: true}
     }
     if (formaDePago === 'TARJETA_CREDITO' || formaDePago === 'TARJETA_DEBITO' ) {
-      return { codConFormaDePagoIncorrecta: true}
+      errors = { ...errors, codConFormaDePagoIncorrecta: true}
     }
   }
   if (entrega !== 'LOCAL') {
     const envio = control.get('envio').value;
     if (envio === null ) {
-      return { entregaSinEnvio: true}
+      errors = { ...errors, entregaSinEnvio: true}
     }
   }
 
@@ -81,14 +82,14 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
 
   if (formaDePago === 'CHEQUE' && tipo !== 'CRE') {
     if (cliente && !cliente.permiteCheque) {
-      return { noSePermiteFormaDeCheque: true}
+      errors = { ...errors, noSePermiteFormaDeCheque: true}
     }
   }
 
   // Validar que el total no pase de 100,000
   if (formaDePago === 'EFECTIVO') {
     if (total > 100000) {
-      return { totalMaximoPermitido: true}
+      errors = { ...errors, totalMaximoPermitido: true}
     }
   }
 
@@ -98,7 +99,7 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
     const clasificacionVale = control.get('clasificacionVale').value;
     const sucursalVale = control.get('sucursalVale').value;
     if ( clasificacionVale === 'SIN_VALE' || sucursalVale === null) {
-      return { sinConfiguracionDeVale: true}
+      errors = { ...errors, sinConfiguracionDeVale: true}
     }
   }
 
@@ -114,8 +115,10 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
   // Validacion de usuario
   const user = control.get('usuario').value;
   if (!user) {
-    return  { sinUsuario: true}
+    errors = { ...errors, sinUsuario: true}
   }
-
+  if ( !_.isEmpty(errors)) {
+    return errors
+  }
   return null;
 };

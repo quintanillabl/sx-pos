@@ -120,7 +120,6 @@ export class PedidosPageComponent implements OnInit {
 
   ventasDiariasChe() {
 
-    console.log("Ejecutando Reporteeeeeeeeeeeee");
     const dialogRef = this.dialog.open(VentasDiariasCheComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
