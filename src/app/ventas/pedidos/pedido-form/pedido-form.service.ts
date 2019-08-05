@@ -36,6 +36,13 @@ export class PedidoFormService {
     this.form = parentForm;
     this.pedido = pedido;
     this.form.get('cliente').valueChanges.subscribe( cliente => {
+      
+      if (cliente && cliente.credito) {
+          console.log('El cliente es de credito');
+          this.form.get('tipo').setValue('CRE');
+      }else{
+        this.form.get('tipo').setValue('CON');
+      }
       this.cargarPreciosPorCliente(cliente);
     });
     this.cargarPreciosPorCliente(pedido.cliente);

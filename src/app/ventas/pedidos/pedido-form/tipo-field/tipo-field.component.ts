@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { FormGroup } from '@angular/forms';
 
@@ -17,7 +17,7 @@ import { Cliente } from 'app/models';
   </ng-container>
   `
 })
-export class TipoFieldComponent implements OnInit, OnDestroy {
+export class TipoFieldComponent implements OnInit, OnDestroy,OnChanges {
 
   @Input() parent: FormGroup;
 
@@ -31,6 +31,8 @@ export class TipoFieldComponent implements OnInit, OnDestroy {
   constructor() { }
 
   ngOnInit() {
+
+    console.log('Asignando al cliente');
     this.subscription = this.parent.get('cliente').valueChanges
       .distinctUntilChanged()
       .subscribe( (cliente: Cliente) => {
@@ -44,6 +46,10 @@ export class TipoFieldComponent implements OnInit, OnDestroy {
           }
         }
       });
+  }
+
+  ngOnChanges() {
+    console.log('Cambiando el cliente');
   }
 
   ngOnDestroy() {

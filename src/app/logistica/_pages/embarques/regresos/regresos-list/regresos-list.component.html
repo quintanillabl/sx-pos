@@ -2,13 +2,13 @@
     <md-list-item>
         <md-icon md-list-icon class="tc-pink-800">vpn_key</md-icon>
         <span md-line>
-      <span layout layout-padding>
-        <span flex="10" class="tc-indigo-700"> Embarque</span>
-        <span flex>Chofer </span>
-        <span flex></span>
-        <span>Regreso </span>
-        <span flex></span>
-        </span>
+          <span layout layout-padding>
+            <span flex="10" class="tc-indigo-700"> Embarque</span>
+            <span flex>Chofer </span>
+            <span flex >Salida</span>
+            <span flex>Regreso </span>
+            <span flex></span>
+          </span>
         </span>
     </md-list-item>
     <md-divider></md-divider>
@@ -17,18 +17,20 @@
             <md-list-item>
                 <md-icon md-list-icon class="tc-pink-800">apps</md-icon>
                 <span md-line>
-          <span layout layout-padding>
-            <a md-button class="tc-indigo-700">{{row.documento}} </a>
-            <span flex *ngIf="!row.empleado">{{row.chofer.nombre}} </span>
-                <span flex *ngIf="row.empleado">{{row.empleado}} </span>
-                <span layout flex>
-              <span>{{ row.regreso | date: 'dd/MM/yyyy hh:mm' }}</span>
-                <span flex></span>
-                <button type="button" md-icon-button (click)="print.emit(row)">
-                <md-icon>print</md-icon>
-              </button>
-                </span>
-                </span>
+                  <span layout layout-padding>
+                    <a md-button class="tc-indigo-700">{{row.documento}} </a>
+                    <span flex *ngIf="!row.empleado">{{row.chofer.nombre}} </span>
+                    <span flex *ngIf="row.empleado">{{row.empleado}} </span>
+                    <span flex> {{ row.salida | date: 'dd/MM/yyyy hh:mm' }}</span>
+                    <span flex>{{ row.regreso | date: 'dd/MM/yyyy hh:mm' }}</span>
+                    <span layout flex>   
+                      <span flex></span>
+                      <span flex></span>
+                      <button type="button" md-icon-button (click)="print.emit(row)">
+                        <md-icon>print</md-icon>
+                      </button>
+                    </span>
+                  </span>
                 </span>
 
                 <!-- <span flex md-tooltip="{{row.salida | date:'short'}}">{{ row.salida | date: 'dd/MM/yyyy hh:mm' }} </span> -->

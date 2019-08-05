@@ -98,8 +98,8 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     if (changes.pedido && changes.pedido.currentValue) {
       const pedido: Venta = changes.pedido.currentValue;
       // console.log('Editando pedido: ', pedido);
-      if (pedido.id && pedido.puesto) {
-        // this.editable = false;
+      if (pedido.id && pedido.surtido) {
+         this.editable = false;
       }
       _.forEach(pedido.partidas, item =>
         this.partidas.push(new FormControl(item))
@@ -123,6 +123,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       this.tipoSubscription = this.form
         .get('tipo')
         .valueChanges.subscribe(tipo => {
+
           // this.pedidoFormService.recalcular();
           if (tipo === 'CRE') {
             console.log('Nuevo tipo de venta: ', tipo);
@@ -224,7 +225,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private buildRecalcular$() {
-    // console.log('Preparando recalculo observable');
+     console.log('Preparando recalculo observable');
     const cliente$ = this.form
       .get('cliente')
       .valueChanges.distinctUntilChanged();
@@ -235,14 +236,16 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     this.recalcular$ = Observable.merge(cliente$, tipo$, formaDePago$);
 
     this.recalcularSubscription = this.recalcular$.subscribe(data => {
-      // console.log('Recalculando importes : ', data);
+      console.log('Recalculando importes : ', data);
       this.pedidoFormService.recalcular();
       this.cd.detectChanges();
       this.grid.refresh();
     });
   }
-
+ 
   private buildFomraDePago$() {
+
+    console.log("Cambiando forma de pago");
     const cliente$ = this.form.get('cliente').valueChanges; // .filter( cliente =>  cliente !== null);
 
     const tipo$ = this.form.get('tipo').valueChanges.distinctUntilChanged();

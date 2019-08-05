@@ -50,6 +50,7 @@ export interface Venta {
   ventaIne?: boolean;
   complementoIne?: any;
   noFacturable?: boolean;
+  surtido?: boolean;
 }
 
 export interface TipoDeVenta {

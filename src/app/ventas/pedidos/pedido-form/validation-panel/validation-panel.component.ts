@@ -10,6 +10,9 @@ export class ValidationPanelComponent implements OnInit {
 
   @Input() parent: FormGroup;
 
+  @Input() surtido;
+
+
   errors = new Set();
   constructor() { }
 
@@ -27,7 +30,6 @@ export class ValidationPanelComponent implements OnInit {
 
     this.errors.clear();
 
-     console.log("---------",  this.parent.errors);
 
     if (this.parent.hasError('importeMuyBajo')) {
      this.errors.add( 'Importe mínimo para venta es de $10.00');
@@ -77,6 +79,10 @@ export class ValidationPanelComponent implements OnInit {
 
     if (this.parent.hasError('clienteConChequesDevueltos')) {
      this.errors.add( 'Cliente con cheque(s) devueltos');
+    }
+
+    if (this.surtido) {
+      this.errors.add( 'Pedido en Surtido');
     }
 
      return this.errors;

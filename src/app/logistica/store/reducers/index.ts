@@ -42,7 +42,7 @@ export const reducers = {
   choferes: fromChoferes.reducer,
   transportes: fromTransportes.reducer,
   embarques: fromEmbarques.reducer,
-};
+}; 
 
 export const selectLogisticaState = createFeatureSelector<LogisticaState>('logistica');
 

@@ -15,7 +15,9 @@
  
         <span *ngIf="row.tipo === 'ANT'"> ANT {{row.comentario}}</span>
         <span *ngIf="row.tipoDeCambio > 1"> (USD T.C: {{row.tipoDeCambio | number: '1.4-4'}})</span>
-        <span *ngIf="row.puesto">PUESTO</span>
+        <span *ngIf="row.puesto">PUESTO 
+          <md-icon *ngIf="row.surtido" class=" tc-pink-700" >shopping_cart</md-icon>
+        </span>
         <span *ngIf="row.clasificacionVale !== 'SIN_VALE'">{{row.clasificacionVale}}</span>
         <span *ngIf="row.sinExistencia" class=" tc-pink-700">SIN EXISTENCIA</span>
         <span *ngIf="row.descuento > row.descuentoOriginal" class=" tc-pink-700">DESCTO {{row.descuento}}</span>
@@ -70,7 +72,7 @@
         <span layout="column">
       <span>{{value}}</span>
         <span *ngIf="value != row.updateUser" class="tc-pink-700">{{row.updateUser}}</span>
-        </span>
+      </span>
     </ng-template>
 
     <ng-template tdDataTableTemplate="operaciones" let-value="value" let-row="row">
@@ -93,7 +95,6 @@
       <a (click)="cambioDeCliente.emit(row)" *ngIf="permitirCambioDeCliente(row)" class="tc-pink-800" md-icon-button>
         <md-icon>person_add</md-icon>
       </a>
-
     </span>
     </ng-template>
 

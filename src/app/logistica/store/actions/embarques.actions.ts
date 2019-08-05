@@ -19,7 +19,7 @@ export const REGISTRAR_SALIDA = '[Embarque] Registrar salida';
 
 export class SearchAction implements Action {
   readonly type = SEARCH;
-
+ 
   constructor(public payload?: any) {}
 }
 

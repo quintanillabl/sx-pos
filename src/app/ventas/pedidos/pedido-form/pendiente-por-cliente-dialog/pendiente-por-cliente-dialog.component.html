@@ -13,7 +13,7 @@
         {{value | date: 'dd/MM/yyyy'}}
       </ng-template>
       <ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
-        <a (click)="goTo(row)" class="cursor-pointer">{{value}}</a>
+        <a (click)="goTo(row)" class="cursor-pointer tc-pink-700" >{{value}}</a>
       </ng-template>
     </td-data-table>
   </div>

@@ -67,7 +67,8 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
     if (entrega === 'LOCAL') {
       errors = { ...errors, codSinEnvio: true}
     }
-    if (formaDePago === 'TARJETA_CREDITO' || formaDePago === 'TARJETA_DEBITO' ) {
+    // tslint:disable-next-line:max-line-length
+    if (formaDePago === 'TARJETA_CREDITO' || formaDePago === 'TARJETA_DEBITO' || formaDePago === 'TRANSFERENCIA' || formaDePago === 'DEPOSITO_CHEQUE' || formaDePago === 'DEPOSITO_EFECTIVO' || formaDePago === 'DEPOSITO_MIXTO') {
       errors = { ...errors, codConFormaDePagoIncorrecta: true}
     }
   }
@@ -111,6 +112,8 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
    }
   }
   */
+  // Validacion surtido
+
 
   // Validacion de usuario
   const user = control.get('usuario').value;
@@ -120,5 +123,6 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
   if ( !_.isEmpty(errors)) {
     return errors
   }
+
   return null;
 };
