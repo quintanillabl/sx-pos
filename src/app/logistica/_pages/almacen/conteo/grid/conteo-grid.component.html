@@ -37,19 +37,22 @@
           </span>
         </span>
         <span flex></span>
-        <!-- <span >
+        <span >
           <button md-icon-button [md-menu-trigger-for]="menu"  >
           <md-icon [ngClass]="{'tc-blue-600':odd }">more_vert</md-icon>
           </button>
           <md-menu x-position="before" #menu="mdMenu">
-            <a [routerLink]="['show', row.id]" [queryParams]="{tipo: 'show'}" md-menu-item [disabled]="false">
+           <!--  <a [routerLink]="['show', row.id]" [queryParams]="{tipo: 'show'}" md-menu-item [disabled]="false">
               <md-icon>info</md-icon> Consultar
             </a>
             <a [routerLink]="['edit', row.id]" md-menu-item [disabled]="false">
                 <md-icon>edit</md-icon> Editar
+            </a> -->
+            <a  md-menu-item [disabled]="false" (click)="print.emit(row)">
+                <md-icon>print</md-icon> Imprimir
             </a>
           </md-menu>
-        </span> -->
+        </span>
       </md-list-item>
       <md-divider *ngIf="!last" md-inset></md-divider>
     </ng-template>

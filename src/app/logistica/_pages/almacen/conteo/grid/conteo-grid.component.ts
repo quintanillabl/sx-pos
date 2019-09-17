@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import {Conteo} from 'app/logistica/models/conteo';
 
@@ -10,6 +10,8 @@ import {Conteo} from 'app/logistica/models/conteo';
 export class ConteoGridComponent implements OnInit {
 
   @Input() conteos: Conteo[] = [];
+
+  @Output() print = new EventEmitter();
 
   constructor() { }
 

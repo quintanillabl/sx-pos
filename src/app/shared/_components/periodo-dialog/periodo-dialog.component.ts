@@ -23,7 +23,7 @@ import { Periodo } from 'app/models/periodo';
   </form>
   </md-dialog-content>
   <md-dialog-actions>
-    <button md-button (click)="close()">Canelar</button>
+    <button md-button (click)="close()">Cancelar</button>
     <button md-button type="button" (click)="onSubmit()" [disabled]="form.invalid">Aceptar</button>
   </md-dialog-actions>
 `

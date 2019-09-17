@@ -16,8 +16,7 @@ import { PedidosPendientesComponent } from './_pages/_main-dashboard/pedidos-pen
 import { SolicitudesPendientesComponent } from './_pages/_main-dashboard/solicitudes-pendientes/solicitudes-pendientes.component';
 import { PendientesListComponent } from './_pages/_main-dashboard/pedidos-pendientes/pendientes-list/pendientes-list.component';
 import { VentasDiariasCheComponent } from './_components/ventas-diarias-che/ventas-diarias-che.component';
-
-
+import { SoporteModule } from './soporte/soporte.module';
 
 
 @NgModule({
@@ -28,7 +27,8 @@ import { VentasDiariasCheComponent } from './_components/ventas-diarias-che/vent
     VentasRoutingModule,
     PedidosModule,
     SolicitudesModule,
-    CanceladasModule
+    CanceladasModule,
+    SoporteModule
   ],
   declarations: [
     MainPageComponent,

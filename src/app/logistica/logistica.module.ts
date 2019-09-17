@@ -49,6 +49,9 @@ import { FacturaEnvioComponent } from './_pages/embarques/reportes/factura-envio
 import { DiscrepanciasComponent } from './reportes/discrepancias/discrepancias.component';
 import { ChoferFieldComponent } from './components/chofer-field/chofer-field.component';
 import { PuestosService } from './services/puestos.service';
+import { CapturaMostradorPageComponent } from './_pages/almacen/captura/captura-mostrador-page-component';
+import { ValidacionConteoComponent } from './_pages/almacen/reportes/validacion-conteo/validacion-conteo.component';
+
 
 
 
@@ -206,9 +209,10 @@ const COMPONENTS = [
     ExistenciaFormComponent,
     InvFacturasPageComponent,
     RecPorLineaComponent,
+    ValidacionConteoComponent,
     FacturaEnvioComponent,
     DiscrepanciasComponent,
-    
+    CapturaMostradorPageComponent,
   ], exports: [
     ChoferFieldComponent
   ],
@@ -228,6 +232,7 @@ const COMPONENTS = [
     RecalculoFormComponent,
     ExistenciaFormComponent,
     RecPorLineaComponent,
+    ValidacionConteoComponent,
     FacturaEnvioComponent,
     DiscrepanciasComponent
   ],
@@ -250,4 +255,3 @@ const COMPONENTS = [
   ]
 })
 export class LogisticaModule { }
-  

@@ -3,6 +3,8 @@ import { TdDialogService } from '@covalent/core';
 import {MdDialog} from '@angular/material';
 import { SectoresService } from '@siipapx/logistica/services/sectores/sectores.service';
 import { RecPorLineaComponent } from '@siipapx/logistica/_pages/almacen/reportes/rec-por-linea/rec-por-linea.component';
+import { ConteosService } from '../../services/conteos/conteos.service';
+import { ValidacionConteoComponent } from './reportes/validacion-conteo/validacion-conteo.component';
 
 @Component({
   selector: 'sx-almacen-page',
@@ -25,26 +27,27 @@ export class AlmacenPageComponent implements OnInit {
       action: 'reporteNoCapturados()'
     },
     {
+      name: 'diferenciasConteo',
+      title: 'Diferencias',
+      description: '',
+      icon: 'blur_linear',
+      action: 'reporteDeDiferencias()'
+    },
+    {
       name: 'validacionDeConteo',
       title: 'Validación',
       description: '',
       icon: 'blur_linear',
       action: 'reporteDeValidacion()'
     },
-    {
-      name: 'diferenciasConteo',
-      title: 'Diferencias',
-      description: '',
-      icon: 'blur_linear',
-      action: 'reporteDeValidacion()'
-    },
+  /*
     {
       name: 'medidasEspeciales',
       title: 'Medidas E',
       description: '',
       icon: 'blur_linear',
       action: 'reporteDeValidacion()'
-    },
+    }, */
     {
       name: 'productosSinSector',
       title: 'Prods sin sector',
@@ -64,6 +67,7 @@ export class AlmacenPageComponent implements OnInit {
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
     private service: SectoresService,
+    private conteosService: ConteosService,
     public dialog: MdDialog,
   ) { }
 
@@ -80,6 +84,15 @@ export class AlmacenPageComponent implements OnInit {
     }
     if (report === 'recorridosPorLinea') {
       this.recorridosPorLinea();
+    }
+    if (report === 'noCapturados') {
+      this.reporteNoCapturados();
+    }
+    if (report === 'validacionDeConteo') {
+      this.reporteValidacion()
+    }
+    if (report === 'diferenciasConteo') {
+        this.reporteDeDiferencias()
     }
   }
 
@@ -107,6 +120,51 @@ export class AlmacenPageComponent implements OnInit {
             window.open(fileURL, '_blank');
           });
       }
+    });
+  }
+
+
+  reporteValidacion() {
+    const dialogRef = this.dialog.open(ValidacionConteoComponent, {data:{titulo: 'Validacion De Conteo'}});
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.conteosService.reporteValidacion(result)
+        .subscribe(res => {
+          const blob = new Blob([res], {
+            type: 'application/pdf'
+          });
+          const fileURL = window.URL.createObjectURL(blob);
+          window.open(fileURL, '_blank');
+        });
+      }
+    });
+  }
+
+  reporteDeDiferencias() {
+    const dialogRef = this.dialog.open(ValidacionConteoComponent, {});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.conteosService.reporteDiferencia(result)
+        .subscribe(res => {
+          const blob = new Blob([res], {
+            type: 'application/pdf'
+          });
+          const fileURL = window.URL.createObjectURL(blob);
+          window.open(fileURL, '_blank');
+        });
+      }
+    });
+  }
+
+  reporteNoCapturados() {
+    console.log('Reporte de no capturados');
+    this.conteosService.reporteNoCapturados()
+    .subscribe(res => {
+      const blob = new Blob([res], {
+        type: 'application/pdf'
+      });
+      const fileURL = window.URL.createObjectURL(blob);
+      window.open(fileURL, '_blank');
     });
   }
 }

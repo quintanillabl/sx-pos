@@ -14,7 +14,6 @@ export class MainPageComponent implements OnInit {
     {path: 'home', nombre: 'Tablero', descripcion: 'Tablero de control ventas', icon: 'local_grocery_store'},
     {path: 'pedidos', nombre: 'Pedidos', descripcion: 'Alta y mantenimiento de pedidos', icon: 'shopping_basket'},
     // {path: 'solicitudes', nombre: 'Solicitud de deposito', descripcion: 'Solicitud de autorizacion de deposito', icon: 'verified_user'},
-    
     {path: 'lealtad', nombre: 'Programa de lealtad', descripcion: 'Programa de lealtad', icon: 'loyalty'},
     {path: 'clientes', nombre: 'Clientes', descripcion: 'Catálogo de clientes', icon: 'account_circle'},
     {path: '/traslados', nombre: 'Traslados', descripcion: 'Traslados de mercancía', icon:  'local_shipping'},

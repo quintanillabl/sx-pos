@@ -41,6 +41,7 @@ export class CapturaEditPageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log('Inicializando el conteo');
     this.sucursal$ = this.store.select(fromRoot.getSucursal);
     this.conteo$ = this.store.select(fromLogistica.getSelectedConteo);
     this.disabled$ = this.route.queryParamMap.map(params => params.get('tipo') === 'show')

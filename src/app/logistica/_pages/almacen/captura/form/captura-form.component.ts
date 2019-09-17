@@ -71,12 +71,12 @@ export class CapturaFormComponent implements OnInit, OnChanges {
       sector: [null, Validators.required],
       fecha: [null, Validators.required],
       sucursal: [{value: this.sucursal, disabled: true}, Validators.required],
-      auditor1: [{value: '', disabled: true}, [Validators.required, Validators.maxLength(100)]],
-      auditor2: [{value: '', disabled: true}, [Validators.required, Validators.maxLength(100)]],
-      contador1: [{value: '', disabled: true}, [Validators.required, Validators.maxLength(100)]],
-      contador2: [{value: '', disabled: true}, [Validators.required, Validators.maxLength(100)]],
-      capturista: [{value: '', disabled: true}, [Validators.required, Validators.maxLength(100)]],
-      comentario: [{value: '', disabled: true}, [Validators.maxLength(100)]],
+      auditor1: [{value: '', disabled: false}, [Validators.required, Validators.maxLength(100)]],
+      auditor2: [{value: '', disabled: false}, [Validators.required, Validators.maxLength(100)]],
+      contador1: [{value: '', disabled: false}, [Validators.required, Validators.maxLength(100)]],
+      contador2: [{value: '', disabled: false}, [Validators.required, Validators.maxLength(100)]],
+      capturista: [{value: '', disabled: false}, [Validators.required, Validators.maxLength(100)]],
+      comentario: [{value: '', disabled: false}, [Validators.maxLength(100)]],
       partidas: this.fb.array([])
     });
 

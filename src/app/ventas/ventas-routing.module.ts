@@ -18,6 +18,9 @@ import { FacturaViewComponent } from './pedidos/factura-view/factura-view.compon
 import { CanceladasPageComponent } from 'app/ventas/canceladas/canceladas-page/canceladas-page.component';
 import { ComplementosComponent } from 'app/ventas/pedidos/complementos/complementos.component';
 import { ComplementoComponent } from 'app/ventas/pedidos/complemento/complemento.component';
+import { SoportePageComponent } from './soporte/soporte-page/soporte-page.component';
+import { SoporteCreateComponent } from './soporte/soporte-create/soporte-create.component';
+
 
 const routes: Routes = [
   {
@@ -83,13 +86,21 @@ const routes: Routes = [
             component: CanceladasPageComponent
           },
           {
+            path: 'soporte',
+            component: SoportePageComponent
+          },
+          {
+            path: 'soporte/create',
+            component: SoporteCreateComponent
+          },
+          {
             path: 'complementos',
             component: ComplementosComponent
           },
           {
             path: 'complementos/:id',
             component: ComplementoComponent
-          }
+          },
         ]
       },
       {

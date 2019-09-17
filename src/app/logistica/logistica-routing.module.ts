@@ -6,6 +6,8 @@ import { ExistenciaEditComponent } from './_pages/existencia-edit/existencia-edi
 import { ExistenciaResolve } from './_pages/existencia-edit/existencia.resover';
 import { InvFacturasPageComponent } from 'app/logistica/_pages/inv-facturas-page/inv-facturas-page.component';
 import { PuestosPageComponent } from './_pages/puestos-page/puestos-page.component';
+import { CapturaMostradorPageComponent } from './_pages/almacen/captura/captura-mostrador-page-component';
+
 
 const routes: Routes = [
   {
@@ -31,18 +33,17 @@ const routes: Routes = [
           { path: 'devoluciones', component: pages.DevolucionesVentaPageComponent},
           { path: 'devoluciones/create', component: pages.DevolucionCreatePageComponent},
           { path: 'devoluciones/show/:id', component: pages.DevolucionesShowPageComponent},
-          
+
           // Devoluciones de compras
           { path: 'decs', component: pages.DecsPageComponent},
           { path: 'decs/show/:id', component: pages.DecShowPageComponent},
           { path: 'decs/create', component: pages.DecCreatePageComponent},
-          
 
           // Kardex
           { path: 'kardex', component: pages.KardexPageComponent},
           { path: 'kardex/show/:id', component: pages.KardexViewPageComponent},
           { path: 'facturas', component: InvFacturasPageComponent},
-          //Puestos
+          // Puestos
           { path: 'puestos', component: PuestosPageComponent }
         ]
       },
@@ -64,10 +65,19 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'capturaMostrador',
+        component: CapturaMostradorPageComponent,
+        children: [
+          { path: 'captura', component: pages.CapturaPageComponent},
+          { path: 'captura/show/:id', component: pages.CapturaEditPageComponent},
+          { path: 'captura/edit/:id', component: pages.CapturaEditPageComponent},
+        ]
+      },
+      {
         path: 'embarques',
         component: pages.EmbarquesPageComponent,
         children: [
-          //{ path: '', redirectTo: 'facturistas', pathMatch: 'full'},
+          // { path: '', redirectTo: 'facturistas', pathMatch: 'full'},
           { path: 'embarques', component: pages.EmbarquePageComponent},
           { path: 'embarques/create', component: pages.EmbarqueCreatePageComponent},
           { path: 'embarques/edit/:id', component: pages.EmbarqueEditPageComponent},

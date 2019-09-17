@@ -22,10 +22,19 @@ import { SolicitudEditComponent } from './solicitud-edit/solicitud-edit.componen
     RouterModule.forChild([]),
     StoreModule.forFeature('solicitudes', reducers),
     EffectsModule.forFeature([SolicitudesEffects]),
-  ],exports:[
+  ],
+  exports: [
     SolicitudesListComponent
   ],
-  declarations: [SolicitudesPageComponent, SolicitudCreateComponent, SolicitudFormComponent, BancoFieldComponent, CuentaFieldComponent, SolicitudesListComponent, SolicitudEditComponent],
+  declarations: [
+    SolicitudesPageComponent,
+    SolicitudCreateComponent,
+    SolicitudFormComponent,
+    BancoFieldComponent,
+    CuentaFieldComponent,
+    SolicitudesListComponent,
+    SolicitudEditComponent
+  ],
   providers: [ SolicitudesService ]
 })
 export class SolicitudesModule { }

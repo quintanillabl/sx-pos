@@ -47,11 +47,18 @@ export class PedidosPageComponent implements OnInit {
       icon: 'verified_user'
     },
     {
+      route: 'soporte',
+      title: 'Solicitud de Modificacion',
+      descripcion: 'Solicitud Cambios y Soporte Técnico',
+      icon: 'verified_user'
+    },
+    {
       route: 'complementos',
       title: 'Complementos',
       descripcion: 'Complementos de facturación',
       icon: 'info'
-    }
+    },
+
     /*{route: 'devoluciones', title: 'Devoluciones', descripcion: 'Devolución de facturas', icon: ''},
     {route: 'traslados', title: 'Traslados', descripcion: 'Devolución de facturas', icon: ''},*/
   ];
