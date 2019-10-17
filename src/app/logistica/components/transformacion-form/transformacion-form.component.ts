@@ -29,7 +29,8 @@ import { Sucursal } from 'app/models';
 export class TransformacionFormComponent implements OnInit {
   tipos = [
     { clave: 'TRS', descripcion: 'Transformación' },
-    { clave: 'REC', descripcion: 'Reclasificación' }
+    { clave: 'REC', descripcion: 'Reclasificación' },
+    { clave: 'MAQ', descripcion: 'Maquila' }
   ];
 
   form: FormGroup;

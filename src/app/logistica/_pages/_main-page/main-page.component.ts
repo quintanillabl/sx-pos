@@ -1,5 +1,5 @@
 import { Component, OnInit,  AfterViewInit } from '@angular/core';
-import { Title }     from '@angular/platform-browser';
+import { Title } from '@angular/platform-browser';
 import { TdLoadingService, TdDigitsPipe, TdMediaService } from '@covalent/core';
 
 
