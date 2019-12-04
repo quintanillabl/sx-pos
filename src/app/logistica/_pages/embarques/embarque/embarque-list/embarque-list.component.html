@@ -7,6 +7,8 @@
         <span flex>Chofer </span>
         <span flex>Fecha </span>
         <span flex>Comentario </span>
+        <span flex>Creo</span>
+        <span flex>Actualizo</span>
         <span flex></span>
         <span layout>
           <span class="pad-left">Salida </span>
@@ -32,6 +34,8 @@
                 <span flex *ngIf="row.empleado">{{row.empleado}} </span>
                 <span flex>{{ row.dateCreated | amTimeAgo }} </span>
                 <span flex>{{ row.comentario }} </span>
+                <span flex>{{ row.createUser }} </span>
+                <span flex>{{ row.updateUser }} </span>
                 <span flex></span>
                 <span layout>
               <button md-icon-button flex (click)="eliminar(row)" *ngIf="row.numeroDePartidas === 0">

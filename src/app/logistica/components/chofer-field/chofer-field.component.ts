@@ -54,14 +54,14 @@ export class ChoferFieldComponent implements OnInit, ControlValueAccessor, OnDes
 
     this.prepareControl();
   }
-  
+
   private prepareControl() {
     this.subscription = this.searchControl
       .valueChanges
       .skip(1)
       .filter( value => value !== null)
       .subscribe( value => {
-        if( _.isObject(value)) {
+        if ( _.isObject(value)) {
           this.onChange(value);
         } else {
           this.onChange(null);
@@ -74,11 +74,11 @@ export class ChoferFieldComponent implements OnInit, ControlValueAccessor, OnDes
   }
 
   lookupProductos(term: string): Observable<Chofer[]> {
-    let params = new HttpParams()
+    const params = new HttpParams()
       .set('term', term);
     if (this.activos === true) {
       // params = params.set('activos','activos')
-    }  
+    }
     return this.http.get<Chofer[]>(this.apiUrl, {params: params});
   }
 

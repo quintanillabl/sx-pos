@@ -255,12 +255,23 @@ export class PedidosService {
     );
   }
 
-  actualizarCfdiEmail(cliente: Cliente, email: string) {
+  actualizarCfdiEmail(cliente: Cliente, email: string, usuario: string) {
     const endpoint = `clientes/actualizarCfdiMail/${cliente.id}`;
     const url = this.configService.buildApiUrl(endpoint);
-    const params = new HttpParams().set('email', email);
+    const params = new HttpParams().set('email', email).set('usuario', usuario);
+
     return this.http.put(url, {}, { params: params });
   }
+
+
+  actualizarTelefono(cliente: Cliente, telefono: string, usuario: string) {
+     const endpoint = `clientes/actualizarTelefono/${cliente.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
+    const params = new HttpParams().set('telefono', telefono).set('usuario', usuario);
+
+    return this.http.put(url, {}, { params: params });
+  }
+
 
   buscarPreciosPorCliente(
     cliente: Cliente,

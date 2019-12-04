@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,6 +8,7 @@ import * as fromRoot from 'app/reducers';
 import { Sucursal, Venta } from 'app/models';
 import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
 import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-new-cliente.service';
+import { PedidoFormComponent } from '../pedido-form/pedido-form.component';
 
 @Component({
   selector: 'sx-pedido-edit',
@@ -16,10 +17,11 @@ import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-
       <div layout="column">
         <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
         <div >
-          <sx-pedido-form
+          <sx-pedido-form #formPedido
             (save)="onUpdate($event)"
             (delete)="onDelete($event)"
             (cambiarCfdiMail)="onCambioDeCfdiMail($event)"
+            (cambiarTel)="onCambioDeTel($event)"
             [pedido]="pedido$ | async"
             [sucursal]="sucursal$ | async"
             (print)="print($event)">
@@ -35,6 +37,7 @@ import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-
 export class PedidoEditComponent implements OnInit {
   sucursal$: Observable<Sucursal>;
   pedido$: Observable<Venta>;
+  @ViewChild(PedidoFormComponent) formPedido: PedidoFormComponent;
 
   procesando = false;
 
@@ -118,14 +121,14 @@ export class PedidoEditComponent implements OnInit {
       });
   }
 
-  onCambioDeCfdiMail(cliente) {
+  onCambioDeCfdiMail(data) {
     // console.log('Actualizando el CFDI del cliente', cliente);
     this._dialogService
       .openPrompt({
         message: 'Digite el nuevo email para envio del CFDI',
         viewContainerRef: this._viewContainerRef,
         title: 'Cambio de CFDI',
-        value: cliente.cfdiMail,
+        value: data.cliente.cfdiMail,
         cancelButton: 'Cancelar',
         acceptButton: 'Aceptar'
       })
@@ -134,15 +137,46 @@ export class PedidoEditComponent implements OnInit {
         if (newValue) {
           console.log('Actualizando cfdi Mail: ', newValue);
           this.loadingService.register('saving');
-          this.service.actualizarCfdiEmail(cliente, newValue).subscribe(
+          this.service.actualizarCfdiEmail(data.cliente, newValue, data.usuario.username).subscribe(
             cli => {
-              console.log('correo actualizado: ', cliente);
+              // console.log('correo actualizado: ', data.cliente);
+              // console.log('Usuario: ', data.usuario);
+              this.formPedido.form.get('cliente').setValue(cli);
               this.loadingService.resolve('saving');
             },
             error => this.handlePostError(error)
           );
         }
       });
+  }
+
+
+
+  onCambioDeTel(data) {
+   //  console.log('Actualizando el Telefono del cliente');
+    this._dialogService.openPrompt({
+      message: 'Digite el nuevo telefono',
+      viewContainerRef: this._viewContainerRef,
+      title: 'Actualización Telefono',
+      value: '',
+      cancelButton: 'Cancelar',
+      acceptButton: 'Aceptar',
+    }).afterClosed().subscribe((newValue: string) => {
+      if (newValue) {
+        // console.log('Actualizando Telefono: ', newValue);
+        this.loadingService.register('saving');
+        this.service.actualizarTelefono(data.cliente, newValue, data.usuario.username)
+          .subscribe(
+            cli => {
+              // console.log('telefono actualizado: ', data.cliente);
+              // console.log('Usuario: ', data.usuario);
+              this.formPedido.form.get('cliente').setValue(cli);
+              this.loadingService.resolve('saving');
+            },
+            error => this.handlePostError(error)
+          );
+      }
+    });
   }
 
   print(id: string) {

@@ -6,6 +6,8 @@
         <span flex="10" class="tc-indigo-700"> Embarque</span>
         <span flex>Chofer </span>
         <span flex>Salida </span>
+        <span flex>Creo</span>
+        <span flex>Actualizo</span>
         <span flex></span>
         <span>Regreso </span>
         </span>
@@ -25,7 +27,8 @@
                 <span flex *ngIf="row.empleado">{{row.empleado}} </span>
 
                 <span flex md-tooltip="{{row.salida | date:'short'}}">{{ row.salida | amTimeAgo }} </span>
-
+                <span flex>{{ row.createUser }} </span>
+                <span flex>{{ row.updateUser }} </span>
                 <span flex></span>
                 <button md-icon-button (click)="marcarRegreso(row)" mdTooltip="Regisrar regreso de embarque" *ngIf="!row.regreso">
               <md-icon>flight_land</md-icon>

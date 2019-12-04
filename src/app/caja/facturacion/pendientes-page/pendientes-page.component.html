@@ -46,6 +46,10 @@
       <ng-template tdDataTableTemplate="updateUser" let-value="value" let-row="row">
         <span *ngIf="value" class="tc-indigo-500">{{value }}</span>
       </ng-template>
+      
+      <ng-template tdDataTableTemplate="facturarUsuario" let-value="value" let-row="row">
+        <span *ngIf="value" class="tc-indigo-500">{{value }}</span>
+      </ng-template>
 
       <ng-template tdDataTableTemplate="formaDePago" let-value="value" let-row="row">
           <span *ngIf="value">{{getFormaDePago(row)}}</span>

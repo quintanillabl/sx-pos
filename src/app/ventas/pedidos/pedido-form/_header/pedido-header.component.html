@@ -80,8 +80,11 @@
             <span class="tc-indigo-700" flex>{{cliente?.rfc}}</span>
             </span>
             <div layout class="pad-top-xs">
-                <span flex="20">TELS:</span>
-                <span class="tc-indigo-700 " flex>{{cliente?.telefonos?.join('/')}}</span>
+                <span flex="20">TELS:</span> 
+                <a (click)="cambiarTel.emit(cliente)" md-button>
+                  <span  class="tc-indigo-700 " flex>{{cliente?.telefonos?.join('/')}}</span>
+                </a>              
+                
             </div>
             <div layout class="pad-top-xs ">
                 <span flex="20">CFDI Mail:</span>

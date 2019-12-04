@@ -18,6 +18,7 @@ export class PendientesPageComponent implements OnInit {
     { name: 'formaDePago',  label: 'F.Pago', width: 100},
     { name: 'total',  label: 'Total', width: 20},
     { name: 'updateUser', label: 'Vendedor', width: 20},
+    { name: 'facturarUsuario', label: 'Solicitó', width: 20},
     { name: 'facturar', label: 'Solicitado', width: 100},
     { name: 'regresar',  label: 'Regresar', width: 20},
   ];

@@ -267,17 +267,17 @@ export class FacturaViewComponent implements OnInit {
       .afterClosed()
       .subscribe((newValue: string) => {
         if (newValue) {
-          console.log('Actualizando cfdi Mail: ', newValue);
+          /* console.log('Actualizando cfdi Mail: ', newValue);
           this.procesando = true;
           this.service
-            .actualizarCfdiEmail(cliente, newValue)
+            .actualizarCfdiEmail(cliente, newValue,)
             .finally(() => (this.procesando = false))
             .subscribe(
               cli => {
                 console.log('correo actualizado: ', cliente);
               },
               error => console.error(error)
-            );
+            ); */
         }
       });
   }

@@ -1,7 +1,7 @@
 <form novalidate [formGroup]="form" layout="row" class="pedido-form" (ngSubmit)="onSave()">
 
     <md-card flex="80">
-        <sx-pedido-header [editable]="editable" (addCliente)="onAddNewCliente()" [parent]="form" (insertar)="onInsertPartida()" (descuento)="onDescuento()" (cambiarCfdi)="onCambioDeCfdi($event)" (maniobra)="onManiobra()">
+        <sx-pedido-header [editable]="editable" (addCliente)="onAddNewCliente()" [parent]="form" (insertar)="onInsertPartida()" (descuento)="onDescuento()" (cambiarCfdi)="onCambioDeCfdi($event)" (cambiarTel)="onCambioDeTel($event)"  (maniobra)="onManiobra()">
         </sx-pedido-header>
         <md-divider></md-divider>
 

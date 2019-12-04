@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
 import { Router } from '@angular/router';
@@ -8,6 +8,7 @@ import * as fromRoot from 'app/reducers';
 import { Sucursal, Venta } from 'app/models';
 import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
 import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-new-cliente.service';
+import { PedidoFormComponent } from '../pedido-form/pedido-form.component';
 
 
 
@@ -16,11 +17,12 @@ import { AddNewClienteService } from 'app/clientes/services/add-new-cliente/add-
   template: `
     <sx-nav-layout header="Pedidos" modulo="Ventas">
       <div layout="column">
-        <sx-pedido-form
+        <sx-pedido-form #formPedido
           *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'"
           (addNewCliente)="onAddNewCliente()"
           (save)="onSave($event)"
           (cambiarCfdiMail)="onCambioDeCfdiMail($event)"
+          (cambiarTel)="onCambioDeTel($event)"
           [sucursal]="sucursal$ | async" [pedido]="pedido$ | async">
         </sx-pedido-form>
       </div>
@@ -31,6 +33,7 @@ export class PedidoCreateComponent implements OnInit {
 
   sucursal$: Observable<Sucursal>;
   pedido$: Observable<Venta>;
+  @ViewChild(PedidoFormComponent) formPedido: PedidoFormComponent
 
   constructor(
     private addNewClienteService: AddNewClienteService,
@@ -79,23 +82,56 @@ export class PedidoCreateComponent implements OnInit {
     }
   }
 
-  doCambioDeCfdiMail(cliente) {
-    console.log('Actualizando el CFDI del cliente');
+  doCambioDeCfdiMail(data) {
+   //  console.log('Actualizando el CFDI del cliente');
     this._dialogService.openPrompt({
       message: 'Digite el nuevo email para envio del CFDI',
       viewContainerRef: this._viewContainerRef,
       title: 'Cambio de CFDI',
-      value: cliente.cfdiMail,
+      value: data.cliente.cfdiMail,
       cancelButton: 'Cancelar',
       acceptButton: 'Aceptar',
     }).afterClosed().subscribe((newValue: string) => {
       if (newValue) {
         console.log('Actualizando cfdi Mail: ', newValue);
         this.loadingService.register('saving');
-        this.service.actualizarCfdiEmail(cliente, newValue)
+        this.service.actualizarCfdiEmail(data.cliente, newValue, data.usuario.username)
           .subscribe(
             cli => {
-              console.log('correo actualizado: ', cliente);
+              // console.log('correo actualizado: ', data.cliente);
+             //  console.log('Usuario: ', data.usuario);
+              this.formPedido.form.get('cliente').setValue(cli);
+              this.loadingService.resolve('saving');
+            },
+            error => this.handlePostError(error)
+          );
+      }
+    });
+  }
+
+  onCambioDeTel(cliente) {
+    if (cliente) {
+      this.doCambioDeTel(cliente);
+    }
+  }
+
+  doCambioDeTel(data) {
+    // console.log('Actualizando el Telefono del cliente');
+    this._dialogService.openPrompt({
+      message: 'Digite el nuevo telefono',
+      viewContainerRef: this._viewContainerRef,
+      title: 'Actualización Telefono',
+      value: '',
+      cancelButton: 'Cancelar',
+      acceptButton: 'Aceptar',
+    }).afterClosed().subscribe((newValue: string) => {
+      if (newValue) {
+        // console.log('Actualizando Telefono: ', newValue);
+        this.loadingService.register('saving');
+        this.service.actualizarTelefono(data.cliente, newValue, data.usuario.username)
+          .subscribe(
+            cli => {
+              this.formPedido.form.get('cliente').setValue(cli);
               this.loadingService.resolve('saving');
             },
             error => this.handlePostError(error)

@@ -58,6 +58,8 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
   @Output() cambiarCfdiMail = new EventEmitter();
 
+  @Output() cambiarTel = new EventEmitter();
+
   @Output() print = new EventEmitter();
 
   @Input() sucursal: Sucursal;
@@ -308,7 +310,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
       /** Se desactiva la validacion de Cfdi clientes */
 
-      //if (this.cliente.cfdiValidado) {
+      // if (this.cliente.cfdiValidado) {
         const pedido: Venta = {
           ...this.form.getRawValue(),
           sucursal: this.sucursal,
@@ -407,7 +409,16 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
   onCambioDeCfdi(cliente) {
     // console.log('Cambio de CFDI mail', cliente);
-    this.cambiarCfdiMail.emit(cliente);
+
+    if (this.usuario) {
+      this.cambiarCfdiMail.emit({cliente: cliente, usuario: this.usuario});
+    }
+  }
+
+  onCambioDeTel(cliente) {
+    if (this.usuario) {
+      this.cambiarTel.emit({cliente: cliente, usuario: this.usuario});
+    }
   }
 
   onManiobra() {

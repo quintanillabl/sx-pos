@@ -26,6 +26,8 @@ export class PedidoHeaderComponent implements OnInit, OnDestroy {
 
   @Output() cambiarCfdi = new EventEmitter();
 
+  @Output() cambiarTel = new EventEmitter();
+
   @Input() parent: FormGroup;
 
   subscription: Subscription;
