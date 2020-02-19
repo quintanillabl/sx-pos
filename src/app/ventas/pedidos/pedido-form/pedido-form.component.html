@@ -1,7 +1,7 @@
 <form novalidate [formGroup]="form" layout="row" class="pedido-form" (ngSubmit)="onSave()">
 
     <md-card flex="80">
-        <sx-pedido-header [editable]="editable" (addCliente)="onAddNewCliente()" [parent]="form" (insertar)="onInsertPartida()" (descuento)="onDescuento()" (cambiarCfdi)="onCambioDeCfdi($event)" (cambiarTel)="onCambioDeTel($event)"  (maniobra)="onManiobra()">
+        <sx-pedido-header [editable]="editable" (addCliente)="onAddNewCliente()" [parent]="form" (insertar)="onInsertPartida()" (descuento)="onDescuento()" (cambiarCfdi)="onCambioDeCfdi($event)" (cambiarTel)="onCambioDeTel($event)" (maniobra)="onManiobra()">
         </sx-pedido-header>
         <md-divider></md-divider>
 
@@ -23,11 +23,11 @@
         <md-divider></md-divider>
         <div class="table-wrapper">
 
-            <sx-pedido-partidas-grid flex [partidas]="partidas.value" [parent]="form"  (delete)="onDelete($event)" (edit)="onEditPartida($event)" (cambioDePrecio)="onCambioDePrecio($event)">
+            <sx-pedido-partidas-grid flex [partidas]="partidas.value" [parent]="form" (delete)="onDelete($event)" (edit)="onEditPartida($event)" (cambioDePrecio)="onCambioDePrecio($event)">
             </sx-pedido-partidas-grid>
         </div>
         <div layout>
-            <sx-validation-panel [parent]="form" [surtido]="pedido ? pedido.surtido : false "  flex="80"></sx-validation-panel>
+            <sx-validation-panel [parent]="form" [surtido]="pedido ? pedido.surtido : false " flex="80"></sx-validation-panel>
             <td-message #message label="Se requiere clave para salvar" icon="warning" *ngIf="usuario === null" color="accent" opened="true">
             </td-message>
         </div>
@@ -62,4 +62,3 @@
     </div>
 
 </form>
-
