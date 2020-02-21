@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import * as moment from "moment";
 
 export class Periodo {
   static parse(json: string) {
@@ -10,8 +10,8 @@ export class Periodo {
 
   static mesActual(): Periodo {
     const now = moment();
-    const f1 = moment(now).startOf('month');
-    const f2 = moment(now).endOf('month');
+    const f1 = moment(now).startOf("month");
+    const f2 = moment(now).endOf("month");
     return new Periodo(f1.toDate(), f2.toDate());
   }
 
@@ -29,21 +29,28 @@ export class Periodo {
 
   static monthToDay(): Periodo {
     const now = moment();
-    const f1 = moment(now).startOf('month');
+    const f1 = moment(now).startOf("month");
     const f2 = moment(now);
     return new Periodo(f1.toDate(), f2.toDate());
   }
 
   static fromNow(days: number): Periodo {
-    const f1 = moment().subtract(days, 'days');
+    const f1 = moment().subtract(days, "days");
     const f2 = moment();
     return new Periodo(f1.toDate(), f2.toDate());
   }
 
   static monthsAgo(months: number): Periodo {
-    const f1 = moment().subtract(months, 'months');
+    const f1 = moment().subtract(months, "months");
     const f2 = moment();
     return new Periodo(f1.toDate(), f2.toDate());
+  }
+
+  static fromStorage(key: string, notFound: Periodo = Periodo.monthToDay()) {
+    return this.fromJson(localStorage.getItem(key)) || notFound;
+  }
+  static saveOnStorage(key: string, periodo: Periodo) {
+    return localStorage.setItem(key, periodo.toJson());
   }
 
   constructor(
@@ -52,9 +59,9 @@ export class Periodo {
   ) {}
 
   toString() {
-    return `${moment(this.fechaInicial).format('DD/MM/YYYY')} - ${moment(
+    return `${moment(this.fechaInicial).format("DD/MM/YYYY")} - ${moment(
       this.fechaFinal
-    ).format('DD/MM/YYYY')}`;
+    ).format("DD/MM/YYYY")}`;
   }
 
   toJson() {

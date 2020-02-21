@@ -1,4 +1,4 @@
-import { Sucursal, Cliente, VentaDet, Vendedor } from 'app/models';
+import { Sucursal, Cliente, VentaDet, Vendedor } from "app/models";
 
 export interface Venta {
   id: string;
@@ -51,6 +51,7 @@ export interface Venta {
   complementoIne?: any;
   noFacturable?: boolean;
   surtido?: boolean;
+  sw2?: string;
 }
 
 export interface TipoDeVenta {
@@ -58,9 +59,9 @@ export interface TipoDeVenta {
   descripcion: string;
 }
 export const TIPOS: TipoDeVenta[] = [
-  { clave: 'CON', descripcion: 'Contado' },
-  { clave: 'CRE', descripcion: 'Crédito' },
-  { clave: 'COD', descripcion: 'Cobro contra entrega' }
+  { clave: "CON", descripcion: "Contado" },
+  { clave: "CRE", descripcion: "Crédito" },
+  { clave: "COD", descripcion: "Cobro contra entrega" }
   // { clave: 'ANT', descripcion: 'Anticipo'},
   // { clave: 'USD', descripcion: 'Dolares'},
   // { clave: 'ACT', descripcion: 'Activos'},
