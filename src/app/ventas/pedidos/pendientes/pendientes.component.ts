@@ -1,36 +1,36 @@
-import { Component, OnInit, ViewContainerRef } from "@angular/core";
-import { Store } from "@ngrx/store";
-import { Observable } from "rxjs/Observable";
-import { Subject } from "rxjs/Subject";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { Router } from "@angular/router";
-import { MdDialog } from "@angular/material";
-import { TdDialogService } from "@covalent/core";
-import * as _ from "lodash";
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Router } from '@angular/router';
+import { MdDialog } from '@angular/material';
+import { TdDialogService } from '@covalent/core';
+import * as _ from 'lodash';
 
-import * as fromPedidos from "app/ventas/pedidos/store/reducers";
-import { PedidosService } from "app/ventas/pedidos/services/pedidos.service";
-import { EnvioDireccionComponent } from "../pedido-form/envio-direccion/envio-direccion.component";
-import { Venta, Sucursal } from "app/models";
-import { AutorizacionDeVentaComponent } from "../autorizacion-de-venta/autorizacion-de-venta.component";
-import { CambioDeClienteComponent } from "app/ventas/pedidos/cambio-de-cliente/cambio-de-cliente.component";
-import { UsuarioDialogComponent } from "app/shared/_components/usuario-dialog/usuario-dialog.component";
-import { Periodo } from "app/models/periodo";
+import * as fromPedidos from 'app/ventas/pedidos/store/reducers';
+import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
+import { EnvioDireccionComponent } from '../pedido-form/envio-direccion/envio-direccion.component';
+import { Venta, Sucursal } from 'app/models';
+import { AutorizacionDeVentaComponent } from '../autorizacion-de-venta/autorizacion-de-venta.component';
+import { CambioDeClienteComponent } from 'app/ventas/pedidos/cambio-de-cliente/cambio-de-cliente.component';
+import { UsuarioDialogComponent } from 'app/shared/_components/usuario-dialog/usuario-dialog.component';
+import { Periodo } from 'app/models/periodo';
 
 @Component({
-  selector: "sx-pedidos-pendientes",
-  templateUrl: "./pendientes.component.html",
-  styleUrls: ["./pendientes.component.scss"]
+  selector: 'sx-pedidos-pendientes',
+  templateUrl: './pendientes.component.html',
+  styleUrls: ['./pendientes.component.scss']
 })
 export class PendientesComponent implements OnInit {
-  PERIODO_KEY = "com.sx.ventas.pedidos-pendientes.periodo";
-  CALLCENTER_KEY = "com.sx.ventas.pedidos-pendientes.callcenter";
+  PERIODO_KEY = 'com.sx.ventas.pedidos-pendientes.periodo';
+  CALLCENTER_KEY = 'com.sx.ventas.pedidos-pendientes.callcenter';
 
   pedidos$: Observable<Venta[]>;
 
   procesando = false;
 
-  search$ = new BehaviorSubject<string>("");
+  search$ = new BehaviorSubject<string>('');
 
   reload$ = new Subject<boolean>();
 
@@ -95,12 +95,12 @@ export class PendientesComponent implements OnInit {
 
   onEdit(pedido: Venta) {
     // console.log('Editando pedido: ', pedido);
-    if (pedido.moneda === "USD") {
-      this.router.navigate(["/ventas/pedidos/dolares/edit", pedido.id]);
-    } else if (pedido.tipo === "ANT") {
-      this.router.navigate(["/ventas/pedidos/anticipo/edit", pedido.id]);
+    if (pedido.moneda === 'USD') {
+      this.router.navigate(['/ventas/pedidos/dolares/edit', pedido.id]);
+    } else if (pedido.tipo === 'ANT') {
+      this.router.navigate(['/ventas/pedidos/anticipo/edit', pedido.id]);
     } else {
-      this.router.navigate(["/ventas/pedidos/edit", pedido.id]);
+      this.router.navigate(['/ventas/pedidos/edit', pedido.id]);
     }
   }
 
@@ -110,26 +110,26 @@ export class PendientesComponent implements OnInit {
     }
     if (pedido.ventaIne && !pedido.complementoIne) {
       this._dialogService.openAlert({
-        title: "Venta de tipo INE",
+        title: 'Venta de tipo INE',
         message:
-          "Se requirere registrar el complemento INE antes de mandar a factura",
-        closeButton: "Cerrar"
+          'Se requirere registrar el complemento INE antes de mandar a factura',
+        closeButton: 'Cerrar'
       });
       return;
     }
     if (pedido.sinExistencia) {
       this.mandarFacturarConAntorizacion(
         pedido,
-        "SIN_EXISTENCIA",
-        "Este pedido tiene partidas sin existencia requiere autorización",
-        "ROLE_GERENTE"
+        'SIN_EXISTENCIA',
+        'Este pedido tiene partidas sin existencia requiere autorización',
+        'ROLE_GERENTE'
       );
     } else if (pedido.descuento > pedido.descuentoOriginal) {
       this.mandarFacturarConAntorizacion(
         pedido,
-        "DESCUENTO_ESPECIAL",
-        "Este pedido tiene partidas con descuento especial requiere de autorización",
-        "ROLE_SUPERVISOR"
+        'DESCUENTO_ESPECIAL',
+        'Este pedido tiene partidas con descuento especial requiere de autorización',
+        'ROLE_SUPERVISOR'
       );
     } else {
       this.mandarFacturarNormal(pedido);
@@ -149,10 +149,10 @@ export class PendientesComponent implements OnInit {
       .subscribe(user => {
         if (user) {
           pedido.facturarUsuario = user.username;
-          console.log("Mandando facturar: ", pedido);
+          console.log('Mandando facturar: ', pedido);
           this.service.mandarFacturar(pedido).subscribe(
             res => {
-              console.log("Pedido listo para facturación", res);
+              console.log('Pedido listo para facturación', res);
               this.load();
             },
             error => this.handleError(error)
@@ -166,16 +166,16 @@ export class PendientesComponent implements OnInit {
       .openConfirm({
         message: `Mandar a facturar el pedido ${pedido.tipo} - ${pedido.documento} (${pedido.total})`,
         viewContainerRef: this._viewContainerRef,
-        title: "Ventas",
-        cancelButton: "Cancelar",
-        acceptButton: "Aceptar"
+        title: 'Ventas',
+        cancelButton: 'Cancelar',
+        acceptButton: 'Aceptar'
       })
       .afterClosed()
       .subscribe((accept: boolean) => {
         if (accept) {
           this.service.mandarFacturar(pedido).subscribe(
             res => {
-              console.log("Pedido listo para facturación", res);
+              console.log('Pedido listo para facturación', res);
               this.load();
               // this.router.navigate(['/ventas/pedidos/facturacionCredito']);
             },
@@ -203,10 +203,10 @@ export class PendientesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(auth => {
       if (auth) {
         auth.venta = pedido;
-        console.log("Facturacion: ", auth);
+        console.log('Facturacion: ', auth);
         this.service.mandarFacturarConAutorizacion(auth).subscribe(
           res => {
-            console.log("Pedido listo para facturación", res);
+            console.log('Pedido listo para facturación', res);
             this.load();
             // this.router.navigate(['/ventas/pedidos/facturacionCredito']);
           },
@@ -234,7 +234,7 @@ export class PendientesComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log("Asignando direccion de envío: ", result);
+        console.log('Asignando direccion de envío: ', result);
         this.doAsignarEnvio(pedido, result);
       }
     });
@@ -255,11 +255,11 @@ export class PendientesComponent implements OnInit {
     if (pedido.envio) {
       const dialogRef = this._dialogService
         .openConfirm({
-          message: "Cancelar envio del pedido " + pedido.documento,
-          title: "Cancelación de envío",
+          message: 'Cancelar envio del pedido ' + pedido.documento,
+          title: 'Cancelación de envío',
           viewContainerRef: this._viewContainerRef,
-          acceptButton: "Aceptar",
-          cancelButton: "Cancelar"
+          acceptButton: 'Aceptar',
+          cancelButton: 'Cancelar'
         })
         .afterClosed()
         .subscribe(res => {
@@ -277,7 +277,7 @@ export class PendientesComponent implements OnInit {
       .finally(() => (this.procesando = false))
       .subscribe(
         (res: Venta) => {
-          console.log("Envio cancelado para: ", res);
+          console.log('Envio cancelado para: ', res);
           this.load();
           pedido = res;
         },
@@ -294,11 +294,11 @@ export class PendientesComponent implements OnInit {
       .subscribe(
         res => {
           const blob = new Blob([res], {
-            type: "application/pdf"
+            type: 'application/pdf'
           });
           this.procesando = false;
           const fileURL = window.URL.createObjectURL(blob);
-          window.open(fileURL, "_blank");
+          window.open(fileURL, '_blank');
         },
         error2 => this.handleError(error2)
       );
@@ -306,18 +306,18 @@ export class PendientesComponent implements OnInit {
 
   handleError(error) {
     this.procesando = false;
-    console.error("Error: ", error);
+    console.error('Error: ', error);
   }
 
   OnGenerarVale(pedido: Venta) {
-    if (pedido.clasificacionVale === "EXISTENCIA_VENTA") {
+    if (pedido.clasificacionVale === 'EXISTENCIA_VENTA') {
       this._dialogService
         .openConfirm({
           message: `Generar vale ${pedido.tipo} - ${pedido.documento} (${pedido.total})`,
           viewContainerRef: this._viewContainerRef,
-          title: "Vale de traslado ",
-          cancelButton: "Cancelar",
-          acceptButton: "Aceptar"
+          title: 'Vale de traslado ',
+          cancelButton: 'Cancelar',
+          acceptButton: 'Aceptar'
         })
         .afterClosed()
         .subscribe((accept: boolean) => {
@@ -375,5 +375,51 @@ export class PendientesComponent implements OnInit {
         },
         error => this.handleError(error)
       );
+  }
+
+  onPuesto(id: string) {
+    this._dialogService
+      .openConfirm({
+        title: 'Modificar pedido',
+        message: 'Registrar pedido como puesto?',
+        acceptButton: 'Aceptar',
+        cancelButton: 'Cancelar'
+      })
+      .afterClosed()
+      .subscribe(res => {
+        if (res) {
+          this.service
+            .updateVenta(id, { puesto: new Date().toISOString() })
+            .subscribe(
+              vta => {
+                console.log('Vta actualizada: ', vta);
+                this.load();
+              },
+              error => console.error('Error: ', error)
+            );
+        }
+      });
+  }
+
+  onDelete(id: string) {
+    this._dialogService
+      .openConfirm({
+        title: 'Cancelar pedido',
+        message: 'Eliminar y regresar a CallCenter?',
+        acceptButton: 'Aceptar',
+        cancelButton: 'Cancelar'
+      })
+      .afterClosed()
+      .subscribe(res => {
+        if (res) {
+          this.service.delete(id).subscribe(
+            () => {
+              console.log('Pedido eliminado', id);
+              this.load();
+            },
+            error => console.error('Error: ', error)
+          );
+        }
+      });
   }
 }

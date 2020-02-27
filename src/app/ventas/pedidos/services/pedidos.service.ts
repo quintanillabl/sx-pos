@@ -65,6 +65,11 @@ export class PedidosService {
     return this.http.put(url, venta);
   }
 
+  updateVenta(id: string, changes: Partial<Venta>): Observable<Venta> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.put<Venta>(url, changes);
+  }
+
   asignarEnvio(venta: Venta, direccion: {}) {
     console.log("Asignando direccion de envio: ", direccion);
     const url = `${this.apiUrl}/asignarEnvio/${venta.id}`;

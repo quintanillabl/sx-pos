@@ -76,14 +76,14 @@ export class CajaService {
       ...cobro,
       venta: cobro.venta.id
     };
-    console.log('Registrando cobro de contado: ', cob);
     return this.http.post(url, cob);
   }
 
   regresarAPedidos(venta: Venta): Observable<Venta> {
-    venta.facturar = null;
-    const url = `${this.apiUrl}/${venta.id}`;
-    return this.http.put<Venta>(url, venta);
+    // venta.facturar = null;
+    const url = `${this.apiUrl}/regresaraPendiente/${venta.id}`;
+    // return this.http.put<Venta>(url, venta);
+    return this.http.put<Venta>(url, { facturar: null });
   }
 
   bancos(): Observable<Banco[]> {

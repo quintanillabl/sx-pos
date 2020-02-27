@@ -7,7 +7,7 @@
   <ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
     <a (click)="onEdit(row)" class="tc-indigo-700 cursor-pointer folio-cell">
       <span>{{ row.tipo }}{{ row.documento }}</span>
-      <span class="callcenter">{{ row.sw2 ? "CALLCENTER" : "" }}</span>
+      <span class="callcenter">{{ row.sw2 ? 'CALLCENTER' : '' }}</span>
     </a>
   </ng-template>
 
@@ -20,7 +20,7 @@
     <span layout="column">
       <span *ngIf="row.tipo === 'ANT'"> ANT {{ row.comentario }}</span>
       <span *ngIf="row.tipoDeCambio > 1">
-        (USD T.C: {{ row.tipoDeCambio | number: "1.4-4" }})</span
+        (USD T.C: {{ row.tipoDeCambio | number: '1.4-4' }})</span
       >
       <span *ngIf="row.puesto"
         >PUESTO
@@ -56,7 +56,7 @@
     </ng-template>
 -->
   <ng-template tdDataTableTemplate="fecha" let-value="value">
-    {{ value | date: "dd/MM/yyyy" }}
+    {{ value | date: 'dd/MM/yyyy' }}
   </ng-template>
 
   <ng-template tdDataTableTemplate="nombre" let-value="value" let-row="row">
@@ -72,7 +72,7 @@
   </ng-template>
 
   <ng-template tdDataTableTemplate="lastUpdated" let-value="value">
-    {{ value | date: "dd/MM/yyyy HH:mm" }}
+    {{ value | date: 'dd/MM/yyyy HH:mm' }}
   </ng-template>
 
   <ng-template
@@ -93,7 +93,7 @@
 
   <ng-template tdDataTableTemplate="total" let-value="value" let-row="row">
     <span layout="column">
-      <span class="tc-indigo-800">{{ value | currency: "USD":1.2 - 2 }}</span>
+      <span class="tc-indigo-800">{{ value | currency: 'USD':1.2 - 2 }}</span>
       <span class="text-sm tc-pink-700">{{ getFormaDePago(row) }}</span>
     </span>
   </ng-template>
@@ -123,6 +123,33 @@
       </button>
       <button
         md-icon-button
+        type="button"
+        mdTooltip="Regresar a Callcenter"
+        (click)="delete.emit(row.id)"
+        *ngIf="row.sw2"
+      >
+        <md-icon>delete</md-icon>
+      </button>
+      <button
+        md-icon-button
+        type="button"
+        mdTooltip="Asitnar como PUESTO"
+        (click)="puesto.emit(row.id)"
+        *ngIf="!row.puesto"
+      >
+        <md-icon>flag</md-icon>
+      </button>
+      <button
+        md-icon-button
+        type="button"
+        mdTooltip="Quitar como PUESTO"
+        (click)="puesto.emit(row.id)"
+        *ngIf="row.puesto"
+      >
+        <md-icon>cancel</md-icon>
+      </button>
+      <button
+        md-icon-button
         *ngIf="!row.noFacturable"
         (click)="onFacturar(row)"
         mdTooltip="Mandar facturar"
@@ -143,6 +170,7 @@
       <!-- <button md-icon-button type="button" (click)="cancelarEnvio.emit(row)" mdTooltip="Cancelar envío" *ngIf="row.envio">
         <md-icon [ngClass]="{'tc-red-500': (row.envio)}">flight_takeoff</md-icon>
       </button> -->
+
       <button
         md-icon-button
         type="button"
