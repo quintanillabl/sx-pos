@@ -57,6 +57,9 @@ export class PendientesListComponent implements OnInit {
   ngOnInit() {}
 
   onEdit(pedido: Venta) {
+    if (pedido.callcenter || pedido.sw2) {
+      return;
+    }
     this.edit.emit(pedido);
   }
 

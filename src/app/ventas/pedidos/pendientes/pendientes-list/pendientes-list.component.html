@@ -126,7 +126,7 @@
         type="button"
         mdTooltip="Regresar a Callcenter"
         (click)="delete.emit(row.id)"
-        *ngIf="row.sw2"
+        *ngIf="row.sw2 || row.callcenter"
       >
         <md-icon>delete</md-icon>
       </button>
@@ -161,7 +161,7 @@
         type="button"
         mdTooltip="Configurar envío"
         (click)="envio.emit(row)"
-        *ngIf="!row.sw2"
+        *ngIf="!row.callcenter"
       >
         <md-icon [ngClass]="{ 'tc-green-500': row.envio }"
           >flight_takeoff</md-icon
@@ -181,7 +181,7 @@
       </button>
       <a
         (click)="cambioDeCliente.emit(row)"
-        *ngIf="permitirCambioDeCliente(row) && !row.sw2"
+        *ngIf="permitirCambioDeCliente(row) && !row.callcenter"
         class="tc-pink-800"
         md-icon-button
       >
