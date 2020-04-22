@@ -24,15 +24,13 @@
       >
       <span *ngIf="row.puesto"
         >PUESTO
-        <md-icon *ngIf="row.surtido" class=" tc-pink-700"
-          >shopping_cart</md-icon
-        >
+        <md-icon *ngIf="row.surtido" class="tc-pink-700">shopping_cart</md-icon>
       </span>
       <span *ngIf="row.clasificacionVale !== 'SIN_VALE'">{{
         row.clasificacionVale
       }}</span>
-      <span *ngIf="row.sinExistencia" class=" tc-pink-700">SIN EXISTENCIA</span>
-      <span *ngIf="row.descuento > row.descuentoOriginal" class=" tc-pink-700"
+      <span *ngIf="row.sinExistencia" class="tc-pink-700">SIN EXISTENCIA</span>
+      <span *ngIf="row.descuento > row.descuentoOriginal" class="tc-pink-700"
         >DESCTO {{ row.descuento }}</span
       >
       <span
@@ -143,7 +141,7 @@
         md-icon-button
         type="button"
         mdTooltip="Quitar como PUESTO"
-        (click)="puesto.emit(row.id)"
+        (click)="quitarPuesto.emit(row.id)"
         *ngIf="row.puesto"
       >
         <md-icon>cancel</md-icon>

@@ -4,7 +4,7 @@ import {
   Input,
   EventEmitter,
   Output,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ITdDataTableColumn } from '@covalent/core/data-table/data-table.component';
 import { MdDialog } from '@angular/material';
@@ -15,7 +15,7 @@ import { PartidasDialogComponent } from '../../../_components/partidas-dialog/pa
   selector: 'sx-pedidos-pendientes-list',
   templateUrl: './pendientes-list.component.html',
   styleUrls: ['./pendientes-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PendientesListComponent implements OnInit {
   @Input() pedidos: Venta[];
@@ -35,6 +35,7 @@ export class PendientesListComponent implements OnInit {
   @Output() cambioDeCliente = new EventEmitter<any>();
 
   @Output() puesto = new EventEmitter<any>();
+  @Output() quitarPuesto = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
 
   columns: ITdDataTableColumn[] = [
@@ -49,7 +50,7 @@ export class PendientesListComponent implements OnInit {
     { name: 'createUser', label: 'Creado', width: 50 },
     //{ name: 'updateUser', label: 'Modificado', width: 50 },ç
     { name: 'comentario', label: 'Comentario', width: 170 },
-    { name: 'operaciones', label: 'Opc', width: 200 }
+    { name: 'operaciones', label: 'Opc', width: 200 },
   ];
 
   constructor(public dialog: MdDialog) {}
@@ -103,7 +104,7 @@ export class PendientesListComponent implements OnInit {
   showDetails(pedido: Venta) {
     const id = pedido.id;
     const dialogRef = this.dialog.open(PartidasDialogComponent, {
-      data: { pedido: pedido }
+      data: { pedido: pedido },
     });
   }
 }
