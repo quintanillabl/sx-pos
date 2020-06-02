@@ -65,7 +65,8 @@ export class PendientesComponent implements OnInit {
   }
 
   ngOnInit() {
-    const p = Periodo.fromStorage(this.PERIODO_KEY, Periodo.fromNow(3));
+    // const p = Periodo.fromStorage(this.PERIODO_KEY, Periodo.fromNow(3));
+    const p = Periodo.fromNow(7);
     const scall = localStorage.getItem(this.CALLCENTER_KEY);
     this.callcenter = scall ? JSON.parse(scall) : false;
     this.filtro = { periodo: p, callcenter: this.callcenter };
@@ -377,27 +378,51 @@ export class PendientesComponent implements OnInit {
       );
   }
 
-  onPuesto(id: string) {
-    this._dialogService
-      .openConfirm({
-        title: 'Modificar pedido',
-        message: 'Registrar pedido como puesto?',
-        acceptButton: 'Aceptar',
-        cancelButton: 'Cancelar',
-      })
-      .afterClosed()
-      .subscribe((res) => {
-        if (res) {
-          this.service
-            .registrarPuesto(id)
-            // .updateVenta(id, { puesto: new Date().toISOString() })
-            .subscribe(
+  onPuesto(pedido: Venta) {
+    if (pedido.callcenter) {
+      this.onPuesto2(pedido);
+    } else {
+      this._dialogService
+        .openConfirm({
+          title: 'Modificar pedido',
+          message: 'Registrar pedido como puesto?',
+          acceptButton: 'Aceptar',
+          cancelButton: 'Cancelar',
+        })
+        .afterClosed()
+        .subscribe((res) => {
+          if (res) {
+            this.service.registrarPuesto(pedido.id).subscribe(
               (vta) => {
                 console.log('Vta actualizada: ', vta);
                 this.load();
               },
               (error) => console.error('Error: ', error)
             );
+          }
+        });
+    }
+  }
+
+  onPuesto2(pedido: Venta) {
+    const message = `
+    Registrar pedido: ${pedido.tipo} ${pedido.documento} como PUESTO`;
+    this.dialog
+      .open(UsuarioDialogComponent, {
+        data: {
+          title: message,
+        },
+      })
+      .afterClosed()
+      .subscribe((user) => {
+        if (user) {
+          this.service.registrarPuestoCallcenter(pedido.id, user).subscribe(
+            (vta) => {
+              console.log('Pedido actualizado: ', vta.documento);
+              this.load();
+            },
+            (error) => console.error('Error: ', error)
+          );
         }
       });
   }
@@ -424,7 +449,7 @@ export class PendientesComponent implements OnInit {
       });
   }
 
-  onDelete(id: string) {
+  onDelete_OLD(id: string) {
     this._dialogService
       .openConfirm({
         title: 'Cancelar pedido',
@@ -436,6 +461,31 @@ export class PendientesComponent implements OnInit {
       .subscribe((res) => {
         if (res) {
           this.service.delete(id).subscribe(
+            () => {
+              console.log('Pedido eliminado', id);
+              this.load();
+            },
+            (error) => console.error('Error: ', error)
+          );
+        }
+      });
+  }
+
+  onDelete(pedido: Venta) {
+    const message = `
+    Regresar pedido a Callcenter: ${pedido.tipo} ${pedido.documento} `;
+    const dialogRef = this.dialog
+      .open(UsuarioDialogComponent, {
+        data: {
+          title: message,
+        },
+      })
+      .afterClosed()
+      .subscribe((user) => {
+        if (user) {
+          const { id } = pedido;
+          console.log('Regresando pedido: ', id);
+          this.service.regresarCallcenter(pedido.id, user).subscribe(
             () => {
               console.log('Pedido eliminado', id);
               this.load();

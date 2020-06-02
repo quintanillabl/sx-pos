@@ -1,5 +1,4 @@
-
-import {AbstractControl, FormArray, ValidatorFn} from '@angular/forms';
+import { AbstractControl, FormArray, ValidatorFn } from '@angular/forms';
 import * as _ from 'lodash';
 
 /**
@@ -9,42 +8,42 @@ import * as _ from 'lodash';
  * @returns {{[p: string]: boolean}}
  * @constructor
  */
-export const PedidoValidator = (control: AbstractControl): {[key: string]: boolean} => {
-
+export const PedidoValidator = (
+  control: AbstractControl
+): { [key: string]: boolean } => {
   // Algunos valores requeridos en las validaciones
   const cliente = control.get('cliente').value;
   const tipo = control.get('tipo').value;
   const formaDePago = control.get('formaDePago').value;
-  const total = (control.get('total').value);
+  const total = control.get('total').value;
 
-  let errors = {}
+  let errors = {};
 
   // Reglas de validacion de cliente
   if (cliente) {
     if (!cliente.activo) {
-      errors =  {...errors, clienteSuspendido: true};
+      errors = { ...errors, clienteSuspendido: true };
     }
 
     if (cliente.juridico) {
-      errors =  {...errors, clienteEnJuridico: true}
+      errors = { ...errors, clienteEnJuridico: true };
     }
     if (cliente.chequeDevuelto > 0) {
-      errors =  {...errors, clienteConChequesDevueltos: true}
+      errors = { ...errors, clienteConChequesDevueltos: true };
     }
 
     if (cliente.credito && tipo === 'CRE') {
-
       if (!cliente.credito.creditoActivo) {
-        errors = { ...errors, creditoSuspendido: true};
+        errors = { ...errors, creditoSuspendido: true };
       }
 
-      if (cliente.credito.atrasoMaximo > 7 ) {
-        errors = { ...errors, atrasoMaximo: true};
+      if (cliente.credito.atrasoMaximo > 7) {
+        errors = { ...errors, atrasoMaximo: true };
       }
 
       const nvoTotal = total + cliente.credito.saldo;
-      if ( cliente.credito.lineaDeCredito < nvoTotal ) {
-        errors = { ...errors, lineaSaturada: true};
+      if (cliente.credito.lineaDeCredito < nvoTotal) {
+        errors = { ...errors, lineaSaturada: true };
       }
     }
   }
@@ -61,21 +60,27 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
   }
 
   // Validar que si se selecciona COD se configure el envio
-  const cod = (control.get('cod').value);
-  const entrega = (control.get('entrega').value);
+  const cod = control.get('cod').value;
+  const entrega = control.get('entrega').value;
   if (cod) {
     if (entrega === 'LOCAL') {
-      errors = { ...errors, codSinEnvio: true}
+      errors = { ...errors, codSinEnvio: true };
     }
     // tslint:disable-next-line:max-line-length
-    if (formaDePago === 'TARJETA_CREDITO' || formaDePago === 'TARJETA_DEBITO' || formaDePago === 'TRANSFERENCIA' || formaDePago === 'DEPOSITO_CHEQUE' || formaDePago === 'DEPOSITO_EFECTIVO' || formaDePago === 'DEPOSITO_MIXTO') {
-      errors = { ...errors, codConFormaDePagoIncorrecta: true}
+    // if (formaDePago === 'TARJETA_CREDITO' || formaDePago === 'TARJETA_DEBITO' || formaDePago === 'TRANSFERENCIA' || formaDePago === 'DEPOSITO_CHEQUE' || formaDePago === 'DEPOSITO_EFECTIVO' || formaDePago === 'DEPOSITO_MIXTO') {
+    if (
+      formaDePago === 'TRANSFERENCIA' ||
+      formaDePago === 'DEPOSITO_CHEQUE' ||
+      formaDePago === 'DEPOSITO_EFECTIVO' ||
+      formaDePago === 'DEPOSITO_MIXTO'
+    ) {
+      errors = { ...errors, codConFormaDePagoIncorrecta: true };
     }
   }
   if (entrega !== 'LOCAL') {
     const envio = control.get('envio').value;
-    if (envio === null ) {
-      errors = { ...errors, entregaSinEnvio: true}
+    if (envio === null) {
+      errors = { ...errors, entregaSinEnvio: true };
     }
   }
 
@@ -83,24 +88,24 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
 
   if (formaDePago === 'CHEQUE' && tipo !== 'CRE') {
     if (cliente && !cliente.permiteCheque) {
-      errors = { ...errors, noSePermiteFormaDeCheque: true}
+      errors = { ...errors, noSePermiteFormaDeCheque: true };
     }
   }
 
   // Validar que el total no pase de 100,000
   if (formaDePago === 'EFECTIVO') {
     if (total > 100000) {
-      errors = { ...errors, totalMaximoPermitido: true}
+      errors = { ...errors, totalMaximoPermitido: true };
     }
   }
 
   // Validar el uso de vale
-  const conVale = partidas.find (item => item.conVale);
+  const conVale = partidas.find((item) => item.conVale);
   if (conVale) {
     const clasificacionVale = control.get('clasificacionVale').value;
     const sucursalVale = control.get('sucursalVale').value;
-    if ( clasificacionVale === 'SIN_VALE' || sucursalVale === null) {
-      errors = { ...errors, sinConfiguracionDeVale: true}
+    if (clasificacionVale === 'SIN_VALE' || sucursalVale === null) {
+      errors = { ...errors, sinConfiguracionDeVale: true };
     }
   }
 
@@ -114,14 +119,13 @@ export const PedidoValidator = (control: AbstractControl): {[key: string]: boole
   */
   // Validacion surtido
 
-
   // Validacion de usuario
   const user = control.get('usuario').value;
   if (!user) {
-    errors = { ...errors, sinUsuario: true}
+    errors = { ...errors, sinUsuario: true };
   }
-  if ( !_.isEmpty(errors)) {
-    return errors
+  if (!_.isEmpty(errors)) {
+    return errors;
   }
 
   return null;

@@ -14,7 +14,7 @@
   <ng-template tdDataTableTemplate="comentario" let-value="value" let-row="row">
     <span>
       <button md-icon-button *ngIf="row.comentario" [mdTooltip]="value">
-        <md-icon>message</md-icon>
+        <md-icon inline="true">message</md-icon>
       </button>
     </span>
     <span layout="column">
@@ -24,7 +24,9 @@
       >
       <span *ngIf="row.puesto"
         >PUESTO
-        <md-icon *ngIf="row.surtido" class="tc-pink-700">shopping_cart</md-icon>
+        <md-icon *ngIf="row.surtido" class="tc-pink-700" inline="true"
+          >shopping_cart</md-icon
+        >
       </span>
       <span *ngIf="row.clasificacionVale !== 'SIN_VALE'">{{
         row.clasificacionVale
@@ -123,7 +125,7 @@
         md-icon-button
         type="button"
         mdTooltip="Regresar a Callcenter"
-        (click)="delete.emit(row.id)"
+        (click)="delete.emit(row)"
         *ngIf="row.sw2 || row.callcenter"
       >
         <md-icon>delete</md-icon>
@@ -131,12 +133,13 @@
       <button
         md-icon-button
         type="button"
-        mdTooltip="Asitnar como PUESTO"
-        (click)="puesto.emit(row.id)"
+        mdTooltip="Asignar como PUESTO"
+        (click)="puesto.emit(row)"
         *ngIf="!row.puesto"
       >
         <md-icon>flag</md-icon>
       </button>
+      <!--
       <button
         md-icon-button
         type="button"
@@ -146,6 +149,7 @@
       >
         <md-icon>cancel</md-icon>
       </button>
+      -->
       <button
         md-icon-button
         *ngIf="!row.noFacturable"

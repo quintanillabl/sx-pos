@@ -42,15 +42,15 @@ export class PendientesListComponent implements OnInit {
     //{ name: 'tipo',  label: 'Tipo', width: 10 },
     { name: 'documento', label: 'Docto', width: 10 },
     { name: 'fecha', label: 'Fecha', width: 10 },
-    { name: 'nombre', label: 'Cliente', width: 320 },
+    { name: 'nombre', label: 'Cliente', width: 300 },
     { name: 'cod', label: 'COD', width: 5 },
 
     // { name: 'formaDePago', label: 'F.P', width: 30 },
-    { name: 'total', label: 'Total', width: 30 },
+    { name: 'total', label: 'Total', width: 25 },
     { name: 'createUser', label: 'Creado', width: 50 },
     //{ name: 'updateUser', label: 'Modificado', width: 50 },ç
-    { name: 'comentario', label: 'Comentario', width: 170 },
-    { name: 'operaciones', label: 'Opc', width: 200 },
+    { name: 'comentario', label: 'Comentario', width: 160 },
+    { name: 'operaciones', label: 'Opc', width: 250 },
   ];
 
   constructor(public dialog: MdDialog) {}

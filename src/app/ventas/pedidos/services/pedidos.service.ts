@@ -350,8 +350,25 @@ export class PedidosService {
     const url = `${this.apiUrl}/registrarPuesto/${id}`;
     return this.http.put<Venta>(url, { puesto: new Date().toISOString() });
   }
+
+  registrarPuestoCallcenter(id: string, user: any): Observable<Venta> {
+    const url = `${this.apiUrl}/registrarPuesto/${id}`;
+    const params = new HttpParams().set('usuario', user.username);
+    return this.http.put<Venta>(
+      url,
+      { puesto: new Date().toISOString() },
+      { params }
+    );
+  }
+
   quitarPuesto(id: string): Observable<Venta> {
     const url = `${this.apiUrl}/quitarPuesto/${id}`;
     return this.http.put<Venta>(url, {});
+  }
+
+  regresarCallcenter(id: string, user) {
+    const url = `${this.apiUrl}/regresarCallcenter/${id}`;
+    const params = new HttpParams().set('usuario', user.username);
+    return this.http.put(url, {}, { params: params });
   }
 }
