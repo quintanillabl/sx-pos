@@ -92,6 +92,7 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
     ) {
       this.form.get('importe').setValue(0);
     }
+    this.form.get('formaDePago').disable();
   }
 
   ngOnDestroy() {
