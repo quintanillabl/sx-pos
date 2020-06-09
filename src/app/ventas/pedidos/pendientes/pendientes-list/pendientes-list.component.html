@@ -126,7 +126,7 @@
         type="button"
         mdTooltip="Regresar a Callcenter"
         (click)="delete.emit(row)"
-        *ngIf="row.sw2 || row.callcenter"
+        *ngIf="row.callcenter && !row.puesto"
       >
         <md-icon>delete</md-icon>
       </button>

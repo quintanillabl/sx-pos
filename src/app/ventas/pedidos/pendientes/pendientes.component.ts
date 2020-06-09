@@ -472,6 +472,10 @@ export class PendientesComponent implements OnInit {
   }
 
   onDelete(pedido: Venta) {
+    if (pedido.puesto) {
+      return;
+    }
+
     const message = `
     Regresar pedido a Callcenter: ${pedido.tipo} ${pedido.documento} `;
     const dialogRef = this.dialog
