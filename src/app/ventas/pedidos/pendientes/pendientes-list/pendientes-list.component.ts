@@ -40,7 +40,7 @@ export class PendientesListComponent implements OnInit {
 
   columns: ITdDataTableColumn[] = [
     //{ name: 'tipo',  label: 'Tipo', width: 10 },
-    { name: 'documento', label: 'Docto', width: 10 },
+    { name: 'documento', label: 'Docto', width: 30 },
     { name: 'fecha', label: 'Fecha', width: 10 },
     { name: 'nombre', label: 'Cliente', width: 300 },
     { name: 'cod', label: 'COD', width: 5 },
