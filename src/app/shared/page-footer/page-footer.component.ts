@@ -15,7 +15,7 @@ export class PageFooterComponent implements OnInit {
   authentication$: Observable<any>;
 
   apiUrl: string;
-  version = '1.0.55';
+  version = '1.0.56';
 
   constructor(store: Store<fromAuth.State>, private config: ConfigService) {
     this.authentication$ = store.select(fromAuth.getAuthentication);
