@@ -51,6 +51,7 @@ import { ChoferFieldComponent } from './components/chofer-field/chofer-field.com
 import { PuestosService } from './services/puestos.service';
 import { CapturaMostradorPageComponent } from './_pages/almacen/captura/captura-mostrador-page-component';
 import { ValidacionConteoComponent } from './_pages/almacen/reportes/validacion-conteo/validacion-conteo.component';
+import { CajasService } from './services/cajas/cajas.service';
 
 
 
@@ -140,12 +141,16 @@ const PAGES =  [
   pages.RegresosPageComponent,
   pages.RegresosListComponent,
   pages.SelectorDeEmbarqueComponent,
-
-
   // Almacen Registro
   pages.RegistroConteoPageComponent,
   // Puestos
   pages.PuestosPageComponent,
+  // Cajas
+  pages.CajasPageComponent,
+  pages.CotizacionesPageComponent,
+  pages.CotizacionesGridComponent,
+  pages.CotizacionCreatePageComponent,
+  pages.CotizacionFormComponent,
 
 ];
 const COMPONENTS = [
@@ -251,7 +256,8 @@ const COMPONENTS = [
     Existencia2Service,
     ExistenciaResolve,
     FacturasService,
-    PuestosService
+    PuestosService,
+    CajasService
   ]
 })
 export class LogisticaModule { }

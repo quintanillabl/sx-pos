@@ -146,9 +146,15 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
       const result = cliente.permiteCheque ? null : { permiteCheque: false };
       return cliente.permiteCheque ? null : { permiteCheque: false };
     }
-    if (fp === 'TRANSFERENCIA') {
+    if (fp === 'TRANSFERENCIA' ) {
       return this.parciales.length > 0 ? null : { requiereDisponible: true };
     }
+    if (fp) {
+      if (fp.startsWith('DEPOSITO')) {
+        return this.parciales.length > 0 ? null : { requiereDisponible: true };
+      }
+    }
+
     return null;
   }
 

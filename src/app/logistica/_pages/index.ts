@@ -1,3 +1,6 @@
+import { CotizacionCreatePageComponent } from './cajas/cotizaciones/cotizacion-create-page.component';
+import { CotizacionFormComponent } from './cajas/cotizaciones/form/cotizacion-form.component';
+
 
 export { MainPageComponent } from './_main-page/main-page.component';
 export { MainDashboardComponent } from './_main-dashboard/main-dashboard.component';
@@ -72,7 +75,7 @@ export { EmbarqueEditPageComponent } from './embarques/embarque/embarque-edit-pa
 export { EnvioFormComponent } from './embarques/embarque/envio-form/envio-form.component';
 export { PartidasEnvioDialogComponent } from './embarques/embarque/envio-form/selector/partidas-envio-dialog.component';
 export { EnvioFormPartidasComponent } from './embarques/embarque/envio-form/partidas/envio-form-partidas.component';
-//Transito
+// Transito
 export { TransitoPageComponent } from './embarques/transito/transito-page.component';
 export { TransitoListComponent } from './embarques/transito/transito-list/transito-list.component';
 export { TransitoEditPageComponent } from './embarques/transito/transito-edit-page.component';
@@ -94,6 +97,14 @@ export { SelectorDeEmbarqueComponent } from './embarques/pendientes/selector-de-
 // Registro
 export { RegistroConteoPageComponent } from './almacen/registro/registro-conteo-page.component';
 
-//Puestos
+// Puestos
 export { PuestosPageComponent } from './puestos-page/puestos-page.component'
+
+// Cajas
+export { CajasPageComponent } from './cajas/cajas-page.component';
+export { CotizacionesPageComponent } from './cajas/cotizaciones/cotizaciones-page.component';
+export { CotizacionesGridComponent } from './cajas/cotizaciones/grid/cotizaciones-grid.component';
+export { CotizacionCreatePageComponent } from './cajas/cotizaciones/cotizacion-create-page.component';
+export { CotizacionFormComponent } from './cajas/cotizaciones/form/cotizacion-form.component';
+
 

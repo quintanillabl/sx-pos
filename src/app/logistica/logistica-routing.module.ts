@@ -9,6 +9,9 @@ import { PuestosPageComponent } from './_pages/puestos-page/puestos-page.compone
 import { CapturaMostradorPageComponent } from './_pages/almacen/captura/captura-mostrador-page-component';
 
 
+
+
+
 const routes: Routes = [
   {
     path: '',
@@ -62,6 +65,14 @@ const routes: Routes = [
           { path: 'captura', component: pages.CapturaPageComponent},
           { path: 'captura/show/:id', component: pages.CapturaEditPageComponent},
           { path: 'captura/edit/:id', component: pages.CapturaEditPageComponent},
+        ]
+      },
+      {
+        path: 'cajas',
+        component: pages.CajasPageComponent,
+        children: [
+          { path: 'cotizaciones', component: pages.CotizacionesPageComponent},
+          { path: 'cotizaciones/create', component: pages.CotizacionCreatePageComponent},
         ]
       },
       {
