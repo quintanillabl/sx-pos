@@ -1,6 +1,6 @@
 {
   "name": "sx-pos",
-  "version": "0.0.0",
+  "version": "1.0.50",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -10,7 +10,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "server": "./node_modules/.bin/json-server  --watch  ./server/db.json",
-    "build-prod": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --prod --aot"
+    "build-prod": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --prod --aot",
+    "set-node": "nvm use 8.11.1"
   },
   "private": true,
   "dependencies": {

@@ -47,7 +47,7 @@ export class CobranzaCodComponent implements OnInit {
   getFormaDePago(row: Venta) {
     switch (row.formaDePago) {
       case 'TARJETA_DEBITO':
-        return 'TAR_DEV'
+        return 'TAR_DEB'
       case 'TARJETA_CREDITO':
         return 'TAR_CRE'
       case 'TRANSFERENCIA':

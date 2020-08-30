@@ -1,5 +1,5 @@
 .pendientes-list-panel {
-  overflow: auto;
+  overflow: scroll;
   height: 100%;
 }
 :host ::ng-deep div.td-data-table-cell-content-wrapper {

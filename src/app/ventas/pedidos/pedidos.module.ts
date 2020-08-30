@@ -32,6 +32,7 @@ import { ComplementosComponent } from 'app/ventas/pedidos/complementos/complemen
 import { ComplementosService } from 'app/ventas/pedidos/services/complementos.service';
 import { ComplementoComponent } from 'app/ventas/pedidos/complemento/complemento.component';
 import { ComplementoFormComponent } from 'app/ventas/pedidos/complemento-form/complemento-form.component';
+import { AsignarPuestoComponent } from './asignar-puesto/asignar-puesto.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,7 @@ import { ComplementoFormComponent } from 'app/ventas/pedidos/complemento-form/co
     ProductosModule,
     PedidoFormModule,
     RouterModule.forChild([]),
-    StoreModule.forFeature('pedidos', reducers)
+    StoreModule.forFeature('pedidos', reducers),
   ],
   declarations: [
     PedidosPageComponent,
@@ -66,14 +67,16 @@ import { ComplementoFormComponent } from 'app/ventas/pedidos/complemento-form/co
     CambioDeClienteComponent,
     ComplementosComponent,
     ComplementoComponent,
-    ComplementoFormComponent
+    ComplementoFormComponent,
+    AsignarPuestoComponent,
   ],
   providers: [PedidosService, ComplementosService],
-  exports: [RouterModule,PendientesListComponent],
+  exports: [RouterModule, PendientesListComponent],
   entryComponents: [
     FacturaSearchDialogComponent,
     AutorizacionDeVentaComponent,
-    CambioDeClienteComponent
-  ]
+    CambioDeClienteComponent,
+    AsignarPuestoComponent,
+  ],
 })
 export class PedidosModule {}

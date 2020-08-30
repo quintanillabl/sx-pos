@@ -1,16 +1,16 @@
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-import { Venta, Sucursal, Producto, Cliente } from "app/models";
-import { ConfigService } from "app/core/services/config.service";
-import { Store } from "@ngrx/store";
+import { Venta, Sucursal, Producto, Cliente } from 'app/models';
+import { ConfigService } from 'app/core/services/config.service';
+import { Store } from '@ngrx/store';
 
-import * as fromRoot from "app/reducers";
-import { User } from "app/_auth/models/user";
-import { Periodo } from "app/models/periodo";
+import * as fromRoot from 'app/reducers';
+import { User } from 'app/_auth/models/user';
+import { Periodo } from 'app/models/periodo';
 
 @Injectable()
 export class PedidosService {
@@ -33,16 +33,16 @@ export class PedidosService {
   }
 
   pendientes(term, filter: any): Observable<Venta[]> {
-    console.log("Cargando pedidos pendientes", filter);
+    console.log('Cargando pedidos pendientes', filter);
     let params = new HttpParams();
     if (term) {
-      params = params.set("term", term);
+      params = params.set('term', term);
     }
     _.forIn(filter, (value, key) => {
       if (value instanceof Periodo) {
         const periodo = value as Periodo;
-        params = params.set("fechaInicial", periodo.fechaInicial.toISOString());
-        params = params.set("fechaFinal", periodo.fechaFinal.toISOString());
+        params = params.set('fechaInicial', periodo.fechaInicial.toISOString());
+        params = params.set('fechaFinal', periodo.fechaFinal.toISOString());
       } else {
         params = params.set(key, value);
       }
@@ -52,7 +52,7 @@ export class PedidosService {
   }
 
   list(): Observable<Venta[]> {
-    const params = new HttpParams().set("sucursal", this.sucursal.id);
+    const params = new HttpParams().set('sucursal', this.sucursal.id);
     return this.http.get<Venta[]>(this.apiUrl, { params: params });
   }
 
@@ -65,14 +65,19 @@ export class PedidosService {
     return this.http.put(url, venta);
   }
 
+  updateVenta(id: string, changes: Partial<Venta>): Observable<Venta> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.put<Venta>(url, changes);
+  }
+
   asignarEnvio(venta: Venta, direccion: {}) {
-    console.log("Asignando direccion de envio: ", direccion);
+    console.log('Asignando direccion de envio: ', direccion);
     const url = `${this.apiUrl}/asignarEnvio/${venta.id}`;
     return this.http.put(url, direccion);
   }
 
   cancelarEnvio(venta: Venta) {
-    console.log("Cancelando envio de: ", venta);
+    console.log('Cancelando envio de: ', venta);
     const url = `${this.apiUrl}/cancelarEnvio/${venta.id}`;
     return this.http.put(url, {});
   }
@@ -83,25 +88,25 @@ export class PedidosService {
   }
 
   findManiobraFlete(): Observable<Producto> {
-    const params = new HttpParams().set("clave", "MANIOBRAF");
+    const params = new HttpParams().set('clave', 'MANIOBRAF');
     const url = `${this.apiUrl}/findManiobra`;
     return this.http.get<Producto>(url, { params: params });
   }
 
   findManiobra(): Observable<Producto> {
-    const params = new HttpParams().set("clave", "MANIOBRA");
+    const params = new HttpParams().set('clave', 'MANIOBRA');
     const url = `${this.apiUrl}/findManiobra`;
     return this.http.get<Producto>(url, { params: params });
   }
 
   findCorte(): Observable<Producto> {
-    const params = new HttpParams().set("clave", "CORTE");
+    const params = new HttpParams().set('clave', 'CORTE');
     const url = `${this.apiUrl}/findManiobra`;
     return this.http.get<Producto>(url, { params: params });
   }
 
   mandarFacturar(venta: Venta) {
-    const params = new HttpParams().set("usuario", venta.facturarUsuario);
+    const params = new HttpParams().set('usuario', venta.facturarUsuario);
     const url = `${this.apiUrl}/mandarFacturar/${venta.id}`;
     return this.http.put(url, {}, { params: params });
   }
@@ -118,8 +123,8 @@ export class PedidosService {
 
   pendientesDeFacturar(tipo: string) {
     const params = new HttpParams()
-      .set("facturables", tipo)
-      .set("sucursal", this.sucursal.id);
+      .set('facturables', tipo)
+      .set('sucursal', this.sucursal.id);
     return this.http.get<Venta[]>(this.apiUrl, { params: params });
   }
 
@@ -128,8 +133,8 @@ export class PedidosService {
     _.forIn(filter, (value, key) => {
       if (value instanceof Periodo) {
         const periodo = value as Periodo;
-        params = params.set("fechaInicial", periodo.fechaInicial.toISOString());
-        params = params.set("fechaFinal", periodo.fechaFinal.toISOString());
+        params = params.set('fechaInicial', periodo.fechaInicial.toISOString());
+        params = params.set('fechaFinal', periodo.fechaFinal.toISOString());
       } else {
         params = params.set(key, value);
       }
@@ -142,7 +147,7 @@ export class PedidosService {
     let params = new HttpParams();
     // .set('sucursal', this.sucursal.id);
     if (term) {
-      params = params.set("term", term);
+      params = params.set('term', term);
     }
     // const url = this.configService.buildApiUrl('cxc/canceladas');
     const url = `${this.configService.getApiUrl()}/cxc/canceladas/${
@@ -160,20 +165,20 @@ export class PedidosService {
 
   print(id: string) {
     const url = `${this.apiUrl}/print`;
-    const params = new HttpParams().set("ID", id);
-    const headers = new HttpHeaders().set("Content-type", "application/pdf");
+    const params = new HttpParams().set('ID', id);
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http.get(url, {
       headers: headers,
       params: params,
-      responseType: "blob"
+      responseType: 'blob',
     });
   }
 
   cancelar(factura: Venta, user: User, motivo: string): Observable<Venta> {
-    console.log("Cancelando en el sistema la factura: ", factura);
+    console.log('Cancelando en el sistema la factura: ', factura);
     const params = new HttpParams()
-      .set("usuario", user.username)
-      .set("motivo", motivo);
+      .set('usuario', user.username)
+      .set('motivo', motivo);
     const url = `${this.apiUrl}/cancelar/${factura.id}`;
     return this.http.put<Venta>(url, {}, { params: params });
   }
@@ -190,53 +195,53 @@ export class PedidosService {
   ): Observable<Venta> {
     const url = `${this.apiUrl}/cambioDeCliente/${venta.id}`;
     const params = new HttpParams()
-      .set("usuario", usuario.username)
-      .set("cliente", cliente.id);
+      .set('usuario', usuario.username)
+      .set('cliente', cliente.id);
     return this.http.put<Venta>(url, {}, { params: params });
   }
 
   mostrarXml(venta: Venta): Observable<any> {
     const endpoint = `cfdis/mostrarXml/${venta.cuentaPorCobrar.cfdi.id}`;
     const url = this.configService.buildApiUrl(endpoint);
-    const headers = new HttpHeaders().set("Content-type", "text/xml");
+    const headers = new HttpHeaders().set('Content-type', 'text/xml');
     return this.http.get(url, {
       headers: headers,
-      responseType: "blob"
+      responseType: 'blob',
     });
   }
 
   imprimirCfdi(cfdi: any) {
     const endpoint = `cfdis/print/${cfdi.id}`;
     const url = this.configService.buildApiUrl(endpoint);
-    const headers = new HttpHeaders().set("Content-type", "application/pdf");
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http.get(url, {
       headers: headers,
-      responseType: "blob"
+      responseType: 'blob',
     });
   }
 
   imprimirPedido(pedidoId: string) {
     const url = `${this.apiUrl}/print/${pedidoId}`;
-    const headers = new HttpHeaders().set("Content-type", "application/pdf");
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http.get(url, {
       headers: headers,
-      responseType: "blob"
+      responseType: 'blob',
     });
   }
 
   clientesNuevos(fecha: Date) {
-    const url = this.configService.buildApiUrl("report/clientesNuevos");
-    const params = new HttpParams().set("fecha", fecha.toISOString());
-    const headers = new HttpHeaders().set("Content-type", "application/pdf");
+    const url = this.configService.buildApiUrl('report/clientesNuevos');
+    const params = new HttpParams().set('fecha', fecha.toISOString());
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http.get(url, {
       headers: headers,
-      responseType: "blob",
-      params: params
+      responseType: 'blob',
+      params: params,
     });
   }
 
   runReport(reportUrl: string, reportParams: {}) {
-    reportParams["SUCURSAL"] = this.sucursal.id;
+    reportParams['SUCURSAL'] = this.sucursal.id;
     console.log(`Reporte ${reportUrl} Params: `, reportParams);
     const url = this.configService.buildApiUrl(reportUrl);
     let params = new HttpParams();
@@ -245,18 +250,18 @@ export class PedidosService {
         params = params.set(key, value.toString());
       });
     }
-    const headers = new HttpHeaders().set("Content-type", "application/pdf");
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http.get(url, {
       headers: headers,
       params: params,
-      responseType: "blob"
+      responseType: 'blob',
     });
   }
 
   actualizarCfdiEmail(cliente: Cliente, email: string, usuario: string) {
     const endpoint = `clientes/actualizarCfdiMail/${cliente.id}`;
     const url = this.configService.buildApiUrl(endpoint);
-    const params = new HttpParams().set("email", email).set("usuario", usuario);
+    const params = new HttpParams().set('email', email).set('usuario', usuario);
 
     return this.http.put(url, {}, { params: params });
   }
@@ -265,8 +270,8 @@ export class PedidosService {
     const endpoint = `clientes/actualizarTelefono/${cliente.id}`;
     const url = this.configService.buildApiUrl(endpoint);
     const params = new HttpParams()
-      .set("telefono", telefono)
-      .set("usuario", usuario);
+      .set('telefono', telefono)
+      .set('usuario', usuario);
 
     return this.http.put(url, {}, { params: params });
   }
@@ -276,25 +281,25 @@ export class PedidosService {
     producto: Producto
   ): Observable<any> {
     const url = this.configService.buildApiUrl(
-      "preciosPorCliente/buscarPrecio"
+      'preciosPorCliente/buscarPrecio'
     );
     // const url = this.configService.buildApiUrl('preciosPorCliente/buscarPrecio')
     const params = new HttpParams()
-      .set("cliente", cliente.id)
-      .set("producto", producto.id);
+      .set('cliente', cliente.id)
+      .set('producto', producto.id);
     return this.http.get<any>(url, { params: params });
   }
 
   preciosPorCliente(cliente: Cliente) {
     const url = this.configService.buildApiUrl(
-      "preciosPorCliente/preciosPorCliente"
+      'preciosPorCliente/preciosPorCliente'
     );
-    const params = new HttpParams().set("cliente", cliente.id);
+    const params = new HttpParams().set('cliente', cliente.id);
     return this.http.get<any>(url, { params: params });
   }
 
   descuentosPorVolumen(): Observable<any> {
-    const url = this.configService.buildApiUrl("descuentoPorVolumen");
+    const url = this.configService.buildApiUrl('descuentoPorVolumen');
     return this.http.get<any>(url);
   }
 
@@ -306,16 +311,16 @@ export class PedidosService {
 
   buscarPedidosPendientes(cliente: Cliente): Observable<any> {
     const url = `${this.apiUrl}/pedidosPendientes/${cliente.id}`;
-    const params = new HttpParams().set("cliente", cliente.id);
+    const params = new HttpParams().set('cliente', cliente.id);
     return this.http.get<any>(url, { params: params });
   }
 
   envioBatch(cliente, facturas: any[], target: string): Observable<any> {
-    console.log("Enviando cfdis para cliente" + cliente.nombre);
+    console.log('Enviando cfdis para cliente' + cliente.nombre);
     const cfdis = {
       cliente: cliente,
-      facturas: facturas.map(item => item.cuentaPorCobrar.cfdi.id),
-      target: target
+      facturas: facturas.map((item) => item.cuentaPorCobrar.cfdi.id),
+      target: target,
     };
     const endpoint = `cfdis/envioBatch`;
     const url = this.configService.buildApiUrl(endpoint);
@@ -329,15 +334,41 @@ export class PedidosService {
   imprimirRemision(cfdi: any) {
     const endpoint = `cfdis/printRemision/${cfdi.id}`;
     const url = this.configService.buildApiUrl(endpoint);
-    const headers = new HttpHeaders().set("Content-type", "application/pdf");
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http.get(url, {
       headers: headers,
-      responseType: "blob"
+      responseType: 'blob',
     });
   }
 
   noFacturables() {
     const url = `${this.apiUrl}/noFacturables`;
     return this.http.get<any>(url);
+  }
+
+  registrarPuesto(id: string): Observable<Venta> {
+    const url = `${this.apiUrl}/registrarPuesto/${id}`;
+    return this.http.put<Venta>(url, { puesto: new Date().toISOString() });
+  }
+
+  registrarPuestoCallcenter(id: string, user: any): Observable<Venta> {
+    const url = `${this.apiUrl}/registrarPuesto/${id}`;
+    const params = new HttpParams().set('usuario', user.username);
+    return this.http.put<Venta>(
+      url,
+      { puesto: new Date().toISOString() },
+      { params }
+    );
+  }
+
+  quitarPuesto(id: string): Observable<Venta> {
+    const url = `${this.apiUrl}/quitarPuesto/${id}`;
+    return this.http.put<Venta>(url, {});
+  }
+
+  regresarCallcenter(id: string, user) {
+    const url = `${this.apiUrl}/regresarCallcenter/${id}`;
+    const params = new HttpParams().set('usuario', user.username);
+    return this.http.put(url, {}, { params: params });
   }
 }
