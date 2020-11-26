@@ -46,8 +46,19 @@ import {
 
     combinedObservers$: Observable<any>;
 
+    precioEspObserver$: Observable<any>;
+
     @ViewChild('productField')
     private productField;
+
+    precioCont = 0;
+
+    precioCre = 0;
+
+    precioEspCont = 0;
+
+    precioEspCre = 0;
+
 
     constructor(
         private fb: FormBuilder,
@@ -69,6 +80,28 @@ import {
           )
           this.combinedObservers$.subscribe(() => {
             this.calcular()
+            this.validar()
+          })
+
+          this.precioEspObserver$ = combineLatest(
+            this.form.get('precioPiezaConEsp').valueChanges,
+            this.form.get('precioPiezaCreEsp').valueChanges
+          )
+
+          this.form.get('precioPiezaConEsp').valueChanges.subscribe(data =>{
+            this.precioEspCont = data;
+            if (!data) {
+              this.precioEspCont = 0;
+            }
+            this.validar();
+          })
+
+          this.form.get('precioPiezaCreEsp').valueChanges.subscribe(data => {
+            this.precioEspCre = data;
+            if (!data) {
+              this.precioEspCre = 0;
+            }
+            this.validar();
           })
 
         /* this.form.valueChanges.distinctUntilChanged().subscribe(change => {
@@ -88,9 +121,13 @@ import {
           descripcionCaja: [null, Validators.required],
           precioPiezaContado: [{value: null, disabled: true}, Validators.required],
           precioPiezaCredito: [{value: null, disabled: true}, Validators.required],
+          precioPiezaConEsp: [null],
+          precioPiezaCreEsp: [null],
           ancho: [null, Validators.required],
+          kilos: [null, Validators.required],
+          gramos: [null, Validators.required],
           largo: [null, Validators.required],
-          alto: [null, Validators.required],
+          altura: [null, Validators.required],
           resistenciaECT: [null, Validators.required],
           flauta: [null, Validators.required],
           piezas: [null, Validators.required],
@@ -108,10 +145,20 @@ import {
               descripcionCaja: this.form.get('descripcionCaja').value.toUpperCase(),
               precioPiezaContado: this.producto.precioContado * this.metrosLineales / this.piezas,
               precioPiezaCredito: this.producto.precioCredito * this.metrosLineales / this.piezas,
+              precioEspecialContado: this.precioEspCont,
+              precioEspecialCredito: this.precioEspCre,
+              kilos: this.form.get('kilos').value,
+              gramos: this.form.get('gramos').value,
+              productoClave: this.producto.clave,
+              productoDescripcion: this.producto.descripcion,
+              productoPrecioContado: this.producto.precioContado,
+              productoPrecioCredito: this.producto.precioCredito,
               sucursal: this.sucursal
             };
-      this.service.save(res).subscribe();
-      this.router.navigate(['/logistica/cajas/cotizaciones']);
+      this.service.save(res).subscribe(data => {
+        this.router.navigate(['/logistica/cajas/cotizaciones']);
+      }
+      );
     }
 
     onCerrar() {
@@ -119,15 +166,45 @@ import {
     }
 
     calcular() {
-      const precioCont = this.producto.precioContado * this.metrosLineales / this.piezas
-      const precioCre = this.producto.precioCredito * this.metrosLineales / this.piezas
-      this.form.get('precioPiezaContado').setValue(precioCont.toFixed(2));
-      this.form.get('precioPiezaCredito').setValue(precioCre.toFixed(2));
+      this.precioCont = this.producto.precioContado * this.metrosLineales / this.piezas
+      this.precioCre = this.producto.precioCredito * this.metrosLineales / this.piezas
+      this.form.get('precioPiezaContado').setValue(this.precioCont.toFixed(2));
+      this.form.get('precioPiezaCredito').setValue(this.precioCre.toFixed(2));
 
       if ( !this.form.invalid ) {
           this.formInvalid = false;
       }
 
+    }
+
+    validar() {
+      console.log('Validando el formulario');
+      console.log(this.precioEspCre)
+      console.log(this.precioEspCont)
+
+      if (this.precioEspCont !== 0 ) {
+
+          console.log('Se debe validar contra el precio calculado')
+
+          if (this.precioEspCont < this.precioCont) {
+            console.log('Este pedido no procede por el precio especial de contado');
+            this.formInvalid = true;
+            return
+          }
+      }
+
+      if ( this.precioEspCre !== 0) {
+
+        console.log('Se debe validar contra el precio calculado')
+
+          if (this.precioEspCre < this.precioCre) {
+            console.log('Este pedido no procede por el precio especial de credito');
+            this.formInvalid = true;
+            return
+          }
+
+      }
+      this.formInvalid = false;
     }
 
     get producto() {

@@ -9,6 +9,7 @@ import {TdDialogService} from '@covalent/core';
 // import { SectoresService } from 'app/logistica/services/sectores/sectores.service';
 import { CotizacionCaja } from '../../../../models/cotizacionCaja';
 import { CajasService } from '../../../services/cajas/cajas.service';
+import { Producto } from '../../../../models/producto';
 
 
 @Component({
@@ -20,18 +21,14 @@ export class CotizacionesPageComponent implements OnInit {
 
   cotizaciones$: Observable<CotizacionCaja[]>;
 
+  producto$: Observable<any>
+
   procesando = false;
 
   term = '';
 
   constructor(
     private service: CajasService
-      /*
-    private store: Store<fromRoot.LogisticaState>,
-    private _dialogService: TdDialogService,
-    private _viewContainerRef: ViewContainerRef,
-    private service: SectoresService
-    */
   ) { }
 
   ngOnInit() {
@@ -45,22 +42,21 @@ export class CotizacionesPageComponent implements OnInit {
   }
 
   load() {
-      console.log('Haciendo Loading')
       this.cotizaciones$ = this.service.list({term: this.term});
   }
 
   print(row: any) {
-    /*
-    this.service.print(row.id)
-      .do( () => this.procesando = true)
-      .finally( () => this.procesando = false)
-      .subscribe(res => {
-        const blob = new Blob([res], {
-          type: 'application/pdf'
-        });
-        const fileURL = window.URL.createObjectURL(blob);
-        window.open(fileURL, '_blank');
-      }, error2 => console.log(error2));
-      */
+    this.service
+      .print(row)
+      .subscribe(
+        res => {
+           const blob = new Blob([res], {
+            type: 'application/pdf'
+          });
+          const fileURL = window.URL.createObjectURL(blob);
+          window.open(fileURL, '_blank');
+        },
+        error2 => console.error(error2)
+      );
   }
 }

@@ -57,9 +57,9 @@ export class TransformaciondetDialogComponent implements OnInit, OnChanges, OnDe
     this.form = this.fb.group({
       origen: [null, Validators.required],
       disponible: [{value: 0, disabled: true}, [Validators.required, Validators.min(1)]],
-      salida: [null, [Validators.required, Validators.min(1)]],
+      salida: [null, [Validators.required, Validators.min(0.01)]],
       destino: [null, Validators.required],
-      entrada: [null, [Validators.required, Validators.min(1)]],
+      entrada: [null, [Validators.required, Validators.min(0.01)]],
       cortes: [0],
       instruccion: ['', Validators.maxLength(100)],
       comentario: [null],

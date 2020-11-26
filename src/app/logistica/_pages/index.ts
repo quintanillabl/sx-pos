@@ -106,5 +106,6 @@ export { CotizacionesPageComponent } from './cajas/cotizaciones/cotizaciones-pag
 export { CotizacionesGridComponent } from './cajas/cotizaciones/grid/cotizaciones-grid.component';
 export { CotizacionCreatePageComponent } from './cajas/cotizaciones/cotizacion-create-page.component';
 export { CotizacionFormComponent } from './cajas/cotizaciones/form/cotizacion-form.component';
+export { CotizacionShowComponent } from './cajas/cotizaciones/form/cotizacion-show.component';
 
 

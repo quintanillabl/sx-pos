@@ -11,10 +11,10 @@
         </div>
         <div layout class="pad-left-sm pad-right-sm cotizacion-form " *ngIf="producto">
             <md-form-field class="field">
-                <input type="text" mdInput placeholder="Precio Contado" value="{{producto.precioContado | currency:'USD': true: '1.2-2'}}">
+                <input type="text" mdInput placeholder="Precio Contado" value="{{producto.precioContado | currency:'USD': true: '1.2-2'}}" disabled>
             </md-form-field>
             <md-form-field>
-                <input type="text" mdInput placeholder="Precio Crédito" value="{{producto.precioCredito | currency:'USD': true: '1.2-2'}}">
+                <input type="text" mdInput placeholder="Precio Crédito" value="{{producto.precioCredito | currency:'USD': true: '1.2-2'}}" disabled>
             </md-form-field>
         </div>
         <div layout class="pad-left-sm pad-right-sm cotizacion-form ">
@@ -25,7 +25,7 @@
                 <input type="text" mdInput placeholder="Largo cm." formControlName="largo">
             </md-form-field>
             <md-form-field class="field">
-                <input type="text" mdInput placeholder="Alto cm." formControlName="alto">
+                <input type="text" mdInput placeholder="Alto cm." formControlName="altura">
             </md-form-field>
         </div>
         <div layout class="pad-left-sm pad-right-sm cotizacion-form ">
@@ -34,6 +34,12 @@
             </md-form-field>
             <md-form-field class="field">
                 <input type="text" mdInput placeholder="Flauta" formControlName="flauta">
+            </md-form-field>
+            <md-form-field class="field">
+                <input type="number" mdInput placeholder="Kilos" formControlName="kilos">
+            </md-form-field>
+            <md-form-field class="field">
+                <input type="number" mdInput placeholder="Gramos" formControlName="gramos">
             </md-form-field>
         </div>
         <div layout class="pad-left-sm pad-right-sm cotizacion-form ">
@@ -53,6 +59,12 @@
             </md-form-field>
             <md-form-field class="field">
                 <input type="text" mdInput placeholder="Precio Pieza Crédito" formControlName="precioPiezaCredito">
+            </md-form-field>
+            <md-form-field class="field">
+                <input type="number" mdInput placeholder="Precio Contado Especial" formControlName="precioPiezaConEsp">
+            </md-form-field>
+            <md-form-field class="field">
+                <input type="number" mdInput placeholder="Precio Crédito Especial" formControlName="precioPiezaCreEsp">
             </md-form-field>
         </div>
 

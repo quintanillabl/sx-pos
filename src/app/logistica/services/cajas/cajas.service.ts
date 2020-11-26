@@ -44,6 +44,25 @@ export class CajasService {
     return this.http.put(url, {cotizacion});
   }
 
+  print(cotizacion) {
+    console.log(cotizacion)
+    console.log(cotizacion.id)
+    const url = `${this.apiUrl}/print/${cotizacion.id}`;
+    console.log(url)
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url , {
+        headers: headers,
+        responseType: 'blob'
+      }
+    );
+  }
+
+  get(id: string): Observable<CotizacionCaja> {
+    const url = `${this.apiUrl}/cotizacion/${id}`;
+    return this.http.get<CotizacionCaja>(url);
+  }
+
   /*
   get(id: string): Observable<Sector> {
     const url = `${this.apiUrl}/${id}`;

@@ -4,13 +4,15 @@
         <span md-line>
         <span layout layout-padding>
           <span flex="10" class="tc-indigo-700">Cotizacion</span>
-        <span flex>Cliente</span>
-        <span flex>Clave</span>
-        <span flex>Cantidad</span>
-        <span flex>Clave Caja</span>
-        <span flex>Desc. Caja</span>
-        <span flex>Piezas</span>
-        <span flex>Cerrada</span>
+        <!-- 
+          <span flex>Cliente</span>
+          <span flex>Clave</span>
+          <span flex>Cantidad</span> 
+        -->
+        <span flex="10">Clave Caja</span>
+        <span flex="40">Desc. Caja</span>
+        <span flex="20">Piezas</span>
+        <span flex="10">Cerrada</span>
         </span>
         </span>
         <span flex></span>
@@ -30,31 +32,31 @@
                 <span md-line>
             <span layout layout-padding>
               <span flex="10" class="tc-indigo-700">
-                <a md-button [routerLink]="['show', row.id]" [queryParams]="{tipo: 'show'}">{{row.folio}} </a>
+                <a md-button [routerLink]="['show', row.id]">{{row.folio}} </a>
               </span>
-                <span flex>{{row.folio}}</span>
-                <span flex>{{row.producto.clave}}</span>
+                <!-- <span flex>{{row.folio}}</span> -->
+                <!--    <span flex>{{row.producto.clave}}</span>
                 <span flex>{{row.producto.descripcion}}</span>
-                <span flex>{{row.metrosLineales}}</span>
-                <span flex>{{row.claveCaja}}</span>
-                <span flex>{{row.descripcionCaja}}</span>
-                <span flex>{{row.piezas}}</span>
-                <span flex *ngIf="row.cerrada"><md-icon>lock</md-icon> </span>
-                <span flex *ngIf="!row.cerrada"><md-icon>lock_open</md-icon></span>
+                <span flex>{{row.metrosLineales}}</span> -->
+                <span flex="15">{{row.claveCaja}}</span>
+                <span flex="40">{{row.descripcionCaja}}</span>
+                <span flex="20">{{row.piezas}}</span>
+                <span flex="10" *ngIf="row.cerrada"><md-icon>lock</md-icon> </span>
+                <span flex="10" *ngIf="!row.cerrada"><md-icon>lock_open</md-icon></span>
                 </span>
                 </span>
                 <span flex></span>
                 <span>
             <button md-icon-button [md-menu-trigger-for]="menu"  >
-            <md-icon [ngClass]="{'tc-blue-600':odd }">more_vert</md-icon>
+            <md-icon [ngClass]="{'tc-blue-600': odd }">more_vert</md-icon>
             </button>
             <md-menu x-position="before" #menu="mdMenu">
-              <a [routerLink]="['show', row.id]" [queryParams]="{tipo: 'show'}" md-menu-item [disabled]="false">
+              <a [routerLink]="['show', row.id]"  md-menu-item [disabled]="false">
                 <md-icon>info</md-icon> Consultar
               </a>
-              <a [routerLink]="['edit', row.id]" md-menu-item [disabled]="false">
+              <!-- <a [routerLink]="['edit', row.id]" md-menu-item [disabled]="false">
                   <md-icon>edit</md-icon> Editar
-              </a>
+              </a> -->
               <a  md-menu-item [disabled]="false" (click)="print.emit(row)">
                   <md-icon>print</md-icon> Imprimir
               </a>
@@ -67,5 +69,7 @@
             <md-divider *ngIf="!last" md-inset></md-divider>
         </ng-template>
     </td-virtual-scroll-container>
+
+
 
 </md-list>

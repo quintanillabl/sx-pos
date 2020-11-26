@@ -151,6 +151,7 @@ const PAGES =  [
   pages.CotizacionesGridComponent,
   pages.CotizacionCreatePageComponent,
   pages.CotizacionFormComponent,
+  pages.CotizacionShowComponent,
 
 ];
 const COMPONENTS = [

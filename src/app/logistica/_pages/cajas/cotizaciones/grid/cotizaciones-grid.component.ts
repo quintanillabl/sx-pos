@@ -23,12 +23,11 @@ export class CotizacionesGridComponent implements OnInit {
   ngOnInit() {
   }
 
-  cerrar(row){
-    console.log('Cerrando...')
-    console.log(row)
+  cerrar(row) {
     const res = {row};
-    this.service.cerrar(row).subscribe();
-    this.load.emit();
+    this.service.cerrar(row).subscribe(producto => {
+      this.load.emit();
+    });
   }
 
 

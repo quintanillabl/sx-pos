@@ -7,6 +7,7 @@ import { ExistenciaResolve } from './_pages/existencia-edit/existencia.resover';
 import { InvFacturasPageComponent } from 'app/logistica/_pages/inv-facturas-page/inv-facturas-page.component';
 import { PuestosPageComponent } from './_pages/puestos-page/puestos-page.component';
 import { CapturaMostradorPageComponent } from './_pages/almacen/captura/captura-mostrador-page-component';
+import { CotizacionShowComponent } from './_pages/cajas/cotizaciones/form/cotizacion-show.component';
 
 
 
@@ -73,6 +74,7 @@ const routes: Routes = [
         children: [
           { path: 'cotizaciones', component: pages.CotizacionesPageComponent},
           { path: 'cotizaciones/create', component: pages.CotizacionCreatePageComponent},
+          { path: 'cotizaciones/show/:id', component: CotizacionShowComponent},
         ]
       },
       {

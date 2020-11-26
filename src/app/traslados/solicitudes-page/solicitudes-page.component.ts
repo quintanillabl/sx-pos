@@ -24,14 +24,13 @@ export class SolicitudesPageComponent implements OnInit {
   constructor(
     private service: SolicitudesService
   ) {
-    
     const obs1 = this.search$.asObservable()
       .map( term => _.toInteger(term))
       .distinctUntilChanged()
       .debounceTime(300);
 
     const obs2 = this.reload$.asObservable().startWith(true)
-    
+
     this.solicitudes$ = Observable.combineLatest(obs1, obs2, (term, reload) => {
       return term ? term : null;
     }).switchMap( documento => this.service

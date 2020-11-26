@@ -21,9 +21,15 @@ export interface CotizacionCaja {
         precioPiezaCredito?: number;
         precioEspecialCredito?: number;
         precioEspecialContado?: number;
+        kilos?: number;
+        gramos?: number
         cerrada?: boolean;
         comentario?: string
         claveCaja?: string;
         descripcionCaja?: string;
+        productoClave?: string;
+        productoDescripcion?: string;
+        productoPrecioContado?: number;
+        productoPrecioCredito ?: number;
 
 }
