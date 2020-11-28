@@ -1,6 +1,6 @@
 import { Venta, VentaDet } from '@siipapx/models';
 
-export function buildAnticipoDet(venta: Venta): VentaDet {
+export function buildAnticipoDet(venta: Venta): any {
   return {
     sucursal: venta.sucursal,
     producto: {

@@ -3,7 +3,7 @@ import { Producto, Sucursal, InstruccionDeCorte } from 'app/models';
 export interface VentaDet {
   id?: string;
   sucursal: Sucursal;
-  producto: Partial<Producto>;
+  producto: Producto;
   // Manejo de importes
   cantidad: number;
   precio: number;
