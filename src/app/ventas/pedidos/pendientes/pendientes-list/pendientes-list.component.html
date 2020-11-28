@@ -6,7 +6,7 @@
 >
   <ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
     <a (click)="onEdit(row)" class="tc-indigo-700 cursor-pointer folio-cell">
-      <span>{{ row.tipo }}{{ row.documento }}</span>
+      <span>{{ row.tipo }}{{ row.documento }} </span>
       <span class="callcenter">{{ row.sw2 ? 'CALLCENTER' : '' }}</span>
     </a>
   </ng-template>
@@ -135,7 +135,7 @@
         type="button"
         mdTooltip="Asignar como PUESTO"
         (click)="puesto.emit(row)"
-        *ngIf="!row.puesto"
+        *ngIf="!row.puesto && row.tipo !== 'ANT'"
       >
         <md-icon>flag</md-icon>
       </button>
@@ -163,7 +163,7 @@
         type="button"
         mdTooltip="Configurar envío"
         (click)="envio.emit(row)"
-        *ngIf="!row.callcenter"
+        *ngIf="!row.callcenter && row.tipo !== 'ANT'"
       >
         <md-icon [ngClass]="{ 'tc-green-500': row.envio }"
           >flight_takeoff</md-icon

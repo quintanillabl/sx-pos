@@ -6,7 +6,7 @@ import {
   Input,
   Output,
   EventEmitter,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -14,7 +14,7 @@ import {
   FormGroup,
   FormBuilder,
   Validators,
-  FormControl
+  FormControl,
 } from '@angular/forms';
 import * as _ from 'lodash';
 
@@ -23,7 +23,7 @@ import { Sucursal, Venta } from 'app/models';
 @Component({
   selector: 'sx-anticipo-form',
   templateUrl: './anticipo-form.component.html',
-  styleUrls: ['./anticipo-form.component.scss']
+  styleUrls: ['./anticipo-form.component.scss'],
 })
 export class AnticipoFormComponent implements OnInit, OnDestroy, OnChanges {
   form: FormGroup;
@@ -52,11 +52,11 @@ export class AnticipoFormComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit() {
     this.importeSubscription = this.form
       .get('total')
-      .valueChanges.subscribe(total => {
+      .valueChanges.subscribe((total) => {
         const importe = _.round(total / 1.16, 2);
         const impuesto = _.round(importe * 0.16, 2);
         this.form.get('impuesto').setValue(impuesto);
-        this.form.get('subTotal').setValue(importe);
+        this.form.get('subtotal').setValue(importe);
         this.form.get('importe').setValue(importe);
       });
   }
@@ -77,12 +77,12 @@ export class AnticipoFormComponent implements OnInit, OnDestroy, OnChanges {
       formaDePago: ['EFECTIVO', Validators.required],
       comentario: [null],
       importe: [{ value: 0, disabled: true }],
-      subTotal: [{ value: 0, disabled: true }],
+      subtotal: [{ value: 0, disabled: true }],
       impuesto: [{ value: 0, disabled: true }],
       total: [0, [Validators.required, Validators.min(1)]],
       moneda: ['MXN'],
       usuario: [null, Validators.required],
-      usoDeCfdi: ['', Validators.required]
+      usoDeCfdi: [{ value: 'P01', disabled: true }, Validators.required],
     });
   }
 
@@ -103,7 +103,7 @@ export class AnticipoFormComponent implements OnInit, OnDestroy, OnChanges {
       const pedido: Venta = {
         ...this.form.getRawValue(),
         sucursal: this.sucursal,
-        vendedor: this.cliente.vendedor
+        vendedor: this.cliente.vendedor,
       };
       this.fixPedidoToApi(pedido);
       this.save.emit(pedido);
