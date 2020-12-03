@@ -17,6 +17,7 @@ import { ChequeFormComponent } from './cobro/cheque-form/cheque-form.component';
 import { TarjetaFormComponent } from './cobro/tarjeta-form/tarjeta-form.component';
 import { DisponibleFormComponent } from './cobro/disponible-form/disponible-form.component';
 import { BonificacionesMCAddComponent } from './bonificaciones-mc-add/bonificaciones-mc-add.component';
+import { PagoAnticipoComponent } from './pago-anticipo/pago-anticipo.component';
 
 @NgModule({
   imports: [SharedModule, RouterModule.forChild([])],
@@ -35,12 +36,14 @@ import { BonificacionesMCAddComponent } from './bonificaciones-mc-add/bonificaci
     ChequeFormComponent,
     TarjetaFormComponent,
     DisponibleFormComponent,
-    BonificacionesMCAddComponent
+    BonificacionesMCAddComponent,
+    PagoAnticipoComponent,
   ],
   entryComponents: [
     ChequeFormComponent,
     TarjetaFormComponent,
-    DisponibleFormComponent
-  ]
+    DisponibleFormComponent,
+    PagoAnticipoComponent,
+  ],
 })
 export class FacturacionModule {}

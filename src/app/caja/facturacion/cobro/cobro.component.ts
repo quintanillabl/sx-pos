@@ -14,7 +14,7 @@ import { BonificacionesMCService } from 'app/caja/services/bonificacionesMC.serv
 @Component({
   selector: 'sx-cobro',
   templateUrl: './cobro.component.html',
-  styleUrls: ['./cobro.component.scss']
+  styleUrls: ['./cobro.component.scss'],
 })
 export class CobroComponent implements OnInit, OnDestroy {
   venta$: Observable<Venta>;
@@ -34,19 +34,19 @@ export class CobroComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.venta$ = this.route.paramMap
-      .map(params => params.get('id'))
-      .switchMap(id => this.service.getVenta(id));
+      .map((params) => params.get('id'))
+      .switchMap((id) => this.service.getVenta(id));
 
-    this.subscription = this.venta$.subscribe(venta => {
+    this.subscription = this.venta$.subscribe((venta) => {
       this.bonificacionesService
         .buscarBonificacionesMC(venta.cliente)
-        .subscribe(res => {
+        .subscribe((res) => {
           this.bonificaciones = res;
           if (res.length > 0 && !venta.cod) {
             this._dialogService.openAlert({
               message: 'Este cliente cuenta con bonificaciones disponibles',
               title: 'Bonificaciones',
-              closeButton: 'Cerrar'
+              closeButton: 'Cerrar',
             });
           }
         });
@@ -67,13 +67,11 @@ export class CobroComponent implements OnInit, OnDestroy {
     if (pedido.facturar && pedido.tipo !== 'CRE') {
       this._dialogService
         .openConfirm({
-          message: `Facturar el pedido ${pedido.tipo} - ${pedido.documento} (${
-            pedido.total
-          })`,
+          message: `Facturar el pedido ${pedido.tipo} - ${pedido.documento} (${pedido.total})`,
           viewContainerRef: this._viewContainerRef,
           title: 'Facturación de contado',
           cancelButton: 'Cancelar',
-          acceptButton: 'Aceptar'
+          acceptButton: 'Aceptar',
         })
         .afterClosed()
         .subscribe((accept: boolean) => {
@@ -90,12 +88,12 @@ export class CobroComponent implements OnInit, OnDestroy {
       .facturar(pedido)
       .delay(200)
       .subscribe(
-        res => {
+        (res) => {
           console.log('Pedido facturado', res);
           this.loadingService.resolve('saving');
           this.router.navigate(['caja/generadas/show', res.id]);
         },
-        error => {
+        (error) => {
           console.error(error);
           this.loadingService.resolve('saving');
         }
@@ -103,8 +101,8 @@ export class CobroComponent implements OnInit, OnDestroy {
   }
 
   onSave(cobroJob) {
-    cobroJob.cobros = cobroJob.cobros.filter(item => item.importe > 0);
-    cobroJob.cobros.forEach(item => (item.tipo = cobroJob.venta.tipo));
+    cobroJob.cobros = cobroJob.cobros.filter((item) => item.importe > 0);
+    cobroJob.cobros.forEach((item) => (item.tipo = cobroJob.venta.tipo));
     console.log('Generando facturacion y cobro: ', cobroJob);
 
     this.loadingService.register('saving');
@@ -115,9 +113,14 @@ export class CobroComponent implements OnInit, OnDestroy {
         this.timbrar(res);
         // this.router.navigate(['caja/generadas/show', res.id])
       },
-      error => {
+      (error) => {
         console.error(error);
         this.loadingService.resolve('saving');
+        this._dialogService.openAlert({
+          title: 'Error al cobrar',
+          message: error.message,
+          closeButton: 'Cerrar',
+        });
       }
     );
   }
@@ -127,13 +130,13 @@ export class CobroComponent implements OnInit, OnDestroy {
       this.loadingService.register('saving');
       console.log('Timbrando factura: ', venta.cuentaPorCobrar);
       this.service.timbrar(venta).subscribe(
-        cfdi => {
+        (cfdi) => {
           this.loadingService.resolve('saving');
           this.printCfdi(cfdi);
           this.router.navigate(['caja/generadas/show', venta.id]);
           console.log('Cfdi generado: ', cfdi);
         },
-        error2 => {
+        (error2) => {
           this.router.navigate(['caja/generadas/show', venta.id]);
           this.loadingService.resolve('saving');
           console.error('Error: ', error2);
@@ -149,15 +152,15 @@ export class CobroComponent implements OnInit, OnDestroy {
       .imprimirCfdi(cfdi)
       .delay(200)
       .subscribe(
-        res => {
+        (res) => {
           const blob = new Blob([res], {
-            type: 'application/pdf'
+            type: 'application/pdf',
           });
           this.loadingService.resolve('saving');
           const fileURL = window.URL.createObjectURL(blob);
           window.open(fileURL, '_blank');
         },
-        error2 => {
+        (error2) => {
           this.loadingService.resolve('saving');
           console.error(error2);
         }
@@ -171,10 +174,10 @@ export class CobroComponent implements OnInit, OnDestroy {
       .generarDisponible(event.clienteId, event.importe)
       .finally(() => this.loadingService.resolve('saving'))
       .subscribe(
-        res => {
+        (res) => {
           console.log('Disponibles generados: ', res);
         },
-        error2 => {
+        (error2) => {
           console.error(error2);
         }
       );

@@ -53,8 +53,9 @@ export class AnticipoFormComponent implements OnInit, OnDestroy, OnChanges {
     this.importeSubscription = this.form
       .get('total')
       .valueChanges.subscribe((total) => {
-        const importe = _.round(total / 1.16, 2);
-        const impuesto = _.round(importe * 0.16, 2);
+        const importeBruto = _.round(total / 1.16, 6);
+        const impuesto = _.round(importeBruto * 0.16, 2);
+        const importe = _.round(importeBruto, 2);
         this.form.get('impuesto').setValue(impuesto);
         this.form.get('subtotal').setValue(importe);
         this.form.get('importe').setValue(importe);
@@ -127,7 +128,7 @@ export class AnticipoFormComponent implements OnInit, OnDestroy, OnChanges {
   get title() {
     return this.id
       ? 'Anticipo: ' + this.form.get('documento').value
-      : 'Alta de anticipo';
+      : 'Alta de anticipo ';
   }
 
   setUsuario(usuario) {

@@ -74,7 +74,7 @@ export class CajaService {
     const url = this.configService.buildApiUrl(endpoint);
     const cob = {
       ...cobro,
-      venta: cobro.venta.id
+      venta: cobro.venta.id,
     };
     return this.http.post(url, cob);
   }
@@ -100,7 +100,7 @@ export class CajaService {
   cancelar(factura: Venta, user: User, motivo: string): Observable<Venta> {
     // Fix para simplificar audig_log
     factura.cliente = {
-      id: factura.cliente.id
+      id: factura.cliente.id,
     };
     console.log('Cancelando en el sistema la factura: ', factura);
     const params = new HttpParams()
@@ -117,7 +117,7 @@ export class CajaService {
     // return this.http.get(url)
     return this.http.get(url, {
       headers: headers,
-      responseType: 'blob'
+      responseType: 'blob',
     });
   }
 
@@ -127,7 +127,7 @@ export class CajaService {
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http.get(url, {
       headers: headers,
-      responseType: 'blob'
+      responseType: 'blob',
     });
   }
 
@@ -137,7 +137,7 @@ export class CajaService {
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http.get(url, {
       headers: headers,
-      responseType: 'blob'
+      responseType: 'blob',
     });
   }
 
@@ -145,5 +145,21 @@ export class CajaService {
     const endpoint = `cfdis/enviarFacturaEmail`;
     const url = this.configService.buildApiUrl(endpoint);
     return this.http.put<Venta>(url, { factura: venta.id, target: target });
+  }
+
+  buscarAnticiposDisponibles(clienteId: string) {
+    const endpoint = `cxc/cobro/buscarAnticiposDisponibles`;
+    const params = new HttpParams().set('id', clienteId);
+    const url = this.configService.buildApiUrl(endpoint);
+    return this.http.get(url, { params });
+  }
+
+  registrarCobroConAnticipo(ventaId: string, anticipoId: string) {
+    const endpoint = `cxc/cobro/registrarCobroConAnticipo`;
+    const params = new HttpParams()
+      .set('anticipoId', anticipoId)
+      .set('ventaId', ventaId);
+    const url = this.configService.buildApiUrl(endpoint);
+    return this.http.post(url, {}, { params });
   }
 }
