@@ -2,7 +2,7 @@ import {
   AfterViewInit,
   Component,
   OnInit,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TdDialogService, TdMediaService } from '@covalent/core';
@@ -22,14 +22,14 @@ import { VentasDiariasCheComponent } from '../reportes/ventas-diarias-che/ventas
 
 @Component({
   selector: 'sx-caja-page',
-  templateUrl: './caja-page.component.html'
+  templateUrl: './caja-page.component.html',
 })
 export class CajaPageComponent implements OnInit, AfterViewInit {
   navigation: Object[] = [
     { route: 'facturacion', title: 'Pendientes', icon: 'storage' },
     { route: 'generadas', title: 'Facturas', icon: 'my_library_books' },
     { route: 'cobranzaCod', title: 'Cobranza COD', icon: 'repeat' },
-    { route: 'anticipos', title: 'Anticipos', icon: 'repeat' }
+    { route: 'anticipos', title: 'Anticipos', icon: 'repeat' },
   ];
 
   reportes = [
@@ -46,46 +46,46 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     {
       name: 'cobranzaCamioneta',
       title: 'Cobranza COD',
-      icon: 'blur_linear'
+      icon: 'blur_linear',
     },
     {
       name: 'cobranzaEfectivo',
       title: 'Cobranza efectivo',
-      icon: 'blur_linear'
+      icon: 'blur_linear',
     },
     {
       name: 'facturasPendientesCod',
       title: 'Facturas pendientes COD',
-      icon: 'blur_linear'
+      icon: 'blur_linear',
     },
     {
       name: 'facturasCobradas',
       title: 'Facturas cobradas',
-      icon: 'blur_linear'
+      icon: 'blur_linear',
     },
     {
       name: 'facturasCanceladas',
       title: 'Facturas Canceladas',
-      icon: 'blur_linear'
+      icon: 'blur_linear',
     },
     {
       name: 'facturasPendientesEmbarque',
       title: 'Facturas por embarcar',
-      icon: 'blur_linear'
+      icon: 'blur_linear',
     },
     {
       name: 'disponiblesPorSucursal',
       title: 'Disponibles por sucursal',
-      icon: 'blur_linear'
+      icon: 'blur_linear',
     },
     {
       name: 'ventasDiariasChe',
       title: 'Ventas diarias (CHE)',
     },
-    // {
-    //   name: 'anticipos',
-    //   title: 'Anticipos',
-    // }
+    {
+      name: 'anticipos',
+      title: 'Anticipos SAT',
+    },
   ];
 
   constructor(
@@ -144,13 +144,13 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
   reporteDeVentasDiarias() {
     const dialogRef = this.dialog.open(VentasDiariasComponent, {});
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.service
           .runReport('report/ventasDiarias', result)
-          .subscribe(res => {
+          .subscribe((res) => {
             const blob = new Blob([res], {
-              type: 'application/pdf'
+              type: 'application/pdf',
             });
             const fileURL = window.URL.createObjectURL(blob);
             window.open(fileURL, '_blank');
@@ -162,15 +162,15 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
   reporteDeAplicacionSaldos() {
     const dialogRef = this.dialog.open(AplicacionSaldosComponent, {});
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         result.FECHA = result.fecha;
         // delete result.fecha
         this.service
           .runReport('report/aplicacionSaldos', result)
-          .subscribe(res => {
+          .subscribe((res) => {
             const blob = new Blob([res], {
-              type: 'application/pdf'
+              type: 'application/pdf',
             });
             const fileURL = window.URL.createObjectURL(blob);
             window.open(fileURL, '_blank');
@@ -182,28 +182,30 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
   cobranzaCamioneta() {
     const dialogRef = this.dialog.open(CobranzaCamionetaComponent, {});
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.service.runReport('report/cobranzaCod', result).subscribe(res => {
-          const blob = new Blob([res], {
-            type: 'application/pdf'
+        this.service
+          .runReport('report/cobranzaCod', result)
+          .subscribe((res) => {
+            const blob = new Blob([res], {
+              type: 'application/pdf',
+            });
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
           });
-          const fileURL = window.URL.createObjectURL(blob);
-          window.open(fileURL, '_blank');
-        });
       }
     });
   }
 
   cobranzaEfectivo() {
     const dialogRef = this.dialog.open(CobranzaEfectivoComponent, {});
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.service
           .runReport('report/cobranzaEfectivo', result)
-          .subscribe(res => {
+          .subscribe((res) => {
             const blob = new Blob([res], {
-              type: 'application/pdf'
+              type: 'application/pdf',
             });
             const fileURL = window.URL.createObjectURL(blob);
             window.open(fileURL, '_blank');
@@ -214,13 +216,13 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
 
   facturasPendientesCod() {
     const dialogRef = this.dialog.open(FacturasPendientesCODComponent, {});
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.service
           .runReport('report/facturasPendientesCod', result)
-          .subscribe(res => {
+          .subscribe((res) => {
             const blob = new Blob([res], {
-              type: 'application/pdf'
+              type: 'application/pdf',
             });
             const fileURL = window.URL.createObjectURL(blob);
             window.open(fileURL, '_blank');
@@ -231,13 +233,13 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
 
   facturasCobradas() {
     const dialogRef = this.dialog.open(FacturasCobradasComponent, {});
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.service
           .runReport('report/cobranzaContado', result)
-          .subscribe(res => {
+          .subscribe((res) => {
             const blob = new Blob([res], {
-              type: 'application/pdf'
+              type: 'application/pdf',
             });
             const fileURL = window.URL.createObjectURL(blob);
             window.open(fileURL, '_blank');
@@ -248,13 +250,13 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
 
   facturasCanceladas() {
     const dialogRef = this.dialog.open(FacturasCanceladasComponent, {});
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.service
           .runReport('report/facturasCanceladas', result)
-          .subscribe(res => {
+          .subscribe((res) => {
             const blob = new Blob([res], {
-              type: 'application/pdf'
+              type: 'application/pdf',
             });
             const fileURL = window.URL.createObjectURL(blob);
             window.open(fileURL, '_blank');
@@ -265,13 +267,13 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
 
   facturasPendientesEmbarque() {
     const dialogRef = this.dialog.open(FacturasPendientesEmbarqueComponent, {});
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.service
           .runReport('report/facturasPendientesCodEmbarques', result)
-          .subscribe(res => {
+          .subscribe((res) => {
             const blob = new Blob([res], {
-              type: 'application/pdf'
+              type: 'application/pdf',
             });
             const fileURL = window.URL.createObjectURL(blob);
             window.open(fileURL, '_blank');
@@ -282,13 +284,13 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
 
   disponiblesPorSucursal() {
     const dialogRef = this.dialog.open(DisponiblesSucursalComponent, {});
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.service
           .runReport('report/disponiblesSucursal', result)
-          .subscribe(res => {
+          .subscribe((res) => {
             const blob = new Blob([res], {
-              type: 'application/pdf'
+              type: 'application/pdf',
             });
             const fileURL = window.URL.createObjectURL(blob);
             window.open(fileURL, '_blank');
@@ -299,13 +301,13 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
 
   ventasDiariasChe() {
     const dialogRef = this.dialog.open(VentasDiariasCheComponent, {});
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.service
           .runReport('report/ventasDiariasCheques', result)
-          .subscribe(res => {
+          .subscribe((res) => {
             const blob = new Blob([res], {
-              type: 'application/pdf'
+              type: 'application/pdf',
             });
             const fileURL = window.URL.createObjectURL(blob);
             window.open(fileURL, '_blank');
@@ -316,13 +318,13 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
 
   anticipos() {
     const dialogRef = this.dialog.open(VentasDiariasCheComponent, {});
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.service
-          .runReport('report/anticiposPorPeriodo', result)
-          .subscribe(res => {
+          .runReport('cxc/cobro/reporteDeAnticipos', result)
+          .subscribe((res) => {
             const blob = new Blob([res], {
-              type: 'application/pdf'
+              type: 'application/pdf',
             });
             const fileURL = window.URL.createObjectURL(blob);
             window.open(fileURL, '_blank');
