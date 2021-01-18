@@ -10,17 +10,18 @@ import {
   SimpleChanges,
   ViewChild,
   HostListener,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+
 import {
   FormGroup,
   FormBuilder,
   Validators,
   FormArray,
   FormControl,
-  AbstractControl
+  AbstractControl,
 } from '@angular/forms';
 import * as _ from 'lodash';
 
@@ -34,18 +35,20 @@ import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
 import { PendientePorClienteDialogComponent } from './pendiente-por-cliente-dialog/pendiente-por-cliente-dialog.component';
 import { MdDialog } from '@angular/material';
 
+import { pluck } from 'rxjs/operator/pluck';
+
 @Component({
   selector: 'sx-pedido-form',
   templateUrl: './pedido-form.component.html',
-  styles: [
-    `
-    .table-wrapper
-    {
-        height: 400px;
-        overflow: auto;
-    }
-  `
-  ]
+  // styles: [
+  //   `
+  //     .table-wrapper {
+  //       height: 400px;
+  //       overflow: auto;
+  //     }
+  //   `,
+  // ],
+  styleUrls: ['./pedido-form.component.scss'],
 })
 export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   form: FormGroup;
@@ -81,6 +84,9 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
   cod = false;
 
+  comentariosDeCliente: Subscription;
+  comentarios: any[] = [];
+
   @ViewChild(PartidasGridComponent) grid: PartidasGridComponent;
 
   constructor(
@@ -101,9 +107,9 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       const pedido: Venta = changes.pedido.currentValue;
       // console.log('Editando pedido: ', pedido);
       if (pedido.id && pedido.surtido) {
-         this.editable = false;
+        this.editable = false;
       }
-      _.forEach(pedido.partidas, item =>
+      _.forEach(pedido.partidas, (item) =>
         this.partidas.push(new FormControl(item))
       );
       this.form.get('isPuesto').setValue(pedido.puesto !== undefined);
@@ -118,14 +124,13 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       this.pedidoFormService.registerForm(this.form, pedido);
       this.buildRecalcular$();
       this.buildFomraDePago$();
-      if(this.form.get('tipo').value === 'CRE'){
+      if (this.form.get('tipo').value === 'CRE') {
         this.form.get('cod').setValue(false);
         this.form.get('cod').disable();
       }
       this.tipoSubscription = this.form
         .get('tipo')
-        .valueChanges.subscribe(tipo => {
-
+        .valueChanges.subscribe((tipo) => {
           // this.pedidoFormService.recalcular();
           if (tipo === 'CRE') {
             console.log('Nuevo tipo de venta: ', tipo);
@@ -137,7 +142,9 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
           }
         });
 
-        this.codSubscription = this.form.get('cod').valueChanges.subscribe(cod =>{
+      this.codSubscription = this.form
+        .get('cod')
+        .valueChanges.subscribe((cod) => {
           this.cod = cod;
         });
 
@@ -148,18 +155,13 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  
   ngOnInit() {
-    /*
-    this.pedidosPendientesSubs = this.form
+    this.comentariosDeCliente = this.form
       .get('cliente')
-      .valueChanges.subscribe(cliente => {
-        console.log(
-          'Cliente seleccionado buscando pedidos pendientes....',
-          cliente
-        );
+      .valueChanges.pluck('comentarios')
+      .subscribe((coms: any[]) => {
+        this.comentarios = coms.filter((item) => item.activo);
       });
-      */
   }
 
   ngOnDestroy() {
@@ -169,6 +171,9 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     this.codSubscription.unsubscribe();
     if (this.pedidosPendientesSubs) {
       this.pedidosPendientesSubs.unsubscribe();
+    }
+    if (this.comentariosDeCliente) {
+      this.comentariosDeCliente.unsubscribe();
     }
   }
 
@@ -188,7 +193,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
         vale: [{ value: false, disabled: true }, Validators.required],
         clasificacionVale: [
           { value: 'SIN_VALE', disabled: false },
-          Validators.required
+          Validators.required,
         ],
         sucursalVale: [{ value: null, disabled: false }],
         almacen: [{ value: null, disabled: true }],
@@ -220,14 +225,14 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
         createUser: [null],
         socio: [null],
         chequePostFechado: [false],
-        ventaIne: [false]
+        ventaIne: [false],
       },
       { validator: PedidoValidator }
     );
   }
 
   private buildRecalcular$() {
-     console.log('Preparando recalculo observable');
+    console.log('Preparando recalculo observable');
     const cliente$ = this.form
       .get('cliente')
       .valueChanges.distinctUntilChanged();
@@ -237,24 +242,23 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       .valueChanges.distinctUntilChanged();
     this.recalcular$ = Observable.merge(cliente$, tipo$, formaDePago$);
 
-    this.recalcularSubscription = this.recalcular$.subscribe(data => {
+    this.recalcularSubscription = this.recalcular$.subscribe((data) => {
       console.log('Recalculando importes : ', data);
       this.pedidoFormService.recalcular();
       this.cd.detectChanges();
       this.grid.refresh();
     });
   }
- 
-  private buildFomraDePago$() {
 
-    console.log("Cambiando forma de pago");
+  private buildFomraDePago$() {
+    console.log('Cambiando forma de pago');
     const cliente$ = this.form.get('cliente').valueChanges; // .filter( cliente =>  cliente !== null);
 
     const tipo$ = this.form.get('tipo').valueChanges.distinctUntilChanged();
 
     this.formaDePago$ = Observable.combineLatest(cliente$, tipo$);
 
-    this.formaDePagoSubscription = this.formaDePago$.subscribe(value => {
+    this.formaDePagoSubscription = this.formaDePago$.subscribe((value) => {
       const cliente = value[0];
       const tipo = value[1];
       if (tipo === 'CRE') {
@@ -307,19 +311,18 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
   onSave() {
     if (this.form.valid) {
-
       /** Se desactiva la validacion de Cfdi clientes */
 
       // if (this.cliente.cfdiValidado) {
-        const pedido: Venta = {
-          ...this.form.getRawValue(),
-          sucursal: this.sucursal,
-          vendedor: this.cliente.vendedor
-        };
-        this.fixPedidoToApi(pedido);
-        _.forEach(pedido.partidas, item => (item.sucursal = this.sucursal));
-        this.save.emit(pedido);
-    /*  } else {
+      const pedido: Venta = {
+        ...this.form.getRawValue(),
+        sucursal: this.sucursal,
+        vendedor: this.cliente.vendedor,
+      };
+      this.fixPedidoToApi(pedido);
+      _.forEach(pedido.partidas, (item) => (item.sucursal = this.sucursal));
+      this.save.emit(pedido);
+      /*  } else {
         this.validarCfdi();
       }*/
     }
@@ -335,7 +338,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   private fixPedidoToApi(pedido) {
     pedido.cliente = pedido.cliente.id;
     const data = [...pedido.partidas];
-    _.forEach(data, item => (item.producto = item.producto.id));
+    _.forEach(data, (item) => (item.producto = item.producto.id));
 
     pedido.updateUser = this.form.get('usuario').value.username;
     if (!this.id) {
@@ -359,10 +362,10 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
           title: 'Confirmar correo para envío de CFDIs',
           value: this.cliente.cfdiMail,
           acceptButton: 'Aceptar',
-          cancelButton: 'Cancelar'
+          cancelButton: 'Cancelar',
         })
         .afterClosed()
-        .subscribe(res => {
+        .subscribe((res) => {
           if (res) {
             this.clienteService
               .confirmarCorreo(
@@ -370,13 +373,13 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
                 res,
                 this.form.get('usuario').value.username
               )
-              .subscribe(cliente => {
+              .subscribe((cliente) => {
                 this.form.get('cliente').setValue(cliente);
                 this._dialogService.openAlert({
                   title: 'Actualización de correos',
                   message:
                     'Email para CFDI del cliente actualizado y/o confirmado',
-                  closeButton: 'Continuar'
+                  closeButton: 'Continuar',
                 });
               });
           } else {
@@ -411,13 +414,13 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     // console.log('Cambio de CFDI mail', cliente);
 
     if (this.usuario) {
-      this.cambiarCfdiMail.emit({cliente: cliente, usuario: this.usuario});
+      this.cambiarCfdiMail.emit({ cliente: cliente, usuario: this.usuario });
     }
   }
 
   onCambioDeTel(cliente) {
     if (this.usuario) {
-      this.cambiarTel.emit({cliente: cliente, usuario: this.usuario});
+      this.cambiarTel.emit({ cliente: cliente, usuario: this.usuario });
     }
   }
 
@@ -428,7 +431,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
         viewContainerRef: this._viewContainerRef,
         title: 'Maniobras',
         cancelButton: 'Cancelar',
-        acceptButton: 'Aceptar'
+        acceptButton: 'Aceptar',
       })
       .afterClosed()
       .subscribe((newValue: string) => {
@@ -478,10 +481,10 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     this.pedidosPendientesSubs = this.form
       .get('cliente')
       .valueChanges.distinctUntilChanged()
-      .subscribe(cliente => {
+      .subscribe((cliente) => {
         this.pedidoService
           .buscarPedidosPendientes(cliente)
-          .catch(err => {
+          .catch((err) => {
             console.log('Error: ', err);
             return Observable.of([]);
           })
@@ -497,7 +500,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     console.log('PEdidos pendientes: ', pedidos);
     this.dialog
       .open(PendientePorClienteDialogComponent, {
-        data: { pedidos: pedidos, cliente: this.cliente.nombre }
+        data: { pedidos: pedidos, cliente: this.cliente.nombre },
       })
       .afterClosed()
       .subscribe();
