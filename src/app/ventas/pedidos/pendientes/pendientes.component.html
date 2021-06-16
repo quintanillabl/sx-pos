@@ -84,6 +84,7 @@
         (puesto)="onPuesto($event)"
         (quitarPuesto)="onQuitarPuesto($event)"
         (delete)="onDelete($event)"
+        [canQuitarPuesto]="hasRole('ROLE_ADMIN')"
         flex
       >
       </sx-pedidos-pendientes-list>

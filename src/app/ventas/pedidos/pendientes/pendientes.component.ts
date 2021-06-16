@@ -16,6 +16,7 @@ import { AutorizacionDeVentaComponent } from '../autorizacion-de-venta/autorizac
 import { CambioDeClienteComponent } from 'app/ventas/pedidos/cambio-de-cliente/cambio-de-cliente.component';
 import { UsuarioDialogComponent } from 'app/shared/_components/usuario-dialog/usuario-dialog.component';
 import { Periodo } from 'app/models/periodo';
+import { AuthService } from '@siipapx/_auth/services/auth.service';
 
 @Component({
   selector: 'sx-pedidos-pendientes',
@@ -39,6 +40,7 @@ export class PendientesComponent implements OnInit {
   _callcenter = false;
 
   filtro: any;
+  user: any;
 
   constructor(
     private store: Store<fromPedidos.State>,
@@ -46,7 +48,8 @@ export class PendientesComponent implements OnInit {
     private router: Router,
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
-    public dialog: MdDialog
+    public dialog: MdDialog,
+    private authService: AuthService
   ) {
     const obs1 = this.search$
       .asObservable()
@@ -70,7 +73,9 @@ export class PendientesComponent implements OnInit {
     const scall = localStorage.getItem(this.CALLCENTER_KEY);
     this.callcenter = scall ? JSON.parse(scall) : false;
     this.filtro = { periodo: p, callcenter: this.callcenter };
-
+    this.authService.getCurrentUser().subscribe((user) => {
+      this.user = user;
+    });
     this.load();
   }
 
@@ -498,5 +503,9 @@ export class PendientesComponent implements OnInit {
           );
         }
       });
+  }
+
+  hasRole(role: string) {
+    return !!this.user.roles.find((item) => item === role);
   }
 }
