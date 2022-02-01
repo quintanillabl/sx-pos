@@ -52,8 +52,8 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() aplicarBonificaciones = new EventEmitter();
 
-  formasDePago = ['EFECTIVO', 'CHEQUE', 'TARJETA_DEBITO', 'TARJETA_CREDITO'];
-  // formasDePago = ['EFECTIVO', 'CHEQUE'];
+  //formasDePago = ['EFECTIVO', 'CHEQUE', 'TARJETA_DEBITO', 'TARJETA_CREDITO'];
+   formasDePago = ['EFECTIVO', 'CHEQUE'];
 
   parciales: Cobro[] = [];
 
@@ -82,7 +82,10 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     if (
       this.venta.formaDePago.startsWith('DEPOSITO') ||
-      this.venta.formaDePago.startsWith('TRANSFERENCIA')
+      this.venta.formaDePago.startsWith('TRANSFERENCIA') ||
+      this.venta.formaDePago.startsWith('TARJETA_DEBITO') ||
+      this.venta.formaDePago.startsWith('TARJETA_CREDITO')
+
     ) {
       this.formasDePago.push(this.venta.formaDePago);
     }
@@ -92,7 +95,7 @@ export class CobroCodFormComponent implements OnInit, OnChanges, OnDestroy {
     ) {
       this.form.get('importe').setValue(0);
     }
-    this.form.get('formaDePago').disable();
+    this.validarFormaDePago.bind(this);
   }
 
   ngOnDestroy() {

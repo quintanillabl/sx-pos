@@ -33,6 +33,7 @@ export class PendientesListComponent implements OnInit {
   @Output() generarVale = new EventEmitter<any>();
 
   @Output() cambioDeCliente = new EventEmitter<any>();
+ 
 
   @Output() puesto = new EventEmitter<any>();
   @Output() quitarPuesto = new EventEmitter<any>();
@@ -100,6 +101,7 @@ export class PendientesListComponent implements OnInit {
     }
     return false;
   }
+
 
   showDetails(pedido: Venta) {
     const id = pedido.id;

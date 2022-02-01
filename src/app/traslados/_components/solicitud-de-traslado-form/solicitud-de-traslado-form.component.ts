@@ -18,6 +18,7 @@ export const PartidasValidator = (control: AbstractControl): {[key: string]: boo
 @Component({
   selector: 'sx-solicitud-de-traslado-form',
   templateUrl: './solicitud-de-traslado-form.component.html',
+  styleUrls: ['./solicitud-de-traslado-form.component.scss']
 })
 export class SolicitudDeTrasladoFormComponent implements OnInit {
 

@@ -68,14 +68,14 @@ export const PedidoValidator = (
     }
     // tslint:disable-next-line:max-line-length
     // if (formaDePago === 'TARJETA_CREDITO' || formaDePago === 'TARJETA_DEBITO' || formaDePago === 'TRANSFERENCIA' || formaDePago === 'DEPOSITO_CHEQUE' || formaDePago === 'DEPOSITO_EFECTIVO' || formaDePago === 'DEPOSITO_MIXTO') {
-    if (
+    /* if (
       formaDePago === 'TRANSFERENCIA' ||
       formaDePago === 'DEPOSITO_CHEQUE' ||
       formaDePago === 'DEPOSITO_EFECTIVO' ||
       formaDePago === 'DEPOSITO_MIXTO'
     ) {
       errors = { ...errors, codConFormaDePagoIncorrecta: true };
-    }
+    } */
   }
   if (entrega !== 'LOCAL') {
     const envio = control.get('envio').value;

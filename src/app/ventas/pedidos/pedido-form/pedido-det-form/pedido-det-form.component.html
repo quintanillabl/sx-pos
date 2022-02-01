@@ -15,11 +15,14 @@
 
 
             <div layout *ngIf="producto">
-                <md-form-field *ngIf="tipoDePrecio ==='CON'">
+                <md-form-field *ngIf="tipoLista ==='CON'">
                     <input type="text" mdInput placeholder="Precio Contado" [disabled]="true" value="{{producto.precioContado | currency:'USD': true: '1.2-2'}}">
                 </md-form-field>
-                <md-form-field *ngIf="tipoDePrecio ==='CRE'">
+                <md-form-field *ngIf="tipoLista ==='CRE'">
                     <input type="text" mdInput placeholder="Precio Crédito" [disabled]="true" value="{{precio | currency:'USD': true: '1.2-2'}}">
+                </md-form-field>
+                <md-form-field *ngIf="tipoLista ==='TAR' ">
+                    <input type="text" mdInput placeholder="Precio Tarjeta" [disabled]="true" value="{{precio | currency:'USD': true: '1.2-2'}}">
                 </md-form-field>
                 <md-form-field>
                     <input type="text" mdInput placeholder="Ancho" [disabled]="true" value="{{producto.ancho}}">

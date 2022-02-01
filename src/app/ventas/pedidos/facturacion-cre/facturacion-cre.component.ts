@@ -73,10 +73,40 @@ export class FacturacionCreComponent implements OnInit {
         acceptButton: 'Aceptar',
       }).afterClosed().subscribe((accept: boolean) => {
         if (accept) {
-          this.doFacturar(pedido);
+           this.validarSaldoCre(pedido)
+          // this.doFacturar(pedido);
         }
       });
     }
+  }
+
+  validarSaldoCre(pedido: Venta) {
+    this.loadingService.register('saving');
+    this.service
+      .validarSaldoCre(pedido)
+      .delay(1000)
+      .subscribe( (res: any ) => {
+        if ( res['facturar']) {
+          this.doFacturar(pedido)
+        }else {
+          this.notificarSaldoCre(res['message'])
+        }
+        this.loadingService.resolve('saving');
+      }, error => {
+        console.error(error);
+        this.loadingService.resolve('saving');
+      });
+  }
+
+  notificarSaldoCre(message) {
+    this._dialogService.openConfirm({
+      message: message ,
+      viewContainerRef: this._viewContainerRef,
+      title: 'Ventas de crédito',
+      // cancelButton: 'Cancelar',
+      acceptButton: 'Aceptar',
+    }).afterClosed().subscribe();
+
   }
 
   doFacturar(pedido: Venta) {
@@ -102,7 +132,6 @@ export class FacturacionCreComponent implements OnInit {
           this.procesando = false;
           this.printCfdi(cfdi);
           this.showFactura(venta);
-          
         }, error2 => {
           this.handleError(error2);
           this.showFactura(venta);
