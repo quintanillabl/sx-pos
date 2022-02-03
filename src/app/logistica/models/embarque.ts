@@ -21,4 +21,5 @@ export interface Embarque {
     updateUser?: string
     numeroDePartidas?: number
     empleado?: string
+    uuid?: string
 }

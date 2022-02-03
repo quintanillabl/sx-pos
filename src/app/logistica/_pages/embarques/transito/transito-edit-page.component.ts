@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,  ChangeDetectorRef, SimpleChange, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,21 +19,26 @@ import { EmbarqueService } from 'app/logistica/services/embarque/embarque.servic
   template: `
     <div layout
       *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
-      <sx-transito-form flex [embarque]="embarque$ | async" (save)="onSave($event)" (print)="onPrint($event)">
+      <sx-transito-form flex [embarque]="embarque$ | async" [emb] = "emb"
+      (save)="onSave($event)" (print)="onPrint($event)" (timbrar)="onTimbrar($event)"
+      (printCfdi)="onPrintCfdi($event)">
       </sx-transito-form>
     </div>
   `,
-  styles: ['']
+  styles: [''],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransitoEditPageComponent implements OnInit {
   sucursal$: Observable<Sucursal>;
   embarque$: Observable<Embarque>;
+  emb: any;
 
   constructor(
     private store: Store<fromRoot.State>,
     private service: EmbarqueService,
     private router: Router,
     private route: ActivatedRoute,
+    private cd: ChangeDetectorRef,
     private loadingService: TdLoadingService
   ) {}
 
@@ -75,5 +80,27 @@ export class TransitoEditPageComponent implements OnInit {
       const fileURL = window.URL.createObjectURL(blob);
       window.open(fileURL, '_blank');
     });
+  }
+
+  onTimbrar(embarque) {
+    console.log(embarque);
+    this.loadingService.register('saving');
+    this.service.timbrar(embarque).subscribe(res => {
+      console.log('Respuesta de Timbrad');
+      this.loadingService.resolve('saving');
+      if (res['message']) {
+        console.log(res['message']);
+      }else {
+          this.emb = res;
+          this.cd.detectChanges();
+      }
+    })
+  }
+  onPrintCfdi(embarque) {
+    console.log(embarque);
+  }
+
+  refresh() {
+    console.log('Haciendo Refresh ...');
   }
 }

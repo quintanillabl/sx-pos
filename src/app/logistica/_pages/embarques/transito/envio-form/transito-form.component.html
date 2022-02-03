@@ -1,31 +1,33 @@
 <form novalidate [formGroup]="form" (ngSubmit)="onSubmit()">
 
-  <md-card >
-    <div layout="row" layout-align="start center" layout-padding class="pad-left-sm pad-right-sm">
-      <span class="pad-left">Bitácora de embarque</span>
-      <span class="pad-left tc-pink-700">{{embarque?.documento}}</span>
-      <span class="pad-left">Chofer: </span><span class="pad tc-indigo-700">{{embarque?.chofer?.nombre}}</span>
-      <span flex></span>
-      <span class="pad">Fecha: {{embarque?.fecha | date:'dd/MM/yyyy'}}</span>
-    </div>
+    <md-card>
+        <div layout="row" layout-align="start center" layout-padding class="pad-left-sm pad-right-sm">
+            <span class="pad-left">Bitácora de embarque</span>
+            <span class="pad-left tc-pink-700">{{embarque?.documento}}</span>
+            <span class="pad-left">Chofer: </span><span class="pad tc-indigo-700">{{embarque?.chofer?.nombre}}</span>
+            <span flex></span>
+            <span class="pad">Fecha: {{embarque?.fecha | date:'dd/MM/yyyy'}}</span>
+        </div>
 
-    <md-divider></md-divider>
-      <sx-transito-form-partidas
-        [parent]="form"
-        [partidas]="partidas.value"
-        (remove)="onDelete($event)"
-        (arrivo)="onArribo($event)"
-        (recepcion)="onRecepcion($event)">
-      </sx-transito-form-partidas>
-    <md-divider></md-divider>
+        <md-divider></md-divider>
+        <sx-transito-form-partidas [parent]="form" [partidas]="partidas.value" (remove)="onDelete($event)" (arrivo)="onArribo($event)" (recepcion)="onRecepcion($event)">
+        </sx-transito-form-partidas>
+        <md-divider></md-divider>
 
-    <md-card-actions>
-      <a  md-button [routerLink]="['/logistica/embarques/transito']"> Regresar </a>
-      <button type="submit" md-button > Salvar </button>
-      <button md-icon-button type="button" (click)="onPrint()" mdTooltip="Imprimir documento" *ngIf="id">
+        <md-card-actions>
+            <a md-button [routerLink]="['/logistica/embarques/transito']"> Regresar </a>
+            <button type="submit" md-button> Salvar </button>
+            <button md-icon-button type="button" (click)="onPrint()" mdTooltip="Imprimir documento" *ngIf="id">
         <md-icon>print</md-icon>
       </button>
-    </md-card-actions>
+            <button md-icon-button type="button" (click)="onTimbrar()" mdTooltip="Timbrar" *ngIf="!emb?.uuid">
+        <md-icon>file_upload</md-icon>
+      </button>
+            <button md-icon-button type="button" (click)="onPrintCfdi()" mdTooltip="Imprimir Cfdi" *ngIf="emb?.uuid">
+        <md-icon>assignment_turned_in</md-icon>
+      </button>
+            <span class="pad-left" *ngIf="emb?.uuid">UUID:  {{emb?.uuid}}</span>
+        </md-card-actions>
 
-  </md-card>
+    </md-card>
 </form>

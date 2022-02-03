@@ -33,5 +33,4 @@ export class TransitoFormPartidasComponent implements OnInit {
     this.remove.emit(index);
   }
 
-  
 }

@@ -234,4 +234,9 @@ export class EmbarqueService {
     const url = `${this.apiUrl}/asignarFacturas`;
     return this.http.put(url, data);
   }
+
+  timbrar(embarque) {
+    const url = `${this.apiUrl}/timbrar/${embarque.id}`;
+    return this.http.put(url, embarque);
+  }
 }

@@ -41,9 +41,13 @@ export class TransitoFormComponent implements OnInit, OnChanges {
 
   @Input() embarque: Embarque;
 
+  @Input() emb: any;
+
   @Input() readonly = false;
 
   @Output() print = new EventEmitter<Embarque>();
+  @Output() printCfdi = new EventEmitter<Embarque>();
+  @Output() timbrar = new EventEmitter<Embarque>();
 
   constructor(
     private fb: FormBuilder,
@@ -58,7 +62,9 @@ export class TransitoFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+
     if (changes.embarque && !changes.embarque.isFirstChange()) {
+      this.emb = this.embarque
       const embarque: Embarque = changes.embarque.currentValue;
       this.form.patchValue(embarque);
       embarque.partidas.forEach(item => {
@@ -163,6 +169,14 @@ export class TransitoFormComponent implements OnInit, OnChanges {
   }
 
   onPrint() {
+  
     this.print.emit(this.embarque);
+  }
+  onTimbrar() {
+    console.log(this.emb);
+    this.timbrar.emit(this.embarque);
+  }
+  onPrintCfdi() {
+    this.printCfdi.emit(this.embarque);
   }
 }
