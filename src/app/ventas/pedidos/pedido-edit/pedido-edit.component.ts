@@ -22,6 +22,8 @@ import { PedidoFormComponent } from '../pedido-form/pedido-form.component';
             (delete)="onDelete($event)"
             (cambiarCfdiMail)="onCambioDeCfdiMail($event)"
             (cambiarTel)="onCambioDeTel($event)"
+            (actualizarRazon)="onActualizarRazon($event)"
+            (actualizarRegimen)="onActualizarRegimen($event)"
             [pedido]="pedido$ | async"
             [sucursal]="sucursal$ | async"
             (print)="print($event)">
@@ -177,6 +179,64 @@ export class PedidoEditComponent implements OnInit {
           );
       }
     });
+  }
+
+  onActualizarRazon(data) {
+    console.log('Actualizando la Razon del cliente desde edit');
+    this._dialogService
+      .openPrompt({
+        message: 'Digite la Razon Social del cliente',
+        viewContainerRef: this._viewContainerRef,
+        title: 'Razon Social',
+        value: data.cliente.cfdiMail,
+        cancelButton: 'Cancelar',
+        acceptButton: 'Aceptar'
+      })
+      .afterClosed()
+      .subscribe((newValue: string) => {
+        if (newValue) {
+          console.log('Actualizando La Razon Social: ', newValue);
+          this.loadingService.register('saving');
+          this.service.actualizarCfdiEmail(data.cliente, newValue, data.usuario.username).subscribe(
+            cli => {
+              // console.log('correo actualizado: ', data.cliente);
+              // console.log('Usuario: ', data.usuario);
+              this.formPedido.form.get('cliente').setValue(cli);
+              this.loadingService.resolve('saving');
+            },
+            error => this.handlePostError(error)
+          );
+        }
+      });
+  }
+
+  onActualizarRegimen(data) {
+    console.log('Actualizando El Regimen del cliente desde edit');
+    this._dialogService
+      .openPrompt({
+        message: 'Digite el Regimen Fiscal del cliente',
+        viewContainerRef: this._viewContainerRef,
+        title: 'Regimen Fiscal',
+        value: data.cliente.cfdiMail,
+        cancelButton: 'Cancelar',
+        acceptButton: 'Aceptar'
+      })
+      .afterClosed()
+      .subscribe((newValue: string) => {
+        if (newValue) {
+          console.log('Actualizando el Regimen Fiscal: ', newValue);
+          this.loadingService.register('saving');
+          this.service.actualizarCfdiEmail(data.cliente, newValue, data.usuario.username).subscribe(
+            cli => {
+              // console.log('correo actualizado: ', data.cliente);
+              // console.log('Usuario: ', data.usuario);
+              this.formPedido.form.get('cliente').setValue(cli);
+              this.loadingService.resolve('saving');
+            },
+            error => this.handlePostError(error)
+          );
+        }
+      });
   }
 
   print(id: string) {

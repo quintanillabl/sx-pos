@@ -13,6 +13,8 @@ export class Cliente {
   juridico?: boolean;
   chequeDevuelto?: number;
   folioRFC?: number;
+  razonSocial?: string;
+  regimenFiscal?: string;
 }
 
 export class ClienteCredito {

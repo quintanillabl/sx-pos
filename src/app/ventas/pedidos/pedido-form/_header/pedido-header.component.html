@@ -45,6 +45,25 @@
         </span>
 
     </div>
+    <div class="row2">
+        <div layout class="pad-top-xs">
+            <span flex="10">Razon Social:</span>
+            <a *ngIf="cliente?.razonSocial != '' || cliente?.razonSocial " (click)="actualizarRazon.emit(cliente)" flex="20">
+                <span class="tc-indigo-700 " flex>{{cliente?.razonSocial}}</span>
+            </a>
+            <a *ngIf="cliente?.razonSocial == '' || !cliente?.razonSocial " (click)="actualizarRazon.emit(cliente)" flex="10">
+                <span class="tc-indigo-700 " flex>Actualizar</span>
+            </a>
+
+            <span flex="15">Regimen Fiscal:</span>
+            <a *ngIf="cliente?.regimenFiscal != '' || cliente?.regimenFiscal " (click)="actualizarRegimen.emit(cliente)">
+                <span class="tc-indigo-700 ">{{cliente?.regimenFiscal}}</span>
+            </a>
+            <a *ngIf="cliente?.regimenFiscal == '' || !cliente?.regimenFiscal " (click)="actualizarRegimen.emit(cliente)">
+                <span class="tc-indigo-700 ">Actualizar</span>
+            </a>
+        </div>
+    </div>
 
     <div class="row2" layout *ngIf="cliente?.rfc === 'XAXX010101000' ">
         <md-form-field flex="50" class="pad-right">
@@ -80,17 +99,17 @@
             <span class="tc-indigo-700" flex>{{cliente?.rfc}}</span>
             </span>
             <div layout class="pad-top-xs">
-                <span flex="20">TELS:</span> 
-                <a *ngIf="cliente?.telefonos != '' "(click)="cambiarTel.emit(cliente)" md-button>
-                  <span  class="tc-indigo-700 " flex>{{cliente?.telefonos?.join('/')}}</span>
-                </a>   
-                <a  *ngIf="cliente?.telefonos == '' " (click)="cambiarTel.emit(cliente)" md-button>
-                  <span  class="tc-indigo-700 " flex>Sin Teléfono</span>
-                </a>             
+                <span flex="20">TELS:</span>
+                <a *ngIf="cliente?.telefonos != '' " (click)="cambiarTel.emit(cliente)" md-button>
+                    <span class="tc-indigo-700 " flex>{{cliente?.telefonos?.join('/')}}</span>
+                </a>
+                <a *ngIf="cliente?.telefonos == '' " (click)="cambiarTel.emit(cliente)" md-button>
+                    <span class="tc-indigo-700 " flex>Sin Teléfono</span>
+                </a>
             </div>
             <div layout class="pad-top-xs ">
                 <span flex="20">CFDI Mail:</span>
-                <a  (click)="cambiarCfdi.emit(cliente)" md-button>
+                <a (click)="cambiarCfdi.emit(cliente)" md-button>
                     <span [ngClass]="{'tc-green-700': cliente?.cfdiValidado,'tc-pink-700': !!cliente?.cfdiValidado}" flex>
             {{cliente?.cfdiMail}}
           </span>

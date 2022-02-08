@@ -281,6 +281,23 @@ export class PedidosService {
     return this.http.put(url, {}, { params: params });
   }
 
+  actualizarRazon(cliente: Cliente, razon: string, usuario: string) {
+    const endpoint = `clientes/actualizarRazon/${cliente.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
+    const params = new HttpParams().set('razon', razon).set('usuario', usuario);
+
+    return this.http.put(url, {}, { params: params });
+  }
+
+
+  actualizarRegimen(cliente: Cliente, email: string, usuario: string) {
+    const endpoint = `clientes/actualizarRegimen/${cliente.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
+    const params = new HttpParams().set('regimen', email).set('usuario', usuario);
+
+    return this.http.put(url, {}, { params: params });
+  }
+
   buscarPreciosPorCliente(
     cliente: Cliente,
     producto: Producto
