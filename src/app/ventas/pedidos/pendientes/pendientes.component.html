@@ -53,7 +53,7 @@
         <a type="button" md-menu-item [routerLink]="['../anticipo/create']">
           <md-icon>archive</md-icon> Anticipo
         </a>
-        <ng-template sxHasRole="ROLE_GERENTE">
+        <ng-template sxHasRole="ROLE_SUPERVISOR">
           <a type="button" md-menu-item (click)="noFacturablesCambioPrecios()">
             <md-icon>remove_shopping_cart</md-icon> Cambio de Precios
           </a>
@@ -84,6 +84,7 @@
         (puesto)="onPuesto($event)"
         (quitarPuesto)="onQuitarPuesto($event)"
         (delete)="onDelete($event)"
+        [canQuitarPuesto]="hasRole('ROLE_ADMIN')"
         flex
       >
       </sx-pedidos-pendientes-list>
