@@ -186,12 +186,11 @@ export class EmbarqueService {
   reporteFacturaEnvio(reportParams: {}) {
       console.log('Procedo a ejecutar el reporte');
 
-      console.log('Parametros recibidos',reportParams);
+      console.log('Parametros recibidos', reportParams);
 
       const url = `${this.apiUrl}/reporteFacturaEnvio`;
 
-      console.log("**********   "+url)
-      
+      console.log('**********   ' + url)
       let params = new HttpParams();
 
       if (reportParams) {
@@ -207,6 +206,26 @@ export class EmbarqueService {
 
 
 
+  }
+
+  reporteEnvioPasan(reportParams: {}) {
+    reportParams['sucursal'] = this.sucursal.id;
+    console.log('Ejecutando reporte de Pasan Enviadas: ', reportParams);
+    const url = `${this.apiUrl}/reporteEnvioPasan`;
+    let params = new HttpParams()
+    if (reportParams) {
+      _.forIn(reportParams, (value, key) => {
+        params = params.set(key, value.toString());
+      });
+    }
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        params: params,
+        responseType: 'blob'
+      }
+    );
   }
 
   getEnvio(id: string): Observable<Envio> {

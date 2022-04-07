@@ -6,6 +6,7 @@ import { EmbarqueService } from 'app/logistica/services/embarque/embarque.servic
 import { EntregaPorChoferComponent } from './reportes/entrega-por-chofer/entrega-por-chofer.component';
 import {MdDialog} from '@angular/material';
 import { FacturaEnvioComponent } from './reportes/factura-envio/factura-envio.component';
+import { EnvioPasanComponent } from './reportes/envio-pasan/envio-pasan.component';
 
 
 
@@ -43,6 +44,13 @@ export class EmbarquesPageComponent implements OnInit {
       description: 'Rastreo de factura de envio',
       icon: 'blur_linear',
       action: 'reporteFacturaEnvio()'
+    },
+    {
+      name: 'envioPasan',
+      title: 'Facturas Pasan Enviadad',
+      description: 'Facturas de Pasan Enviadas',
+      icon: 'blur_linear',
+      action: 'reporteFacturaEnvio()'
     }
   ];
 
@@ -69,6 +77,9 @@ export class EmbarquesPageComponent implements OnInit {
     }
     if (report === 'facturaDeEnvio') {
       this.reporteFacturaEnvio();
+    }
+    if (report === 'envioPasan') {
+      this.reporteEnvioPasan();
     }
   }
 
@@ -97,13 +108,12 @@ export class EmbarquesPageComponent implements OnInit {
     });
   }
 
-  reporteFacturaEnvio(){
- 
+  reporteFacturaEnvio() {
      const dialogRef = this.dialog.open(FacturaEnvioComponent, {});
 
-     dialogRef.afterClosed().subscribe(result =>{
+     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.reporteFacturaEnvio(result).subscribe(res =>{
+        this.service.reporteFacturaEnvio(result).subscribe(res => {
           const blob = new Blob([res], {
             type: 'application/pdf'
           });
@@ -113,5 +123,20 @@ export class EmbarquesPageComponent implements OnInit {
       }
      });
     }
-   
+
+    reporteEnvioPasan() {
+      const dialogRef = this.dialog.open(EnvioPasanComponent, {});
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.service.reporteEnvioPasan(result).subscribe(res => {
+            const blob = new Blob([res], {
+              type: 'application/pdf'
+            });
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
+          });
+        }
+       });
+    }
+
 }

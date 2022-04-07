@@ -143,7 +143,7 @@ export class PedidoCreateComponent implements OnInit {
   }
 
   onActualizarRazon(data) {
-    console.log('Actualizando la Razon del cliente desde edit');
+    console.log('Actualizando la Razon del cliente desde create');
     this._dialogService
       .openPrompt({
         message: 'Digite la Razon Social del Cliente',
@@ -173,9 +173,9 @@ export class PedidoCreateComponent implements OnInit {
     console.log('Actualizando El Regimen del cliente desde edit');
     this._dialogService
       .openPrompt({
-        message: 'Digite el nuevo email para envio del CFDI',
+        message: 'Digite el Régimen Fiscal del Cliente',
         viewContainerRef: this._viewContainerRef,
-        title: 'Cambio de CFDI',
+        title: 'Cambio de Regimen',
         value: data.cliente.regimenFiscal,
         cancelButton: 'Cancelar',
         acceptButton: 'Aceptar'

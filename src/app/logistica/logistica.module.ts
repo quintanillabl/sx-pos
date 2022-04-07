@@ -52,6 +52,7 @@ import { PuestosService } from './services/puestos.service';
 import { CapturaMostradorPageComponent } from './_pages/almacen/captura/captura-mostrador-page-component';
 import { ValidacionConteoComponent } from './_pages/almacen/reportes/validacion-conteo/validacion-conteo.component';
 import { CajasService } from './services/cajas/cajas.service';
+import { EnvioPasanComponent } from './_pages/embarques/reportes/envio-pasan/envio-pasan.component';
 
 
 
@@ -217,6 +218,7 @@ const COMPONENTS = [
     RecPorLineaComponent,
     ValidacionConteoComponent,
     FacturaEnvioComponent,
+    EnvioPasanComponent,
     DiscrepanciasComponent,
     CapturaMostradorPageComponent,
   ], exports: [
@@ -240,6 +242,7 @@ const COMPONENTS = [
     RecPorLineaComponent,
     ValidacionConteoComponent,
     FacturaEnvioComponent,
+    EnvioPasanComponent,
     DiscrepanciasComponent
   ],
   providers: [MovimientosService, TransformacionesService,

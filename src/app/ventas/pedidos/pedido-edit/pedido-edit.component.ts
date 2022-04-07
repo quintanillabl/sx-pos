@@ -182,25 +182,23 @@ export class PedidoEditComponent implements OnInit {
   }
 
   onActualizarRazon(data) {
-    console.log('Actualizando la Razon del cliente desde edit');
+    console.log('Actualizando la Razon del cliente desde create');
     this._dialogService
       .openPrompt({
-        message: 'Digite la Razon Social del cliente',
+        message: 'Digite la Razon Social del Cliente',
         viewContainerRef: this._viewContainerRef,
         title: 'Razon Social',
-        value: data.cliente.cfdiMail,
+        value: data.cliente.razonSocial,
         cancelButton: 'Cancelar',
         acceptButton: 'Aceptar'
       })
       .afterClosed()
       .subscribe((newValue: string) => {
         if (newValue) {
-          console.log('Actualizando La Razon Social: ', newValue);
+          console.log('Actualizando Razon Social: ', newValue);
           this.loadingService.register('saving');
-          this.service.actualizarCfdiEmail(data.cliente, newValue, data.usuario.username).subscribe(
+          this.service.actualizarRazon(data.cliente, newValue, data.usuario.username).subscribe(
             cli => {
-              // console.log('correo actualizado: ', data.cliente);
-              // console.log('Usuario: ', data.usuario);
               this.formPedido.form.get('cliente').setValue(cli);
               this.loadingService.resolve('saving');
             },
@@ -214,22 +212,20 @@ export class PedidoEditComponent implements OnInit {
     console.log('Actualizando El Regimen del cliente desde edit');
     this._dialogService
       .openPrompt({
-        message: 'Digite el Regimen Fiscal del cliente',
+        message: 'Digite el Régimen Fiscal del Cliente',
         viewContainerRef: this._viewContainerRef,
-        title: 'Regimen Fiscal',
-        value: data.cliente.cfdiMail,
+        title: 'Cambio de Regimen',
+        value: data.cliente.regimenFiscal,
         cancelButton: 'Cancelar',
         acceptButton: 'Aceptar'
       })
       .afterClosed()
       .subscribe((newValue: string) => {
         if (newValue) {
-          console.log('Actualizando el Regimen Fiscal: ', newValue);
+          console.log('Actualizando Regimen Fiscal: ', newValue);
           this.loadingService.register('saving');
-          this.service.actualizarCfdiEmail(data.cliente, newValue, data.usuario.username).subscribe(
+          this.service.actualizarRegimen(data.cliente, newValue, data.usuario.username).subscribe(
             cli => {
-              // console.log('correo actualizado: ', data.cliente);
-              // console.log('Usuario: ', data.usuario);
               this.formPedido.form.get('cliente').setValue(cli);
               this.loadingService.resolve('saving');
             },
