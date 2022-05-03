@@ -53,6 +53,7 @@ import { CapturaMostradorPageComponent } from './_pages/almacen/captura/captura-
 import { ValidacionConteoComponent } from './_pages/almacen/reportes/validacion-conteo/validacion-conteo.component';
 import { CajasService } from './services/cajas/cajas.service';
 import { EnvioPasanComponent } from './_pages/embarques/reportes/envio-pasan/envio-pasan.component';
+import { PedidosModule } from '../ventas/pedidos/pedidos.module';
 
 
 
@@ -190,6 +191,7 @@ const COMPONENTS = [
   imports: [
     SharedModule,
     LogisticaRoutingModule,
+    PedidosModule,
     /**
      * Feature store module for the state of this module
      */

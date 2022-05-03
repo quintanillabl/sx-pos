@@ -42,7 +42,8 @@ export const MODULOS: Modulo[] = [
     path: '/logistica/embarques',
     nombre: 'Embarques',
     descripcion: 'Sub sistema de Envio y entrega',
-    icon:  'local_shipping'
+    icon:  'local_shipping',
+    role: 'ROLE_EMBARQUES_USER'
   },
 ];
 

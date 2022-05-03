@@ -70,10 +70,18 @@ export class PedidosService {
     return this.http.put<Venta>(url, changes);
   }
 
-  asignarEnvio(venta: Venta, direccion: {}) {
+  asignarEnvio(venta: Venta, direccion: {}, auth: {}) {
     console.log('Asignando direccion de envio: ', direccion);
     const url = `${this.apiUrl}/asignarEnvio/${venta.id}`;
-    return this.http.put(url, direccion);
+    const data = {direccion, auth}
+    return this.http.put(url, data);
+  }
+
+  cambiarDireccionEnvio(venta: Venta, direccion: {}) {
+    console.log('Asignando direccion de envio: ', direccion);
+    const url = `${this.apiUrl}/cambiarDireccionEnvio/${venta.id}`;
+    const data = {direccion}
+    return this.http.put(url, data);
   }
 
   cancelarEnvio(venta: Venta) {

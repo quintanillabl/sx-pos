@@ -7,6 +7,7 @@ import { EntregaPorChoferComponent } from './reportes/entrega-por-chofer/entrega
 import {MdDialog} from '@angular/material';
 import { FacturaEnvioComponent } from './reportes/factura-envio/factura-envio.component';
 import { EnvioPasanComponent } from './reportes/envio-pasan/envio-pasan.component';
+import { AuthService } from '../../../_auth/services/auth.service';
 
 
 
@@ -16,7 +17,8 @@ import { EnvioPasanComponent } from './reportes/envio-pasan/envio-pasan.componen
 })
 export class EmbarquesPageComponent implements OnInit {
 
-
+  user;
+  autorizado;
   navigation: Object[] = [
     {route: 'embarques', title: 'Asignaciones', icon: 'storage'},
     {route: 'transito', title: 'Transito', icon: 'local_shipping'},
@@ -59,7 +61,13 @@ export class EmbarquesPageComponent implements OnInit {
     private _viewContainerRef: ViewContainerRef,
     private service: EmbarqueService,
     public dialog: MdDialog,
-  ) { }
+    private authService: AuthService
+  ) {
+    this.authService.getCurrentUser().subscribe((user) => (this.user = user));
+    console.log(this.user);
+    this.autorizado = this.hasRole()
+    console.log(this.autorizado);
+   }
 
   ngOnInit() {
   }
@@ -137,6 +145,10 @@ export class EmbarquesPageComponent implements OnInit {
           });
         }
        });
+    }
+
+    hasRole() {
+      return this.user.roles.find((item) => item === 'ROLE_EMBARQUES_USER') === 'ROLE_EMBARQUES_USER' ;
     }
 
 }

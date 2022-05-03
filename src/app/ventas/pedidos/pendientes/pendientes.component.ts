@@ -231,23 +231,41 @@ export class PendientesComponent implements OnInit {
   }
 
   asignarEnvio(pedido: Venta) {
+    const params_autorizacion = {
+      tipo: 'ENVIO_PASAN',
+      title: 'Autorizacion Envio',
+      solicito: pedido.updateUser,
+      role: 'ROLE_EMBARQUES_MANAGER',
+    };
+
     const params = { direccion: null };
+
     if (pedido.envio) {
       params.direccion = pedido.envio.direccion;
     }
-    const dialogRef = this.dialog.open(EnvioDireccionComponent, {
-      data: params,
+
+    const dialogRef_auth = this.dialog.open(AutorizacionDeVentaComponent, {
+      data: params_autorizacion,
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        console.log('Asignando direccion de envío: ', result);
-        this.doAsignarEnvio(pedido, result);
+
+    dialogRef_auth.afterClosed().subscribe((auth) => {
+      if (auth) {
+         const dialogRef = this.dialog.open(EnvioDireccionComponent, {
+            data: params,
+          });
+          dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+              console.log('Asignando direccion de envío: ', result);
+              this.doAsignarEnvio(pedido, result, auth);
+            }
+          });
       }
     });
+
   }
 
-  doAsignarEnvio(pedido: Venta, direccion) {
-    this.service.asignarEnvio(pedido, direccion).subscribe(
+  doAsignarEnvio(pedido: Venta, direccion, auth) {
+    this.service.asignarEnvio(pedido, direccion, auth).subscribe(
       (res: Venta) => {
         // console.log('Direccion asignada exitosamente ', res);
         this.load();
@@ -256,23 +274,69 @@ export class PendientesComponent implements OnInit {
       (error) => this.handleError(error)
     );
   }
-  cancelarEnvio(pedido: Venta) {
+
+  cambiarDireccion(pedido: Venta) {
     const params = { direccion: null };
     if (pedido.envio) {
-      const dialogRef = this._dialogService
-        .openConfirm({
-          message: 'Cancelar envio del pedido ' + pedido.documento,
-          title: 'Cancelación de envío',
-          viewContainerRef: this._viewContainerRef,
-          acceptButton: 'Aceptar',
-          cancelButton: 'Cancelar',
-        })
-        .afterClosed()
-        .subscribe((res) => {
-          if (res) {
-            this.doCancelarEnvio(pedido);
-          }
-        });
+      console.log('Cambiando Direccion');
+      console.log(pedido.envio);
+      params.direccion = pedido.envio.direccion;
+      const dialogRef = this.dialog.open(EnvioDireccionComponent, {
+        data: params,
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          console.log('Asignando direccion de envío: ', result);
+           this.doCambiarDireccionEnvio(pedido, result);
+        }
+      });
+    }
+  }
+  doCambiarDireccionEnvio(pedido: Venta, direccion) {
+    this.service.cambiarDireccionEnvio(pedido, direccion).subscribe(
+      (res: Venta) => {
+        // console.log('Direccion asignada exitosamente ', res);
+        this.load();
+        pedido = res;
+      },
+      (error) => this.handleError(error)
+    );
+  }
+
+  cancelarEnvio(pedido: Venta) {
+    console.log('Cancelando el Envio');
+    const params_autorizacion = {
+      tipo: 'Embarques',
+      title: 'Autorizacion Envio',
+      solicito: pedido.updateUser,
+      role: 'ROLE_EMBARQUES_MANAGER',
+    };
+
+    const params = { direccion: null };
+
+    if (pedido.envio) {
+      const dialogRef_auth = this.dialog.open(AutorizacionDeVentaComponent, {
+        data: params_autorizacion,
+      });
+
+      dialogRef_auth.afterClosed().subscribe((auth) => {
+        if (auth) {
+          const dialogRef = this._dialogService
+            .openConfirm({
+              message: 'Cancelar envio del pedido ' + pedido.documento,
+              title: 'Cancelación de envío',
+              viewContainerRef: this._viewContainerRef,
+              acceptButton: 'Aceptar',
+              cancelButton: 'Cancelar',
+            })
+            .afterClosed()
+            .subscribe((res) => {
+              if (res) {
+                this.doCancelarEnvio(pedido);
+              }
+            });
+        }
+      });
     }
   }
 

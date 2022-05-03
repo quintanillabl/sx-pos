@@ -238,11 +238,22 @@ export class EmbarqueService {
   updateEnvio(envio) {
     console.log('Actualizando envio: ', envio);
     const target = { ...envio };
+    console.log('*****************');
+    console.log(target);
+    console.log('*****************');
     delete target.dateCreated;
     delete target.lastUpdated;
     const endpoint = `embarques/envios/${target.id}`;
     const url = this.configService.buildApiUrl(endpoint);
     return this.http.put(url, target);
+  }
+
+  cerrarEnvio(envio, auth) {
+    console.log('Cerrando el envio: ', envio);
+    console.log('Autorizacion', auth);
+    const endpoint = `embarques/envios/cerrarEnvio/${envio.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
+    return this.http.put(url, auth);
   }
 
   asignarFacturas(embarque, condiciones) {

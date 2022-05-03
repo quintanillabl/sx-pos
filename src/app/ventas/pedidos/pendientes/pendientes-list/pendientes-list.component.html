@@ -154,6 +154,15 @@
           >flight_takeoff</md-icon
         >
       </button>
+      <button
+        md-icon-button
+        type="button"
+        mdTooltip="Cambiar direccion"
+        (click)="cambiarDireccion.emit(row)"
+        *ngIf="!row.callcenter && row.tipo !== 'ANT' && row.envio"
+      >
+        <md-icon [ngClass]="{ 'tc-green-500': row.envio }">event_note</md-icon>
+      </button>
       <!-- <button md-icon-button type="button" (click)="cancelarEnvio.emit(row)" mdTooltip="Cancelar envío" *ngIf="row.envio">
         <md-icon [ngClass]="{'tc-red-500': (row.envio)}">flight_takeoff</md-icon>
       </button> -->

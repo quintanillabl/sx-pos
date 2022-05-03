@@ -33,16 +33,16 @@ export class PendientesListComponent implements OnInit {
   @Output() generarVale = new EventEmitter<any>();
 
   @Output() cambioDeCliente = new EventEmitter<any>();
- 
 
   @Output() puesto = new EventEmitter<any>();
   @Output() quitarPuesto = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
+  @Output() cambiarDireccion = new EventEmitter<any>();
 
   @Input() canQuitarPuesto = false;
 
   columns: ITdDataTableColumn[] = [
-    //{ name: 'tipo',  label: 'Tipo', width: 10 },
+    // { name: 'tipo',  label: 'Tipo', width: 10 },
     { name: 'documento', label: 'Docto', width: 30 },
     { name: 'fecha', label: 'Fecha', width: 10 },
     { name: 'nombre', label: 'Cliente', width: 300 },
@@ -51,7 +51,7 @@ export class PendientesListComponent implements OnInit {
     // { name: 'formaDePago', label: 'F.P', width: 30 },
     { name: 'total', label: 'Total', width: 25 },
     { name: 'createUser', label: 'Creado', width: 50 },
-    //{ name: 'updateUser', label: 'Modificado', width: 50 },ç
+    // { name: 'updateUser', label: 'Modificado', width: 50 },ç
     { name: 'comentario', label: 'Comentario', width: 160 },
     { name: 'operaciones', label: 'Opc', width: 250 },
   ];

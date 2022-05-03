@@ -51,7 +51,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   hasRole(modulo: Modulo) {
-    if (!modulo.role) return true;
+    if (!modulo.role) {
+      return true;
+    }
+
     return this.user.roles.find((item) => item === modulo.role);
   }
 }
