@@ -13,6 +13,7 @@ export class FacturasCreListComponent implements OnInit {
   @Output() cancelar = new EventEmitter<any>();
 
   @Output() facturar = new EventEmitter<any>();
+  @Output() facturarV4 = new EventEmitter<any>();
 
   constructor() { }
 
