@@ -30,12 +30,12 @@ export class FacturacionCreComponent implements OnInit {
     private loadingService: TdLoadingService,
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
-  ) { 
+  ) {
 
     this.pendientes$ = this.service
       .pendientesDeFacturar('CRE')
       .catch( err => Observable.of(err))
-      .finally( ()=> this.procesando = false);
+      .finally( () => this.procesando = false);
 
     this.pedidos$ = this.pendientes$
       .combineLatest(this.search$, (pedidos: Venta[], term: string) => {
