@@ -114,6 +114,12 @@ export class PendientesComponent implements OnInit {
     if (pedido.facturar) {
       return;
     }
+    let pedidoDescVal = pedido.descuentoOriginal
+
+    if ( pedido.formaDePago.includes('TARJETA') ) {
+      pedidoDescVal = pedido.descuentoOriginal - 1.5
+    }
+
     if (pedido.ventaIne && !pedido.complementoIne) {
       this._dialogService.openAlert({
         title: 'Venta de tipo INE',
@@ -130,7 +136,7 @@ export class PendientesComponent implements OnInit {
         'Este pedido tiene partidas sin existencia requiere autorización',
         'ROLE_GERENTE'
       );
-    } else if (pedido.descuento > pedido.descuentoOriginal) {
+    } else if (pedido.descuento !== pedidoDescVal) {
       this.mandarFacturarConAntorizacion(
         pedido,
         'DESCUENTO_ESPECIAL',
