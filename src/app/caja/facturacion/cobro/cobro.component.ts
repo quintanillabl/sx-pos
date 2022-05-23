@@ -82,6 +82,43 @@ export class CobroComponent implements OnInit, OnDestroy {
     }
   }
 
+  onFacturarV4(pedido: Venta) {
+    if (pedido.facturar && pedido.tipo !== 'CRE') {
+      this._dialogService
+        .openConfirm({
+          message: `Facturar el pedido ${pedido.tipo} - ${pedido.documento} (${pedido.total})`,
+          viewContainerRef: this._viewContainerRef,
+          title: 'Facturación de contado',
+          cancelButton: 'Cancelar',
+          acceptButton: 'Aceptar',
+        })
+        .afterClosed()
+        .subscribe((accept: boolean) => {
+          if (accept) {
+            this.doFacturar(pedido);
+          }
+        });
+    }
+  }
+
+  doFacturarV4(pedido: Venta) {
+    this.loadingService.register('saving');
+    this.service
+      .facturarV4(pedido)
+      .delay(200)
+      .subscribe(
+        (res) => {
+          console.log('Pedido facturado', res);
+          this.loadingService.resolve('saving');
+          this.router.navigate(['caja/generadas/show', res.id]);
+        },
+        (error) => {
+          console.error(error);
+          this.loadingService.resolve('saving');
+        }
+      );
+  }
+
   doFacturar(pedido: Venta) {
     this.loadingService.register('saving');
     this.service
@@ -125,11 +162,58 @@ export class CobroComponent implements OnInit, OnDestroy {
     );
   }
 
+
+  onSaveV4(cobroJob) {
+    console.log('Ejecutando OnSave V4');
+    cobroJob.cobros = cobroJob.cobros.filter((item) => item.importe > 0);
+    cobroJob.cobros.forEach((item) => (item.tipo = cobroJob.venta.tipo));
+    console.log('Generando facturacion y cobro: ', cobroJob);
+
+    this.loadingService.register('saving');
+    this.service.cobroContado(cobroJob).subscribe(
+      (res: any) => {
+        console.log('Cobro generado exitosamente', res);
+        this.loadingService.resolve('saving');
+        this.timbrarV4(res);
+        // this.router.navigate(['caja/generadas/show', res.id])
+      },
+      (error) => {
+        console.error(error);
+        this.loadingService.resolve('saving');
+        this._dialogService.openAlert({
+          title: 'Error al cobrar',
+          message: error.message,
+          closeButton: 'Cerrar',
+        });
+      }
+    );
+  }
+
   timbrar(venta) {
     if (venta.cuentaPorCobrar && !venta.cuentaPorCobrar.uuid) {
       this.loadingService.register('saving');
       console.log('Timbrando factura: ', venta.cuentaPorCobrar);
       this.service.timbrar(venta).subscribe(
+        (cfdi) => {
+          this.loadingService.resolve('saving');
+          this.printCfdi(cfdi);
+          this.router.navigate(['caja/generadas/show', venta.id]);
+          console.log('Cfdi generado: ', cfdi);
+        },
+        (error2) => {
+          this.router.navigate(['caja/generadas/show', venta.id]);
+          this.loadingService.resolve('saving');
+          console.error('Error: ', error2);
+        }
+      );
+    }
+  }
+
+  timbrarV4(venta) {
+    if (venta.cuentaPorCobrar && !venta.cuentaPorCobrar.uuid) {
+      this.loadingService.register('saving');
+      console.log('Timbrando factura: ', venta.cuentaPorCobrar);
+      this.service.timbrarV4(venta).subscribe(
         (cfdi) => {
           this.loadingService.resolve('saving');
           this.printCfdi(cfdi);

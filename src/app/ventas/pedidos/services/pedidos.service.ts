@@ -163,6 +163,11 @@ export class PedidosService {
     return this.http.put(url, {});
   }
 
+  facturarV4(venta: Venta) {
+    const url = `${this.apiUrl}/facturarV4/${venta.id}`;
+    return this.http.put(url, {});
+  }
+
   print(id: string) {
     const url = `${this.apiUrl}/print`;
     const params = new HttpParams().set('ID', id);
@@ -185,6 +190,11 @@ export class PedidosService {
 
   timbrar(venta: Venta): Observable<Venta> {
     const url = `${this.apiUrl}/timbrar/${venta.id}`;
+    return this.http.put<Venta>(url, {});
+  }
+
+  timbrarV4(venta: Venta): Observable<Venta> {
+    const url = `${this.apiUrl}/timbrarV4/${venta.id}`;
     return this.http.put<Venta>(url, {});
   }
 
@@ -302,6 +312,10 @@ export class PedidosService {
     const url = this.configService.buildApiUrl('descuentoPorVolumen');
     return this.http.get<any>(url);
   }
+   validarSaldoCre(venta: Venta) {
+    const url = `${this.apiUrl}/validarSaldoCre/${venta.id}`;
+    return this.http.put(url, {});
+   }
 
   enviarPorEmail(venta: Venta, target: string): Observable<Venta> {
     const endpoint = `cfdis/enviarFacturaEmail`;

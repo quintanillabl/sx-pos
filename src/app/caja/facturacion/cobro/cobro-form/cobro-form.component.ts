@@ -50,9 +50,13 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() save = new EventEmitter();
 
+  @Output() saveV4 = new EventEmitter();
+
   @Output() cancelar = new EventEmitter();
 
   @Output() facturar = new EventEmitter();
+
+  @Output() facturarV4 = new EventEmitter();
 
   @Output() aplicarBonificaciones = new EventEmitter();
 
@@ -222,7 +226,6 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
       });
       return
     }
-    
     this.parciales.push(cobro);
         if (this.venta.formaDePago !== 'EFECTIVO') {
           this.form.get('formaDePago').enable();
@@ -232,7 +235,6 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
           formaDePago: this.venta.formaDePago,
           cambio: 0
         });
-    
   }
 
   quitarCobro(index: number) {
@@ -293,6 +295,44 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
         this.save.emit(cobroJob);
       }
     }
+  }
+
+  onSubmitV4() {
+    console.log('Haciendo Submit Desde el Boton');
+    if (this.form.valid) {
+      const cobros = [...this.parciales];
+      const last = this.prepareEntity();
+      let cobro$: Observable<any> = null;
+      if (
+        last.formaDePago === 'TARJETA_DEBITO' ||
+        last.formaDePago === 'TARJETA_CREDITO'
+      ) {
+        cobro$ = this.agregarTarjeta2(last);
+      }
+      if (last.formaDePago === 'CHEQUE') {
+        cobro$ = this.agregarCheque(last);
+      }
+      if (cobro$) {
+        cobro$.subscribe(result => {
+          if (result) {
+            cobros.push(result);
+            const cobroJob = {
+              venta: this.venta,
+              cobros: cobros
+            };
+            this.saveV4.emit(cobroJob);
+          }
+        });
+      } else {
+        cobros.push(this.prepareEntity());
+        const cobroJob = {
+          venta: this.venta,
+          cobros: cobros
+        };
+        this.saveV4.emit(cobroJob);
+      }
+    }
+   
   }
 
   getTipo(venta: Venta) {

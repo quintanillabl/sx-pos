@@ -195,6 +195,31 @@ export class FacturaShowComponent implements OnInit {
     }
   }
 
+  timbrarV4(venta: Venta) {
+    if (venta.cuentaPorCobrar && !venta.cuentaPorCobrar.uuid) {
+      console.log('Timbrando factura: ', venta.cuentaPorCobrar);
+      this.procesando = true;
+      this.service
+        .timbrarV4(venta)
+        .finally(() => (this.procesando = false))
+        .subscribe(
+          cfdi => {
+            this.load();
+            console.log('Cfdi generado: ', cfdi);
+          },
+          error2 => {
+            console.error('Error timbrando factura: ', error2);
+            if (error2.error) {
+              this.openAlert(error2.error.message, 'Error al timbrar factura');
+            } else {
+              const message = error2.status;
+              this.openAlert(error2.message, 'Error ' + error2.status);
+            }
+          }
+        );
+    }
+  }
+
   mostrarXml(venta: Venta) {
     console.log('Mostrando xml');
     this.service.mostrarXml(venta).subscribe(res => {

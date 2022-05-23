@@ -30,12 +30,12 @@ export class FacturacionCreComponent implements OnInit {
     private loadingService: TdLoadingService,
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
-  ) { 
+  ) {
 
     this.pendientes$ = this.service
       .pendientesDeFacturar('CRE')
       .catch( err => Observable.of(err))
-      .finally( ()=> this.procesando = false);
+      .finally( () => this.procesando = false);
 
     this.pedidos$ = this.pendientes$
       .combineLatest(this.search$, (pedidos: Venta[], term: string) => {
@@ -91,11 +91,30 @@ export class FacturacionCreComponent implements OnInit {
         acceptButton: 'Aceptar',
       }).afterClosed().subscribe((accept: boolean) => {
         if (accept) {
-           this.validarSaldoCre(pedido)
+           this.validarSaldoCreV4(pedido)
           // this.doFacturar(pedido);
         }
       });
     }
+  }
+
+
+  validarSaldoCreV4(pedido: Venta) {
+    this.loadingService.register('saving');
+    this.service
+      .validarSaldoCre(pedido)
+      .delay(1000)
+      .subscribe( (res: any ) => {
+        if ( res['facturar']) {
+          this.doFacturarV4(pedido)
+        }else {
+          this.notificarSaldoCre(res['message'])
+        }
+        this.loadingService.resolve('saving');
+      }, error => {
+        console.error(error);
+        this.loadingService.resolve('saving');
+      });
   }
 
   validarSaldoCre(pedido: Venta) {
@@ -146,6 +165,36 @@ export class FacturacionCreComponent implements OnInit {
     if (!venta.cuentaPorCobrar.uuid) {
       this.procesando = true;
       this.service.timbrar(venta)
+        .subscribe( cfdi => {
+          this.procesando = false;
+          this.printCfdi(cfdi);
+          this.showFactura(venta);
+        }, error2 => {
+          this.handleError(error2);
+          this.showFactura(venta);
+        })
+    }
+  }
+
+  doFacturarV4(pedido: Venta) {
+    this.loadingService.register('saving');
+    this.service
+      .facturarV4(pedido)
+      .delay(1000)
+      .subscribe( (res: Venta) => {
+        console.log('Pedido facturado:', res);
+        this.timbrarV4(res);
+        this.loadingService.resolve('saving');
+      }, error => {
+        console.error(error);
+        this.loadingService.resolve('saving');
+      });
+  }
+
+  timbrarV4(venta: Venta) {
+    if (!venta.cuentaPorCobrar.uuid) {
+      this.procesando = true;
+      this.service.timbrarV4(venta)
         .subscribe( cfdi => {
           this.procesando = false;
           this.printCfdi(cfdi);

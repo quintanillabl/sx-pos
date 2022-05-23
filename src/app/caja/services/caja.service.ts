@@ -53,9 +53,16 @@ export class CajaService {
   }
 
   facturar(venta: Venta): Observable<Venta> {
+    console.log('Facturando un pedido de contado....');
     const url = `${this.apiUrl}/facturar/${venta.id}`;
     return this.http.put<Venta>(url, venta);
   }
+
+  facturarV4(venta: Venta) {
+    const url = `${this.apiUrl}/facturarV4/${venta.id}`;
+    return this.http.put<Venta>(url, {});
+  }
+
 
   facturasPendientesCod() {
     const endpoint = `cuentasPorCobrar/pendientesCod/${this.sucursal.id}`;
@@ -95,6 +102,11 @@ export class CajaService {
   timbrar(venta: Venta): Observable<Venta> {
     const url = `${this.apiUrl}/timbrar/${venta.id}`;
     return this.http.put<Venta>(url, venta);
+  }
+
+  timbrarV4(venta: Venta): Observable<Venta> {
+    const url = `${this.apiUrl}/timbrarV4/${venta.id}`;
+    return this.http.put<Venta>(url, {});
   }
 
   cancelar(factura: Venta, user: User, motivo: string): Observable<Venta> {
