@@ -427,18 +427,19 @@ export class PendientesComponent implements OnInit {
       });
   }
 
-  onQuitarPuesto(id: string) {
-    this._dialogService
-      .openConfirm({
-        title: 'Modificar pedido',
-        message: 'Quitar puesto?',
-        acceptButton: 'Aceptar',
-        cancelButton: 'Cancelar',
-      })
-      .afterClosed()
-      .subscribe((res) => {
-        if (res) {
-          this.service.quitarPuesto(id).subscribe(
+  onQuitarPuesto(pedido: Venta) {
+      const message = `
+      Registrar pedido: ${pedido.tipo} ${pedido.documento} como PUESTO`;
+      this.dialog
+        .open(UsuarioDialogComponent, {
+          data: {
+            title: message,
+          },
+        })
+        .afterClosed()
+        .subscribe((user) => {
+          if (user) {
+            this.service.quitarPuesto(pedido.id, user).subscribe(
             (vta) => {
               console.log('Vta actualizada: ', vta);
               this.load();

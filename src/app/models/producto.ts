@@ -31,6 +31,7 @@ export interface Producto {
   nacional: boolean
   precioContado: number
   precioCredito: number
+  precioTarjeta: number
   presentacion: string
   sw2: number
   unidad: string

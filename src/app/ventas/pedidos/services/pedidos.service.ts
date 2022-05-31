@@ -312,6 +312,7 @@ export class PedidosService {
     const url = this.configService.buildApiUrl('descuentoPorVolumen');
     return this.http.get<any>(url);
   }
+
    validarSaldoCre(venta: Venta) {
     const url = `${this.apiUrl}/validarSaldoCre/${venta.id}`;
     return this.http.put(url, {});
@@ -375,9 +376,13 @@ export class PedidosService {
     );
   }
 
-  quitarPuesto(id: string): Observable<Venta> {
+  quitarPuesto(id: string, user: any): Observable<Venta> {
     const url = `${this.apiUrl}/quitarPuesto/${id}`;
-    return this.http.put<Venta>(url, {});
+    const params = new HttpParams().set('usuario', user.username);
+    return this.http.put<Venta>(
+      url,
+      { params }
+    );
   }
 
   regresarCallcenter(id: string, user) {

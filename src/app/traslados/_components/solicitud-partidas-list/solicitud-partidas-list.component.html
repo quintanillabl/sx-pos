@@ -1,5 +1,5 @@
-<div [formGroup]="parent">
-    <div formArrayName="partidas" layout layout-align="center" layout-margin class="partidas-grid-container">
+<div [formGroup]="parent" class="partidas-grid-container" flex>
+    <div formArrayName="partidas">
         <table td-data-table>
             <thead>
                 <tr td-data-table-column-row>
@@ -22,8 +22,8 @@
                     <td td-data-table-cell numeric="true">{{row.cortesInstruccion}}</td>
                     <td td-data-table-cell numeric="false">
                         <button md-icon-button type="button" (click)="delete(i)">
-            <md-icon md-icon-button color="accent" >delete</md-icon>
-          </button>
+                    <md-icon md-icon-button color="accent" >delete</md-icon>
+                </button>
                     </td>
                 </tr>
             </tbody>

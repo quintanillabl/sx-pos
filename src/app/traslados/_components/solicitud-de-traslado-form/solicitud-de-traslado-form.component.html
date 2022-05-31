@@ -24,7 +24,7 @@
             <sx-comentario-field flex [parent]="form" rows="1"></sx-comentario-field>
         </div>
 
-        <div>
+        <div class="table-wrapper">
             <sx-solicitud-partidas-list [parent]="form" [partidas]="partidas.value" (remove)="removePartida($event)" (edit)="editarPartida($event)"></sx-solicitud-partidas-list>
         </div>
 

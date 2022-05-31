@@ -35,7 +35,8 @@ export class FormaDePagoComponent implements OnInit, OnChanges {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.cod && changes.cod.currentValue) {
+  // Codigo para validar COD en Papels
+  /* if (changes.cod && changes.cod.currentValue) {
       this.tipos = ['EFECTIVO', 'CHEQUE', 'TARJETA_DEBITO', 'TARJETA_CREDITO'];
     } else {
       this.tipos = [
@@ -49,5 +50,17 @@ export class FormaDePagoComponent implements OnInit, OnChanges {
         'DEPOSITO_MIXTO',
       ];
     }
+    */
+   // Ajuste requerido por la operacion de papelsa bajio
+  this.tipos = [
+    'EFECTIVO',
+    'CHEQUE',
+    'TRANSFERENCIA',
+    'TARJETA_DEBITO',
+    'TARJETA_CREDITO',
+    'DEPOSITO_CHEQUE',
+    'DEPOSITO_EFECTIVO',
+    'DEPOSITO_MIXTO',
+  ];
   }
 }

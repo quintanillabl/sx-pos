@@ -80,6 +80,8 @@ export class FacturacionCreComponent implements OnInit {
     }
   }
 
+  
+
   facturarV4(pedido: Venta) {
 
     if (pedido.facturar && pedido.tipo === 'CRE') {

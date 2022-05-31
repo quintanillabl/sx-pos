@@ -21,7 +21,7 @@ import { VentaDet } from 'app/models';
   templateUrl: './partidas-grid.component.html',
   styleUrls: ['./partidas-grid.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
-  //encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.None
 })
 export class PartidasGridComponent implements OnInit {
   @Output() delete = new EventEmitter();

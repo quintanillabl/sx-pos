@@ -16,6 +16,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
 export function mapPartidaToImporte(det: VentaDet) {
+  console.log('Ejecutando el map de la ventadet');
   const factor = det.producto.unidad === 'MIL' ? 1000 : 1;
   const res = (det.cantidad * det.precio) / factor;
   return _.round(res, 2);
@@ -47,6 +48,10 @@ export class PedidoFormService {
     return this.form.get('tipo').value;
   }
 
+  get formaDePago(){
+    return this.form.get('formaDePago').value
+  }
+
   isCredito() {
     return this.tipo === 'CRE';
   }
@@ -67,11 +72,14 @@ export class PedidoFormService {
       data: {
         sucursal: config.sucursal,
         tipo: this.tipo,
+        fPago: this.formaDePago,
         preciosPorCliente: this.preciosPorCliente,
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        // console.log('Cerrando el dialog');
+        // console.log(result);
         this.partidas.push(new FormControl(result));
         this.recalcular();
       }
@@ -89,6 +97,7 @@ export class PedidoFormService {
       data: {
         sucursal: config.sucursal,
         tipo: this.tipo,
+        fPago: this.formaDePago,
         partida: clone,
         preciosPorCliente: this.preciosPorCliente,
       },
@@ -96,6 +105,7 @@ export class PedidoFormService {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         control.patchValue(result);
+        // console.log(result);
         // this.partidas.removeAt(index);
         // this.partidas.insert(index, new FormControl(result));
         this.recalcular();
@@ -131,7 +141,7 @@ export class PedidoFormService {
     }
     // Cargos y maniobras por tarjeta, felte y cortes
     this.generarCargoPorCorte();
-    this.generarCargosPorPagoConTarjeta();
+    // this.generarCargosPorPagoConTarjeta();
     this.actualizarTotales();
   }
 
@@ -141,9 +151,20 @@ export class PedidoFormService {
     if (partidas.length > 0) {
       // console.log('Actualizando precios....')
       partidas.forEach((item) => {
-        const precio = contado
-          ? item.producto.precioContado
-          : item.producto.precioCredito;
+        let precio = item.producto.precioContado
+
+        if ( this.tipo === 'CON') {
+         precio = item.producto.precioContado
+       }
+
+       if ( this.tipo === 'CRE' ) {
+         precio = item.producto.precioCredito
+       }
+
+       // tslint:disable-next-line:max-line-length
+       if ( this.tipo === 'CON' && item.producto.modoVenta === 'N' && ( this.formaDePago === 'TARJETA_DEBITO' || this.formaDePago === 'TARJETA_CREDITO')) {
+         precio = item.producto.precioTarjeta
+       }
         item.precio = precio;
         item.precioLista = precio;
         item.precioOriginal = item.precioLista;
@@ -228,9 +249,9 @@ export class PedidoFormService {
     } else {
       let pena = 0;
       if (fpago === 'TARJETA_CREDITO') {
-        pena = 2;
+        pena = 1.5;
       } else if (fpago === 'TARJETA_DEBITO') {
-        pena = 1;
+        pena = 1.5;
       }
       this.aplicarDescuentoContado(pena);
       this.form.get('chequePostFechado').setValue(false);
@@ -354,10 +375,10 @@ export class PedidoFormService {
       if (!descuentoBruto.descuento) {
         totalNeto += totalBruto;
       }
-      console.log('Total para cargo: ', totalNeto);
+      // console.log('Total para cargo: ', totalNeto);
       let importeT = totalNeto * (pena / 100);
       importeT = _.round(importeT, 2);
-      console.log(' .... Total neto: ', totalNeto);
+      // console.log(' .... Total neto: ', totalNeto);
       if (totalNeto > 0) {
         console.log(`
           Generar un cargo por maniobra T por un importe de ${importeT} ( ${pena} %   de ${totalNeto} )
@@ -547,10 +568,10 @@ export class PedidoFormService {
         this.partidas.value,
         (item: VentaDet) => item.producto.clave === 'MANIOBRAF'
       );
-      //console.log('Partida de maniobra localizada: ', det);
-      //console.log('Partida de maniobra localizada index: ', index);
+      // console.log('Partida de maniobra localizada: ', det);
+      // console.log('Partida de maniobra localizada index: ', index);
       if (det) {
-        //console.log('Actualizando importes de flete...');
+        // console.log('Actualizando importes de flete...');
         det.importe = flete;
         det.subtotal = flete;
         grid.refresh();

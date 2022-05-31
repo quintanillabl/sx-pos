@@ -48,9 +48,10 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
 
   sinExistencia$: Observable<boolean>;
   // conVale$: Observable<boolean>;
+  tipoLista = 'CON'
   tipoDePrecio = 'CON';
   importeBruto$: Observable<number>;
-
+  fPago = 'EFECTIVO'
   partida: VentaDet;
   dolares = false;
 
@@ -70,8 +71,10 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private existenciasService: ExistenciasService
   ) {
+    console.log(data);
     this.sucursal = data.sucursal;
     this.tipoDePrecio = data.tipo;
+    this.fPago = data.fPago
     this.partida = data.partida;
     this.dolares = data.dolares || false;
     this.preciosPorCliente = data.preciosPorCliente;
@@ -83,11 +86,13 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
     this.buildExistenciaRemota$();
     this.buildProducto$();
     this.buildCorte$();
+    this.setTipoLista();
   }
 
   private edicion() {
     if (this.partida) {
       // console.log('Editando la partida.....', this.partida);
+      // this.setTipoLista()
       this.form.patchValue(this.partida);
       if (this.partida.corte) {
         // Actualizando informacion de corte
@@ -135,9 +140,10 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
           this.form
             .get('precio')
             .setValue(
-              this.tipoDePrecio === 'CON'
+             /*  this.tipoDePrecio === 'CON'
                 ? producto.precioContado
-                : producto.precioCredito
+                : producto.precioCredito */
+                this.precioProducto
             );
           const pe = this.buscarPrecioEspecial(producto);
           if (pe) {
@@ -161,6 +167,8 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       this.disponibilidadTotal = _.sumBy(this.existencias, 'disponible');
     });
   }
+
+
 
   buildExistencias() {
     const producto = this.form.get('producto').value;
@@ -254,6 +262,8 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
 
   preparePartida(): VentaDet {
     const rawData = this.form.getRawValue();
+    console.log('Preparando partida');
+    console.log(rawData);
     const producto = rawData.producto;
     const factor = producto.unidad === 'MIL' ? 1000 : 1;
     const kilos = rawData.cantidad * producto.kilos / factor;
@@ -269,14 +279,16 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       impuesto: 0,
       impuestoTasa: 0.16,
       total: rawData.importe,
-      precioLista:
-        this.tipoDePrecio === 'CON'
+      precioLista: this.precioProducto,
+      /*  this.tipoDePrecio === 'CON'
           ? producto.precioContado
           : producto.precioCredito,
-      precioOriginal:
-        this.tipoDePrecio === 'CON'
+      */
+      precioOriginal: this.precioProducto,
+      /*  this.tipoDePrecio === 'CON'
           ? producto.precioContado
           : producto.precioCredito,
+      */
       kilos: kilos,
       comentario: rawData.comentario,
       conVale: rawData.conVale,
@@ -284,6 +296,7 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
       sucursal: this.sucursal,
       sinExistencia: rawData.sinExistencia
     };
+
     if (this.form.get('cortado').value) {
       const corte = { ...this.form.get('corte').value };
       if (corte.ventaDet) {
@@ -330,6 +343,42 @@ export class PedidoDetFormComponent implements OnInit, OnDestroy {
 
   get precio(): number {
     return this.form.get('precio').value;
+  }
+
+  get precioProducto(){
+
+    let precio = this.producto.precioContado;
+    if (this.tipoDePrecio === 'CRE') {
+      precio = this.producto.precioCredito
+      return precio
+    }
+
+    // tslint:disable-next-line:max-line-length
+    if (this.tipoDePrecio === 'CON' && this.producto.modoVenta === 'N'  && (this.fPago === 'TARJETA_DEBITO' || this.fPago === 'TARJETA_CREDITO' ))  {
+      console.log('Asignando el precio para tarjeta');
+      precio = this.producto.precioTarjeta
+      return precio
+    }
+
+    if (this.tipoDePrecio === 'CON' ) {
+      console.log('Asignando el precio para contado');
+      precio = this.producto.precioContado
+      return precio
+    }
+  }
+
+  setTipoLista() {
+    console.log('Asignando Tipo de Lista');
+    if (this.tipoDePrecio === 'CRE') {
+      this.tipoLista = 'CRE';
+    }
+    if (this.tipoDePrecio === 'CON' ) {
+      this.tipoLista = 'CON';
+    }
+    // tslint:disable-next-line:max-line-length
+    if (this.tipoDePrecio === 'CON'  && (this.fPago === 'TARJETA_DEBITO' || this.fPago === 'TARJETA_CREDITO' )) {
+      this.tipoLista = 'TAR';
+    }
   }
 
   buscarPrecioEspecial(producto: Producto) {

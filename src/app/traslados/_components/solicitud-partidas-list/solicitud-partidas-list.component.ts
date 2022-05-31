@@ -8,7 +8,8 @@ import * as _ from 'lodash';
 @Component({
   selector: 'sx-solicitud-partidas-list',
   templateUrl: './solicitud-partidas-list.component.html',
-  styles: [' .partidas-grid-container { height: 300px;}']
+  styleUrls: ['./solicitud-partidas-list.component.scss']
+  // styles: [' .partidas-grid-container { height: 300px;}']
 })
 export class SolicitudPartidasListComponent implements OnInit {
 
@@ -29,7 +30,7 @@ export class SolicitudPartidasListComponent implements OnInit {
   }
 
   onEdit(index, row){
-    console.log("Editando la partida "+index);
+    console.log('Editando la partida ' + index);
 
     this._dialogService.openPrompt({
       message: `Solicitar `,
