@@ -28,6 +28,10 @@ export class PedidoHeaderComponent implements OnInit, OnDestroy {
 
   @Output() cambiarTel = new EventEmitter();
 
+  @Output() actualizarRazon = new EventEmitter();
+
+  @Output() actualizarRegimen = new EventEmitter();
+
   @Input() parent: FormGroup;
 
   subscription: Subscription;
@@ -43,6 +47,9 @@ export class PedidoHeaderComponent implements OnInit, OnDestroy {
       .subscribe(cliente => {
         if (cliente !== null) {
           this.parent.get('cfdiMail').setValue(cliente.email);
+          if (!cliente.razonSocial || !cliente.regimenFiscal) {
+            console.log('Le faltan datos fiscales al cliente');
+           }
         }
       });
   }

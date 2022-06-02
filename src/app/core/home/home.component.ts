@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   application$: Observable<any>;
   modulos$: Observable<Modulo[]>;
-  user 
+  user;
 
   constructor(
     public media: TdMediaService,
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       {
         nombre: 'SIIPAPX Punto de venta ',
         descripcion: 'Sistema de ventas y distribución para SIIPAPX',
-        image: "/assets/images/pexels-photo-425047.png"
+        image: '/assets/images/pexels-photo-425047.png'
       });
     this.authService.getCurrentUser().subscribe( user => this.user = user);
    }
@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     // broadcast to all listener observables when loading the page
     this.media.broadcast();
-    this._titleService.setTitle( 'SX-SIIPAP' );
+    this._titleService.setTitle( 'SX-POS' );
 
   }
 
@@ -52,10 +52,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
     return modulo.path ? modulo.path : modulo.nombre.toLowerCase();
   }
 
-  hasRole(modulo: Modulo){
-    if(!modulo.role) return true;
+  hasRole(modulo: Modulo) {
+    if (!modulo.role) {
+       return true
+      }
     return this.user.roles.find( item => item === modulo.role);
   }
-  
+
 
 }

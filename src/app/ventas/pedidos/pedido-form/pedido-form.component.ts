@@ -69,6 +69,10 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() pedido: Venta;
 
+  @Output() actualizarRazon = new EventEmitter();
+
+  @Output() actualizarRegimen = new EventEmitter();
+
   recalcular$: Observable<any>;
   recalcularSubscription: Subscription;
 
@@ -421,6 +425,20 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   onCambioDeTel(cliente) {
     if (this.usuario) {
       this.cambiarTel.emit({ cliente: cliente, usuario: this.usuario });
+    }
+  }
+
+  onActualizarRazon(cliente) {
+    console.log('Actualizando Razon Social')
+    if (this.usuario) {
+      this.actualizarRazon.emit({ cliente: cliente, usuario: this.usuario });
+    }
+  }
+
+  onActualizarRegimen(cliente) {
+    console.log('Actualizando el Regimen Fiscal')
+    if (this.usuario) {
+      this.actualizarRegimen.emit({ cliente: cliente, usuario: this.usuario });
     }
   }
 

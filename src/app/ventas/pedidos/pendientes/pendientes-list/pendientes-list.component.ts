@@ -34,10 +34,12 @@ export class PendientesListComponent implements OnInit {
 
   @Output() cambioDeCliente = new EventEmitter<any>();
 
-
   @Output() puesto = new EventEmitter<any>();
   @Output() quitarPuesto = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
+  @Output() cambiarDireccion = new EventEmitter<any>();
+
+  @Input() canQuitarPuesto = false;
 
   columns: ITdDataTableColumn[] = [
     // { name: 'tipo',  label: 'Tipo', width: 10 },
@@ -56,7 +58,9 @@ export class PendientesListComponent implements OnInit {
 
   constructor(public dialog: MdDialog) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('Can quitar puesto: ', this.canQuitarPuesto);
+  }
 
   onEdit(pedido: Venta) {
     if (pedido.callcenter || pedido.sw2) {

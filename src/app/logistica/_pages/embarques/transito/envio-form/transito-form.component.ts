@@ -123,7 +123,7 @@ export class TransitoFormComponent implements OnInit, OnChanges {
     this.cd.detectChanges();
     const dialogRef = this._dialogService.openPrompt({
       message: 'Nombre:',
-      title: 'Recpetor del material',
+      title: 'Receptor del material',
       value: '',
       viewContainerRef: this._viewContainerRef,
       acceptButton: 'Aceptar',
@@ -138,7 +138,8 @@ export class TransitoFormComponent implements OnInit, OnChanges {
           envio.recepcion = new Date().toISOString();
           envio.recibio = message;
           this.cd.detectChanges();
-          // console.log('Registrando recepcion de envio: ', envio);
+          console.log('Registrando recepcion de envio: ', envio);
+          console.log(message);
         },
         () => {},
         () => this.cd.detectChanges()

@@ -6,6 +6,8 @@ import { EmbarqueService } from 'app/logistica/services/embarque/embarque.servic
 import { EntregaPorChoferComponent } from './reportes/entrega-por-chofer/entrega-por-chofer.component';
 import {MdDialog} from '@angular/material';
 import { FacturaEnvioComponent } from './reportes/factura-envio/factura-envio.component';
+import { EnvioPasanComponent } from './reportes/envio-pasan/envio-pasan.component';
+import { AuthService } from '../../../_auth/services/auth.service';
 
 
 
@@ -15,7 +17,8 @@ import { FacturaEnvioComponent } from './reportes/factura-envio/factura-envio.co
 })
 export class EmbarquesPageComponent implements OnInit {
 
-
+  user;
+  autorizado;
   navigation: Object[] = [
     {route: 'embarques', title: 'Asignaciones', icon: 'storage'},
     {route: 'transito', title: 'Transito', icon: 'local_shipping'},
@@ -43,6 +46,13 @@ export class EmbarquesPageComponent implements OnInit {
       description: 'Rastreo de factura de envio',
       icon: 'blur_linear',
       action: 'reporteFacturaEnvio()'
+    },
+    {
+      name: 'envioPasan',
+      title: 'Facturas Pasan Enviadad',
+      description: 'Facturas de Pasan Enviadas',
+      icon: 'blur_linear',
+      action: 'reporteFacturaEnvio()'
     }
   ];
 
@@ -51,11 +61,16 @@ export class EmbarquesPageComponent implements OnInit {
     private _viewContainerRef: ViewContainerRef,
     private service: EmbarqueService,
     public dialog: MdDialog,
-  ) { }
+    private authService: AuthService
+  ) {
+    this.authService.getCurrentUser().subscribe((user) => (this.user = user));
+    console.log(this.user);
+    this.autorizado = this.hasRole()
+    console.log(this.autorizado);
+   }
 
   ngOnInit() {
   }
-
 
   runReport(report) {
     // this._dialogService.openAlert({
@@ -69,6 +84,9 @@ export class EmbarquesPageComponent implements OnInit {
     }
     if (report === 'facturaDeEnvio') {
       this.reporteFacturaEnvio();
+    }
+    if (report === 'envioPasan') {
+      this.reporteEnvioPasan();
     }
   }
 
@@ -97,13 +115,13 @@ export class EmbarquesPageComponent implements OnInit {
     });
   }
 
-  reporteFacturaEnvio(){
- 
+  reporteFacturaEnvio() {
+
      const dialogRef = this.dialog.open(FacturaEnvioComponent, {});
 
-     dialogRef.afterClosed().subscribe(result =>{
+     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.service.reporteFacturaEnvio(result).subscribe(res =>{
+        this.service.reporteFacturaEnvio(result).subscribe(res => {
           const blob = new Blob([res], {
             type: 'application/pdf'
           });
@@ -113,5 +131,24 @@ export class EmbarquesPageComponent implements OnInit {
       }
      });
     }
-   
+
+    reporteEnvioPasan() {
+      const dialogRef = this.dialog.open(EnvioPasanComponent, {});
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.service.reporteEnvioPasan(result).subscribe(res => {
+            const blob = new Blob([res], {
+              type: 'application/pdf'
+            });
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
+          });
+        }
+       });
+    }
+
+    hasRole() {
+      return this.user.roles.find((item) => item === 'ROLE_EMBARQUES_USER') === 'ROLE_EMBARQUES_USER' ;
+    }
+
 }

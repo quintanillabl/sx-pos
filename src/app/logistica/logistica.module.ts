@@ -52,8 +52,8 @@ import { PuestosService } from './services/puestos.service';
 import { CapturaMostradorPageComponent } from './_pages/almacen/captura/captura-mostrador-page-component';
 import { ValidacionConteoComponent } from './_pages/almacen/reportes/validacion-conteo/validacion-conteo.component';
 import { CajasService } from './services/cajas/cajas.service';
-
-
+import { EnvioPasanComponent } from './_pages/embarques/reportes/envio-pasan/envio-pasan.component';
+import { PedidosModule } from '../ventas/pedidos/pedidos.module';
 
 
 
@@ -189,6 +189,7 @@ const COMPONENTS = [
   imports: [
     SharedModule,
     LogisticaRoutingModule,
+    PedidosModule,
     /**
      * Feature store module for the state of this module
      */
@@ -218,6 +219,7 @@ const COMPONENTS = [
     ValidacionConteoComponent,
     FacturaEnvioComponent,
     DiscrepanciasComponent,
+    EnvioPasanComponent,
     CapturaMostradorPageComponent,
   ], exports: [
     ChoferFieldComponent
@@ -240,7 +242,8 @@ const COMPONENTS = [
     RecPorLineaComponent,
     ValidacionConteoComponent,
     FacturaEnvioComponent,
-    DiscrepanciasComponent
+    DiscrepanciasComponent,
+    EnvioPasanComponent
   ],
   providers: [MovimientosService, TransformacionesService,
     DevolucionesService,

@@ -1,5 +1,5 @@
 
-import { Component, OnInit, ViewContainerRef,Input } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -29,7 +29,6 @@ export class PedidosPendientesComponent implements OnInit {
   @Input() user: any;
 
   pedidos$: Observable<Venta[]>;
-  
 
   procesando = false;
 
@@ -49,7 +48,7 @@ export class PedidosPendientesComponent implements OnInit {
     public dialog: MdDialog
   ) {
 
-   
+
     const obs1 = this.search$
       .asObservable()
       .distinctUntilChanged()
@@ -213,7 +212,7 @@ export class PedidosPendientesComponent implements OnInit {
     }
   }
 
-  asignarEnvio(pedido: Venta) {
+  /* asignarEnvio(pedido: Venta) {
     const params = { direccion: null };
     if (pedido.envio) {
       params.direccion = pedido.envio.direccion;
@@ -227,10 +226,46 @@ export class PedidosPendientesComponent implements OnInit {
         this.doAsignarEnvio(pedido, result);
       }
     });
+  } */
+
+  asignarEnvio(pedido: Venta) {
+
+    const params_autorizacion = {
+      tipo: 'ENVIO_PASAN',
+      title: 'Autorizacion Envio',
+      solicito: pedido.updateUser,
+      role: 'ROLE_EMBARQUES_MANAGER',
+    };
+
+    const params = { direccion: null };
+
+    if (pedido.envio) {
+      params.direccion = pedido.envio.direccion;
+    }
+
+    const dialogRef_auth = this.dialog.open(AutorizacionDeVentaComponent, {
+      data: params_autorizacion,
+    });
+
+    dialogRef_auth.afterClosed().subscribe((auth) => {
+      if (auth) {
+         const dialogRef = this.dialog.open(EnvioDireccionComponent, {
+            data: params,
+          });
+          dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+              console.log('Asignando direccion de envío: ', result);
+              this.doAsignarEnvio(pedido, result, auth);
+            }
+          });
+      }
+    });
+
   }
 
-  doAsignarEnvio(pedido: Venta, direccion) {
-    this.service.asignarEnvio(pedido, direccion).subscribe(
+  doAsignarEnvio(pedido: Venta, direccion, auth) {
+
+    this.service.asignarEnvio(pedido, direccion, auth).subscribe(
       (res: Venta) => {
         // console.log('Direccion asignada exitosamente ', res);
         this.load();
@@ -239,7 +274,9 @@ export class PedidosPendientesComponent implements OnInit {
       error => this.handleError(error)
     );
   }
-  cancelarEnvio(pedido: Venta) {
+
+
+  /* cancelarEnvio(pedido: Venta) {
     const params = { direccion: null };
     if (pedido.envio) {
       const dialogRef = this._dialogService
@@ -256,6 +293,42 @@ export class PedidosPendientesComponent implements OnInit {
             this.doCancelarEnvio(pedido);
           }
         });
+    }
+  } */
+
+  cancelarEnvio(pedido: Venta) {
+
+    const params_autorizacion = {
+      tipo: 'Embarques',
+      title: 'Autorizacion Envio',
+      solicito: pedido.updateUser,
+      role: 'ROLE_EMBARQUES_MANAGER',
+    };
+
+    const params = { direccion: null };
+    if (pedido.envio) {
+      const dialogRef_auth = this.dialog.open(AutorizacionDeVentaComponent, {
+        data: params_autorizacion,
+      });
+
+      dialogRef_auth.afterClosed().subscribe((auth) => {
+        if (auth) {
+          const dialogRef = this._dialogService
+            .openConfirm({
+              message: 'Cancelar envio del pedido ' + pedido.documento,
+              title: 'Cancelación de envío',
+              viewContainerRef: this._viewContainerRef,
+              acceptButton: 'Aceptar',
+              cancelButton: 'Cancelar',
+            })
+            .afterClosed()
+            .subscribe((res) => {
+              if (res) {
+                this.doCancelarEnvio(pedido);
+              }
+            });
+        }
+      });
     }
   }
 
@@ -354,9 +427,9 @@ export class PedidosPendientesComponent implements OnInit {
     this.load();
   }
 
-  noFacturablesCambioPrecios(){
-    console.log("Cambio de precios");
-    this.procesando=true;
+  noFacturablesCambioPrecios() {
+    console.log('Cambio de precios');
+    this.procesando = true;
     this.service.noFacturables()
     .finally(() => (this.procesando = false))
     .subscribe(

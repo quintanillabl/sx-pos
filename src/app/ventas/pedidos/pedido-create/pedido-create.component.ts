@@ -23,6 +23,8 @@ import { PedidoFormComponent } from '../pedido-form/pedido-form.component';
           (save)="onSave($event)"
           (cambiarCfdiMail)="onCambioDeCfdiMail($event)"
           (cambiarTel)="onCambioDeTel($event)"
+          (actualizarRazon)="onActualizarRazon($event)"
+          (actualizarRegimen)="onActualizarRegimen($event)"
           [sucursal]="sucursal$ | async" [pedido]="pedido$ | async">
         </sx-pedido-form>
       </div>
@@ -138,6 +140,60 @@ export class PedidoCreateComponent implements OnInit {
           );
       }
     });
+  }
+
+  onActualizarRazon(data) {
+    console.log('Actualizando la Razon del cliente desde create');
+    this._dialogService
+      .openPrompt({
+        message: 'Digite la Razon Social del Cliente',
+        viewContainerRef: this._viewContainerRef,
+        title: 'Razon Social',
+        value: data.cliente.razonSocial,
+        cancelButton: 'Cancelar',
+        acceptButton: 'Aceptar'
+      })
+      .afterClosed()
+      .subscribe((newValue: string) => {
+        if (newValue) {
+          console.log('Actualizando Razon Social: ', newValue);
+          this.loadingService.register('saving');
+          this.service.actualizarRazon(data.cliente, newValue, data.usuario.username).subscribe(
+            cli => {
+              this.formPedido.form.get('cliente').setValue(cli);
+              this.loadingService.resolve('saving');
+            },
+            error => this.handlePostError(error)
+          );
+        }
+      });
+  }
+
+  onActualizarRegimen(data) {
+    console.log('Actualizando El Regimen del cliente desde edit');
+    this._dialogService
+      .openPrompt({
+        message: 'Digite el Régimen Fiscal del Cliente',
+        viewContainerRef: this._viewContainerRef,
+        title: 'Cambio de Regimen',
+        value: data.cliente.regimenFiscal,
+        cancelButton: 'Cancelar',
+        acceptButton: 'Aceptar'
+      })
+      .afterClosed()
+      .subscribe((newValue: string) => {
+        if (newValue) {
+          console.log('Actualizando Regimen Fiscal: ', newValue);
+          this.loadingService.register('saving');
+          this.service.actualizarRegimen(data.cliente, newValue, data.usuario.username).subscribe(
+            cli => {
+              this.formPedido.form.get('cliente').setValue(cli);
+              this.loadingService.resolve('saving');
+            },
+            error => this.handlePostError(error)
+          );
+        }
+      });
   }
 
   onSave(pedido: Venta) {

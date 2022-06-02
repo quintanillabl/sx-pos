@@ -34,16 +34,18 @@ export class FacturadosListComponent implements OnInit {
 
   @Output() cancelarEnvio = new EventEmitter<any>();
 
+  @Output() cambiarDireccion = new EventEmitter<any>();
+
   columns: ITdDataTableColumn[] = [
-    { name: 'tipo', label: 'Tipo', width: 30 },
-    { name: 'documento', label: 'Factura', width: 60 },
-    { name: 'fecha', label: 'Fecha', width: 50 },
+    { name: 'tipo', label: 'Tipo', width: 10 },
+    { name: 'documento', label: 'Factura', width: 30 },
+    { name: 'fecha', label: 'Fecha', width: 40 },
     { name: 'nombre', label: 'Cliente', width: 350 },
     { name: 'total', label: 'Total', width: 50 },
     { name: 'updateUser', label: 'Usuario', width: 50 },
-    { name: 'cuentaPorCobrar', label: 'CFDI', width: 50 },
+    { name: 'cuentaPorCobrar', label: 'CFDI', width: 30 },
     { name: 'formaDePago', label: 'F.Pago', width: 100 },
-    { name: 'print', label: 'P', width: 150 }
+    { name: 'print', label: 'P', width: 250 }
   ];
 
   @Input() selectedRows: any[] = [];

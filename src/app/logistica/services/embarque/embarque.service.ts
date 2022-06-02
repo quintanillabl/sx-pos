@@ -45,7 +45,7 @@ export class EmbarqueService {
   }
 
   transito(): Observable<Embarque[]> {
-    let params = new HttpParams()
+    const params = new HttpParams()
       .set('sucursal', this.sucursal.id)
       .set('transito', 'transito');
     return this.http.get<Embarque[]>(this.apiUrl, { params: params });
@@ -53,7 +53,7 @@ export class EmbarqueService {
 
   documentosEnTransito() {
     const url = `${this.apiUrl}/documentosEnTransito`;
-    let params = new HttpParams().set('sucursal', this.sucursal.id);
+    const params = new HttpParams().set('sucursal', this.sucursal.id);
     return this.http.get<Array<any>>(url, { params: params });
   }
 
@@ -117,7 +117,7 @@ export class EmbarqueService {
   }
 
   buscarVenta(sucursal, tipo, documento, fecha) {
-    let params = new HttpParams()
+    const params = new HttpParams()
       .set('sucursal', sucursal)
       .set('fecha', fecha)
       .set('documento', documento)
@@ -127,7 +127,7 @@ export class EmbarqueService {
   }
 
   buscarPartidasDeVenta(sucursal, tipo, documento, fecha) {
-    let params = new HttpParams()
+    const params = new HttpParams()
       .set('sucursal', sucursal)
       .set('fecha', fecha)
       .set('documento', documento)
@@ -137,13 +137,13 @@ export class EmbarqueService {
   }
 
   buscarTrasladosPendientes(): Observable<any> {
-    let params = new HttpParams().set('sucursal', this.sucursal.id);
+    const params = new HttpParams().set('sucursal', this.sucursal.id);
     const url = `${this.apiUrl}/buscarTrasladosPendientes`;
     return this.http.get(url, { params: params });
   }
 
   buscarDevolucionesPendientes(): Observable<any> {
-    let params = new HttpParams().set('sucursal', this.sucursal.id);
+    const params = new HttpParams().set('sucursal', this.sucursal.id);
     const url = `${this.apiUrl}/buscarDevolucionesPendientes`;
     return this.http.get(url, { params: params });
   }
@@ -151,7 +151,7 @@ export class EmbarqueService {
   print(id: string) {
     console.log('Printing id: ', id);
     const url = `${this.apiUrl}/print`;
-    let params = new HttpParams().set('ID', id);
+    const params = new HttpParams().set('ID', id);
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http.get(url, {
       headers: headers,
@@ -186,12 +186,12 @@ export class EmbarqueService {
   reporteFacturaEnvio(reportParams: {}) {
       console.log('Procedo a ejecutar el reporte');
 
-      console.log('Parametros recibidos',reportParams);
+      console.log('Parametros recibidos', reportParams);
 
       const url = `${this.apiUrl}/reporteFacturaEnvio`;
 
-      console.log("**********   "+url)
-      
+      console.log('**********   ' + url)
+
       let params = new HttpParams();
 
       if (reportParams) {
@@ -208,6 +208,25 @@ export class EmbarqueService {
 
 
   }
+  reporteEnvioPasan(reportParams: {}) {
+    reportParams['sucursal'] = this.sucursal.id;
+    console.log('Ejecutando reporte de Pasan Enviadas: ', reportParams);
+    const url = `${this.apiUrl}/reporteEnvioPasan`;
+    let params = new HttpParams()
+    if (reportParams) {
+      _.forIn(reportParams, (value, key) => {
+        params = params.set(key, value.toString());
+      });
+    }
+    const headers = new HttpHeaders().set('Content-type' , 'application/pdf');
+    return this.http.get(
+      url, {
+        headers: headers,
+        params: params,
+        responseType: 'blob'
+      }
+    );
+  }
 
   getEnvio(id: string): Observable<Envio> {
     // const url = environment.apiUrl + '/embarques/envios';
@@ -219,11 +238,22 @@ export class EmbarqueService {
   updateEnvio(envio) {
     console.log('Actualizando envio: ', envio);
     const target = { ...envio };
+    console.log('*****************');
+    console.log(target);
+    console.log('*****************');
     delete target.dateCreated;
     delete target.lastUpdated;
     const endpoint = `embarques/envios/${target.id}`;
     const url = this.configService.buildApiUrl(endpoint);
     return this.http.put(url, target);
+  }
+
+  cerrarEnvio(envio, auth) {
+    console.log('Cerrando el envio: ', envio);
+    console.log('Autorizacion', auth);
+    const endpoint = `embarques/envios/cerrarEnvio/${envio.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
+    return this.http.put(url, auth);
   }
 
   asignarFacturas(embarque, condiciones) {

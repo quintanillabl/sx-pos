@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewContainerRef, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+// tslint:disable-next-line:import-blacklist
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
@@ -7,7 +8,6 @@ import { TdDataTableService, TdDataTableSortingOrder, ITdDataTableSortChangeEven
 import { TdLoadingService, IPageChangeEvent, TdDialogService } from '@covalent/core';
 import { MdDialog } from '@angular/material';
 import * as _ from 'lodash';
-
 import * as fromRoot from 'app/logistica/store/reducers';
 import { SearchAction, RegistrarSalidaAction } from 'app/logistica/store/actions/embarques.actions';
 import { Embarque } from 'app/logistica/models/embarque';
@@ -15,6 +15,7 @@ import { EmbarqueService } from 'app/logistica/services/embarque/embarque.servic
 import { SelectorDeEmbarqueComponent } from './selector-de-embarque/selector-de-embarque.component';
 import { Venta } from 'app/models';
 import { Envio } from 'app/logistica/models/envio';
+import { AutorizacionDeVentaComponent } from '../../../../ventas/pedidos/autorizacion-de-venta/autorizacion-de-venta.component';
 
 
 @Component({
@@ -43,6 +44,7 @@ export class FacturasPendientesPageComponent implements OnInit, OnDestroy {
     { name: 'parcial', label: 'Parcial', hidden: false },
     { name: 'venta.lastUpdated', label: 'Creada', hidden: false },
     { name: 'retraso', label: 'Retraso', hidden: false },
+    { name: 'cierre', label: 'C', width: 30 }
   ];
 
   data: any[] = [];
@@ -50,11 +52,11 @@ export class FacturasPendientesPageComponent implements OnInit, OnDestroy {
   filteredData: any[] = this.data;
   filteredTotal: number = this.data.length;
 
-  searchTerm: string = '';
-  fromRow: number = 1;
-  currentPage: number = 1;
-  pageSize: number = 50;
-  sortBy: string = '';
+  searchTerm = '';
+  fromRow = 1;
+  currentPage = 1;
+  pageSize = 50;
+  sortBy = '';
   selectable = true;
   selectedRows: any[] = [];
   sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
@@ -86,7 +88,7 @@ export class FacturasPendientesPageComponent implements OnInit, OnDestroy {
       this.filter();
     });
 
-    
+
   }
 
   ngOnDestroy() {
@@ -114,7 +116,7 @@ export class FacturasPendientesPageComponent implements OnInit, OnDestroy {
 
   filter(): void {
     let newData: any[] = this.data;
-    let excludedColumns: string[] = this.columns
+    const excludedColumns: string[] = this.columns
     .filter((column: ITdDataTableColumn) => {
       return ((column.filter === undefined && column.hidden === true) ||
               (column.filter !== undefined && column.filter === false));
@@ -138,7 +140,7 @@ export class FacturasPendientesPageComponent implements OnInit, OnDestroy {
   getRetraso(value: any) {
     const salida = new Date(value).getTime();
     const hoy = new Date().getTime();
-    const diff = (hoy - salida)/ (3600 * 1000);
+    const diff = (hoy - salida) / (3600 * 1000);
     const entera = Math.round(diff);
     let decimales = (diff - entera) * 60;
     decimales = Math.round(decimales);
@@ -149,13 +151,13 @@ export class FacturasPendientesPageComponent implements OnInit, OnDestroy {
   }
 
   asignarEmbarque() {
-    if(this.selectedRows.length > 0 ) {
+    if ( this.selectedRows.length > 0 ) {
       const dialogRef = this.dialog.open(SelectorDeEmbarqueComponent, {
         data: {facturas: this.selectedRows, embarques: this.embarquesPendientes}
       });
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          
+
           this.subscription2 = this.service.get(result.id)
             .subscribe( embarque => {
               // this.asignarFacturas(embarque, this.selectedRows);
@@ -166,11 +168,44 @@ export class FacturasPendientesPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  cerrarEmbarque (env) {
+    console.log(env);
+    const params_autorizacion = {
+      tipo: 'CIERRE_ENVIO',
+      title: 'Autorizacion Envio',
+      solicito: 'local',
+      role: 'ROLE_EMBARQUES_MANAGER',
+    };
+    const dialogRef = this.dialog.open(AutorizacionDeVentaComponent, {
+      data: params_autorizacion,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Cerrando el envío: ', result);
+        this.load()
+        this.service.cerrarEnvio(env, result).delay(2000).subscribe(
+          (res) => {
+            this._loadingService.resolve('overlayStarSyntax');
+            this.service.enviosPendientes().subscribe( data => {
+              this.data = data;
+              this.filteredData = this.data;
+              this.filter();
+            });
+          },
+          error => {
+            console.error(error)
+            this._loadingService.resolve('overlayStarSyntax');
+          }
+        )
+      }
+    });
+  }
+
   private asignarFacturas(embarque: Embarque, instruccionesDeEnvio) {
     /*
     if(embarque.partidas === undefined) {
       embarque.partidas = new Array<Envio>();
-    }    
+    }
     _.forEach(instruccionesDeEnvio, (ins: any) => {
       const venta = ins.venta;
       const envio: Envio = {
@@ -192,17 +227,22 @@ export class FacturasPendientesPageComponent implements OnInit, OnDestroy {
     */
   }
 
-  private save(embarque: Embarque, instruccionesDeEnvi){
+  private load() {
+    console.log('Cargando...');
+    this._loadingService.register('overlayStarSyntax');
+  }
+
+  private save(embarque: Embarque, instruccionesDeEnvi) {
     this._loadingService.register('overlayStarSyntax');
     this.service.asignarFacturas(embarque, instruccionesDeEnvi)
     .delay(2000)
     .subscribe(
-      (res:any) => {
+      (res: any) => {
         this._loadingService.resolve('overlayStarSyntax');
         console.log('RES: ', res);
         this.router.navigate(['/logistica/embarques/embarques/edit', res.id])
       },
-      error=> {
+      error => {
         console.error(error)
         this._loadingService.resolve('overlayStarSyntax');
       }

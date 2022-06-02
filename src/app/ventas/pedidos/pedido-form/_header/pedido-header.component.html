@@ -45,28 +45,47 @@
         </span>
 
     </div>
+    <div class="row2">
+        <div layout class="pad-top-xs">
+            <span flex="10">Razon Social:</span>
+            <a *ngIf="cliente?.razonSocial != '' || cliente?.razonSocial " (click)="actualizarRazon.emit(cliente)" flex="20">
+                <span class="tc-indigo-700 " flex>{{cliente?.razonSocial}}</span>
+            </a>
+            <a *ngIf="cliente?.razonSocial == '' || !cliente?.razonSocial " (click)="actualizarRazon.emit(cliente)" flex="10">
+                <span class="tc-indigo-700 " flex>Actualizar</span>
+            </a>
 
-    <div class="row2" layout *ngIf="cliente?.rfc === 'XAXX010101000' ">
-        <md-form-field flex="50" class="pad-right">
-            <input type="text" mdInput placeholder="Nombre" formControlName="nombre">
-        </md-form-field>
-        <md-form-field flex="50" class="pad-right">
-            <input type="text" mdInput placeholder="Socio" formControlName="socio">
-        </md-form-field>
-        <span flex></span>
-    </div>
+            <span flex="15">Regimen Fiscal:</span>
+            <a *ngIf="cliente?.regimenFiscal != '' || cliente?.regimenFiscal " (click)="actualizarRegimen.emit(cliente)">
+                <span class="tc-indigo-700 ">{{cliente?.regimenFiscal}}</span>
+            </a>
+            <a *ngIf="cliente?.regimenFiscal == '' || !cliente?.regimenFiscal " (click)="actualizarRegimen.emit(cliente)">
+                <span class="tc-indigo-700 ">Actualizar</span>
+            </a>
+        </div>
 
-    <div class="row2" layout *ngIf="cliente?.clave === 'U050008' ">
-        <!--<md-form-field flex="50" class="pad-right">
+
+        <div class="row2" layout *ngIf="cliente?.rfc === 'XAXX010101000' ">
+            <md-form-field flex="50" class="pad-right">
+                <input type="text" mdInput placeholder="Nombre" formControlName="nombre">
+            </md-form-field>
+            <md-form-field flex="50" class="pad-right">
+                <input type="text" mdInput placeholder="Socio" formControlName="socio">
+            </md-form-field>
+            <span flex></span>
+        </div>
+
+        <div class="row2" layout *ngIf="cliente?.clave === 'U050008' ">
+            <!--<md-form-field flex="50" class="pad-right">
       <input type="text" mdInput placeholder="Socio" formControlName="socio">
     </md-form-field>-->
-        <sx-socio-field formControlName="socio" flex="50"></sx-socio-field>
-        <span flex></span>
-    </div>
+            <sx-socio-field formControlName="socio" flex="50"></sx-socio-field>
+            <span flex></span>
+        </div>
 
-    <div layout class="row2">
+        <div layout class="row2">
 
-        <address *ngIf="cliente?.direccion; let direccion" class="text-md">
+            <address *ngIf="cliente?.direccion; let direccion" class="text-md">
       {{direccion.calle}} {{direccion.numeroExterior}} {{direccion.numeroInterior}}
       <br> {{direccion.colonia}}
       <br> {{direccion.estado}} / {{direccion.pais}}
@@ -74,64 +93,64 @@
       <br>
     </address>
 
-        <div layout="column" class="pad-left-md text-md" flex="30">
-            <span layout class="pad-top-xs">
+            <div layout="column" class="pad-left-md text-md" flex="30">
+                <span layout class="pad-top-xs">
         <span flex="20">RFC:</span>
-            <span class="tc-indigo-700" flex>{{cliente?.rfc}}</span>
-            </span>
-            <div layout class="pad-top-xs">
-                <span flex="20">TELS:</span> 
-                <a *ngIf="cliente?.telefonos != '' "(click)="cambiarTel.emit(cliente)" md-button>
-                  <span  class="tc-indigo-700 " flex>{{cliente?.telefonos?.join('/')}}</span>
-                </a>   
-                <a  *ngIf="cliente?.telefonos == '' " (click)="cambiarTel.emit(cliente)" md-button>
-                  <span  class="tc-indigo-700 " flex>Sin Teléfono</span>
-                </a>             
-            </div>
-            <div layout class="pad-top-xs ">
-                <span flex="20">CFDI Mail:</span>
-                <a  (click)="cambiarCfdi.emit(cliente)" md-button>
-                    <span [ngClass]="{'tc-green-700': cliente?.cfdiValidado,'tc-pink-700': !!cliente?.cfdiValidado}" flex>
+                <span class="tc-indigo-700" flex>{{cliente?.rfc}}</span>
+                </span>
+                <div layout class="pad-top-xs">
+                    <span flex="20">TELS:</span>
+                    <a *ngIf="cliente?.telefonos != '' " (click)="cambiarTel.emit(cliente)" md-button>
+                        <span class="tc-indigo-700 " flex>{{cliente?.telefonos?.join('/')}}</span>
+                    </a>
+                    <a *ngIf="cliente?.telefonos == '' " (click)="cambiarTel.emit(cliente)" md-button>
+                        <span class="tc-indigo-700 " flex>Sin Teléfono</span>
+                    </a>
+                </div>
+                <div layout class="pad-top-xs ">
+                    <span flex="20">CFDI Mail:</span>
+                    <a (click)="cambiarCfdi.emit(cliente)" md-button>
+                        <span [ngClass]="{'tc-green-700': cliente?.cfdiValidado,'tc-pink-700': !!cliente?.cfdiValidado}" flex>
             {{cliente?.cfdiMail}}
           </span>
-                </a>
+                    </a>
+                </div>
             </div>
-        </div>
 
-        <div layout="column" flex="40">
-            <span class="text-right pad-left"> Crédito: {{cliente?.credito? 'SI': 'NO'}}</span>
-            <span class="text-right pad-left text-md" *ngIf="cliente?.credito && cliente?.credito?.postfechado">
+            <div layout="column" flex="40">
+                <span class="text-right pad-left"> Crédito: {{cliente?.credito? 'SI': 'NO'}}</span>
+                <span class="text-right pad-left text-md" *ngIf="cliente?.credito && cliente?.credito?.postfechado">
         Cliente con Postfechado
       </span>
-            <span *ngIf="parent.get('chequePostFechado')?.value"> VTA POSFECHADO</span>
-            <span class="pad-top-sm pad-bottom-sm tc-pink-800 text-md " *ngIf="isDescuentoEspecial()">
+                <span *ngIf="parent.get('chequePostFechado')?.value"> VTA POSFECHADO</span>
+                <span class="pad-top-sm pad-bottom-sm tc-pink-800 text-md " *ngIf="isDescuentoEspecial()">
         DESCTO ESPECIAL DEL {{descuentoOriginal | percent}} al {{descuentoNormal | percent}}
       </span>
-        </div>
+            </div>
 
-        <span class="pad-left pad-right" flex layout="column">
+            <span class="pad-left pad-right" flex layout="column">
       <div layout *ngIf="comprador">
         <span>Comprador: </span>
-        <span class="tc-pink-700">{{comprador}}</span>
+            <span class="tc-pink-700">{{comprador}}</span>
+        </div>
+        <div layout>
+            <span class="pad-left pad-right">Creado: </span>
+            <span>{{parent.get('createUser')?.value}}</span>
+        </div>
+
+        <div layout>
+            <span class="pad-left pad-right">Modificado: </span>
+            <span>{{parent.get('usuario').value?.username}}</span>
+        </div>
+
+        </span>
+
+
+        <span flex></span>
+        <div layout layout-align="center center" class="pad-left" *ngIf="kilos > 0">
+            <span>Kilos: </span>
+            <span class="text-right pad-left">{{kilos}}</span>
+        </div>
+
     </div>
-    <div layout>
-        <span class="pad-left pad-right">Creado: </span>
-        <span>{{parent.get('createUser')?.value}}</span>
-    </div>
-
-    <div layout>
-        <span class="pad-left pad-right">Modificado: </span>
-        <span>{{parent.get('usuario').value?.username}}</span>
-    </div>
-
-    </span>
-
-
-    <span flex></span>
-    <div layout layout-align="center center" class="pad-left" *ngIf="kilos > 0">
-        <span>Kilos: </span>
-        <span class="text-right pad-left">{{kilos}}</span>
-    </div>
-
-</div>
 </div>

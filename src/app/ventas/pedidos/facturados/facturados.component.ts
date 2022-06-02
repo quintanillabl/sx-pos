@@ -12,6 +12,7 @@ import { PedidosService } from 'app/ventas/pedidos/services/pedidos.service';
 import { Venta, Sucursal } from 'app/models';
 import { EnvioDireccionComponent } from '../pedido-form/envio-direccion/envio-direccion.component';
 import { Periodo } from 'app/models/periodo';
+import { AutorizacionDeVentaComponent } from '../autorizacion-de-venta/autorizacion-de-venta.component';
 
 @Component({
   selector: 'sx-facturados',
@@ -95,7 +96,7 @@ export class FacturadosComponent implements OnInit {
     console.error('Error: ', error);
   }
 
-  asignarEnvio(pedido: Venta) {
+  /* asignarEnvio(pedido: Venta) {
     const params = { direccion: null };
     if (pedido.envio) {
       params.direccion = pedido.envio.direccion;
@@ -109,12 +110,48 @@ export class FacturadosComponent implements OnInit {
         this.doAsignarEnvio(pedido, result);
       }
     });
+  } */
+
+  asignarEnvio(pedido: Venta) {
+
+    const params_autorizacion = {
+      tipo: 'ENVIO_PASAN',
+      title: 'Autorizacion Envio',
+      solicito: pedido.updateUser,
+      role: 'ROLE_EMBARQUES_MANAGER',
+    };
+
+    const params = { direccion: null };
+
+    if (pedido.envio) {
+      params.direccion = pedido.envio.direccion;
+    }
+
+    const dialogRef_auth = this.dialog.open(AutorizacionDeVentaComponent, {
+      data: params_autorizacion,
+    });
+
+    dialogRef_auth.afterClosed().subscribe((auth) => {
+      if (auth) {
+         const dialogRef = this.dialog.open(EnvioDireccionComponent, {
+            data: params,
+          });
+          dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+              console.log('Asignando direccion de envío: ', result);
+              this.doAsignarEnvio(pedido, result, auth);
+            }
+          });
+      }
+    });
+
   }
 
-  doAsignarEnvio(pedido: Venta, direccion) {
+  doAsignarEnvio(pedido: Venta, direccion, auth) {
+
     this.procesando = true;
     this.service
-      .asignarEnvio(pedido, direccion)
+      .asignarEnvio(pedido, direccion, auth)
       .delay(2000)
       .finally(() => (this.procesando = false))
       .subscribe(
@@ -127,7 +164,7 @@ export class FacturadosComponent implements OnInit {
       );
   }
 
-  cancelarEnvio(pedido: Venta) {
+  /* cancelarEnvio(pedido: Venta) {
     const params = { direccion: null };
     if (pedido.envio) {
       const dialogRef = this._dialogService
@@ -146,6 +183,70 @@ export class FacturadosComponent implements OnInit {
           }
         });
     }
+  } */
+
+  cambiarDireccion(pedido: Venta) {
+    const params = { direccion: null };
+    if (pedido.envio) {
+      console.log('Cambiando Direccion');
+      console.log(pedido.envio);
+      params.direccion = pedido.envio.direccion;
+      const dialogRef = this.dialog.open(EnvioDireccionComponent, {
+        data: params,
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          console.log('Asignando direccion de envío: ', result);
+           this.doCambiarDireccionEnvio(pedido, result);
+        }
+      });
+    }
+  }
+  doCambiarDireccionEnvio(pedido: Venta, direccion) {
+    this.service.cambiarDireccionEnvio(pedido, direccion).subscribe(
+      (res: Venta) => {
+        // console.log('Direccion asignada exitosamente ', res);
+        this.load();
+        pedido = res;
+      },
+      (error) => this.handleError(error)
+    );
+  }
+
+  cancelarEnvio(pedido: Venta) {
+
+    const params_autorizacion = {
+      tipo: 'Embarques',
+      title: 'Autorizacion Envio',
+      solicito: pedido.updateUser,
+      role: 'ROLE_EMBARQUES_MANAGER',
+    };
+
+    const params = { direccion: null };
+    if (pedido.envio) {
+      const dialogRef_auth = this.dialog.open(AutorizacionDeVentaComponent, {
+        data: params_autorizacion,
+      });
+
+      dialogRef_auth.afterClosed().subscribe((auth) => {
+        if (auth) {
+          const dialogRef = this._dialogService
+            .openConfirm({
+              message: 'Cancelar envio del pedido ' + pedido.documento,
+              title: 'Cancelación de envío',
+              viewContainerRef: this._viewContainerRef,
+              acceptButton: 'Aceptar',
+              cancelButton: 'Cancelar',
+            })
+            .afterClosed()
+            .subscribe((res) => {
+              if (res) {
+                this.doCancelarEnvio(pedido);
+              }
+            });
+        }
+      });
+    }
   }
 
   doCancelarEnvio(pedido: Venta) {
@@ -156,22 +257,18 @@ export class FacturadosComponent implements OnInit {
       .finally(() => (this.procesando = false))
       .subscribe(
         (res: Venta) => {
-          
-          if(res.envio){
-             
+          if (res.envio) {
+
               this._dialogService.openAlert({
-                title:'Cancelacion de Envío',
+                title: 'Cancelacion de Envío',
                 message: 'Factura Asignada no se Cancelo el envio',
-                closeButton: 'Cerrar', //OPTIONAL, defaults to 'CLOSE'
-                
+                closeButton: 'Cerrar', // OPTIONAL, defaults to 'CLOSE'
               });
-          }else{
-          
+          }else {
             this._dialogService.openAlert({
-              title:'Cancelacion de Envío',
+              title: 'Cancelacion de Envío',
               message: 'Envio cancelado',
-              closeButton: 'Cerrar', //OPTIONAL, defaults to 'CLOSE'
-              
+              closeButton: 'Cerrar', // OPTIONAL, defaults to 'CLOSE'
             });
           }
           this.load();

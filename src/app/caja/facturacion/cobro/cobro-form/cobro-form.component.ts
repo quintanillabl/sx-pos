@@ -332,7 +332,7 @@ export class CobroFormComponent implements OnInit, OnChanges, OnDestroy {
         this.saveV4.emit(cobroJob);
       }
     }
-   
+
   }
 
   getTipo(venta: Venta) {

@@ -70,10 +70,18 @@ export class PedidosService {
     return this.http.put<Venta>(url, changes);
   }
 
-  asignarEnvio(venta: Venta, direccion: {}) {
+  asignarEnvio(venta: Venta, direccion: {}, auth: {}) {
     console.log('Asignando direccion de envio: ', direccion);
     const url = `${this.apiUrl}/asignarEnvio/${venta.id}`;
-    return this.http.put(url, direccion);
+    const data = {direccion, auth}
+    return this.http.put(url, data);
+  }
+
+  cambiarDireccionEnvio(venta: Venta, direccion: {}) {
+    console.log('Asignando direccion de envio: ', direccion);
+    const url = `${this.apiUrl}/cambiarDireccionEnvio/${venta.id}`;
+    const data = {direccion}
+    return this.http.put(url, data);
   }
 
   cancelarEnvio(venta: Venta) {
@@ -282,6 +290,23 @@ export class PedidosService {
     const params = new HttpParams()
       .set('telefono', telefono)
       .set('usuario', usuario);
+
+    return this.http.put(url, {}, { params: params });
+  }
+
+  actualizarRazon(cliente: Cliente, razon: string, usuario: string) {
+    const endpoint = `clientes/actualizarRazon/${cliente.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
+    const params = new HttpParams().set('razon', razon).set('usuario', usuario);
+
+    return this.http.put(url, {}, { params: params });
+  }
+
+
+  actualizarRegimen(cliente: Cliente, email: string, usuario: string) {
+    const endpoint = `clientes/actualizarRegimen/${cliente.id}`;
+    const url = this.configService.buildApiUrl(endpoint);
+    const params = new HttpParams().set('regimen', email).set('usuario', usuario);
 
     return this.http.put(url, {}, { params: params });
   }
