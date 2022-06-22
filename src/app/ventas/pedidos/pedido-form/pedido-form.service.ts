@@ -27,6 +27,10 @@ export class PedidoFormService {
   form: FormGroup;
   pedido: Venta; // edicion de pedido existente
 
+  preciosPorCliente = [];
+
+  descuentosPorVolumen = [];
+
   constructor(public dialog: MdDialog, private service: PedidosService) {}
 
   registerForm(parentForm: FormGroup, pedido: Venta) {
@@ -579,6 +583,7 @@ export class PedidoFormService {
       } else {
         this.service.findManiobraFlete().subscribe(
           (producto) => {
+            // tslint:disable-next-line:no-shadowed-variable
             const det = this.buildPartidaDeManiobra(producto, flete);
             this.partidas.push(new FormControl(det));
             this.actualizarTotales();
@@ -591,7 +596,7 @@ export class PedidoFormService {
     }
   }
 
-  preciosPorCliente = [];
+
 
   cargarPreciosPorCliente(cliente: Cliente) {
     if (cliente && cliente.credito) {
@@ -620,7 +625,7 @@ export class PedidoFormService {
     return null;
   }
 
-  descuentosPorVolumen = [];
+
 
   cargarDescuentosPorVolumen() {
     this.service

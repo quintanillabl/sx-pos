@@ -23,13 +23,15 @@
                 <span flex></span>
                 <span layout>
               <button  md-icon-button
+                  *ngIf="!row.cliente.razonSocial && !row.cliente.regimenFiscal"
                        (click)="facturar.emit(row)"
                        mdTooltip="Facturar" >
                 <md-icon >assignment</md-icon>
               </button>
               <button  md-icon-button
+                      *ngIf="row.cliente.razonSocial && row.cliente.regimenFiscal"
                        (click)="facturarV4.emit(row)"
-                       mdTooltip="Facturar" >
+                       mdTooltip="Facturar V4" >
                 <md-icon >assignment</md-icon>
               </button>
               <button  md-icon-button

@@ -197,7 +197,7 @@ export class PedidoEditComponent implements OnInit {
         if (newValue) {
           console.log('Actualizando Razon Social: ', newValue);
           this.loadingService.register('saving');
-          this.service.actualizarRazon(data.cliente, newValue, data.usuario.username).subscribe(
+          this.service.actualizarRazon(data.cliente, newValue.toUpperCase(), data.usuario.username).subscribe(
             cli => {
               this.formPedido.form.get('cliente').setValue(cli);
               this.loadingService.resolve('saving');

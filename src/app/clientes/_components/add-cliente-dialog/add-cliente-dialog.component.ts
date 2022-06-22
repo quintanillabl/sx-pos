@@ -43,6 +43,7 @@ export class AddClienteDialogComponent implements OnInit {
         ],
         [this.validarRfc.bind(this)]
       ],
+      regimenFiscal: [null, Validators.required],
       clave: ['PENDIENTE', Validators.required],
       email: [null, Validators.required],
       direccion: this.fb.group({
@@ -94,12 +95,18 @@ export class AddClienteDialogComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
+      console.log(this.form.get('nombre').value.toUpperCase());
+      console.log(this.form.get('rfc').value.toUpperCase())
       const cliente = {
         medios: this.buildMediosObject(),
+        nombre: this.form.get('nombre').value.toUpperCase(),
+        rfc: this.form.get('rfc').value.toUpperCase(),
         ...this.form.getRawValue()
       };
-      // console.log('Cliente: ', cliente);
-      this.dialogRef.close(cliente);
+      cliente.nombre = this.form.get('nombre').value.toUpperCase(),
+      cliente.rfc = this.form.get('rfc').value.toUpperCase(),
+       console.log('Cliente: ', cliente);
+      // this.dialogRef.close(cliente);
     }
   }
 

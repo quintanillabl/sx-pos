@@ -149,7 +149,7 @@ export class PedidoCreateComponent implements OnInit {
         message: 'Digite la Razon Social del Cliente',
         viewContainerRef: this._viewContainerRef,
         title: 'Razon Social',
-        value: data.cliente.razonSocial,
+        value: data.cliente.razonSocial.toUpperCase(),
         cancelButton: 'Cancelar',
         acceptButton: 'Aceptar'
       })
@@ -158,7 +158,7 @@ export class PedidoCreateComponent implements OnInit {
         if (newValue) {
           console.log('Actualizando Razon Social: ', newValue);
           this.loadingService.register('saving');
-          this.service.actualizarRazon(data.cliente, newValue, data.usuario.username).subscribe(
+          this.service.actualizarRazon(data.cliente, newValue.toUpperCase(), data.usuario.username).subscribe(
             cli => {
               this.formPedido.form.get('cliente').setValue(cli);
               this.loadingService.resolve('saving');
@@ -176,7 +176,7 @@ export class PedidoCreateComponent implements OnInit {
         message: 'Digite el Régimen Fiscal del Cliente',
         viewContainerRef: this._viewContainerRef,
         title: 'Cambio de Regimen',
-        value: data.cliente.regimenFiscal,
+        value: data.cliente.regimenFiscal.toUpperCase(),
         cancelButton: 'Cancelar',
         acceptButton: 'Aceptar'
       })
@@ -185,7 +185,7 @@ export class PedidoCreateComponent implements OnInit {
         if (newValue) {
           console.log('Actualizando Regimen Fiscal: ', newValue);
           this.loadingService.register('saving');
-          this.service.actualizarRegimen(data.cliente, newValue, data.usuario.username).subscribe(
+          this.service.actualizarRegimen(data.cliente, newValue , data.usuario.username).subscribe(
             cli => {
               this.formPedido.form.get('cliente').setValue(cli);
               this.loadingService.resolve('saving');

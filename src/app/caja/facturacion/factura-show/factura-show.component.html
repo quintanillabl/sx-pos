@@ -28,13 +28,13 @@
             <md-icon>email</md-icon>
           </button>
                 </ng-container>
-                <ng-container *ngIf="!venta?.cuentaPorCobrar?.cfdi?.uuid">
+                <ng-container *ngIf="!venta?.cuentaPorCobrar?.cfdi?.uuid && !venta.cliente.razonSocial && !venta.cliente.regimenFiscal">
                     <button type="button" md-button mdTooltip="Timbrar" (click)="timbrar(venta)" color="primary">
             Timbrar
             <md-icon>cast</md-icon>
           </button>
                 </ng-container>
-                <ng-container *ngIf="!venta?.cuentaPorCobrar?.cfdi?.uuid">
+                <ng-container *ngIf="!venta?.cuentaPorCobrar?.cfdi?.uuid &&  venta.cliente.razonSocial && venta.cliente.regimenFiscal">
                     <button type="button" md-button mdTooltip="Timbrar" (click)="timbrarV4(venta)" color="primary">
             Timbrar V4
             <md-icon>cast</md-icon>
