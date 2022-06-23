@@ -22,6 +22,7 @@
             <section flex layout="column">
                 <sx-comprador-field [parent]="form" flex></sx-comprador-field>
                 <md-checkbox class="text-md" (change)="onPuesto($event)" formControlName="isPuesto">Puesto</md-checkbox>
+                <md-checkbox class="text-md" (change)="onCotizacion($event)" formControlName="cotizacion" mdTooltip="Cotizacion">Cotizacion</md-checkbox>
             </section>
         </div>
         <md-divider></md-divider>

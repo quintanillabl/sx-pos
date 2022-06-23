@@ -110,7 +110,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     if (changes.pedido && changes.pedido.currentValue) {
       const pedido: Venta = changes.pedido.currentValue;
       // console.log('Editando pedido: ', pedido);
-      if (pedido.id && pedido.surtido) {
+     if ((pedido.id && pedido.surtido) || (pedido.id && pedido.cotizacion)) {
         this.editable = false;
       }
       _.forEach(pedido.partidas, (item) =>
@@ -131,6 +131,9 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       if (this.form.get('tipo').value === 'CRE') {
         this.form.get('cod').setValue(false);
         this.form.get('cod').disable();
+        this.form.get('cotizacion').enable();
+      }else {
+         this.form.get('cotizacion').disable();
       }
       this.tipoSubscription = this.form
         .get('tipo')
@@ -140,9 +143,12 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
             console.log('Nuevo tipo de venta: ', tipo);
             this.form.get('cod').setValue(false);
             this.form.get('cod').disable();
+            this.form.get('cotizacion').enable();
           } else {
             this.form.get('cod').setValue(false);
             this.form.get('cod').enable();
+            this.form.get('cotizacion').disable();
+            this.form.get('cotizacion').setValue(false);
           }
         });
 
@@ -230,6 +236,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
         socio: [null],
         chequePostFechado: [false],
         ventaIne: [false],
+        cotizacion: [false],
       },
       { validator: PedidoValidator }
     );
@@ -411,6 +418,15 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
       this.form.get('puesto').setValue(new Date().toISOString());
     } else {
       this.form.get('puesto').setValue(null);
+    }
+  }
+
+  onCotizacion(cotizacion) {
+
+     if (cotizacion.checked) {
+      console.log('Marcando como cotizacion')
+    } else {
+      console.log('Quitando cotizacion')
     }
   }
 
