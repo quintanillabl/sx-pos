@@ -39,6 +39,11 @@
         class="text-sm tc-green-700"
         >INE (OK)</span
       >
+      <span
+      *ngIf="row.cotizacion"
+      class="text-sm tc-green-700"
+      >COTIZACION</span
+    >
     </span>
     </ng-template>
 
@@ -120,7 +125,7 @@
         type="button"
         mdTooltip="Asignar como PUESTO"
         (click)="puesto.emit(row)"
-        *ngIf="!row.puesto && row.tipo !== 'ANT'"
+        *ngIf="!row.puesto && row.tipo !== 'ANT' && (!row.noFacturable)"
       >
         <md-icon>flag</md-icon>
       </button>
@@ -130,7 +135,7 @@
         type="button"
         mdTooltip="Quitar como PUESTO"
         (click)="quitarPuesto.emit(row.id)"
-        *ngIf="row.puesto && canQuitarPuesto"
+        *ngIf="(row.puesto && canQuitarPuesto) "
       >
         <md-icon>cancel</md-icon>
       </button>
@@ -148,7 +153,7 @@
         type="button"
         mdTooltip="Configurar envío"
         (click)="envio.emit(row)"
-        *ngIf="!row.callcenter && row.tipo !== 'ANT'"
+        *ngIf="!row.callcenter && row.tipo !== 'ANT' && !row.noFacturable "
       >
         <md-icon [ngClass]="{ 'tc-green-500': row.envio }"
           >flight_takeoff</md-icon
@@ -177,7 +182,7 @@
       </button>
       <a
         (click)="cambioDeCliente.emit(row)"
-        *ngIf="permitirCambioDeCliente(row) && !row.callcenter"
+        *ngIf="permitirCambioDeCliente(row) && !row.callcenter && !row.noFacturable"
         class="tc-pink-800"
         md-icon-button
       >

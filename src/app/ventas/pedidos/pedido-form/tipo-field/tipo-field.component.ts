@@ -17,7 +17,7 @@ import { Cliente } from 'app/models';
   </ng-container>
   `
 })
-export class TipoFieldComponent implements OnInit, OnDestroy,OnChanges {
+export class TipoFieldComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() parent: FormGroup;
 
@@ -36,7 +36,7 @@ export class TipoFieldComponent implements OnInit, OnDestroy,OnChanges {
     this.subscription = this.parent.get('cliente').valueChanges
       .distinctUntilChanged()
       .subscribe( (cliente: Cliente) => {
-        if( cliente === null ) {
+        if ( cliente === null ) {
           this.parent.get('tipo').setValue('CON');
           this.parent.get('tipo').disable();
         } else if (cliente !== null && cliente.credito) {

@@ -53,6 +53,7 @@ export interface Venta {
   surtido?: boolean;
   sw2?: string;
   callcenter?: boolean;
+  cotizacion?: boolean
 }
 
 export interface TipoDeVenta {

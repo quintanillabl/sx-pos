@@ -16,6 +16,7 @@ export const PedidoValidator = (
   const tipo = control.get('tipo').value;
   const formaDePago = control.get('formaDePago').value;
   const total = control.get('total').value;
+  const cotizacion = control.get('cotizacion').value;
 
   let errors = {};
 
@@ -45,6 +46,19 @@ export const PedidoValidator = (
       if (cliente.credito.lineaDeCredito < nvoTotal) {
         errors = { ...errors, lineaSaturada: true };
       }
+    }
+    if (cotizacion) {
+        console.log('validando cotizacion del cliente');
+        if (errors['atrasoMaximo']) {
+          delete errors['atrasoMaximo'];
+        }
+        if (!cliente.credito.creditoActivo) {
+          delete errors['creditoSuspendido'];
+        }
+        const nvoTotal = total + cliente.credito.saldo;
+        if (cliente.credito.lineaDeCredito < nvoTotal) {
+          delete errors['lineaSaturada'];
+        }
     }
   }
 
