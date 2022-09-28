@@ -19,12 +19,15 @@ import { FacturasCanceladasComponent } from '../reportes/facturas-canceladas/fac
 import { FacturasPendientesEmbarqueComponent } from '../reportes/facturas-pendientes-embarque/facturas-pendientes-embarque.component';
 import { DisponiblesSucursalComponent } from '../reportes/disponibles-sucursal/disponibles-sucursal.component';
 import { VentasDiariasCheComponent } from '../reportes/ventas-diarias-che/ventas-diarias-che.component';
+import { AuthService } from '../../_auth/services/auth.service';
 
 @Component({
   selector: 'sx-caja-page',
   templateUrl: './caja-page.component.html',
 })
 export class CajaPageComponent implements OnInit, AfterViewInit {
+  user;
+  autorizado;
   navigation: Object[] = [
     { route: 'facturacion', title: 'Pendientes', icon: 'storage' },
     { route: 'generadas', title: 'Facturas', icon: 'my_library_books' },
@@ -93,8 +96,14 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
     private _titleService: Title,
     private _dialogService: TdDialogService,
     public dialog: MdDialog,
-    public service: ReportesService
-  ) {}
+    public service: ReportesService,
+    private authService: AuthService
+  ) {
+    this.authService.getCurrentUser().subscribe((user) => (this.user = user));
+    console.log(this.user);
+    this.autorizado = this.hasRole()
+   console.log(this.autorizado);
+  }
 
   ngOnInit() {}
 
@@ -331,5 +340,9 @@ export class CajaPageComponent implements OnInit, AfterViewInit {
           });
       }
     });
+  }
+
+  hasRole() {
+    return this.user.roles.find((item) => item === 'ROLE_INVENTARIO_USER') === 'ROLE_INVENTARIO_USER' ;
   }
 }

@@ -149,7 +149,7 @@ export class PedidoCreateComponent implements OnInit {
         message: 'Digite la Razon Social del Cliente',
         viewContainerRef: this._viewContainerRef,
         title: 'Razon Social',
-        value: data.cliente.razonSocial.toUpperCase(),
+        value: data.cliente.razonSocial ? data.cliente.razonSocial.toUpperCase() : '',
         cancelButton: 'Cancelar',
         acceptButton: 'Aceptar'
       })
@@ -176,7 +176,7 @@ export class PedidoCreateComponent implements OnInit {
         message: 'Digite el Régimen Fiscal del Cliente',
         viewContainerRef: this._viewContainerRef,
         title: 'Cambio de Regimen',
-        value: data.cliente.regimenFiscal.toUpperCase(),
+        value: data.cliente.regimenFiscal ? data.cliente.regimenFiscal.toUpperCase() : '',
         cancelButton: 'Cancelar',
         acceptButton: 'Aceptar'
       })

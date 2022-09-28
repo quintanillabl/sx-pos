@@ -10,6 +10,8 @@ import { ITdDataTableColumn } from '@covalent/core/data-table/data-table.compone
 import { MdDialog } from '@angular/material';
 import { Venta } from 'app/models';
 import { PartidasDialogComponent } from '../../../_components/partidas-dialog/partidas-dialog.component';
+import { TdDialogService, TdLoadingService } from '@covalent/core';
+import { PedidosService } from '../../services/pedidos.service';
 
 @Component({
   selector: 'sx-pedidos-pendientes-list',
@@ -45,7 +47,7 @@ export class PendientesListComponent implements OnInit {
     // { name: 'tipo',  label: 'Tipo', width: 10 },
     { name: 'documento', label: 'Docto', width: 30 },
     { name: 'fecha', label: 'Fecha', width: 10 },
-    { name: 'nombre', label: 'Cliente', width: 300 },
+    { name: 'nombre', label: 'Cliente', width: 280 },
     { name: 'cod', label: 'COD', width: 5 },
 
     // { name: 'formaDePago', label: 'F.P', width: 30 },
@@ -56,7 +58,11 @@ export class PendientesListComponent implements OnInit {
     { name: 'operaciones', label: 'Opc', width: 250 },
   ];
 
-  constructor(public dialog: MdDialog) {}
+  constructor(public dialog: MdDialog,
+    private loadingService: TdLoadingService,
+    private _dialogService: TdDialogService,
+    private service: PedidosService
+    ) {}
 
   ngOnInit() {
     console.log('Can quitar puesto: ', this.canQuitarPuesto);
@@ -105,6 +111,60 @@ export class PendientesListComponent implements OnInit {
     }
     return false;
   }
+
+  envioMail(pedido: Venta) {
+   /*  const selected = this.selectedRows;
+    const first = _.find(selected, item => item.nombre);
+    const cliente = first.cliente;
+    const filtered = _.filter(selected, item => item.cliente.id === cliente.id); */
+
+    this._dialogService
+      .openPrompt({
+        title: `Enviode facturas electrónicas a `,
+        message: `Send mail `,
+        value: pedido.cliente.cfdiMail,
+        acceptButton: 'Aceptar',
+        cancelButton: 'Cancelar'
+      })
+      .afterClosed()
+      .subscribe(res => {
+        if (res) {
+          this.loadingService.register('saving');
+          this.service.envioCotizacion( pedido, res )
+          .finally(() => this.loadingService.resolve('saving'))
+          .subscribe(
+            () => {
+              this._dialogService
+                .openAlert({
+                  title: 'Envio batch',
+                  message: 'Correo enviado satisfactoriamente',
+                  closeButton: 'Cerrar'
+                })
+                .afterClosed()
+                .subscribe(() => {});
+            },
+            // err => this.handelHttpError(err)
+          );
+        /*   this.service
+            .envioBatch(cliente.id, selected, res)
+            .finally(() => this.loadingService.resolve('saving'))
+            .subscribe(
+              () => {
+                this._dialogService
+                  .openAlert({
+                    title: 'Envio batch',
+                    message: 'Correo enviado satisfactoriamente',
+                    closeButton: 'Cerrar'
+                  })
+                  .afterClosed()
+                  .subscribe(() => {});
+              },
+              err => this.handelHttpError(err)
+            ); */
+        }
+      });
+  }
+
 
 
   showDetails(pedido: Venta) {

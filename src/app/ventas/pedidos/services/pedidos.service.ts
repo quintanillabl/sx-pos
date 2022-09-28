@@ -367,6 +367,16 @@ export class PedidosService {
     return this.http.put<any>(url, cfdis);
   }
 
+  envioCotizacion( pedido: Venta, target: string): Observable<any> {
+
+    const dataSend = {
+      pedido,
+      target
+    }
+    const url = `${this.apiUrl}/envioCotizacion` ;
+    return this.http.put<any>(url, dataSend);
+  }
+
   getPartidas(id: string) {
     const url = `${this.apiUrl}/getPartidas/${id}`;
     return this.http.get<any>(url);

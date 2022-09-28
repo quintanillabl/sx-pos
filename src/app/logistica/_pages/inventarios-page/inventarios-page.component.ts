@@ -4,6 +4,7 @@ import { MdDialog } from '@angular/material';
 
 import { MovimientosService } from 'app/logistica/services/movimientos/movimientos.service';
 import { DiscrepanciasComponent } from '../../reportes/discrepancias/discrepancias.component';
+import { AuthService } from '../../../_auth/services/auth.service';
 
 @Component({
   selector: 'sx-inventarios-page',
@@ -12,6 +13,8 @@ import { DiscrepanciasComponent } from '../../reportes/discrepancias/discrepanci
 })
 export class InventariosPageComponent implements OnInit {
 
+  user;
+  autorizado;
   navigation: Object[] = [
     {route: 'movimientos', title: 'Movimientos', icon: 'swap_horiz'},
     {route: 'transformaciones', title: 'Transformaciones', icon: 'transform'},
@@ -19,8 +22,8 @@ export class InventariosPageComponent implements OnInit {
     {route: 'decs', title: 'Dev de compras', description: '(DECS)', icon: 'info'},
     {route: 'kardex', title: 'Kardex', descripcion: 'Kardex de productos', icon: 'layers'},
     {route: 'existencias', title: 'Existencias', icon: 'layers'},
-    {route: 'facturas', title: 'Facturas', icon: 'layers'}, 
-    {route: 'puestos',title: 'Puestos', icon: 'input'}
+    {route: 'facturas', title: 'Facturas', icon: 'layers'},
+    {route: 'puestos', title: 'Puestos', icon: 'input'}
   ];
   reportes = [
     {
@@ -33,7 +36,14 @@ export class InventariosPageComponent implements OnInit {
 
   constructor(private service: MovimientosService,
     private _dialogService: TdDialogService,
-    public dialog: MdDialog) { }
+    public dialog: MdDialog,
+    private authService: AuthService) {
+      this.authService.getCurrentUser().subscribe((user) => (this.user = user));
+      console.log(this.user);
+      this.autorizado = this.hasRole()
+     console.log(this.autorizado);
+
+    }
 
   ngOnInit() {
   }
@@ -55,10 +65,10 @@ export class InventariosPageComponent implements OnInit {
       });
   }
 */
-  reporteDeDiscrepancias(){
+  reporteDeDiscrepancias() {
     const dialogRef = this.dialog.open(DiscrepanciasComponent, {});
-    dialogRef.afterClosed().subscribe(result=>{
-      if(result){
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
         console.log(result.fecha);
         this.service.reporteDeDiscrepancias(result).subscribe(
           res => {
@@ -71,6 +81,11 @@ export class InventariosPageComponent implements OnInit {
         );
       }
     });
+  }
+
+
+  hasRole() {
+    return this.user.roles.find((item) => item === 'ROLE_INVENTARIO_USER') === 'ROLE_INVENTARIO_USER' ;
   }
 
 }

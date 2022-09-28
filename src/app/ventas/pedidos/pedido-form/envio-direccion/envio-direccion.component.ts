@@ -26,11 +26,11 @@ export class EnvioDireccionComponent implements OnInit {
       numeroExterior: [null, Validators.required],
       numeroInterior: [null],
       // colonia: [null, Validators.required],
-      colonia: [null],
-      municipio: [null, Validators.required],
-      estado: [null, Validators.required],
+      colonia: [null, Validators.required],
+      municipio: [{ value: null, disabled: true }, Validators.required],
+      estado: [{ value: null, disabled: true }, Validators.required],
       pais: [{ value: 'MEXICO', disabled: true }, Validators.required],
-      codigoPostal: [null, Validators.required]
+      codigoPostal: [null, [Validators.required, Validators.minLength(5)]]
     });
   }
 

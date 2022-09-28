@@ -110,7 +110,7 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
     if (changes.pedido && changes.pedido.currentValue) {
       const pedido: Venta = changes.pedido.currentValue;
       // console.log('Editando pedido: ', pedido);
-     if ((pedido.id && pedido.surtido) || (pedido.id && pedido.cotizacion)) {
+      if ((pedido.id && pedido.surtido) || (pedido.id && pedido.cotizacion)) {
         this.editable = false;
       }
       _.forEach(pedido.partidas, (item) =>

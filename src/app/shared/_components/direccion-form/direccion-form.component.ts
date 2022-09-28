@@ -42,23 +42,22 @@ export class DireccionFormComponent implements OnInit, OnDestroy {
   }
 
   buscarDatos(event) {
-   
     const zip = this.parent.get('codigoPostal').value;
     const params = new HttpParams().set('zip_code', zip);
-    this.url=`${this.apiUrl}/embarques/codigos`
+    this.url = `${this.apiUrl}/embarques/codigos`
     this.http
       .get(this.url, {
         params: params
-      }).subscribe(resultado =>{
-        const estado: string =resultado['estado'];
+      }).subscribe(resultado => {
+        const estado: string = resultado['estado'];
         if (estado) {
           this.parent.get('estado').setValue(estado.toUpperCase());
         }
-        const municipio: string= resultado['municipio'];
+        const municipio: string = resultado['municipio'];
         if (municipio) {
           this.parent.get('municipio').setValue(municipio.toUpperCase());
         }
-        const colonias =resultado['colonias'];
+        const colonias = resultado['colonias'];
         this.colonias = colonias;
       });
   }

@@ -103,14 +103,7 @@
 
     <ng-template tdDataTableTemplate="operaciones" let-value="value" let-row="row">
         <span layout>
-      <button
-        md-icon-button
-        (click)="generarVale.emit(row)"
-        mdTooltip="Generar vale tipo: {{ row.clasificacionVale }}"
-        *ngIf="row.clasificacionVale !== 'SIN_VALE'"
-      >
-        <md-icon>swap_horiz</md-icon>
-      </button>
+     
       <button
         md-icon-button
         type="button"
@@ -159,15 +152,7 @@
           >flight_takeoff</md-icon
         >
       </button>
-      <button
-      md-icon-button
-      type="button"
-      mdTooltip="Cambiar direccion"
-      (click)="cambiarDireccion.emit(row)"
-      *ngIf="!row.callcenter && row.tipo !== 'ANT' && row.envio"
-    >
-      <md-icon [ngClass]="{ 'tc-green-500': row.envio }">event_note</md-icon>
-    </button>
+
       <!-- <button md-icon-button type="button" (click)="cancelarEnvio.emit(row)" mdTooltip="Cancelar envío" *ngIf="row.envio">
         <md-icon [ngClass]="{'tc-red-500': (row.envio)}">flight_takeoff</md-icon>
       </button> -->
@@ -180,14 +165,7 @@
       >
         <md-icon>print</md-icon>
       </button>
-      <a
-        (click)="cambioDeCliente.emit(row)"
-        *ngIf="permitirCambioDeCliente(row) && !row.callcenter"
-        class="tc-pink-800"
-        md-icon-button
-      >
-        <md-icon>person_add</md-icon>
-      </a>
+   
       <a
       (click)="quitarPuesto.emit(row)"
       mdTooltip="Quitar Puesto"
@@ -197,6 +175,60 @@
     >
       <md-icon>build</md-icon>
     </a>
+
+    <a
+        (click)="envioMail(row)"
+        mdTooltip="Enviar por correo "
+        class="tc-pink-800"
+        md-icon-button
+        *ngIf="row.noFacturable && row.cotizacion"
+      >
+        <md-icon>email</md-icon> 
+      </a>
+   
+
+
+    <button md-icon-button [md-menu-trigger-for]="menu" *ngIf="!row.noFacturable && !row.cotizacion">
+      <md-icon>more_vert</md-icon>
+    </button>
+    <md-menu x-position="before" #menu="mdMenu">
+      <a
+        (click)="envioMail(row)"
+        mdTooltip="Enviar por correo "
+        class="tc-pink-800"
+        md-icon-button
+      >
+        <md-icon>email</md-icon> 
+      </a>
+      <button
+        md-icon-button
+        type="button"
+        mdTooltip="Cambiar direccion"
+        (click)="cambiarDireccion.emit(row)"
+        *ngIf="!row.callcenter && row.tipo !== 'ANT' && row.envio"
+      >
+          <md-icon [ngClass]="{ 'tc-green-500': row.envio }">event_note</md-icon>
+      </button>
+      <a
+        (click)="cambioDeCliente.emit(row)"
+        *ngIf="permitirCambioDeCliente(row) && !row.callcenter && !row.noFacturable"
+        class="tc-pink-800"
+        md-icon-button
+      >
+        <md-icon>person_add</md-icon>
+      </a>
+      <button
+         md-icon-button
+        (click)="generarVale.emit(row)"
+        mdTooltip="Generar vale tipo: {{ row.clasificacionVale }}"
+        *ngIf="row.clasificacionVale !== 'SIN_VALE'"
+      >
+        <md-icon>swap_horiz</md-icon>
+      </button>
+    </md-menu>
+    
+      
+  
     </span>
     </ng-template>
 </td-data-table>

@@ -28,7 +28,8 @@ export const MODULOS: Modulo[] = [
     path: '/logistica',
     nombre: 'Logistica',
     descripcion: 'Sistema de distribución, inventarios y embarques',
-    icon: 'traffic'
+    icon: 'traffic',
+    role: 'ROLE_INVENTARIO_USER'
   },
   {
     id: 5,

@@ -106,7 +106,7 @@ export class AddClienteDialogComponent implements OnInit {
       cliente.nombre = this.form.get('nombre').value.toUpperCase(),
       cliente.rfc = this.form.get('rfc').value.toUpperCase(),
        console.log('Cliente: ', cliente);
-      // this.dialogRef.close(cliente);
+      this.dialogRef.close(cliente);
     }
   }
 
