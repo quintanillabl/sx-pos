@@ -38,12 +38,21 @@ export class PedidoEnvioPanelComponent implements OnInit, OnDestroy {
       .get('mismaDireccion')
       .valueChanges.subscribe(value => {
         const socio = this.parent.get('socio').value;
-
-        if (value === false && socio === null) {
+        const cliente = this.parent.get('cliente').value;
+        if (value === false && socio === null && cliente.clave !== '1') {
           // this.limpiarEnvio();
           this.registrarDireccion();
-        } else {
-          this.fijarDireccionDelCliente();
+        } else if (cliente) {
+          if ( value === false && cliente.clave === '1' ) {
+            this.parent.get('envio').setValue({
+              direccion: cliente.direccion,
+              condiciones: this.entrega
+            });
+            this.registrarDireccion();
+          }
+          if ( value === true && cliente.clave !== '1' ) {
+            this.fijarDireccionDelCliente();
+          }
         }
       });
   }
@@ -54,7 +63,7 @@ export class PedidoEnvioPanelComponent implements OnInit, OnDestroy {
   }
 
   registrarDireccion() {
-    if (this.envio) {
+   if (this.envio) {
       const envio = this.parent.get('envio').value;
       const dialogRef = this.dialog.open(EnvioDireccionComponent, {
         data: {
@@ -65,6 +74,7 @@ export class PedidoEnvioPanelComponent implements OnInit, OnDestroy {
         if (result) {
           this.parent.get('envio').setValue({ direccion: result });
         } else {
+          this.limpiarEnvio();
           this.parent.get('mismaDireccion').setValue(true);
         }
       });
@@ -88,7 +98,6 @@ export class PedidoEnvioPanelComponent implements OnInit, OnDestroy {
 
   fijarDireccionDeSocio() {
     const socio = this.parent.get('socio').value;
-    console.log('Detectando socio de la union', socio);
     if (socio.direccion) {
       this.parent.get('envio').setValue({
         direccion: socio.direccionFiscal,

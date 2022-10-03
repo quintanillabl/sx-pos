@@ -111,14 +111,19 @@ export class PendientesComponent implements OnInit {
   }
 
   mandarFacturar(pedido: Venta) {
+    console.log('Desde mandar a facturar en pendientes component');
     if (pedido.facturar) {
       return;
     }
     let pedidoDescVal = pedido.descuentoOriginal
 
-    if ( pedido.formaDePago.includes('TARJETA') ) {
+    if ( pedido.formaDePago.includes('TARJETA') && pedido.descuento !== 0 ) {
       pedidoDescVal = pedido.descuentoOriginal - 1.5
     }
+
+    console.log(pedidoDescVal);
+    console.log(pedido.descuentoOriginal);
+
 
     if (pedido.ventaIne && !pedido.complementoIne) {
       this._dialogService.openAlert({

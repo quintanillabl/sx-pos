@@ -11,7 +11,6 @@ export class CambioDeClienteComponent implements OnInit {
 
 
   form: FormGroup
-  
 
   constructor(
     @Inject(MD_DIALOG_DATA) public data: any,
@@ -19,7 +18,6 @@ export class CambioDeClienteComponent implements OnInit {
     private fb: FormBuilder,
   ) {
     if (data.title) {
-      
     }
     this.form = fb.group({
       cliente: [null, Validators.required],

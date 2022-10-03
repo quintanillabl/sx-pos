@@ -91,6 +91,12 @@ export class PedidosPendientesComponent implements OnInit {
   }
 
   mandarFacturar(pedido: Venta) {
+    console.log('Desde mandar a facturar en pedidos pendientes component');
+    let pedidoDescVal = pedido.descuentoOriginal
+    if ( pedido.formaDePago.includes('TARJETA')  && pedido.descuento !== 0  ) {
+      pedidoDescVal = pedido.descuentoOriginal - 1.5
+    }
+
     if (pedido.facturar) {
       return;
     }
@@ -110,7 +116,7 @@ export class PedidosPendientesComponent implements OnInit {
         'Este pedido tiene partidas sin existencia requiere autorización',
         'ROLE_GERENTE'
       );
-    } else if (pedido.descuento > pedido.descuentoOriginal) {
+    } else if (pedido.descuento !== pedidoDescVal) {
       this.mandarFacturarConAntorizacion(
         pedido,
         'DESCUENTO_ESPECIAL',
