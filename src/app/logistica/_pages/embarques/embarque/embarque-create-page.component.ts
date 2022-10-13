@@ -35,11 +35,12 @@ export class EmbarqueCreatePageComponent implements OnInit {
 
   ngOnInit() {
     this.sucursal$ = this.store.select(fromRoot.getSucursal);
+    console.log('Cargando el embarque');
   }
 
   onSave(embarque: Embarque) {
-   
-    this.loadingService.register('saving');  
+    this.loadingService.register('saving');
+    console.log(embarque);
     this.service.save(embarque).subscribe(
       (res: any) => {
         this.loadingService.resolve('saving');

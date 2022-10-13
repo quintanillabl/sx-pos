@@ -80,7 +80,7 @@ export class PedidosPendientesComponent implements OnInit {
   }
 
   onEdit(pedido: Venta) {
-    // console.log('Editando pedido: ', pedido);
+    //console.log('Editando pedido: ', pedido);
     if (pedido.moneda === 'USD') {
       this.router.navigate(['/ventas/pedidos/dolares/edit', pedido.id]);
     } else if (pedido.tipo === 'ANT') {

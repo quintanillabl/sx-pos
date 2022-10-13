@@ -48,6 +48,7 @@ export class PendientesListComponent implements OnInit {
   ngOnInit() {}
 
   onEdit(pedido: Venta) {
+    console.log('Emitiendo el edit');
     this.edit.emit(pedido);
   }
 
@@ -76,7 +77,7 @@ export class PendientesListComponent implements OnInit {
       default:
         break;
     }
-    return fp;  
+    return fp;
   }
 
   permitirCambioDeCliente(venta: Venta) {
@@ -88,9 +89,8 @@ export class PendientesListComponent implements OnInit {
     return false;
   }
 
-  showDetails(pedido: Venta){
-    
-    let id=pedido.id
+  showDetails(pedido: Venta) {
+    const id = pedido.id
     const dialogRef = this.dialog.open(PartidasDialogComponent, {data: {pedido: pedido }});
   }
 

@@ -6,6 +6,7 @@
             <span class="pad-left">Chofer: </span><span class="pad tc-indigo-700">{{embarque?.chofer?.nombre}}</span>
             <span flex></span>
             <span class="pad">Fecha: {{embarque?.fecha | date:'dd/MM/yyyy'}}</span>
+            <md-checkbox class="text-md" formControlName="foraneo" [disabled]="true">Foraneo</md-checkbox>
             <span>
         <button type="button" md-icon-button (click)="insertar()" [disabled]="readonly"
                 mdTooltip="Agregar partidas a al embarque">

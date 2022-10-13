@@ -70,6 +70,7 @@ export class EnvioFormComponent implements OnInit, OnChanges {
       sucursal: [null, Validators.required],
       fecha: [new Date(), Validators.required],
       chofer: [null, Validators.required],
+      foraneo: [null, Validators.required],
       comentario: ['', [Validators.maxLength(100)]],
       partidas: this.fb.array([])
     });
@@ -112,7 +113,7 @@ export class EnvioFormComponent implements OnInit, OnChanges {
   }
 
   insertar() {
-    let dialogRef = this.dialog.open(PartidasEnvioDialogComponent, {
+    const dialogRef = this.dialog.open(PartidasEnvioDialogComponent, {
       data: { embarque: this.embarque }
     });
     dialogRef.afterClosed().subscribe(envio => {

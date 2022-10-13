@@ -39,21 +39,29 @@ export class PedidoEnvioPanelComponent implements OnInit, OnDestroy {
       .valueChanges.subscribe(value => {
         const socio = this.parent.get('socio').value;
         const cliente = this.parent.get('cliente').value;
-        if (value === false && socio === null && cliente.clave !== '1') {
-          // this.limpiarEnvio();
-          this.registrarDireccion();
-        } else if (cliente) {
-          if ( value === false && cliente.clave === '1' ) {
-            this.parent.get('envio').setValue({
-              direccion: cliente.direccion,
-              condiciones: this.entrega
-            });
+        if (cliente) {
+          if (value === false && socio === null && cliente.clave !== '1') {
+            // this.limpiarEnvio();
+            this.registrarDireccion();
+          } else if (cliente) {
+            if ( value === false && cliente.clave === '1' ) {
+              this.parent.get('envio').setValue({
+                direccion: cliente.direccion,
+                condiciones: this.entrega
+              });
+              this.registrarDireccion();
+            }
+            if ( value === true && cliente.clave !== '1' ) {
+              this.fijarDireccionDelCliente();
+            }
+          }
+        } else {
+          if (value === false && socio === null) {
+            // this.limpiarEnvio();
             this.registrarDireccion();
           }
-          if ( value === true && cliente.clave !== '1' ) {
-            this.fijarDireccionDelCliente();
-          }
         }
+        
       });
   }
 

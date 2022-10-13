@@ -1,6 +1,6 @@
-import { Chofer } from "app/logistica/models/chofer";
-import { Sucursal } from "app/models";
-import { Envio } from "./envio";
+import { Chofer } from 'app/logistica/models/chofer';
+import { Sucursal } from 'app/models';
+import { Envio } from './envio';
 
 export interface Embarque {
     id?: string
@@ -21,4 +21,5 @@ export interface Embarque {
     updateUser?: string
     numeroDePartidas?: number
     empleado?: string
+    foraneo?: boolean
 }

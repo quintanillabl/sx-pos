@@ -107,12 +107,17 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+
+    console.log('Esta cambiando el pedido')
+
     if (changes.pedido && changes.pedido.currentValue) {
       const pedido: Venta = changes.pedido.currentValue;
       // console.log('Editando pedido: ', pedido);
-      if ((pedido.id && pedido.surtido) || (pedido.id && pedido.cotizacion)) {
+      if ((pedido.id && pedido.surtido)) {
+      // if ((pedido.id && pedido.surtido) || (pedido.id && pedido.cotizacion)) {
         this.editable = false;
       }
+
       _.forEach(pedido.partidas, (item) =>
         this.partidas.push(new FormControl(item))
       );
@@ -132,6 +137,10 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
         this.form.get('cod').setValue(false);
         this.form.get('cod').disable();
         this.form.get('cotizacion').enable();
+        if (pedido.id && pedido.noFacturable) {
+          this.form.get('cotizacion').setValue(true);
+          this.form.get('cotizacion').disable();
+        }
       }else {
          this.form.get('cotizacion').disable();
       }
@@ -144,6 +153,10 @@ export class PedidoFormComponent implements OnInit, OnDestroy, OnChanges {
             this.form.get('cod').setValue(false);
             this.form.get('cod').disable();
             this.form.get('cotizacion').enable();
+            if (pedido.id && pedido.noFacturable) {
+              this.form.get('cotizacion').setValue(true);
+              this.form.get('cotizacion').disable();
+            }
           } else {
             this.form.get('cod').setValue(false);
             this.form.get('cod').enable();

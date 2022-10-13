@@ -53,8 +53,8 @@ export class EmbarqueFormComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.buildForm();
     this.form.valueChanges.subscribe(data => {
-      if(data.chofer ){
-          this.isPatin=data.chofer.id==='3ba15bf0-e40e-11e7-b1f8-b4b52f67eab0';
+      if (data.chofer ) {
+          this.isPatin = data.chofer.id === '3ba15bf0-e40e-11e7-b1f8-b4b52f67eab0';
       }
     });
   }
@@ -66,7 +66,7 @@ export class EmbarqueFormComponent implements OnInit, OnChanges {
       this.form.patchValue(embarque);
       // embarque.partidas.forEach( item => this.insertarPartida(item));
     }
-   
+
   }
 
   buildForm() {
@@ -76,7 +76,9 @@ export class EmbarqueFormComponent implements OnInit, OnChanges {
       fecha: [new Date(), Validators.required],
       chofer: [null, Validators.required],
       comentario: ['', [Validators.maxLength(100)]],
-      empleado:[null],
+      empleado: [null],
+      isForaneo: false,
+      foraneo: false,
       partidas: this.fb.array([])
     });
   }
@@ -105,8 +107,14 @@ export class EmbarqueFormComponent implements OnInit, OnChanges {
 
   insertar() {}
 
-  
-
+  onForaneo(foraneo) {
+    if (foraneo.checked) {
+      this.form.get('foraneo').setValue(true);
+    } else {
+      this.form.get('foraneo').setValue(false);
+    }
+    console.log(this.form.get('foraneo').value);
+  }
   // insertarPartida(det: SectorDet) {
   //   this.partidas.push(new FormControl(det));
   //   this.cd.detectChanges();
