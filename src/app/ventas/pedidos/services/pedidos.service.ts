@@ -48,7 +48,8 @@ export class PedidosService {
       }
     });
     const url = `${this.apiUrl}/pendientes/${this.sucursal.id}`;
-    return this.http.get<Venta[]>(url, { params: params });
+    const pendientes = this.http.get<Venta[]>(url, { params: params })
+    return pendientes;
   }
 
   list(): Observable<Venta[]> {
@@ -88,6 +89,15 @@ export class PedidosService {
     console.log('Cancelando envio de: ', venta);
     const url = `${this.apiUrl}/cancelarEnvio/${venta.id}`;
     return this.http.put(url, {});
+  }
+
+  quitarVale(venta: Venta, auth: {}) {
+    console.log('---------');
+    console.log(auth);
+    console.log('Quitando el vale de: ', venta);
+    const url = `${this.apiUrl}/quitarVale/${venta.id}`;
+    const data = {auth}
+    return this.http.put(url, data);
   }
 
   delete(id: string) {
@@ -381,6 +391,14 @@ export class PedidosService {
     const url = `${this.apiUrl}/getPartidas/${id}`;
     return this.http.get<any>(url);
   }
+
+  getPartidasVale(id: string) {
+    const url = `${this.apiUrl}/getPartidasVale/${id}`;
+    return this.http.get<any>(url);
+  }
+
+
+
   imprimirRemision(cfdi: any) {
     const endpoint = `cfdis/printRemision/${cfdi.id}`;
     const url = this.configService.buildApiUrl(endpoint);

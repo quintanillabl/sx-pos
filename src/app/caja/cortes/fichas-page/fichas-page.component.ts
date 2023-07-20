@@ -16,7 +16,7 @@ import { SelectorFechaComponent } from 'app/shared/_components/selector-fecha/se
 export class FichasPageComponent implements OnInit {
 
   fichas$: Observable<Ficha[]>;
-  
+
   procesando = false;
 
   fecha = new Date();
@@ -26,7 +26,7 @@ export class FichasPageComponent implements OnInit {
     { name: 'tipoDeFicha', label: ',Tipo'},
     { name: 'origen', label: 'Origen'},
     { name: 'fecha', label: 'Fecha'},
-    { name: 'total', label: 'Fecha'},
+    { name: 'total', label: 'Total'},
     { name: 'comentario', label: 'Comentario'},
   ];
 
@@ -63,5 +63,12 @@ export class FichasPageComponent implements OnInit {
     console.log('Buscando ficha: ', term);
   }
 
+  changeDate(fecha) {
+    if (fecha) {
+      const fechaFmt = new Date(fecha.substring(0, 10).replace(/-/g, '\/'));
+      return fechaFmt
+    }
+    return fecha
+  }
 
 }

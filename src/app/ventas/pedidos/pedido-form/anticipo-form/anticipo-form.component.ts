@@ -138,4 +138,13 @@ export class AnticipoFormComponent implements OnInit, OnDestroy, OnChanges {
   get usuario() {
     return this.form.get('usuario').value;
   }
+
+  changeDate(fecha) {
+    if (fecha) {
+      const fechaFmt = new Date(fecha.substring(0, 10).replace(/-/g, '\/'));
+      return fechaFmt
+    }
+    return fecha
+  }
+
 }

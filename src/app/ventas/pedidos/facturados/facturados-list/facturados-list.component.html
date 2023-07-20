@@ -8,7 +8,7 @@
         <span flex>{{row.documento}}</span>
     </ng-template>
     <ng-template tdDataTableTemplate="fecha" let-value="value" let-row="row">
-        {{row.cuentaPorCobrar.fecha | date: 'dd/MM/yyyy'}}
+        {{changeDate(row.cuentaPorCobrar.fecha) | date: 'dd/MM/yyyy'}}
     </ng-template>
     <ng-template tdDataTableTemplate="total" let-value="value" let-row="row">
         <span>{{value | currency: 'USD': 1.2-2}}</span>

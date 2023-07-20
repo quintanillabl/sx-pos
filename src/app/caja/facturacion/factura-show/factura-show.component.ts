@@ -195,6 +195,11 @@ export class FacturaShowComponent implements OnInit {
     }
   }
 
+  timbrarConRetraso(venta: Venta) {
+    const timmer = Math.floor(Math.random() * 4000) + 1000;
+    setTimeout(this.timbrarV4, timmer, venta);
+  }
+
   timbrarV4(venta: Venta) {
     if (venta.cuentaPorCobrar && !venta.cuentaPorCobrar.uuid) {
       console.log('Timbrando factura: ', venta.cuentaPorCobrar);

@@ -19,7 +19,7 @@
                     </a>
                 </ng-template>
                 <ng-template tdDataTableTemplate="fecha" let-value="value" let-row="row">
-                    {{value | date: 'dd/MM/yyyy'}}
+                    {{changeDate(value) | date: 'dd/MM/yyyy'}}
                 </ng-template>
                 <ng-template tdDataTableTemplate="total" let-value="value" let-row="row">
                     <span>{{value | currency: 'USD': 1.2-2}}</span> <span *ngIf="row.moneda === 'USD'"> USD</span>
@@ -49,3 +49,6 @@
 
         </md-card-content>
     </md-card>
+
+
+    151.106.97.236

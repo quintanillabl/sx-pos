@@ -12,6 +12,7 @@ import { Venta } from 'app/models';
 import { PartidasDialogComponent } from '../../../_components/partidas-dialog/partidas-dialog.component';
 import { TdDialogService, TdLoadingService } from '@covalent/core';
 import { PedidosService } from '../../services/pedidos.service';
+import { ValeAutomaticoDialogComponent } from '@siipapx/shared/_components/vale-automatico-dialog/vale-automatico-dialog.component';
 
 @Component({
   selector: 'sx-pedidos-pendientes-list',
@@ -40,6 +41,7 @@ export class PendientesListComponent implements OnInit {
   @Output() quitarPuesto = new EventEmitter<any>();
   @Output() delete = new EventEmitter<any>();
   @Output() cambiarDireccion = new EventEmitter<any>();
+  @Output() quitarConVale = new EventEmitter<any>();
 
   @Input() canQuitarPuesto = false;
 
@@ -66,6 +68,15 @@ export class PendientesListComponent implements OnInit {
 
   ngOnInit() {
     console.log('Can quitar puesto: ', this.canQuitarPuesto);
+    console.log(this.pedidos);
+  }
+
+  changeDate(fecha) {
+    if (fecha) {
+      const fechaFmt = new Date(fecha.substring(0, 10).replace(/-/g, '\/'));
+      return fechaFmt
+    }
+    return fecha
   }
 
   onEdit(pedido: Venta) {
@@ -173,4 +184,18 @@ export class PendientesListComponent implements OnInit {
       data: { pedido: pedido },
     });
   }
+
+  generarValeExistenciaVenta(pedido: Venta) {
+    if (pedido.clasificacionVale === 'EXISTENCIA_VENTA') {
+        console.log('Pedido desde pendientes list', pedido);
+          const dialogRef = this.dialog.open(ValeAutomaticoDialogComponent, {
+            data: {
+              pedido: pedido
+            },
+          });
+    }
+
+  }
+
+
 }

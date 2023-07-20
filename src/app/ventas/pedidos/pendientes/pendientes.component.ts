@@ -15,6 +15,7 @@ import { Venta, Sucursal } from 'app/models';
 import { AutorizacionDeVentaComponent } from '../autorizacion-de-venta/autorizacion-de-venta.component';
 import { CambioDeClienteComponent } from 'app/ventas/pedidos/cambio-de-cliente/cambio-de-cliente.component';
 import { UsuarioDialogComponent } from 'app/shared/_components/usuario-dialog/usuario-dialog.component';
+import { ValeAutomaticoDialogComponent } from '@siipapx/shared/_components/vale-automatico-dialog/vale-automatico-dialog.component';
 import { Periodo } from 'app/models/periodo';
 import { AuthService } from '@siipapx/_auth/services/auth.service';
 
@@ -366,6 +367,56 @@ export class PendientesComponent implements OnInit {
       );
   }
 
+  onQuitarConVale(pedido: Venta) {
+    console.log(pedido['sucursalVale']);
+    console.log('object');
+    const params_autorizacion = {
+      tipo: 'VENTA_VALE',
+      title: 'Autorizacion Quitar Vale',
+      solicito: pedido.updateUser,
+      role: 'ROLE_EMBARQUES_MANAGER',
+    };
+    if (pedido['sucursalVale']) {
+        const dialogRef_auth = this.dialog.open(AutorizacionDeVentaComponent, {
+          data: params_autorizacion,
+      });
+
+      dialogRef_auth.afterClosed().subscribe((auth) => {
+        if (auth) {
+          const dialogRef = this._dialogService
+            .openConfirm({
+              message: 'Cancelar vale del pedido ' + pedido.documento,
+              title: 'Cancelación de vale',
+              viewContainerRef: this._viewContainerRef,
+              acceptButton: 'Aceptar',
+              cancelButton: 'Cancelar',
+            })
+            .afterClosed()
+            .subscribe((res) => {
+              if (res) {
+                this.doQuitarConVale(pedido, auth);
+              }
+            });
+        }
+      });
+    }
+  }
+
+  doQuitarConVale(pedido: Venta, auth) {
+    this.procesando = true;
+    this.service
+    .quitarVale(pedido, auth)
+    .finally(() => (this.procesando = false))
+    .subscribe(
+      (res: Venta) => {
+          console.log('Vale cancelado para: ', res);
+          this.load();
+          pedido = res;
+      },
+      (error) => console.log(error)
+    )
+  }
+
   print(id: string) {
     // console.log('Imprimiendo pedido: ', id);
     this.procesando = true;
@@ -392,7 +443,8 @@ export class PendientesComponent implements OnInit {
 
   OnGenerarVale(pedido: Venta) {
     if (pedido.clasificacionVale === 'EXISTENCIA_VENTA') {
-      this._dialogService
+      console.log('Generando Vale OutPut');
+      /* this._dialogService
         .openConfirm({
           message: `Generar vale ${pedido.tipo} - ${pedido.documento} (${pedido.total})`,
           viewContainerRef: this._viewContainerRef,
@@ -411,7 +463,7 @@ export class PendientesComponent implements OnInit {
               (error) => this.handleError(error)
             );
           }
-        });
+        }); */
     }
   }
 
@@ -506,6 +558,7 @@ export class PendientesComponent implements OnInit {
         }
       });
   }
+
 
   onQuitarPuesto(pedido: Venta) {
       const message = `

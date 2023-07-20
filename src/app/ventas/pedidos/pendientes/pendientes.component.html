@@ -45,11 +45,13 @@
     <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
         <div *ngIf="pedidos$ | async as pedidos" layout class="pendientes-list-panel">
             <sx-pedidos-pendientes-list [pedidos]="pedidos" (edit)="onEdit($event)" (facturar)="mandarFacturar($event)" (print)="print($event)" (generarVale)="OnGenerarVale($event)" (cambioDeCliente)="onCambioDeCliente($event)" (envio)="envio($event)" (puesto)="onPuesto($event)"
-                (quitarPuesto)="onQuitarPuesto($event)" (delete)="onDelete($event)" (cambiarDireccion)="cambiarDireccion($event)" [canQuitarPuesto]="hasRole('ROLE_ADMIN')" flex>
+                (quitarPuesto)="onQuitarPuesto($event)" (delete)="onDelete($event)" (cambiarDireccion)="cambiarDireccion($event)" [canQuitarPuesto]="hasRole('ROLE_ADMIN')" (quitarConVale)="onQuitarConVale($event)" flex>
             </sx-pedidos-pendientes-list>
         </div>
     </ng-template>
 </md-card>
+
+
 
 <a md-fab color="accent" class="mat-fab-bottom-right" [routerLink]="['../create']">
     <md-icon>add</md-icon>

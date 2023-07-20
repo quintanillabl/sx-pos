@@ -116,7 +116,7 @@ export class PedidosPendientesComponent implements OnInit {
         'Este pedido tiene partidas sin existencia requiere autorización',
         'ROLE_GERENTE'
       );
-    } else if (pedido.descuento !== pedidoDescVal) {
+    } else if (pedido.descuento !== pedidoDescVal && !pedido.callcenter) {
       this.mandarFacturarConAntorizacion(
         pedido,
         'DESCUENTO_ESPECIAL',

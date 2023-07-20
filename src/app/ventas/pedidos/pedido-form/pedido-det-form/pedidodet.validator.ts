@@ -14,9 +14,12 @@ export const PedidodetValidator = (
   const existencia = existenciaLocal ? existenciaLocal.disponible : 0;
   const cantidad = control.get('cantidad').value;
   const sinExistencia = control.get('sinExistencia').value;
-
+  const conVale = control.get('conVale').value
+  console.log(sinExistencia);
+  console.log(conVale);
   if (cantidad > existencia) {
-    const re = !sinExistencia ? { sinExistencia: true } : null;
+    const re = !sinExistencia || !conVale ? { sinExistencia: true, conVale: true } : null;
+
     return re;
   }
 

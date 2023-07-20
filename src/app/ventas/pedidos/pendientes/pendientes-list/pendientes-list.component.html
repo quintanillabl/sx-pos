@@ -55,7 +55,8 @@
     </ng-template>
 -->
     <ng-template tdDataTableTemplate="fecha" let-value="value">
-        {{ value | date: 'dd/MM/yyyy' }}
+        <!-- {{ value | date: 'dd/MM/yyyy' }} -->
+        {{ changeDate(value) | date: 'dd/MM/yyyy' }}
     </ng-template>
 
     <ng-template tdDataTableTemplate="nombre" let-value="value" let-row="row">
@@ -219,11 +220,22 @@
       </a>
       <button
          md-icon-button
-        (click)="generarVale.emit(row)"
+        (click)="generarValeExistenciaVenta(row)"
         mdTooltip="Generar vale tipo: {{ row.clasificacionVale }}"
         *ngIf="row.clasificacionVale !== 'SIN_VALE'"
+        class="tc-pink-800"
       >
         <md-icon>swap_horiz</md-icon>
+      </button>
+      <!-- -->
+      <button
+         md-icon-button
+        (click)="quitarConVale.emit(row)"
+        mdTooltip="Cancelar vale tipo: {{ row.clasificacionVale }}"
+        *ngIf="row.clasificacionVale !== 'SIN_VALE'"
+        class="tc-pink-800"
+      >
+        <md-icon>backspace</md-icon>
       </button>
     </md-menu>
     

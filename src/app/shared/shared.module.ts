@@ -48,6 +48,8 @@ import { UsuarioDialogComponent } from '@siipapx/shared/_components/usuario-dial
 import { LineasFieldComponent } from './_fields/lineas-field/lineas-field.component';
 import { ClasesFieldComponent } from './_fields/clases-field/clases-field.component';
 import { ChoferesFieldComponent } from './_fields/choferes-field/choferes-field.component';
+import { ValeAutomaticoDialogComponent } from './_components/vale-automatico-dialog/vale-automatico-dialog.component';
+
 
 const FLEX_LAYOUT_MODULES: any[] = [FlexLayoutModule];
 
@@ -66,7 +68,8 @@ const COMPONENTS: any[] = [
   ClienteFieldComponent,
   PeriodoDialogComponent,
   PeriodoPickerComponent,
-  UsuarioDialogComponent
+  UsuarioDialogComponent,
+  ValeAutomaticoDialogComponent,
 ];
 
 @NgModule({
@@ -152,7 +155,9 @@ const COMPONENTS: any[] = [
     SelectorFechaComponent,
     CancelacionDialogComponent,
     PeriodoDialogComponent,
-    UsuarioDialogComponent
+    UsuarioDialogComponent,
+    ValeAutomaticoDialogComponent,
+  
   ]
 })
 export class SharedModule {}

@@ -52,9 +52,9 @@ export class GeneradasPageComponent implements OnInit {
       }, error => console.log('Error: ', error)
     );
   }
- 
+
   ngOnInit(): void {
-    
+
   }
 
   load() {
@@ -63,6 +63,14 @@ export class GeneradasPageComponent implements OnInit {
 
   search(term: string): void {
     this.search$.next(term);
+  }
+
+  changeDate(fecha) {
+    if (fecha) {
+      const fechaFmt = new Date(fecha.substring(0, 10).replace(/-/g, '\/'));
+      return fechaFmt
+    }
+    return fecha
   }
 
 }

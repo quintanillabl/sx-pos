@@ -11,7 +11,6 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'sx-partidas-dialog',
   templateUrl: './partidas-dialog.component.html',
- 
 })
 export class PartidasDialogComponent implements OnInit {
 
@@ -26,7 +25,6 @@ export class PartidasDialogComponent implements OnInit {
     { name: 'cantidad', label: 'Cantidad', hidden: false, width: 70},
     { name: 'comentario', label: 'Comentario', hidden: false, width: 70},
     { name: 'instruccion', label: 'Corte', hidden: false, width: 70},
-    
   ];
   form: FormGroup;
   loading = false;

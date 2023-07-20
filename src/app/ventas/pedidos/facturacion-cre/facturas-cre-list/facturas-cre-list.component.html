@@ -10,7 +10,7 @@
                 </button>
             </span>
                 <span flex="30">{{ row.cliente.nombre}} </span>
-                <span flex="10">{{ row.fecha | date: 'dd/MM/yyyy' }} </span>
+                <span flex="10">{{ changeDate(row.fecha) | date: 'dd/MM/yyyy' }} </span>
                 <span flex="10">{{ row.dateCreated | amTimeAgo }} </span>
                 <span flex="10" class="text-right" layout>
               <span flex="10" class="tc-indigo-700" *ngIf="row.tipo === 'ANT'"> (ANTICIPO) </span>
